@@ -15,14 +15,19 @@ function InputForm({
   };
 
   const handleTagToggle = (tag) => {
-    const isSelected = (formData.transformationTags || []).includes(tag);
+    const currentTags = formData.transformationTags || [];
+    const isSelected = currentTags.includes(tag);
 
-    setFormData((prev) => ({
-      ...prev,
-      transformationTags: isSelected
-        ? prev.transformationTags.filter((item) => item !== tag)
-        : [...prev.transformationTags, tag],
-    }));
+    setFormData((prev) => {
+      const prevTags = prev.transformationTags || [];
+
+      return {
+        ...prev,
+        transformationTags: isSelected
+          ? prevTags.filter((item) => item !== tag)
+          : [...prevTags, tag],
+      };
+    });
   };
 
   return (
