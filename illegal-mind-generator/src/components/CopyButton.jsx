@@ -8,7 +8,11 @@ function CopyButton({ text }) {
     }
   };
 
-  return <button onClick={handleCopy}>Copy</button>;
+  return (
+    <button className="copy-button" onClick={handleCopy}>
+      Copy
+    </button>
+  );
 }
 
 export default CopyButton;

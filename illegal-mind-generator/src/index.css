@@ -12,9 +12,8 @@ body {
   margin    : 0;
   min-width : 320px;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top, #2a241d 0%, #1a1714 45%, #120f0d 100%);
-  color: #f3e6c8;
+  background: radial-gradient(circle at top, #2a241d 0%, #1a1714 45%, #120f0d 100%);
+  color     : #f3e6c8;
 }
 
 button,
@@ -27,7 +26,6 @@ textarea {
 #root {
   min-height: 100vh;
 }
-
 
 .app-shell {
   max-width: 1400px;
@@ -74,7 +72,6 @@ textarea {
   flex-direction: column;
   gap           : 24px;
 }
-
 
 .form-group {
   margin-bottom: 16px;
@@ -145,4 +142,52 @@ textarea {
 .button-secondary:hover {
   border-color: #ffb347;
   color       : #ffcc73;
+}
+
+.terminal-block {
+  padding      : 14px;
+  background   : #120f0d;
+  border       : 1px solid #473729;
+  border-radius: 8px;
+  color        : #e9d7b0;
+  line-height  : 1.5;
+}
+
+.output-item {
+  margin-bottom: 14px;
+}
+
+.output-item p {
+  margin: 0 0 10px;
+}
+
+.output-item p:last-of-type {
+  margin-bottom: 12px;
+}
+
+.copy-button {
+  padding      : 8px 12px;
+  border-radius: 6px;
+  border       : 1px solid #6a5036;
+  background   : #201914;
+  color        : #f3e6c8;
+  cursor       : pointer;
+  transition   : 0.2s ease;
+}
+
+.copy-button:hover {
+  border-color: #ffb347;
+  color       : #ffcc73;
+}
+
+.output-text {
+  margin     : 0 0 12px;
+  white-space: pre-wrap;
+  word-break : break-word;
+}
+
+.prompt-block {
+  margin     : 0;
+  white-space: pre-wrap;
+  word-break : break-word;
 }

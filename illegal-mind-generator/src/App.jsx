@@ -70,64 +70,69 @@ function App() {
 
     setHybridPrompt(generatedHybridPrompt);
   };
-
   return (
     <div className="app-shell">
       <h1 className="app-title">Illegal Mind Generator</h1>
 
-      <div className="panel">
-        <h2 className="panel-title">Input</h2>
-        <InputForm
-          formData={formData}
-          setFormData={setFormData}
-          onGenerate={handleGenerate}
-          onClear={handleClearForm}
-        />
-      </div>
-
-      <div className="output-stack">
+      <div className="layout-grid">
         <div className="panel">
-          <h2 className="panel-title">Generated Output</h2>
+          <InputForm
+            formData={formData}
+            setFormData={setFormData}
+            onGenerate={handleGenerate}
+            onClear={handleClearForm}
+          />
+        </div>
 
-          {titles.map((title, index) => {
-            const pairText = `Title: ${title}\nThumbnail: ${thumbnails[index]}`;
+        <div className="output-stack">
+          <div className="panel">
+            <h2 className="panel-title">Generated Output</h2>
 
-            return (
-              <div key={index}>
-                <p>
-                  <strong>Title:</strong> {title}
-                </p>
-                <p>
-                  <strong>Thumbnail:</strong> {thumbnails[index]}
-                </p>
-                <CopyButton text={pairText} />
-                <hr />
+            {titles.map((title, index) => {
+              const pairText = `Title: ${title}\nThumbnail: ${thumbnails[index]}`;
+
+              return (
+                <div key={index} className="output-item terminal-block">
+                  <p>
+                    <strong>Title:</strong> {title}
+                  </p>
+                  <p>
+                    <strong>Thumbnail:</strong> {thumbnails[index]}
+                  </p>
+                  <CopyButton text={pairText} />
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="panel">
+            <h2 className="panel-title">Descriptions</h2>
+
+            {descriptions.map((description, index) => (
+              <div key={index} className="output-item terminal-block">
+                <p>{description}</p>
+                <CopyButton text={description} />
               </div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
 
-        <div className="panel">
-          <h2 className="panel-title">Descriptions</h2>
-          {descriptions.map((description, index) => (
-            <div key={index}>
-              <p>{description}</p>
-              <CopyButton text={description} />
-              <hr />
+          <div className="panel">
+            <h2 className="panel-title">Hashtags</h2>
+
+            <div className="output-item terminal-block">
+              <p className="output-text">{hashtags}</p>
+              <CopyButton text={hashtags} />
             </div>
-          ))}
-        </div>
+          </div>
 
-        <div className="panel">
-          <h2 className="panel-title">Hashtags</h2>
-          <p>{hashtags}</p>
-          <CopyButton text={hashtags} />
-        </div>
+          <div className="panel">
+            <h2 className="panel-title">Hybrid Prompt</h2>
 
-        <div className="panel">
-          <h2 className="panel-title">Hybrid Prompt</h2>
-          <pre>{hybridPrompt}</pre>
-          <CopyButton text={hybridPrompt} />
+            <div className="output-item terminal-block">
+              <pre className="prompt-block">{hybridPrompt}</pre>
+              <CopyButton text={hybridPrompt} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
