@@ -27,3 +27,50 @@ textarea {
 #root {
   min-height: 100vh;
 }
+
+
+.app-shell {
+  max-width: 1400px;
+  margin   : 0 auto;
+  padding  : 32px;
+}
+
+.app-title {
+  margin        : 0 0 24px;
+  color         : #ffcc73;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow   : 0 0 12px rgba(255, 170, 70, 0.2);
+}
+
+.layout-grid {
+  display              : grid;
+  grid-template-columns: 420px 1fr;
+  gap                  : 24px;
+  align-items          : start;
+}
+
+.panel {
+  background   : rgba(30, 24, 20, 0.92);
+  border       : 1px solid #5a4632;
+  border-radius: 10px;
+  padding      : 20px;
+  box-shadow   :
+    0 0 0 1px rgba(255, 180, 90, 0.05) inset,
+    0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.panel-title {
+  margin-top    : 0;
+  margin-bottom : 16px;
+  color         : #ffbf66;
+  font-size     : 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.output-stack {
+  display       : flex;
+  flex-direction: column;
+  gap           : 24px;
+}

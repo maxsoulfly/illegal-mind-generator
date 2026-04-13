@@ -72,58 +72,63 @@ function App() {
   };
 
   return (
-    <div style={{ padding: '32px' }}>
-      <h1>Illegal Mind Generator</h1>
+    <div className="app-shell">
+      <h1 className="app-title">Illegal Mind Generator</h1>
 
-      <InputForm
-        formData={formData}
-        setFormData={setFormData}
-        onGenerate={handleGenerate}
-        onClear={handleClearForm}
-      />
+      <div className="panel">
+        <h2 className="panel-title">Input</h2>
+        <InputForm
+          formData={formData}
+          setFormData={setFormData}
+          onGenerate={handleGenerate}
+          onClear={handleClearForm}
+        />
+      </div>
 
-      <div>
-        <h2>Generated Output</h2>
+      <div className="output-stack">
+        <div className="panel">
+          <h2 className="panel-title">Generated Output</h2>
 
-        {titles.map((title, index) => {
-          const pairText = `Title: ${title}\nThumbnail: ${thumbnails[index]}`;
+          {titles.map((title, index) => {
+            const pairText = `Title: ${title}\nThumbnail: ${thumbnails[index]}`;
 
-          return (
+            return (
+              <div key={index}>
+                <p>
+                  <strong>Title:</strong> {title}
+                </p>
+                <p>
+                  <strong>Thumbnail:</strong> {thumbnails[index]}
+                </p>
+                <CopyButton text={pairText} />
+                <hr />
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="panel">
+          <h2 className="panel-title">Descriptions</h2>
+          {descriptions.map((description, index) => (
             <div key={index}>
-              <p>
-                <strong>Title:</strong> {title}
-              </p>
-              <p>
-                <strong>Thumbnail:</strong> {thumbnails[index]}
-              </p>
-              <CopyButton text={pairText} />
+              <p>{description}</p>
+              <CopyButton text={description} />
               <hr />
             </div>
-          );
-        })}
-      </div>
+          ))}
+        </div>
 
-      <div>
-        <h2>Descriptions</h2>
-        {descriptions.map((description, index) => (
-          <div key={index}>
-            <p>{description}</p>
-            <CopyButton text={description} />
-            <hr />
-          </div>
-        ))}
-      </div>
+        <div className="panel">
+          <h2 className="panel-title">Hashtags</h2>
+          <p>{hashtags}</p>
+          <CopyButton text={hashtags} />
+        </div>
 
-      <div>
-        <h2>Hashtags</h2>
-        <p>{hashtags}</p>
-        <CopyButton text={hashtags} />
-      </div>
-
-      <div>
-        <h2>Hybrid Prompt</h2>
-        <pre>{hybridPrompt}</pre>
-        <CopyButton text={hybridPrompt} />
+        <div className="panel">
+          <h2 className="panel-title">Hybrid Prompt</h2>
+          <pre>{hybridPrompt}</pre>
+          <CopyButton text={hybridPrompt} />
+        </div>
       </div>
     </div>
   );
