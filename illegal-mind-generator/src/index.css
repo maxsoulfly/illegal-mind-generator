@@ -74,3 +74,75 @@ textarea {
   flex-direction: column;
   gap           : 24px;
 }
+
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display       : block;
+  margin-bottom : 6px;
+  color         : #d9b77a;
+  font-size     : 14px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width        : 100%;
+  padding      : 12px 14px;
+  background   : #16120f;
+  border       : 1px solid #5a4632;
+  border-radius: 8px;
+  color        : #f3e6c8;
+  outline      : none;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: #ffb347;
+  box-shadow  : 0 0 0 3px rgba(255, 179, 71, 0.12);
+}
+
+.form-textarea {
+  min-height: 96px;
+  resize    : vertical;
+}
+
+.button-row {
+  display  : flex;
+  gap      : 12px;
+  flex-wrap: wrap;
+}
+
+.button-primary,
+.button-secondary {
+  padding      : 10px 16px;
+  border-radius: 8px;
+  border       : 1px solid #6f5338;
+  cursor       : pointer;
+  transition   : 0.2s ease;
+}
+
+.button-primary {
+  background: linear-gradient(180deg, #a86a2a 0%, #7d4f20 100%);
+  color     : #fff4de;
+}
+
+.button-primary:hover {
+  filter: brightness(1.08);
+}
+
+.button-secondary {
+  background: #241c16;
+  color     : #f3e6c8;
+}
+
+.button-secondary:hover {
+  border-color: #ffb347;
+  color       : #ffcc73;
+}
