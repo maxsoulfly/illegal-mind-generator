@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { generateTitles } from './engine/generateTitles';
-import { generateThumbnails } from "./engine/generateThumbnails";
+import { generateThumbnails } from './engine/generateThumbnails';
 import projects from './config/projects.json';
 import InputForm from './components/InputForm';
 
@@ -18,14 +18,14 @@ function App() {
   const [thumbnails, setThumbnails] = useState([]);
 
   const handleGenerate = () => {
-  const projectConfig = projects.illegalMind;
+    const projectConfig = projects.illegalMind;
 
-  const generatedTitles = generateTitles(formData, projectConfig);
-  const generatedThumbnails = generateThumbnails(projectConfig);
+    const generatedTitles = generateTitles(formData, projectConfig);
+    const generatedThumbnails = generateThumbnails(projectConfig);
 
-  setTitles(generatedTitles);
-  setThumbnails(generatedThumbnails);
-};
+    setTitles(generatedTitles);
+    setThumbnails(generatedThumbnails);
+  };
 
   return (
     <div>
@@ -36,17 +36,20 @@ function App() {
         onGenerate={handleGenerate}
       />
       <div>
-        <h2>Titles</h2>
+        <h2>Generated Output</h2>
+
         {titles.map((title, index) => (
-          <div key={index}>{title}</div>
+          <div key={index}>
+            <p>
+              <strong>Title:</strong> {title}
+            </p>
+            <p>
+              <strong>Thumbnail:</strong> {thumbnails[index]}
+            </p>
+            <hr />
+          </div>
         ))}
       </div>
-      <div>
-  <h2>Thumbnails</h2>
-  {thumbnails.map((t, index) => (
-    <div key={index}>{t}</div>
-  ))}
-</div>
     </div>
   );
 }
