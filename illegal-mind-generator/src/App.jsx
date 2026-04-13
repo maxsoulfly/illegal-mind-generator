@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import projects from './config/projects.json';
 
@@ -12,20 +12,30 @@ import InputForm from './components/InputForm';
 import CopyButton from './components/CopyButton';
 
 function App() {
-  const [formData, setFormData] = useState({
-    project: 'Illegal Mind',
-    artist: '',
-    song: '',
-    signalNumber: '',
-    videoType: 'Long',
-    changesMade: '',
-    extraVibeNote: '',
+  const [formData, setFormData] = useState(() => {
+    const savedFormData = localStorage.getItem('formData');
+
+    return savedFormData
+      ? JSON.parse(savedFormData)
+      : {
+          project: 'Illegal Mind',
+          artist: '',
+          song: '',
+          signalNumber: '',
+          videoType: 'Long',
+          changesMade: '',
+          extraVibeNote: '',
+        };
   });
   const [titles, setTitles] = useState([]);
   const [thumbnails, setThumbnails] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
   const [hashtags, setHashtags] = useState('');
   const [hybridPrompt, setHybridPrompt] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('formData', JSON.stringify(formData));
+  }, [formData]);
 
   const handleGenerate = () => {
     const projectConfig = projects.illegalMind;
