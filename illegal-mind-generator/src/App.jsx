@@ -61,17 +61,22 @@ function App() {
       <div>
         <h2>Generated Output</h2>
 
-        {titles.map((title, index) => (
-          <div key={index}>
-            <p>
-              <strong>Title:</strong> {title}
-            </p>
-            <p>
-              <strong>Thumbnail:</strong> {thumbnails[index]}
-            </p>
-            <hr />
-          </div>
-        ))}
+        {titles.map((title, index) => {
+          const pairText = `Title: ${title}\nThumbnail: ${thumbnails[index]}`;
+
+          return (
+            <div key={index}>
+              <p>
+                <strong>Title:</strong> {title}
+              </p>
+              <p>
+                <strong>Thumbnail:</strong> {thumbnails[index]}
+              </p>
+              <CopyButton text={pairText} />
+              <hr />
+            </div>
+          );
+        })}
       </div>
       <div>
         <h2>Descriptions</h2>
