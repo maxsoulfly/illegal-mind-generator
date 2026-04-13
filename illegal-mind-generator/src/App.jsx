@@ -83,6 +83,7 @@ function App() {
         {descriptions.map((description, index) => (
           <div key={index}>
             <p>{description}</p>
+            <CopyButton text={description} />
             <hr />
           </div>
         ))}
