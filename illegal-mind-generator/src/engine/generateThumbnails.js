@@ -9,7 +9,7 @@ function buildThumbnailVariations(formData, config) {
   const selectedTags = (formData.transformationTags || []).map(toTitleCase);
 
   if (selectedTags.length === 0) {
-    return config.thumbnailWords.slice(0, 5);
+    return (config.thumbnailWords || []).slice(0, 5);
   }
 
   const hasSlower = selectedTags.includes('Slower');
@@ -47,21 +47,13 @@ function buildThumbnailVariations(formData, config) {
     variations.push('MODERNIZED');
   }
 
-  if (variations.length < 5) {
-    const fallbacks = [
-      'NEW VERSION',
-      'HEAVY REWORK',
-      'REBUILT',
-      'MORE IMPACT',
-      'DARKER FEEL',
-    ];
+  const fallbacks = config.thumbnailFallbacks || [];
 
-    fallbacks.forEach((item) => {
-      if (variations.length < 5 && !variations.includes(item)) {
-        variations.push(item);
-      }
-    });
-  }
+  fallbacks.forEach((item) => {
+    if (variations.length < 5 && !variations.includes(item)) {
+      variations.push(item);
+    }
+  });
 
   return variations.slice(0, 5);
 }
