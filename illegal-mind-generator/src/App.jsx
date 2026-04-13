@@ -1,13 +1,15 @@
 import { useState } from 'react';
 
+import projects from './config/projects.json';
+
 import { generateTitles } from './engine/generateTitles';
 import { generateThumbnails } from './engine/generateThumbnails';
 import { generateDescriptions } from './engine/generateDescriptions';
 import { generateHashtags } from './engine/generateHashtags';
 import { generateHybridPrompt } from './engine/generateHybridPrompt';
 
-import projects from './config/projects.json';
 import InputForm from './components/InputForm';
+import CopyButton from './components/CopyButton';
 
 function App() {
   const [formData, setFormData] = useState({
@@ -83,10 +85,12 @@ function App() {
       <div>
         <h2>Hashtags</h2>
         <p>{hashtags}</p>
+        <CopyButton text={hashtags} />
       </div>
       <div>
         <h2>Hybrid Prompt</h2>
         <pre>{hybridPrompt}</pre>
+        <CopyButton text={hybridPrompt} />
       </div>
     </div>
   );
