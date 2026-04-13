@@ -4,6 +4,7 @@ import { generateTitles } from './engine/generateTitles';
 import { generateThumbnails } from './engine/generateThumbnails';
 import { generateDescriptions } from './engine/generateDescriptions';
 import { generateHashtags } from './engine/generateHashtags';
+import { generateHybridPrompt } from './engine/generateHybridPrompt';
 
 import projects from './config/projects.json';
 import InputForm from './components/InputForm';
@@ -22,6 +23,7 @@ function App() {
   const [thumbnails, setThumbnails] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
   const [hashtags, setHashtags] = useState('');
+  const [hybridPrompt, setHybridPrompt] = useState('');
 
   const handleGenerate = () => {
     const projectConfig = projects.illegalMind;
@@ -30,11 +32,20 @@ function App() {
     const generatedThumbnails = generateThumbnails(projectConfig);
     const generatedDescriptions = generateDescriptions(formData);
     const generatedHashtags = generateHashtags(formData, projectConfig);
+    const generatedHybridPrompt = generateHybridPrompt(
+      formData,
+      generatedTitles,
+      generatedThumbnails,
+      generatedDescriptions,
+      generatedHashtags,
+    );
 
     setTitles(generatedTitles);
     setThumbnails(generatedThumbnails);
     setDescriptions(generatedDescriptions);
     setHashtags(generatedHashtags);
+
+    setHybridPrompt(generatedHybridPrompt);
   };
 
   return (
@@ -72,6 +83,10 @@ function App() {
       <div>
         <h2>Hashtags</h2>
         <p>{hashtags}</p>
+      </div>
+      <div>
+        <h2>Hybrid Prompt</h2>
+        <pre>{hybridPrompt}</pre>
       </div>
     </div>
   );
