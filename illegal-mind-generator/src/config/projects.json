@@ -1,0 +1,29 @@
+{
+    "illegalMind": {
+        "name": "Illegal Mind",
+
+        "titleTemplates": [
+            "[SIGNAL {num}] // {artist} - {song} ({transformation}) // Illegal Mind Rework"
+        ],
+
+        "transformations": [
+            "Slower & Heavier",
+            "Alt Metal Version",
+            "Heavy Rework",
+            "Darker Version",
+            "Punk Reconstruction",
+            "Modern Mix"
+        ],
+
+        "thumbnailWords": [
+            "HEAVIER",
+            "DARKER",
+            "ALT METAL",
+            "REWORK",
+            "SLOWED",
+            "MODERNIZED"
+        ],
+
+        "hashtags": ["#IllegalMind", "#AltMetal", "#MetalCover"]
+    }
+}
