@@ -1,7 +1,9 @@
 import { useState } from 'react';
+
 import { generateTitles } from './engine/generateTitles';
 import { generateThumbnails } from './engine/generateThumbnails';
 import { generateDescriptions } from './engine/generateDescriptions';
+import { generateHashtags } from './engine/generateHashtags';
 
 import projects from './config/projects.json';
 import InputForm from './components/InputForm';
@@ -19,6 +21,7 @@ function App() {
   const [titles, setTitles] = useState([]);
   const [thumbnails, setThumbnails] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
+  const [hashtags, setHashtags] = useState('');
 
   const handleGenerate = () => {
     const projectConfig = projects.illegalMind;
@@ -26,10 +29,12 @@ function App() {
     const generatedTitles = generateTitles(formData, projectConfig);
     const generatedThumbnails = generateThumbnails(projectConfig);
     const generatedDescriptions = generateDescriptions(formData);
-    setDescriptions(generatedDescriptions);
+    const generatedHashtags = generateHashtags(formData, projectConfig);
 
     setTitles(generatedTitles);
     setThumbnails(generatedThumbnails);
+    setDescriptions(generatedDescriptions);
+    setHashtags(generatedHashtags);
   };
 
   return (
@@ -63,6 +68,10 @@ function App() {
             <hr />
           </div>
         ))}
+      </div>
+      <div>
+        <h2>Hashtags</h2>
+        <p>{hashtags}</p>
       </div>
     </div>
   );
