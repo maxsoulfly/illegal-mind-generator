@@ -27,6 +27,15 @@ function App() {
           extraVibeNote: '',
         };
   });
+  const defaultFormData = {
+    project: 'Illegal Mind',
+    artist: '',
+    song: '',
+    signalNumber: '',
+    videoType: 'Long',
+    changesMade: '',
+    extraVibeNote: '',
+  };
   const [titles, setTitles] = useState([]);
   const [thumbnails, setThumbnails] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
@@ -36,7 +45,9 @@ function App() {
   useEffect(() => {
     localStorage.setItem('formData', JSON.stringify(formData));
   }, [formData]);
-
+  const handleClearForm = () => {
+    setFormData(defaultFormData);
+  };
   const handleGenerate = () => {
     const projectConfig = projects.illegalMind;
 
@@ -61,13 +72,16 @@ function App() {
   };
 
   return (
-    <div>
+    <div style={{ padding: '32px' }}>
       <h1>Illegal Mind Generator</h1>
+
       <InputForm
         formData={formData}
         setFormData={setFormData}
         onGenerate={handleGenerate}
+        onClear={handleClearForm}
       />
+
       <div>
         <h2>Generated Output</h2>
 
@@ -88,6 +102,7 @@ function App() {
           );
         })}
       </div>
+
       <div>
         <h2>Descriptions</h2>
         {descriptions.map((description, index) => (
@@ -98,11 +113,13 @@ function App() {
           </div>
         ))}
       </div>
+
       <div>
         <h2>Hashtags</h2>
         <p>{hashtags}</p>
         <CopyButton text={hashtags} />
       </div>
+
       <div>
         <h2>Hybrid Prompt</h2>
         <pre>{hybridPrompt}</pre>

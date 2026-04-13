@@ -1,10 +1,10 @@
-function InputForm({ formData, setFormData, onGenerate }) {
+function InputForm({ formData, setFormData, onGenerate, onClear }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -14,11 +14,7 @@ function InputForm({ formData, setFormData, onGenerate }) {
 
       <label>Project</label>
       <br />
-      <input
-        name="project"
-        value={formData.project}
-        onChange={handleChange}
-      />
+      <input name="project" value={formData.project} onChange={handleChange} />
       <br />
 
       <label>Artist</label>
@@ -82,8 +78,9 @@ function InputForm({ formData, setFormData, onGenerate }) {
         onChange={handleChange}
       />
       <br />
-
       <button onClick={onGenerate}>Generate</button>
+      <br />
+      <button onClick={onClear}>Clear Form</button>
     </div>
   );
 }
