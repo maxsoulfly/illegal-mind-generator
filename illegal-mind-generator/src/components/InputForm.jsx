@@ -12,19 +12,27 @@ function InputForm({ formData, setFormData, onGenerate }) {
     <div>
       <h2>Input</h2>
 
+      <label>Project</label>
+      <br />
+      <input
+        name="project"
+        value={formData.project}
+        onChange={handleChange}
+      />
+      <br />
+
+      <label>Artist</label>
+      <br />
       <input
         name="artist"
         placeholder="Artist"
         value={formData.artist}
         onChange={handleChange}
-/*************  ✨ Windsurf Command ⭐  *************/
-/**
- * Handles form submission by logging the current form data to the console.
- * @return {void}
- */
-/*******  b1f1ab2e-875f-4305-b3f9-9af39a6ca7e8  *******/      />
+      />
       <br />
 
+      <label>Song</label>
+      <br />
       <input
         name="song"
         placeholder="Song"
@@ -33,10 +41,44 @@ function InputForm({ formData, setFormData, onGenerate }) {
       />
       <br />
 
+      <label>Signal Number</label>
+      <br />
       <input
         name="signalNumber"
         placeholder="Signal Number"
         value={formData.signalNumber}
+        onChange={handleChange}
+      />
+      <br />
+
+      <label>Video Type</label>
+      <br />
+      <select
+        name="videoType"
+        value={formData.videoType}
+        onChange={handleChange}
+      >
+        <option value="Long">Long</option>
+        <option value="Shorts">Shorts</option>
+      </select>
+      <br />
+
+      <label>Changes Made</label>
+      <br />
+      <textarea
+        name="changesMade"
+        placeholder="What changed in the song?"
+        value={formData.changesMade}
+        onChange={handleChange}
+      />
+      <br />
+
+      <label>Extra Vibe Note</label>
+      <br />
+      <textarea
+        name="extraVibeNote"
+        placeholder="Extra vibe note"
+        value={formData.extraVibeNote}
         onChange={handleChange}
       />
       <br />

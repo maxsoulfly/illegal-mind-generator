@@ -3,9 +3,13 @@ import InputForm from "./components/InputForm";
 
 function App() {
   const [formData, setFormData] = useState({
+    project: "Illegal Mind",
     artist: "",
     song: "",
-    signalNumber: ""
+    signalNumber: "",
+    videoType: "Long",
+    changesMade: "",
+    extraVibeNote: ""
   });
 
   const handleGenerate = () => {
