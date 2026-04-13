@@ -12,6 +12,18 @@ import InputForm from './components/InputForm';
 import CopyButton from './components/CopyButton';
 
 function App() {
+  const defaultFormData = {
+    project: 'Illegal Mind',
+    artist: '',
+    song: '',
+    signalNumber: '',
+    videoType: 'Long',
+    changesMade: '',
+    extraVibeNote: '',
+    transformationTags: [],
+  };
+
+  
   const [formData, setFormData] = useState(() => {
     const savedFormData = localStorage.getItem('formData');
 
@@ -25,17 +37,9 @@ function App() {
           videoType: 'Long',
           changesMade: '',
           extraVibeNote: '',
+          transformationTags: [],
         };
   });
-  const defaultFormData = {
-    project: 'Illegal Mind',
-    artist: '',
-    song: '',
-    signalNumber: '',
-    videoType: 'Long',
-    changesMade: '',
-    extraVibeNote: '',
-  };
   const [titles, setTitles] = useState([]);
   const [thumbnails, setThumbnails] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
@@ -81,6 +85,7 @@ function App() {
             setFormData={setFormData}
             onGenerate={handleGenerate}
             onClear={handleClearForm}
+            projectConfig={projects.illegalMind}
           />
         </div>
 

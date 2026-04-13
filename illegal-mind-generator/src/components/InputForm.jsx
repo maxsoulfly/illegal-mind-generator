@@ -1,10 +1,27 @@
-function InputForm({ formData, setFormData, onGenerate, onClear }) {
+function InputForm({
+  formData,
+  setFormData,
+  onGenerate,
+  onClear,
+  projectConfig,
+}) {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const handleTagToggle = (tag) => {
+    const isSelected = (formData.transformationTags || []).includes(tag);
+
+    setFormData((prev) => ({
+      ...prev,
+      transformationTags: isSelected
+        ? prev.transformationTags.filter((item) => item !== tag)
+        : [...prev.transformationTags, tag],
     }));
   };
 
@@ -69,26 +86,26 @@ function InputForm({ formData, setFormData, onGenerate, onClear }) {
       </div>
 
       <div className="form-group">
-        <label className="form-label">Changes Made</label>
-        <textarea
-          className="form-textarea"
-          name="changesMade"
-          placeholder="What changed in the song?"
-          value={formData.changesMade}
-          onChange={handleChange}
-        />
+        <label className="form-label">Transformation Tags</label>
+
+        <div className="tag-list">
+          {projectConfig.availableTags.map((tag) => {
+            const isActive = (formData.transformationTags || []).includes(tag);
+
+            return (
+              <button
+                key={tag}
+                type="button"
+                className={isActive ? 'tag-chip active' : 'tag-chip'}
+                onClick={() => handleTagToggle(tag)}
+              >
+                {tag}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      <div className="form-group">
-        <label className="form-label">Extra Vibe Note</label>
-        <textarea
-          className="form-textarea"
-          name="extraVibeNote"
-          placeholder="Extra vibe note"
-          value={formData.extraVibeNote}
-          onChange={handleChange}
-        />
-      </div>
       <div className="button-row">
         <button className="button-primary" onClick={onGenerate}>
           Generate

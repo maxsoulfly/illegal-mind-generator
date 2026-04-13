@@ -24,6 +24,17 @@
       "MODERNIZED"
     ],
 
-    "hashtags": ["#IllegalMind", "#AltMetal", "#MetalCover"]
+    "hashtags": ["#IllegalMind", "#AltMetal", "#MetalCover"],
+
+    "availableTags": [
+      "slower",
+      "heavier",
+      "darker",
+      "alt metal",
+      "punk",
+      "modernized",
+      "faithful",
+      "hardcore"
+    ]
   }
 }

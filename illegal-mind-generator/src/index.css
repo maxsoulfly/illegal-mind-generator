@@ -198,3 +198,31 @@ textarea {
 .output-item {
   font-family: Consolas, Monaco, 'Courier New', monospace;
 }
+
+
+.tag-list {
+  display  : flex;
+  flex-wrap: wrap;
+  gap      : 10px;
+}
+
+.tag-chip {
+  padding      : 8px 12px;
+  border       : 1px solid #6a5036;
+  border-radius: 999px;
+  background   : #1a1410;
+  color        : #d9b77a;
+  cursor       : pointer;
+  transition   : 0.2s ease;
+}
+
+.tag-chip:hover {
+  border-color: #ffb347;
+  color       : #ffcc73;
+}
+
+.tag-chip.active {
+  background  : linear-gradient(180deg, #a86a2a 0%, #7d4f20 100%);
+  border-color: #ffb347;
+  color       : #fff4de;
+}
