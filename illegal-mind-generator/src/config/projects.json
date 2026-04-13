@@ -34,7 +34,8 @@
       "punk",
       "modernized",
       "faithful",
-      "hardcore"
+      "hardcore",
+      "nu metal"
     ],
     "titleVariationSuffixes": ["Version", "Rework", "Mix", "Reconstruction"],
 
@@ -44,6 +45,16 @@
       "REBUILT",
       "MORE IMPACT",
       "DARKER FEEL"
-    ]
+    ],
+    "thumbnailTagMap": {
+      "slower": ["SLOWED DOWN"],
+      "heavier": ["HEAVIER", "HEAVIER VERSION"],
+      "darker": ["DARKER NOW"],
+      "alt metal": ["ALT METAL"],
+      "nu metal": ["NU METALIZED", "BUT NU METAL", "NOW NU METAL?"],
+      "punk": ["PUNK REWORK"],
+      "hardcore": ["HARDCORE EDGE", "GOES HARDER"],
+      "modernized": ["MODERNIZED"]
+    }
   }
 }

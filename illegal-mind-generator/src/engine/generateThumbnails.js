@@ -1,56 +1,27 @@
-function toTitleCase(text) {
-  return text
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
-
 function buildThumbnailVariations(formData, config) {
-  const selectedTags = (formData.transformationTags || []).map(toTitleCase);
+  const selectedTags = formData.transformationTags || [];
 
   if (selectedTags.length === 0) {
     return (config.thumbnailWords || []).slice(0, 5);
   }
 
-  const hasSlower = selectedTags.includes('Slower');
-  const hasHeavier = selectedTags.includes('Heavier');
-  const hasDarker = selectedTags.includes('Darker');
-  const hasAltMetal = selectedTags.includes('Alt Metal');
-  const hasPunk = selectedTags.includes('Punk');
-  const hasHardcore = selectedTags.includes('Hardcore');
-  const hasModernized = selectedTags.includes('Modernized');
-
   const variations = [];
+  const thumbnailTagMap = config.thumbnailTagMap || {};
 
-  if (hasSlower && hasHeavier) {
-    variations.push('SLOWER & HEAVIER');
-    variations.push('HEAVIER VERSION');
-  }
+  selectedTags.forEach((tag) => {
+    const mappedPhrases = thumbnailTagMap[tag] || [];
 
-  if (hasDarker) {
-    variations.push('DARKER NOW');
-  }
-
-  if (hasAltMetal) {
-    variations.push('ALT METAL');
-  }
-
-  if (hasPunk) {
-    variations.push('PUNK REWORK');
-  }
-
-  if (hasHardcore) {
-    variations.push('HARDCORE EDGE');
-  }
-
-  if (hasModernized) {
-    variations.push('MODERNIZED');
-  }
+    mappedPhrases.forEach((phrase) => {
+      if (!variations.includes(phrase) && variations.length < 5) {
+        variations.push(phrase);
+      }
+    });
+  });
 
   const fallbacks = config.thumbnailFallbacks || [];
 
   fallbacks.forEach((item) => {
-    if (variations.length < 5 && !variations.includes(item)) {
+    if (!variations.includes(item) && variations.length < 5) {
       variations.push(item);
     }
   });
