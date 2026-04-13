@@ -1,4 +1,6 @@
 import { useState } from "react";
+import projects from "./config/projects.json";
+import { generateTitles } from "./engine/generateTitles";
 import InputForm from "./components/InputForm";
 
 function App() {
@@ -12,9 +14,13 @@ function App() {
     extraVibeNote: ""
   });
 
-  const handleGenerate = () => {
-    console.log("Generate from App:", formData);
-  };
+ const handleGenerate = () => {
+  const projectConfig = projects.illegalMind;
+
+  const titles = generateTitles(formData, projectConfig);
+
+  console.log("Titles:", titles);
+};
 
   return (
     <div>
