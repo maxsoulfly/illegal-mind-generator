@@ -35,6 +35,15 @@
       "modernized",
       "faithful",
       "hardcore"
+    ],
+    "titleVariationSuffixes": ["Version", "Rework", "Mix", "Reconstruction"],
+
+    "thumbnailFallbacks": [
+      "NEW VERSION",
+      "HEAVY REWORK",
+      "REBUILT",
+      "MORE IMPACT",
+      "DARKER FEEL"
     ]
   }
 }

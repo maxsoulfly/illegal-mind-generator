@@ -12,16 +12,17 @@ function buildTransformationVariations(formData, config) {
     return config.transformations.slice(0, 5);
   }
 
+  const suffixes = config.titleVariationSuffixes || [];
   const joined = selectedTags.join(' + ');
-  const firstTwo = selectedTags.slice(0, 2).join(' + ');
-  const lastTag = selectedTags[selectedTags.length - 1];
+  const firstTwo = selectedTags.slice(0, 2).join(' + ') || joined;
+  const lastTag = selectedTags[selectedTags.length - 1] || joined;
 
   const variations = [
     joined,
-    `${joined} Version`,
-    `${firstTwo || joined} Rework`,
-    `${lastTag} Reconstruction`,
-    `${joined} Mix`,
+    suffixes[0] ? `${joined} ${suffixes[0]}` : `${joined} Version`,
+    suffixes[1] ? `${firstTwo} ${suffixes[1]}` : `${firstTwo} Rework`,
+    suffixes[3] ? `${lastTag} ${suffixes[3]}` : `${lastTag} Reconstruction`,
+    suffixes[2] ? `${joined} ${suffixes[2]}` : `${joined} Mix`,
   ];
 
   return variations.slice(0, 5);
