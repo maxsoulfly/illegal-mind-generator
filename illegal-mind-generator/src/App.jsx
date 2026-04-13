@@ -23,7 +23,6 @@ function App() {
     transformationTags: [],
   };
 
-  
   const [formData, setFormData] = useState(() => {
     const savedFormData = localStorage.getItem('formData');
 
@@ -56,7 +55,7 @@ function App() {
     const projectConfig = projects.illegalMind;
 
     const generatedTitles = generateTitles(formData, projectConfig);
-    const generatedThumbnails = generateThumbnails(projectConfig);
+    const generatedThumbnails = generateThumbnails(formData, projectConfig);
     const generatedDescriptions = generateDescriptions(formData);
     const generatedHashtags = generateHashtags(formData, projectConfig);
     const generatedHybridPrompt = generateHybridPrompt(
