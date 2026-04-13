@@ -13,14 +13,13 @@ function App() {
     changesMade: "",
     extraVibeNote: ""
   });
+  const [titles, setTitles] = useState([]);
 
- const handleGenerate = () => {
-  const projectConfig = projects.illegalMind;
-
-  const titles = generateTitles(formData, projectConfig);
-
-  console.log("Titles:", titles);
-};
+  const handleGenerate = () => {
+    const projectConfig = projects.illegalMind;
+    const generatedTitles = generateTitles(formData, projectConfig);
+    setTitles(generatedTitles);
+  };
 
   return (
     <div>
@@ -30,6 +29,14 @@ function App() {
         setFormData={setFormData}
         onGenerate={handleGenerate}
       />
+      <div>
+      <h2>Titles</h2>
+      {titles.map((title, index) => (
+        <div key={index}>
+          {title}
+        </div>
+      ))}
+    </div>
     </div>
   );
 }
