@@ -55,6 +55,16 @@
       "punk": ["PUNK REWORK"],
       "hardcore": ["HARDCORE EDGE", "GOES HARDER"],
       "modernized": ["MODERNIZED"]
+    },
+    "titleTagMap": {
+      "slower": ["Slower", "Slowed Down"],
+      "heavier": ["Heavier", "Heavy"],
+      "darker": ["Darker"],
+      "alt metal": ["Alt Metal"],
+      "punk": ["Punk"],
+      "hardcore": ["Hardcore"],
+      "modernized": ["Modernized"],
+      "nu metal": ["Nu Metal", "Groovy"]
     }
   }
 }
