@@ -45,15 +45,17 @@ function App() {
   const [hashtags, setHashtags] = useState('');
   const [hybridPrompt, setHybridPrompt] = useState('');
 
+  const projectConfig = projects[formData.project] || projects.illegalMind;
+
   useEffect(() => {
     localStorage.setItem('formData', JSON.stringify(formData));
   }, [formData]);
+
   const handleClearForm = () => {
     setFormData(defaultFormData);
   };
-  const handleGenerate = () => {
-    const projectConfig = projects[formData.project] || projects.illegalMind;
 
+  const handleGenerate = () => {
     const generatedTitles = generateTitles(formData, projectConfig);
     const generatedThumbnails = generateThumbnails(formData, projectConfig);
     const generatedDescriptions = generateDescriptions(formData);
@@ -73,9 +75,15 @@ function App() {
 
     setHybridPrompt(generatedHybridPrompt);
   };
+
+  useEffect(() => {
+    if (!formData.project) return;
+    handleGenerate();
+  }, [formData]);
+
   return (
     <div className="app-shell">
-      <h1 className="app-title">Illegal Mind Generator</h1>
+      <h1 className="app-title">YouTube Generator</h1>
 
       <div className="layout-grid">
         <div className="panel">
@@ -84,7 +92,7 @@ function App() {
             setFormData={setFormData}
             onGenerate={handleGenerate}
             onClear={handleClearForm}
-            projectConfig={projects[formData.project] || projects.illegalMind}
+            projectConfig={projectConfig}
             projectOptions={Object.keys(projects)}
           />
         </div>
