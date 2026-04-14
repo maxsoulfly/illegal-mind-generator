@@ -52,7 +52,7 @@ function App() {
     setFormData(defaultFormData);
   };
   const handleGenerate = () => {
-    const projectConfig = projects.illegalMind;
+    const projectConfig = projects[formData.project] || projects.illegalMind;
 
     const generatedTitles = generateTitles(formData, projectConfig);
     const generatedThumbnails = generateThumbnails(formData, projectConfig);
@@ -84,7 +84,8 @@ function App() {
             setFormData={setFormData}
             onGenerate={handleGenerate}
             onClear={handleClearForm}
-            projectConfig={projects.illegalMind}
+            projectConfig={projects[formData.project] || projects.illegalMind}
+            projectOptions={Object.keys(projects)}
           />
         </div>
 

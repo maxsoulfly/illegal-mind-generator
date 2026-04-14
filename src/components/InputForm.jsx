@@ -4,6 +4,7 @@ function InputForm({
   onGenerate,
   onClear,
   projectConfig,
+  projectOptions,
 }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,12 +37,20 @@ function InputForm({
 
       <div className="form-group">
         <label className="form-label">Project</label>
-        <input
-          className="form-input"
+        <select
           name="project"
+          className="form-select"
           value={formData.project}
           onChange={handleChange}
-        />
+        >
+          {projectOptions.map((project) => {
+            return (
+              <option key={project} value={project}>
+                {project}
+              </option>
+            );
+          })}
+        </select>
       </div>
 
       <div className="form-group">
