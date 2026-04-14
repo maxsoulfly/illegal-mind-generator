@@ -9,10 +9,20 @@ function InputForm({
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => {
+      if (name === 'project') {
+        return {
+          ...prev,
+          project: value,
+          transformationTags: [],
+        };
+      }
+
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
   };
 
   const handleTagToggle = (tag) => {
