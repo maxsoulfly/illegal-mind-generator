@@ -254,3 +254,10 @@ textarea {
   text-transform: uppercase;
   cursor        : pointer;
 }
+
+.saved-entry-actions {
+  display   : flex;
+  gap       : 10px;
+  flex-wrap : wrap;
+  margin-top: 10px;
+}

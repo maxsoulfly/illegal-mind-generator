@@ -230,22 +230,23 @@ function InputForm({
                 <strong>{entry.artist}</strong> - {entry.song}
               </p>
               {entry.signalNumber && <p>Signal: {entry.signalNumber}</p>}
+              <div className="saved-entry-actions">
+                <button
+                  type="button"
+                  className="button-secondary"
+                  onClick={() => onLoadEntry(entry)}
+                >
+                  Load
+                </button>
 
-              <button
-                type="button"
-                className="button-secondary"
-                onClick={() => onLoadEntry(entry)}
-              >
-                Load
-              </button>
-
-              <button
-                type="button"
-                className="button-secondary"
-                onClick={() => onDeleteEntry(entry.id)}
-              >
-                Delete
-              </button>
+                <button
+                  type="button"
+                  className="button-secondary"
+                  onClick={() => onDeleteEntry(entry.id)}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
         </div>
