@@ -11,32 +11,25 @@ import { generateHybridPrompt } from './engine/generateHybridPrompt';
 import InputForm from './components/InputForm';
 import GeneratedOutput from './components/GeneratedOutput';
 
-function App() {
-  const defaultFormData = {
-    project: 'Illegal Mind',
-    artist: '',
-    song: '',
-    signalNumber: '',
-    videoType: 'Long',
-    changesMade: '',
-    extraVibeNote: '',
-    transformationTags: [],
-  };
+const defaultFormData = {
+  project: 'Illegal Mind',
+  artist: '',
+  song: '',
+  signalNumber: '',
+  videoType: 'Long',
+  changesMade: '',
+  extraVibeNote: '',
+  transformationTags: [],
+};
 
+function App() {
   const [formData, setFormData] = useState(() => {
     const savedFormData = localStorage.getItem('formData');
 
     return savedFormData
       ? JSON.parse(savedFormData)
       : {
-          project: 'Illegal Mind',
-          artist: '',
-          song: '',
-          signalNumber: '',
-          videoType: 'Long',
-          changesMade: '',
-          extraVibeNote: '',
-          transformationTags: [],
+          ...defaultFormData,
         };
   });
 
@@ -66,6 +59,8 @@ function App() {
     );
   }, [formData, titles, thumbnails, descriptions, hashtags]);
 
+  const projectOptions = Object.keys(projects);
+
   useEffect(() => {
     localStorage.setItem('formData', JSON.stringify(formData));
   }, [formData]);
@@ -77,7 +72,7 @@ function App() {
   return (
     <div className="app-shell">
       <h1 className="app-title">YouTube Generator</h1>
-
+      <h2>{projectConfig.title}</h2>
       <div className="layout-grid">
         <div className="panel">
           <InputForm
@@ -85,7 +80,7 @@ function App() {
             setFormData={setFormData}
             onClear={handleClearForm}
             projectConfig={projectConfig}
-            projectOptions={Object.keys(projects)}
+            projectOptions={projectOptions}
           />
         </div>
 
