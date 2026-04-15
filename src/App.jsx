@@ -39,13 +39,20 @@ function App() {
           transformationTags: [],
         };
   });
-  const [titles, setTitles] = useState([]);
-  const [thumbnails, setThumbnails] = useState([]);
-  const [descriptions, setDescriptions] = useState([]);
-  const [hashtags, setHashtags] = useState('');
-  const [hybridPrompt, setHybridPrompt] = useState('');
 
   const projectConfig = projects[formData.project] || projects.illegalMind;
+
+  const titles = generateTitles(formData, projectConfig);
+  const thumbnails = generateThumbnails(formData, projectConfig);
+  const descriptions = generateDescriptions(formData);
+  const hashtags = generateHashtags(formData, projectConfig);
+  const hybridPrompt = generateHybridPrompt(
+    formData,
+    titles,
+    thumbnails,
+    descriptions,
+    hashtags,
+  );
 
   useEffect(() => {
     localStorage.setItem('formData', JSON.stringify(formData));
@@ -54,32 +61,6 @@ function App() {
   const handleClearForm = () => {
     setFormData(defaultFormData);
   };
-
-  const handleGenerate = () => {
-    const generatedTitles = generateTitles(formData, projectConfig);
-    const generatedThumbnails = generateThumbnails(formData, projectConfig);
-    const generatedDescriptions = generateDescriptions(formData);
-    const generatedHashtags = generateHashtags(formData, projectConfig);
-    const generatedHybridPrompt = generateHybridPrompt(
-      formData,
-      generatedTitles,
-      generatedThumbnails,
-      generatedDescriptions,
-      generatedHashtags,
-    );
-
-    setTitles(generatedTitles);
-    setThumbnails(generatedThumbnails);
-    setDescriptions(generatedDescriptions);
-    setHashtags(generatedHashtags);
-
-    setHybridPrompt(generatedHybridPrompt);
-  };
-
-  useEffect(() => {
-    if (!formData.project) return;
-    handleGenerate();
-  }, [formData]);
 
   return (
     <div className="app-shell">
@@ -90,7 +71,6 @@ function App() {
           <InputForm
             formData={formData}
             setFormData={setFormData}
-            onGenerate={handleGenerate}
             onClear={handleClearForm}
             projectConfig={projectConfig}
             projectOptions={Object.keys(projects)}
