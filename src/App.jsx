@@ -62,13 +62,59 @@ function App() {
   }, [formData, titles, thumbnails, descriptions, hashtags]);
 
   const projectOptions = Object.keys(projects);
+  const [savedEntries, setSavedEntries] = useState(() => {
+    const saved = localStorage.getItem('savedEntries');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('savedEntries', JSON.stringify(savedEntries));
+  }, [savedEntries]);
 
   useEffect(() => {
     localStorage.setItem('formData', JSON.stringify(formData));
   }, [formData]);
 
+  // Clear form
   const handleClearForm = () => {
     setFormData(defaultFormData);
+  };
+
+  // Save entry
+  const handleSaveEntry = () => {
+    const entry = {
+      id: `${formData.artist}-${formData.song}-${formData.signalNumber}`.toLowerCase(),
+      artist: formData.artist.trim(),
+      song: formData.song.trim(),
+      signalNumber: formData.signalNumber.trim(),
+    };
+
+    if (!entry.artist || !entry.song) return;
+
+    setSavedEntries((prev) => {
+      const exists = prev.some((item) => item.id === entry.id);
+
+      if (exists) {
+        return prev.map((item) => (item.id === entry.id ? entry : item));
+      }
+
+      return [entry, ...prev];
+    });
+  };
+
+  // Load entry
+  const handleLoadEntry = (entry) => {
+    setFormData((prev) => ({
+      ...prev,
+      artist: entry.artist || '',
+      song: entry.song || '',
+      signalNumber: entry.signalNumber || '',
+    }));
+  };
+
+  // Delete entry
+  const handleDeleteEntry = (entryId) => {
+    setSavedEntries((prev) => prev.filter((entry) => entry.id !== entryId));
   };
 
   return (
@@ -83,6 +129,10 @@ function App() {
             onClear={handleClearForm}
             projectConfig={projectConfig}
             projectOptions={projectOptions}
+            onSaveEntry={handleSaveEntry}
+            savedEntries={savedEntries}
+            onLoadEntry={handleLoadEntry}
+            onDeleteEntry={handleDeleteEntry}
           />
         </div>
 

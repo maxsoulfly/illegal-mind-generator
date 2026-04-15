@@ -1,11 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 function InputForm({
   formData,
   setFormData,
   onClear,
   projectConfig,
   projectOptions,
+  onSaveEntry,
+  savedEntries,
+  onLoadEntry,
+  onDeleteEntry,
 }) {
+  const [showSavedLibrary, setShowSavedLibrary] = useState(false);
+
   useEffect(() => {
     if (!formData.useCustomArtistShort) return;
 
@@ -176,10 +182,54 @@ function InputForm({
       </div>
 
       <div className="button-row">
+        <button
+          className="button-secondary"
+          type="button"
+          onClick={onSaveEntry}
+        >
+          Save Song
+        </button>
+        <button
+          className="button-secondary"
+          type="button"
+          onClick={() => setShowSavedLibrary((prev) => !prev)}
+        >
+          {showSavedLibrary ? 'Hide Library' : 'Open Library'}
+        </button>
         <button className="button-secondary" onClick={onClear}>
           Clear Form
         </button>
       </div>
+      {showSavedLibrary && savedEntries.length > 0 && (
+        <div className="panel" style={{ marginTop: '16px' }}>
+          <h3 className="panel-title">Saved Songs</h3>
+
+          {savedEntries.map((entry) => (
+            <div key={entry.id} className="output-item terminal-block">
+              <p>
+                <strong>{entry.artist}</strong> - {entry.song}
+              </p>
+              {entry.signalNumber && <p>Signal: {entry.signalNumber}</p>}
+
+              <button
+                type="button"
+                className="button-secondary"
+                onClick={() => onLoadEntry(entry)}
+              >
+                Load
+              </button>
+
+              <button
+                type="button"
+                className="button-secondary"
+                onClick={() => onDeleteEntry(entry.id)}
+              >
+                Delete
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
