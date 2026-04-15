@@ -211,46 +211,53 @@ function InputForm({
           Clear Form
         </button>
       </div>
-      {showSavedLibrary && savedEntries.length > 0 && (
-        <div className="panel" style={{ marginTop: '16px' }}>
-          <h3 className="panel-title">Saved Songs</h3>
-          <input
-            className="form-input"
-            placeholder="Search saved songs..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={{ marginBottom: '12px' }}
-          />
-          {filteredEntries.length === 0 && (
-            <p className="output-text">No saved songs found.</p>
-          )}
-          {filteredEntries.map((entry) => (
-            <div key={entry.id} className="output-item terminal-block">
-              <p>
-                <strong>{entry.artist}</strong> - {entry.song}
-              </p>
-              {entry.signalNumber && <p>Signal: {entry.signalNumber}</p>}
-              <div className="saved-entry-actions">
-                <button
-                  type="button"
-                  className="button-secondary"
-                  onClick={() => onLoadEntry(entry)}
-                >
-                  Load
-                </button>
+      <div>
+        {showSavedLibrary && savedEntries.length > 0 && (
+          <div className="saved-library-header">
+            <div className="panel" style={{ marginTop: '16px' }}>
+              <h3 className="panel-title">Saved Songs</h3>
+              <input
+                className="form-input"
+                placeholder="Search saved songs..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                style={{ marginBottom: '12px' }}
+              />
 
-                <button
-                  type="button"
-                  className="button-secondary"
-                  onClick={() => onDeleteEntry(entry.id)}
-                >
-                  Delete
-                </button>
+              <div className="saved-library-list">
+                {filteredEntries.length === 0 && (
+                  <p className="output-text">No saved songs found.</p>
+                )}
+                {filteredEntries.map((entry) => (
+                  <div key={entry.id} className="output-item terminal-block">
+                    <p>
+                      <strong>{entry.artist}</strong> - {entry.song}
+                    </p>
+                    {entry.signalNumber && <p>Signal: {entry.signalNumber}</p>}
+                    <div className="saved-entry-actions">
+                      <button
+                        type="button"
+                        className="button-secondary"
+                        onClick={() => onLoadEntry(entry)}
+                      >
+                        Load
+                      </button>
+
+                      <button
+                        type="button"
+                        className="button-secondary"
+                        onClick={() => onDeleteEntry(entry.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
