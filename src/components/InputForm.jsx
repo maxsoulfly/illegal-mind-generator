@@ -215,7 +215,7 @@ function InputForm({
       </div>
 
       <div>
-        {showSavedLibrary && savedEntries.length > 0 && (
+        {showSavedLibrary && (
           <div className="saved-library-header">
             <div className="panel" style={{ marginTop: '16px' }}>
               <h3 className="panel-title">Saved Songs</h3>
@@ -226,7 +226,6 @@ function InputForm({
                 onChange={(e) => setSearch(e.target.value)}
                 style={{ marginBottom: '12px' }}
               />
-
               <div className="saved-library-list">
                 {filteredEntries.length === 0 && (
                   <p className="output-text">No saved songs found.</p>
@@ -257,25 +256,30 @@ function InputForm({
                   </div>
                 ))}
               </div>
-            </div>
-            <button
-              type="button"
-              className="button-secondary"
-              onClick={onExportEntries}
-            >
-              Export Library
-            </button>
-            <input
-              type="file"
-              accept="application/json"
-              onChange={onImportEntries}
-              style={{ display: 'none' }}
-              id="import-library-input"
-            />
 
-            <label htmlFor="import-library-input" className="button-secondary">
-              Import Library
-            </label>
+              <div className="button-row" style={ {marginTop: '16px' }}>
+                <button
+                  type="button"
+                  className="button-secondary"
+                  onClick={onExportEntries}
+                >
+                  Export Library
+                </button>
+                <input
+                  type="file"
+                  accept="application/json"
+                  onChange={onImportEntries}
+                  style={{ display: 'none' }}
+                  id="import-library-input"
+                />
+                <label
+                  htmlFor="import-library-input"
+                  className="button-secondary"
+                >
+                  Import Library
+                </label>
+              </div>
+            </div>
           </div>
         )}
       </div>
