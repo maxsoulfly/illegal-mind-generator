@@ -20,6 +20,8 @@ const defaultFormData = {
   changesMade: '',
   extraVibeNote: '',
   transformationTags: [],
+  useCustomArtistShort: false,
+  artistShort: '',
 };
 
 function App() {

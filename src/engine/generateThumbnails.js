@@ -33,15 +33,24 @@ export function generateThumbnails(formData, config) {
   const phrases = buildThumbnailVariations(formData, config);
 
   const artistRaw = formData.artist || 'ARTIST';
-  const words = artistRaw.trim().split(' ').filter(Boolean);
 
-  let artistShort = artistRaw;
+  let artistFinal;
 
-  if (words.length >= 3) {
-    artistShort = words.map((w) => w[0]).join('');
+  if (formData.useCustomArtistShort && formData.artistShort) {
+    artistFinal = formData.artistShort;
+  } else {
+    const words = artistRaw.trim().split(' ').filter(Boolean);
+
+    let artistShort = artistRaw;
+
+    if (words.length >= 3) {
+      artistShort = words.map((w) => w[0]).join('');
+    }
+
+    artistFinal = artistShort;
   }
 
-  const artist = artistShort.toUpperCase();
+  const artist = artistFinal.toUpperCase();
   const song = (formData.song || 'SONG').toUpperCase();
 
   return phrases.map((phrase) => {

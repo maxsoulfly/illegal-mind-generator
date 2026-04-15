@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 function InputForm({
   formData,
   setFormData,
@@ -5,6 +6,22 @@ function InputForm({
   projectConfig,
   projectOptions,
 }) {
+  useEffect(() => {
+    if (!formData.useCustomArtistShort) return;
+
+    const words = (formData.artist || '').trim().split(' ').filter(Boolean);
+
+    let short = formData.artist || 'ARTIST';
+
+    if (words.length >= 3) {
+      short = words.map((w) => w[0]).join('');
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      artistShort: short.toUpperCase(),
+    }));
+  }, [formData.artist, formData.useCustomArtistShort]);
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -74,9 +91,33 @@ function InputForm({
       </div>
 
       <label className="toggle-row">
-        <input className="toggle-checkbox" type="checkbox" />
+        <input
+          className="toggle-checkbox"
+          type="checkbox"
+          name="useCustomArtistShort"
+          checked={formData.useCustomArtistShort}
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              useCustomArtistShort: e.target.checked,
+            }))
+          }
+        />
         <span className="toggle-label">Use custom artist short</span>
       </label>
+
+      {formData.useCustomArtistShort && (
+        <div className="form-group">
+          <label className="form-label">Artist Short</label>
+          <input
+            className="form-input"
+            name="artistShort"
+            placeholder="e.g. SOAD, A7X"
+            value={formData.artistShort}
+            onChange={handleChange}
+          />
+        </div>
+      )}
 
       <div className="form-group">
         <label className="form-label">Song</label>
