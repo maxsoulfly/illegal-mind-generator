@@ -36,10 +36,14 @@ function buildTransformationVariations(formData, config) {
 }
 
 export function generateTitles(formData, config) {
-  const template = config.titleTemplates[0];
+  const templates =
+    formData.videoType === 'Shorts' && config.shortTitleTemplates
+      ? config.shortTitleTemplates
+      : config.titleTemplates;
   const variations = buildTransformationVariations(formData, config);
 
-  return variations.map((transformation) => {
+  return variations.map((transformation, index) => {
+    const template = templates[index % templates.length];
     return template
       .replace('{num}', formData.signalNumber || 'XX')
       .replace('{artist}', formData.artist || 'Artist')

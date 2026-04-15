@@ -1,75 +1,16 @@
 {
-  "illegalMind": {
-    "name": "Illegal Mind",
-
-    "titleTemplates": [
-      "[SIGNAL {num}] // {artist} - {song} ({transformation}) // Illegal Mind Rework"
-    ],
-
-    "transformations": [
-      "Slower & Heavier",
-      "Alt Metal Version",
-      "Heavy Rework",
-      "Darker Version",
-      "Punk Reconstruction",
-      "Modern Mix"
-    ],
-
-    "thumbnailWords": [
-      "HEAVIER",
-      "DARKER",
-      "ALT METAL",
-      "REWORK",
-      "SLOWED",
-      "MODERNIZED"
-    ],
-
-    "hashtags": ["#IllegalMind", "#AltMetal", "#MetalCover"],
-
-    "availableTags": [
-      "slower",
-      "heavier",
-      "darker",
-      "alt metal",
-      "modernized",
-      "faithful",
-      "hardcore"
-    ],
-    "titleVariationSuffixes": ["Version", "Rework", "Mix", "Reconstruction"],
-
-    "thumbnailFallbacks": [
-      "NEW VERSION",
-      "HEAVY REWORK",
-      "REBUILT",
-      "MORE IMPACT",
-      "DARKER FEEL"
-    ],
-    "thumbnailTagMap": {
-      "slower": ["SLOWED DOWN"],
-      "heavier": ["HEAVIER", "HEAVIER VERSION"],
-      "darker": ["DARKER NOW"],
-      "alt metal": ["ALT METAL"],
-      "nu metal": ["NU METALIZED", "BUT NU METAL", "NOW NU METAL?"],
-      "punk": ["PUNK REWORK"],
-      "hardcore": ["HARDCORE EDGE", "GOES HARDER"],
-      "modernized": ["MODERNIZED"]
-    },
-    "titleTagMap": {
-      "slower": ["Slower", "Slowed Down"],
-      "heavier": ["Heavier", "Heavy"],
-      "darker": ["Darker"],
-      "alt metal": ["Alt Metal"],
-      "punk": ["Punk"],
-      "hardcore": ["Hardcore"],
-      "modernized": ["Modernized"],
-      "nu metal": ["Nu Metal", "Groovy"]
-    }
-  },
   "illegalMindCovers": {
     "name": "Illegal Mind Covers",
 
     "titleTemplates": [
-      "[SIGNAL {num}] // {artist} - {song} ({transformation}) // Illegal Mind Rework"
+      "[SIGNAL {num}] // {song} by {artist} // {transformation} // Illegal Mind Rework",
+      "[SIGNAL {num}] // {artist} - {song} ({transformation}) // Illegal Mind Rework",
+      "[SIGNAL {num}] // {artist} - {song} but it's {transformation} // Illegal Mind Rework"
+    ],
+    "shortTitleTemplates": [
+      "{artist} - {song} // {transformation}",
+      "{song} but it's {transformation}",
+      "{song} // {transformation}"
     ],
 
     "transformations": [

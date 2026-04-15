@@ -30,5 +30,26 @@ function buildThumbnailVariations(formData, config) {
 }
 
 export function generateThumbnails(formData, config) {
-  return buildThumbnailVariations(formData, config);
+  const phrases = buildThumbnailVariations(formData, config);
+
+  const artistRaw = formData.artist || 'ARTIST';
+  const words = artistRaw.trim().split(' ').filter(Boolean);
+
+  let artistShort = artistRaw;
+
+  if (words.length >= 3) {
+    artistShort = words.map((w) => w[0]).join('');
+  }
+
+  const artist = artistShort.toUpperCase();
+  const song = (formData.song || 'SONG').toUpperCase();
+
+  return phrases.map((phrase) => {
+    const text = phrase.toUpperCase();
+    if (formData.videoType === 'Shorts') {
+      return `${song} // ${text}`;
+    }
+
+    return `${artist} // ${text}`;
+  });
 }
