@@ -9,6 +9,8 @@ function InputForm({
   savedEntries,
   onLoadEntry,
   onDeleteEntry,
+  onExportEntries,
+  onImportEntries,
 }) {
   const [showSavedLibrary, setShowSavedLibrary] = useState(false);
   const [search, setSearch] = useState('');
@@ -211,6 +213,7 @@ function InputForm({
           Clear Form
         </button>
       </div>
+
       <div>
         {showSavedLibrary && savedEntries.length > 0 && (
           <div className="saved-library-header">
@@ -255,6 +258,24 @@ function InputForm({
                 ))}
               </div>
             </div>
+            <button
+              type="button"
+              className="button-secondary"
+              onClick={onExportEntries}
+            >
+              Export Library
+            </button>
+            <input
+              type="file"
+              accept="application/json"
+              onChange={onImportEntries}
+              style={{ display: 'none' }}
+              id="import-library-input"
+            />
+
+            <label htmlFor="import-library-input" className="button-secondary">
+              Import Library
+            </label>
           </div>
         )}
       </div>

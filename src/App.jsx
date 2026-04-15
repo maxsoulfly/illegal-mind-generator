@@ -117,6 +117,60 @@ function App() {
     setSavedEntries((prev) => prev.filter((entry) => entry.id !== entryId));
   };
 
+  // Export entries
+  const handleExportEntries = () => {
+    const blob = new Blob([JSON.stringify(savedEntries, null, 2)], {
+      type: 'application/json',
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'saved-songs-library.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // Import entries
+  const handleImportEntries = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      try {
+        const parsed = JSON.parse(e.target.result);
+
+        if (!Array.isArray(parsed)) return;
+
+        const normalized = parsed
+          .filter(
+            (item) =>
+              item &&
+              typeof item.artist === 'string' &&
+              typeof item.song === 'string',
+          )
+          .map((item) => ({
+            id:
+              item.id ||
+              `${item.artist}-${item.song}-${item.signalNumber || ''}`.toLowerCase(),
+            artist: item.artist.trim(),
+            song: item.song.trim(),
+            signalNumber: String(item.signalNumber || '').trim(),
+          }));
+
+        setSavedEntries(normalized);
+      } catch (error) {
+        console.error('Failed to import library:', error);
+      }
+    };
+
+    reader.readAsText(file);
+
+    event.target.value = '';
+  };
+
   return (
     <div className="app-shell">
       <h1 className="app-title">YouTube Generator</h1>
@@ -129,11 +183,12 @@ function App() {
             onClear={handleClearForm}
             projectConfig={projectConfig}
             projectOptions={projectOptions}
-            
             onSaveEntry={handleSaveEntry}
             savedEntries={savedEntries}
             onLoadEntry={handleLoadEntry}
             onDeleteEntry={handleDeleteEntry}
+            onExportEntries={handleExportEntries}
+            onImportEntries={handleImportEntries}
           />
         </div>
 
