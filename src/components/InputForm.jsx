@@ -11,6 +11,7 @@ function InputForm({
   onDeleteEntry,
 }) {
   const [showSavedLibrary, setShowSavedLibrary] = useState(false);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     if (!formData.useCustomArtistShort) return;
@@ -28,6 +29,16 @@ function InputForm({
       artistShort: short.toUpperCase(),
     }));
   }, [formData.artist, formData.useCustomArtistShort]);
+
+  const filteredEntries = savedEntries.filter((entry) => {
+    const q = search.toLowerCase();
+
+    return (
+      entry.artist.toLowerCase().includes(q) ||
+      entry.song.toLowerCase().includes(q)
+    );
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -203,8 +214,17 @@ function InputForm({
       {showSavedLibrary && savedEntries.length > 0 && (
         <div className="panel" style={{ marginTop: '16px' }}>
           <h3 className="panel-title">Saved Songs</h3>
-
-          {savedEntries.map((entry) => (
+          <input
+            className="form-input"
+            placeholder="Search saved songs..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{ marginBottom: '12px' }}
+          />
+          {filteredEntries.length === 0 && (
+            <p className="output-text">No saved songs found.</p>
+          )}
+          {filteredEntries.map((entry) => (
             <div key={entry.id} className="output-item terminal-block">
               <p>
                 <strong>{entry.artist}</strong> - {entry.song}

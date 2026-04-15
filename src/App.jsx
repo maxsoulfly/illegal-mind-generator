@@ -129,6 +129,7 @@ function App() {
             onClear={handleClearForm}
             projectConfig={projectConfig}
             projectOptions={projectOptions}
+            
             onSaveEntry={handleSaveEntry}
             savedEntries={savedEntries}
             onLoadEntry={handleLoadEntry}
