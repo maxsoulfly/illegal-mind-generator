@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 import projects from './config/projects.json';
 
@@ -40,19 +40,31 @@ function App() {
         };
   });
 
-  const projectConfig = projects[formData.project] || projects.illegalMind;
+  const projectConfig = useMemo(() => {
+    return projects[formData.project] || projects.illegalMind;
+  }, [formData.project]);
 
-  const titles = generateTitles(formData, projectConfig);
-  const thumbnails = generateThumbnails(formData, projectConfig);
-  const descriptions = generateDescriptions(formData);
-  const hashtags = generateHashtags(formData, projectConfig);
-  const hybridPrompt = generateHybridPrompt(
-    formData,
-    titles,
-    thumbnails,
-    descriptions,
-    hashtags,
-  );
+  const titles = useMemo(() => {
+    return generateTitles(formData, projectConfig);
+  }, [formData, projectConfig]);
+  const thumbnails = useMemo(() => {
+    return generateThumbnails(formData, projectConfig);
+  }, [formData, projectConfig]);
+  const descriptions = useMemo(() => {
+    return generateDescriptions(formData);
+  }, [formData]);
+  const hashtags = useMemo(() => {
+    return generateHashtags(formData, projectConfig);
+  }, [formData, projectConfig]);
+  const hybridPrompt = useMemo(() => {
+    return generateHybridPrompt(
+      formData,
+      titles,
+      thumbnails,
+      descriptions,
+      hashtags,
+    );
+  }, [formData, titles, thumbnails, descriptions, hashtags]);
 
   useEffect(() => {
     localStorage.setItem('formData', JSON.stringify(formData));
