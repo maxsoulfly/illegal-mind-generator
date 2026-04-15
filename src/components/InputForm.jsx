@@ -73,6 +73,11 @@ function InputForm({
         />
       </div>
 
+      <label className="toggle-row">
+        <input className="toggle-checkbox" type="checkbox" />
+        <span className="toggle-label">Use custom artist short</span>
+      </label>
+
       <div className="form-group">
         <label className="form-label">Song</label>
         <input

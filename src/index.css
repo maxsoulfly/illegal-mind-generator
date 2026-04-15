@@ -226,3 +226,31 @@ textarea {
   border-color: #ffb347;
   color       : #fff4de;
 }
+
+.toggle-row {
+  display      : inline-flex;
+  align-items  : center;
+  gap          : 8px;
+  margin       : -2px 0 12px;
+  padding      : 0;
+  background   : transparent;
+  border       : 0;
+  border-radius: 0;
+}
+
+.toggle-checkbox {
+  width       : 14px;
+  height      : 14px;
+  margin      : 0;
+  accent-color: #c8843d;
+  cursor      : pointer;
+}
+
+.toggle-label {
+  margin        : 0;
+  color         : #cfa468;
+  font-size     : 12px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  cursor        : pointer;
+}
