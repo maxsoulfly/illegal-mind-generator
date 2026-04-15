@@ -1,7 +1,6 @@
 function InputForm({
   formData,
   setFormData,
-  onGenerate,
   onClear,
   projectConfig,
   projectOptions,
@@ -131,10 +130,6 @@ function InputForm({
       </div>
 
       <div className="button-row">
-        {/* <button className="button-primary" onClick={onGenerate}>
-          Generate
-        </button> */}
-
         <button className="button-secondary" onClick={onClear}>
           Clear Form
         </button>

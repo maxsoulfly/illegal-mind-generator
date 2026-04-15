@@ -9,7 +9,7 @@ import { generateHashtags } from './engine/generateHashtags';
 import { generateHybridPrompt } from './engine/generateHybridPrompt';
 
 import InputForm from './components/InputForm';
-import CopyButton from './components/CopyButton';
+import GeneratedOutput from './components/GeneratedOutput';
 
 function App() {
   const defaultFormData = {
@@ -97,6 +97,14 @@ function App() {
           />
         </div>
 
+        <GeneratedOutput
+          titles={titles}
+          thumbnails={thumbnails}
+          descriptions={descriptions}
+          hashtags={hashtags}
+          hybridPrompt={hybridPrompt}
+        />
+        {/* 
         <div className="output-stack">
           <div className="panel">
             <h2 className="panel-title">Generated Output</h2>
@@ -146,7 +154,7 @@ function App() {
               <CopyButton text={hybridPrompt} />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
