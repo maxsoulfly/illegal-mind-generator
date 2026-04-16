@@ -8,6 +8,7 @@ import { generateDescriptions } from './engine/generateDescriptions';
 import { generateHashtags } from './engine/generateHashtags';
 import { generateHybridPrompt } from './engine/generateHybridPrompt';
 
+import useSavedEntries from './hooks/useSavedEntries';
 import InputForm from './components/InputForm';
 import GeneratedOutput from './components/GeneratedOutput';
 
@@ -34,6 +35,19 @@ function App() {
           ...defaultFormData,
         };
   });
+
+  const {
+    savedEntries,
+    handleSaveEntry,
+    handleLoadEntry,
+    handleDeleteEntry,
+    handleExportEntries,
+    handleImportEntries,
+  } = useSavedEntries(formData, setFormData);
+
+  useEffect(() => {
+    localStorage.setItem('formData', JSON.stringify(formData));
+  }, [formData]);
 
   const projectConfig = useMemo(() => {
     return projects[formData.project] || projects.illegalMind;
@@ -62,113 +76,10 @@ function App() {
   }, [formData, titles, thumbnails, descriptions, hashtags]);
 
   const projectOptions = Object.keys(projects);
-  const [savedEntries, setSavedEntries] = useState(() => {
-    const saved = localStorage.getItem('savedEntries');
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  useEffect(() => {
-    localStorage.setItem('savedEntries', JSON.stringify(savedEntries));
-  }, [savedEntries]);
-
-  useEffect(() => {
-    localStorage.setItem('formData', JSON.stringify(formData));
-  }, [formData]);
 
   // Clear form
   const handleClearForm = () => {
     setFormData(defaultFormData);
-  };
-
-  // Save entry
-  const handleSaveEntry = () => {
-    const entry = {
-      id: `${formData.artist}-${formData.song}-${formData.signalNumber}`.toLowerCase(),
-      artist: formData.artist.trim(),
-      song: formData.song.trim(),
-      signalNumber: formData.signalNumber.trim(),
-    };
-
-    if (!entry.artist || !entry.song) return;
-
-    setSavedEntries((prev) => {
-      const exists = prev.some((item) => item.id === entry.id);
-
-      if (exists) {
-        return prev.map((item) => (item.id === entry.id ? entry : item));
-      }
-
-      return [entry, ...prev];
-    });
-  };
-
-  // Load entry
-  const handleLoadEntry = (entry) => {
-    setFormData((prev) => ({
-      ...prev,
-      artist: entry.artist || '',
-      song: entry.song || '',
-      signalNumber: entry.signalNumber || '',
-    }));
-  };
-
-  // Delete entry
-  const handleDeleteEntry = (entryId) => {
-    setSavedEntries((prev) => prev.filter((entry) => entry.id !== entryId));
-  };
-
-  // Export entries
-  const handleExportEntries = () => {
-    const blob = new Blob([JSON.stringify(savedEntries, null, 2)], {
-      type: 'application/json',
-    });
-
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'saved-songs-library.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  // Import entries
-  const handleImportEntries = (event) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      try {
-        const parsed = JSON.parse(e.target.result);
-
-        if (!Array.isArray(parsed)) return;
-
-        const normalized = parsed
-          .filter(
-            (item) =>
-              item &&
-              typeof item.artist === 'string' &&
-              typeof item.song === 'string',
-          )
-          .map((item) => ({
-            id:
-              item.id ||
-              `${item.artist}-${item.song}-${item.signalNumber || ''}`.toLowerCase(),
-            artist: item.artist.trim(),
-            song: item.song.trim(),
-            signalNumber: String(item.signalNumber || '').trim(),
-          }));
-
-        setSavedEntries(normalized);
-      } catch (error) {
-        console.error('Failed to import library:', error);
-      }
-    };
-
-    reader.readAsText(file);
-
-    event.target.value = '';
   };
 
   return (
