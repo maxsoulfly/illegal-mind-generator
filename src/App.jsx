@@ -11,6 +11,7 @@ import { generateHybridPrompt } from './engine/generateHybridPrompt';
 import useSavedEntries from './hooks/useSavedEntries';
 import InputForm from './components/InputForm';
 import GeneratedOutput from './components/GeneratedOutput';
+import SavedLibrary from './components/SavedLibrary';
 
 const defaultFormData = {
   project: 'Illegal Mind',
@@ -103,13 +104,22 @@ function App() {
           />
         </div>
 
-        <GeneratedOutput
-          titles={titles}
-          thumbnails={thumbnails}
-          descriptions={descriptions}
-          hashtags={hashtags}
-          hybridPrompt={hybridPrompt}
-        />
+        <div className="panel">
+          <SavedLibrary
+            savedEntries={savedEntries}
+            onLoadEntry={handleLoadEntry}
+            onDeleteEntry={handleDeleteEntry}
+            onExportEntries={handleExportEntries}
+            onImportEntries={handleImportEntries}
+          />
+          <GeneratedOutput
+            titles={titles}
+            thumbnails={thumbnails}
+            descriptions={descriptions}
+            hashtags={hashtags}
+            hybridPrompt={hybridPrompt}
+          />
+        </div>
       </div>
     </div>
   );
