@@ -1,3 +1,10 @@
+function getRandomItem(items) {
+  if (!items || items.length === 0) {
+    return '';
+  }
+
+  return items[Math.floor(Math.random() * items.length)];
+}
 function joinTitleWords(words) {
   if (words.length === 0) return '';
   if (words.length === 1) return words[0];
@@ -16,7 +23,7 @@ function buildTransformationVariations(formData, config) {
   const titleTagMap = config.titleTagMap || {};
   const mappedWords = selectedTags.map((tag) => {
     const options = titleTagMap[tag] || [tag];
-    return options[0];
+    return getRandomItem(options) || tag;
   });
 
   const suffixes = config.titleVariationSuffixes || [];
@@ -32,7 +39,9 @@ function buildTransformationVariations(formData, config) {
     suffixes[2] ? `${joined} ${suffixes[2]}` : `${joined} Mix`,
   ];
 
-  return variations.slice(0, 5);
+  const uniqueVariations = [...new Set(variations.filter(Boolean))];
+
+  return uniqueVariations.slice(0, 5);
 }
 
 function shuffleArray(items) {

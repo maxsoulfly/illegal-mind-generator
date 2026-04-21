@@ -59,24 +59,61 @@
       "DARKER FEEL"
     ],
     "thumbnailTagMap": {
-      "slower": ["SLOWED DOWN"],
-      "heavier": ["HEAVIER", "HEAVIER VERSION"],
-      "darker": ["DARKER NOW"],
-      "alt metal": ["ALT METAL"],
-      "nu metal": ["NU METALIZED", "BUT NU METAL", "NOW NU METAL?"],
-      "punk": ["PUNK REWORK"],
-      "hardcore": ["HARDCORE EDGE", "GOES HARDER"],
-      "modernized": ["MODERNIZED"]
+      "slower": [
+        "SLOWED DOWN",
+        "SLOWED HARD",
+        "LOWER AND SLOWER",
+        "HALF-STEP HEAVIER"
+      ],
+      "heavier": [
+        "HITS HARDER",
+        "MORE WEIGHT",
+        "EXTRA HEAVY",
+        "CRUSHES HARDER"
+      ],
+      "darker": [
+        "DARKER FEEL",
+        "BLEAKER",
+        "SHADOW MODE",
+        "COLDER TONE",
+        "MORE MENACE"
+      ],
+      "alt metal": ["ALT METALIZED", "ALT METAL EDGE"],
+      "punk": ["PUNK REWORK", "PUNKIER", "PUNK ENERGY", "PUNK ATTITUDE"],
+      "hardcore": [
+        "HARDCORE EDGE",
+        "HARDCORE PUSH",
+        "MORE AGGRESSION",
+        "BREAKDOWN ENERGY"
+      ],
+      "modernized": [
+        "UPDATED FEEL",
+        "NEW ERA MIX",
+        "REBUILT NOW",
+        "MODERN EDGE",
+        "FRESHER HIT"
+      ],
+      "nu metal": [
+        "NU METALIZED",
+        "NOW NU METAL?",
+        "MORE GROOVE",
+        "BIGGER BOUNCE"
+      ]
     },
     "titleTagMap": {
-      "slower": ["Slower", "Slowed Down"],
-      "heavier": ["Heavier", "Heavy"],
-      "darker": ["Darker"],
-      "alt metal": ["Alt Metal"],
-      "punk": ["Punk"],
-      "hardcore": ["Hardcore"],
-      "modernized": ["Modernized"],
-      "nu metal": ["Nu Metal", "Groovy"]
+      "slower": ["Slower", "Slowed Down", "Dragged Out", "Lower And Slower"],
+      "heavier": ["Heavier", "Heavy", "Harder Hitting", "More Weight"],
+      "darker": ["Darker", "Bleaker", "Colder", "More Menacing"],
+      "alt metal": ["Alt Metal", "Alt Metalized", "Alternative Metal"],
+      "punk": ["Punk", "Punkier", "More Punk", "Punk Driven"],
+      "hardcore": [
+        "Hardcore",
+        "More Aggressive",
+        "Hardcore Leaning",
+        "Breakdown Ready"
+      ],
+      "modernized": ["Modernized", "Updated", "Rebuilt", "New Era"],
+      "nu metal": ["Nu Metal", "Groovier", "More Bounce", "Nu Metalized"]
     }
   }
 }
