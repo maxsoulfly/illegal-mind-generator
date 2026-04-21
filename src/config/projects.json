@@ -119,7 +119,7 @@
       "long": {
         "broadcastHeader": [
           "[SYSTEM BROADCAST // CH-42]\nRecovered Transmission: FILE_{fileId}\nOperator status: {operatorStatus}.",
-          "[SYSTEM BROADCAST // SIG-{fileId}]\nTransmission locked: FILE_{fileId}\nOperator state: {operatorStatus}.",
+          "[RECOVERED BROADCAST // SIG-{fileId}]\nTransmission locked: FILE_{fileId}\nOperator state: {operatorStatus}.",
           "[GRID TRANSMISSION // NODE-42]\nSignal recovered: FILE_{fileId}\nOperator condition: {operatorStatus}.",
           "[ARCHIVE BROADCAST // CH-42]\nRecovered file: FILE_{fileId}\nOperator stability: {operatorStatus}.",
           "[WASTELAND FEED // CH-42]\nSignal trace: FILE_{fileId}\nOperator sync: {operatorStatus}."
@@ -131,12 +131,24 @@
           "The source frequency collapsed under current conditions.",
           "What once worked no longer holds in this atmosphere."
         ],
-        "storyBlock": [],
-        "logBlock": [],
+        "storyBlock": [
+          "\"{song}\" by {artist} was pulled from the archives and found unstable. {tagLine}.",
+          "The original version of \"{song}\" couldn’t survive unchanged. {tagLine}.",
+          "{artist}’s \"{song}\" was reprocessed for this cycle — {tagLine}.",
+          "This signal traces back to \"{song}\" by {artist}, now altered — {tagLine}."
+        ],
+        "logBlock": [
+          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Signal stabilized under Illegal Mind control."
+        ],
         "reconstructedSignal": [],
         "statusLines": [],
         "technicalBreakdown": [],
-        "closingSignal": [],
+        "closingSignal": [
+          "[SIGNAL {num}: TRANSMISSION STABLE]",
+          "[SIGNAL {num}: LOOP LOCKED]",
+          "[SIGNAL {num}: BROADCAST CONFIRMED]",
+          "[SIGNAL {num}: SYSTEM HOLDING]"
+        ],
         "philosophyLine": [],
         "supportBlock": [
           "📡 SUPPORT NODE\n▶️ Originals: {links.youtube}\n💿 Bandcamp: {links.bandcamp}\n☕ Fuel supply: {links.support}\n🌐 Links: {links.linktree}"

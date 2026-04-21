@@ -45,17 +45,36 @@ export function generateDescriptions(formData, projectConfig) {
 
   const fileId = formData.signalNumber || '00';
 
-  const broadcastTemplate = pickRandom(
-    projectConfig?.descriptionTemplates?.long?.broadcastHeader,
-  );
-
+  // --- Intro block ---
   const introTemplate = pickRandom(
     projectConfig?.descriptionTemplates?.long?.introHook,
   );
 
+  // --- Broadcast block ---
+
+  const broadcastTemplate = pickRandom(
+    projectConfig?.descriptionTemplates?.long?.broadcastHeader,
+  );
   const broadcastBlock = broadcastTemplate
     .replace(/\{fileId\}/g, fileId)
     .replace(/\{operatorStatus\}/g, operatorStatus);
+
+  // --- Story block ---
+  const storyTemplate = pickRandom(
+    projectConfig?.descriptionTemplates?.long?.storyBlock,
+  );
+
+  const storyBlock = storyTemplate
+    .replace(/\{artist\}/g, formData.artist || '')
+    .replace(/\{song\}/g, formData.song || '')
+    .replace(/\{tagLine\}/g, tagLine);
+
+  // --- Log block ---
+  const logTemplate = pickRandom(
+    projectConfig?.descriptionTemplates?.long?.logBlock,
+  );
+
+  const logBlock = logTemplate.replace(/\{tagLine\}/g, tagLine);
 
   // --- Support block ---
   const supportTemplate =
@@ -66,13 +85,29 @@ export function generateDescriptions(formData, projectConfig) {
     projectConfig?.links,
   );
 
+  // --- Closing block ---
+  const closingTemplate = pickRandom(
+    projectConfig?.descriptionTemplates?.long?.closingSignal,
+  );
+
+  const closingBlock = closingTemplate.replace(
+    /\{num\}/g,
+    formData.signalNumber || '00',
+  );
+
   // --- Long description ---
   const longDescription = [
     broadcastBlock,
     '',
     introTemplate,
     '',
+    storyBlock,
+    '',
+    logBlock,
+    '',
     supportBlock,
+    '',
+    closingBlock,
   ].join('\n');
 
   // --- Shorts ---
