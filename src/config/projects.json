@@ -118,12 +118,26 @@
     "descriptionTemplates": {
       "long": {
         "broadcastHeader": [
-          "[SYSTEM BROADCAST // CH-42]\nRecovered Transmission: FILE_{fileId}\nOperator status: {operatorStatus}."
+          "[SYSTEM BROADCAST // CH-42]\nRecovered Transmission: FILE_{fileId}\nOperator status: {operatorStatus}.",
+          "[SYSTEM BROADCAST // SIG-{fileId}]\nTransmission locked: FILE_{fileId}\nOperator state: {operatorStatus}.",
+          "[GRID TRANSMISSION // NODE-42]\nSignal recovered: FILE_{fileId}\nOperator condition: {operatorStatus}.",
+          "[ARCHIVE BROADCAST // CH-42]\nRecovered file: FILE_{fileId}\nOperator stability: {operatorStatus}.",
+          "[WASTELAND FEED // CH-42]\nSignal trace: FILE_{fileId}\nOperator sync: {operatorStatus}."
         ],
-        "introHook": [],
+        "introHook": [
+          "The original frequency was too unstable for this cycle.",
+          "The original signal couldn't survive this environment.",
+          "This transmission was never meant to exist in this state.",
+          "The source frequency collapsed under current conditions.",
+          "What once worked no longer holds in this atmosphere."
+        ],
         "storyBlock": [],
         "logBlock": [],
         "reconstructedSignal": [],
+        "statusLines": [],
+        "technicalBreakdown": [],
+        "closingSignal": [],
+        "philosophyLine": [],
         "supportBlock": [
           "📡 SUPPORT NODE\n▶️ Originals: {links.youtube}\n💿 Bandcamp: {links.bandcamp}\n☕ Fuel supply: {links.support}\n🌐 Links: {links.linktree}"
         ]

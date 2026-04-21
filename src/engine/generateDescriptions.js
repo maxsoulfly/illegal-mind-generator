@@ -4,6 +4,11 @@ function toTitleCase(text) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 }
+
+function pickRandom(arr = []) {
+  return arr[Math.floor(Math.random() * arr.length)] || '';
+}
+
 function replaceLinkPlaceholders(template, links = {}) {
   return template.replace(/\{links\.(.*?)\}/g, (_, key) => {
     return links?.[key] ?? '';
@@ -31,20 +36,47 @@ function buildTagLine(formData) {
 export function generateDescriptions(formData, projectConfig) {
   const tagLine = buildTagLine(formData);
 
-  const broadcastTemplate =
-    projectConfig?.descriptionTemplates?.long?.broadcastHeader?.[0] ?? '';
+  // --- Broadcast block ---
+  const operatorStatuses = projectConfig?.operatorStatuses || [];
 
+  const operatorStatus =
+    operatorStatuses[Math.floor(Math.random() * operatorStatuses.length)] ||
+    'unstable cycle';
+
+  const fileId = formData.signalNumber || '00';
+
+  const broadcastTemplate = pickRandom(
+    projectConfig?.descriptionTemplates?.long?.broadcastHeader,
+  );
+
+  const introTemplate = pickRandom(
+    projectConfig?.descriptionTemplates?.long?.introHook,
+  );
+
+  const broadcastBlock = broadcastTemplate
+    .replace(/\{fileId\}/g, fileId)
+    .replace(/\{operatorStatus\}/g, operatorStatus);
+
+  // --- Support block ---
   const supportTemplate =
     projectConfig?.descriptionTemplates?.long?.supportBlock?.[0] ?? '';
 
+  const supportBlock = replaceLinkPlaceholders(
+    supportTemplate,
+    projectConfig?.links,
+  );
+
+  // --- Long description ---
   const longDescription = [
-    broadcastTemplate,
+    broadcastBlock,
     '',
-    replaceLinkPlaceholders(supportTemplate, projectConfig?.links),
+    introTemplate,
+    '',
+    supportBlock,
   ].join('\n');
 
-  const shortTemplates =
-  projectConfig?.descriptionTemplates?.shorts || [];
+  // --- Shorts ---
+  const shortTemplates = projectConfig?.descriptionTemplates?.shorts || [];
 
   const shortDescriptions = shortTemplates.map((template) =>
     template
