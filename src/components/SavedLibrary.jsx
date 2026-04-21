@@ -30,14 +30,13 @@ function SavedLibrary({
       </button>
       {showSavedLibrary && (
         <div className="saved-library-header">
-          <div className="panel" style={{ marginTop: '16px' }}>
+          <div className="panel">
             <h3 className="panel-title">Saved Songs</h3>
             <input
               className="form-input"
               placeholder="Search saved songs..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{ marginBottom: '12px' }}
             />
             <div className="saved-library-list">
               {filteredEntries.length === 0 && (
@@ -70,7 +69,7 @@ function SavedLibrary({
               ))}
             </div>
 
-            <div className="button-row" style={{ marginTop: '16px' }}>
+            <div className="button-row">
               <button
                 type="button"
                 className="button-secondary"

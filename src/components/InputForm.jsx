@@ -6,7 +6,45 @@ function InputForm({
   projectConfig,
   projectOptions,
   onSaveEntry,
+  savedEntries,
 }) {
+  const artistSuggestions = [
+    ...new Set(savedEntries.map((entry) => entry.artist)),
+  ]
+    .filter(Boolean)
+    .filter((artist) =>
+      artist.toLowerCase().includes(formData.artist.toLowerCase()),
+    );
+
+  const artistValue = formData.artist.trim().toLowerCase();
+
+  const songSuggestions = [
+    ...new Set(
+      savedEntries
+        .filter((entry) => entry.artist.trim().toLowerCase() === artistValue)
+        .map((entry) => entry.song)
+        .filter(Boolean),
+    ),
+  ];
+
+  useEffect(() => {
+    const artistValue = formData.artist.trim().toLowerCase();
+    const songValue = formData.song.trim().toLowerCase();
+
+    const match = savedEntries.find(
+      (entry) =>
+        entry.artist.trim().toLowerCase() === artistValue &&
+        entry.song.trim().toLowerCase() === songValue,
+    );
+
+    if (!match) return;
+
+    setFormData((prev) => ({
+      ...prev,
+      signalNumber: match.signalNumber || prev.signalNumber,
+    }));
+  }, [formData.artist, formData.song, savedEntries, setFormData]);
+
   useEffect(() => {
     if (!formData.useCustomArtistShort) return;
 
@@ -89,7 +127,13 @@ function InputForm({
           placeholder="Artist"
           value={formData.artist}
           onChange={handleChange}
+          list="artist-suggestions"
         />
+        <datalist id="artist-suggestions">
+          {artistSuggestions.map((artist) => (
+            <option key={artist} value={artist} />
+          ))}
+        </datalist>
       </div>
 
       <label className="toggle-row">
@@ -129,7 +173,13 @@ function InputForm({
           placeholder="Song"
           value={formData.song}
           onChange={handleChange}
+          list="song-suggestions"
         />
+        <datalist id="song-suggestions">
+          {[...new Set(songSuggestions)].map((song) => (
+            <option key={song} value={song} />
+          ))}
+        </datalist>
       </div>
 
       <div className="form-group">
