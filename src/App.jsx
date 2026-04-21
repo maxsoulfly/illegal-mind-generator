@@ -59,20 +59,20 @@ function App() {
   const generatedOutput = useMemo(() => {
     const titles = generateTitles(formData, projectConfig);
     const thumbnails = generateThumbnails(formData, projectConfig);
-    const descriptions = generateDescriptions(formData);
+    const descriptionOutput = generateDescriptions(formData, projectConfig);
     const hashtags = generateHashtags(formData, projectConfig);
     const hybridPrompt = generateHybridPrompt(
       formData,
       titles,
       thumbnails,
-      descriptions,
+      descriptionOutput.shortDescriptions,
       hashtags,
     );
 
     return {
       titles,
       thumbnails,
-      descriptions,
+      descriptionOutput,
       hashtags,
       hybridPrompt,
     };
@@ -121,10 +121,12 @@ function App() {
           <GeneratedOutput
             titles={generatedOutput.titles}
             thumbnails={generatedOutput.thumbnails}
-            descriptions={generatedOutput.descriptions}
+            descriptions={generatedOutput.descriptionOutput.shortDescriptions}
             hashtags={generatedOutput.hashtags}
             hybridPrompt={generatedOutput.hybridPrompt}
             onRegenerate={handleRegenerate}
+            videoType={formData.videoType}
+            longDescription={generatedOutput.descriptionOutput.longDescription}
           />
         </div>
       </div>

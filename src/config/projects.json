@@ -114,6 +114,33 @@
       ],
       "modernized": ["Modernized", "Updated", "Rebuilt", "New Era"],
       "nu metal": ["Nu Metal", "Groovier", "More Bounce", "Nu Metalized"]
-    }
+    },
+    "descriptionTemplates": {
+      "long": {
+        "broadcastHeader": [
+          "[SYSTEM BROADCAST // CH-42]\nRecovered Transmission: FILE_{fileId}\nOperator status: {operatorStatus}."
+        ],
+        "introHook": [],
+        "storyBlock": [],
+        "logBlock": [],
+        "reconstructedSignal": [],
+        "supportBlock": [
+          "📡 SUPPORT NODE\n▶️ Originals: {links.youtube}\n💿 Bandcamp: {links.bandcamp}\n☕ Fuel supply: {links.support}\n🌐 Links: {links.linktree}"
+        ]
+      }
+    },
+    "links": {
+      "youtube": "https://youtube.com/@illegalmind",
+      "bandcamp": "https://illegalmind.bandcamp.com/",
+      "support": "https://paypal.me/illegalmind",
+      "linktree": "https://linktr.ee/illegalmind"
+    },
+    "operatorStatuses": [
+      "unstable cycle",
+      "signal drift detected",
+      "loop integrity compromised",
+      "cognitive noise elevated",
+      "partial desync"
+    ]
   }
 }

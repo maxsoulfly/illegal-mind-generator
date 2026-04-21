@@ -6,6 +6,8 @@ function GeneratedOutput({
   hashtags,
   hybridPrompt,
   onRegenerate,
+  longDescription,
+  videoType,
 }) {
   return (
     <div className="output-stack">
@@ -63,12 +65,22 @@ function GeneratedOutput({
       <div className="panel">
         <h2 className="panel-title">Descriptions</h2>
 
-        {descriptions.map((description, index) => (
-          <div key={index} className="output-item terminal-block">
-            <p>{description}</p>
-            <CopyButton text={description} />
+        {/* LONG */}
+        {videoType === 'Long' && (
+          <div className="output-item terminal-block">
+            <p style={{ whiteSpace: 'pre-line' }}>{longDescription}</p>
+            <CopyButton text={longDescription} />
           </div>
-        ))}
+        )}
+
+        {/* SHORTS */}
+        {videoType === 'Shorts' &&
+          descriptions.map((description, index) => (
+            <div key={index} className="output-item terminal-block">
+              <p>{description}</p>
+              <CopyButton text={description} />
+            </div>
+          ))}
       </div>
 
       <div className="panel">

@@ -4,6 +4,11 @@ function toTitleCase(text) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 }
+function replaceLinkPlaceholders(template, links = {}) {
+  return template.replace(/\{links\.(.*?)\}/g, (_, key) => {
+    return links?.[key] ?? '';
+  });
+}
 
 function buildTagLine(formData) {
   const tags = (formData.transformationTags || []).map(toTitleCase);
@@ -23,12 +28,44 @@ function buildTagLine(formData) {
   return `rebuilt with a ${tags.slice(0, -1).join(', ')} and ${tags[tags.length - 1]} approach`;
 }
 
-export function generateDescriptions(formData) {
+export function generateDescriptions(formData, projectConfig) {
   const tagLine = buildTagLine(formData);
 
-  return [
-    `Recovered transmission: ${formData.artist} - ${formData.song}. Reconstructed under Signal ${formData.signalNumber}. This version was ${tagLine}.`,
-    `Archive log: This take on ${formData.song} by ${formData.artist} was ${tagLine}, shifting the original into a different space.`,
-    `Signal reconstruction note: ${formData.song} has been reshaped for this Illegal Mind rework, ${tagLine}.`,
-  ];
+  const broadcastTemplate =
+    projectConfig?.descriptionTemplates?.long?.broadcastHeader?.[0] ?? '';
+
+  const supportTemplate =
+    projectConfig?.descriptionTemplates?.long?.supportBlock?.[0] ?? '';
+
+  const longDescription = [
+    broadcastTemplate,
+    '',
+    replaceLinkPlaceholders(supportTemplate, projectConfig?.links),
+  ].join('\n');
+  const signalNumber = formData.signalNumber || '00';
+
+  return {
+    shortDescriptions: [
+      `[SIGNAL_${signalNumber} // FILE_${signalNumber}]
+▓█ ${formData.artist} - ${formData.song}
+⚠️ ${tagLine}. Full pulse active in main broadcast.`,
+
+      `/// DEFIANCE LOOP_${signalNumber}
+${formData.song} by ${formData.artist} — ${tagLine}.
+☣️ Continue to central feed for full transmission.`,
+
+      `/// WSTLD_SESSION_${signalNumber}
+Drive preserved. Energy uncompromised.
+${formData.artist} - ${formData.song} — ${tagLine}.`,
+
+      `[ARCHIVE TRACE // ${signalNumber}]
+Layered vocals like armor. Drums reinforced.
+${formData.song} — ${tagLine}.`,
+
+      `/// FREQUENCY HOLD_${signalNumber}
+Sometimes resistance isn’t louder — it’s longer.
+${formData.artist} - ${formData.song} — ${tagLine}.`,
+    ],
+    longDescription,
+  };
 }
