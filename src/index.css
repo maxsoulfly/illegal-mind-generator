@@ -299,3 +299,43 @@ textarea {
   margin-bottom : 10px;
   border-bottom : 1px solid #3a2b1d;
 }
+
+.saved-entry-row {
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  gap            : 16px;
+  padding        : 10px 14px;
+  margin-bottom  : 10px;
+}
+
+.saved-entry-main {
+  display    : flex;
+  align-items: center;
+  gap        : 10px;
+  min-width  : 0;
+  flex       : 1;
+}
+
+.saved-entry-signal {
+  flex       : 0 0 auto;
+  color      : #ffcc73;
+  font-weight: 700;
+}
+
+.saved-entry-text {
+  min-width    : 0;
+  overflow     : hidden;
+  text-overflow: ellipsis;
+  white-space  : nowrap;
+}
+
+.saved-entry-actions {
+  display    : flex;
+  gap        : 8px;
+  flex-shrink: 0;
+}
+
+.saved-entry-button {
+  padding: 6px 12px;
+}
