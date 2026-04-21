@@ -149,7 +149,12 @@
           "[SIGNAL {num}: BROADCAST CONFIRMED]",
           "[SIGNAL {num}: SYSTEM HOLDING]"
         ],
-        "philosophyLine": [],
+        "philosophyLine": [
+          "// If the signal never dies, why should you?",
+          "// If the system breaks, why follow it?",
+          "// If the world is ending, why play it safe?",
+          "// If the loop repeats, break it louder."
+        ],
         "supportBlock": [
           "📡 SUPPORT NODE\n▶️ Originals: {links.youtube}\n💿 Bandcamp: {links.bandcamp}\n☕ Fuel supply: {links.support}\n🌐 Links: {links.linktree}"
         ]

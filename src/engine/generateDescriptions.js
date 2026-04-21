@@ -85,6 +85,13 @@ export function generateDescriptions(formData, projectConfig) {
     projectConfig?.links,
   );
 
+  // --- Philosophy block ---
+  const philosophyTemplate = pickRandom(
+    projectConfig?.descriptionTemplates?.long?.philosophyLine,
+  );
+
+  const philosophyBlock = philosophyTemplate;
+
   // --- Closing block ---
   const closingTemplate = pickRandom(
     projectConfig?.descriptionTemplates?.long?.closingSignal,
@@ -98,18 +105,15 @@ export function generateDescriptions(formData, projectConfig) {
   // --- Long description ---
   const longDescription = [
     broadcastBlock,
-    '',
     introTemplate,
-    '',
     storyBlock,
-    '',
     logBlock,
-    '',
-    supportBlock,
-    '',
     closingBlock,
-  ].join('\n');
-
+    philosophyBlock,
+    supportBlock,
+  ]
+    .filter(Boolean)
+    .join('\n\n');
   // --- Shorts ---
   const shortTemplates = projectConfig?.descriptionTemplates?.shorts || [];
 
