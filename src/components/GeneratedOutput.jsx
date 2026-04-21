@@ -77,7 +77,7 @@ function GeneratedOutput({
         {videoType === 'Shorts' &&
           descriptions.map((description, index) => (
             <div key={index} className="output-item terminal-block">
-              <p>{description}</p>
+              <p style={{ whiteSpace: 'pre-line' }}>{description}</p>
               <CopyButton text={description} />
             </div>
           ))}

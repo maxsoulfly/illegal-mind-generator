@@ -42,30 +42,20 @@ export function generateDescriptions(formData, projectConfig) {
     '',
     replaceLinkPlaceholders(supportTemplate, projectConfig?.links),
   ].join('\n');
-  const signalNumber = formData.signalNumber || '00';
+
+  const shortTemplates =
+  projectConfig?.descriptionTemplates?.shorts || [];
+
+  const shortDescriptions = shortTemplates.map((template) =>
+    template
+      .replace(/\{num\}/g, formData.signalNumber || '00')
+      .replace(/\{artist\}/g, formData.artist || '')
+      .replace(/\{song\}/g, formData.song || '')
+      .replace(/\{tagLine\}/g, tagLine),
+  );
 
   return {
-    shortDescriptions: [
-      `[SIGNAL_${signalNumber} // FILE_${signalNumber}]
-▓█ ${formData.artist} - ${formData.song}
-⚠️ ${tagLine}. Full pulse active in main broadcast.`,
-
-      `/// DEFIANCE LOOP_${signalNumber}
-${formData.song} by ${formData.artist} — ${tagLine}.
-☣️ Continue to central feed for full transmission.`,
-
-      `/// WSTLD_SESSION_${signalNumber}
-Drive preserved. Energy uncompromised.
-${formData.artist} - ${formData.song} — ${tagLine}.`,
-
-      `[ARCHIVE TRACE // ${signalNumber}]
-Layered vocals like armor. Drums reinforced.
-${formData.song} — ${tagLine}.`,
-
-      `/// FREQUENCY HOLD_${signalNumber}
-Sometimes resistance isn’t louder — it’s longer.
-${formData.artist} - ${formData.song} — ${tagLine}.`,
-    ],
+    shortDescriptions,
     longDescription,
   };
 }
