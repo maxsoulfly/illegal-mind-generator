@@ -195,15 +195,30 @@ function InputForm({
 
       <div className="form-group">
         <label className="form-label">Video Type</label>
-        <select
-          className="form-select"
-          name="videoType"
-          value={formData.videoType}
-          onChange={handleChange}
-        >
-          <option value="Long">Long</option>
-          <option value="Shorts">Shorts</option>
-        </select>
+
+        <div className="radio-group">
+          <label className="radio-option">
+            <input
+              type="radio"
+              name="videoType"
+              value="Long"
+              checked={formData.videoType === 'Long'}
+              onChange={handleChange}
+            />
+            <span>Long</span>
+          </label>
+
+          <label className="radio-option">
+            <input
+              type="radio"
+              name="videoType"
+              value="Shorts"
+              checked={formData.videoType === 'Shorts'}
+              onChange={handleChange}
+            />
+            <span>Shorts</span>
+          </label>
+        </div>
       </div>
 
       <div className="form-group">
