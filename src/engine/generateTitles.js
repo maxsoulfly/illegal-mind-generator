@@ -35,19 +35,109 @@ function buildTransformationVariations(formData, config) {
   return variations.slice(0, 5);
 }
 
-export function generateTitles(formData, config) {
-  const templates =
-    formData.videoType === 'Shorts' && config.shortTitleTemplates
-      ? config.shortTitleTemplates
-      : config.titleTemplates;
-  const variations = buildTransformationVariations(formData, config);
+function shuffleArray(items) {
+  const copy = [...items];
 
-  return variations.map((transformation, index) => {
-    const template = templates[index % templates.length];
-    return template
-      .replace('{num}', formData.signalNumber || 'XX')
-      .replace('{artist}', formData.artist || 'Artist')
-      .replace('{song}', formData.song || 'Song')
-      .replace('{transformation}', transformation);
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+
+  return copy;
+}
+
+function buildGeneratedArtistShort(artistRaw) {
+  const words = artistRaw.trim().split(' ').filter(Boolean);
+
+  if (words.length >= 3) {
+    return words.map((word) => word[0]).join('');
+  }
+
+  return artistRaw;
+}
+
+function getWeightedTemplates(formData, config) {
+  const isShorts = formData.videoType === 'Shorts';
+  const baseTemplates =
+    isShorts && config.shortTitleTemplates?.length
+      ? config.shortTitleTemplates
+      : config.titleTemplates || [];
+
+  if (!isShorts) {
+    return baseTemplates;
+  }
+
+  return baseTemplates.flatMap((template) => {
+    const hasArtist = template.includes('{artist}');
+    const hasSong = template.includes('{song}');
+    const hasTransformation = template.includes('{transformation}');
+
+    const isArtistSongTransformation =
+      hasArtist && hasSong && hasTransformation;
+    const isSongTransformation = !hasArtist && hasSong && hasTransformation;
+    const isArtistTransformation = hasArtist && !hasSong && hasTransformation;
+
+    if (isSongTransformation || isArtistTransformation) {
+      return [template, template, template];
+    }
+
+    if (isArtistSongTransformation) {
+      return [template];
+    }
+
+    return [];
   });
+}
+
+function fillTemplate(template, values) {
+  return template
+    .replace('{num}', values.signalNumber || 'XX')
+    .replace('{artist}', values.artist)
+    .replace('{song}', values.song)
+    .replace('{transformation}', values.transformation);
+}
+
+export function generateTitles(formData, config) {
+  const transformations = buildTransformationVariations(formData, config);
+  const weightedTemplates = getWeightedTemplates(formData, config);
+
+  if (weightedTemplates.length === 0) {
+    return [];
+  }
+
+  const artistFull = formData.artist || 'Artist';
+  const generatedArtistShort = buildGeneratedArtistShort(artistFull);
+  const artistShortFinal =
+    formData.useCustomArtistShort && formData.artistShort
+      ? formData.artistShort
+      : generatedArtistShort;
+
+  const isShorts = formData.videoType === 'Shorts';
+
+  const titles = [];
+  const usedTitles = new Set();
+  let attempts = 0;
+
+  while (titles.length < 5 && attempts < 50) {
+    const transformation =
+      transformations[attempts % transformations.length] || 'Rework';
+    const randomTemplates = shuffleArray(weightedTemplates);
+    const template = randomTemplates[0];
+
+    const title = fillTemplate(template, {
+      signalNumber: formData.signalNumber || 'XX',
+      artist: isShorts ? artistShortFinal : artistFull,
+      song: formData.song || 'Song',
+      transformation,
+    });
+
+    if (!usedTitles.has(title)) {
+      usedTitles.add(title);
+      titles.push(title);
+    }
+
+    attempts += 1;
+  }
+
+  return titles;
 }

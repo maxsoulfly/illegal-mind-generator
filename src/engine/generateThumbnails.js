@@ -29,36 +29,41 @@ function buildThumbnailVariations(formData, config) {
   return variations.slice(0, 5);
 }
 
+function buildGeneratedArtistShort(artistRaw) {
+  const words = artistRaw.trim().split(' ').filter(Boolean);
+
+  if (words.length >= 3) {
+    return words.map((word) => word[0]).join('');
+  }
+
+  return artistRaw;
+}
+
 export function generateThumbnails(formData, config) {
   const phrases = buildThumbnailVariations(formData, config);
 
-  const artistRaw = formData.artist || 'ARTIST';
+  const artistFull = (formData.artist || 'ARTIST').toUpperCase();
+  const generatedArtistShort = buildGeneratedArtistShort(
+    formData.artist || 'ARTIST',
+  ).toUpperCase();
 
-  let artistFinal;
+  const artistShortFinal =
+    formData.useCustomArtistShort && formData.artistShort
+      ? formData.artistShort.toUpperCase()
+      : generatedArtistShort;
 
-  if (formData.useCustomArtistShort && formData.artistShort) {
-    artistFinal = formData.artistShort;
-  } else {
-    const words = artistRaw.trim().split(' ').filter(Boolean);
-
-    let artistShort = artistRaw;
-
-    if (words.length >= 3) {
-      artistShort = words.map((w) => w[0]).join('');
-    }
-
-    artistFinal = artistShort;
-  }
-
-  const artist = artistFinal.toUpperCase();
   const song = (formData.song || 'SONG').toUpperCase();
 
-  return phrases.map((phrase) => {
+  return phrases.map((phrase, index) => {
     const text = phrase.toUpperCase();
+
     if (formData.videoType === 'Shorts') {
-      return `${song} // ${text}`;
+      // alternate between artist short and song
+      return index % 2 === 0
+        ? `${artistShortFinal} // ${text}`
+        : `${song} // ${text}`;
     }
 
-    return `${artist} // ${text}`;
+    return `${artistFull} // ${text}`;
   });
 }

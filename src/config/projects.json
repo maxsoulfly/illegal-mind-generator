@@ -3,14 +3,19 @@
     "name": "Illegal Mind Covers",
 
     "titleTemplates": [
-      "[SIGNAL {num}] // {song} by {artist} // {transformation} // Illegal Mind Rework",
+      "[SIGNAL {num}] // {artist} - {song} // {transformation} // Illegal Mind Rework",
+      "[SIGNAL {num}] // {song} // {transformation} // Illegal Mind Rework",
+      "[SIGNAL {num}] // {artist} // {transformation} // Illegal Mind Rework",
       "[SIGNAL {num}] // {artist} - {song} ({transformation}) // Illegal Mind Rework",
-      "[SIGNAL {num}] // {artist} - {song} but it's {transformation} // Illegal Mind Rework"
+      "[SIGNAL {num}] // {song} but it's {transformation} // Illegal Mind Rework",
+      "[SIGNAL {num}] // {artist} but it's {transformation} // Illegal Mind Rework"
     ],
     "shortTitleTemplates": [
       "{artist} - {song} // {transformation}",
+      "{song} // {transformation}",
+      "{artist} // {transformation}",
       "{song} but it's {transformation}",
-      "{song} // {transformation}"
+      "{artist} but it's {transformation}"
     ],
 
     "transformations": [
