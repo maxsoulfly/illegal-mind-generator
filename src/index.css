@@ -339,3 +339,26 @@ textarea {
 .saved-entry-button {
   padding: 6px 12px;
 }
+
+.generated-pair {
+  margin-bottom: 12px;
+  padding      : 12px 14px;
+}
+
+.generated-pair-row {
+  display        : flex;
+  align-items    : flex-start;
+  justify-content: space-between;
+  gap            : 12px;
+}
+
+.generated-pair-row+.generated-pair-row {
+  margin-top: 10px;
+}
+
+.generated-pair-text {
+  margin    : 0;
+  flex      : 1;
+  min-width : 0;
+  word-break: break-word;
+}

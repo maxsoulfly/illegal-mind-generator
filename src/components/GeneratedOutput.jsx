@@ -9,20 +9,43 @@ function GeneratedOutput({
   return (
     <div className="output-stack">
       <div className="panel">
-        <h2 className="panel-title">Generated Output</h2>
+        <h3 className="panel-title">Generated Output</h3>
 
         {titles.map((title, index) => {
-          const pairText = `Title: ${title}\nThumbnail: ${thumbnails[index]}`;
-
+          const thumbnail = thumbnails[index] ?? '';
+          const onCopy = (text) => {
+            navigator.clipboard.writeText(text);
+          };
           return (
-            <div key={index} className="output-item terminal-block">
-              <p>
-                <strong>Title:</strong> {title}
-              </p>
-              <p>
-                <strong>Thumbnail:</strong> {thumbnails[index]}
-              </p>
-              <CopyButton text={pairText} />
+            <div key={index} className="generated-pair terminal-block">
+              <div className="generated-pair-row">
+                <p className="generated-pair-text">
+                  <strong className="saved-entry-signal">Title:</strong> {title}
+                </p>
+
+                <button
+                  type="button"
+                  className="copy-button"
+                  onClick={() => onCopy(title)}
+                >
+                  Copy Title
+                </button>
+              </div>
+
+              <div className="generated-pair-row">
+                <p className="generated-pair-text">
+                  <strong className="saved-entry-signal">Thumb:</strong>{' '}
+                  {thumbnail}
+                </p>
+
+                <button
+                  type="button"
+                  className="copy-button"
+                  onClick={() => onCopy(thumbnail)}
+                >
+                  Copy Thumb
+                </button>
+              </div>
             </div>
           );
         })}
