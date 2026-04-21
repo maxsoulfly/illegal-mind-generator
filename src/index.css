@@ -496,3 +496,9 @@ textarea {
 .radio-option:has(input:checked) span {
   color: var(--color-text-inverse);
 }
+
+.regenerate-row {
+  display        : flex;
+  justify-content: flex-end;
+  margin-bottom  : var(--space-4);
+}

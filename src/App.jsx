@@ -37,6 +37,8 @@ function App() {
         };
   });
 
+  const [generationSeed, setGenerationSeed] = useState(0);
+
   const {
     savedEntries,
     handleSaveEntry,
@@ -54,33 +56,37 @@ function App() {
     return projects[formData.project] || projects.illegalMind;
   }, [formData.project]);
 
-  const titles = useMemo(() => {
-    return generateTitles(formData, projectConfig);
-  }, [formData, projectConfig]);
-  const thumbnails = useMemo(() => {
-    return generateThumbnails(formData, projectConfig);
-  }, [formData, projectConfig]);
-  const descriptions = useMemo(() => {
-    return generateDescriptions(formData);
-  }, [formData]);
-  const hashtags = useMemo(() => {
-    return generateHashtags(formData, projectConfig);
-  }, [formData, projectConfig]);
-  const hybridPrompt = useMemo(() => {
-    return generateHybridPrompt(
+  const generatedOutput = useMemo(() => {
+    const titles = generateTitles(formData, projectConfig);
+    const thumbnails = generateThumbnails(formData, projectConfig);
+    const descriptions = generateDescriptions(formData);
+    const hashtags = generateHashtags(formData, projectConfig);
+    const hybridPrompt = generateHybridPrompt(
       formData,
       titles,
       thumbnails,
       descriptions,
       hashtags,
     );
-  }, [formData, titles, thumbnails, descriptions, hashtags]);
+
+    return {
+      titles,
+      thumbnails,
+      descriptions,
+      hashtags,
+      hybridPrompt,
+    };
+  }, [formData, projectConfig, generationSeed]);
 
   const projectOptions = Object.keys(projects);
 
   // Clear form
   const handleClearForm = () => {
     setFormData(defaultFormData);
+  };
+
+  const handleRegenerate = () => {
+    setGenerationSeed((prev) => prev + 1);
   };
 
   return (
@@ -113,11 +119,12 @@ function App() {
             onImportEntries={handleImportEntries}
           />
           <GeneratedOutput
-            titles={titles}
-            thumbnails={thumbnails}
-            descriptions={descriptions}
-            hashtags={hashtags}
-            hybridPrompt={hybridPrompt}
+            titles={generatedOutput.titles}
+            thumbnails={generatedOutput.thumbnails}
+            descriptions={generatedOutput.descriptions}
+            hashtags={generatedOutput.hashtags}
+            hybridPrompt={generatedOutput.hybridPrompt}
+            onRegenerate={handleRegenerate}
           />
         </div>
       </div>
