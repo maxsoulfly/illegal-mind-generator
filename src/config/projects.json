@@ -118,31 +118,58 @@
     },
     "descriptionTagMap": {
       "slower": {
-        "technical": ["Tempo: reduced.", "Speed: lowered."]
+        "technical": ["Tempo: reduced.", "Speed: lowered."],
+        "log": [
+          "Modification: The original pulse was slowed to increase weight and space."
+        ]
       },
       "heavier": {
-        "technical": ["Weight: increased.", "Impact: reinforced."]
+        "technical": ["Weight: increased.", "Impact: reinforced."],
+        "log": [
+          "Modification: Additional weight was injected into the signal core."
+        ]
       },
       "darker": {
-        "technical": ["Tone: darkened.", "Atmosphere: colder."]
+        "technical": ["Tone: darkened.", "Atmosphere: colder."],
+        "log": [
+          "Modification: The tonal profile was shifted into a darker spectrum."
+        ]
       },
       "punk": {
-        "technical": ["Energy: accelerated.", "Drive: sharpened."]
+        "technical": ["Energy: accelerated.", "Drive: sharpened."],
+        "log": [
+          "Modification: The signal was re-driven with a more aggressive punk velocity."
+        ]
       },
       "alt metal": {
-        "technical": ["Grit: injected.", "Density: increased."]
+        "technical": ["Grit: injected.", "Density: increased."],
+        "log": [
+          "Modification: The structure was rerouted through an alternative metal framework."
+        ]
       },
       "modernized": {
-        "technical": ["Production: updated.", "Mix: rebuilt."]
+        "technical": ["Production: updated.", "Mix: rebuilt."],
+        "log": [
+          "Modification: The signal was reconstructed using modern production techniques."
+        ]
       },
       "faithful": {
-        "technical": ["Structure: preserved.", "Intent: intact."]
+        "technical": ["Structure: preserved.", "Intent: intact."],
+        "log": [
+          "Modification: Core structure preserved with minimal deviation from source."
+        ]
       },
       "hardcore": {
-        "technical": ["Aggression: elevated.", "Force: intensified."]
+        "technical": ["Aggression: elevated.", "Force: intensified."],
+        "log": [
+          "Modification: The signal was pushed toward a more aggressive hardcore execution."
+        ]
       },
       "nu metal": {
-        "technical": ["Groove: amplified.", "Rhythm: emphasized."]
+        "technical": ["Groove: amplified.", "Rhythm: emphasized."],
+        "log": [
+          "Modification: Groove elements were enhanced within a nu-metal structure."
+        ]
       }
     },
     "descriptionTemplates": {

@@ -69,13 +69,6 @@ export function generateDescriptions(formData, projectConfig) {
     .replace(/\{song\}/g, formData.song || '')
     .replace(/\{tagLine\}/g, tagLine);
 
-  // --- Log block ---
-  const logTemplate = pickRandom(
-    projectConfig?.descriptionTemplates?.long?.logBlock,
-  );
-
-  const logBlock = logTemplate.replace(/\{tagLine\}/g, tagLine);
-
   // --- Support block ---
   const supportTemplate =
     projectConfig?.descriptionTemplates?.long?.supportBlock?.[0] ?? '';
@@ -104,20 +97,55 @@ export function generateDescriptions(formData, projectConfig) {
 
   // --- Technical block ---
   const selectedTags = formData.transformationTags || [];
-  const descriptionTagMap = projectConfig?.descriptionTagMap || {};
+  const descriptionTagMap = projectConfig?.descriptionTagMap || [];
 
-  const technicalLines = selectedTags.flatMap(
+  // Step 1: pick one line per tag
+  const perTagLines = selectedTags
+    .map((tag) => {
+      const options = descriptionTagMap[tag]?.technical || [];
+      return pickRandom(options);
+    })
+    .filter(Boolean);
+
+  // Step 2: if less than 3, fill from all available
+  const allLines = selectedTags.flatMap(
     (tag) => descriptionTagMap[tag]?.technical || [],
   );
-  const shuffled = technicalLines.sort(() => 0.5 - Math.random());
 
-  const technicalBlock = shuffled.slice(0, 3).join('\n');
+  const remaining = allLines
+    .filter((line) => !perTagLines.includes(line))
+    .sort(() => 0.5 - Math.random());
+
+  const finalLines = [...perTagLines, ...remaining].slice(0, 3);
+
+  const technicalBlock = finalLines.join('\n');
+
+  // --- Story block ---
+  const logLines = selectedTags
+    .map((tag) => {
+      const options = descriptionTagMap[tag]?.log || [];
+      return pickRandom(options);
+    })
+    .filter(Boolean);
+  const shuffledLogs = logLines.sort(() => 0.5 - Math.random());
+
+  const tagLogBlock = shuffledLogs.slice(0, 1).join('\n');
+
+  // --- Log block ---
+  const logTemplate = pickRandom(
+    projectConfig?.descriptionTemplates?.long?.logBlock,
+  );
+
+  const baseLogBlock = logTemplate.replace(/\{tagLine\}/g, tagLine);
+
+  const logBlock = [baseLogBlock, tagLogBlock].filter(Boolean).join('\n');
 
   // --- Long description ---
   const longDescription = [
     broadcastBlock,
     introTemplate,
     storyBlock,
+
     technicalBlock,
     logBlock,
     closingBlock,
