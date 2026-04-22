@@ -102,11 +102,23 @@ export function generateDescriptions(formData, projectConfig) {
     formData.signalNumber || '00',
   );
 
+  // --- Technical block ---
+  const selectedTags = formData.transformationTags || [];
+  const descriptionTagMap = projectConfig?.descriptionTagMap || {};
+
+  const technicalLines = selectedTags.flatMap(
+    (tag) => descriptionTagMap[tag]?.technical || [],
+  );
+  const shuffled = technicalLines.sort(() => 0.5 - Math.random());
+
+  const technicalBlock = shuffled.slice(0, 3).join('\n');
+
   // --- Long description ---
   const longDescription = [
     broadcastBlock,
     introTemplate,
     storyBlock,
+    technicalBlock,
     logBlock,
     closingBlock,
     philosophyBlock,

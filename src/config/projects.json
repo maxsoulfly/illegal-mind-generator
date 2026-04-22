@@ -100,6 +100,7 @@
         "BIGGER BOUNCE"
       ]
     },
+
     "titleTagMap": {
       "slower": ["Slower", "Slowed Down", "Dragged Out", "Lower And Slower"],
       "heavier": ["Heavier", "Heavy", "Harder Hitting", "More Weight"],
@@ -114,6 +115,35 @@
       ],
       "modernized": ["Modernized", "Updated", "Rebuilt", "New Era"],
       "nu metal": ["Nu Metal", "Groovier", "More Bounce", "Nu Metalized"]
+    },
+    "descriptionTagMap": {
+      "slower": {
+        "technical": ["Tempo: reduced.", "Speed: lowered."]
+      },
+      "heavier": {
+        "technical": ["Weight: increased.", "Impact: reinforced."]
+      },
+      "darker": {
+        "technical": ["Tone: darkened.", "Atmosphere: colder."]
+      },
+      "punk": {
+        "technical": ["Energy: accelerated.", "Drive: sharpened."]
+      },
+      "alt metal": {
+        "technical": ["Grit: injected.", "Density: increased."]
+      },
+      "modernized": {
+        "technical": ["Production: updated.", "Mix: rebuilt."]
+      },
+      "faithful": {
+        "technical": ["Structure: preserved.", "Intent: intact."]
+      },
+      "hardcore": {
+        "technical": ["Aggression: elevated.", "Force: intensified."]
+      },
+      "nu metal": {
+        "technical": ["Groove: amplified.", "Rhythm: emphasized."]
+      }
     },
     "descriptionTemplates": {
       "long": {
