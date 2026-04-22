@@ -145,7 +145,6 @@ export function generateDescriptions(formData, projectConfig) {
     broadcastBlock,
     introTemplate,
     storyBlock,
-
     technicalBlock,
     logBlock,
     closingBlock,

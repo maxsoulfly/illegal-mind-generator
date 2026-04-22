@@ -24,6 +24,9 @@ const defaultFormData = {
   transformationTags: [],
   useCustomArtistShort: false,
   artistShort: '',
+
+  customStory: '',
+  customLogNote: '',
 };
 
 function App() {

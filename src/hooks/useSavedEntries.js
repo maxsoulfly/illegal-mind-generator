@@ -17,6 +17,9 @@ function useSavedEntries(formData, setFormData) {
       artist: formData.artist.trim(),
       song: formData.song.trim(),
       signalNumber: formData.signalNumber.trim(),
+
+      customStory: formData.customStory?.trim() || '',
+      customLogNote: formData.customLogNote?.trim() || '',
     };
 
     if (!entry.artist || !entry.song) return;
@@ -39,6 +42,8 @@ function useSavedEntries(formData, setFormData) {
       artist: entry.artist || '',
       song: entry.song || '',
       signalNumber: entry.signalNumber || '',
+      customStory: entry.customStory || '',
+      customLogNote: entry.customLogNote || '',
     }));
   };
 
@@ -88,6 +93,8 @@ function useSavedEntries(formData, setFormData) {
             artist: item.artist.trim(),
             song: item.song.trim(),
             signalNumber: String(item.signalNumber || '').trim(),
+            customStory: String(item.customStory || '').trim(),
+            customLogNote: String(item.customLogNote || '').trim(),
           }));
 
         setSavedEntries(normalized);
