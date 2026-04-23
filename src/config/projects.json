@@ -203,10 +203,10 @@
           "What once worked no longer holds in this atmosphere."
         ],
         "storyBlock": [
-          "\"{song}\" by {artist} was pulled from the archives and found unstable. {tagLine}.",
-          "The original version of \"{song}\" couldn’t survive unchanged. {tagLine}.",
-          "{artist}’s \"{song}\" was reprocessed for this cycle — {tagLine}.",
-          "This signal traces back to \"{song}\" by {artist}, now altered — {tagLine}."
+          "\"{song}\" by {artist} was pulled from the archives and found unstable. It carried the old signal well, but not in its original form. {tagLine}. It was rebuilt for a different atmosphere.",
+          "The original version of \"{song}\" could not survive unchanged. The source signal was preserved, but the surface was reworked. {tagLine}. What remains is the same transmission under different pressure.",
+          "{artist}’s \"{song}\" was recovered from an earlier cycle and processed again under current conditions. {tagLine}. The structure held, but the energy had to be rerouted.",
+          "This signal traces back to \"{song}\" by {artist}, but the original form was no longer enough. {tagLine}. The transmission was reshaped to carry more weight through the wasteland."
         ],
         "logBlock": [
           "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Signal stabilized under Illegal Mind control.",

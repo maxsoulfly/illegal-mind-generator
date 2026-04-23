@@ -33,8 +33,17 @@ function buildTagLine(formData) {
   return `rebuilt with a ${tags.slice(0, -1).join(', ')} and ${tags[tags.length - 1]} approach`;
 }
 
+function buildTagPhrase(formData) {
+  const tags = (formData.transformationTags || []).map(toTitleCase);
+  if (tags.length === 0) return 'reshaped';
+  if (tags.length === 1) return tags[0];
+  if (tags.length === 2) return `${tags[0]} and ${tags[1]}`;
+  return `${tags.slice(0, -1).join(', ')} and ${tags[tags.length - 1]}`;
+}
+
 export function generateDescriptions(formData, projectConfig) {
   const tagLine = buildTagLine(formData);
+  const tagPhrase = buildTagPhrase(formData);
 
   // --- Broadcast block ---
   const operatorStatuses = projectConfig?.operatorStatuses || [];
@@ -44,13 +53,13 @@ export function generateDescriptions(formData, projectConfig) {
     'unstable cycle';
 
   const fileCore =
-  (formData.song || '')
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((word) => word[0]?.toUpperCase() || '')
-    .join('') || 'SIG';
+    (formData.song || '')
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((word) => word[0]?.toUpperCase() || '')
+      .join('') || 'SIG';
 
-const fileId = `${fileCore}-${formData.signalNumber || '00'}`;
+  const fileId = `${fileCore}-${formData.signalNumber || '00'}`;
 
   // --- Intro block ---
   const introTemplate = pickRandom(
@@ -103,7 +112,7 @@ const fileId = `${fileCore}-${formData.signalNumber || '00'}`;
     : storyTemplate
         .replace(/\{artist\}/g, formData.artist || '')
         .replace(/\{song\}/g, formData.song || '')
-        .replace(/\{tagLine\}/g, tagLine);
+        .replace(/\{tagLine\}/g, tagPhrase);
 
   // --- Support block ---
   const supportTemplate =
@@ -131,10 +140,11 @@ const fileId = `${fileCore}-${formData.signalNumber || '00'}`;
     formData.signalNumber || '00',
   );
 
-  // --- Technical block ---
-  // const selectedTags = formData.transformationTags || [];
-  // const descriptionTagMap = projectConfig?.descriptionTagMap || [];
+  const closingCombined = [closingBlock, philosophyBlock]
+    .filter(Boolean)
+    .join('\n');
 
+  // --- Technical block ---
   // Step 1: pick one line per tag
   const perTagLines = selectedTags
     .map((tag) => {
@@ -190,8 +200,7 @@ const fileId = `${fileCore}-${formData.signalNumber || '00'}`;
     storyBlock,
     technicalBlock,
     logBlock,
-    closingBlock,
-    philosophyBlock,
+    closingCombined,
     supportBlock,
   ]
     .filter(Boolean)
@@ -204,7 +213,7 @@ const fileId = `${fileCore}-${formData.signalNumber || '00'}`;
       .replace(/\{num\}/g, formData.signalNumber || '00')
       .replace(/\{artist\}/g, formData.artist || '')
       .replace(/\{song\}/g, formData.song || '')
-      .replace(/\{tagLine\}/g, tagLine),
+      .replace(/\{tagLine\}/g, tagPhrase),
   );
 
   return {
