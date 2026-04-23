@@ -50,14 +50,28 @@ export function generateDescriptions(formData, projectConfig) {
     projectConfig?.descriptionTemplates?.long?.introHook,
   );
 
+  // --- Status block ---
+  const statusTemplates =
+    projectConfig?.descriptionTemplates?.long?.statusLines || [];
+
+  const selectedStatus = [...statusTemplates]
+    .sort(() => 0.5 - Math.random())
+    .slice(0, 2);
+
+  const statusBlock = selectedStatus.join('\n');
+
   // --- Broadcast block ---
 
   const broadcastTemplate = pickRandom(
     projectConfig?.descriptionTemplates?.long?.broadcastHeader,
   );
-  const broadcastBlock = broadcastTemplate
+  const broadcastHeader = broadcastTemplate
     .replace(/\{fileId\}/g, fileId)
     .replace(/\{operatorStatus\}/g, operatorStatus);
+
+  const broadcastBlock = [broadcastHeader, statusBlock]
+    .filter(Boolean)
+    .join('\n');
 
   // --- Story block ---
   const storyTemplate = pickRandom(

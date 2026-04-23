@@ -195,10 +195,25 @@
           "This signal traces back to \"{song}\" by {artist}, now altered — {tagLine}."
         ],
         "logBlock": [
-          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Signal stabilized under Illegal Mind control."
+          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Signal stabilized under Illegal Mind control.",
+          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Signal integrity maintained under manual override.",
+          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Reconstruction completed with minimal data loss.",
+          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Signal passed through controlled distortion layers.",
+          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Core structure retained, surface layers altered.",
+          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Signal stabilized after multiple degradation cycles.",
+          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Output calibrated for current atmospheric conditions."
         ],
         "reconstructedSignal": [],
-        "statusLines": [],
+        "statusLines": [
+          "Atmospheric density: Critical.",
+          "Grid status: Overloaded.",
+          "Signal weight: Increased.",
+          "Loop stability: Fragile.",
+          "Transmission pressure: Rising.",
+          "Static accumulation: Severe.",
+          "Archive integrity: Compromised.",
+          "Noise floor: Elevated."
+        ],
         "technicalBreakdown": [],
         "closingSignal": [
           "[SIGNAL {num}: TRANSMISSION STABLE]",
