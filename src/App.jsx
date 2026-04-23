@@ -13,8 +13,10 @@ import InputForm from './components/InputForm';
 import GeneratedOutput from './components/GeneratedOutput';
 import SavedLibrary from './components/SavedLibrary';
 
+const DEFAULT_PROJECT_KEY = Object.keys(projects)[0];
+
 const defaultFormData = {
-  project: 'Illegal Mind',
+  project: DEFAULT_PROJECT_KEY,
   artist: '',
   song: '',
   signalNumber: '',
@@ -34,7 +36,10 @@ function App() {
     const savedFormData = localStorage.getItem('formData');
 
     return savedFormData
-      ? JSON.parse(savedFormData)
+      ? {
+          ...defaultFormData,
+          ...JSON.parse(savedFormData),
+        }
       : {
           ...defaultFormData,
         };
@@ -56,7 +61,9 @@ function App() {
   }, [formData]);
 
   const projectConfig = useMemo(() => {
-    return projects[formData.project] || projects.illegalMind;
+    return (
+      projects[formData.project] || projects[defaultFormData.project] || {}
+    );
   }, [formData.project]);
 
   const generatedOutput = useMemo(() => {
@@ -85,7 +92,7 @@ function App() {
 
   // Clear form
   const handleClearForm = () => {
-    setFormData(defaultFormData);
+    setFormData({ ...defaultFormData });
   };
 
   const handleRegenerate = () => {

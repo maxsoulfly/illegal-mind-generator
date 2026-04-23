@@ -5,7 +5,7 @@ function toHashtag(text) {
     .join('')}`;
 }
 
-export function generateHashtags(formData, config) {
+export function generateHashtags(formData = {}, config = {}) {
   const baseTags = config.hashtags || [];
 
   const dynamicTags = [
@@ -14,7 +14,7 @@ export function generateHashtags(formData, config) {
     formData.videoType ? toHashtag(formData.videoType) : null,
   ].filter(Boolean);
 
-  const tagBasedHashtags = (formData.transformationTags || []).map(toHashtag);
+  const tagBasedHashtags = (formData?.transformationTags || []).map(toHashtag);
 
   const allTags = [...baseTags, ...dynamicTags, ...tagBasedHashtags];
 

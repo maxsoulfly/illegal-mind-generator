@@ -36,8 +36,8 @@ function buildShortTransformationPhrase(tags = [], config = {}) {
   return `${limitedWords.join(' ')} Rework`;
 }
 
-function buildTransformationVariations(formData, config) {
-  const selectedTags = formData.transformationTags || [];
+function buildTransformationVariations(formData = {}, config = {}) {
+  const selectedTags = formData?.transformationTags || [];
 
   if (selectedTags.length === 0) {
     return (config.transformations || []).slice(0, 5);
@@ -94,7 +94,7 @@ function buildGeneratedArtistShort(artistRaw) {
   return artistRaw;
 }
 
-function getWeightedTemplates(formData, config) {
+function getWeightedTemplates(formData = {}, config = {}) {
   const isShorts = formData.videoType === 'Shorts';
   const baseTemplates =
     isShorts && config.shortTitleTemplates?.length
@@ -135,7 +135,7 @@ function fillTemplate(template, values) {
     .replace('{transformation}', values.transformation);
 }
 
-export function generateTitles(formData, config) {
+export function generateTitles(formData = {}, config = {}) {
   const transformations = buildTransformationVariations(formData, config);
   const weightedTemplates = getWeightedTemplates(formData, config);
 

@@ -25,8 +25,8 @@ function shuffleArray(items) {
   return copy;
 }
 
-function buildThumbnailVariations(formData, config) {
-  const selectedTags = formData.transformationTags || [];
+function buildThumbnailVariations(formData = {}, config = {}) {
+  const selectedTags = formData?.transformationTags || [];
 
   if (selectedTags.length === 0) {
     return shuffleArray(config.thumbnailWords || []).slice(0, 5);
@@ -78,7 +78,7 @@ function getRandomItem(items) {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-export function generateThumbnails(formData, config) {
+export function generateThumbnails(formData = {}, config = {}) {
   const phrases = buildThumbnailVariations(formData, config);
 
   const artistFull = (formData.artist || 'ARTIST').toUpperCase();

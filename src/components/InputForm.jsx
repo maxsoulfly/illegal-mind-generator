@@ -225,7 +225,7 @@ function InputForm({
         <label className="form-label">Transformation Tags</label>
 
         <div className="tag-list">
-          {projectConfig.availableTags.map((tag) => {
+          {(projectConfig.availableTags || []).map((tag) => {
             const isActive = (formData.transformationTags || []).includes(tag);
 
             return (
