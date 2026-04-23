@@ -193,6 +193,23 @@ export function generateDescriptions(formData, projectConfig) {
 
   const logBlock = [baseLogBlock, tagLogBlock].filter(Boolean).join('\n');
 
+  // --- Short tag phrase ---
+  function buildShortTagPhrase(formData) {
+    const tags = (formData.transformationTags || []).map(toTitleCase);
+
+    if (tags.length === 0) return 'Rework';
+
+    const shuffled = [...tags].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, 2);
+
+    if (selected.length === 1) return selected[0];
+    if (selected.length === 2) return `${selected[0]} and ${selected[1]}`;
+
+    return 'Rework';
+  }
+
+  const shortTagPhrase = buildShortTagPhrase(formData);
+
   // --- Long description ---
   const longDescription = [
     broadcastBlock,
@@ -213,7 +230,7 @@ export function generateDescriptions(formData, projectConfig) {
       .replace(/\{num\}/g, formData.signalNumber || '00')
       .replace(/\{artist\}/g, formData.artist || '')
       .replace(/\{song\}/g, formData.song || '')
-      .replace(/\{tagLine\}/g, tagPhrase),
+      .replace(/\{tagLine\}/g, shortTagPhrase),
   );
 
   return {

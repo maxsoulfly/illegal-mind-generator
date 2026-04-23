@@ -247,10 +247,10 @@
       },
       "shorts": [
         "[SIGNAL_{num} // FILE_{num}]\n▓█ {artist} - {song}\n⚠️ {tagLine}. Full pulse active in main broadcast.",
-        "/// DEFIANCE LOOP_{num}\n{song} by {artist} — {tagLine}.\n☣️ Continue to central feed for full transmission.",
-        "/// WSTLD_SESSION_{num}\nDrive preserved. Energy uncompromised.\n{artist} - {song} — {tagLine}.",
-        "[ARCHIVE TRACE // {num}]\nLayered vocals like armor. Drums reinforced.\n{song} — {tagLine}.",
-        "/// FREQUENCY HOLD_{num}\nSometimes resistance isn’t louder — it’s longer.\n{artist} - {song} — {tagLine}."
+        "/// DEFIANCE LOOP_{num}\n{song} by {artist} // {tagLine}.\n☣️ Continue to central feed for full transmission.",
+        "/// WSTLD_SESSION_{num}\nDrive preserved. Energy uncompromised.\n{artist} - {song} // {tagLine}.",
+        "[ARCHIVE TRACE // {num}]\nLayered vocals like armor. Drums reinforced.\n{song} // {tagLine}.",
+        "/// FREQUENCY HOLD_{num}\nSometimes resistance isn’t louder — it’s longer.\n{artist} - {song} // {tagLine}."
       ]
     },
     "links": {

@@ -13,11 +13,39 @@ function joinTitleWords(words) {
   return `${words.slice(0, -1).join(', ')} & ${words[words.length - 1]}`;
 }
 
+function buildShortTransformationPhrase(tags = [], config = {}) {
+  if (tags.length === 0) {
+    return 'Rework';
+  }
+
+  const titleTagMap = config.titleTagMap || {};
+
+  const pickedWords = tags
+    .map((tag) => {
+      const options = titleTagMap[tag] || [tag];
+      return getRandomItem(options) || tag;
+    })
+    .filter(Boolean);
+
+  const limitedWords = shuffleArray(pickedWords).slice(0, 2);
+
+  if (limitedWords.length === 0) {
+    return 'Rework';
+  }
+
+  return `${limitedWords.join(' ')} Rework`;
+}
+
 function buildTransformationVariations(formData, config) {
   const selectedTags = formData.transformationTags || [];
 
   if (selectedTags.length === 0) {
     return (config.transformations || []).slice(0, 5);
+  }
+
+  const isShorts = formData.videoType === 'Shorts';
+  if (isShorts) {
+    return [buildShortTransformationPhrase(selectedTags, config)];
   }
 
   const titleTagMap = config.titleTagMap || {};
@@ -27,8 +55,9 @@ function buildTransformationVariations(formData, config) {
   });
 
   const suffixes = config.titleVariationSuffixes || [];
-  const joined = joinTitleWords(mappedWords);
-  const firstTwo = joinTitleWords(mappedWords.slice(0, 2)) || joined;
+  const limitedWords = shuffleArray(mappedWords).slice(0, 2);
+  const joined = joinTitleWords(limitedWords);
+  const firstTwo = joined;
   const lastWord = mappedWords[mappedWords.length - 1] || joined;
 
   const variations = [
