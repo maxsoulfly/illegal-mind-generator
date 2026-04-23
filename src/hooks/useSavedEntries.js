@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 
+const buildEntryId = (artist, song, signalNumber) =>
+  `${artist}-${song}-${signalNumber}`.trim().toLowerCase().replace(/\s+/g, ' ');
+
 function useSavedEntries(formData, setFormData) {
   const [savedEntries, setSavedEntries] = useState(() => {
     const saved = localStorage.getItem('savedEntries');
@@ -13,26 +16,22 @@ function useSavedEntries(formData, setFormData) {
   // Save entry
   const handleSaveEntry = () => {
     const entry = {
-      id: `${formData.artist}-${formData.song}-${formData.signalNumber}`.toLowerCase(),
+      id: buildEntryId(formData.artist, formData.song, formData.signalNumber),
       artist: formData.artist.trim(),
       song: formData.song.trim(),
       signalNumber: formData.signalNumber.trim(),
 
       customStory: formData.customStory?.trim() || '',
       customLogNote: formData.customLogNote?.trim() || '',
+      transformationTags: formData.transformationTags || [],
     };
 
     if (!entry.artist || !entry.song) return;
 
-    setSavedEntries((prev) => {
-      const exists = prev.some((item) => item.id === entry.id);
-
-      if (exists) {
-        return prev.map((item) => (item.id === entry.id ? entry : item));
-      }
-
-      return [entry, ...prev];
-    });
+    setSavedEntries((prev) => [
+      entry,
+      ...prev.filter((item) => item.id !== entry.id),
+    ]);
   };
 
   // Load entry
@@ -44,6 +43,7 @@ function useSavedEntries(formData, setFormData) {
       signalNumber: entry.signalNumber || '',
       customStory: entry.customStory || '',
       customLogNote: entry.customLogNote || '',
+      transformationTags: entry.transformationTags || [],
     }));
   };
 
@@ -95,6 +95,9 @@ function useSavedEntries(formData, setFormData) {
             signalNumber: String(item.signalNumber || '').trim(),
             customStory: String(item.customStory || '').trim(),
             customLogNote: String(item.customLogNote || '').trim(),
+            transformationTags: Array.isArray(item.transformationTags)
+              ? item.transformationTags
+              : [],
           }));
 
         setSavedEntries(normalized);
