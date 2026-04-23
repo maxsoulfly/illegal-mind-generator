@@ -45,6 +45,13 @@ function App() {
         };
   });
 
+  const [panelVisibility, setPanelVisibility] = useState({
+    titles: true,
+    descriptions: true,
+    hashtags: true,
+    hybridPrompt: true,
+  });
+
   const [generationSeed, setGenerationSeed] = useState(0);
 
   const {
@@ -103,7 +110,11 @@ function App() {
     <div className="app-shell">
       <h1 className="app-title">YouTube Generator</h1>
       <div className="regenerate-row">
-        <button type="button" className="button-primary" onClick={handleRegenerate}>
+        <button
+          type="button"
+          className="button-primary"
+          onClick={handleRegenerate}
+        >
           Regenerate
         </button>
       </div>
@@ -141,6 +152,8 @@ function App() {
             hybridPrompt={generatedOutput.hybridPrompt}
             videoType={formData.videoType}
             longDescription={generatedOutput.descriptionOutput.longDescription}
+            panelVisibility={panelVisibility}
+            setPanelVisibility={setPanelVisibility}
           />
         </div>
       </div>
