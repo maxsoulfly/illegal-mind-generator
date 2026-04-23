@@ -102,6 +102,11 @@ function App() {
   return (
     <div className="app-shell">
       <h1 className="app-title">YouTube Generator</h1>
+      <div className="regenerate-row">
+        <button type="button" className="button-primary" onClick={handleRegenerate}>
+          Regenerate
+        </button>
+      </div>
       <h2>{projectConfig.title}</h2>
       <div className="layout-grid">
         <div className="panel">
@@ -134,7 +139,6 @@ function App() {
             descriptions={generatedOutput.descriptionOutput.shortDescriptions}
             hashtags={generatedOutput.hashtags}
             hybridPrompt={generatedOutput.hybridPrompt}
-            onRegenerate={handleRegenerate}
             videoType={formData.videoType}
             longDescription={generatedOutput.descriptionOutput.longDescription}
           />

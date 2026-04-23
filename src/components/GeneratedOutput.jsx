@@ -5,7 +5,6 @@ function GeneratedOutput({
   descriptions,
   hashtags,
   hybridPrompt,
-  onRegenerate,
   longDescription,
   videoType,
 }) {
@@ -13,15 +12,7 @@ function GeneratedOutput({
     <div className="output-stack">
       <div className="panel">
         <h3 className="panel-title">Generated Output</h3>
-        <div className="regenerate-row">
-          <button
-            type="button"
-            className="button-primary"
-            onClick={onRegenerate}
-          >
-            Regenerate
-          </button>
-        </div>
+
         {titles.map((title, index) => {
           const thumbnail = thumbnails[index] ?? '';
           const onCopy = (text) => {

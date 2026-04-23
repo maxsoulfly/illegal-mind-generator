@@ -100,7 +100,6 @@ function InputForm({
   return (
     <div>
       <h2>Input</h2>
-
       <div className="form-group">
         <label className="form-label">Project</label>
         <select
