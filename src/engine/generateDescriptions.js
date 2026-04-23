@@ -43,7 +43,14 @@ export function generateDescriptions(formData, projectConfig) {
     operatorStatuses[Math.floor(Math.random() * operatorStatuses.length)] ||
     'unstable cycle';
 
-  const fileId = formData.signalNumber || '00';
+  const fileCore =
+  (formData.song || '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word[0]?.toUpperCase() || '')
+    .join('') || 'SIG';
+
+const fileId = `${fileCore}-${formData.signalNumber || '00'}`;
 
   // --- Intro block ---
   const introTemplate = pickRandom(
@@ -51,10 +58,23 @@ export function generateDescriptions(formData, projectConfig) {
   );
 
   // --- Status block ---
-  const statusTemplates =
+  const selectedTags = formData.transformationTags || [];
+  const descriptionTagMap = projectConfig?.descriptionTagMap || {};
+
+  // collect tag-based status lines
+  const tagStatusLines = selectedTags.flatMap(
+    (tag) => descriptionTagMap[tag]?.status || [],
+  );
+
+  // fallback to global status lines
+  const baseStatusLines =
     projectConfig?.descriptionTemplates?.long?.statusLines || [];
 
-  const selectedStatus = [...statusTemplates]
+  // merge (tag lines first)
+  const combinedStatus = [...tagStatusLines, ...baseStatusLines];
+
+  // pick 2
+  const selectedStatus = [...combinedStatus]
     .sort(() => 0.5 - Math.random())
     .slice(0, 2);
 
@@ -112,8 +132,8 @@ export function generateDescriptions(formData, projectConfig) {
   );
 
   // --- Technical block ---
-  const selectedTags = formData.transformationTags || [];
-  const descriptionTagMap = projectConfig?.descriptionTagMap || [];
+  // const selectedTags = formData.transformationTags || [];
+  // const descriptionTagMap = projectConfig?.descriptionTagMap || [];
 
   // Step 1: pick one line per tag
   const perTagLines = selectedTags
