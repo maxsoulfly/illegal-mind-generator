@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 
 function SavedLibrary({
   savedEntries,
@@ -8,7 +8,14 @@ function SavedLibrary({
   onImportEntries,
 }) {
   const [search, setSearch] = useState('');
-  const [showSavedLibrary, setShowSavedLibrary] = useState(false);
+  const [showSavedLibrary, setShowSavedLibrary] = useState(() => {
+    const saved = localStorage.getItem('showSavedLibrary');
+    return saved ? JSON.parse(saved) : false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('showSavedLibrary', JSON.stringify(showSavedLibrary));
+  }, [showSavedLibrary]);
 
   const filteredEntries = useMemo(() => {
     const q = search.toLowerCase().trim();
@@ -69,6 +76,12 @@ function SavedLibrary({
                     <span className="saved-entry-text">
                       <strong>{entry.artist}</strong> - {entry.song}
                     </span>
+
+                    {entry.transformationTags?.length > 0 && (
+                      <span className="saved-entry-tags">
+                        [{entry.transformationTags.slice(0, 2).join(', ')}]
+                      </span>
+                    )}
                   </div>
 
                   <div className="saved-entry-actions">

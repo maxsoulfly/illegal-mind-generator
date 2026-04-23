@@ -379,6 +379,8 @@ textarea {
   border-bottom : 1px solid var(--color-border-deep);
 }
 
+
+
 .saved-entry-row {
   display        : flex;
   align-items    : center;
@@ -407,6 +409,14 @@ textarea {
   overflow     : hidden;
   text-overflow: ellipsis;
   white-space  : nowrap;
+}
+
+
+.saved-entry-tags {
+  margin-left      : var(--space-2);
+  color            : var(--color-text-muted-2);
+  /* font-size     : 16px; */
+  font-style       : italic;
 }
 
 .saved-entry-actions {
