@@ -64,10 +64,12 @@ export function generateDescriptions(formData, projectConfig) {
     projectConfig?.descriptionTemplates?.long?.storyBlock,
   );
 
-  const storyBlock = storyTemplate
-    .replace(/\{artist\}/g, formData.artist || '')
-    .replace(/\{song\}/g, formData.song || '')
-    .replace(/\{tagLine\}/g, tagLine);
+  const storyBlock = formData.customStory?.trim()
+    ? formData.customStory.trim()
+    : storyTemplate
+        .replace(/\{artist\}/g, formData.artist || '')
+        .replace(/\{song\}/g, formData.song || '')
+        .replace(/\{tagLine\}/g, tagLine);
 
   // --- Support block ---
   const supportTemplate =
@@ -136,7 +138,14 @@ export function generateDescriptions(formData, projectConfig) {
     projectConfig?.descriptionTemplates?.long?.logBlock,
   );
 
-  const baseLogBlock = logTemplate.replace(/\{tagLine\}/g, tagLine);
+  const baseLogBlock = logTemplate
+    .replace(/\{tagLine\}/g, tagLine)
+    .replace(
+      'Operator Note: Signal stabilized under Illegal Mind control.',
+      formData.customLogNote?.trim()
+        ? `Operator Note: ${formData.customLogNote.trim()}`
+        : 'Operator Note: Signal stabilized under Illegal Mind control.',
+    );
 
   const logBlock = [baseLogBlock, tagLogBlock].filter(Boolean).join('\n');
 

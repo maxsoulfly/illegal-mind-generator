@@ -241,7 +241,43 @@ function InputForm({
           })}
         </div>
       </div>
+      <div className="form-group">
+        <label className="form-label" htmlFor="customStory">
+          Custom Story Block
+        </label>
+        <textarea
+          id="customStory"
+          className="form-textarea"
+          value={formData.customStory}
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              customStory: e.target.value,
+            }))
+          }
+          rows={5}
+          placeholder="Write a custom story paragraph for the long description..."
+        />
+      </div>
 
+      <div className="form-group">
+        <label className="form-label" htmlFor="customLogNote">
+          Custom Log Note
+        </label>
+        <textarea
+          id="customLogNote"
+          className="form-textarea"
+          value={formData.customLogNote}
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              customLogNote: e.target.value,
+            }))
+          }
+          rows={4}
+          placeholder="Write a custom operator/log note..."
+        />
+      </div>
       <div className="button-row">
         <button
           className="button-secondary"
