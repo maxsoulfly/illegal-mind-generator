@@ -45,12 +45,21 @@ function App() {
         };
   });
 
-  const [panelVisibility, setPanelVisibility] = useState({
-    titles: true,
-    descriptions: true,
-    hashtags: true,
-    hybridPrompt: true,
+  const [panelVisibility, setPanelVisibility] = useState(() => {
+    const saved = localStorage.getItem('panelVisibility');
+    return saved
+      ? JSON.parse(saved)
+      : {
+          titles: true,
+          descriptions: true,
+          hashtags: true,
+          hybridPrompt: true,
+        };
   });
+
+  useEffect(() => {
+    localStorage.setItem('panelVisibility', JSON.stringify(panelVisibility));
+  }, [panelVisibility]);
 
   const [generationSeed, setGenerationSeed] = useState(0);
 
