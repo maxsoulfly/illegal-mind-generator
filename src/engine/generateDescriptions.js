@@ -16,7 +16,13 @@ function replaceLinkPlaceholders(template, links = {}) {
 }
 
 function buildTagLine(formData) {
-  const tags = (formData.transformationTags || []).map(toTitleCase);
+  const excluded = ['nostalgia', '90s', '00s'];
+
+  const tags = (formData.transformationTags || [])
+    .filter((tag) => !excluded.includes(tag))
+    .map(toTitleCase)
+    .sort(() => 0.5 - Math.random())
+    .slice(0, 3);
 
   if (tags.length === 0) {
     return 'rebuilt with a different weight and tone';
@@ -30,7 +36,9 @@ function buildTagLine(formData) {
     return `rebuilt with a ${tags[0]} and ${tags[1]} approach`;
   }
 
-  return `rebuilt with a ${tags.slice(0, -1).join(', ')} and ${tags[tags.length - 1]} approach`;
+  return `rebuilt with a ${tags.slice(0, -1).join(', ')} and ${
+    tags[tags.length - 1]
+  } approach`;
 }
 
 function buildTagPhrase(formData) {
@@ -195,7 +203,11 @@ export function generateDescriptions(formData, projectConfig) {
 
   // --- Short tag phrase ---
   function buildShortTagPhrase(formData) {
-    const tags = (formData.transformationTags || []).map(toTitleCase);
+    const excluded = ['nostalgia', '90s', '00s'];
+
+    const tags = (formData.transformationTags || [])
+      .filter((tag) => !excluded.includes(tag))
+      .map(toTitleCase);
 
     if (tags.length === 0) return 'Rework';
 

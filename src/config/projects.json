@@ -47,7 +47,18 @@
       "modernized",
       "faithful",
       "hardcore",
-      "nu metal"
+      "nu metal",
+      "hebrew",
+      "russian",
+      "easycore",
+      "metal",
+      "pop punk",
+      "hardcore punk",
+      "skate punk",
+      "faster",
+      "nostalgia",
+      "00s",
+      "90s"
     ],
     "titleVariationSuffixes": ["Version", "Rework", "Mix", "Reconstruction"],
 
@@ -98,7 +109,18 @@
         "NOW NU METAL?",
         "MORE GROOVE",
         "BIGGER BOUNCE"
-      ]
+      ],
+      "hebrew": ["HEBREW VERSION"],
+      "russian": ["RUSSIAN VERSION"],
+      "easycore": ["EASYCORE ENERGY", "EASYCORE MODE"],
+      "metal": ["FULL METAL", "METAL MODE"],
+      "pop punk": ["POP PUNK MODE", "POP PUNK ENERGY"],
+      "hardcore punk": ["HARDCORE PUNK", "PUNK HARDER"],
+      "skate punk": ["SKATE PUNK ENERGY", "FAST PUNK"],
+      "faster": ["FASTER VERSION", "SPEED BOOST"],
+      "nostalgia": ["NOSTALGIA HIT", "OLD SIGNAL", "THROWBACK MODE"],
+      "00s": ["00S NOSTALGIA", "2000S THROWBACK"],
+      "90s": ["90S NOSTALGIA", "90S THROWBACK"]
     },
 
     "titleTagMap": {
@@ -114,7 +136,18 @@
         "Breakdown Ready"
       ],
       "modernized": ["Modernized", "Updated", "Rebuilt", "New Era"],
-      "nu metal": ["Nu Metal", "Groovier", "More Bounce", "Nu Metalized"]
+      "nu metal": ["Nu Metal", "Groovier", "More Bounce", "Nu Metalized"],
+      "hebrew": ["Hebrew Version", "Hebrew Cover"],
+      "russian": ["Russian Version", "Russian Cover"],
+      "easycore": ["Easycore", "Easycore Version"],
+      "metal": ["Metal Version", "Metal Rework"],
+      "pop punk": ["Pop Punk", "Pop Punk Version"],
+      "hardcore punk": ["Hardcore Punk", "Hardcore Punk Version"],
+      "skate punk": ["Skate Punk", "Skate Punk Version"],
+      "faster": ["Faster", "Faster Version", "Speed Boost"],
+      "nostalgia": ["Nostalgic", "Throwback", "Memory Loop"],
+      "00s": ["00s Nostalgia", "2000s Throwback"],
+      "90s": ["90s Nostalgia", "90s Throwback"]
     },
     "descriptionTagMap": {
       "heavier": {
@@ -184,6 +217,70 @@
           "Modification: Groove elements were enhanced within a nu-metal structure."
         ],
         "status": ["Rhythmic load: Heavy.", "Bounce factor: Active."]
+      },
+      "hebrew": {
+        "technical": ["Language: Hebrew adaptation."],
+        "log": ["Modification: Signal re-recorded in Hebrew."],
+        "status": ["Localization: Hebrew."]
+      },
+      "russian": {
+        "technical": ["Language: Russian adaptation."],
+        "log": ["Modification: Signal re-recorded in Russian."],
+        "status": ["Localization: Russian."]
+      },
+      "easycore": {
+        "technical": ["Energy: uplifted.", "Drive: melodic and aggressive."],
+        "log": ["Modification: Signal shifted toward easycore structure."],
+        "status": ["Energy profile: Elevated."]
+      },
+      "metal": {
+        "technical": ["Distortion: increased.", "Weight: reinforced."],
+        "log": ["Modification: Signal pushed into full metal spectrum."],
+        "status": ["Signal intensity: High."]
+      },
+      "pop punk": {
+        "technical": ["Melody: emphasized.", "Tempo: upbeat."],
+        "log": ["Modification: Signal tuned toward pop punk structure."],
+        "status": ["Tone: Brighter."]
+      },
+      "hardcore punk": {
+        "technical": ["Aggression: maxed.", "Drive: relentless."],
+        "log": ["Modification: Signal pushed into hardcore punk intensity."],
+        "status": ["Impact: Extreme."]
+      },
+      "skate punk": {
+        "technical": ["Tempo: fast.", "Energy: high."],
+        "log": ["Modification: Signal shifted toward skate punk velocity."],
+        "status": ["Momentum: Surging."]
+      },
+      "faster": {
+        "technical": ["Tempo: increased.", "Speed: boosted."],
+        "log": ["Modification: Signal accelerated beyond original tempo."],
+        "status": ["Cycle speed: Elevated."]
+      },
+      "nostalgia": {
+        "technical": [
+          "Tone: retro.",
+          "Feel: preserved.",
+          "Signal memory: emphasized."
+        ],
+        "log": [
+          "Modification: Signal tuned toward nostalgic frequencies.",
+          "Modification: Signal tuned to evoke nostalgic recall patterns."
+        ],
+        "status": ["Era sync: Active.", "Memory layer: Active."]
+      },
+      "00s": {
+        "technical": ["Signal memory: early 2000s."],
+        "log": [
+          "Modification: Signal tuned to early 2000s-era recall patterns."
+        ],
+        "status": ["Memory layer: 00s nostalgia."]
+      },
+      "90s": {
+        "technical": ["Signal memory: 90s era."],
+        "log": ["Modification: Signal tuned to 90s-era recall patterns."],
+        "status": ["Memory layer: 90s nostalgia."]
       }
     },
     "descriptionTemplates": {
