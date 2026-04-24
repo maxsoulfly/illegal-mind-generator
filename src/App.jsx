@@ -87,18 +87,12 @@ function App() {
     const titles = generateTitles(formData, projectConfig);
     const thumbnails = generateThumbnails(formData, projectConfig);
     const descriptionOutput = generateDescriptions(formData, projectConfig);
+    const longDescription = descriptionOutput.longDescription;
     const hashtagOutput = generateHashtags(formData, projectConfig);
 
     const hashtags = hashtagOutput.hashtags;
     const youtubeTags = hashtagOutput.youtubeTags;
-    const hybridPrompt = generateHybridPrompt(
-      formData,
-      titles,
-      thumbnails,
-      descriptionOutput.shortDescriptions,
-      hashtags,
-      youtubeTags,
-    );
+    const hybridPrompt = generateHybridPrompt(longDescription, hashtags);
 
     return {
       titles,
