@@ -87,13 +87,17 @@ function App() {
     const titles = generateTitles(formData, projectConfig);
     const thumbnails = generateThumbnails(formData, projectConfig);
     const descriptionOutput = generateDescriptions(formData, projectConfig);
-    const hashtags = generateHashtags(formData, projectConfig);
+    const hashtagOutput = generateHashtags(formData, projectConfig);
+
+    const hashtags = hashtagOutput.hashtags;
+    const youtubeTags = hashtagOutput.youtubeTags;
     const hybridPrompt = generateHybridPrompt(
       formData,
       titles,
       thumbnails,
       descriptionOutput.shortDescriptions,
       hashtags,
+      youtubeTags,
     );
 
     return {
@@ -101,6 +105,7 @@ function App() {
       thumbnails,
       descriptionOutput,
       hashtags,
+      youtubeTags,
       hybridPrompt,
     };
   }, [formData, projectConfig, generationSeed]);
@@ -159,6 +164,7 @@ function App() {
             thumbnails={generatedOutput.thumbnails}
             descriptions={generatedOutput.descriptionOutput.shortDescriptions}
             hashtags={generatedOutput.hashtags}
+            youtubeTags={generatedOutput.youtubeTags}
             hybridPrompt={generatedOutput.hybridPrompt}
             videoType={formData.videoType}
             longDescription={generatedOutput.descriptionOutput.longDescription}

@@ -14,6 +14,7 @@ function toHashtag(text) {
 
 export function generateHashtags(formData = {}, config = {}) {
   const baseTags = config.hashtags || [];
+  const baseYTTags = config.youtubetags || [];
   const MAX_HASHTAGS = 18;
 
   const customTags = (formData.customHashtags || '')
@@ -37,5 +38,24 @@ export function generateHashtags(formData = {}, config = {}) {
     ...customTags,
   ];
 
-  return [...new Set(allTags)].slice(0, MAX_HASHTAGS).join(' ');
+  const youtubeTags = [
+    ...baseYTTags,
+    ...new Set([
+      formData.artist,
+      formData.song,
+      ...formData.transformationTags,
+      ...(formData.customHashtags || '')
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean),
+    ]),
+  ]
+    .filter(Boolean)
+    .slice(0, 20)
+    .join(', ');
+
+  return {
+    hashtags: [...new Set(allTags)].slice(0, MAX_HASHTAGS).join(' '),
+    youtubeTags,
+  };
 }

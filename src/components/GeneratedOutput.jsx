@@ -4,6 +4,7 @@ function GeneratedOutput({
   thumbnails,
   descriptions,
   hashtags,
+  youtubeTags,
   hybridPrompt,
   longDescription,
   videoType,
@@ -124,6 +125,26 @@ function GeneratedOutput({
           <div className="output-item terminal-block">
             <p className="output-text">{hashtags}</p>
             <CopyButton text={hashtags} />
+          </div>
+        )}
+      </div>
+
+      <div className="panel">
+        <div className="panel-header">
+          <h2 className="panel-title">YouTube Tags</h2>
+
+          <button
+            className="button-primary"
+            onClick={() => togglePanel('youtubeTags')}
+          >
+            {panelVisibility.youtubeTags ? 'Hide' : 'Show'}
+          </button>
+        </div>
+
+        {panelVisibility.youtubeTags && (
+          <div className="output-item terminal-block">
+            <p className="output-text">{youtubeTags}</p>
+            <CopyButton text={youtubeTags} />
           </div>
         )}
       </div>
