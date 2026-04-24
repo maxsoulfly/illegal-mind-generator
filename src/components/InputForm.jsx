@@ -276,6 +276,21 @@ function InputForm({
           rows={4}
           placeholder="Write a custom operator/log note..."
         />
+
+        <label className="form-label">Additional Hashtags</label>
+
+        <input
+          type="text"
+          className="form-input"
+          value={formData.customHashtags || ''}
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              customHashtags: e.target.value,
+            }))
+          }
+          placeholder="tag1, tag2, tag3"
+        />
       </div>
       <div className="button-row">
         <button

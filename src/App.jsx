@@ -29,6 +29,7 @@ const defaultFormData = {
 
   customStory: '',
   customLogNote: '',
+  customHashtags: '',
 };
 
 function App() {
