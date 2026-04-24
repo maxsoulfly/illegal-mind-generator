@@ -7,6 +7,7 @@ function InputForm({
   projectOptions,
   onSaveEntry,
   savedEntries,
+  tagUsage = {},
 }) {
   const artistSuggestions = [
     ...new Set(savedEntries.map((entry) => entry.artist)),
@@ -47,9 +48,7 @@ function InputForm({
 
   useEffect(() => {
     if (!formData.useCustomArtistShort) return;
-
     const words = (formData.artist || '').trim().split(' ').filter(Boolean);
-
     let short = formData.artist || 'ARTIST';
 
     if (words.length >= 3) {
@@ -224,20 +223,24 @@ function InputForm({
         <label className="form-label">Transformation Tags</label>
 
         <div className="tag-list">
-          {(projectConfig.availableTags || []).map((tag) => {
-            const isActive = (formData.transformationTags || []).includes(tag);
+          {[...(projectConfig.availableTags || [])]
+            .sort((a, b) => (tagUsage[b] || 0) - (tagUsage[a] || 0))
+            .map((tag) => {
+              const isActive = (formData.transformationTags || []).includes(
+                tag,
+              );
 
-            return (
-              <button
-                key={tag}
-                type="button"
-                className={isActive ? 'tag-chip active' : 'tag-chip'}
-                onClick={() => handleTagToggle(tag)}
-              >
-                {tag}
-              </button>
-            );
-          })}
+              return (
+                <button
+                  key={tag}
+                  type="button"
+                  className={isActive ? 'tag-chip active' : 'tag-chip'}
+                  onClick={() => handleTagToggle(tag)}
+                >
+                  {tag} ({tagUsage[tag] || 0})
+                </button>
+              );
+            })}
         </div>
       </div>
       <div className="form-group">

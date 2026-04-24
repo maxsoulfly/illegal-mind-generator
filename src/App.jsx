@@ -115,6 +115,16 @@ function App() {
     setGenerationSeed((prev) => prev + 1);
   };
 
+  const tagUsage = useMemo(() => {
+    return savedEntries.reduce((acc, entry) => {
+      (entry.transformationTags || []).forEach((tag) => {
+        acc[tag] = (acc[tag] || 0) + 1;
+      });
+
+      return acc;
+    }, {});
+  }, [savedEntries]);
+
   return (
     <div className="app-shell">
       <h1 className="app-title">YouTube Generator</h1>
@@ -142,6 +152,7 @@ function App() {
             onDeleteEntry={handleDeleteEntry}
             onExportEntries={handleExportEntries}
             onImportEntries={handleImportEntries}
+            tagUsage={tagUsage}
           />
         </div>
 
