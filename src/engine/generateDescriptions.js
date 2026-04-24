@@ -16,7 +16,7 @@ function replaceLinkPlaceholders(template, links = {}) {
 }
 
 function buildTagLine(formData) {
-  const excluded = ['nostalgia', '90s', '00s'];
+  const excluded = ['nostalgia', '90s', '00s', 'faithful'];
 
   const tags = (formData.transformationTags || [])
     .filter((tag) => !excluded.includes(tag))
@@ -25,20 +25,33 @@ function buildTagLine(formData) {
     .slice(0, 3);
 
   if (tags.length === 0) {
-    return 'rebuilt with a different weight and tone';
+    const fallback = [
+      'signal reshaped for current conditions',
+      'structure adjusted under new parameters',
+      'signal reprocessed for this environment',
+      'original form adapted to current atmosphere',
+    ];
+
+    return fallback[Math.floor(Math.random() * fallback.length)];
   }
 
-  if (tags.length === 1) {
-    return `rebuilt with a ${tags[0]} angle`;
-  }
+  const templates = [
+    (t) => `reworked into a ${t.toLowerCase()} version`,
+    (t) => `reshaped into a ${t.toLowerCase()} form`,
+    (t) => `reconstructed into a ${t.toLowerCase()} state`,
+    (t) => `pushed toward a ${t.toLowerCase()} direction`,
+  ];
 
-  if (tags.length === 2) {
-    return `rebuilt with a ${tags[0]} and ${tags[1]} approach`;
-  }
+  const formatTags = (tags) => {
+    if (tags.length === 1) return tags[0];
+    if (tags.length === 2) return `${tags[0]} and ${tags[1]}`;
+    return `${tags.slice(0, -1).join(', ')} and ${tags[tags.length - 1]}`;
+  };
 
-  return `rebuilt with a ${tags.slice(0, -1).join(', ')} and ${
-    tags[tags.length - 1]
-  } approach`;
+  const selectedTemplate =
+    templates[Math.floor(Math.random() * templates.length)];
+
+  return selectedTemplate(formatTags(tags));
 }
 
 function buildTagPhrase(formData) {
