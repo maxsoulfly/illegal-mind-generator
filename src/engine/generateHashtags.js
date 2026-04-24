@@ -1,3 +1,4 @@
+// Remove non-alphanumeric characters
 function toHashtag(text) {
   if (!text) return '';
 
@@ -12,6 +13,16 @@ function toHashtag(text) {
   return cleaned ? `#${cleaned}` : '';
 }
 
+// Remove non-alphanumeric characters
+function cleanYoutubeTag(text) {
+  return text
+    .normalize('NFKD')
+    .replace(/[^\p{L}\p{N}\s]/gu, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// Generate hashtags
 export function generateHashtags(formData = {}, config = {}) {
   const baseTags = config.hashtags || [];
   const baseYTTags = config.youtubetags || [];
@@ -38,24 +49,30 @@ export function generateHashtags(formData = {}, config = {}) {
     ...customTags,
   ];
 
-  const youtubeTags = [
+  const rawYoutubeTags = [
     ...baseYTTags,
     ...new Set([
       formData.artist,
       formData.song,
+      `${formData.artist} ${formData.song}`.toLowerCase(),
       ...formData.transformationTags,
       ...(formData.customHashtags || '')
         .split(',')
         .map((t) => t.trim())
         .filter(Boolean),
     ]),
+  ].filter(Boolean);
+
+  const youtubeTags = [
+    ...new Set(
+      rawYoutubeTags.map(cleanYoutubeTag).filter((tag) => tag.length > 2),
+    ),
   ]
-    .filter(Boolean)
     .slice(0, 20)
     .join(', ');
 
   return {
-    hashtags: [...new Set(allTags)].slice(0, MAX_HASHTAGS).join(' '),
     youtubeTags,
+    hashtags: [...new Set(allTags)].slice(0, MAX_HASHTAGS).join(' '),
   };
 }
