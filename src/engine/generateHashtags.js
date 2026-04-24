@@ -37,16 +37,20 @@ export function generateHashtags(formData = {}, config = {}) {
   const dynamicTags = [
     formData.artist ? toHashtag(formData.artist) : null,
     formData.song ? toHashtag(formData.song) : null,
-    // formData.videoType ? toHashtag(formData.videoType) : null,
+    formData.artist && formData.song
+      ? toHashtag(`${formData.artist} ${formData.song}`)
+      : null,
   ].filter(Boolean);
 
-  const tagBasedHashtags = (formData?.transformationTags || []).map(toHashtag);
+  const tagBasedHashtags = (formData?.transformationTags || [])
+    .slice(0, 5)
+    .map(toHashtag);
 
   const allTags = [
     ...baseTags,
     ...dynamicTags,
-    ...tagBasedHashtags,
     ...customTags,
+    ...tagBasedHashtags,
   ];
 
   const rawYoutubeTags = [
@@ -73,6 +77,9 @@ export function generateHashtags(formData = {}, config = {}) {
 
   return {
     youtubeTags,
-    hashtags: [...new Set(allTags)].slice(0, MAX_HASHTAGS).join(' '),
+    hashtags: [...new Set(allTags)]
+      .filter(Boolean)
+      .slice(0, MAX_HASHTAGS)
+      .join(' '),
   };
 }
