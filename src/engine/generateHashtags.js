@@ -14,6 +14,7 @@ function toHashtag(text) {
 
 export function generateHashtags(formData = {}, config = {}) {
   const baseTags = config.hashtags || [];
+  const MAX_HASHTAGS = 18;
 
   const customTags = (formData.customHashtags || '')
     .split(',')
@@ -36,5 +37,5 @@ export function generateHashtags(formData = {}, config = {}) {
     ...customTags,
   ];
 
-  return [...new Set(allTags)].join(' ');
+  return [...new Set(allTags)].slice(0, MAX_HASHTAGS).join(' ');
 }
