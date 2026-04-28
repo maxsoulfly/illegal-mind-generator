@@ -10,6 +10,7 @@ function GeneratedOutput({
   videoType,
   panelVisibility,
   setPanelVisibility,
+  fileId,
 }) {
   const togglePanel = (key) => {
     setPanelVisibility((prev) => ({
@@ -93,7 +94,9 @@ function GeneratedOutput({
             {videoType === 'Long' && (
               <div className="output-item terminal-block">
                 <p style={{ whiteSpace: 'pre-line' }}>{longDescription}</p>
-                <CopyButton text={longDescription} />
+                <CopyButton
+                  text={`${longDescription}\n\n/// FILE ${fileId}: ${hashtags}`}
+                />
               </div>
             )}
 
@@ -102,7 +105,9 @@ function GeneratedOutput({
               descriptions.map((description, index) => (
                 <div key={index} className="output-item terminal-block">
                   <p style={{ whiteSpace: 'pre-line' }}>{description}</p>
-                  <CopyButton text={description} />
+                  <CopyButton
+                    text={`${description}\n\n/// FILE ${fileId}: ${hashtags}`}
+                  />
                 </div>
               ))}
           </div>

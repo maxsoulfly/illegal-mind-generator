@@ -92,7 +92,13 @@ function App() {
 
     const hashtags = hashtagOutput.hashtags;
     const youtubeTags = hashtagOutput.youtubeTags;
-    const hybridPrompt = generateHybridPrompt(longDescription, hashtags);
+    const fileId = `${formData.song?.slice(0, 3).toUpperCase() || 'XXX'}-${formData.signalNumber || 'XX'}`;
+
+    const hybridPrompt = generateHybridPrompt(
+      longDescription,
+      hashtags,
+      fileId,
+    );
 
     return {
       titles,
@@ -101,6 +107,7 @@ function App() {
       hashtags,
       youtubeTags,
       hybridPrompt,
+      fileId,
     };
   }, [formData, projectConfig, generationSeed]);
 
@@ -175,6 +182,7 @@ function App() {
             longDescription={generatedOutput.descriptionOutput.longDescription}
             panelVisibility={panelVisibility}
             setPanelVisibility={setPanelVisibility}
+            fileId={generatedOutput.fileId}
           />
         </div>
       </div>
