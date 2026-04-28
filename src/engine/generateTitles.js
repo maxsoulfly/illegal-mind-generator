@@ -7,6 +7,16 @@ function getRandomItem(items) {
 }
 
 function buildShortTransformationPhrase(tags = [], config = {}) {
+  if (tags.includes('faithful')) {
+    const faithfulOptions = [
+      'Authentic Cover',
+      'Full Band Cover',
+      'Original Energy',
+      'Classic Feel',
+    ];
+
+    return getRandomItem(faithfulOptions);
+  }
   if (tags.length === 0) {
     return 'Rework';
   }
@@ -26,7 +36,11 @@ function buildShortTransformationPhrase(tags = [], config = {}) {
     return 'Rework';
   }
 
-  return limitedWords[0];
+  const word = limitedWords[0].toLowerCase();
+
+  const useButIts = Math.random() > 0.4;
+
+  return useButIts ? `but it's ${word}` : limitedWords[0];
 }
 
 function buildTransformationVariations(formData = {}, config = {}) {
@@ -60,8 +74,18 @@ function buildGeneratedArtistShort(artistRaw) {
   return artistRaw;
 }
 
-function getWeightedTemplates(config = {}) {
-  const baseTemplates = config.shortTitleTemplates || [];
+function getWeightedTemplates(formData = {}, config = {}) {
+  const isFaithful = (formData.transformationTags || []).includes('faithful');
+
+  const baseTemplates = (config.shortTitleTemplates || []).filter(
+    (template) => {
+      if (isFaithful && template.includes("but it's")) {
+        return false;
+      }
+
+      return true;
+    },
+  );
 
   return baseTemplates.flatMap((template) => {
     const hasArtist = template.includes('{artist}');
@@ -95,7 +119,7 @@ function fillTemplate(template, values) {
 
 export function generateTitles(formData = {}, config = {}) {
   const transformations = buildTransformationVariations(formData, config);
-  const weightedTemplates = getWeightedTemplates(config);
+  const weightedTemplates = getWeightedTemplates(formData, config);
 
   if (weightedTemplates.length === 0) {
     return [];
