@@ -520,3 +520,15 @@ textarea {
   gap               : var(--space-4);
   /* margin-bottom  : var(--space-4); */
 }
+
+
+.copy-button {
+  transition: all 0.2s ease;
+}
+
+.copy-button.copied {
+  background-color: var(--color-text-accent);
+  /* green */
+  color           : black;
+  box-shadow      : 0 0 10px var(--color-accent-gradient-top);
+}

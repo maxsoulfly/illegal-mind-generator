@@ -1,16 +1,22 @@
+import { useState } from 'react';
 function CopyButton({ text }) {
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(text);
-      alert('Copied!');
-    } catch (error) {
-      console.error('Copy failed:', error);
-    }
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 500);
   };
 
   return (
-    <button className="copy-button" onClick={handleCopy}>
-      Copy
+    <button
+      className={`copy-button ${copied ? 'copied' : ''}`}
+      onClick={handleCopy}
+    >
+      {copied ? 'Copied ✔️' : 'Copy'}
     </button>
   );
 }

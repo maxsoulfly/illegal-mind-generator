@@ -36,9 +36,6 @@ function GeneratedOutput({
           <div>
             {titles.map((title, index) => {
               const thumbnail = thumbnails[index] ?? '';
-              const onCopy = (text) => {
-                navigator.clipboard.writeText(text);
-              };
               return (
                 <div key={index} className="generated-pair terminal-block">
                   <div className="generated-pair-row">
@@ -47,13 +44,7 @@ function GeneratedOutput({
                       {title}
                     </p>
 
-                    <button
-                      type="button"
-                      className="copy-button"
-                      onClick={() => onCopy(title)}
-                    >
-                      Copy Title
-                    </button>
+                    <CopyButton text={title} />
                   </div>
 
                   <div className="generated-pair-row">
@@ -62,13 +53,7 @@ function GeneratedOutput({
                       {thumbnail}
                     </p>
 
-                    <button
-                      type="button"
-                      className="copy-button"
-                      onClick={() => onCopy(thumbnail)}
-                    >
-                      Copy Thumb
-                    </button>
+                    <CopyButton text={thumbnail} />
                   </div>
                 </div>
               );
