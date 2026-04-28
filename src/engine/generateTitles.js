@@ -5,13 +5,6 @@ function getRandomItem(items) {
 
   return items[Math.floor(Math.random() * items.length)];
 }
-function joinTitleWords(words) {
-  if (words.length === 0) return '';
-  if (words.length === 1) return words[0];
-  if (words.length === 2) return `${words[0]} & ${words[1]}`;
-
-  return `${words.slice(0, -1).join(', ')} & ${words[words.length - 1]}`;
-}
 
 function buildShortTransformationPhrase(tags = [], config = {}) {
   if (tags.length === 0) {
@@ -27,50 +20,23 @@ function buildShortTransformationPhrase(tags = [], config = {}) {
     })
     .filter(Boolean);
 
-  const limitedWords = shuffleArray(pickedWords).slice(0, 2);
+  const limitedWords = shuffleArray(pickedWords).slice(0, 1);
 
   if (limitedWords.length === 0) {
     return 'Rework';
   }
 
-  return `${limitedWords.join(' ')} Rework`;
+  return limitedWords[0];
 }
 
 function buildTransformationVariations(formData = {}, config = {}) {
   const selectedTags = formData?.transformationTags || [];
 
   if (selectedTags.length === 0) {
-    return (config.transformations || []).slice(0, 5);
+    return ['Rework'];
   }
 
-  const isShorts = formData.videoType === 'Shorts';
-  if (isShorts) {
-    return [buildShortTransformationPhrase(selectedTags, config)];
-  }
-
-  const titleTagMap = config.titleTagMap || {};
-  const mappedWords = selectedTags.map((tag) => {
-    const options = titleTagMap[tag] || [tag];
-    return getRandomItem(options) || tag;
-  });
-
-  const suffixes = config.titleVariationSuffixes || [];
-  const limitedWords = shuffleArray(mappedWords).slice(0, 2);
-  const joined = joinTitleWords(limitedWords);
-  const firstTwo = joined;
-  const lastWord = mappedWords[mappedWords.length - 1] || joined;
-
-  const variations = [
-    joined,
-    suffixes[0] ? `${joined} ${suffixes[0]}` : `${joined} Version`,
-    suffixes[1] ? `${firstTwo} ${suffixes[1]}` : `${firstTwo} Rework`,
-    suffixes[3] ? `${lastWord} ${suffixes[3]}` : `${lastWord} Reconstruction`,
-    suffixes[2] ? `${joined} ${suffixes[2]}` : `${joined} Mix`,
-  ];
-
-  const uniqueVariations = [...new Set(variations.filter(Boolean))];
-
-  return uniqueVariations.slice(0, 5);
+  return [buildShortTransformationPhrase(selectedTags, config)];
 }
 
 function shuffleArray(items) {
@@ -94,16 +60,8 @@ function buildGeneratedArtistShort(artistRaw) {
   return artistRaw;
 }
 
-function getWeightedTemplates(formData = {}, config = {}) {
-  const isShorts = formData.videoType === 'Shorts';
-  const baseTemplates =
-    isShorts && config.shortTitleTemplates?.length
-      ? config.shortTitleTemplates
-      : config.titleTemplates || [];
-
-  if (!isShorts) {
-    return baseTemplates;
-  }
+function getWeightedTemplates(config = {}) {
+  const baseTemplates = config.shortTitleTemplates || [];
 
   return baseTemplates.flatMap((template) => {
     const hasArtist = template.includes('{artist}');
@@ -137,7 +95,7 @@ function fillTemplate(template, values) {
 
 export function generateTitles(formData = {}, config = {}) {
   const transformations = buildTransformationVariations(formData, config);
-  const weightedTemplates = getWeightedTemplates(formData, config);
+  const weightedTemplates = getWeightedTemplates(config);
 
   if (weightedTemplates.length === 0) {
     return [];
@@ -157,17 +115,20 @@ export function generateTitles(formData = {}, config = {}) {
   let attempts = 0;
 
   while (titles.length < 5 && attempts < 50) {
-    const transformation =
-      transformations[attempts % transformations.length] || 'Rework';
+    const transformation = transformations[attempts % transformations.length];
     const randomTemplates = shuffleArray(weightedTemplates);
     const template = randomTemplates[0];
 
-    const title = fillTemplate(template, {
+    const baseTitle = fillTemplate(template, {
       signalNumber: formData.signalNumber || 'XX',
       artist: isShorts ? artistShortFinal : artistFull,
       song: formData.song || 'Song',
       transformation,
     });
+
+    const title = isShorts
+      ? `[SIGNAL ${formData.signalNumber || 'XX'}] // ${baseTitle}`
+      : `[SIGNAL ${formData.signalNumber || 'XX'}] // ${baseTitle} // Illegal Mind Rework`;
 
     if (!usedTitles.has(title)) {
       usedTitles.add(title);
