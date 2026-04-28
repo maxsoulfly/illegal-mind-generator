@@ -6,7 +6,7 @@ import { generateTitles } from './engine/generateTitles';
 import { generateThumbnails } from './engine/generateThumbnails';
 import { generateDescriptions } from './engine/generateDescriptions';
 import { generateHashtags } from './engine/generateHashtags';
-import { generateHybridPrompt } from './engine/generateHybridPrompt';
+// import { generateHybridPrompt } from './engine/generateHybridPrompt';
 
 import useSavedEntries from './hooks/useSavedEntries';
 import InputForm from './components/InputForm';
@@ -86,27 +86,34 @@ function App() {
   const generatedOutput = useMemo(() => {
     const titles = generateTitles(formData, projectConfig);
     const thumbnails = generateThumbnails(formData, projectConfig);
-    const descriptionOutput = generateDescriptions(formData, projectConfig);
-    const longDescription = descriptionOutput.longDescription;
+    const { longDescription, shortDescriptions, fileId } = generateDescriptions(
+      formData,
+      projectConfig,
+    );
     const hashtagOutput = generateHashtags(formData, projectConfig);
 
     const hashtags = hashtagOutput.hashtags;
     const youtubeTags = hashtagOutput.youtubeTags;
-    const fileId = `${formData.song?.slice(0, 3).toUpperCase() || 'XXX'}-${formData.signalNumber || 'XX'}`;
 
-    const hybridPrompt = generateHybridPrompt(
-      longDescription,
-      hashtags,
-      fileId,
-    );
+    // const descriptionOutput = shortDescriptions.map((shortDescription) => ({
+    //   shortDescription,
+    //   longDescription,
+    // }));
+
+    // const hybridPrompt = generateHybridPrompt(
+    //   longDescription,
+    //   hashtags,
+    //   fileId,
+    // );
 
     return {
       titles,
       thumbnails,
-      descriptionOutput,
+      longDescription,
+      shortDescriptions,
       hashtags,
       youtubeTags,
-      hybridPrompt,
+      // hybridPrompt,
       fileId,
     };
   }, [formData, projectConfig, generationSeed]);
@@ -174,12 +181,12 @@ function App() {
           <GeneratedOutput
             titles={generatedOutput.titles}
             thumbnails={generatedOutput.thumbnails}
-            descriptions={generatedOutput.descriptionOutput.shortDescriptions}
+            descriptions={generatedOutput.shortDescriptions}
             hashtags={generatedOutput.hashtags}
             youtubeTags={generatedOutput.youtubeTags}
             hybridPrompt={generatedOutput.hybridPrompt}
             videoType={formData.videoType}
-            longDescription={generatedOutput.descriptionOutput.longDescription}
+            longDescription={generatedOutput.longDescription}
             panelVisibility={panelVisibility}
             setPanelVisibility={setPanelVisibility}
             fileId={generatedOutput.fileId}

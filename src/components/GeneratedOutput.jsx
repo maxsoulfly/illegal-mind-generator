@@ -5,7 +5,6 @@ function GeneratedOutput({
   descriptions,
   hashtags,
   youtubeTags,
-  hybridPrompt,
   longDescription,
   videoType,
   panelVisibility,
@@ -139,7 +138,7 @@ function GeneratedOutput({
         )}
       </div>
 
-      <div className="panel">
+      {/* <div className="panel">
         <div className="panel-header">
           <h2 className="panel-title">Hybrid Prompt</h2>
 
@@ -156,7 +155,7 @@ function GeneratedOutput({
             <CopyButton text={hybridPrompt} />
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -261,5 +261,6 @@ export function generateDescriptions(formData, projectConfig) {
   return {
     shortDescriptions,
     longDescription,
+    fileId,
   };
 }
