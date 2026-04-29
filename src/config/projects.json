@@ -385,9 +385,15 @@
             "// If the world is ending, why play it safe?",
             "// If the loop repeats, break it louder."
           ],
-          "supportBlock": [
-            "📡 SUPPORT NODE\n▶️ Originals: {links.youtube}\n💿 Bandcamp: {links.bandcamp}\n☕ Fuel supply: {links.support}\n🌐 Links: {links.linktree}"
-          ],
+          "supportBlock": {
+            "title": "📡 SUPPORT NODE",
+            "items": [
+              { "label": "▶️ Originals", "link": "{links.youtube}" },
+              { "label": "💿 Bandcamp", "link": "{links.bandcamp}" },
+              { "label": "☕ Fuel supply", "link": "{links.support}" },
+              { "label": "🌐 Links", "link": "{links.linktree}" }
+            ]
+          },
           "shortTagPhrase": {
             "excludedTags": ["nostalgia", "90s", "00s"],
             "fallback": "",
@@ -743,9 +749,26 @@
 
             "commentCtaBlock": "👉 What does this song mean to you?\n👉 Have you ever revisited an old piece of work and felt the need to give it new life?\n\nDrop a comment — I’d love to hear your take.",
 
-            "gearBlock": "🎛 Gear Used:\n• Guitars: Schecter Omen-6\n• Bass: Cort Action Bass\n• Interface: Scarlett 2i2 (2nd gen)\n• Mic: Behringer C-1\n• DAW: Cubase 14 Pro",
+            "gearBlock": {
+              "title": "🎛 Gear Used",
+              "items": [
+                { "label": "• Guitars", "text": "Schecter Omen-6" },
+                { "label": "• Bass", "text": "Cort Action Bass" },
+                { "label": "• Interface", "text": "Scarlett 2i2 (2nd gen)" },
+                { "label": "• Mic", "text": "Behringer C-1" },
+                { "label": "• DAW", "text": "Cubase 14 Pro" },
+                { "label": "• Mastering", "text": "Wavelab 12" }
+              ]
+            },
 
-            "playlistBlock": "🎵 More Covers from the Wasteland\n🎵 Punk Covers: {links.punkPlaylist}\n🎵 Rock Covers: {links.rockPlaylist}\n🎵 Metal Covers: {links.metalPlaylist}"
+            "playlistBlock": {
+              "title": "🎵 More Covers from the Wasteland",
+              "items": [
+                { "label": "🎵 Punk Covers", "link": "{links.punkPlaylist}" },
+                { "label": "🎵 Rock Covers", "link": "{links.rockPlaylist}" },
+                { "label": "🎵 Metal Covers", "link": "{links.metalPlaylist}" }
+              ]
+            }
           },
           "tagLineExcludedTags": ["nostalgia"],
           "tagLineFallbacks": [],
@@ -768,13 +791,19 @@
             "\"{song}\" by {artist} covered by Maxx Dee. {tagLine}.",
             "This cover of \"{song}\" by {artist} was recorded as a full-band home studio version. {tagLine}."
           ],
-          "logBlock": ["Production Note: {logNote}"],
+          "logBlock": ["Production Note:\n {logNote}"],
           "statusLines": [],
           "closingSignal": [],
           "philosophyLine": [],
-          "supportBlock": [
-            "📢 Support the Channel\n▶️ Original songs: {links.original}\n💿 Bandcamp: {links.bandcamp}\n☕ Buy me a coffee: {links.coffee}\n🌐 More links: {links.linktree}"
-          ],
+          "supportBlock": {
+            "title": "📢 Support the Channel",
+            "items": [
+              { "label": "▶️ Original songs", "link": "{links.original}" },
+              { "label": "💿 Bandcamp", "link": "{links.bandcamp}" },
+              { "label": "☕ Buy me a coffee", "link": "{links.coffee}" },
+              { "label": "🌐 More links", "link": "{links.linktree}" }
+            ]
+          },
           "shortTagPhrase": {
             "excludedTags": ["nostalgia"],
             "fallback": "Cover",

@@ -101,7 +101,6 @@ export function generateDescriptions(formData, projectConfig) {
   const statusBlock = selectedStatus.join('\n');
 
   // --- Broadcast block ---
-
   const broadcastTemplate = pickRandom(
     projectConfig?.description.templates?.long?.broadcastHeader,
   );
@@ -126,12 +125,27 @@ export function generateDescriptions(formData, projectConfig) {
         .replace(/\{tagLine\}/g, tagPhrase);
 
   // --- Support block ---
-  const supportTemplate =
-    projectConfig?.description.templates?.long?.supportBlock?.[0] ?? '';
+  function renderStructuredBlock(block, links = {}) {
+    if (!block || !block.title || !block.items) return '';
 
-  const supportBlock = replaceLinkPlaceholders(
-    supportTemplate,
-    projectConfig?.description.links || {},
+    const items = block.items
+      .map((item) => {
+        const value = item.link
+          ? replaceLinkPlaceholders(item.link, links)
+          : item.text || '';
+
+        return `${item.label}: ${value}`;
+      })
+      .join('\n');
+
+    return `${block.title}\n${items}`;
+  }
+  const supportBlockConfig =
+    projectConfig.description.templates.long.supportBlock;
+
+  const supportBlock = renderStructuredBlock(
+    supportBlockConfig,
+    projectConfig.description.links,
   );
 
   // --- Philosophy block ---
@@ -245,16 +259,32 @@ export function generateDescriptions(formData, projectConfig) {
     throw new Error('Missing description layout in project config');
   }
 
+  // --- Custom blocks ---
   const customBlocks =
     projectConfig.description.templates.long.customBlocks || {};
 
+  function renderTextTemplate(text, projectConfig, formData, tagLine) {
+    return replaceLinkPlaceholders(text, projectConfig.description.links)
+      .replace(/\{artist\}/g, formData.artist || '')
+      .replace(/\{song\}/g, formData.song || '')
+      .replace(/\{tagLine\}/g, tagLine);
+  }
+
+  function renderCustomBlock(block, projectConfig, formData, tagLine) {
+    if (typeof block === 'string') {
+      return renderTextTemplate(block, projectConfig, formData, tagLine);
+    }
+
+    if (typeof block === 'object') {
+      return renderStructuredBlock(block, projectConfig.description.links);
+    }
+
+    return '';
+  }
   const renderedCustomBlocks = Object.fromEntries(
-    Object.entries(customBlocks).map(([key, template]) => [
+    Object.entries(customBlocks).map(([key, block]) => [
       key,
-      replaceLinkPlaceholders(template, projectConfig.description.links)
-        .replace(/\{artist\}/g, formData.artist || '')
-        .replace(/\{song\}/g, formData.song || '')
-        .replace(/\{tagLine\}/g, tagLine),
+      renderCustomBlock(block, projectConfig, formData, tagLine),
     ]),
   );
 
