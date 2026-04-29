@@ -289,11 +289,20 @@
     },
     "descriptionTemplates": {
       "long": {
+        "tagLineExcludedTags": ["nostalgia", "90s", "00s", "faithful"],
+
         "tagLineFallbacks": [
           "signal reshaped for current conditions",
           "structure adjusted under new parameters",
           "signal reprocessed for this environment",
           "original form adapted to current atmosphere"
+        ],
+
+        "tagLineTemplates": [
+          "reworked into a {tags} version",
+          "reshaped into a {tags} form",
+          "reconstructed into a {tags} state",
+          "pushed toward a {tags} direction"
         ],
         "defaultLogNote": "Signal stabilized under Illegal Mind control.",
         "logNotes": [
@@ -354,7 +363,13 @@
         ],
         "supportBlock": [
           "📡 SUPPORT NODE\n▶️ Originals: {links.youtube}\n💿 Bandcamp: {links.bandcamp}\n☕ Fuel supply: {links.support}\n🌐 Links: {links.linktree}"
-        ]
+        ],
+        "shortTagPhrase": {
+          "excludedTags": ["nostalgia", "90s", "00s"],
+          "fallback": "",
+          "maxTags": 2,
+          "joinWord": "and"
+        }
       },
       "shorts": [
         "[SIGNAL_{num} // FILE_{num}]\n▓█ {artist} - {song}\n⚠️ {tagLine}. Full pulse active in main broadcast.",

@@ -16,7 +16,9 @@ function replaceLinkPlaceholders(template, links = {}) {
 }
 
 function buildTagLine(formData, projectConfig) {
-  const excluded = ['nostalgia', '90s', '00s', 'faithful'];
+  const longTemplates = projectConfig?.descriptionTemplates?.long || {};
+
+  const excluded = longTemplates.tagLineExcludedTags || [];
 
   const tags = (formData.transformationTags || [])
     .filter((tag) => !excluded.includes(tag))
@@ -25,18 +27,11 @@ function buildTagLine(formData, projectConfig) {
     .slice(0, 3);
 
   if (tags.length === 0) {
-    const fallback = projectConfig?.descriptionTemplates?.long
-      ?.tagLineFallbacks || ['signal reshaped for current conditions'];
-
-    return fallback[Math.floor(Math.random() * fallback.length)];
+    const fallback = longTemplates.tagLineFallbacks || [];
+    return fallback.length > 0 ? pickRandom(fallback) : '';
   }
 
-  const templates = [
-    (t) => `reworked into a ${t.toLowerCase()} version`,
-    (t) => `reshaped into a ${t.toLowerCase()} form`,
-    (t) => `reconstructed into a ${t.toLowerCase()} state`,
-    (t) => `pushed toward a ${t.toLowerCase()} direction`,
-  ];
+  const templates = longTemplates.tagLineTemplates || ['{tags}'];
 
   const formatTags = (tags) => {
     if (tags.length === 1) return tags[0];
@@ -44,10 +39,9 @@ function buildTagLine(formData, projectConfig) {
     return `${tags.slice(0, -1).join(', ')} and ${tags[tags.length - 1]}`;
   };
 
-  const selectedTemplate =
-    templates[Math.floor(Math.random() * templates.length)];
+  const selectedTemplate = pickRandom(templates);
 
-  return selectedTemplate(formatTags(tags));
+  return selectedTemplate.replace(/\{tags\}/g, formatTags(tags).toLowerCase());
 }
 
 function buildTagPhrase(formData) {
@@ -218,25 +212,35 @@ export function generateDescriptions(formData, projectConfig) {
   const logBlock = [baseLogBlock, tagLogBlock].filter(Boolean).join('\n');
 
   // --- Short tag phrase ---
-  function buildShortTagPhrase(formData) {
-    const excluded = ['nostalgia', '90s', '00s'];
+  function buildShortTagPhrase(formData, projectConfig) {
+    const shortTagConfig =
+      projectConfig?.descriptionTemplates?.long?.shortTagPhrase || {};
+    const excluded = shortTagConfig.excludedTags || [];
+
+    const maxTags = shortTagConfig.maxTags || 2;
+    const joinWord = shortTagConfig.joinWord || 'and';
+    const fallback = shortTagConfig.fallback || '';
 
     const tags = (formData.transformationTags || [])
       .filter((tag) => !excluded.includes(tag))
       .map(toTitleCase);
 
-    if (tags.length === 0) return 'Rework';
+    if (tags.length === 0) return fallback;
 
     const shuffled = [...tags].sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, 2);
+    const selected = shuffled.slice(0, maxTags);
 
     if (selected.length === 1) return selected[0];
-    if (selected.length === 2) return `${selected[0]} and ${selected[1]}`;
+    if (selected.length >= 2) {
+      return `${selected.slice(0, -1).join(', ')} ${joinWord} ${
+        selected[selected.length - 1]
+      }`;
+    }
 
-    return 'Rework';
+    return fallback;
   }
 
-  const shortTagPhrase = buildShortTagPhrase(formData);
+  const shortTagPhrase = buildShortTagPhrase(formData, projectConfig);
 
   // --- Long description ---
   const longDescription = [
