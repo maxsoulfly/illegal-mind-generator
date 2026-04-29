@@ -15,7 +15,7 @@ function replaceLinkPlaceholders(template, links = {}) {
   });
 }
 
-function buildTagLine(formData) {
+function buildTagLine(formData, projectConfig) {
   const excluded = ['nostalgia', '90s', '00s', 'faithful'];
 
   const tags = (formData.transformationTags || [])
@@ -25,12 +25,8 @@ function buildTagLine(formData) {
     .slice(0, 3);
 
   if (tags.length === 0) {
-    const fallback = [
-      'signal reshaped for current conditions',
-      'structure adjusted under new parameters',
-      'signal reprocessed for this environment',
-      'original form adapted to current atmosphere',
-    ];
+    const fallback = projectConfig?.descriptionTemplates?.long
+      ?.tagLineFallbacks || ['signal reshaped for current conditions'];
 
     return fallback[Math.floor(Math.random() * fallback.length)];
   }
@@ -63,7 +59,7 @@ function buildTagPhrase(formData) {
 }
 
 export function generateDescriptions(formData, projectConfig) {
-  const tagLine = buildTagLine(formData);
+  const tagLine = buildTagLine(formData, projectConfig);
   const tagPhrase = buildTagPhrase(formData);
 
   // --- Broadcast block ---
@@ -203,17 +199,21 @@ export function generateDescriptions(formData, projectConfig) {
     projectConfig?.descriptionTemplates?.long?.logBlock,
   );
 
-  const defaultOperatorNote =
-    projectConfig?.descriptionTemplates?.long?.defaultOperatorNote ||
-    'Signal stabilized.';
+  const logNotes = projectConfig?.descriptionTemplates?.long?.logNotes || [];
 
-  const operatorNote = formData.customLogNote?.trim()
+  const defaultLogNote =
+    logNotes.length > 0
+      ? pickRandom(logNotes)
+      : projectConfig?.descriptionTemplates?.long?.defaultLogNote ||
+        'Signal stabilized.';
+
+  const logNote = formData.customLogNote?.trim()
     ? formData.customLogNote.trim()
-    : defaultOperatorNote;
+    : defaultLogNote;
 
   const baseLogBlock = logTemplate
     .replace(/\{tagLine\}/g, tagLine)
-    .replace(/\{operatorNote\}/g, operatorNote);
+    .replace(/\{logNote\}/g, logNote);
 
   const logBlock = [baseLogBlock, tagLogBlock].filter(Boolean).join('\n');
 

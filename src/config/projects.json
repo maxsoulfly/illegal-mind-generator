@@ -289,8 +289,14 @@
     },
     "descriptionTemplates": {
       "long": {
-        "defaultOperatorNote": "Signal stabilized under Illegal Mind control.",
-        "operatorNotes": [
+        "tagLineFallbacks": [
+          "signal reshaped for current conditions",
+          "structure adjusted under new parameters",
+          "signal reprocessed for this environment",
+          "original form adapted to current atmosphere"
+        ],
+        "defaultLogNote": "Signal stabilized under Illegal Mind control.",
+        "logNotes": [
           "Signal stabilized under Illegal Mind control.",
           "Signal integrity maintained under manual override.",
           "Reconstruction completed with minimal data loss.",
@@ -320,7 +326,7 @@
           "This signal traces back to \"{song}\" by {artist}, but the original form was no longer enough. {tagLine}. The transmission was reshaped to carry more weight through the wasteland."
         ],
         "logBlock": [
-          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: {operatorNote}"
+          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: {logNote}"
         ],
         "reconstructedSignal": [],
         "statusLines": [
