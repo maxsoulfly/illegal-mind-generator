@@ -130,6 +130,9 @@ export function generateTitles(formData = {}, config = {}) {
       : generatedArtistShort;
 
   const isShorts = formData.videoType === 'Shorts';
+  const longSuffix = config.title?.longSuffix || '';
+  const prefixTemplate = config.title?.prefix || '';
+  const prefix = prefixTemplate.replace('{num}', formData.signalNumber || 'XX');
 
   const titles = [];
   const usedTitles = new Set();
@@ -148,8 +151,8 @@ export function generateTitles(formData = {}, config = {}) {
     });
 
     const title = isShorts
-      ? `[SIGNAL ${formData.signalNumber || 'XX'}] // ${baseTitle}`
-      : `[SIGNAL ${formData.signalNumber || 'XX'}] // ${baseTitle} // Illegal Mind Rework`;
+      ? `${prefix}${baseTitle}`
+      : `${prefix}${baseTitle}${longSuffix}`;
 
     if (!usedTitles.has(title)) {
       usedTitles.add(title);

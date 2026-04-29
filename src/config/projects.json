@@ -3,6 +3,8 @@
     "name": "Illegal Mind Covers",
     "title": {
       "longSuffix": " // Illegal Mind Rework",
+      "prefix": "[SIGNAL {num}] // ",
+
       "faithfulPhrases": [
         "Authentic Cover",
         "Full Band Cover",
