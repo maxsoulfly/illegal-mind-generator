@@ -449,5 +449,369 @@
         "partial desync"
       ]
     }
+  },
+  "maxxDeeCovers": {
+    "name": "Maxx Dee Covers",
+
+    "title": {
+      "prefix": "",
+      "longSuffix": "",
+      "templates": [
+        "{artist} - {song} // {transformation}",
+        "{song} by {artist} // {transformation}",
+        "{artist} - {song} Cover",
+        "{song} Cover // {transformation}",
+        "{artist} - {song} // Full Band Cover"
+      ],
+      "faithfulPhrases": [
+        "Faithful Cover",
+        "Full Band Cover",
+        "Original Feel",
+        "Classic Cover"
+      ],
+      "tagMap": {
+        "slower": ["Slower", "Slowed Down", "Dragged Out", "Lower And Slower"],
+        "heavier": ["Heavier", "Heavy", "Hitting Harder"],
+        "darker": ["Darker", "Bleaker", "Colder", "More Menacing"],
+        "alt metal": ["Alt Metal", "Alt Metalized", "Alternative Metal"],
+        "punk": ["Punk", "Punkier", "More Punk", "Punk Driven"],
+        "hardcore": ["Hardcore", "More Aggressive"],
+        "modernized": ["Modernized", "Updated", "Rebuilt"],
+        "nu metal": ["Nu Metal", "Groovier", "More Bounce", "Nu Metalized"],
+        "hebrew": ["Hebrew Version", "Hebrew Cover"],
+        "russian": ["Russian Version", "Russian Cover"],
+        "easycore": ["Easycore", "Easycore Cover"],
+        "metal": ["Metal", "Metal Cover"],
+        "pop punk": ["Pop Punk", "Pop Punk Cover"],
+        "hardcore punk": ["Hardcore Punk", "Hardcore Punk Cover"],
+        "skate punk": ["Skate Punk", "Skate Punk Cover"],
+        "faster": ["Faster", "Speed Boost"],
+        "nostalgia": ["Nostalgic", "Throwback", "Memory Loop"],
+        "00s": ["00s Nostalgia", "2000s Throwback"],
+        "90s": ["90s Nostalgia", "90s Throwback"]
+      }
+    },
+
+    "thumbnail": {
+      "words": ["COVER", "FULL BAND", "NEW MIX", "REBUILT", "LIVE ENERGY"],
+      "fallbacks": [
+        "FULL BAND COVER",
+        "NEW MIX",
+        "COVER VERSION",
+        "REBUILT SOUND",
+        "BETTER MIX"
+      ],
+      "genericTagTemplates": ["{tag}", "{tag} COVER", "{tag} VERSION"],
+      "patterns": {
+        "shorts": ["song", "artistShort"],
+        "long": ["artistFull", "song", "artistShort"]
+      },
+      "tagMap": {
+        "slower": [
+          "SLOWED DOWN",
+          "SLOWED HARD",
+          "LOWER AND SLOWER",
+          "HALF-STEP HEAVIER"
+        ],
+        "heavier": [
+          "HITS HARDER",
+          "MORE WEIGHT",
+          "EXTRA HEAVY",
+          "CRUSHES HARDER"
+        ],
+        "darker": [
+          "DARKER FEEL",
+          "BLEAKER",
+          "SHADOW MODE",
+          "COLDER TONE",
+          "MORE MENACE"
+        ],
+        "alt metal": ["ALT METALIZED", "ALT METAL EDGE"],
+        "punk": ["PUNK REWORK", "PUNKIER", "PUNK ENERGY", "PUNK ATTITUDE"],
+        "hardcore": [
+          "HARDCORE EDGE",
+          "HARDCORE PUSH",
+          "MORE AGGRESSION",
+          "BREAKDOWN ENERGY"
+        ],
+        "modernized": [
+          "UPDATED FEEL",
+          "NEW ERA MIX",
+          "REBUILT NOW",
+          "MODERN EDGE",
+          "FRESHER HIT"
+        ],
+        "nu metal": [
+          "NU METALIZED",
+          "NOW NU METAL?",
+          "MORE GROOVE",
+          "BIGGER BOUNCE"
+        ],
+        "hebrew": ["HEBREW VERSION"],
+        "russian": ["RUSSIAN VERSION"],
+        "easycore": ["EASYCORE ENERGY", "EASYCORE MODE"],
+        "metal": ["FULL METAL", "METAL MODE"],
+        "pop punk": ["POP PUNK MODE", "POP PUNK ENERGY"],
+        "hardcore punk": ["HARDCORE PUNK", "PUNK HARDER"],
+        "skate punk": ["SKATE PUNK ENERGY", "FAST PUNK"],
+        "faster": ["FASTER VERSION", "SPEED BOOST"],
+        "nostalgia": ["NOSTALGIA HIT", "OLD SIGNAL", "THROWBACK MODE"],
+        "00s": ["00S NOSTALGIA", "2000S THROWBACK"],
+        "90s": ["90S NOSTALGIA", "90S THROWBACK"]
+      }
+    },
+
+    "hashtags": ["#MaxxDee", "#CoverSong", "#RockCover"],
+    "youtubetags": ["Maxx Dee", "cover song", "rock cover"],
+
+    "availableTags": [
+      "slower",
+      "heavier",
+      "darker",
+      "alt metal",
+      "punk",
+      "modernized",
+      "faithful",
+      "hardcore",
+      "nu metal",
+      "hebrew",
+      "russian",
+      "easycore",
+      "metal",
+      "pop punk",
+      "hardcore punk",
+      "skate punk",
+      "faster",
+      "nostalgia",
+      "00s",
+      "90s"
+    ],
+
+    "description": {
+      "operatorStatuses": [],
+      "tagMap": {
+        "heavier": {
+          "technical": ["Weight: increased.", "Impact: reinforced."],
+          "log": [
+            "Modification: Additional weight was injected into the signal core."
+          ],
+          "status": ["Signal weight: Increased.", "Load: Elevated."]
+        },
+        "slower": {
+          "technical": ["Tempo: reduced.", "Speed: lowered."],
+          "log": [
+            "Modification: The original pulse was slowed to increase weight and space."
+          ],
+          "status": ["Temporal drag: Active.", "Cycle speed: Reduced."]
+        },
+        "darker": {
+          "technical": ["Tone: darkened.", "Atmosphere: colder."],
+          "log": [
+            "Modification: The tonal profile was shifted into a darker spectrum."
+          ],
+          "status": ["Light levels: Suppressed.", "Visibility: Degraded."]
+        },
+        "punk": {
+          "technical": ["Energy: accelerated.", "Drive: sharpened."],
+          "log": [
+            "Modification: The signal was re-driven with a more aggressive punk velocity."
+          ],
+          "status": ["Pulse rate: Elevated.", "Momentum: Surging."]
+        },
+
+        "alt metal": {
+          "technical": ["Grit: injected.", "Density: increased."],
+          "log": [
+            "Modification: The structure was rerouted through an alternative metal framework."
+          ],
+          "status": ["Signal density: High.", "Layer depth: Increased."]
+        },
+
+        "modernized": {
+          "technical": ["Production: updated.", "Mix: rebuilt."],
+          "log": [
+            "Modification: The signal was reconstructed using modern production techniques."
+          ],
+          "status": ["System version: Updated.", "Processing layer: Modern."]
+        },
+
+        "faithful": {
+          "technical": ["Structure: preserved.", "Intent: intact."],
+          "log": [
+            "Modification: Core structure preserved with minimal deviation from source."
+          ],
+          "status": ["Deviation: Minimal.", "Source alignment: Maintained."]
+        },
+
+        "hardcore": {
+          "technical": ["Aggression: elevated.", "Force: intensified."],
+          "log": [
+            "Modification: The signal was pushed toward a more aggressive hardcore execution."
+          ],
+          "status": ["Impact level: Extreme.", "Stress factor: High."]
+        },
+
+        "nu metal": {
+          "technical": ["Groove: amplified.", "Rhythm: emphasized."],
+          "log": [
+            "Modification: Groove elements were enhanced within a nu-metal structure."
+          ],
+          "status": ["Rhythmic load: Heavy.", "Bounce factor: Active."]
+        },
+        "hebrew": {
+          "technical": ["Language: Hebrew adaptation."],
+          "log": ["Modification: Signal re-recorded in Hebrew."],
+          "status": ["Localization: Hebrew."]
+        },
+        "russian": {
+          "technical": ["Language: Russian adaptation."],
+          "log": ["Modification: Signal re-recorded in Russian."],
+          "status": ["Localization: Russian."]
+        },
+        "easycore": {
+          "technical": ["Energy: uplifted.", "Drive: melodic and aggressive."],
+          "log": ["Modification: Signal shifted toward easycore structure."],
+          "status": ["Energy profile: Elevated."]
+        },
+        "metal": {
+          "technical": ["Distortion: increased.", "Weight: reinforced."],
+          "log": ["Modification: Signal pushed into full metal spectrum."],
+          "status": ["Signal intensity: High."]
+        },
+        "pop punk": {
+          "technical": ["Melody: emphasized.", "Tempo: upbeat."],
+          "log": ["Modification: Signal tuned toward pop punk structure."],
+          "status": ["Tone: Brighter."]
+        },
+        "hardcore punk": {
+          "technical": ["Aggression: maxed.", "Drive: relentless."],
+          "log": ["Modification: Signal pushed into hardcore punk intensity."],
+          "status": ["Impact: Extreme."]
+        },
+        "skate punk": {
+          "technical": ["Tempo: fast.", "Energy: high."],
+          "log": ["Modification: Signal shifted toward skate punk velocity."],
+          "status": ["Momentum: Surging."]
+        },
+        "faster": {
+          "technical": ["Tempo: increased.", "Speed: boosted."],
+          "log": ["Modification: Signal accelerated beyond original tempo."],
+          "status": ["Cycle speed: Elevated."]
+        },
+        "nostalgia": {
+          "technical": [
+            "Tone: retro.",
+            "Feel: preserved.",
+            "Signal memory: emphasized."
+          ],
+          "log": [
+            "Modification: Signal tuned toward nostalgic frequencies.",
+            "Modification: Signal tuned to evoke nostalgic recall patterns."
+          ],
+          "status": ["Era sync: Active.", "Memory layer: Active."]
+        },
+        "00s": {
+          "technical": ["Signal memory: early 2000s."],
+          "log": [
+            "Modification: Signal tuned to early 2000s-era recall patterns."
+          ],
+          "status": ["Memory layer: 00s nostalgia."]
+        },
+        "90s": {
+          "technical": ["Signal memory: 90s era."],
+          "log": ["Modification: Signal tuned to 90s-era recall patterns."],
+          "status": ["Memory layer: 90s nostalgia."]
+        }
+      },
+      "templates": {
+        "long": {
+          "layout": [
+            "introBlock",
+            "storyBlock",
+            "renovationBlock",
+
+            "logBlock",
+            "mixingCtaBlock",
+            "commentCtaBlock",
+            "coverSummaryBlock",
+            "gearBlock",
+            "supportBlock",
+            "playlistBlock"
+          ],
+          "customBlocks": {
+            "mixingCtaBlock": "🎚️ DOES YOUR MUSIC SOUND THIN?\nIf you have old covers or demos that need a \"Modern Renovation\" like this one, I’m currently taking on new Mixing & Mastering projects. Let’s make your music sound massive.\nInquire here: {links.mixingForm}",
+
+            "commentCtaBlock": "👉 What does this song mean to you?\n👉 Have you ever revisited an old piece of work and felt the need to give it new life?\n\nDrop a comment — I’d love to hear your take.",
+
+            "gearBlock": "🎛 Gear Used:\n• Guitars: Schecter Omen-6\n• Bass: Cort Action Bass\n• Interface: Scarlett 2i2 (2nd gen)\n• Mic: Behringer C-1\n• DAW: Cubase 14 Pro",
+
+            "playlistBlock": "🎵 More Covers from the Wasteland\n🎵 Punk Covers: {links.punkPlaylist}\n🎵 Rock Covers: {links.rockPlaylist}\n🎵 Metal Covers: {links.metalPlaylist}"
+          },
+          "tagLineExcludedTags": ["nostalgia"],
+          "tagLineFallbacks": [],
+          "tagLineTemplates": [
+            "performed with a {tags} approach",
+            "rebuilt as a {tags} cover",
+            "played with a {tags} feel"
+          ],
+          "logNotes": [
+            "Recorded, mixed, and produced by Maxx Dee.",
+            "Built as a one-man full-band cover.",
+            "Tracked and mixed in a home studio setup."
+          ],
+          "introHook": [
+            "A full-band cover version rebuilt from the ground up.",
+            "A focused cover take with guitars, bass, programmed drums, and vocals.",
+            "Recorded and mixed as a one-man cover production."
+          ],
+          "storyBlock": [
+            "\"{song}\" by {artist} covered by Maxx Dee. {tagLine}.",
+            "This cover of \"{song}\" by {artist} was recorded as a full-band home studio version. {tagLine}."
+          ],
+          "logBlock": ["Production Note: {logNote}"],
+          "statusLines": [],
+          "closingSignal": [],
+          "philosophyLine": [],
+          "supportBlock": [
+            "📢 Support the Channel\n▶️ Original songs: {links.original}\n💿 Bandcamp: {links.bandcamp}\n☕ Buy me a coffee: {links.coffee}\n🌐 More links: {links.linktree}"
+          ],
+          "shortTagPhrase": {
+            "excludedTags": ["nostalgia"],
+            "fallback": "Cover",
+            "maxTags": 2,
+            "joinWord": "and"
+          }
+        },
+        "shorts": {
+          "count": 5,
+          "header": [
+            "{artist} - {song}",
+            "{song} // Cover by Maxx Dee",
+            "{artist} - {song} // Full Band Cover"
+          ],
+          "primary": [
+            "{tagLine}.",
+            "One-man full-band cover.",
+            "Recorded, mixed, and performed by Maxx Dee."
+          ],
+          "secondary": [
+            "Full version on the channel.",
+            "Should I redo this one now?",
+            "More covers on the channel."
+          ]
+        }
+      },
+      "links": {
+        "original": "https://www.youtube.com/@illegalmind",
+        "bandcamp": "https://illegalmind.bandcamp.com/",
+        "coffee": "https://paypal.me/illegalmind",
+        "instagram": "https://instagram.com/maxxdee_covers",
+        "mixingForm": "https://forms.gle/MudWe6d3ktGTibxw9",
+        "linktree": "https://linktr.ee/illegalmind",
+        "punkPlaylist": "https://www.youtube.com/playlist?list=PL3fF7lGt77N3zKN_BDjQatqwkdxhugj6x",
+        "rockPlaylist": "https://www.youtube.com/playlist?list=PL3fF7lGt77N3XmA7HTwBGVauOZe7akgFc",
+        "metalPlaylist": "https://www.youtube.com/playlist?list=PL3fF7lGt77N0NLHzrFqh6n4Kz1vNT2Eiy"
+      }
+    }
   }
 }

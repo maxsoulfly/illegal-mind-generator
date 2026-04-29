@@ -245,6 +245,19 @@ export function generateDescriptions(formData, projectConfig) {
     throw new Error('Missing description layout in project config');
   }
 
+  const customBlocks =
+    projectConfig.description.templates.long.customBlocks || {};
+
+  const renderedCustomBlocks = Object.fromEntries(
+    Object.entries(customBlocks).map(([key, template]) => [
+      key,
+      replaceLinkPlaceholders(template, projectConfig.description.links)
+        .replace(/\{artist\}/g, formData.artist || '')
+        .replace(/\{song\}/g, formData.song || '')
+        .replace(/\{tagLine\}/g, tagLine),
+    ]),
+  );
+
   const layout = projectConfig.description.templates.long.layout;
   const blocks = {
     broadcastBlock,
@@ -254,6 +267,7 @@ export function generateDescriptions(formData, projectConfig) {
     logBlock,
     closingBlock: closingCombined,
     supportBlock,
+    ...renderedCustomBlocks,
   };
 
   const longDescription = layout
