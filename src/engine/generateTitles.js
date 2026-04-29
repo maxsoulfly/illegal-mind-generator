@@ -8,12 +8,7 @@ function getRandomItem(items) {
 
 function buildShortTransformationPhrase(tags = [], config = {}) {
   if (tags.includes('faithful')) {
-    const faithfulOptions = [
-      'Authentic Cover',
-      'Full Band Cover',
-      'Original Energy',
-      'Classic Feel',
-    ];
+    const faithfulOptions = config.title?.faithfulPhrases;
 
     return getRandomItem(faithfulOptions);
   }
@@ -40,7 +35,9 @@ function buildShortTransformationPhrase(tags = [], config = {}) {
 
   const useButIts = Math.random() > 0.4;
 
-  return useButIts ? `but it's ${word}` : limitedWords[0];
+  return useButIts
+    ? config.title?.butItsTemplate.replace('{value}', word)
+    : limitedWords[0];
 }
 
 function buildTransformationVariations(formData = {}, config = {}) {

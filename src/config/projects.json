@@ -1,15 +1,17 @@
 {
   "illegalMindCovers": {
     "name": "Illegal Mind Covers",
+    "title": {
+      "longSuffix": " // Illegal Mind Rework",
+      "faithfulPhrases": [
+        "Authentic Cover",
+        "Full Band Cover",
+        "Original Energy",
+        "Classic Feel"
+      ],
+      "butItsTemplate": "but it's {value}"
+    },
 
-    "titleTemplates": [
-      "[SIGNAL {num}] // {artist} - {song} // {transformation} // Illegal Mind Rework",
-      "[SIGNAL {num}] // {song} // {transformation} // Illegal Mind Rework",
-      "[SIGNAL {num}] // {artist} // {transformation} // Illegal Mind Rework",
-      "[SIGNAL {num}] // {artist} - {song} ({transformation}) // Illegal Mind Rework",
-      "[SIGNAL {num}] // {song} but it's {transformation} // Illegal Mind Rework",
-      "[SIGNAL {num}] // {artist} but it's {transformation} // Illegal Mind Rework"
-    ],
     "shortTitleTemplates": [
       "{artist} - {song} // {transformation}",
       "{song} // {transformation}",
@@ -130,16 +132,11 @@
 
     "titleTagMap": {
       "slower": ["Slower", "Slowed Down", "Dragged Out", "Lower And Slower"],
-      "heavier": ["Heavier", "Heavy", "Harder Hitting", "More Weight"],
+      "heavier": ["Heavier", "Heavy", "Hitting Harder"],
       "darker": ["Darker", "Bleaker", "Colder", "More Menacing"],
       "alt metal": ["Alt Metal", "Alt Metalized", "Alternative Metal"],
       "punk": ["Punk", "Punkier", "More Punk", "Punk Driven"],
-      "hardcore": [
-        "Hardcore",
-        "More Aggressive",
-        "Hardcore Leaning",
-        "Breakdown Ready"
-      ],
+      "hardcore": ["Hardcore", "More Aggressive"],
       "modernized": ["Modernized", "Updated", "Rebuilt"],
       "nu metal": ["Nu Metal", "Groovier", "More Bounce", "Nu Metalized"],
       "hebrew": ["Hebrew Version", "Hebrew Cover"],

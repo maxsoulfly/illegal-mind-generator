@@ -151,7 +151,7 @@ function App() {
           Regenerate
         </button>
       </div>
-      <h2>{projectConfig.title}</h2>
+      <h2>{projectConfig.name}</h2>
       <div className="layout-grid">
         <div className="panel">
           <InputForm
