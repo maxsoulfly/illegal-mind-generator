@@ -203,14 +203,17 @@ export function generateDescriptions(formData, projectConfig) {
     projectConfig?.descriptionTemplates?.long?.logBlock,
   );
 
+  const defaultOperatorNote =
+    projectConfig?.descriptionTemplates?.long?.defaultOperatorNote ||
+    'Signal stabilized.';
+
+  const operatorNote = formData.customLogNote?.trim()
+    ? formData.customLogNote.trim()
+    : defaultOperatorNote;
+
   const baseLogBlock = logTemplate
     .replace(/\{tagLine\}/g, tagLine)
-    .replace(
-      'Operator Note: Signal stabilized under Illegal Mind control.',
-      formData.customLogNote?.trim()
-        ? `Operator Note: ${formData.customLogNote.trim()}`
-        : 'Operator Note: Signal stabilized under Illegal Mind control.',
-    );
+    .replace(/\{operatorNote\}/g, operatorNote);
 
   const logBlock = [baseLogBlock, tagLogBlock].filter(Boolean).join('\n');
 

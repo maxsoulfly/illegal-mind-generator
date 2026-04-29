@@ -289,6 +289,16 @@
     },
     "descriptionTemplates": {
       "long": {
+        "defaultOperatorNote": "Signal stabilized under Illegal Mind control.",
+        "operatorNotes": [
+          "Signal stabilized under Illegal Mind control.",
+          "Signal integrity maintained under manual override.",
+          "Reconstruction completed with minimal data loss.",
+          "Signal passed through controlled distortion layers.",
+          "Core structure retained, surface layers altered.",
+          "Signal stabilized after multiple degradation cycles.",
+          "Output calibrated for current atmospheric conditions."
+        ],
         "broadcastHeader": [
           "[SYSTEM BROADCAST // CH-42]\nRecovered Transmission: FILE_{fileId}\nOperator status: {operatorStatus}.",
           "[RECOVERED BROADCAST // SIG-{fileId}]\nTransmission locked: FILE_{fileId}\nOperator state: {operatorStatus}.",
@@ -310,13 +320,7 @@
           "This signal traces back to \"{song}\" by {artist}, but the original form was no longer enough. {tagLine}. The transmission was reshaped to carry more weight through the wasteland."
         ],
         "logBlock": [
-          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Signal stabilized under Illegal Mind control.",
-          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Signal integrity maintained under manual override.",
-          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Reconstruction completed with minimal data loss.",
-          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Signal passed through controlled distortion layers.",
-          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Core structure retained, surface layers altered.",
-          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Signal stabilized after multiple degradation cycles.",
-          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: Output calibrated for current atmospheric conditions."
+          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: {operatorNote}"
         ],
         "reconstructedSignal": [],
         "statusLines": [

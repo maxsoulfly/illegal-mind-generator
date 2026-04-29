@@ -122,7 +122,7 @@ export function generateTitles(formData = {}, config = {}) {
     return [];
   }
 
-  const artistFull = formData.artist || 'Artist';
+  const artistFull = formData.artist || '[Artist Name]';
   const generatedArtistShort = buildGeneratedArtistShort(artistFull);
   const artistShortFinal =
     formData.useCustomArtistShort && formData.artistShort
@@ -146,7 +146,7 @@ export function generateTitles(formData = {}, config = {}) {
     const baseTitle = fillTemplate(template, {
       signalNumber: formData.signalNumber || 'XX',
       artist: isShorts ? artistShortFinal : artistFull,
-      song: formData.song || 'Song',
+      song: formData.song || '[Song Name]',
       transformation,
     });
 
