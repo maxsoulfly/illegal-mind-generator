@@ -2,8 +2,16 @@
   "illegalMindCovers": {
     "name": "Illegal Mind Covers",
     "title": {
-      "longSuffix": " // Illegal Mind Rework",
       "prefix": "[SIGNAL {num}] // ",
+      "longSuffix": " // Illegal Mind Rework",
+
+      "templates": [
+        "{artist} - {song} // {transformation}",
+        "{song} // {transformation}",
+        "{artist} // {transformation}",
+        "{song} but it's {transformation}",
+        "{artist} but it's {transformation}"
+      ],
 
       "faithfulPhrases": [
         "Authentic Cover",
@@ -11,16 +19,31 @@
         "Original Energy",
         "Classic Feel"
       ],
-      "butItsTemplate": "but it's {value}"
-    },
 
-    "shortTitleTemplates": [
-      "{artist} - {song} // {transformation}",
-      "{song} // {transformation}",
-      "{artist} // {transformation}",
-      "{song} but it's {transformation}",
-      "{artist} but it's {transformation}"
-    ],
+      "butItsTemplate": "but it's {value}",
+
+      "tagMap": {
+        "slower": ["Slower", "Slowed Down", "Dragged Out", "Lower And Slower"],
+        "heavier": ["Heavier", "Heavy", "Hitting Harder"],
+        "darker": ["Darker", "Bleaker", "Colder", "More Menacing"],
+        "alt metal": ["Alt Metal", "Alt Metalized", "Alternative Metal"],
+        "punk": ["Punk", "Punkier", "More Punk", "Punk Driven"],
+        "hardcore": ["Hardcore", "More Aggressive"],
+        "modernized": ["Modernized", "Updated", "Rebuilt"],
+        "nu metal": ["Nu Metal", "Groovier", "More Bounce", "Nu Metalized"],
+        "hebrew": ["Hebrew Version", "Hebrew Cover"],
+        "russian": ["Russian Version", "Russian Cover"],
+        "easycore": ["Easycore", "Easycore Cover"],
+        "metal": ["Metal", "Metal Cover"],
+        "pop punk": ["Pop Punk", "Pop Punk Cover"],
+        "hardcore punk": ["Hardcore Punk", "Hardcore Punk Cover"],
+        "skate punk": ["Skate Punk", "Skate Punk Cover"],
+        "faster": ["Faster", "Speed Boost"],
+        "nostalgia": ["Nostalgic", "Throwback", "Memory Loop"],
+        "00s": ["00s Nostalgia", "2000s Throwback"],
+        "90s": ["90s Nostalgia", "90s Throwback"]
+      }
+    },
 
     "transformations": [
       "Slower & Heavier",
@@ -59,7 +82,7 @@
       "00s",
       "90s"
     ],
-    "titleVariationSuffixes": ["Version", "Rework", "Mix", "Reconstruction"],
+
     "thumbnail": {
       "words": [
         "HEAVIER",
@@ -142,27 +165,6 @@
         "00s": ["00S NOSTALGIA", "2000S THROWBACK"],
         "90s": ["90S NOSTALGIA", "90S THROWBACK"]
       }
-    },
-    "titleTagMap": {
-      "slower": ["Slower", "Slowed Down", "Dragged Out", "Lower And Slower"],
-      "heavier": ["Heavier", "Heavy", "Hitting Harder"],
-      "darker": ["Darker", "Bleaker", "Colder", "More Menacing"],
-      "alt metal": ["Alt Metal", "Alt Metalized", "Alternative Metal"],
-      "punk": ["Punk", "Punkier", "More Punk", "Punk Driven"],
-      "hardcore": ["Hardcore", "More Aggressive"],
-      "modernized": ["Modernized", "Updated", "Rebuilt"],
-      "nu metal": ["Nu Metal", "Groovier", "More Bounce", "Nu Metalized"],
-      "hebrew": ["Hebrew Version", "Hebrew Cover"],
-      "russian": ["Russian Version", "Russian Cover"],
-      "easycore": ["Easycore", "Easycore Cover"],
-      "metal": ["Metal", "Metal Cover"],
-      "pop punk": ["Pop Punk", "Pop Punk Cover"],
-      "hardcore punk": ["Hardcore Punk", "Hardcore Punk Cover"],
-      "skate punk": ["Skate Punk", "Skate Punk Cover"],
-      "faster": ["Faster", "Speed Boost"],
-      "nostalgia": ["Nostalgic", "Throwback", "Memory Loop"],
-      "00s": ["00s Nostalgia", "2000s Throwback"],
-      "90s": ["90s Nostalgia", "90s Throwback"]
     },
     "descriptionTagMap": {
       "heavier": {

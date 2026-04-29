@@ -16,7 +16,7 @@ function buildShortTransformationPhrase(tags = [], config = {}) {
     return 'Rework';
   }
 
-  const titleTagMap = config.titleTagMap || {};
+  const titleTagMap = config.title.tagMap || {};
 
   const pickedWords = tags
     .map((tag) => {
@@ -31,13 +31,11 @@ function buildShortTransformationPhrase(tags = [], config = {}) {
     return 'Rework';
   }
 
-  const word = limitedWords[0].toLowerCase();
+  // const word = limitedWords[0].toLowerCase();
 
-  const useButIts = Math.random() > 0.4;
+  // const useButIts = Math.random() > 0.4;
 
-  return useButIts
-    ? config.title?.butItsTemplate.replace('{value}', word)
-    : limitedWords[0];
+  return limitedWords[0];
 }
 
 function buildTransformationVariations(formData = {}, config = {}) {
@@ -65,7 +63,10 @@ function buildGeneratedArtistShort(artistRaw) {
   const words = artistRaw.trim().split(' ').filter(Boolean);
 
   if (words.length >= 3) {
-    return words.map((word) => word[0]).join('');
+    return words
+      .map((word) => word[0])
+      .join('')
+      .toUpperCase();
   }
 
   return artistRaw;
@@ -74,15 +75,13 @@ function buildGeneratedArtistShort(artistRaw) {
 function getWeightedTemplates(formData = {}, config = {}) {
   const isFaithful = (formData.transformationTags || []).includes('faithful');
 
-  const baseTemplates = (config.shortTitleTemplates || []).filter(
-    (template) => {
-      if (isFaithful && template.includes("but it's")) {
-        return false;
-      }
+  const baseTemplates = (config.title.templates || []).filter((template) => {
+    if (isFaithful && template.includes("but it's")) {
+      return false;
+    }
 
-      return true;
-    },
-  );
+    return true;
+  });
 
   return baseTemplates.flatMap((template) => {
     const hasArtist = template.includes('{artist}');
