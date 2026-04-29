@@ -16,7 +16,7 @@ function replaceLinkPlaceholders(template, links = {}) {
 }
 
 function buildTagLine(formData, projectConfig) {
-  const longTemplates = projectConfig?.descriptionTemplates?.long || {};
+  const longTemplates = projectConfig?.description.templates?.long || {};
 
   const excluded = longTemplates.tagLineExcludedTags || [];
 
@@ -57,7 +57,7 @@ export function generateDescriptions(formData, projectConfig) {
   const tagPhrase = buildTagPhrase(formData);
 
   // --- Broadcast block ---
-  const operatorStatuses = projectConfig?.operatorStatuses || [];
+  const operatorStatuses = projectConfig?.description.operatorStatuses || [];
 
   const operatorStatus =
     operatorStatuses[Math.floor(Math.random() * operatorStatuses.length)] ||
@@ -74,12 +74,12 @@ export function generateDescriptions(formData, projectConfig) {
 
   // --- Intro block ---
   const introBlock = pickRandom(
-    projectConfig?.descriptionTemplates?.long?.introHook,
+    projectConfig?.description.templates?.long?.introHook,
   );
 
   // --- Status block ---
   const selectedTags = formData.transformationTags || [];
-  const descriptionTagMap = projectConfig?.descriptionTagMap || {};
+  const descriptionTagMap = projectConfig?.description.tagMap || {};
 
   // collect tag-based status lines
   const tagStatusLines = selectedTags.flatMap(
@@ -88,7 +88,7 @@ export function generateDescriptions(formData, projectConfig) {
 
   // fallback to global status lines
   const baseStatusLines =
-    projectConfig?.descriptionTemplates?.long?.statusLines || [];
+    projectConfig?.description.templates?.long?.statusLines || [];
 
   // merge (tag lines first)
   const combinedStatus = [...tagStatusLines, ...baseStatusLines];
@@ -103,7 +103,7 @@ export function generateDescriptions(formData, projectConfig) {
   // --- Broadcast block ---
 
   const broadcastTemplate = pickRandom(
-    projectConfig?.descriptionTemplates?.long?.broadcastHeader,
+    projectConfig?.description.templates?.long?.broadcastHeader,
   );
   const broadcastHeader = broadcastTemplate
     .replace(/\{fileId\}/g, fileId)
@@ -115,7 +115,7 @@ export function generateDescriptions(formData, projectConfig) {
 
   // --- Story block ---
   const storyTemplate = pickRandom(
-    projectConfig?.descriptionTemplates?.long?.storyBlock,
+    projectConfig?.description.templates?.long?.storyBlock,
   );
 
   const storyBlock = formData.customStory?.trim()
@@ -127,23 +127,23 @@ export function generateDescriptions(formData, projectConfig) {
 
   // --- Support block ---
   const supportTemplate =
-    projectConfig?.descriptionTemplates?.long?.supportBlock?.[0] ?? '';
+    projectConfig?.description.templates?.long?.supportBlock?.[0] ?? '';
 
   const supportBlock = replaceLinkPlaceholders(
     supportTemplate,
-    projectConfig?.links,
+    projectConfig?.description.links || {},
   );
 
   // --- Philosophy block ---
   const philosophyTemplate = pickRandom(
-    projectConfig?.descriptionTemplates?.long?.philosophyLine,
+    projectConfig?.description.templates?.long?.philosophyLine,
   );
 
   const philosophyBlock = philosophyTemplate;
 
   // --- Closing block ---
   const closingTemplate = pickRandom(
-    projectConfig?.descriptionTemplates?.long?.closingSignal,
+    projectConfig?.description.templates?.long?.closingSignal,
   );
 
   const closingBlock = closingTemplate.replace(
@@ -190,15 +190,15 @@ export function generateDescriptions(formData, projectConfig) {
 
   // --- Log block ---
   const logTemplate = pickRandom(
-    projectConfig?.descriptionTemplates?.long?.logBlock,
+    projectConfig?.description.templates?.long?.logBlock,
   );
 
-  const logNotes = projectConfig?.descriptionTemplates?.long?.logNotes || [];
+  const logNotes = projectConfig?.description.templates?.long?.logNotes || [];
 
   const defaultLogNote =
     logNotes.length > 0
       ? pickRandom(logNotes)
-      : projectConfig?.descriptionTemplates?.long?.defaultLogNote ||
+      : projectConfig?.description.templates?.long?.defaultLogNote ||
         'Signal stabilized.';
 
   const logNote = formData.customLogNote?.trim()
@@ -214,7 +214,7 @@ export function generateDescriptions(formData, projectConfig) {
   // --- Short tag phrase ---
   function buildShortTagPhrase(formData, projectConfig) {
     const shortTagConfig =
-      projectConfig?.descriptionTemplates?.long?.shortTagPhrase || {};
+      projectConfig?.description.templates?.long?.shortTagPhrase || {};
     const excluded = shortTagConfig.excludedTags || [];
 
     const maxTags = shortTagConfig.maxTags || 2;
@@ -243,11 +243,11 @@ export function generateDescriptions(formData, projectConfig) {
   const shortTagPhrase = buildShortTagPhrase(formData, projectConfig);
 
   // --- Long description ---
-  if (!projectConfig?.descriptionTemplates?.long?.layout) {
+  if (!projectConfig?.description.templates?.long?.layout) {
     throw new Error('Missing description layout in project config');
   }
 
-  const layout = projectConfig.descriptionTemplates.long.layout;
+  const layout = projectConfig.description.templates.long.layout;
   const blocks = {
     broadcastBlock,
     introBlock,
@@ -264,7 +264,7 @@ export function generateDescriptions(formData, projectConfig) {
     .join('\n\n');
 
   // --- Shorts ---
-  const shortTemplates = projectConfig?.descriptionTemplates?.shorts || [];
+  const shortTemplates = projectConfig?.description.templates?.shorts || [];
 
   const shortDescriptions = shortTemplates.map((template) =>
     template

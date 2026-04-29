@@ -166,254 +166,256 @@
         "90s": ["90S NOSTALGIA", "90S THROWBACK"]
       }
     },
-    "descriptionTagMap": {
-      "heavier": {
-        "technical": ["Weight: increased.", "Impact: reinforced."],
-        "log": [
-          "Modification: Additional weight was injected into the signal core."
-        ],
-        "status": ["Signal weight: Increased.", "Load: Elevated."]
-      },
-      "slower": {
-        "technical": ["Tempo: reduced.", "Speed: lowered."],
-        "log": [
-          "Modification: The original pulse was slowed to increase weight and space."
-        ],
-        "status": ["Temporal drag: Active.", "Cycle speed: Reduced."]
-      },
-      "darker": {
-        "technical": ["Tone: darkened.", "Atmosphere: colder."],
-        "log": [
-          "Modification: The tonal profile was shifted into a darker spectrum."
-        ],
-        "status": ["Light levels: Suppressed.", "Visibility: Degraded."]
-      },
-      "punk": {
-        "technical": ["Energy: accelerated.", "Drive: sharpened."],
-        "log": [
-          "Modification: The signal was re-driven with a more aggressive punk velocity."
-        ],
-        "status": ["Pulse rate: Elevated.", "Momentum: Surging."]
-      },
+    "description": {
+      "tagMap": {
+        "heavier": {
+          "technical": ["Weight: increased.", "Impact: reinforced."],
+          "log": [
+            "Modification: Additional weight was injected into the signal core."
+          ],
+          "status": ["Signal weight: Increased.", "Load: Elevated."]
+        },
+        "slower": {
+          "technical": ["Tempo: reduced.", "Speed: lowered."],
+          "log": [
+            "Modification: The original pulse was slowed to increase weight and space."
+          ],
+          "status": ["Temporal drag: Active.", "Cycle speed: Reduced."]
+        },
+        "darker": {
+          "technical": ["Tone: darkened.", "Atmosphere: colder."],
+          "log": [
+            "Modification: The tonal profile was shifted into a darker spectrum."
+          ],
+          "status": ["Light levels: Suppressed.", "Visibility: Degraded."]
+        },
+        "punk": {
+          "technical": ["Energy: accelerated.", "Drive: sharpened."],
+          "log": [
+            "Modification: The signal was re-driven with a more aggressive punk velocity."
+          ],
+          "status": ["Pulse rate: Elevated.", "Momentum: Surging."]
+        },
 
-      "alt metal": {
-        "technical": ["Grit: injected.", "Density: increased."],
-        "log": [
-          "Modification: The structure was rerouted through an alternative metal framework."
-        ],
-        "status": ["Signal density: High.", "Layer depth: Increased."]
-      },
+        "alt metal": {
+          "technical": ["Grit: injected.", "Density: increased."],
+          "log": [
+            "Modification: The structure was rerouted through an alternative metal framework."
+          ],
+          "status": ["Signal density: High.", "Layer depth: Increased."]
+        },
 
-      "modernized": {
-        "technical": ["Production: updated.", "Mix: rebuilt."],
-        "log": [
-          "Modification: The signal was reconstructed using modern production techniques."
-        ],
-        "status": ["System version: Updated.", "Processing layer: Modern."]
-      },
+        "modernized": {
+          "technical": ["Production: updated.", "Mix: rebuilt."],
+          "log": [
+            "Modification: The signal was reconstructed using modern production techniques."
+          ],
+          "status": ["System version: Updated.", "Processing layer: Modern."]
+        },
 
-      "faithful": {
-        "technical": ["Structure: preserved.", "Intent: intact."],
-        "log": [
-          "Modification: Core structure preserved with minimal deviation from source."
-        ],
-        "status": ["Deviation: Minimal.", "Source alignment: Maintained."]
-      },
+        "faithful": {
+          "technical": ["Structure: preserved.", "Intent: intact."],
+          "log": [
+            "Modification: Core structure preserved with minimal deviation from source."
+          ],
+          "status": ["Deviation: Minimal.", "Source alignment: Maintained."]
+        },
 
-      "hardcore": {
-        "technical": ["Aggression: elevated.", "Force: intensified."],
-        "log": [
-          "Modification: The signal was pushed toward a more aggressive hardcore execution."
-        ],
-        "status": ["Impact level: Extreme.", "Stress factor: High."]
-      },
+        "hardcore": {
+          "technical": ["Aggression: elevated.", "Force: intensified."],
+          "log": [
+            "Modification: The signal was pushed toward a more aggressive hardcore execution."
+          ],
+          "status": ["Impact level: Extreme.", "Stress factor: High."]
+        },
 
-      "nu metal": {
-        "technical": ["Groove: amplified.", "Rhythm: emphasized."],
-        "log": [
-          "Modification: Groove elements were enhanced within a nu-metal structure."
-        ],
-        "status": ["Rhythmic load: Heavy.", "Bounce factor: Active."]
-      },
-      "hebrew": {
-        "technical": ["Language: Hebrew adaptation."],
-        "log": ["Modification: Signal re-recorded in Hebrew."],
-        "status": ["Localization: Hebrew."]
-      },
-      "russian": {
-        "technical": ["Language: Russian adaptation."],
-        "log": ["Modification: Signal re-recorded in Russian."],
-        "status": ["Localization: Russian."]
-      },
-      "easycore": {
-        "technical": ["Energy: uplifted.", "Drive: melodic and aggressive."],
-        "log": ["Modification: Signal shifted toward easycore structure."],
-        "status": ["Energy profile: Elevated."]
-      },
-      "metal": {
-        "technical": ["Distortion: increased.", "Weight: reinforced."],
-        "log": ["Modification: Signal pushed into full metal spectrum."],
-        "status": ["Signal intensity: High."]
-      },
-      "pop punk": {
-        "technical": ["Melody: emphasized.", "Tempo: upbeat."],
-        "log": ["Modification: Signal tuned toward pop punk structure."],
-        "status": ["Tone: Brighter."]
-      },
-      "hardcore punk": {
-        "technical": ["Aggression: maxed.", "Drive: relentless."],
-        "log": ["Modification: Signal pushed into hardcore punk intensity."],
-        "status": ["Impact: Extreme."]
-      },
-      "skate punk": {
-        "technical": ["Tempo: fast.", "Energy: high."],
-        "log": ["Modification: Signal shifted toward skate punk velocity."],
-        "status": ["Momentum: Surging."]
-      },
-      "faster": {
-        "technical": ["Tempo: increased.", "Speed: boosted."],
-        "log": ["Modification: Signal accelerated beyond original tempo."],
-        "status": ["Cycle speed: Elevated."]
-      },
-      "nostalgia": {
-        "technical": [
-          "Tone: retro.",
-          "Feel: preserved.",
-          "Signal memory: emphasized."
-        ],
-        "log": [
-          "Modification: Signal tuned toward nostalgic frequencies.",
-          "Modification: Signal tuned to evoke nostalgic recall patterns."
-        ],
-        "status": ["Era sync: Active.", "Memory layer: Active."]
-      },
-      "00s": {
-        "technical": ["Signal memory: early 2000s."],
-        "log": [
-          "Modification: Signal tuned to early 2000s-era recall patterns."
-        ],
-        "status": ["Memory layer: 00s nostalgia."]
-      },
-      "90s": {
-        "technical": ["Signal memory: 90s era."],
-        "log": ["Modification: Signal tuned to 90s-era recall patterns."],
-        "status": ["Memory layer: 90s nostalgia."]
-      }
-    },
-    "descriptionTemplates": {
-      "long": {
-        "layout": [
-          "broadcastBlock",
-          "introBlock",
-          "storyBlock",
-          "technicalBlock",
-          "logBlock",
-          "closingBlock",
-          "supportBlock"
-        ],
-        "customBlocks": {},
-        "tagLineExcludedTags": ["nostalgia", "90s", "00s", "faithful"],
-
-        "tagLineFallbacks": [
-          "signal reshaped for current conditions",
-          "structure adjusted under new parameters",
-          "signal reprocessed for this environment",
-          "original form adapted to current atmosphere"
-        ],
-
-        "tagLineTemplates": [
-          "reworked into a {tags} version",
-          "reshaped into a {tags} form",
-          "reconstructed into a {tags} state",
-          "pushed toward a {tags} direction"
-        ],
-        "defaultLogNote": "Signal stabilized under Illegal Mind control.",
-        "logNotes": [
-          "Signal stabilized under Illegal Mind control.",
-          "Signal integrity maintained under manual override.",
-          "Reconstruction completed with minimal data loss.",
-          "Signal passed through controlled distortion layers.",
-          "Core structure retained, surface layers altered.",
-          "Signal stabilized after multiple degradation cycles.",
-          "Output calibrated for current atmospheric conditions."
-        ],
-        "broadcastHeader": [
-          "[SYSTEM BROADCAST // CH-42]\nRecovered Transmission: FILE_{fileId}\nOperator status: {operatorStatus}.",
-          "[RECOVERED BROADCAST // SIG-{fileId}]\nTransmission locked: FILE_{fileId}\nOperator state: {operatorStatus}.",
-          "[GRID TRANSMISSION // NODE-42]\nSignal recovered: FILE_{fileId}\nOperator condition: {operatorStatus}.",
-          "[ARCHIVE BROADCAST // CH-42]\nRecovered file: FILE_{fileId}\nOperator stability: {operatorStatus}.",
-          "[WASTELAND FEED // CH-42]\nSignal trace: FILE_{fileId}\nOperator sync: {operatorStatus}."
-        ],
-        "introHook": [
-          "The original frequency was too unstable for this cycle.",
-          "The original signal couldn't survive this environment.",
-          "This transmission was never meant to exist in this state.",
-          "The source frequency collapsed under current conditions.",
-          "What once worked no longer holds in this atmosphere."
-        ],
-        "storyBlock": [
-          "\"{song}\" by {artist} was pulled from the archives and found unstable. It carried the old signal well, but not in its original form. {tagLine}. It was rebuilt for a different atmosphere.",
-          "The original version of \"{song}\" could not survive unchanged. The source signal was preserved, but the surface was reworked. {tagLine}. What remains is the same transmission under different pressure.",
-          "{artist}’s \"{song}\" was recovered from an earlier cycle and processed again under current conditions. {tagLine}. The structure held, but the energy had to be rerouted.",
-          "This signal traces back to \"{song}\" by {artist}, but the original form was no longer enough. {tagLine}. The transmission was reshaped to carry more weight through the wasteland."
-        ],
-        "logBlock": [
-          "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: {logNote}"
-        ],
-        "reconstructedSignal": [],
-        "statusLines": [
-          "Atmospheric density: Critical.",
-          "Grid status: Overloaded.",
-          "Signal weight: Increased.",
-          "Loop stability: Fragile.",
-          "Transmission pressure: Rising.",
-          "Static accumulation: Severe.",
-          "Archive integrity: Compromised.",
-          "Noise floor: Elevated."
-        ],
-        "technicalBreakdown": [],
-        "closingSignal": [
-          "[SIGNAL {num}: TRANSMISSION STABLE]",
-          "[SIGNAL {num}: LOOP LOCKED]",
-          "[SIGNAL {num}: BROADCAST CONFIRMED]",
-          "[SIGNAL {num}: SYSTEM HOLDING]"
-        ],
-        "philosophyLine": [
-          "// If the signal never dies, why should you?",
-          "// If the system breaks, why follow it?",
-          "// If the world is ending, why play it safe?",
-          "// If the loop repeats, break it louder."
-        ],
-        "supportBlock": [
-          "📡 SUPPORT NODE\n▶️ Originals: {links.youtube}\n💿 Bandcamp: {links.bandcamp}\n☕ Fuel supply: {links.support}\n🌐 Links: {links.linktree}"
-        ],
-        "shortTagPhrase": {
-          "excludedTags": ["nostalgia", "90s", "00s"],
-          "fallback": "",
-          "maxTags": 2,
-          "joinWord": "and"
+        "nu metal": {
+          "technical": ["Groove: amplified.", "Rhythm: emphasized."],
+          "log": [
+            "Modification: Groove elements were enhanced within a nu-metal structure."
+          ],
+          "status": ["Rhythmic load: Heavy.", "Bounce factor: Active."]
+        },
+        "hebrew": {
+          "technical": ["Language: Hebrew adaptation."],
+          "log": ["Modification: Signal re-recorded in Hebrew."],
+          "status": ["Localization: Hebrew."]
+        },
+        "russian": {
+          "technical": ["Language: Russian adaptation."],
+          "log": ["Modification: Signal re-recorded in Russian."],
+          "status": ["Localization: Russian."]
+        },
+        "easycore": {
+          "technical": ["Energy: uplifted.", "Drive: melodic and aggressive."],
+          "log": ["Modification: Signal shifted toward easycore structure."],
+          "status": ["Energy profile: Elevated."]
+        },
+        "metal": {
+          "technical": ["Distortion: increased.", "Weight: reinforced."],
+          "log": ["Modification: Signal pushed into full metal spectrum."],
+          "status": ["Signal intensity: High."]
+        },
+        "pop punk": {
+          "technical": ["Melody: emphasized.", "Tempo: upbeat."],
+          "log": ["Modification: Signal tuned toward pop punk structure."],
+          "status": ["Tone: Brighter."]
+        },
+        "hardcore punk": {
+          "technical": ["Aggression: maxed.", "Drive: relentless."],
+          "log": ["Modification: Signal pushed into hardcore punk intensity."],
+          "status": ["Impact: Extreme."]
+        },
+        "skate punk": {
+          "technical": ["Tempo: fast.", "Energy: high."],
+          "log": ["Modification: Signal shifted toward skate punk velocity."],
+          "status": ["Momentum: Surging."]
+        },
+        "faster": {
+          "technical": ["Tempo: increased.", "Speed: boosted."],
+          "log": ["Modification: Signal accelerated beyond original tempo."],
+          "status": ["Cycle speed: Elevated."]
+        },
+        "nostalgia": {
+          "technical": [
+            "Tone: retro.",
+            "Feel: preserved.",
+            "Signal memory: emphasized."
+          ],
+          "log": [
+            "Modification: Signal tuned toward nostalgic frequencies.",
+            "Modification: Signal tuned to evoke nostalgic recall patterns."
+          ],
+          "status": ["Era sync: Active.", "Memory layer: Active."]
+        },
+        "00s": {
+          "technical": ["Signal memory: early 2000s."],
+          "log": [
+            "Modification: Signal tuned to early 2000s-era recall patterns."
+          ],
+          "status": ["Memory layer: 00s nostalgia."]
+        },
+        "90s": {
+          "technical": ["Signal memory: 90s era."],
+          "log": ["Modification: Signal tuned to 90s-era recall patterns."],
+          "status": ["Memory layer: 90s nostalgia."]
         }
       },
-      "shorts": [
-        "[SIGNAL_{num} // FILE_{num}]\n▓█ {artist} - {song}\n⚠️ {tagLine}. Full pulse active in main broadcast.",
-        "/// DEFIANCE LOOP_{num}\n{song} by {artist} // {tagLine}.\n☣️ Continue to central feed for full transmission.",
-        "/// WSTLD_SESSION_{num}\nDrive preserved. Energy uncompromised.\n{artist} - {song} // {tagLine}.",
-        "[ARCHIVE TRACE // {num}]\nLayered vocals like armor. Drums reinforced.\n{song} // {tagLine}.",
-        "/// FREQUENCY HOLD_{num}\nSometimes resistance isn’t louder — it’s longer.\n{artist} - {song} // {tagLine}."
+      "templates": {
+        "long": {
+          "layout": [
+            "broadcastBlock",
+            "introBlock",
+            "storyBlock",
+            "technicalBlock",
+            "logBlock",
+            "closingBlock",
+            "supportBlock"
+          ],
+          "customBlocks": {},
+          "tagLineExcludedTags": ["nostalgia", "90s", "00s", "faithful"],
+
+          "tagLineFallbacks": [
+            "signal reshaped for current conditions",
+            "structure adjusted under new parameters",
+            "signal reprocessed for this environment",
+            "original form adapted to current atmosphere"
+          ],
+
+          "tagLineTemplates": [
+            "reworked into a {tags} version",
+            "reshaped into a {tags} form",
+            "reconstructed into a {tags} state",
+            "pushed toward a {tags} direction"
+          ],
+          "defaultLogNote": "Signal stabilized under Illegal Mind control.",
+          "logNotes": [
+            "Signal stabilized under Illegal Mind control.",
+            "Signal integrity maintained under manual override.",
+            "Reconstruction completed with minimal data loss.",
+            "Signal passed through controlled distortion layers.",
+            "Core structure retained, surface layers altered.",
+            "Signal stabilized after multiple degradation cycles.",
+            "Output calibrated for current atmospheric conditions."
+          ],
+          "broadcastHeader": [
+            "[SYSTEM BROADCAST // CH-42]\nRecovered Transmission: FILE_{fileId}\nOperator status: {operatorStatus}.",
+            "[RECOVERED BROADCAST // SIG-{fileId}]\nTransmission locked: FILE_{fileId}\nOperator state: {operatorStatus}.",
+            "[GRID TRANSMISSION // NODE-42]\nSignal recovered: FILE_{fileId}\nOperator condition: {operatorStatus}.",
+            "[ARCHIVE BROADCAST // CH-42]\nRecovered file: FILE_{fileId}\nOperator stability: {operatorStatus}.",
+            "[WASTELAND FEED // CH-42]\nSignal trace: FILE_{fileId}\nOperator sync: {operatorStatus}."
+          ],
+          "introHook": [
+            "The original frequency was too unstable for this cycle.",
+            "The original signal couldn't survive this environment.",
+            "This transmission was never meant to exist in this state.",
+            "The source frequency collapsed under current conditions.",
+            "What once worked no longer holds in this atmosphere."
+          ],
+          "storyBlock": [
+            "\"{song}\" by {artist} was pulled from the archives and found unstable. It carried the old signal well, but not in its original form. {tagLine}. It was rebuilt for a different atmosphere.",
+            "The original version of \"{song}\" could not survive unchanged. The source signal was preserved, but the surface was reworked. {tagLine}. What remains is the same transmission under different pressure.",
+            "{artist}’s \"{song}\" was recovered from an earlier cycle and processed again under current conditions. {tagLine}. The structure held, but the energy had to be rerouted.",
+            "This signal traces back to \"{song}\" by {artist}, but the original form was no longer enough. {tagLine}. The transmission was reshaped to carry more weight through the wasteland."
+          ],
+          "logBlock": [
+            "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: {logNote}"
+          ],
+          "reconstructedSignal": [],
+          "statusLines": [
+            "Atmospheric density: Critical.",
+            "Grid status: Overloaded.",
+            "Signal weight: Increased.",
+            "Loop stability: Fragile.",
+            "Transmission pressure: Rising.",
+            "Static accumulation: Severe.",
+            "Archive integrity: Compromised.",
+            "Noise floor: Elevated."
+          ],
+          "technicalBreakdown": [],
+          "closingSignal": [
+            "[SIGNAL {num}: TRANSMISSION STABLE]",
+            "[SIGNAL {num}: LOOP LOCKED]",
+            "[SIGNAL {num}: BROADCAST CONFIRMED]",
+            "[SIGNAL {num}: SYSTEM HOLDING]"
+          ],
+          "philosophyLine": [
+            "// If the signal never dies, why should you?",
+            "// If the system breaks, why follow it?",
+            "// If the world is ending, why play it safe?",
+            "// If the loop repeats, break it louder."
+          ],
+          "supportBlock": [
+            "📡 SUPPORT NODE\n▶️ Originals: {links.youtube}\n💿 Bandcamp: {links.bandcamp}\n☕ Fuel supply: {links.support}\n🌐 Links: {links.linktree}"
+          ],
+          "shortTagPhrase": {
+            "excludedTags": ["nostalgia", "90s", "00s"],
+            "fallback": "",
+            "maxTags": 2,
+            "joinWord": "and"
+          }
+        },
+        "shorts": [
+          "[SIGNAL_{num} // FILE_{num}]\n▓█ {artist} - {song}\n⚠️ {tagLine}. Full pulse active in main broadcast.",
+          "/// DEFIANCE LOOP_{num}\n{song} by {artist} // {tagLine}.\n☣️ Continue to central feed for full transmission.",
+          "/// WSTLD_SESSION_{num}\nDrive preserved. Energy uncompromised.\n{artist} - {song} // {tagLine}.",
+          "[ARCHIVE TRACE // {num}]\nLayered vocals like armor. Drums reinforced.\n{song} // {tagLine}.",
+          "/// FREQUENCY HOLD_{num}\nSometimes resistance isn’t louder — it’s longer.\n{artist} - {song} // {tagLine}."
+        ]
+      },
+      "links": {
+        "youtube": "https://youtube.com/@illegalmind",
+        "bandcamp": "https://illegalmind.bandcamp.com/",
+        "support": "https://paypal.me/illegalmind",
+        "linktree": "https://linktr.ee/illegalmind"
+      },
+      "operatorStatuses": [
+        "unstable cycle",
+        "signal drift detected",
+        "loop integrity compromised",
+        "cognitive noise elevated",
+        "partial desync"
       ]
-    },
-    "links": {
-      "youtube": "https://youtube.com/@illegalmind",
-      "bandcamp": "https://illegalmind.bandcamp.com/",
-      "support": "https://paypal.me/illegalmind",
-      "linktree": "https://linktr.ee/illegalmind"
-    },
-    "operatorStatuses": [
-      "unstable cycle",
-      "signal drift detected",
-      "loop integrity compromised",
-      "cognitive noise elevated",
-      "partial desync"
-    ]
+    }
   }
 }
