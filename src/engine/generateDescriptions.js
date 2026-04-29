@@ -240,8 +240,6 @@ export function generateDescriptions(formData, projectConfig) {
     return fallback;
   }
 
-  const shortTagPhrase = buildShortTagPhrase(formData, projectConfig);
-
   // --- Long description ---
   if (!projectConfig?.description.templates?.long?.layout) {
     throw new Error('Missing description layout in project config');
@@ -264,15 +262,32 @@ export function generateDescriptions(formData, projectConfig) {
     .join('\n\n');
 
   // --- Shorts ---
-  const shortTemplates = projectConfig?.description.templates?.shorts || [];
+  const shortsConfig = projectConfig.description.templates.shorts;
+  const count = shortsConfig.count || 3;
 
-  const shortDescriptions = shortTemplates.map((template) =>
-    template
+  const headers = shortsConfig.header || [];
+  const primary = shortsConfig.primary || [];
+  const secondary = shortsConfig.secondary || [];
+
+  const shortTagPhrase = buildShortTagPhrase(formData, projectConfig);
+
+  const shortDescriptions = [];
+
+  for (let i = 0; i < count; i++) {
+    const header = pickRandom(headers);
+    const line1 = pickRandom(primary);
+    const line2 = pickRandom(secondary);
+
+    const text = [header, line1, line2]
+      .filter(Boolean)
+      .join('\n')
       .replace(/\{num\}/g, formData.signalNumber || '00')
       .replace(/\{artist\}/g, formData.artist || '')
       .replace(/\{song\}/g, formData.song || '')
-      .replace(/\{tagLine\}/g, shortTagPhrase),
-  );
+      .replace(/\{tagLine\}/g, shortTagPhrase);
+
+    shortDescriptions.push(text);
+  }
 
   return {
     shortDescriptions,

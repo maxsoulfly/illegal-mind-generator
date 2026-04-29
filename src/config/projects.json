@@ -395,13 +395,45 @@
             "joinWord": "and"
           }
         },
-        "shorts": [
-          "[SIGNAL_{num} // FILE_{num}]\n▓█ {artist} - {song}\n⚠️ {tagLine}. Full pulse active in main broadcast.",
-          "/// DEFIANCE LOOP_{num}\n{song} by {artist} // {tagLine}.\n☣️ Continue to central feed for full transmission.",
-          "/// WSTLD_SESSION_{num}\nDrive preserved. Energy uncompromised.\n{artist} - {song} // {tagLine}.",
-          "[ARCHIVE TRACE // {num}]\nLayered vocals like armor. Drums reinforced.\n{song} // {tagLine}.",
-          "/// FREQUENCY HOLD_{num}\nSometimes resistance isn’t louder — it’s longer.\n{artist} - {song} // {tagLine}."
-        ]
+        "shorts": {
+          "count": 5,
+          "header": [
+            "[SIGNAL_{num} // FILE_{num}]",
+            "/// DEFIANCE LOOP_{num}",
+            "/// WSTLD_SESSION_{num}",
+            "[ARCHIVE TRACE // {num}]",
+            "/// FREQUENCY HOLD_{num}",
+            "[TRANSMISSION_{num} // NODE_{num}]",
+            "/// STATIC LOOP_{num}",
+            "/// DUST_CHANNEL_{num}",
+            "[RELIC TRACE // {num}]",
+            "/// SIGNAL LOCK_{num}"
+          ],
+          "primary": [
+            "███ {artist} - {song}",
+            "{song} by {artist} // {tagLine}.",
+            "{artist} - {song} ██████ {tagLine}.",
+            "{song} // {tagLine}.",
+            "{artist} - {song} // {tagLine}.",
+            "███ {song} // {artist}",
+            "{artist} presents {song} // {tagLine}.",
+            "{song} ██████ {artist} // {tagLine}.",
+            "{song} reinterpreted // {tagLine}.",
+            "{artist} - {song} /// {tagLine}."
+          ],
+          "secondary": [
+            "⚠️ Full pulse active in main broadcast.",
+            "☣️ Continue to central feed for full transmission.",
+            "⚠️ Signal unstable. Full transmission stabilized in main channel.⚠️",
+            "☣️ Fragment detected ████. Complete sequence available in central feed.☣️",
+            "███ Transmission cut. Reconnect to primary broadcast for full signal.",
+            "⚠️ Loop incomplete. Final form archived in main channel.",
+            "☣️ Static interference. Clean signal waiting in central broadcast.",
+            "███ Pulse detected. Full frequency unlocked in main feed.██████",
+            "⚠️ This is only the echo. Source signal lives in the main channel.",
+            "☣️ Corrupted fragment. Access full reconstruction via central broadcast.█████"
+          ]
+        }
       },
       "links": {
         "youtube": "https://youtube.com/@illegalmind",
