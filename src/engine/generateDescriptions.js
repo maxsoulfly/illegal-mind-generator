@@ -73,7 +73,7 @@ export function generateDescriptions(formData, projectConfig) {
   const fileId = `${fileCore}-${formData.signalNumber || '00'}`;
 
   // --- Intro block ---
-  const introTemplate = pickRandom(
+  const introBlock = pickRandom(
     projectConfig?.descriptionTemplates?.long?.introHook,
   );
 
@@ -243,17 +243,26 @@ export function generateDescriptions(formData, projectConfig) {
   const shortTagPhrase = buildShortTagPhrase(formData, projectConfig);
 
   // --- Long description ---
-  const longDescription = [
+  if (!projectConfig?.descriptionTemplates?.long?.layout) {
+    throw new Error('Missing description layout in project config');
+  }
+
+  const layout = projectConfig.descriptionTemplates.long.layout;
+  const blocks = {
     broadcastBlock,
-    introTemplate,
+    introBlock,
     storyBlock,
     technicalBlock,
     logBlock,
-    closingCombined,
+    closingBlock: closingCombined,
     supportBlock,
-  ]
+  };
+
+  const longDescription = layout
+    .map((blockName) => blocks[blockName])
     .filter(Boolean)
     .join('\n\n');
+
   // --- Shorts ---
   const shortTemplates = projectConfig?.descriptionTemplates?.shorts || [];
 

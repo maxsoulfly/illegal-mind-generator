@@ -289,6 +289,16 @@
     },
     "descriptionTemplates": {
       "long": {
+        "layout": [
+          "broadcastBlock",
+          "introBlock",
+          "storyBlock",
+          "technicalBlock",
+          "logBlock",
+          "closingBlock",
+          "supportBlock"
+        ],
+        "customBlocks": {},
         "tagLineExcludedTags": ["nostalgia", "90s", "00s", "faithful"],
 
         "tagLineFallbacks": [
