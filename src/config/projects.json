@@ -30,16 +30,6 @@
       "Punk Reconstruction",
       "Modern Mix"
     ],
-
-    "thumbnailWords": [
-      "HEAVIER",
-      "DARKER",
-      "ALT METAL",
-      "REWORK",
-      "SLOWED",
-      "MODERNIZED"
-    ],
-
     "hashtags": ["#IllegalMind", "#IllegalMindRework", "#IllegalMindCovers"],
     "youtubetags": [
       "Illegal Mind",
@@ -70,68 +60,89 @@
       "90s"
     ],
     "titleVariationSuffixes": ["Version", "Rework", "Mix", "Reconstruction"],
+    "thumbnail": {
+      "words": [
+        "HEAVIER",
+        "DARKER",
+        "ALT METAL",
+        "REWORK",
+        "SLOWED",
+        "MODERNIZED"
+      ],
 
-    "thumbnailFallbacks": [
-      "NEW VERSION",
-      "HEAVY REWORK",
-      "REBUILT",
-      "MORE IMPACT",
-      "DARKER FEEL"
-    ],
-    "thumbnailTagMap": {
-      "slower": [
-        "SLOWED DOWN",
-        "SLOWED HARD",
-        "LOWER AND SLOWER",
-        "HALF-STEP HEAVIER"
+      "fallbacks": [
+        "NEW VERSION",
+        "HEAVY REWORK",
+        "REBUILT",
+        "MORE IMPACT",
+        "DARKER FEEL"
       ],
-      "heavier": [
-        "HITS HARDER",
-        "MORE WEIGHT",
-        "EXTRA HEAVY",
-        "CRUSHES HARDER"
+
+      "genericTagTemplates": [
+        "{tag}",
+        "{tag} MODE",
+        "{tag} VERSION",
+        "{tag} EDGE",
+        "MORE {tag}"
       ],
-      "darker": [
-        "DARKER FEEL",
-        "BLEAKER",
-        "SHADOW MODE",
-        "COLDER TONE",
-        "MORE MENACE"
-      ],
-      "alt metal": ["ALT METALIZED", "ALT METAL EDGE"],
-      "punk": ["PUNK REWORK", "PUNKIER", "PUNK ENERGY", "PUNK ATTITUDE"],
-      "hardcore": [
-        "HARDCORE EDGE",
-        "HARDCORE PUSH",
-        "MORE AGGRESSION",
-        "BREAKDOWN ENERGY"
-      ],
-      "modernized": [
-        "UPDATED FEEL",
-        "NEW ERA MIX",
-        "REBUILT NOW",
-        "MODERN EDGE",
-        "FRESHER HIT"
-      ],
-      "nu metal": [
-        "NU METALIZED",
-        "NOW NU METAL?",
-        "MORE GROOVE",
-        "BIGGER BOUNCE"
-      ],
-      "hebrew": ["HEBREW VERSION"],
-      "russian": ["RUSSIAN VERSION"],
-      "easycore": ["EASYCORE ENERGY", "EASYCORE MODE"],
-      "metal": ["FULL METAL", "METAL MODE"],
-      "pop punk": ["POP PUNK MODE", "POP PUNK ENERGY"],
-      "hardcore punk": ["HARDCORE PUNK", "PUNK HARDER"],
-      "skate punk": ["SKATE PUNK ENERGY", "FAST PUNK"],
-      "faster": ["FASTER VERSION", "SPEED BOOST"],
-      "nostalgia": ["NOSTALGIA HIT", "OLD SIGNAL", "THROWBACK MODE"],
-      "00s": ["00S NOSTALGIA", "2000S THROWBACK"],
-      "90s": ["90S NOSTALGIA", "90S THROWBACK"]
+      "patterns": {
+        "shorts": ["artistShort", "song"],
+        "long": ["artistFull", "artistShort", "song"]
+      },
+      "tagMap": {
+        "slower": [
+          "SLOWED DOWN",
+          "SLOWED HARD",
+          "LOWER AND SLOWER",
+          "HALF-STEP HEAVIER"
+        ],
+        "heavier": [
+          "HITS HARDER",
+          "MORE WEIGHT",
+          "EXTRA HEAVY",
+          "CRUSHES HARDER"
+        ],
+        "darker": [
+          "DARKER FEEL",
+          "BLEAKER",
+          "SHADOW MODE",
+          "COLDER TONE",
+          "MORE MENACE"
+        ],
+        "alt metal": ["ALT METALIZED", "ALT METAL EDGE"],
+        "punk": ["PUNK REWORK", "PUNKIER", "PUNK ENERGY", "PUNK ATTITUDE"],
+        "hardcore": [
+          "HARDCORE EDGE",
+          "HARDCORE PUSH",
+          "MORE AGGRESSION",
+          "BREAKDOWN ENERGY"
+        ],
+        "modernized": [
+          "UPDATED FEEL",
+          "NEW ERA MIX",
+          "REBUILT NOW",
+          "MODERN EDGE",
+          "FRESHER HIT"
+        ],
+        "nu metal": [
+          "NU METALIZED",
+          "NOW NU METAL?",
+          "MORE GROOVE",
+          "BIGGER BOUNCE"
+        ],
+        "hebrew": ["HEBREW VERSION"],
+        "russian": ["RUSSIAN VERSION"],
+        "easycore": ["EASYCORE ENERGY", "EASYCORE MODE"],
+        "metal": ["FULL METAL", "METAL MODE"],
+        "pop punk": ["POP PUNK MODE", "POP PUNK ENERGY"],
+        "hardcore punk": ["HARDCORE PUNK", "PUNK HARDER"],
+        "skate punk": ["SKATE PUNK ENERGY", "FAST PUNK"],
+        "faster": ["FASTER VERSION", "SPEED BOOST"],
+        "nostalgia": ["NOSTALGIA HIT", "OLD SIGNAL", "THROWBACK MODE"],
+        "00s": ["00S NOSTALGIA", "2000S THROWBACK"],
+        "90s": ["90S NOSTALGIA", "90S THROWBACK"]
+      }
     },
-
     "titleTagMap": {
       "slower": ["Slower", "Slowed Down", "Dragged Out", "Lower And Slower"],
       "heavier": ["Heavier", "Heavy", "Hitting Harder"],

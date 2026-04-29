@@ -1,17 +1,14 @@
-function buildGenericTagThumbnailPhrases(tag) {
+// Generate thumbnails
+function buildGenericTagThumbnailPhrases(tag, config = {}) {
   const normalizedTag = (tag || '').trim().toUpperCase();
 
   if (!normalizedTag) {
     return [];
   }
 
-  return [
-    normalizedTag,
-    `${normalizedTag} MODE`,
-    `${normalizedTag} VERSION`,
-    `${normalizedTag} EDGE`,
-    `MORE ${normalizedTag}`,
-  ];
+  const templates = config?.thumbnail?.genericTagTemplates || ['{tag}'];
+
+  return templates.map((tpl) => tpl.replace(/\{tag\}/g, normalizedTag));
 }
 
 function shuffleArray(items) {
@@ -29,20 +26,20 @@ function buildThumbnailVariations(formData = {}, config = {}) {
   const selectedTags = formData?.transformationTags || [];
 
   if (selectedTags.length === 0) {
-    return shuffleArray(config.thumbnailWords || []).slice(0, 5);
+    return shuffleArray(config.thumbnail.words || []).slice(0, 5);
   }
 
-  const thumbnailTagMap = config.thumbnailTagMap || {};
+  const thumbnailTagMap = config.thumbnail.tagMap || {};
 
   const mappedPool = selectedTags.flatMap((tag) => {
     const specificPhrases = thumbnailTagMap[tag] || [];
-    const genericPhrases = buildGenericTagThumbnailPhrases(tag);
+    const genericPhrases = buildGenericTagThumbnailPhrases(tag, config);
 
     return [...specificPhrases, ...genericPhrases];
   });
 
   const uniqueMapped = [...new Set(mappedPool)];
-  const uniqueFallbacks = [...new Set(config.thumbnailFallbacks || [])];
+  const uniqueFallbacks = [...new Set(config.thumbnail.fallbacks || [])];
 
   const shuffledMapped = shuffleArray(uniqueMapped);
   const shuffledFallbacks = shuffleArray(uniqueFallbacks);
@@ -95,8 +92,12 @@ export function generateThumbnails(formData = {}, config = {}) {
   const isShorts = formData.videoType === 'Shorts';
 
   const patternPool = isShorts
-    ? ['artistShort', 'song']
-    : ['artistFull', 'artistShort', 'song'];
+    ? config.thumbnail?.patterns?.shorts
+    : config.thumbnail?.patterns?.long;
+
+  if (!patternPool || patternPool.length === 0) {
+    throw new Error('Missing thumbnail patterns in config');
+  }
 
   return phrases.map((phrase) => {
     const text = phrase.toUpperCase();
