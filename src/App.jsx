@@ -14,6 +14,7 @@ import GeneratedOutput from './components/GeneratedOutput';
 import SavedLibrary from './components/SavedLibrary';
 
 const DEFAULT_PROJECT_KEY = Object.keys(projects)[0];
+const ADVANCED_OPTIONS_KEY = 'advancedOptionsOpen';
 
 const defaultFormData = {
   project: DEFAULT_PROJECT_KEY,
@@ -62,6 +63,14 @@ function App() {
   useEffect(() => {
     localStorage.setItem('panelVisibility', JSON.stringify(panelVisibility));
   }, [panelVisibility]);
+
+  const [advancedOptionsOpen, setAdvancedOptionsOpen] = useState(() => {
+    return localStorage.getItem(ADVANCED_OPTIONS_KEY) === 'true';
+  });
+
+  useEffect(() => {
+    localStorage.setItem(ADVANCED_OPTIONS_KEY, advancedOptionsOpen);
+  }, [advancedOptionsOpen]);
 
   const [generationSeed, setGenerationSeed] = useState(0);
 
@@ -168,6 +177,8 @@ function App() {
             onExportEntries={handleExportEntries}
             onImportEntries={handleImportEntries}
             tagUsage={tagUsage}
+            advancedOptionsOpen={advancedOptionsOpen}
+            setAdvancedOptionsOpen={setAdvancedOptionsOpen}
           />
         </div>
 

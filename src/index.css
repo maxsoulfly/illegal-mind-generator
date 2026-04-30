@@ -532,3 +532,27 @@ textarea {
   color           : black;
   box-shadow      : 0 0 10px var(--color-accent-gradient-top);
 }
+
+.toggle-button {
+  width         : 100%;
+  margin        : var(--space-2) 0 var(--space-6);
+  padding       : var(--space-3) var(--space-5);
+  border        : 1px solid var(--color-border-button-soft);
+  border-radius : var(--radius-md);
+  background    : var(--color-bg-button-secondary);
+  color         : var(--color-text-accent);
+  cursor        : pointer;
+  text-align    : left;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-sm);
+  transition    : var(--transition-fast);
+}
+
+.toggle-button:hover {
+  border-color: var(--color-border-hover);
+  color       : var(--color-text-inverse);
+}
+
+.advanced-options {
+  margin-top: var(--space-4);
+}

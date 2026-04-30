@@ -41,11 +41,11 @@ function SavedLibrary({
   return (
     <div>
       <button
-        className="button-secondary"
+        className="toggle-button"
         type="button"
         onClick={() => setShowSavedLibrary((prev) => !prev)}
       >
-        {showSavedLibrary ? 'Hide Library' : 'Open Library'}
+        {showSavedLibrary ? '− Hide Library' : '+ Open Library'}
       </button>
 
       {showSavedLibrary && (

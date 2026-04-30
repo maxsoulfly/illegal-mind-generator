@@ -8,6 +8,8 @@ function InputForm({
   onSaveEntry,
   savedEntries,
   tagUsage = {},
+  advancedOptionsOpen,
+  setAdvancedOptionsOpen,
 }) {
   const artistSuggestions = [
     ...new Set(savedEntries.map((entry) => entry.artist)),
@@ -218,97 +220,114 @@ function InputForm({
           </label>
         </div>
       </div>
+      <button
+        type="button"
+        className="toggle-button"
+        onClick={() => setAdvancedOptionsOpen((prev) => !prev)}
+      >
+        {advancedOptionsOpen
+          ? '− Hide advanced options'
+          : '+ Show advanced options'}
+      </button>
+      {advancedOptionsOpen && (
+        <div className="advanced-options">
+          {/* TRANSFORMATION TAGS */}
+          <div className="form-group">
+            <label className="form-label">Transformation Tags</label>
 
-      <div className="form-group">
-        <label className="form-label">Transformation Tags</label>
+            <div className="tag-list">
+              {[...(projectConfig.availableTags || [])]
+                .sort((a, b) => (tagUsage[b] || 0) - (tagUsage[a] || 0))
+                .map((tag) => {
+                  const isActive = (formData.transformationTags || []).includes(
+                    tag,
+                  );
 
-        <div className="tag-list">
-          {[...(projectConfig.availableTags || [])]
-            .sort((a, b) => (tagUsage[b] || 0) - (tagUsage[a] || 0))
-            .map((tag) => {
-              const isActive = (formData.transformationTags || []).includes(
-                tag,
-              );
+                  return (
+                    <button
+                      key={tag}
+                      type="button"
+                      className={isActive ? 'tag-chip active' : 'tag-chip'}
+                      onClick={() => handleTagToggle(tag)}
+                    >
+                      {tag} ({tagUsage[tag] || 0})
+                    </button>
+                  );
+                })}
+            </div>
+          </div>
+          {/* CUSTOM STORY BLOCK */}
+          <div className="form-group">
+            <label className="form-label" htmlFor="customStory">
+              Custom Story Block
+            </label>
+            <textarea
+              id="customStory"
+              className="form-textarea"
+              value={formData.customStory}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  customStory: e.target.value,
+                }))
+              }
+              rows={5}
+              placeholder="Write a custom story paragraph for the long description..."
+            />
+          </div>
+          {/* CUSTOM LOG NOTE */}
+          <div className="form-group">
+            <label className="form-label" htmlFor="customLogNote">
+              Custom Log Note
+            </label>
+            <textarea
+              id="customLogNote"
+              className="form-textarea"
+              value={formData.customLogNote}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  customLogNote: e.target.value,
+                }))
+              }
+              rows={4}
+              placeholder="Write a custom operator/log note..."
+            />
 
-              return (
-                <button
-                  key={tag}
-                  type="button"
-                  className={isActive ? 'tag-chip active' : 'tag-chip'}
-                  onClick={() => handleTagToggle(tag)}
-                >
-                  {tag} ({tagUsage[tag] || 0})
-                </button>
-              );
-            })}
+            <label className="form-label">Additional Hashtags</label>
+
+            {/* ADDITIONAL HASHTAGS */}
+            <input
+              type="text"
+              className="form-input"
+              value={formData.customHashtags || ''}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  customHashtags: e.target.value,
+                }))
+              }
+              placeholder="tag1, tag2, tag3"
+            />
+            {/* CUSTOM CTA */}
+
+            <textarea
+              id="customCta"
+              className="form-textarea"
+              value={formData.customCta}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  customCta: e.target.value,
+                }))
+              }
+              rows={4}
+              placeholder="Write a custom CTA for comments..."
+            />
+          </div>
         </div>
-      </div>
-      <div className="form-group">
-        <label className="form-label" htmlFor="customStory">
-          Custom Story Block
-        </label>
-        <textarea
-          id="customStory"
-          className="form-textarea"
-          value={formData.customStory}
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              customStory: e.target.value,
-            }))
-          }
-          rows={5}
-          placeholder="Write a custom story paragraph for the long description..."
-        />
-      </div>
+      )}
 
-      <div className="form-group">
-        <label className="form-label" htmlFor="customLogNote">
-          Custom Log Note
-        </label>
-        <textarea
-          id="customLogNote"
-          className="form-textarea"
-          value={formData.customLogNote}
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              customLogNote: e.target.value,
-            }))
-          }
-          rows={4}
-          placeholder="Write a custom operator/log note..."
-        />
-
-        <label className="form-label">Additional Hashtags</label>
-
-        <input
-          type="text"
-          className="form-input"
-          value={formData.customHashtags || ''}
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              customHashtags: e.target.value,
-            }))
-          }
-          placeholder="tag1, tag2, tag3"
-        />
-
-        <textarea
-          id="customCta"
-          className="form-textarea"
-          value={formData.customCta}
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              customCta: e.target.value,
-            }))
-          }
-          rows={4}
-          placeholder="Write a custom CTA for comments..."
-        />
-      </div>
       <div className="button-row">
         <button
           className="button-secondary"

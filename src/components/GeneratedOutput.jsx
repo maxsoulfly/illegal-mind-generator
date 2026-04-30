@@ -22,14 +22,10 @@ function GeneratedOutput({
       <div className="panel">
         <div className="panel-header">
           <h2 className="panel-title">Titles</h2>
-
-          <button
-            className="button-primary"
-            onClick={() => togglePanel('titles')}
-          >
-            {panelVisibility.titles ? 'Hide' : 'Show'}
-          </button>
         </div>
+        <button className="toggle-button" onClick={() => togglePanel('titles')}>
+          {panelVisibility.titles ? '− Hide' : '+ Show'}
+        </button>
         {panelVisibility.titles && (
           // existing Titles content here
           <div>
@@ -64,14 +60,13 @@ function GeneratedOutput({
       <div className="panel">
         <div className="panel-header">
           <h2 className="panel-title">Descriptions</h2>
-
-          <button
-            className="button-primary"
-            onClick={() => togglePanel('desriptions')}
-          >
-            {panelVisibility.desriptions ? 'Hide' : 'Show'}
-          </button>
         </div>
+        <button
+          className="toggle-button"
+          onClick={() => togglePanel('desriptions')}
+        >
+          {panelVisibility.desriptions ? '− Hide' : '+ Show'}
+        </button>
         {panelVisibility.desriptions && (
           <div>
             {/* LONG */}
@@ -101,14 +96,13 @@ function GeneratedOutput({
       <div className="panel">
         <div className="panel-header">
           <h2 className="panel-title">Hashtags</h2>
-
-          <button
-            className="button-primary"
-            onClick={() => togglePanel('hashtags')}
-          >
-            {panelVisibility.hashtags ? 'Hide' : 'Show'}
-          </button>
         </div>
+        <button
+          className="toggle-button"
+          onClick={() => togglePanel('hashtags')}
+        >
+          {panelVisibility.hashtags ? '− Hide' : '+ Show'}
+        </button>
 
         {panelVisibility.hashtags && (
           <div className="output-item terminal-block">
@@ -121,14 +115,13 @@ function GeneratedOutput({
       <div className="panel">
         <div className="panel-header">
           <h2 className="panel-title">YouTube Tags</h2>
-
-          <button
-            className="button-primary"
-            onClick={() => togglePanel('youtubeTags')}
-          >
-            {panelVisibility.youtubeTags ? 'Hide' : 'Show'}
-          </button>
         </div>
+        <button
+          className="toggle-button"
+          onClick={() => togglePanel('youtubeTags')}
+        >
+          {panelVisibility.youtubeTags ? '− Hide' : '+ Show'}
+        </button>
 
         {panelVisibility.youtubeTags && (
           <div className="output-item terminal-block">
