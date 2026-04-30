@@ -1,4 +1,7 @@
 import { useEffect } from 'react';
+
+import ToggleButton from './ToggleButton';
+
 function InputForm({
   formData,
   setFormData,
@@ -220,15 +223,11 @@ function InputForm({
           </label>
         </div>
       </div>
-      <button
-        type="button"
-        className="toggle-button"
+      <ToggleButton
+        isOpen={advancedOptionsOpen}
         onClick={() => setAdvancedOptionsOpen((prev) => !prev)}
-      >
-        {advancedOptionsOpen
-          ? '− Hide advanced options'
-          : '+ Show advanced options'}
-      </button>
+        label="Advanced Options"
+      />
       {advancedOptionsOpen && (
         <div className="advanced-options">
           {/* TRANSFORMATION TAGS */}

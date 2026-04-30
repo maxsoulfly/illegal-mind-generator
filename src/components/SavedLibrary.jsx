@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from 'react';
+import ToggleButton from './ToggleButton';
 
 function SavedLibrary({
   savedEntries,
@@ -40,13 +41,11 @@ function SavedLibrary({
 
   return (
     <div>
-      <button
-        className="toggle-button"
-        type="button"
+      <ToggleButton
+        isOpen={showSavedLibrary}
         onClick={() => setShowSavedLibrary((prev) => !prev)}
-      >
-        {showSavedLibrary ? '− Hide Library' : '+ Open Library'}
-      </button>
+        label="Library"
+      />
 
       {showSavedLibrary && (
         <div className="saved-library-header">

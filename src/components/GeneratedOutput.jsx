@@ -1,4 +1,6 @@
 import CopyButton from './CopyButton';
+import ToggleButton from './ToggleButton';
+
 function GeneratedOutput({
   titles,
   thumbnails,
@@ -23,9 +25,11 @@ function GeneratedOutput({
         <div className="panel-header">
           <h2 className="panel-title">Titles</h2>
         </div>
-        <button className="toggle-button" onClick={() => togglePanel('titles')}>
-          {panelVisibility.titles ? '− Hide' : '+ Show'}
-        </button>
+        <ToggleButton
+          isOpen={panelVisibility.titles}
+          onClick={() => togglePanel('titles')}
+          label="Titles"
+        />
         {panelVisibility.titles && (
           // existing Titles content here
           <div>
@@ -61,12 +65,12 @@ function GeneratedOutput({
         <div className="panel-header">
           <h2 className="panel-title">Descriptions</h2>
         </div>
-        <button
-          className="toggle-button"
+        <ToggleButton
+          isOpen={panelVisibility.desriptions}
           onClick={() => togglePanel('desriptions')}
-        >
-          {panelVisibility.desriptions ? '− Hide' : '+ Show'}
-        </button>
+          label="Desriptions"
+        />
+
         {panelVisibility.desriptions && (
           <div>
             {/* LONG */}
@@ -97,12 +101,11 @@ function GeneratedOutput({
         <div className="panel-header">
           <h2 className="panel-title">Hashtags</h2>
         </div>
-        <button
-          className="toggle-button"
+        <ToggleButton
+          isOpen={panelVisibility.hashtags}
           onClick={() => togglePanel('hashtags')}
-        >
-          {panelVisibility.hashtags ? '− Hide' : '+ Show'}
-        </button>
+          label="Hashtags"
+        />
 
         {panelVisibility.hashtags && (
           <div className="output-item terminal-block">
@@ -116,12 +119,11 @@ function GeneratedOutput({
         <div className="panel-header">
           <h2 className="panel-title">YouTube Tags</h2>
         </div>
-        <button
-          className="toggle-button"
+        <ToggleButton
+          isOpen={panelVisibility.youtubeTags}
           onClick={() => togglePanel('youtubeTags')}
-        >
-          {panelVisibility.youtubeTags ? '− Hide' : '+ Show'}
-        </button>
+          label="YouTube Tags"
+        />
 
         {panelVisibility.youtubeTags && (
           <div className="output-item terminal-block">
