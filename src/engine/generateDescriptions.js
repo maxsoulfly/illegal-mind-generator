@@ -268,6 +268,7 @@ export function generateDescriptions(formData, projectConfig) {
   }
 
   // --- Custom blocks ---
+
   const customBlocks =
     projectConfig.description.templates.long.customBlocks || {};
 
@@ -296,6 +297,10 @@ export function generateDescriptions(formData, projectConfig) {
     ]),
   );
 
+  const customCtaBlock = formData.customCta?.trim()
+    ? formData.customCta.trim()
+    : renderedCustomBlocks.customCtaBlock;
+
   const layout = projectConfig.description.templates.long.layout;
   const blocks = {
     broadcastBlock,
@@ -305,8 +310,8 @@ export function generateDescriptions(formData, projectConfig) {
     logBlock,
     closingBlock: closingCombined,
     supportBlock,
-    // customCta,
     ...renderedCustomBlocks,
+    customCtaBlock,
   };
 
   const longDescription = layout

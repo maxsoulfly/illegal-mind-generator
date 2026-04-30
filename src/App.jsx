@@ -30,6 +30,7 @@ const defaultFormData = {
   customStory: '',
   customLogNote: '',
   customHashtags: '',
+  customCta: '',
 };
 
 function App() {

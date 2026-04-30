@@ -25,6 +25,7 @@ function useSavedEntries(formData, setFormData) {
       customLogNote: formData.customLogNote?.trim() || '',
       transformationTags: formData.transformationTags || [],
       customHashtags: formData.customHashtags?.trim() || '',
+      customCta: formData.customCta,
     };
 
     if (!entry.artist || !entry.song) return;
@@ -46,6 +47,7 @@ function useSavedEntries(formData, setFormData) {
       customLogNote: entry.customLogNote || '',
       transformationTags: entry.transformationTags || [],
       customHashtags: entry.customHashtags?.trim() || '',
+      customCta: entry.customCta || '',
     }));
   };
 
@@ -101,6 +103,7 @@ function useSavedEntries(formData, setFormData) {
               ? item.transformationTags
               : [],
             customHashtags: String(item.customHashtags || '').trim(),
+            customCta: String(item.customCta || '').trim(),
           }));
 
         setSavedEntries(normalized);

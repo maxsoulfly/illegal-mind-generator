@@ -738,7 +738,7 @@
 
             "logBlock",
             "mixingCtaBlock",
-            "commentCtaBlock",
+            "customCtaBlock",
             "coverSummaryBlock",
             "gearBlock",
             "supportBlock",
@@ -747,14 +747,11 @@
           "customBlocks": {
             "mixingCtaBlock": "🎚️ DOES YOUR MUSIC SOUND THIN?\nIf you have old covers or demos that need a \"Modern Renovation\" like this one, I’m currently taking on new Mixing & Mastering projects. Let’s make your music sound massive.\nInquire here: {links.mixingForm}",
 
-            "commentCtaBlock": {
+            "customCtaBlock": {
               "title": "",
               "items": [
-                { "text": "👉 What does this song mean to you?" },
-                {
-                  "text": "👉 Have you ever revisited an old piece of work and felt the need to give it new life?"
-                },
-                { "text": "Drop a comment — I’d love to hear your take." }
+                { "text": "👉 What cover should I do next?" },
+                { "text": "👉 Drop a comment — I’d love to hear your take." }
               ]
             },
             "gearBlock": {

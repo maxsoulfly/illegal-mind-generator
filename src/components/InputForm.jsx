@@ -294,6 +294,20 @@ function InputForm({
           }
           placeholder="tag1, tag2, tag3"
         />
+
+        <textarea
+          id="customCta"
+          className="form-textarea"
+          value={formData.customCta}
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              customCta: e.target.value,
+            }))
+          }
+          rows={4}
+          placeholder="Write a custom CTA for comments..."
+        />
       </div>
       <div className="button-row">
         <button
