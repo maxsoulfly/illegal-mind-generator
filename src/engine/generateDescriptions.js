@@ -126,19 +126,27 @@ export function generateDescriptions(formData, projectConfig) {
 
   // --- Support block ---
   function renderStructuredBlock(block, links = {}) {
-    if (!block || !block.title || !block.items) return '';
+    if (!block || !block.items) return '';
+
+    const title = block.title || '';
 
     const items = block.items
       .map((item) => {
-        const value = item.link
-          ? replaceLinkPlaceholders(item.link, links)
-          : item.text || '';
+        if (item.link) {
+          const link = replaceLinkPlaceholders(item.link, links);
+          return item.label ? `${item.label}: ${link}` : link;
+        }
 
-        return `${item.label}: ${value}`;
+        if (item.text) {
+          return item.label ? `${item.label}: ${item.text}` : item.text;
+        }
+
+        return '';
       })
+      .filter(Boolean)
       .join('\n');
 
-    return `${block.title}\n${items}`;
+    return [title, items].filter(Boolean).join('\n');
   }
   const supportBlockConfig =
     projectConfig.description.templates.long.supportBlock;
@@ -297,6 +305,7 @@ export function generateDescriptions(formData, projectConfig) {
     logBlock,
     closingBlock: closingCombined,
     supportBlock,
+    // customCta,
     ...renderedCustomBlocks,
   };
 
