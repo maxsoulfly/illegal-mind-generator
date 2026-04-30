@@ -11,8 +11,8 @@ function InputForm({
   onSaveEntry,
   savedEntries,
   tagUsage = {},
-  advancedOptionsOpen,
-  setAdvancedOptionsOpen,
+  panelVisibility,
+  togglePanel,
 }) {
   const artistSuggestions = [
     ...new Set(savedEntries.map((entry) => entry.artist)),
@@ -224,11 +224,11 @@ function InputForm({
         </div>
       </div>
       <ToggleButton
-        isOpen={advancedOptionsOpen}
-        onClick={() => setAdvancedOptionsOpen((prev) => !prev)}
+        isOpen={panelVisibility.advanced}
+        onClick={() => togglePanel('advanced')}
         label="Advanced Options"
       />
-      {advancedOptionsOpen && (
+      {panelVisibility.advanced && (
         <div className="advanced-options">
           {/* TRANSFORMATION TAGS */}
           <div className="form-group">

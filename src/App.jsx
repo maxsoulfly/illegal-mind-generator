@@ -14,7 +14,6 @@ import GeneratedOutput from './components/GeneratedOutput';
 import SavedLibrary from './components/SavedLibrary';
 
 const DEFAULT_PROJECT_KEY = Object.keys(projects)[0];
-const ADVANCED_OPTIONS_KEY = 'advancedOptionsOpen';
 
 const defaultFormData = {
   project: DEFAULT_PROJECT_KEY,
@@ -35,6 +34,7 @@ const defaultFormData = {
 };
 
 function App() {
+  // states
   const [formData, setFormData] = useState(() => {
     const savedFormData = localStorage.getItem('formData');
 
@@ -57,22 +57,15 @@ function App() {
           descriptions: true,
           hashtags: true,
           hybridPrompt: true,
+          advanced: false,
         };
   });
+  const [generationSeed, setGenerationSeed] = useState(0);
 
+  // effects
   useEffect(() => {
     localStorage.setItem('panelVisibility', JSON.stringify(panelVisibility));
   }, [panelVisibility]);
-
-  const [advancedOptionsOpen, setAdvancedOptionsOpen] = useState(() => {
-    return localStorage.getItem(ADVANCED_OPTIONS_KEY) === 'true';
-  });
-
-  useEffect(() => {
-    localStorage.setItem(ADVANCED_OPTIONS_KEY, advancedOptionsOpen);
-  }, [advancedOptionsOpen]);
-
-  const [generationSeed, setGenerationSeed] = useState(0);
 
   const {
     savedEntries,
@@ -130,6 +123,13 @@ function App() {
 
   const projectOptions = Object.keys(projects);
 
+  const togglePanel = (panelKey) => {
+    setPanelVisibility((prev) => ({
+      ...prev,
+      [panelKey]: !prev[panelKey],
+    }));
+  };
+
   // Clear form
   const handleClearForm = () => {
     setFormData({ ...defaultFormData });
@@ -177,8 +177,8 @@ function App() {
             onExportEntries={handleExportEntries}
             onImportEntries={handleImportEntries}
             tagUsage={tagUsage}
-            advancedOptionsOpen={advancedOptionsOpen}
-            setAdvancedOptionsOpen={setAdvancedOptionsOpen}
+            panelVisibility={panelVisibility}
+            togglePanel={togglePanel}
           />
         </div>
 
