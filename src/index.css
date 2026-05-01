@@ -701,3 +701,24 @@ textarea {
 .tag-map-status {
   margin-top: var(--space-4);
 }
+
+/* Tag filters */
+.tag-filters {
+  display      : flex;
+  gap          : var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.tag-filters button {
+  padding      : var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  border       : 1px solid var(--color-border-main);
+  background   : var(--color-bg-input);
+  color        : var(--color-text-muted);
+  cursor       : pointer;
+}
+
+.tag-filters button.active {
+  border-color: var(--color-border-hover);
+  color       : var(--color-text-accent);
+}
