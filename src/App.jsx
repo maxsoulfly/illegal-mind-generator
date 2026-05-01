@@ -12,6 +12,8 @@ import useSavedEntries from './hooks/useSavedEntries';
 import InputForm from './components/InputForm';
 import GeneratedOutput from './components/GeneratedOutput';
 import SavedLibrary from './components/SavedLibrary';
+import AppMenu from './components/AppMenu';
+import TagLibraryPage from './pages/TagLibraryPage';
 
 const DEFAULT_PROJECT_KEY = Object.keys(projects)[0];
 
@@ -61,6 +63,7 @@ function App() {
         };
   });
   const [generationSeed, setGenerationSeed] = useState(0);
+  const [activePage, setActivePage] = useState('generator');
 
   // effects
   useEffect(() => {
@@ -145,62 +148,77 @@ function App() {
 
   return (
     <div className="app-shell">
-      <h1 className="app-title">YouTube Generator</h1>
-      <div className="regenerate-row">
-        <button
-          type="button"
-          className="button-primary"
-          onClick={handleRegenerate}
-        >
-          Regenerate
-        </button>
-      </div>
-      <h2>{projectConfig.name}</h2>
-      <div className="layout-grid">
-        <div className="panel">
-          <InputForm
-            formData={formData}
-            setFormData={setFormData}
-            onClear={handleClearForm}
-            projectConfig={projectConfig}
-            projectOptions={projectOptions}
-            onSaveEntry={handleSaveEntry}
-            savedEntries={savedEntries}
-            onLoadEntry={handleLoadEntry}
-            onDeleteEntry={handleDeleteEntry}
-            onExportEntries={handleExportEntries}
-            onImportEntries={handleImportEntries}
-            tagUsage={tagUsage}
-            panelVisibility={panelVisibility}
-            togglePanel={togglePanel}
-          />
-        </div>
+      <AppMenu activePage={activePage} setActivePage={setActivePage} />
+      {activePage === 'generator' && (
+        <>
+          <div className="panel-header">
+            <h1 className="app-title">YouTube Generator</h1>
+            <div className="regenerate-row">
+              <button
+                type="button"
+                className="button-primary"
+                onClick={handleRegenerate}
+              >
+                Regenerate
+              </button>
+            </div>
+          </div>
 
-        <div className="panel">
-          <SavedLibrary
-            savedEntries={savedEntries}
-            onLoadEntry={handleLoadEntry}
-            onDeleteEntry={handleDeleteEntry}
-            onExportEntries={handleExportEntries}
-            onImportEntries={handleImportEntries}
-            projectConfig={projectConfig}
-          />
-          <GeneratedOutput
-            titles={generatedOutput.titles}
-            thumbnails={generatedOutput.thumbnails}
-            descriptions={generatedOutput.shortDescriptions}
-            hashtags={generatedOutput.hashtags}
-            youtubeTags={generatedOutput.youtubeTags}
-            hybridPrompt={generatedOutput.hybridPrompt}
-            videoType={formData.videoType}
-            longDescription={generatedOutput.longDescription}
-            panelVisibility={panelVisibility}
-            setPanelVisibility={setPanelVisibility}
-            fileId={generatedOutput.fileId}
-            projectConfig={projectConfig}
-          />
-        </div>
-      </div>
+          <h2>{projectConfig.name}</h2>
+          <div className="layout-grid">
+            <div className="panel">
+              <InputForm
+                formData={formData}
+                setFormData={setFormData}
+                onClear={handleClearForm}
+                projectConfig={projectConfig}
+                projectOptions={projectOptions}
+                onSaveEntry={handleSaveEntry}
+                savedEntries={savedEntries}
+                onLoadEntry={handleLoadEntry}
+                onDeleteEntry={handleDeleteEntry}
+                onExportEntries={handleExportEntries}
+                onImportEntries={handleImportEntries}
+                tagUsage={tagUsage}
+                panelVisibility={panelVisibility}
+                togglePanel={togglePanel}
+              />
+            </div>
+
+            <div className="panel">
+              <SavedLibrary
+                savedEntries={savedEntries}
+                onLoadEntry={handleLoadEntry}
+                onDeleteEntry={handleDeleteEntry}
+                onExportEntries={handleExportEntries}
+                onImportEntries={handleImportEntries}
+                projectConfig={projectConfig}
+              />
+              <GeneratedOutput
+                titles={generatedOutput.titles}
+                thumbnails={generatedOutput.thumbnails}
+                descriptions={generatedOutput.shortDescriptions}
+                hashtags={generatedOutput.hashtags}
+                youtubeTags={generatedOutput.youtubeTags}
+                hybridPrompt={generatedOutput.hybridPrompt}
+                videoType={formData.videoType}
+                longDescription={generatedOutput.longDescription}
+                panelVisibility={panelVisibility}
+                setPanelVisibility={setPanelVisibility}
+                fileId={generatedOutput.fileId}
+                projectConfig={projectConfig}
+              />
+            </div>
+          </div>
+        </>
+      )}
+      {activePage === 'tags' && (
+        <TagLibraryPage
+          projectConfig={projectConfig}
+          savedEntries={savedEntries}
+          projectName={projectConfig.name}
+        />
+      )}
     </div>
   );
 }

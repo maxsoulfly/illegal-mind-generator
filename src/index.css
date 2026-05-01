@@ -616,3 +616,88 @@ textarea {
 .panel-collapsed {
   margin-top: var(--space-4);
 }
+
+/* App menu */
+.app-menu {
+  display      : flex;
+  gap          : 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.app-menu button {
+  border       : 1px solid var(--color-border);
+  background   : var(--color-bg-panel);
+  color        : var(--color-text);
+  padding      : 0.5rem 0.9rem;
+  border-radius: 999px;
+  cursor       : pointer;
+}
+
+.app-menu button.active {
+  background: var(--color-text-accent);
+  color     : black;
+}
+
+/* Tag library */
+.tag-library {
+  display              : grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap                  : 1rem;
+  margin-top           : 1.5rem;
+}
+
+.app-menu button {
+  border       : 1px solid var(--color-border-main);
+  background   : var(--color-bg-panel);
+  color        : var(--color-text-main);
+  padding      : 0.5rem 0.9rem;
+  border-radius: var(--radius-pill);
+  cursor       : pointer;
+}
+
+.tag-card {
+  background   : var(--color-bg-input);
+  border       : 1px solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  padding      : var(--space-6);
+  box-shadow   : 0 0 0 1px var(--color-shadow-panel-inset) inset;
+}
+
+.tag-card:hover {
+  border-color: var(--color-border-hover);
+}
+
+.tag-card-header {
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  gap            : var(--space-4);
+  margin-bottom  : var(--space-4);
+  padding-bottom : var(--space-3);
+  border-bottom  : 1px solid var(--color-border-deep);
+}
+
+.tag-card-header h3 {
+  margin        : 0;
+  color         : var(--color-text-main);
+  font-size     : 0.95rem;
+  letter-spacing: var(--letter-spacing-md);
+  text-transform: uppercase;
+}
+
+.tag-map-status span {
+  border       : 1px solid var(--color-border-soft);
+  border-radius: var(--radius-pill);
+  padding      : var(--space-1) var(--space-3);
+  font-size    : 0.75rem;
+}
+
+.tag-summary {
+  margin   : var(--space-2) 0 var(--space-4);
+  color    : var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.tag-map-status {
+  margin-top: var(--space-4);
+}
