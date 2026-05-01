@@ -1,7 +1,23 @@
 import { useEffect, useState } from 'react';
 
-const buildEntryId = (artist, song, signalNumber) =>
-  `${artist}-${song}-${signalNumber}`.trim().toLowerCase().replace(/\s+/g, ' ');
+const buildEntryId = (artist, song) =>
+  `${artist}-${song}`.trim().toLowerCase().replace(/\s+/g, ' ');
+
+const normalizeEntryIds = (entries) => {
+  const seen = new Set();
+
+  return entries
+    .map((entry) => ({
+      ...entry,
+      id: buildEntryId(entry.artist || '', entry.song || ''),
+    }))
+    .filter((entry) => {
+      if (seen.has(entry.id)) return false;
+
+      seen.add(entry.id);
+      return true;
+    });
+};
 
 const toSlug = (str) =>
   str
@@ -24,11 +40,16 @@ function useSavedEntries(
 
     if (Array.isArray(parsed)) {
       return {
-        illegalMindCovers: parsed,
+        illegalMindCovers: normalizeEntryIds(parsed),
       };
     }
 
-    return parsed;
+    return Object.fromEntries(
+      Object.entries(parsed).map(([projectId, entries]) => [
+        projectId,
+        normalizeEntryIds(entries),
+      ]),
+    );
   });
 
   const savedEntries = savedEntriesByProject[selectedProjectId] || [];
@@ -40,7 +61,7 @@ function useSavedEntries(
   // Save entry
   const handleSaveEntry = () => {
     const entry = {
-      id: buildEntryId(formData.artist, formData.song, formData.signalNumber),
+      id: buildEntryId(formData.artist, formData.song),
       artist: formData.artist.trim(),
       song: formData.song.trim(),
       signalNumber: formData.signalNumber.trim(),
@@ -133,9 +154,7 @@ function useSavedEntries(
               typeof item.song === 'string',
           )
           .map((item) => ({
-            id:
-              item.id ||
-              `${item.artist}-${item.song}-${item.signalNumber || ''}`.toLowerCase(),
+            id: buildEntryId(item.artist, item.song),
             artist: item.artist.trim(),
             song: item.song.trim(),
             signalNumber: String(item.signalNumber || '').trim(),
