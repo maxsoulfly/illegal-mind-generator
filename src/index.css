@@ -581,3 +581,38 @@ textarea {
   margin     : 0;
   white-space: nowrap;
 }
+
+.panel-header {
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  gap            : var(--space-4);
+  margin-bottom  : var(--space-4);
+}
+
+.panel-header .panel-title {
+  margin: 0;
+}
+
+.panel-header .toggle-button {
+  width  : auto;
+  margin : 0;
+  padding: var(--space-2) var(--space-4);
+}
+
+.toggle-button.compact {
+  padding  : var(--space-1) var(--space-3);
+  font-size: 12px;
+}
+
+.panel-collapsed {
+  padding: var(--space-5) var(--space-7);
+}
+
+.panel-collapsed .panel-header {
+  margin-bottom: 0;
+}
+
+.panel-collapsed {
+  margin-top: var(--space-4);
+}

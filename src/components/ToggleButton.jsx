@@ -1,7 +1,15 @@
-function ToggleButton({ isOpen, onClick, label }) {
+function ToggleButton({ isOpen, onClick, label, compact = false }) {
+  const text = compact
+    ? isOpen
+      ? '− Hide'
+      : '+ Show'
+    : isOpen
+      ? `− Hide ${label}`
+      : `+ Show ${label}`;
+
   return (
-    <button className="toggle-button" onClick={onClick}>
-      {isOpen ? `− Hide ${label}` : `+ Show ${label}`}
+    <button className="toggle-button" type="button" onClick={onClick}>
+      {text}
     </button>
   );
 }

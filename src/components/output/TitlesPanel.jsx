@@ -3,16 +3,17 @@ import ToggleButton from '../ToggleButton';
 
 function TitlesPanel({ titles, thumbnails, panelVisibility, togglePanel }) {
   return (
-    <div className="panel">
+    <div className={`panel ${panelVisibility.titles ? '' : 'panel-collapsed'}`}>
       <div className="panel-header">
         <h2 className="panel-title">Titles</h2>
+        <ToggleButton
+          isOpen={panelVisibility.titles}
+          onClick={() => togglePanel('titles')}
+          label="Titles"
+          compact
+        />
       </div>
 
-      <ToggleButton
-        isOpen={panelVisibility.titles}
-        onClick={() => togglePanel('titles')}
-        label="Titles"
-      />
       {panelVisibility.titles && (
         <div>
           {titles.map((title, index) => {

@@ -10,15 +10,18 @@ function DescriptionsPanel({
   renderCopyFooter,
 }) {
   return (
-    <div className="panel">
+    <div
+      className={`panel ${panelVisibility.descriptions ? '' : 'panel-collapsed'}`}
+    >
       <div className="panel-header">
         <h2 className="panel-title">Descriptions</h2>
+        <ToggleButton
+          isOpen={panelVisibility.descriptions}
+          onClick={() => togglePanel('descriptions')}
+          label="Descriptions"
+          compact
+        />
       </div>
-      <ToggleButton
-        isOpen={panelVisibility.descriptions}
-        onClick={() => togglePanel('descriptions')}
-        label="Descriptions"
-      />
 
       {panelVisibility.descriptions && (
         <div>
