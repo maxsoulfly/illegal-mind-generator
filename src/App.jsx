@@ -67,6 +67,12 @@ function App() {
     localStorage.setItem('panelVisibility', JSON.stringify(panelVisibility));
   }, [panelVisibility]);
 
+  const projectConfig = useMemo(() => {
+    return (
+      projects[formData.project] || projects[defaultFormData.project] || {}
+    );
+  }, [formData.project]);
+
   const {
     savedEntries,
     handleSaveEntry,
@@ -74,17 +80,16 @@ function App() {
     handleDeleteEntry,
     handleExportEntries,
     handleImportEntries,
-  } = useSavedEntries(formData, setFormData, formData.project);
+  } = useSavedEntries(
+    formData,
+    setFormData,
+    formData.project,
+    projectConfig.name,
+  );
 
   useEffect(() => {
     localStorage.setItem('formData', JSON.stringify(formData));
   }, [formData]);
-
-  const projectConfig = useMemo(() => {
-    return (
-      projects[formData.project] || projects[defaultFormData.project] || {}
-    );
-  }, [formData.project]);
 
   const generatedOutput = useMemo(() => {
     const titles = generateTitles(formData, projectConfig);

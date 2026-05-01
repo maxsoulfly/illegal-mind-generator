@@ -3,7 +3,19 @@ import { useEffect, useState } from 'react';
 const buildEntryId = (artist, song, signalNumber) =>
   `${artist}-${song}-${signalNumber}`.trim().toLowerCase().replace(/\s+/g, ' ');
 
-function useSavedEntries(formData, setFormData, selectedProjectId) {
+const toSlug = (str) =>
+  str
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, '') // remove special chars
+    .trim()
+    .replace(/\s+/g, '-');
+
+function useSavedEntries(
+  formData,
+  setFormData,
+  selectedProjectId,
+  projectName,
+) {
   const [savedEntriesByProject, setSavedEntriesByProject] = useState(() => {
     const saved = localStorage.getItem('savedEntries');
     if (!saved) return {};
@@ -93,7 +105,9 @@ function useSavedEntries(formData, setFormData, selectedProjectId) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'saved-songs-library.json';
+
+    const fileName = `${toSlug(projectName)}-library.json`;
+    a.download = fileName;
     a.click();
     URL.revokeObjectURL(url);
   };
