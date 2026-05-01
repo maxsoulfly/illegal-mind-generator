@@ -3,15 +3,27 @@ import { useEffect, useState } from 'react';
 const buildEntryId = (artist, song, signalNumber) =>
   `${artist}-${song}-${signalNumber}`.trim().toLowerCase().replace(/\s+/g, ' ');
 
-function useSavedEntries(formData, setFormData) {
-  const [savedEntries, setSavedEntries] = useState(() => {
+function useSavedEntries(formData, setFormData, selectedProjectId) {
+  const [savedEntriesByProject, setSavedEntriesByProject] = useState(() => {
     const saved = localStorage.getItem('savedEntries');
-    return saved ? JSON.parse(saved) : [];
+    if (!saved) return {};
+
+    const parsed = JSON.parse(saved);
+
+    if (Array.isArray(parsed)) {
+      return {
+        illegalMindCovers: parsed,
+      };
+    }
+
+    return parsed;
   });
 
+  const savedEntries = savedEntriesByProject[selectedProjectId] || [];
+
   useEffect(() => {
-    localStorage.setItem('savedEntries', JSON.stringify(savedEntries));
-  }, [savedEntries]);
+    localStorage.setItem('savedEntries', JSON.stringify(savedEntriesByProject));
+  }, [savedEntriesByProject]);
 
   // Save entry
   const handleSaveEntry = () => {
@@ -30,10 +42,17 @@ function useSavedEntries(formData, setFormData) {
 
     if (!entry.artist || !entry.song) return;
 
-    setSavedEntries((prev) => [
-      entry,
-      ...prev.filter((item) => item.id !== entry.id),
-    ]);
+    setSavedEntriesByProject((prev) => {
+      const currentProjectEntries = prev[selectedProjectId] || [];
+
+      return {
+        ...prev,
+        [selectedProjectId]: [
+          entry,
+          ...currentProjectEntries.filter((item) => item.id !== entry.id),
+        ],
+      };
+    });
   };
 
   // Load entry
@@ -53,7 +72,16 @@ function useSavedEntries(formData, setFormData) {
 
   // Delete entry
   const handleDeleteEntry = (entryId) => {
-    setSavedEntries((prev) => prev.filter((entry) => entry.id !== entryId));
+    setSavedEntriesByProject((prev) => {
+      const currentProjectEntries = prev[selectedProjectId] || [];
+
+      return {
+        ...prev,
+        [selectedProjectId]: currentProjectEntries.filter(
+          (entry) => entry.id !== entryId,
+        ),
+      };
+    });
   };
 
   // Export entries
@@ -106,7 +134,22 @@ function useSavedEntries(formData, setFormData) {
             customCta: String(item.customCta || '').trim(),
           }));
 
-        setSavedEntries(normalized);
+        setSavedEntriesByProject((prev) => {
+          const currentProjectEntries = prev[selectedProjectId] || [];
+
+          return {
+            ...prev,
+            [selectedProjectId]: [
+              ...normalized,
+              ...currentProjectEntries.filter(
+                (entry) =>
+                  !normalized.some(
+                    (importedEntry) => importedEntry.id === entry.id,
+                  ),
+              ),
+            ],
+          };
+        });
       } catch (error) {
         console.error('Failed to import library:', error);
       }
@@ -118,7 +161,6 @@ function useSavedEntries(formData, setFormData) {
   };
   return {
     savedEntries,
-    setSavedEntries,
     handleSaveEntry,
     handleLoadEntry,
     handleDeleteEntry,

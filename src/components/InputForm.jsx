@@ -74,7 +74,6 @@ function InputForm({
         return {
           ...prev,
           project: value,
-          transformationTags: [],
         };
       }
 
@@ -333,7 +332,7 @@ function InputForm({
           type="button"
           onClick={onSaveEntry}
         >
-          Save Song
+          Save to <b className="text-accent-soft">{projectConfig.name}</b>
         </button>
 
         <button className="button-secondary" onClick={onClear}>

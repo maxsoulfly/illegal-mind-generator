@@ -74,7 +74,7 @@ function App() {
     handleDeleteEntry,
     handleExportEntries,
     handleImportEntries,
-  } = useSavedEntries(formData, setFormData);
+  } = useSavedEntries(formData, setFormData, formData.project);
 
   useEffect(() => {
     localStorage.setItem('formData', JSON.stringify(formData));
@@ -189,6 +189,7 @@ function App() {
             onDeleteEntry={handleDeleteEntry}
             onExportEntries={handleExportEntries}
             onImportEntries={handleImportEntries}
+            projectConfig={projectConfig}
           />
           <GeneratedOutput
             titles={generatedOutput.titles}

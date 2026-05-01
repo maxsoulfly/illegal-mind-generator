@@ -7,6 +7,7 @@ function SavedLibrary({
   onDeleteEntry,
   onExportEntries,
   onImportEntries,
+  projectConfig,
 }) {
   const [search, setSearch] = useState('');
   const [showSavedLibrary, setShowSavedLibrary] = useState(() => {
@@ -50,7 +51,10 @@ function SavedLibrary({
       {showSavedLibrary && (
         <div className="saved-library-header">
           <div className="panel">
-            <h3 className="panel-title">Saved Songs</h3>
+            <h3 className="panel-title">
+              Saved Library —{' '}
+              <span className="text-main">{projectConfig.name}</span>
+            </h3>
 
             <input
               className="form-input"

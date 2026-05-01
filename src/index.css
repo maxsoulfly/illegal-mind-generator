@@ -556,3 +556,11 @@ textarea {
 .advanced-options {
   margin-top: var(--space-4);
 }
+
+.text-accent-soft {
+  color: var(--color-text-accent-soft);
+}
+
+.text-main {
+  color: var(--color-text-main);
+}
