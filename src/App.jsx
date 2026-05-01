@@ -103,17 +103,6 @@ function App() {
     const hashtags = hashtagOutput.hashtags;
     const youtubeTags = hashtagOutput.youtubeTags;
 
-    // const descriptionOutput = shortDescriptions.map((shortDescription) => ({
-    //   shortDescription,
-    //   longDescription,
-    // }));
-
-    // const hybridPrompt = generateHybridPrompt(
-    //   longDescription,
-    //   hashtags,
-    //   fileId,
-    // );
-
     return {
       titles,
       thumbnails,

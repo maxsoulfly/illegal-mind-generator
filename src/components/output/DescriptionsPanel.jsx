@@ -16,8 +16,8 @@ function DescriptionsPanel({
       </div>
       <ToggleButton
         isOpen={panelVisibility.descriptions}
-        onClick={() => togglePanel('desriptions')}
-        label="Desriptions"
+        onClick={() => togglePanel('descriptions')}
+        label="Descriptions"
       />
 
       {panelVisibility.descriptions && (
