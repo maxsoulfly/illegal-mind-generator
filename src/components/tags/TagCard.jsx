@@ -1,0 +1,32 @@
+import TagMapStatus from './TagMapStatus';
+import TagPhraseList from './TagPhraseList';
+import DescriptionMap from './DescriptionMap';
+
+export default function TagCard({ tag }) {
+  return (
+    <article
+      className={`tag-card 
+        ${tag.hasMissingMappings ? 'tag-warning' : ''}
+        ${tag.isUnused ? 'tag-unused' : ''}
+        ${tag.isPopular ? 'tag-popular' : ''}
+      `}
+    >
+      <div className="tag-card-header">
+        <h3>{tag.name}</h3>
+        <span className="tag-usage">{tag.usageCount} saved</span>
+      </div>
+
+      <details>
+        <TagMapStatus existsIn={tag.existsIn} />
+
+        <summary>View details</summary>
+
+        <div className="tag-phrases">
+          <TagPhraseList title="Title" phrases={tag.maps.title} />
+          <TagPhraseList title="Thumbnail" phrases={tag.maps.thumbnail} />
+          <DescriptionMap description={tag.maps.description} />
+        </div>
+      </details>
+    </article>
+  );
+}

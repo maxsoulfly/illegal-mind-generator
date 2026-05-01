@@ -149,6 +149,7 @@ function App() {
   return (
     <div className="app-shell">
       <AppMenu activePage={activePage} setActivePage={setActivePage} />
+      
       {activePage === 'generator' && (
         <>
           <div className="panel-header">
