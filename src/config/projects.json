@@ -167,6 +167,8 @@
       }
     },
     "description": {
+      "copyFooter": "/// FILE {fileId}: {hashtags}",
+
       "tagMap": {
         "heavier": {
           "technical": ["Weight: increased.", "Impact: reinforced."],
@@ -594,6 +596,7 @@
     ],
 
     "description": {
+      "copyFooter": "{hashtags}",
       "operatorStatuses": [],
       "tagMap": {
         "heavier": {
@@ -830,7 +833,7 @@
           ],
           "secondary": [
             "Full version on the channel.",
-            "Should I redo this one now?",
+            "Should I redo this one now? Or should I focus a different {artist}'s song?",
             "More covers on the channel."
           ]
         }

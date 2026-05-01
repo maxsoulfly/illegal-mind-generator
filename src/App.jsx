@@ -208,6 +208,7 @@ function App() {
             panelVisibility={panelVisibility}
             setPanelVisibility={setPanelVisibility}
             fileId={generatedOutput.fileId}
+            projectConfig={projectConfig}
           />
         </div>
       </div>

@@ -12,6 +12,7 @@ function GeneratedOutput({
   panelVisibility,
   setPanelVisibility,
   fileId,
+  projectConfig,
 }) {
   const togglePanel = (key) => {
     setPanelVisibility((prev) => ({
@@ -19,6 +20,17 @@ function GeneratedOutput({
       [key]: !prev[key],
     }));
   };
+
+  const renderCopyFooter = () => {
+    const template = projectConfig?.description?.copyFooter;
+
+    if (!template) return '';
+
+    return template
+      .replace(/\{fileId\}/g, fileId || '')
+      .replace(/\{hashtags\}/g, hashtags || '');
+  };
+
   return (
     <div className="output-stack">
       <div className="panel">
@@ -78,7 +90,9 @@ function GeneratedOutput({
               <div className="output-item terminal-block">
                 <p style={{ whiteSpace: 'pre-line' }}>{longDescription}</p>
                 <CopyButton
-                  text={`${longDescription}\n\n/// FILE ${fileId}: ${hashtags}`}
+                  text={[longDescription, renderCopyFooter()]
+                    .filter(Boolean)
+                    .join('\n\n')}
                 />
               </div>
             )}
@@ -89,7 +103,9 @@ function GeneratedOutput({
                 <div key={index} className="output-item terminal-block">
                   <p style={{ whiteSpace: 'pre-line' }}>{description}</p>
                   <CopyButton
-                    text={`${description}\n\n/// FILE ${fileId}: ${hashtags}`}
+                    text={[description, renderCopyFooter()]
+                      .filter(Boolean)
+                      .join('\n\n')}
                   />
                 </div>
               ))}
