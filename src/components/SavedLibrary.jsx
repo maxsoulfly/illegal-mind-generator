@@ -15,6 +15,8 @@ function SavedLibrary({
     return saved ? JSON.parse(saved) : false;
   });
 
+  const [sortBySignal, setSortBySignal] = useState(false);
+
   useEffect(() => {
     localStorage.setItem('showSavedLibrary', JSON.stringify(showSavedLibrary));
   }, [showSavedLibrary]);
@@ -32,14 +34,16 @@ function SavedLibrary({
         );
       })
       .sort((a, b) => {
-        const artistCompare = a.artist.localeCompare(b.artist);
+        if (sortBySignal) {
+          return Number(a.signalNumber || 0) - Number(b.signalNumber || 0);
+        }
 
+        const artistCompare = a.artist.localeCompare(b.artist);
         if (artistCompare !== 0) return artistCompare;
 
         return a.song.localeCompare(b.song);
       });
-  }, [savedEntries, search]);
-
+  }, [savedEntries, search, sortBySignal]);
   return (
     <div>
       <ToggleButton
@@ -55,13 +59,24 @@ function SavedLibrary({
               Saved Library —{' '}
               <span className="text-main">{projectConfig.name}</span>
             </h3>
+            <div className="library-controls">
+              <input
+                className="form-input"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search saved songs..."
+              />
 
-            <input
-              className="form-input"
-              placeholder="Search saved songs..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+              <label className="toggle-row library-sort-toggle">
+                <input
+                  className="toggle-checkbox"
+                  type="checkbox"
+                  checked={sortBySignal}
+                  onChange={(e) => setSortBySignal(e.target.checked)}
+                />
+                <span className="toggle-label">Sort by Signal #</span>
+              </label>
+            </div>
 
             <div className="saved-library-list">
               {filteredEntries.length === 0 && (

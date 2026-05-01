@@ -564,3 +564,20 @@ textarea {
 .text-main {
   color: var(--color-text-main);
 }
+
+.library-controls {
+  display              : grid;
+  grid-template-columns: 1fr auto;
+  gap                  : var(--space-4);
+  align-items          : center;
+  margin-bottom        : var(--space-4);
+}
+
+.library-controls .form-input {
+  margin-bottom: 0;
+}
+
+.library-sort-toggle {
+  margin     : 0;
+  white-space: nowrap;
+}
