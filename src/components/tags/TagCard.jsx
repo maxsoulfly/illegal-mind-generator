@@ -6,14 +6,17 @@ export default function TagCard({ tag }) {
   return (
     <article
       className={`tag-card 
-        ${tag.hasMissingMappings ? 'tag-warning' : ''}
-        ${tag.isUnused ? 'tag-unused' : ''}
-        ${tag.isPopular ? 'tag-popular' : ''}
+        ${tag.hasMissingMappings ? 'tag-issue' : ''}
+        ${!tag.hasMissingMappings && tag.isUnused ? 'tag-unused' : ''}
+        ${tag.isPopular ? 'tag-used' : ''}
       `}
     >
       <div className="tag-card-header">
         <h3>{tag.name}</h3>
         <span className="tag-usage">{tag.usageCount} saved</span>
+        <span className="tag-status">
+          {tag.hasMissingMappings ? 'Issue' : tag.isUnused ? 'Unused' : 'Used'}
+        </span>
       </div>
 
       <details>

@@ -9,6 +9,7 @@
   --color-text-accent     : #ffcc73;
   --color-text-accent-soft: #ffbf66;
   --color-text-inverse    : #fff4de;
+  --color-text-alert      : #c95a3a;
 
   /* backgrounds */
   --color-bg-page            : #1a1714;
@@ -38,12 +39,12 @@
   --color-shadow-focus          : rgba(255, 179, 71, 0.12);
   --color-shadow-panel-inset    : rgba(255, 180, 90, 0.05);
   --color-shadow-panel-drop     : rgba(0, 0, 0, 0.35);
-
+  --color-shadow-tag            : rgba(201, 90, 58, 0.25);
   /* radii */
-  --radius-sm  : 6px;
-  --radius-md  : 8px;
-  --radius-lg  : 10px;
-  --radius-pill: 999px;
+  --radius-sm                   : 6px;
+  --radius-md                   : 8px;
+  --radius-lg                   : 10px;
+  --radius-pill                 : 999px;
 
   /* spacing */
   --space-0: 0;
@@ -721,4 +722,32 @@ textarea {
 .tag-filters button.active {
   border-color: var(--color-border-hover);
   color       : var(--color-text-accent);
+}
+
+.tag-used {
+  border-color: var(--color-accent-strong);
+}
+
+.tag-unused {
+  opacity     : 0.6;
+  border-color: var(--color-border-soft);
+}
+
+.tag-issue {
+  border-color: var(--color-text-alert);
+  box-shadow  : 0 0 8px var(--color-shadow-tag);
+}
+
+.tag-status {
+  font-size  : 0.75rem;
+  color      : var(--color-text-muted);
+  margin-left: var(--space-2);
+}
+
+.tag-issue .tag-status {
+  color: var(--color-text-alert);
+}
+
+.tag-used .tag-status {
+  color: var(--color-text-accent);
 }
