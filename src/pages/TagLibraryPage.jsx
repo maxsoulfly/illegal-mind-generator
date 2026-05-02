@@ -10,17 +10,35 @@ export default function TagLibraryPage({
 }) {
   const [sortMode, setSortMode] = useState('usage-desc');
   const [filterMode, setFilterMode] = useState('all');
+  const [search, setSearch] = useState('');
 
   const tagData = buildTagExplorerData(projectConfig, savedEntries);
+  const normalizedSearch = search.trim().toLowerCase();
 
   const filteredTags = tagData.filter((tag) => {
-    if (filterMode === 'all') return true;
+    if (filterMode === 'used' && tag.usageCount === 0) return false;
+    if (filterMode === 'unused' && !tag.isUnused) return false;
+    if (filterMode === 'issues' && !tag.hasMissingMappings) return false;
 
-    if (filterMode === 'used') return tag.usageCount > 0;
+    if (normalizedSearch) {
+      const inName = tag.name.toLowerCase().includes(normalizedSearch);
 
-    if (filterMode === 'unused') return tag.isUnused;
+      const inTitle = tag.maps.title.some((p) =>
+        p.toLowerCase().includes(normalizedSearch),
+      );
 
-    if (filterMode === 'issues') return tag.hasMissingMappings;
+      const inThumbnail = tag.maps.thumbnail.some((p) =>
+        p.toLowerCase().includes(normalizedSearch),
+      );
+
+      const inDescription = tag.maps.description
+        ? Object.values(tag.maps.description).some((group) =>
+            group.some((p) => p.toLowerCase().includes(normalizedSearch)),
+          )
+        : false;
+
+      return inName || inTitle || inThumbnail || inDescription;
+    }
 
     return true;
   });
@@ -79,7 +97,15 @@ export default function TagLibraryPage({
           >
             Issues
           </button>
+          <input
+            type="text"
+            className="form-input"
+            placeholder="Search tags..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
+
         <select
           className="form-select"
           value={sortMode}
