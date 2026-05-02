@@ -14,6 +14,12 @@ export default function TagLibraryPage({
   const [search, setSearch] = useState('');
 
   const tagData = buildTagExplorerData(projectConfig, savedEntries);
+  const counts = {
+    all: tagData.length,
+    used: tagData.filter((t) => t.usageCount > 0).length,
+    unused: tagData.filter((t) => t.isUnused).length,
+    issues: tagData.filter((t) => t.hasMissingMappings).length,
+  };
   const normalizedSearch = search.trim().toLowerCase();
 
   const filteredTags = tagData.filter((tag) => {
@@ -52,6 +58,7 @@ export default function TagLibraryPage({
         setSearch={setSearch}
         sortMode={sortMode}
         setSortMode={setSortMode}
+        counts={counts}
       />
 
       <div className="tag-library">

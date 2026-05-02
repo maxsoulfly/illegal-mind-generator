@@ -5,6 +5,7 @@ export default function TagControls({
   setSearch,
   sortMode,
   setSortMode,
+  counts,
 }) {
   return (
     <div className="library-controls">
@@ -13,38 +14,37 @@ export default function TagControls({
           className={filterMode === 'all' ? 'active' : ''}
           onClick={() => setFilterMode('all')}
         >
-          All
+          All ({counts.all})
         </button>
 
         <button
           className={filterMode === 'used' ? 'active' : ''}
           onClick={() => setFilterMode('used')}
         >
-          Used
+          Used ({counts.used})
         </button>
 
         <button
           className={filterMode === 'unused' ? 'active' : ''}
           onClick={() => setFilterMode('unused')}
         >
-          Unused
+          Unused ({counts.unused})
         </button>
 
         <button
           className={filterMode === 'issues' ? 'active' : ''}
           onClick={() => setFilterMode('issues')}
         >
-          Issues
+          Issues ({counts.issues})
         </button>
-        <input
-          type="text"
-          className="form-input"
-          placeholder="Search tags..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
       </div>
-
+      <input
+        type="text"
+        className="form-input"
+        placeholder="Search tags..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
       <select
         className="form-select"
         value={sortMode}
