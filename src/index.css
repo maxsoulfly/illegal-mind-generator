@@ -62,6 +62,7 @@
   --width-root-min     : 320px;
   --width-app-max      : 1400px;
   --width-sidebar      : 420px;
+  --width-sidebar-fluid: clamp(300px, 32vw, var(--width-sidebar));
   --height-root-min    : 100vh;
   --height-textarea-min: 96px;
   --height-library-max : 500px;
@@ -102,10 +103,27 @@ body {
 }
 
 button,
+label,
+summary,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
 input,
 select,
 textarea {
   font-family: var(--font-mono);
+  font-size  : 1rem;
+}
+
+button {
+  min-height: 40px;
+}
+
+img,
+svg {
+  max-width: 100%;
 }
 
 #root {
@@ -115,20 +133,24 @@ textarea {
 .app-shell {
   max-width: var(--width-app-max);
   margin   : var(--space-0) auto;
-  padding  : var(--space-9);
+  padding  : clamp(var(--space-5), 3vw, var(--space-9));
+  width    : 100%;
 }
 
 .app-title {
   margin        : var(--space-0) 0 var(--space-8);
   color         : var(--color-text-accent);
+  font-size     : clamp(1.5rem, 2.6vw, 2.4rem);
   letter-spacing: var(--letter-spacing-lg);
+  line-height   : 1.1;
   text-transform: uppercase;
   text-shadow   : 0 0 12px var(--color-shadow-accent);
+  overflow-wrap : anywhere;
 }
 
 .layout-grid {
   display              : grid;
-  grid-template-columns: var(--width-sidebar) 1fr;
+  grid-template-columns: minmax(0, var(--width-sidebar-fluid)) minmax(0, 1fr);
   gap                  : var(--space-8);
   align-items          : start;
 }
@@ -142,6 +164,7 @@ textarea {
   box-shadow   :
     0 0 0 1px var(--color-shadow-panel-inset) inset,
     0 10px 30px var(--color-shadow-panel-drop);
+  min-width: 0;
 }
 
 .panel-title {
@@ -206,11 +229,17 @@ textarea {
 
 .button-primary,
 .button-secondary {
-  padding      : var(--space-3) var(--space-6);
-  border-radius: var(--radius-md);
-  border       : 1px solid var(--color-border-button);
-  cursor       : pointer;
-  transition   : var(--transition-fast);
+  display        : inline-flex;
+  align-items    : center;
+  justify-content: center;
+  padding        : var(--space-3) var(--space-6);
+  border-radius  : var(--radius-md);
+  border         : 1px solid var(--color-border-button);
+  cursor         : pointer;
+  transition     : var(--transition-fast);
+  max-width      : 100%;
+  text-align     : center;
+  line-height    : 1.25;
 }
 
 .button-primary {
@@ -241,6 +270,7 @@ textarea {
   border-radius: var(--radius-md);
   color        : var(--color-text-soft);
   line-height  : var(--line-height-base);
+  min-width    : 0;
 }
 
 .output-item {
@@ -256,13 +286,16 @@ textarea {
 }
 
 .copy-button {
-  padding      : var(--space-2) var(--space-4);
-  border-radius: var(--radius-sm);
-  border       : 1px solid var(--color-border-button-soft);
-  background   : var(--color-bg-button-copy);
-  color        : var(--color-text-main);
-  cursor       : pointer;
-  transition   : var(--transition-fast);
+  display        : inline-flex;
+  align-items    : center;
+  justify-content: center;
+  padding        : var(--space-2) var(--space-4);
+  border-radius  : var(--radius-sm);
+  border         : 1px solid var(--color-border-button-soft);
+  background     : var(--color-bg-button-copy);
+  color          : var(--color-text-main);
+  cursor         : pointer;
+  transition     : var(--transition-fast);
 }
 
 .copy-button:hover {
@@ -295,6 +328,7 @@ textarea {
 }
 
 .tag-chip {
+  min-width    : 0;
   padding      : var(--space-2) var(--space-4);
   border       : 1px solid var(--color-border-button-soft);
   border-radius: var(--radius-pill);
@@ -348,6 +382,7 @@ textarea {
 .saved-library-list {
   max-height   : var(--height-library-max);
   overflow-y   : auto;
+  overflow-x   : hidden;
   padding-right: var(--space-1);
 }
 
@@ -389,6 +424,7 @@ textarea {
   gap            : var(--space-6);
   padding        : var(--space-3) var(--space-5);
   margin-bottom  : var(--space-3);
+  min-width      : 0;
 }
 
 .saved-entry-main {
@@ -414,9 +450,13 @@ textarea {
 
 
 .saved-entry-tags {
-  margin-left: var(--space-2);
-  color      : var(--color-text-muted-2);
-  font-style : italic;
+  min-width    : 0;
+  overflow     : hidden;
+  text-overflow: ellipsis;
+  white-space  : nowrap;
+  margin-left  : var(--space-2);
+  color        : var(--color-text-muted-2);
+  font-style   : italic;
 }
 
 .saved-entry-actions {
@@ -439,6 +479,7 @@ textarea {
   align-items    : flex-start;
   justify-content: space-between;
   gap            : var(--space-4);
+  min-width      : 0;
 }
 
 .generated-pair-row+.generated-pair-row {
@@ -514,10 +555,11 @@ textarea {
 }
 
 .panel-header {
-  display           : flex;
-  align-items       : center;
-  justify-content   : space-between;
-  gap               : var(--space-4);
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  gap            : var(--space-4);
+  min-width      : 0;
 }
 
 
@@ -567,9 +609,10 @@ textarea {
 /* Saved library controls */
 .library-controls {
   display              : grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(180px, 1fr) minmax(150px, 190px);
   gap                  : var(--space-4);
   margin-bottom        : var(--space-7);
+  align-items          : center;
 }
 
 .tag-filters {
@@ -628,6 +671,7 @@ textarea {
 /* Top-level page navigation */
 .app-menu {
   display      : flex;
+  flex-wrap    : wrap;
   gap          : 0.75rem;
   margin-bottom: 1rem;
 }
@@ -639,6 +683,7 @@ textarea {
   padding      : 0.5rem 0.9rem;
   border-radius: var(--radius-pill);
   cursor       : pointer;
+  flex         : 0 1 auto;
 }
 
 .app-menu button.active {
@@ -649,7 +694,7 @@ textarea {
 /* Tag library grid + cards */
 .tag-library {
   display              : grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap                  : 1rem;
   margin-top           : 1.5rem;
 }
@@ -661,6 +706,7 @@ textarea {
   border-radius: var(--radius-lg);
   padding      : var(--space-6);
   box-shadow   : 0 0 0 1px var(--color-shadow-panel-inset) inset;
+  min-width    : 0;
 }
 
 .tag-card:hover {
@@ -668,13 +714,13 @@ textarea {
 }
 
 .tag-card-header {
-  display        : flex;
-  align-items    : center;
-  justify-content: space-between;
-  gap            : var(--space-4);
-  margin-bottom  : var(--space-4);
-  padding-bottom : var(--space-3);
-  border-bottom  : 1px solid var(--color-border-deep);
+  display              : grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items          : center;
+  gap                  : var(--space-4);
+  margin-bottom        : var(--space-4);
+  padding-bottom       : var(--space-3);
+  border-bottom        : 1px solid var(--color-border-deep);
 }
 
 .tag-card-header h3 {
@@ -683,6 +729,12 @@ textarea {
   font-size     : 0.95rem;
   letter-spacing: var(--letter-spacing-md);
   text-transform: uppercase;
+  overflow-wrap : anywhere;
+}
+
+.tag-usage,
+.tag-status {
+  white-space: nowrap;
 }
 
 .tag-map-status span {
@@ -707,6 +759,7 @@ textarea {
   display    : flex;
   gap        : var(--space-3);
   flex-shrink: 0;
+  flex-wrap  : wrap;
 }
 
 .tag-filters button {
@@ -716,6 +769,7 @@ textarea {
   background   : var(--color-bg-input);
   color        : var(--color-text-muted);
   cursor       : pointer;
+  white-space  : nowrap;
 }
 
 .tag-filters button.active {
@@ -758,8 +812,8 @@ textarea {
   }
 
   .layout-grid {
-    grid-template-columns: minmax(320px, 380px) 1fr;
-    gap: var(--space-7);
+    grid-template-columns: minmax(300px, 360px) minmax(0, 1fr);
+    gap                  : var(--space-7);
   }
 }
 
@@ -772,9 +826,13 @@ textarea {
     grid-template-columns: 1fr;
   }
 
+  .app-title {
+    margin-bottom: var(--space-6);
+  }
+
   .panel {
     margin-top: var(--space-4);
-    padding: var(--space-6);
+    padding   : var(--space-6);
   }
 
   .app-menu {
@@ -790,7 +848,7 @@ textarea {
   }
 
   .panel-header {
-    flex-wrap: wrap;
+    flex-wrap  : wrap;
     align-items: flex-start;
   }
 
@@ -801,6 +859,10 @@ textarea {
   .generated-pair-row {
     flex-direction: column;
   }
+
+  .generated-pair-row .copy-button {
+    align-self: flex-start;
+  }
 }
 
 @media (max-width: 640px) {
@@ -808,9 +870,86 @@ textarea {
     padding: var(--space-6) var(--space-4);
   }
 
+  .panel {
+    border-radius: var(--radius-md);
+    padding      : var(--space-5);
+  }
+
+  .app-shell>.panel-header {
+    align-items   : stretch;
+    flex-direction: column;
+  }
+
+  .app-shell>.panel-header .regenerate-row {
+    justify-content: stretch;
+    margin-bottom  : 0;
+  }
+
+  .app-shell>.panel-header .button-primary {
+    width: 100%;
+  }
+
+  .library-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .library-controls .form-select {
+    width: 100%;
+  }
+
+  .tag-filters {
+    display              : grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width                : 100%;
+  }
+
+  .tag-filters button {
+    min-width  : 0;
+    white-space: normal;
+  }
+
+  .radio-group {
+    display              : grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap                  : var(--space-3);
+  }
+
+  .radio-option {
+    justify-content: center;
+  }
+
+  .saved-entry-row {
+    align-items: flex-start;
+  }
+
+  .saved-entry-main {
+    display              : grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    width                : 100%;
+  }
+
+  .saved-entry-tags {
+    grid-column: 2;
+    margin-left: 0;
+  }
+
+  .tag-card-header {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .tag-status {
+    grid-column: 1 / -1;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .app-shell {
+    padding: var(--space-5) var(--space-3);
+  }
+
   .app-title {
     margin-bottom: var(--space-6);
-    font-size: 1.3rem;
   }
 
   .button-row {
@@ -819,15 +958,16 @@ textarea {
 
   .button-primary,
   .button-secondary,
+  .copy-button,
   .saved-entry-button {
     width: 100%;
   }
 
   .saved-entry-row {
     flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-3);
-    padding: var(--space-3) var(--space-4);
+    align-items   : flex-start;
+    gap           : var(--space-3);
+    padding       : var(--space-3) var(--space-4);
   }
 
   .saved-entry-actions {
@@ -850,8 +990,8 @@ textarea {
     width: 100%;
   }
 
-  .tag-filters button {
-    flex: 1 1 auto;
-    text-align: center;
+  .tag-filters,
+  .radio-group {
+    grid-template-columns: 1fr;
   }
 }

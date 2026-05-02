@@ -52,7 +52,7 @@ export default function TagControls({
       >
         <option value="usage-desc">Most used</option>
         <option value="usage-asc">Least used</option>
-        <option value="name">A → Z</option>
+        <option value="name">A to Z</option>
         <option value="issues">Issues first</option>
       </select>
     </div>
