@@ -7,7 +7,6 @@ function InputForm({
   setFormData,
   onClear,
   projectConfig,
-  projectOptions,
   onSaveEntry,
   savedEntries,
   tagUsage = {},
@@ -103,23 +102,6 @@ function InputForm({
   return (
     <div>
       <h2>Input</h2>
-      <div className="form-group">
-        <label className="form-label">Project</label>
-        <select
-          name="project"
-          className="form-select"
-          value={formData.project}
-          onChange={handleChange}
-        >
-          {projectOptions.map((project) => {
-            return (
-              <option key={project} value={project}>
-                {project}
-              </option>
-            );
-          })}
-        </select>
-      </div>
 
       <div className="form-group">
         <label className="form-label">Artist</label>

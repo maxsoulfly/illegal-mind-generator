@@ -64,6 +64,7 @@ function App() {
   });
   const [generationSeed, setGenerationSeed] = useState(0);
   const [activePage, setActivePage] = useState('generator');
+  const [projectId, setProjectId] = useState(DEFAULT_PROJECT_KEY);
 
   // effects
   useEffect(() => {
@@ -71,10 +72,8 @@ function App() {
   }, [panelVisibility]);
 
   const projectConfig = useMemo(() => {
-    return (
-      projects[formData.project] || projects[defaultFormData.project] || {}
-    );
-  }, [formData.project]);
+    return projects[projectId] || projects[defaultFormData.project] || {};
+  }, [projectId]);
 
   const {
     savedEntries,
@@ -83,16 +82,19 @@ function App() {
     handleDeleteEntry,
     handleExportEntries,
     handleImportEntries,
-  } = useSavedEntries(
-    formData,
-    setFormData,
-    formData.project,
-    projectConfig.name,
-  );
+  } = useSavedEntries(formData, setFormData, projectId, projectConfig.name);
 
   useEffect(() => {
     localStorage.setItem('formData', JSON.stringify(formData));
   }, [formData]);
+  const handleProjectChange = (nextProjectId) => {
+    setProjectId(nextProjectId);
+
+    setFormData((prev) => ({
+      ...prev,
+      project: nextProjectId,
+    }));
+  };
 
   const generatedOutput = useMemo(() => {
     const titles = generateTitles(formData, projectConfig);
@@ -118,7 +120,7 @@ function App() {
     };
   }, [formData, projectConfig, generationSeed]);
 
-  const projectOptions = Object.keys(projects);
+  // const projectOptions = Object.keys(projects);
 
   const togglePanel = (panelKey) => {
     setPanelVisibility((prev) => ({
@@ -148,12 +150,18 @@ function App() {
 
   return (
     <div className="app-shell">
-      <AppMenu activePage={activePage} setActivePage={setActivePage} />
-      
+      <AppMenu
+        activePage={activePage}
+        setActivePage={setActivePage}
+        projectId={projectId}
+        setProjectId={handleProjectChange}
+        projects={projects}
+      />
+
       {activePage === 'generator' && (
         <>
           <div className="panel-header">
-            <h1 className="app-title">YouTube Generator</h1>
+            <h1 className="app-title">Generator — {projectConfig.name}</h1>
             <div className="regenerate-row">
               <button
                 type="button"
@@ -165,7 +173,6 @@ function App() {
             </div>
           </div>
 
-          <h2>{projectConfig.name}</h2>
           <div className="layout-grid">
             <div className="panel">
               <InputForm
@@ -173,7 +180,6 @@ function App() {
                 setFormData={setFormData}
                 onClear={handleClearForm}
                 projectConfig={projectConfig}
-                projectOptions={projectOptions}
                 onSaveEntry={handleSaveEntry}
                 savedEntries={savedEntries}
                 onLoadEntry={handleLoadEntry}

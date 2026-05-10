@@ -670,10 +670,12 @@ svg {
 
 /* Top-level page navigation */
 .app-menu {
-  display      : flex;
-  flex-wrap    : wrap;
-  gap          : 0.75rem;
-  margin-bottom: 1rem;
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  gap            : var(--space-5);
+  flex-wrap      : wrap;
+  margin-bottom  : var(--space-7);
 }
 
 .app-menu button {
@@ -689,6 +691,26 @@ svg {
 .app-menu button.active {
   background: var(--color-text-accent);
   color     : black;
+}
+
+.app-menu-project {
+  display    : flex;
+  align-items: center;
+  gap        : var(--space-3);
+  margin-left: auto;
+}
+
+.app-menu-project label {
+  color         : var(--color-text-muted);
+  font-size     : var(--font-size-label);
+  letter-spacing: var(--letter-spacing-sm);
+  text-transform: uppercase;
+}
+
+.app-menu-project .form-select {
+  margin-bottom: 0;
+  min-width    : 240px;
+  width        : auto;
 }
 
 /* Tag library grid + cards */
