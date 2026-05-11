@@ -314,7 +314,8 @@ function InputForm({
           type="button"
           onClick={onSaveEntry}
         >
-          Save to <span className="text-accent-soft">{projectConfig.name}</span>
+          Save to&nbsp;
+          <span className="text-accent-soft">{projectConfig.name}</span>
         </button>
 
         <button className="button-secondary" onClick={onClear}>
