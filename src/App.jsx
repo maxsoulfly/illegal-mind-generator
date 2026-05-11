@@ -2,9 +2,6 @@ import { useEffect, useState, useMemo } from 'react';
 
 import projects from './config/projects.json';
 
-
-// import { createTagRegistryFromLegacy } from './utils/createTagRegistryFromLegacy';
-
 import { generateTitles } from './engine/generateTitles';
 import { generateThumbnails } from './engine/generateThumbnails';
 import { generateDescriptions } from './engine/generateDescriptions';
@@ -66,13 +63,25 @@ function App() {
         };
   });
   const [generationSeed, setGenerationSeed] = useState(0);
-  const [activePage, setActivePage] = useState('generator');
-  const [projectId, setProjectId] = useState(DEFAULT_PROJECT_KEY);
+  const [activePage, setActivePage] = useState(() => {
+    return localStorage.getItem('activePage') || 'generator';
+  });
 
+  const [projectId, setProjectId] = useState(() => {
+    return localStorage.getItem('selectedProject') || DEFAULT_PROJECT_KEY;
+  });
   // effects
   useEffect(() => {
     localStorage.setItem('panelVisibility', JSON.stringify(panelVisibility));
   }, [panelVisibility]);
+
+  useEffect(() => {
+    localStorage.setItem('activePage', activePage);
+  }, [activePage]);
+
+  useEffect(() => {
+    localStorage.setItem('selectedProject', projectId);
+  }, [projectId]);
 
   const projectConfig = useMemo(() => {
     return projects[projectId] || projects[defaultFormData.project] || {};
@@ -90,6 +99,7 @@ function App() {
   useEffect(() => {
     localStorage.setItem('formData', JSON.stringify(formData));
   }, [formData]);
+
   const handleProjectChange = (nextProjectId) => {
     setProjectId(nextProjectId);
 
