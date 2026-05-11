@@ -459,6 +459,14 @@ svg {
   font-style   : italic;
 }
 
+.tag-category {
+  margin-top    : 2px;
+  font-size     : 0.72rem;
+  color         : var(--color-text-muted-2);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-sm);
+}
+
 .saved-entry-actions {
   display    : flex;
   gap        : var(--space-2);

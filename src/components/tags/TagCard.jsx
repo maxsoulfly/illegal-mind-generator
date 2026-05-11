@@ -12,7 +12,11 @@ export default function TagCard({ tag }) {
       `}
     >
       <div className="tag-card-header">
-        <h3>{tag.name}</h3>
+        <div>
+          <h3>{tag.label}</h3>
+
+          <div className="tag-category">{tag.category}</div>
+        </div>
         <span className="tag-usage">{tag.usageCount} saved</span>
         <span className="tag-status">
           {tag.hasMissingMappings ? 'Issue' : tag.isUnused ? 'Unused' : 'Used'}

@@ -45,6 +45,27 @@
       }
     },
 
+    "tags": {
+      "heavier": {
+        "label": "Heavier",
+        "category": "energy",
+        "title": ["Heavier", "Heavy", "Hitting Harder"],
+        "thumbnail": [
+          "HITS HARDER",
+          "MORE WEIGHT",
+          "EXTRA HEAVY",
+          "CRUSHES HARDER"
+        ],
+        "description": {
+          "technical": ["Weight: increased.", "Impact: reinforced."],
+          "log": [
+            "Modification: Additional weight was injected into the signal core."
+          ],
+          "status": ["Signal weight: Increased.", "Load: Elevated."]
+        }
+      }
+    },
+
     "transformations": [
       "Slower & Heavier",
       "Alt Metal Version",
@@ -497,6 +518,27 @@
         "nostalgia": ["Nostalgic", "Throwback", "Memory Loop"],
         "00s": ["00s Nostalgia", "2000s Throwback"],
         "90s": ["90s Nostalgia", "90s Throwback"]
+      }
+    },
+
+    "tags": {
+      "heavier": {
+        "label": "Heavier",
+        "category": "energy",
+        "title": ["Heavier", "Heavy", "Hitting Harder"],
+        "thumbnail": [
+          "HITS HARDER",
+          "MORE WEIGHT",
+          "EXTRA HEAVY",
+          "CRUSHES HARDER"
+        ],
+        "description": {
+          "technical": ["Weight: increased.", "Impact: reinforced."],
+          "log": [
+            "Modification: Additional weight was injected into the signal core."
+          ],
+          "status": ["Signal weight: Increased.", "Load: Elevated."]
+        }
       }
     },
 

@@ -1,5 +1,6 @@
 export function buildTagExplorerData(projectConfig, savedEntries = []) {
   const availableTags = projectConfig.availableTags || [];
+  const tagRegistry = projectConfig.tags || {};
 
   const titleTagMap = projectConfig.title?.tagMap || {};
   const thumbnailTagMap = projectConfig.thumbnail?.tagMap || {};
@@ -10,8 +11,12 @@ export function buildTagExplorerData(projectConfig, savedEntries = []) {
       entry.transformationTags?.includes(tag),
     );
 
+    const registryTag = tagRegistry[tag];
+
     const hasMissingMappings =
-      !titleTagMap[tag] || !thumbnailTagMap[tag] || !descriptionTagMap[tag];
+      (!registryTag?.title && !titleTagMap[tag]) ||
+      (!registryTag?.thumbnail && !thumbnailTagMap[tag]) ||
+      (!registryTag?.description && !descriptionTagMap[tag]);
 
     const isUnused = usedBySongs.length === 0;
 
@@ -22,16 +27,21 @@ export function buildTagExplorerData(projectConfig, savedEntries = []) {
       usageCount: usedBySongs.length,
 
       maps: {
-        title: titleTagMap[tag] || [],
-        thumbnail: thumbnailTagMap[tag] || [],
-        description: descriptionTagMap[tag] || null,
+        title: registryTag?.title || titleTagMap[tag] || [],
+        thumbnail: registryTag?.thumbnail || thumbnailTagMap[tag] || [],
+        description: registryTag?.description || descriptionTagMap[tag] || null,
       },
 
       existsIn: {
-        title: Boolean(titleTagMap[tag]),
-        thumbnail: Boolean(thumbnailTagMap[tag]),
-        description: Boolean(descriptionTagMap[tag]),
+        title: Boolean(registryTag?.title || titleTagMap[tag]),
+        thumbnail: Boolean(registryTag?.thumbnail || thumbnailTagMap[tag]),
+        description: Boolean(
+          registryTag?.description || descriptionTagMap[tag],
+        ),
       },
+
+      label: registryTag?.label || tag,
+      category: registryTag?.category || 'uncategorized',
 
       // 👉 ADD THESE
       hasMissingMappings,
