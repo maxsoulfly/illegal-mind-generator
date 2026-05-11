@@ -80,10 +80,13 @@ export function generateDescriptions(formData, projectConfig) {
   // --- Status block ---
   const selectedTags = formData.transformationTags || [];
   const descriptionTagMap = projectConfig?.description.tagMap || {};
+  const tagRegistry = projectConfig?.tags || {};
+  const getDescriptionTag = (tag) =>
+    tagRegistry[tag]?.description || descriptionTagMap[tag] || {};
 
   // collect tag-based status lines
   const tagStatusLines = selectedTags.flatMap(
-    (tag) => descriptionTagMap[tag]?.status || [],
+    (tag) => getDescriptionTag(tag).status || [],
   );
 
   // fallback to global status lines
@@ -181,14 +184,14 @@ export function generateDescriptions(formData, projectConfig) {
   // Step 1: pick one line per tag
   const perTagLines = selectedTags
     .map((tag) => {
-      const options = descriptionTagMap[tag]?.technical || [];
+      const options = getDescriptionTag(tag).technical || [];
       return pickRandom(options);
     })
     .filter(Boolean);
 
   // Step 2: if less than 3, fill from all available
   const allLines = selectedTags.flatMap(
-    (tag) => descriptionTagMap[tag]?.technical || [],
+    (tag) => getDescriptionTag(tag).technical || [],
   );
 
   const remaining = allLines
@@ -202,7 +205,7 @@ export function generateDescriptions(formData, projectConfig) {
   // --- Story block ---
   const logLines = selectedTags
     .map((tag) => {
-      const options = descriptionTagMap[tag]?.log || [];
+      const options = getDescriptionTag(tag).log || [];
       return pickRandom(options);
     })
     .filter(Boolean);

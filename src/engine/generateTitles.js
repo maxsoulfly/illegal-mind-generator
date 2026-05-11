@@ -16,11 +16,12 @@ function buildShortTransformationPhrase(tags = [], config = {}) {
     return 'Rework';
   }
 
-  const titleTagMap = config.title.tagMap || {};
+  const titleTagMap = config.title?.tagMap || {};
+  const tagRegistry = config.tags || {};
 
   const pickedWords = tags
     .map((tag) => {
-      const options = titleTagMap[tag] || [tag];
+      const options = tagRegistry[tag]?.title || titleTagMap[tag] || [tag];
       return getRandomItem(options) || tag;
     })
     .filter(Boolean);
