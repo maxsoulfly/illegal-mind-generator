@@ -189,6 +189,7 @@ function App() {
           <div className="layout-grid">
             <div className="panel">
               <InputForm
+                projectId={projectId}
                 formData={formData}
                 setFormData={setFormData}
                 onClear={handleClearForm}
@@ -234,6 +235,7 @@ function App() {
       )}
       {activePage === 'tags' && (
         <TagLibraryPage
+          projectId={projectId}
           projectConfig={projectConfig}
           savedEntries={savedEntries}
           projectName={projectConfig.name}

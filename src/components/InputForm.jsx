@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
 import { getVisibleTags } from '../utils/tagRegistry';
 
+import useTagVisibilityOverrides from '../hooks/useTagVisibilityOverrides';
+
 import ToggleButton from './ToggleButton';
 
 function InputForm({
+  projectId,
   formData,
   setFormData,
   onClear,
@@ -14,7 +17,10 @@ function InputForm({
   panelVisibility,
   togglePanel,
 }) {
-  const visibleTags = getVisibleTags(projectConfig);
+  const { projectOverrides } = useTagVisibilityOverrides(projectId);
+  const visibleTags = getVisibleTags(projectConfig, projectOverrides);
+
+  const visibleTagNamesKey = visibleTags.map(([tagName]) => tagName).join('|');
 
   const artistSuggestions = [
     ...new Set(savedEntries.map((entry) => entry.artist)),
@@ -67,6 +73,17 @@ function InputForm({
       artistShort: short.toUpperCase(),
     }));
   }, [formData.artist, formData.useCustomArtistShort]);
+
+  useEffect(() => {
+    const allowedTags = visibleTagNamesKey.split('|');
+
+    setFormData((prev) => ({
+      ...prev,
+      transformationTags: (prev.transformationTags || []).filter((tag) =>
+        allowedTags.includes(tag),
+      ),
+    }));
+  }, [visibleTagNamesKey, setFormData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -220,7 +237,6 @@ function InputForm({
 
             <div className="tag-list">
               {visibleTags
-                .filter(([, tagData]) => tagData.visible !== false)
                 .sort(
                   ([tagA], [tagB]) =>
                     (tagUsage[tagB] || 0) - (tagUsage[tagA] || 0),

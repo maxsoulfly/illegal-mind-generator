@@ -1,4 +1,8 @@
-export function buildTagExplorerData(projectConfig, savedEntries = []) {
+export function buildTagExplorerData(
+  projectConfig,
+  savedEntries = [],
+  visibilityOverrides = {},
+) {
   const availableTags = projectConfig.availableTags || [];
   const tagRegistry = projectConfig.tags || {};
 
@@ -12,6 +16,13 @@ export function buildTagExplorerData(projectConfig, savedEntries = []) {
     );
 
     const registryTag = tagRegistry[tag] || {};
+
+    const visibilityOverride = visibilityOverrides[tag];
+
+const isVisible =
+  visibilityOverride !== undefined
+    ? visibilityOverride
+    : registryTag?.visible !== false;
 
     const isRegistryDriven =
       registryTag?.title && registryTag?.thumbnail && registryTag?.description;
@@ -52,7 +63,7 @@ export function buildTagExplorerData(projectConfig, savedEntries = []) {
 
       usedBySongs,
       isRegistryDriven,
-      isVisible: registryTag?.visible !== false,
+      isVisible,
     };
   });
 }

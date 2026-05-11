@@ -856,6 +856,11 @@ svg {
   white-space: nowrap;
 }
 
+.tag-visibility-toggle {
+  margin-top: var(--space-4);
+  width     : 100%;
+}
+
 
 .tag-issue .tag-status {
   color: var(--color-text-alert);

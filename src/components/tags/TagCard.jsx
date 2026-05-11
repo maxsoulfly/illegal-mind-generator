@@ -2,7 +2,7 @@ import TagMapStatus from './TagMapStatus';
 import TagPhraseList from './TagPhraseList';
 import DescriptionMap from './DescriptionMap';
 
-export default function TagCard({ tag }) {
+export default function TagCard({ tag, onToggleVisibility }) {
   return (
     <article
       className={`tag-card 
@@ -33,6 +33,13 @@ export default function TagCard({ tag }) {
           <TagPhraseList title="Title" phrases={tag.maps.title} />
           <TagPhraseList title="Thumbnail" phrases={tag.maps.thumbnail} />
           <DescriptionMap description={tag.maps.description} />
+          <button
+            type="button"
+            className="button-secondary tag-visibility-toggle"
+            onClick={() => onToggleVisibility(tag.name, tag.isVisible)}
+          >
+            {tag.isVisible ? 'Hide from Generator' : 'Show in Generator'}
+          </button>
         </div>
       </details>
     </article>
