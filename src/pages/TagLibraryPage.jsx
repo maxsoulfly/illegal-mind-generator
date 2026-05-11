@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
 import { buildTagExplorerData } from '../utils/buildTagExplorerData';
+import { getTagCategories } from '../utils/tagRegistry';
+
 import TagCard from '../components/tags/TagCard';
 import TagControls from '../components/tags/TagControls';
 
@@ -52,9 +54,7 @@ export default function TagLibraryPage({
     return 0;
   });
 
-  const categories = [
-    ...new Set(tagData.map((tag) => tag.category).filter(Boolean)),
-  ].sort();
+  const categories = getTagCategories(projectConfig);
 
   return (
     <main>

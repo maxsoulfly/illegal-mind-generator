@@ -557,6 +557,7 @@
       "slower": {
         "label": "Slower",
         "category": "tempo",
+        "visible": true,
         "title": ["Slower", "Slowed Down", "Dragged Out", "Lower And Slower"],
         "thumbnail": [
           "SLOWED DOWN",
@@ -575,6 +576,7 @@
       "heavier": {
         "label": "Heavier",
         "category": "energy",
+        "visible": false,
         "title": ["Heavier", "Heavy", "Hitting Harder"],
         "thumbnail": [
           "HITS HARDER",
@@ -783,6 +785,8 @@
       "faster": {
         "label": "Faster",
         "category": "tempo",
+
+        "visible": false,
         "title": ["Faster", "Speed Boost"],
         "thumbnail": ["FASTER VERSION", "SPEED BOOST"],
         "description": {

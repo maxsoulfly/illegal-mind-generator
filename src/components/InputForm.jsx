@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { getVisibleTags } from '../utils/tagRegistry';
 
 import ToggleButton from './ToggleButton';
 
@@ -13,6 +14,8 @@ function InputForm({
   panelVisibility,
   togglePanel,
 }) {
+  const visibleTags = getVisibleTags(projectConfig);
+
   const artistSuggestions = [
     ...new Set(savedEntries.map((entry) => entry.artist)),
   ]
@@ -216,9 +219,13 @@ function InputForm({
             <label className="form-label">Transformation Tags</label>
 
             <div className="tag-list">
-              {[...(projectConfig.availableTags || [])]
-                .sort((a, b) => (tagUsage[b] || 0) - (tagUsage[a] || 0))
-                .map((tag) => {
+              {visibleTags
+                .filter(([, tagData]) => tagData.visible !== false)
+                .sort(
+                  ([tagA], [tagB]) =>
+                    (tagUsage[tagB] || 0) - (tagUsage[tagA] || 0),
+                )
+                .map(([tag, tagData]) => {
                   const isActive = (formData.transformationTags || []).includes(
                     tag,
                   );
@@ -230,7 +237,7 @@ function InputForm({
                       className={isActive ? 'tag-chip active' : 'tag-chip'}
                       onClick={() => handleTagToggle(tag)}
                     >
-                      {tag} ({tagUsage[tag] || 0})
+                      {tagData.label || tag} ({tagUsage[tag] || 0})
                     </button>
                   );
                 })}

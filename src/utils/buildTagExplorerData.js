@@ -52,6 +52,7 @@ export function buildTagExplorerData(projectConfig, savedEntries = []) {
 
       usedBySongs,
       isRegistryDriven,
+      isVisible: registryTag?.visible !== false,
     };
   });
 }

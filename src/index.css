@@ -6,6 +6,7 @@
   --color-text-soft       : #e9d7b0;
   --color-text-muted      : #d9b77a;
   --color-text-muted-2    : #cfa468;
+  --color-text-muted-3    : #8f6a39;
   --color-text-accent     : #ffcc73;
   --color-text-accent-soft: #ffbf66;
   --color-text-inverse    : #fff4de;
@@ -217,8 +218,8 @@ svg {
 }
 
 .category-select {
-  max-width       : 220px;
-  color           : var(--color-text-muted);
+  max-width: 220px;
+  color    : var(--color-text-muted);
 }
 
 .form-textarea {
@@ -785,6 +786,8 @@ svg {
   white-space: nowrap;
 }
 
+
+
 .tag-map-status span {
   border       : 1px solid var(--color-border-soft);
   border-radius: var(--radius-pill);
@@ -844,6 +847,15 @@ svg {
   color      : var(--color-text-muted);
   margin-left: var(--space-2);
 }
+
+
+.tag-hidden {
+  font-size  : 0.75rem;
+  color      : var(--color-text-muted-3);
+  margin-left: var(--space-0);
+  white-space: nowrap;
+}
+
 
 .tag-issue .tag-status {
   color: var(--color-text-alert);
