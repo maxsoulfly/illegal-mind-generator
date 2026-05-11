@@ -6,6 +6,9 @@ export default function TagControls({
   sortMode,
   setSortMode,
   counts,
+  categoryFilter,
+  setCategoryFilter,
+  categories,
 }) {
   return (
     <div className="library-controls">
@@ -37,6 +40,20 @@ export default function TagControls({
         >
           Issues ({counts.issues})
         </button>
+
+        <select
+          className="form-select category-select"
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+        >
+          <option value="all">All categories</option>
+
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
       </div>
       <input
         type="text"

@@ -216,6 +216,11 @@ svg {
   box-shadow  : 0 0 0 3px var(--color-shadow-focus);
 }
 
+.category-select {
+  max-width       : 220px;
+  color           : var(--color-text-muted);
+}
+
 .form-textarea {
   min-height: var(--height-textarea-min);
   resize    : vertical;

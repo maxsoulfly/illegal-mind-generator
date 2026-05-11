@@ -14,9 +14,6 @@ export default function TagCard({ tag }) {
       <div className="tag-card-header">
         <div>
           <h3>{tag.label}</h3>
-          {tag.isRegistryDriven && (
-            <span className="tag-badge migrated">Registry</span>
-          )}
           <div className="tag-category">{tag.category}</div>
         </div>
 

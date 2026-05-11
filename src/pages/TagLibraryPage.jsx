@@ -12,17 +12,24 @@ export default function TagLibraryPage({
   const [sortMode, setSortMode] = useState('usage-desc');
   const [filterMode, setFilterMode] = useState('all');
   const [search, setSearch] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
 
   const tagData = buildTagExplorerData(projectConfig, savedEntries);
+
+  const categoryFilteredTags = tagData.filter((tag) => {
+    if (categoryFilter === 'all') return true;
+    return tag.category === categoryFilter;
+  });
+
   const counts = {
-    all: tagData.length,
-    used: tagData.filter((t) => t.usageCount > 0).length,
-    unused: tagData.filter((t) => t.isUnused).length,
-    issues: tagData.filter((t) => t.hasMissingMappings).length,
+    all: categoryFilteredTags.length,
+    used: categoryFilteredTags.filter((t) => t.usageCount > 0).length,
+    unused: categoryFilteredTags.filter((t) => t.isUnused).length,
+    issues: categoryFilteredTags.filter((t) => t.hasMissingMappings).length,
   };
   const normalizedSearch = search.trim().toLowerCase();
 
-  const filteredTags = tagData.filter((tag) => {
+  const filteredTags = categoryFilteredTags.filter((tag) => {
     if (filterMode === 'used' && tag.usageCount === 0) return false;
     if (filterMode === 'unused' && !tag.isUnused) return false;
     if (filterMode === 'issues' && !tag.hasMissingMappings) return false;
@@ -45,6 +52,10 @@ export default function TagLibraryPage({
     return 0;
   });
 
+  const categories = [
+    ...new Set(tagData.map((tag) => tag.category).filter(Boolean)),
+  ].sort();
+
   return (
     <main>
       <h1 className="app-title">
@@ -59,6 +70,9 @@ export default function TagLibraryPage({
         sortMode={sortMode}
         setSortMode={setSortMode}
         counts={counts}
+        categoryFilter={categoryFilter}
+        setCategoryFilter={setCategoryFilter}
+        categories={categories}
       />
 
       <div className="tag-library">
