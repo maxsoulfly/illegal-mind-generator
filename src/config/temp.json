@@ -1,0 +1,279 @@
+{
+  "slower": {
+    "label": "Slower",
+    "category": "tempo",
+    "title": ["Slower", "Slowed Down", "Dragged Out", "Lower And Slower"],
+    "thumbnail": [
+      "SLOWED DOWN",
+      "SLOWED HARD",
+      "LOWER AND SLOWER",
+      "HALF-STEP HEAVIER"
+    ],
+    "description": {
+      "technical": ["Tempo: reduced.", "Speed: lowered."],
+      "log": [
+        "Modification: The original pulse was slowed to increase weight and space."
+      ],
+      "status": ["Temporal drag: Active.", "Cycle speed: Reduced."]
+    }
+  },
+  "heavier": {
+    "label": "Heavier",
+    "category": "energy",
+    "title": ["Heavier", "Heavy", "Hitting Harder"],
+    "thumbnail": [
+      "HITS HARDER",
+      "MORE WEIGHT",
+      "EXTRA HEAVY",
+      "CRUSHES HARDER"
+    ],
+    "description": {
+      "technical": ["Weight: increased.", "Impact: reinforced."],
+      "log": [
+        "Modification: Additional weight was injected into the signal core."
+      ],
+      "status": ["Signal weight: Increased.", "Load: Elevated."]
+    }
+  },
+  "darker": {
+    "label": "Darker",
+    "category": "mood",
+    "title": ["Darker", "Bleaker", "Colder", "More Menacing"],
+    "thumbnail": [
+      "DARKER FEEL",
+      "BLEAKER",
+      "SHADOW MODE",
+      "COLDER TONE",
+      "MORE MENACE"
+    ],
+    "description": {
+      "technical": ["Tone: darkened.", "Atmosphere: colder."],
+      "log": [
+        "Modification: The tonal profile was shifted into a darker spectrum."
+      ],
+      "status": ["Light levels: Suppressed.", "Visibility: Degraded."]
+    }
+  },
+  "alt metal": {
+    "label": "Alt Metal",
+    "category": "genre",
+    "title": ["Alt Metal", "Alt Metalized", "Alternative Metal"],
+    "thumbnail": ["ALT METALIZED", "ALT METAL EDGE"],
+    "description": {
+      "technical": ["Grit: injected.", "Density: increased."],
+      "log": [
+        "Modification: The structure was rerouted through an alternative metal framework."
+      ],
+      "status": ["Signal density: High.", "Layer depth: Increased."]
+    }
+  },
+  "punk": {
+    "label": "Punk",
+    "category": "genre",
+    "title": ["Punk", "Punkier", "More Punk", "Punk Driven"],
+    "thumbnail": ["PUNK REWORK", "PUNKIER", "PUNK ENERGY", "PUNK ATTITUDE"],
+    "description": {
+      "technical": ["Energy: accelerated.", "Drive: sharpened."],
+      "log": [
+        "Modification: The signal was re-driven with a more aggressive punk velocity."
+      ],
+      "status": ["Pulse rate: Elevated.", "Momentum: Surging."]
+    }
+  },
+  "modernized": {
+    "label": "Modernized",
+    "category": "production",
+    "title": ["Modernized", "Updated", "Rebuilt"],
+    "thumbnail": [
+      "UPDATED FEEL",
+      "NEW ERA MIX",
+      "REBUILT NOW",
+      "MODERN EDGE",
+      "FRESHER HIT"
+    ],
+    "description": {
+      "technical": ["Production: updated.", "Mix: rebuilt."],
+      "log": [
+        "Modification: The signal was reconstructed using modern production techniques."
+      ],
+      "status": ["System version: Updated.", "Processing layer: Modern."]
+    }
+  },
+  "faithful": {
+    "label": "Faithful",
+    "category": "intent",
+    "title": [],
+    "thumbnail": [],
+    "description": {
+      "technical": ["Structure: preserved.", "Intent: intact."],
+      "log": [
+        "Modification: Core structure preserved with minimal deviation from source."
+      ],
+      "status": ["Deviation: Minimal.", "Source alignment: Maintained."]
+    }
+  },
+  "hardcore": {
+    "label": "Hardcore",
+    "category": "genre",
+    "title": ["Hardcore", "More Aggressive"],
+    "thumbnail": [
+      "HARDCORE EDGE",
+      "HARDCORE PUSH",
+      "MORE AGGRESSION",
+      "BREAKDOWN ENERGY"
+    ],
+    "description": {
+      "technical": ["Aggression: elevated.", "Force: intensified."],
+      "log": [
+        "Modification: The signal was pushed toward a more aggressive hardcore execution."
+      ],
+      "status": ["Impact level: Extreme.", "Stress factor: High."]
+    }
+  },
+  "nu metal": {
+    "label": "Nu Metal",
+    "category": "genre",
+    "title": ["Nu Metal", "Groovier", "More Bounce", "Nu Metalized"],
+    "thumbnail": [
+      "NU METALIZED",
+      "NOW NU METAL?",
+      "MORE GROOVE",
+      "BIGGER BOUNCE"
+    ],
+    "description": {
+      "technical": ["Groove: amplified.", "Rhythm: emphasized."],
+      "log": [
+        "Modification: Groove elements were enhanced within a nu-metal structure."
+      ],
+      "status": ["Rhythmic load: Heavy.", "Bounce factor: Active."]
+    }
+  },
+  "hebrew": {
+    "label": "Hebrew",
+    "category": "language",
+    "title": ["Hebrew Version", "Hebrew Cover"],
+    "thumbnail": ["HEBREW VERSION"],
+    "description": {
+      "technical": ["Language: Hebrew adaptation."],
+      "log": ["Modification: Signal re-recorded in Hebrew."],
+      "status": ["Localization: Hebrew."]
+    }
+  },
+  "russian": {
+    "label": "Russian",
+    "category": "language",
+    "title": ["Russian Version", "Russian Cover"],
+    "thumbnail": ["RUSSIAN VERSION"],
+    "description": {
+      "technical": ["Language: Russian adaptation."],
+      "log": ["Modification: Signal re-recorded in Russian."],
+      "status": ["Localization: Russian."]
+    }
+  },
+  "easycore": {
+    "label": "Easycore",
+    "category": "genre",
+    "title": ["Easycore", "Easycore Cover"],
+    "thumbnail": ["EASYCORE ENERGY", "EASYCORE MODE"],
+    "description": {
+      "technical": ["Energy: uplifted.", "Drive: melodic and aggressive."],
+      "log": ["Modification: Signal shifted toward easycore structure."],
+      "status": ["Energy profile: Elevated."]
+    }
+  },
+  "metal": {
+    "label": "Metal",
+    "category": "genre",
+    "title": ["Metal", "Metal Cover"],
+    "thumbnail": ["FULL METAL", "METAL MODE"],
+    "description": {
+      "technical": ["Distortion: increased.", "Weight: reinforced."],
+      "log": ["Modification: Signal pushed into full metal spectrum."],
+      "status": ["Signal intensity: High."]
+    }
+  },
+  "pop punk": {
+    "label": "Pop Punk",
+    "category": "genre",
+    "title": ["Pop Punk", "Pop Punk Cover"],
+    "thumbnail": ["POP PUNK MODE", "POP PUNK ENERGY"],
+    "description": {
+      "technical": ["Melody: emphasized.", "Tempo: upbeat."],
+      "log": ["Modification: Signal tuned toward pop punk structure."],
+      "status": ["Tone: Brighter."]
+    }
+  },
+  "hardcore punk": {
+    "label": "Hardcore Punk",
+    "category": "genre",
+    "title": ["Hardcore Punk", "Hardcore Punk Cover"],
+    "thumbnail": ["HARDCORE PUNK", "PUNK HARDER"],
+    "description": {
+      "technical": ["Aggression: maxed.", "Drive: relentless."],
+      "log": ["Modification: Signal pushed into hardcore punk intensity."],
+      "status": ["Impact: Extreme."]
+    }
+  },
+  "skate punk": {
+    "label": "Skate Punk",
+    "category": "genre",
+    "title": ["Skate Punk", "Skate Punk Cover"],
+    "thumbnail": ["SKATE PUNK ENERGY", "FAST PUNK"],
+    "description": {
+      "technical": ["Tempo: fast.", "Energy: high."],
+      "log": ["Modification: Signal shifted toward skate punk velocity."],
+      "status": ["Momentum: Surging."]
+    }
+  },
+  "faster": {
+    "label": "Faster",
+    "category": "tempo",
+    "title": ["Faster", "Speed Boost"],
+    "thumbnail": ["FASTER VERSION", "SPEED BOOST"],
+    "description": {
+      "technical": ["Tempo: increased.", "Speed: boosted."],
+      "log": ["Modification: Signal accelerated beyond original tempo."],
+      "status": ["Cycle speed: Elevated."]
+    }
+  },
+  "nostalgia": {
+    "label": "Nostalgia",
+    "category": "mood",
+    "title": ["Nostalgic", "Throwback", "Memory Loop"],
+    "thumbnail": ["NOSTALGIA HIT", "OLD SIGNAL", "THROWBACK MODE"],
+    "description": {
+      "technical": [
+        "Tone: retro.",
+        "Feel: preserved.",
+        "Signal memory: emphasized."
+      ],
+      "log": [
+        "Modification: Signal tuned toward nostalgic frequencies.",
+        "Modification: Signal tuned to evoke nostalgic recall patterns."
+      ],
+      "status": ["Era sync: Active.", "Memory layer: Active."]
+    }
+  },
+  "00s": {
+    "label": "00s",
+    "category": "era",
+    "title": ["00s Nostalgia", "2000s Throwback"],
+    "thumbnail": ["00S NOSTALGIA", "2000S THROWBACK"],
+    "description": {
+      "technical": ["Signal memory: early 2000s."],
+      "log": ["Modification: Signal tuned to early 2000s-era recall patterns."],
+      "status": ["Memory layer: 00s nostalgia."]
+    }
+  },
+  "90s": {
+    "label": "90s",
+    "category": "era",
+    "title": ["90s Nostalgia", "90s Throwback"],
+    "thumbnail": ["90S NOSTALGIA", "90S THROWBACK"],
+    "description": {
+      "technical": ["Signal memory: 90s era."],
+      "log": ["Modification: Signal tuned to 90s-era recall patterns."],
+      "status": ["Memory layer: 90s nostalgia."]
+    }
+  }
+}

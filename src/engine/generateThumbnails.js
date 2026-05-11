@@ -29,12 +29,10 @@ function buildThumbnailVariations(formData = {}, config = {}) {
     return shuffleArray(config.thumbnail.words || []).slice(0, 5);
   }
 
-  const thumbnailTagMap = config.thumbnail?.tagMap || {};
   const tagRegistry = config.tags || {};
 
   const mappedPool = selectedTags.flatMap((tag) => {
-    const specificPhrases =
-      tagRegistry[tag]?.thumbnail || thumbnailTagMap[tag] || [];
+    const specificPhrases = tagRegistry[tag]?.thumbnail || [];
 
     const genericPhrases = buildGenericTagThumbnailPhrases(tag, config);
 

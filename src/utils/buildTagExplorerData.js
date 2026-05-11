@@ -11,7 +11,10 @@ export function buildTagExplorerData(projectConfig, savedEntries = []) {
       entry.transformationTags?.includes(tag),
     );
 
-    const registryTag = tagRegistry[tag];
+    const registryTag = tagRegistry[tag] || {};
+
+    const isRegistryDriven =
+      registryTag?.title && registryTag?.thumbnail && registryTag?.description;
 
     const hasMissingMappings =
       (!registryTag?.title && !titleTagMap[tag]) ||
@@ -27,9 +30,9 @@ export function buildTagExplorerData(projectConfig, savedEntries = []) {
       usageCount: usedBySongs.length,
 
       maps: {
-        title: registryTag?.title || titleTagMap[tag] || [],
-        thumbnail: registryTag?.thumbnail || thumbnailTagMap[tag] || [],
-        description: registryTag?.description || descriptionTagMap[tag] || null,
+        title: registryTag.title || [],
+        thumbnail: registryTag.thumbnail || [],
+        description: registryTag.description || null,
       },
 
       existsIn: {
@@ -43,12 +46,12 @@ export function buildTagExplorerData(projectConfig, savedEntries = []) {
       label: registryTag?.label || tag,
       category: registryTag?.category || 'uncategorized',
 
-      // 👉 ADD THESE
       hasMissingMappings,
       isUnused,
       isPopular,
 
       usedBySongs,
+      isRegistryDriven,
     };
   });
 }

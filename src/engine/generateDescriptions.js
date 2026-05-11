@@ -79,10 +79,8 @@ export function generateDescriptions(formData, projectConfig) {
 
   // --- Status block ---
   const selectedTags = formData.transformationTags || [];
-  const descriptionTagMap = projectConfig?.description.tagMap || {};
   const tagRegistry = projectConfig?.tags || {};
-  const getDescriptionTag = (tag) =>
-    tagRegistry[tag]?.description || descriptionTagMap[tag] || {};
+  const getDescriptionTag = (tag) => tagRegistry[tag]?.description || {};
 
   // collect tag-based status lines
   const tagStatusLines = selectedTags.flatMap(

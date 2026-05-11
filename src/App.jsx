@@ -2,6 +2,9 @@ import { useEffect, useState, useMemo } from 'react';
 
 import projects from './config/projects.json';
 
+
+// import { createTagRegistryFromLegacy } from './utils/createTagRegistryFromLegacy';
+
 import { generateTitles } from './engine/generateTitles';
 import { generateThumbnails } from './engine/generateThumbnails';
 import { generateDescriptions } from './engine/generateDescriptions';
