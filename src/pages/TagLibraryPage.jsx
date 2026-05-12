@@ -6,7 +6,7 @@ import { getTagCategories } from '../utils/tagRegistry';
 import TagCard from '../components/tags/TagCard';
 import TagControls from '../components/tags/TagControls';
 
-import useTagVisibilityOverrides from '../hooks/useTagVisibilityOverrides';
+import useTagOverrides from '../hooks/useTagOverrides';
 
 export default function TagLibraryPage({
   projectId,
@@ -19,9 +19,14 @@ export default function TagLibraryPage({
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
 
-  const { projectOverrides, toggleTagVisibility } =
-    useTagVisibilityOverrides(projectId);
-    
+  const { projectOverrides, updateTagOverride } = useTagOverrides(projectId);
+
+  const handleToggleTagVisibility = (tagName, currentVisible) => {
+    updateTagOverride(tagName, {
+      visible: !currentVisible,
+    });
+  };
+
   const tagData = buildTagExplorerData(
     projectConfig,
     savedEntries,
@@ -90,7 +95,7 @@ export default function TagLibraryPage({
           <TagCard
             key={tag.name}
             tag={tag}
-            onToggleVisibility={toggleTagVisibility}
+            onToggleVisibility={handleToggleTagVisibility}
           />
         ))}
       </div>

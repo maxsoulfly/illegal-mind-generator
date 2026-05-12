@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { getVisibleTags } from '../utils/tagRegistry';
 
-import useTagVisibilityOverrides from '../hooks/useTagVisibilityOverrides';
+import useTagOverrides from '../hooks/useTagOverrides';
 
 import ToggleButton from './ToggleButton';
 
@@ -17,7 +17,7 @@ function InputForm({
   panelVisibility,
   togglePanel,
 }) {
-  const { projectOverrides } = useTagVisibilityOverrides(projectId);
+  const { projectOverrides } = useTagOverrides(projectId);
   const visibleTags = getVisibleTags(projectConfig, projectOverrides);
 
   const visibleTagNamesKey = visibleTags.map(([tagName]) => tagName).join('|');

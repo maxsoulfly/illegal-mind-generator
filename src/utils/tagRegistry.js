@@ -2,18 +2,23 @@ export function getTagRegistry(projectConfig = {}) {
   return projectConfig.tags || {};
 }
 
-export function getVisibleTags(projectConfig = {}, visibilityOverrides = {}) {
-  return Object.entries(getTagRegistry(projectConfig)).filter(
-    ([tagName, tag]) => {
-      const override = visibilityOverrides[tagName];
+export function getResolvedTagRegistry(projectConfig = {}, tagOverrides = {}) {
+  const baseRegistry = getTagRegistry(projectConfig);
 
-      if (override !== undefined) {
-        return override;
-      }
+  return Object.entries(baseRegistry).reduce((registry, [tagName, tagData]) => {
+    registry[tagName] = {
+      ...tagData,
+      ...(tagOverrides[tagName] || {}),
+    };
 
-      return tag.visible !== false;
-    },
-  );
+    return registry;
+  }, {});
+}
+
+export function getVisibleTags(projectConfig = {}, tagOverrides = {}) {
+  return Object.entries(
+    getResolvedTagRegistry(projectConfig, tagOverrides),
+  ).filter(([, tag]) => tag.visible !== false);
 }
 
 export function getTagData(projectConfig = {}, tagName) {

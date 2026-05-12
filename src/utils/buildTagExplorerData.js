@@ -1,7 +1,7 @@
 export function buildTagExplorerData(
   projectConfig,
   savedEntries = [],
-  visibilityOverrides = {},
+  tagOverrides = {},
 ) {
   const availableTags = projectConfig.availableTags || [];
   const tagRegistry = projectConfig.tags || {};
@@ -17,12 +17,12 @@ export function buildTagExplorerData(
 
     const registryTag = tagRegistry[tag] || {};
 
-    const visibilityOverride = visibilityOverrides[tag];
+    const tagOverride = tagOverrides[tag];
 
-const isVisible =
-  visibilityOverride !== undefined
-    ? visibilityOverride
-    : registryTag?.visible !== false;
+    const isVisible =
+      tagOverride?.visible !== undefined
+        ? tagOverride.visible
+        : registryTag?.visible !== false;
 
     const isRegistryDriven =
       registryTag?.title && registryTag?.thumbnail && registryTag?.description;
