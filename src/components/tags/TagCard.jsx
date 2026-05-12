@@ -1,6 +1,8 @@
 import TagMapStatus from './TagMapStatus';
 import TagPhraseList from './TagPhraseList';
 import DescriptionMap from './DescriptionMap';
+import TagDetails from './TagDetails';
+import TagEditor from './TagEditor';
 
 export default function TagCard({
   tag,
@@ -29,52 +31,14 @@ export default function TagCard({
         {!tag.isVisible && <span className="tag-hidden">Hidden</span>}
       </div>
 
-      <details>
-        <TagMapStatus existsIn={tag.existsIn} />
-
-        <summary>View details</summary>
-
-        <div className="tag-phrases">
-          <TagPhraseList title="Title" phrases={tag.maps.title} />
-          <TagPhraseList title="Thumbnail" phrases={tag.maps.thumbnail} />
-          <DescriptionMap description={tag.maps.description} />
-
-          <div className="tag-edit-fields">
-            <label>
-              Label
-              <input
-                className="form-input"
-                defaultValue={tag.label}
-                onBlur={(e) => onUpdateTag(tag.name, { label: e.target.value })}
-              />
-            </label>
-
-            <label>
-              Category
-              <select
-                className="form-select"
-                defaultValue={tag.category}
-                onChange={(e) =>
-                  onUpdateTag(tag.name, { category: e.target.value })
-                }
-              >
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-          <button
-            type="button"
-            className="button-secondary tag-visibility-toggle"
-            onClick={() => onToggleVisibility(tag.name, tag.isVisible)}
-          >
-            {tag.isVisible ? 'Hide from Generator' : 'Show in Generator'}
-          </button>
-        </div>
-      </details>
+      <TagDetails tag={tag} />
+      
+      <TagEditor
+        tag={tag}
+        categories={categories}
+        onUpdateTag={onUpdateTag}
+        onToggleVisibility={onToggleVisibility}
+      />
     </article>
   );
 }

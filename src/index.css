@@ -746,6 +746,7 @@ svg {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap                  : 1rem;
   margin-top           : 1.5rem;
+  align-items          : start;
 }
 
 
@@ -848,6 +849,25 @@ svg {
   margin-left: var(--space-2);
 }
 
+.tag-section {
+  margin-top: var(--space-3);
+}
+
+.tag-section summary {
+  cursor    : pointer;
+  color     : var(--color-text-soft);
+  font-size : 0.9rem;
+  transition: var(--transition-fast);
+}
+
+.tag-section summary:hover {
+  color: var(--color-text-accent);
+}
+
+.tag-section+.tag-section {
+  border-top : 1px solid var(--color-border-deep);
+  padding-top: var(--space-3);
+}
 
 .tag-hidden {
   font-size  : 0.75rem;
@@ -1069,10 +1089,6 @@ svg {
 
   .saved-entry-actions .button-secondary {
     width: 100%;
-  }
-
-  .tag-library {
-    grid-template-columns: 1fr;
   }
 
   .tag-card {
