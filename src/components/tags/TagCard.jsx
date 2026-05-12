@@ -2,7 +2,12 @@ import TagMapStatus from './TagMapStatus';
 import TagPhraseList from './TagPhraseList';
 import DescriptionMap from './DescriptionMap';
 
-export default function TagCard({ tag, onToggleVisibility }) {
+export default function TagCard({
+  tag,
+  categories = [],
+  onToggleVisibility,
+  onUpdateTag,
+}) {
   return (
     <article
       className={`tag-card 
@@ -33,6 +38,34 @@ export default function TagCard({ tag, onToggleVisibility }) {
           <TagPhraseList title="Title" phrases={tag.maps.title} />
           <TagPhraseList title="Thumbnail" phrases={tag.maps.thumbnail} />
           <DescriptionMap description={tag.maps.description} />
+
+          <div className="tag-edit-fields">
+            <label>
+              Label
+              <input
+                className="form-input"
+                defaultValue={tag.label}
+                onBlur={(e) => onUpdateTag(tag.name, { label: e.target.value })}
+              />
+            </label>
+
+            <label>
+              Category
+              <select
+                className="form-select"
+                defaultValue={tag.category}
+                onChange={(e) =>
+                  onUpdateTag(tag.name, { category: e.target.value })
+                }
+              >
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
           <button
             type="button"
             className="button-secondary tag-visibility-toggle"

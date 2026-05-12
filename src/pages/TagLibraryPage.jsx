@@ -27,6 +27,10 @@ export default function TagLibraryPage({
     });
   };
 
+  const handleUpdateTag = (tagName, updates) => {
+    updateTagOverride(tagName, updates);
+  };
+
   const tagData = buildTagExplorerData(
     projectConfig,
     savedEntries,
@@ -95,7 +99,9 @@ export default function TagLibraryPage({
           <TagCard
             key={tag.name}
             tag={tag}
+            categories={categories}
             onToggleVisibility={handleToggleTagVisibility}
+            onUpdateTag={handleUpdateTag}
           />
         ))}
       </div>

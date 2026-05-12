@@ -11,14 +11,17 @@ export function buildTagExplorerData(
   const descriptionTagMap = projectConfig.description?.tagMap || {};
 
   return availableTags.map((tag) => {
+    const baseTag = tagRegistry[tag] || {};
+    const tagOverride = tagOverrides[tag] || {};
+
+    const registryTag = {
+      ...baseTag,
+      ...tagOverride,
+    };
+
     const usedBySongs = savedEntries.filter((entry) =>
       entry.transformationTags?.includes(tag),
     );
-
-    const registryTag = tagRegistry[tag] || {};
-
-    const tagOverride = tagOverrides[tag];
-
     const isVisible =
       tagOverride?.visible !== undefined
         ? tagOverride.visible

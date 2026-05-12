@@ -870,6 +870,34 @@ svg {
   color: var(--color-text-accent);
 }
 
+.tag-edit-fields {
+  display              : grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap                  : var(--space-4);
+  margin-top           : var(--space-4);
+}
+
+.tag-edit-fields label {
+  color         : var(--color-text-muted);
+  font-size     : var(--font-size-label);
+  text-transform: uppercase;
+}
+
+.tag-edit-fields .form-input {
+  margin-top   : var(--space-2);
+  margin-bottom: 0;
+}
+
+.tag-edit-fields .form-select {
+  margin-top   : var(--space-2);
+  margin-bottom: 0;
+  width        : 100%;
+}
+
+.tag-edit-fields {
+  align-items: end;
+}
+
 /* ===== Responsive layout overrides ===== */
 @media (max-width: 1200px) {
   .app-shell {
