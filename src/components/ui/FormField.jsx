@@ -1,9 +1,8 @@
 export default function FormField({ label, children }) {
   return (
-    <label className="form-field">
-      <span className="form-field-label">{label}</span>
-
+    <div className="form-group">
+      <label className="form-label">{label}</label>
       {children}
-    </label>
+    </div>
   );
 }
