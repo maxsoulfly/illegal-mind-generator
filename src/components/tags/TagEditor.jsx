@@ -1,4 +1,5 @@
 import FormField from '../ui/FormField';
+import TagPhraseEditor from './TagPhraseEditor';
 
 export default function TagEditor({
   tag,
@@ -41,6 +42,14 @@ export default function TagEditor({
           </select>
         </FormField>
       </div>
+
+      <TagPhraseEditor
+        title="Title Phrases"
+        tagName={tag.name}
+        field="title"
+        phrases={tag.maps.title}
+        onUpdateTag={onUpdateTag}
+      />
 
       <button
         type="button"
