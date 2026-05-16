@@ -9,11 +9,9 @@ import { generateHashtags } from './engine/generateHashtags';
 // import { generateHybridPrompt } from './engine/generateHybridPrompt';
 
 import useSavedEntries from './hooks/useSavedEntries';
-import InputForm from './components/InputForm';
-import GeneratedOutput from './components/GeneratedOutput';
-import SavedLibrary from './components/SavedLibrary';
 import AppMenu from './components/AppMenu';
 import TagLibraryPage from './pages/TagLibraryPage';
+import GeneratorPage from './pages/GeneratorPage';
 
 const DEFAULT_PROJECT_KEY = Object.keys(projects)[0];
 
@@ -172,66 +170,25 @@ function App() {
       />
 
       {activePage === 'generator' && (
-        <>
-          <div className="panel-header">
-            <h1 className="app-title">Generator — {projectConfig.name}</h1>
-            <div className="regenerate-row">
-              <button
-                type="button"
-                className="button-primary"
-                onClick={handleRegenerate}
-              >
-                Regenerate
-              </button>
-            </div>
-          </div>
-
-          <div className="layout-grid">
-            <div className="panel">
-              <InputForm
-                projectId={projectId}
-                formData={formData}
-                setFormData={setFormData}
-                onClear={handleClearForm}
-                projectConfig={projectConfig}
-                onSaveEntry={handleSaveEntry}
-                savedEntries={savedEntries}
-                onLoadEntry={handleLoadEntry}
-                onDeleteEntry={handleDeleteEntry}
-                onExportEntries={handleExportEntries}
-                onImportEntries={handleImportEntries}
-                tagUsage={tagUsage}
-                panelVisibility={panelVisibility}
-                togglePanel={togglePanel}
-              />
-            </div>
-
-            <div className="panel">
-              <SavedLibrary
-                savedEntries={savedEntries}
-                onLoadEntry={handleLoadEntry}
-                onDeleteEntry={handleDeleteEntry}
-                onExportEntries={handleExportEntries}
-                onImportEntries={handleImportEntries}
-                projectConfig={projectConfig}
-              />
-              <GeneratedOutput
-                titles={generatedOutput.titles}
-                thumbnails={generatedOutput.thumbnails}
-                descriptions={generatedOutput.shortDescriptions}
-                hashtags={generatedOutput.hashtags}
-                youtubeTags={generatedOutput.youtubeTags}
-                hybridPrompt={generatedOutput.hybridPrompt}
-                videoType={formData.videoType}
-                longDescription={generatedOutput.longDescription}
-                panelVisibility={panelVisibility}
-                setPanelVisibility={setPanelVisibility}
-                fileId={generatedOutput.fileId}
-                projectConfig={projectConfig}
-              />
-            </div>
-          </div>
-        </>
+        <GeneratorPage
+          projectId={projectId}
+          formData={formData}
+          setFormData={setFormData}
+          projectConfig={projectConfig}
+          generatedOutput={generatedOutput}
+          savedEntries={savedEntries}
+          handleSaveEntry={handleSaveEntry}
+          handleClearForm={handleClearForm}
+          handleLoadEntry={handleLoadEntry}
+          handleDeleteEntry={handleDeleteEntry}
+          handleExportEntries={handleExportEntries}
+          handleImportEntries={handleImportEntries}
+          panelVisibility={panelVisibility}
+          setPanelVisibility={setPanelVisibility}
+          togglePanel={togglePanel}
+          tagUsage={tagUsage}
+          handleRegenerate={handleRegenerate}
+        />
       )}
       {activePage === 'tags' && (
         <TagLibraryPage
