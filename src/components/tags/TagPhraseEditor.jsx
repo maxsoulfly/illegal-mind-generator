@@ -35,6 +35,7 @@ export default function TagPhraseEditor({
         {phrases.map((phrase, index) => (
           <div className="tag-phrase-row" key={index}>
             <input
+              key={`${tagName}-${field}-${index}-${phrase}`}
               className="form-input"
               defaultValue={phrase}
               onBlur={(e) => updatePhrase(index, e.target.value)}

@@ -110,5 +110,6 @@ export default function useInputFormLogic({
     songSuggestions,
     handleChange,
     handleTagToggle,
+    projectOverrides,
   };
 }

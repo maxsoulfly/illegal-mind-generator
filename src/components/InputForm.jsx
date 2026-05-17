@@ -17,6 +17,7 @@ function InputForm({
   tagUsage = {},
   panelVisibility,
   togglePanel,
+  projectOverrides,
 }) {
   const {
     visibleTags,
@@ -30,6 +31,7 @@ function InputForm({
     setFormData,
     projectConfig,
     savedEntries,
+    projectOverrides,
   });
 
   return (

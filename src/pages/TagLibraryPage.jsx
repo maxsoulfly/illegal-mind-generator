@@ -6,20 +6,18 @@ import { getTagCategories } from '../utils/tagRegistry';
 import TagCard from '../components/tags/TagCard';
 import TagControls from '../components/tags/TagControls';
 
-import useTagOverrides from '../hooks/useTagOverrides';
 
 export default function TagLibraryPage({
-  projectId,
   projectConfig,
   savedEntries,
   projectName,
+  projectOverrides,
+  updateTagOverride,
 }) {
   const [sortMode, setSortMode] = useState('usage-desc');
   const [filterMode, setFilterMode] = useState('all');
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
-
-  const { projectOverrides, updateTagOverride } = useTagOverrides(projectId);
 
   const handleToggleTagVisibility = (tagName, currentVisible) => {
     updateTagOverride(tagName, {

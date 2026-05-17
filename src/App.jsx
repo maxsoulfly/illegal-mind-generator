@@ -8,7 +8,11 @@ import { generateDescriptions } from './engine/generateDescriptions';
 import { generateHashtags } from './engine/generateHashtags';
 // import { generateHybridPrompt } from './engine/generateHybridPrompt';
 
+import buildResolvedProjectConfig from './utils/buildResolvedProjectConfig';
+
+import useTagOverrides from './hooks/useTagOverrides';
 import useSavedEntries from './hooks/useSavedEntries';
+
 import AppMenu from './components/AppMenu';
 import TagLibraryPage from './pages/TagLibraryPage';
 import GeneratorPage from './pages/GeneratorPage';
@@ -84,6 +88,12 @@ function App() {
   const projectConfig = useMemo(() => {
     return projects[projectId] || projects[defaultFormData.project] || {};
   }, [projectId]);
+  const { projectOverrides, updateTagOverride, resetTagOverride } =
+    useTagOverrides(projectId);
+
+  const resolvedProjectConfig = useMemo(() => {
+    return buildResolvedProjectConfig(projectConfig, projectOverrides);
+  }, [projectConfig, projectOverrides]);
 
   const {
     savedEntries,
@@ -108,13 +118,13 @@ function App() {
   };
 
   const generatedOutput = useMemo(() => {
-    const titles = generateTitles(formData, projectConfig);
-    const thumbnails = generateThumbnails(formData, projectConfig);
+    const titles = generateTitles(formData, resolvedProjectConfig);
+    const thumbnails = generateThumbnails(formData, resolvedProjectConfig);
     const { longDescription, shortDescriptions, fileId } = generateDescriptions(
       formData,
-      projectConfig,
+      resolvedProjectConfig,
     );
-    const hashtagOutput = generateHashtags(formData, projectConfig);
+    const hashtagOutput = generateHashtags(formData, resolvedProjectConfig);
 
     const hashtags = hashtagOutput.hashtags;
     const youtubeTags = hashtagOutput.youtubeTags;
@@ -129,7 +139,7 @@ function App() {
       // hybridPrompt,
       fileId,
     };
-  }, [formData, projectConfig, generationSeed]);
+  }, [formData, resolvedProjectConfig, generationSeed]);
 
   // const projectOptions = Object.keys(projects);
 
@@ -174,7 +184,7 @@ function App() {
           projectId={projectId}
           formData={formData}
           setFormData={setFormData}
-          projectConfig={projectConfig}
+          projectConfig={resolvedProjectConfig}
           generatedOutput={generatedOutput}
           savedEntries={savedEntries}
           handleSaveEntry={handleSaveEntry}
@@ -188,14 +198,18 @@ function App() {
           togglePanel={togglePanel}
           tagUsage={tagUsage}
           handleRegenerate={handleRegenerate}
+          projectOverrides={projectOverrides}
         />
       )}
       {activePage === 'tags' && (
         <TagLibraryPage
           projectId={projectId}
-          projectConfig={projectConfig}
+          projectConfig={resolvedProjectConfig}
           savedEntries={savedEntries}
           projectName={projectConfig.name}
+          projectOverrides={projectOverrides}
+          updateTagOverride={updateTagOverride}
+          resetTagOverride={resetTagOverride}
         />
       )}
     </div>

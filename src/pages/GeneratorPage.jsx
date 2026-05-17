@@ -20,6 +20,7 @@ export default function GeneratorPage({
   handleExportEntries,
   handleImportEntries,
   setPanelVisibility,
+  projectOverrides,
 }) {
   return (
     <>
@@ -53,6 +54,7 @@ export default function GeneratorPage({
             tagUsage={tagUsage}
             panelVisibility={panelVisibility}
             togglePanel={togglePanel}
+            projectOverrides={projectOverrides}
           />
         </div>
 
