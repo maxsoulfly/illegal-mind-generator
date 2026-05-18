@@ -14,6 +14,7 @@ import useTagOverrides from './hooks/useTagOverrides';
 import useSavedEntries from './hooks/useSavedEntries';
 
 import AppMenu from './components/AppMenu';
+
 import TagLibraryPage from './pages/TagLibraryPage';
 import GeneratorPage from './pages/GeneratorPage';
 
@@ -178,7 +179,6 @@ function App() {
         setProjectId={handleProjectChange}
         projects={projects}
       />
-
       {activePage === 'generator' && (
         <GeneratorPage
           projectId={projectId}

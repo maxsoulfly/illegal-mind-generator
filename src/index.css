@@ -705,7 +705,28 @@ svg {
   margin-bottom  : var(--space-7);
 }
 
-.app-menu button {
+.app-menu-pages {
+  display: flex;
+  gap    : var(--space-2);
+}
+
+.app-menu-actions {
+  display    : flex;
+  align-items: center;
+  gap        : var(--space-3);
+  margin-left: auto;
+}
+
+.app-menu-pages button {
+  border-radius: var(--radius-pill);
+}
+
+.app-backup-controls .button-secondary {
+  border-radius: var(--radius-md);
+  min-width    : 120px;
+}
+
+.app-menu-pages button {
   border       : 1px solid var(--color-border-main);
   background   : var(--color-bg-panel);
   color        : var(--color-text-main);
@@ -727,11 +748,13 @@ svg {
   margin-left: auto;
 }
 
-.app-menu-project label {
+.app-menu-project label,
+.app-backup-controls h3 {
   color         : var(--color-text-muted);
   font-size     : var(--font-size-label);
   letter-spacing: var(--letter-spacing-sm);
   text-transform: uppercase;
+  font-weight   : 100;
 }
 
 .app-menu-project .form-select {
@@ -932,9 +955,20 @@ svg {
   margin-bottom: 0;
 }
 
-.tag-phrase-row .button-secondary {
+.tag-phrase-row .button-secondarony {
   flex: 0 0 auto;
 }
+
+.app-backup-controls {
+  display    : flex;
+  gap        : var(--space-2);
+  align-items: center;
+}
+
+.app-backup-import input {
+  display: none;
+}
+
 
 /* ===== Responsive layout overrides ===== */
 @media (max-width: 1200px) {
