@@ -1,43 +1,3 @@
-function getRandomItem(items) {
-  if (!items || items.length === 0) {
-    return '';
-  }
-
-  return items[Math.floor(Math.random() * items.length)];
-}
-
-function buildShortTransformationPhrase(tags = [], config = {}) {
-  if (tags.includes('faithful')) {
-    const faithfulOptions = config.title?.faithfulPhrases;
-
-    return getRandomItem(faithfulOptions);
-  }
-  if (tags.length === 0) {
-    return 'Rework';
-  }
-
-  const tagRegistry = config.tags || {};
-
-  const pickedWords = tags
-    .map((tag) => {
-      const options = tagRegistry[tag]?.title || [tag];
-      return getRandomItem(options) || tag;
-    })
-    .filter(Boolean);
-
-  const limitedWords = shuffleArray(pickedWords).slice(0, 1);
-
-  if (limitedWords.length === 0) {
-    return 'Rework';
-  }
-
-  // const word = limitedWords[0].toLowerCase();
-
-  // const useButIts = Math.random() > 0.4;
-
-  return limitedWords[0];
-}
-
 function buildTransformationVariations(formData = {}, config = {}) {
   const selectedTags = formData?.transformationTags || [];
 
@@ -45,7 +5,21 @@ function buildTransformationVariations(formData = {}, config = {}) {
     return ['Rework'];
   }
 
-  return [buildShortTransformationPhrase(selectedTags, config)];
+  if (selectedTags.includes('faithful')) {
+    return shuffleArray(config.title?.faithfulPhrases || ['Faithful']);
+  }
+
+  const phrasePool = selectedTags.flatMap((tag) => {
+    return config.tags?.[tag]?.title || [];
+  });
+
+  const uniquePhrases = [...new Set(phrasePool)].filter(Boolean);
+
+  if (uniquePhrases.length === 0) {
+    return ['Rework'];
+  }
+
+  return shuffleArray(uniquePhrases);
 }
 
 function shuffleArray(items) {
