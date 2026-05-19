@@ -4,29 +4,37 @@ export default function TagPhraseEditor({
   title,
   tagName,
   field,
+  parentField,
   phrases = [],
   onUpdateTag,
 }) {
+  const buildUpdate = (nextPhrases) => {
+    if (!parentField) {
+      return {
+        [field]: nextPhrases,
+      };
+    }
+
+    return {
+      [parentField]: {
+        [field]: nextPhrases,
+      },
+    };
+  };
   const updatePhrase = (index, value) => {
     const nextPhrases = phrases.map((phrase, i) =>
       i === index ? value : phrase,
     );
 
-    onUpdateTag(tagName, {
-      [field]: nextPhrases,
-    });
+    onUpdateTag(tagName, buildUpdate(nextPhrases));
   };
 
   const addPhrase = () => {
-    onUpdateTag(tagName, {
-      [field]: [...phrases, ''],
-    });
+    onUpdateTag(tagName, buildUpdate([...phrases, '']));
   };
 
   const removePhrase = (index) => {
-    onUpdateTag(tagName, {
-      [field]: phrases.filter((_, i) => i !== index),
-    });
+    onUpdateTag(tagName, buildUpdate(phrases.filter((_, i) => i !== index)));
   };
 
   return (
@@ -34,7 +42,7 @@ export default function TagPhraseEditor({
       <summary>{title}</summary>
 
       <div className="tag-phrase-editor">
-        <FormField label={title}>
+        <FormField>
           {phrases.map((phrase, index) => (
             <div className="tag-phrase-row" key={index}>
               <input

@@ -472,9 +472,9 @@
           },
           "shortTagPhrase": {
             "excludedTags": ["nostalgia", "90s", "00s"],
-            "fallback": "",
+            "fallback": "reshaped",
             "maxTags": 2,
-            "joinWord": "and"
+            "joinWord": "/"
           }
         },
         "shorts": {
@@ -982,7 +982,7 @@
           "primary": [
             "{tagLine}.",
             "One-man full-band cover.",
-            "Recorded, mixed, and performed by Maxx Dee."
+            "Recorded, mixed and performed by Maxx Dee."
           ],
           "secondary": [
             "Full version on the channel.",

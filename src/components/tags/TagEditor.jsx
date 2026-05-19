@@ -59,6 +59,15 @@ export default function TagEditor({
         onUpdateTag={onUpdateTag}
       />
 
+      <TagPhraseEditor
+        title="Technical phrases"
+        tagName={tag.name}
+        parentField="description"
+        field="technical"
+        phrases={tag.maps.description?.technical}
+        onUpdateTag={onUpdateTag}
+      />
+
       <button
         type="button"
         className="button-secondary tag-visibility-toggle"

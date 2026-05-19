@@ -241,7 +241,7 @@ export function generateDescriptions(formData, projectConfig) {
     const excluded = shortTagConfig.excludedTags || [];
 
     const maxTags = shortTagConfig.maxTags || 2;
-    const joinWord = shortTagConfig.joinWord || 'and';
+    const joinWord = shortTagConfig.joinWord || '/';
     const fallback = shortTagConfig.fallback || '';
 
     const tags = (formData.transformationTags || [])
@@ -255,9 +255,7 @@ export function generateDescriptions(formData, projectConfig) {
 
     if (selected.length === 1) return selected[0];
     if (selected.length >= 2) {
-      return `${selected.slice(0, -1).join(', ')} ${joinWord} ${
-        selected[selected.length - 1]
-      }`;
+      return selected.join(` ${joinWord} `);
     }
 
     return fallback;
