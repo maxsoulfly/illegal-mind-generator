@@ -114,17 +114,9 @@ export default function TagLibraryPage({
         categoryFilter={categoryFilter}
         setCategoryFilter={setCategoryFilter}
         categories={categories}
+        onCreateTag={handleCreateTag}
       />
 
-      <div className="tag-library-actions">
-        <button
-          type="button"
-          className="button-secondary"
-          onClick={handleCreateTag}
-        >
-          + Add tag
-        </button>
-      </div>
       <div className="tag-library">
         {sortedTags.map((tag) => (
           <TagCard

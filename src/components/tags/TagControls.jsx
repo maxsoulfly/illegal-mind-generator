@@ -1,3 +1,5 @@
+import TagActions from './TagActions';
+
 export default function TagControls({
   filterMode,
   setFilterMode,
@@ -9,6 +11,7 @@ export default function TagControls({
   categoryFilter,
   setCategoryFilter,
   categories,
+  onCreateTag,
 }) {
   return (
     <div className="library-controls">
@@ -40,7 +43,6 @@ export default function TagControls({
         >
           Issues ({counts.issues})
         </button>
-
         <select
           className="form-select category-select"
           value={categoryFilter}
@@ -55,23 +57,27 @@ export default function TagControls({
           ))}
         </select>
       </div>
-      <input
-        type="text"
-        className="form-input"
-        placeholder="Search tags..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <select
-        className="form-select"
-        value={sortMode}
-        onChange={(e) => setSortMode(e.target.value)}
-      >
-        <option value="usage-desc">Most used</option>
-        <option value="usage-asc">Least used</option>
-        <option value="name">A to Z</option>
-        <option value="issues">Issues first</option>
-      </select>
+      <div className="tag-search-row">
+        <input
+          type="text"
+          className="form-input"
+          placeholder="Search tags..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <select
+          className="form-select"
+          value={sortMode}
+          onChange={(e) => setSortMode(e.target.value)}
+        >
+          <option value="usage-desc">Most used</option>
+          <option value="usage-asc">Least used</option>
+          <option value="name">A to Z</option>
+          <option value="issues">Issues first</option>
+        </select>
+
+        <TagActions onCreateTag={onCreateTag} />
+      </div>
     </div>
   );
 }
