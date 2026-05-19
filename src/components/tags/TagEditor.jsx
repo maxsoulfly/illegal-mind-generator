@@ -44,10 +44,18 @@ export default function TagEditor({
       </div>
 
       <TagPhraseEditor
-        title="Title Phrases"
+        title="Title phrases"
         tagName={tag.name}
         field="title"
         phrases={tag.maps.title}
+        onUpdateTag={onUpdateTag}
+      />
+
+      <TagPhraseEditor
+        title="Thumbnail phrases"
+        tagName={tag.name}
+        field="thumbnail"
+        phrases={tag.maps.thumbnail}
         onUpdateTag={onUpdateTag}
       />
 

@@ -829,6 +829,19 @@ svg {
   margin-top: var(--space-4);
 }
 
+.tag-editor-section {
+  margin-top: var(--space-4);
+}
+
+.tag-editor-section summary {
+  cursor        : pointer;
+  color         : var(--color-text-accent);
+  font-size     : 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom : var(--space-3);
+}
+
 /* Tag filter chips */
 .tag-filters {
   display    : flex;

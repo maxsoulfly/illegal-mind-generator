@@ -30,30 +30,38 @@ export default function TagPhraseEditor({
   };
 
   return (
-    <div className="tag-phrase-editor">
-      <FormField label={title}>
-        {phrases.map((phrase, index) => (
-          <div className="tag-phrase-row" key={index}>
-            <input
-              key={`${tagName}-${field}-${index}-${phrase}`}
-              className="form-input"
-              defaultValue={phrase}
-              onBlur={(e) => updatePhrase(index, e.target.value)}
-            />
+    <details className="tag-editor-section" open={false}>
+      <summary>{title}</summary>
 
-            <button
-              type="button"
-              className="button-secondary"
-              onClick={() => removePhrase(index)}
-            >
-              Remove
-            </button>
-          </div>
-        ))}
-        <button type="button" className="button-secondary" onClick={addPhrase}>
-          Add phrase
-        </button>
-      </FormField>
-    </div>
+      <div className="tag-phrase-editor">
+        <FormField label={title}>
+          {phrases.map((phrase, index) => (
+            <div className="tag-phrase-row" key={index}>
+              <input
+                key={`${tagName}-${field}-${index}-${phrase}`}
+                className="form-input"
+                defaultValue={phrase}
+                onBlur={(e) => updatePhrase(index, e.target.value)}
+              />
+
+              <button
+                type="button"
+                className="button-secondary"
+                onClick={() => removePhrase(index)}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="button-secondary"
+            onClick={addPhrase}
+          >
+            Add phrase
+          </button>
+        </FormField>
+      </div>
+    </details>
   );
 }
