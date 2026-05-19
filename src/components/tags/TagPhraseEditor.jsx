@@ -5,6 +5,8 @@ export default function TagPhraseEditor({
   tagName,
   field,
   parentField,
+  parentValue = {},
+
   phrases = [],
   onUpdateTag,
 }) {
@@ -17,10 +19,12 @@ export default function TagPhraseEditor({
 
     return {
       [parentField]: {
+        ...parentValue,
         [field]: nextPhrases,
       },
     };
   };
+
   const updatePhrase = (index, value) => {
     const nextPhrases = phrases.map((phrase, i) =>
       i === index ? value : phrase,
