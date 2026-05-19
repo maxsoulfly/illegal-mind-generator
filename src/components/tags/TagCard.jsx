@@ -7,6 +7,8 @@ export default function TagCard({
   categories = [],
   onToggleVisibility,
   onUpdateTag,
+  projectOverrides,
+  resetTagOverride,
 }) {
   return (
     <article
@@ -16,7 +18,11 @@ export default function TagCard({
         ${tag.isPopular ? 'tag-used' : ''}
       `}
     >
-      <TagHeader tag={tag} />
+      <TagHeader
+        tag={tag}
+        resetTagOverride={resetTagOverride}
+        projectOverrides={projectOverrides}
+      />
 
       <TagDetails tag={tag} />
 

@@ -6,13 +6,13 @@ import { getTagCategories } from '../utils/tagRegistry';
 import TagCard from '../components/tags/TagCard';
 import TagControls from '../components/tags/TagControls';
 
-
 export default function TagLibraryPage({
   projectConfig,
   savedEntries,
   projectName,
   projectOverrides,
   updateTagOverride,
+  resetTagOverride,
 }) {
   const [sortMode, setSortMode] = useState('usage-desc');
   const [filterMode, setFilterMode] = useState('all');
@@ -100,6 +100,8 @@ export default function TagLibraryPage({
             categories={categories}
             onToggleVisibility={handleToggleTagVisibility}
             onUpdateTag={handleUpdateTag}
+            projectOverrides={projectOverrides}
+            resetTagOverride={resetTagOverride}
           />
         ))}
       </div>

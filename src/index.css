@@ -797,12 +797,44 @@ svg {
 }
 
 .tag-card-header h3 {
-  margin        : 0;
-  color         : var(--color-text-main);
-  font-size     : 0.95rem;
-  letter-spacing: var(--letter-spacing-md);
-  text-transform: uppercase;
-  overflow-wrap : anywhere;
+  display    : flex;
+  align-items: center;
+  gap        : var(--space-2);
+}
+
+.tag-reset-button {
+  width  : var(--space-6);
+  height : var(--space-6);
+  padding: 0 var(--space-6);
+
+  margin-left: var(--space-2);
+
+  display        : inline-flex;
+  align-items    : center;
+  justify-content: center;
+
+  background   : transparent;
+  border       : 1px solid var(--color-border-main);
+  color        : var(--color-text-muted);
+  border-radius: 4px;
+
+  font-size  : 0.75rem;
+  line-height: 1;
+  cursor     : pointer;
+
+
+  opacity: .65;
+
+  transition:
+    opacity .15s ease,
+    transform .15s ease;
+}
+
+.tag-reset-button:hover {
+  color       : var(--color-text-accent);
+  border-color: var(--color-text-accent);
+  opacity     : 1;
+  transform   : rotate(-90deg);
 }
 
 .tag-usage,
