@@ -5,11 +5,15 @@ export default function buildResolvedProjectConfig(
   const nextConfig = structuredClone(projectConfig);
 
   Object.entries(tagOverrides || {}).forEach(([tagName, override]) => {
-    if (!nextConfig.tags?.[tagName]) return;
+    const baseTag = nextConfig.tags?.[tagName] || {};
 
     nextConfig.tags[tagName] = {
-      ...nextConfig.tags[tagName],
+      ...baseTag,
       ...override,
+      description: {
+        ...(baseTag.description || {}),
+        ...(override.description || {}),
+      },
     };
   });
 

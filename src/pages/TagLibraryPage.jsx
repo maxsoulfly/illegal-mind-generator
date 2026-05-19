@@ -29,6 +29,30 @@ export default function TagLibraryPage({
     updateTagOverride(tagName, updates);
   };
 
+  const handleCreateTag = () => {
+    const rawName = window.prompt('New tag name');
+
+    if (!rawName) return;
+
+    const tagName = rawName.trim().toLowerCase();
+
+    if (!tagName) return;
+
+    updateTagOverride(tagName, {
+      label: rawName.trim(),
+      category: 'custom',
+      visible: true,
+      title: [],
+      thumbnail: [],
+      description: {
+        technical: [],
+        log: [],
+        status: [],
+      },
+      isCustom: true,
+    });
+  };
+
   const tagData = buildTagExplorerData(
     projectConfig,
     savedEntries,
@@ -92,6 +116,15 @@ export default function TagLibraryPage({
         categories={categories}
       />
 
+      <div className="tag-library-actions">
+        <button
+          type="button"
+          className="button-secondary"
+          onClick={handleCreateTag}
+        >
+          + Add tag
+        </button>
+      </div>
       <div className="tag-library">
         {sortedTags.map((tag) => (
           <TagCard

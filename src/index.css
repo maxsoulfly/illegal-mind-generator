@@ -772,6 +772,12 @@ svg {
   align-items          : start;
 }
 
+.tag-library-actions {
+  display        : flex;
+  justify-content: flex-end;
+  margin         : var(--space-3) 0 var(--space-4);
+}
+
 
 .tag-card {
   background   : var(--color-bg-input);
@@ -803,8 +809,8 @@ svg {
 }
 
 .tag-reset-button {
-  width  : var(--space-6);
-  height : var(--space-6);
+  /* width  : var(--space-6); */
+  height : var(--space-3);
   padding: 0 var(--space-6);
 
   margin-left: var(--space-2);
@@ -818,10 +824,9 @@ svg {
   color        : var(--color-text-muted);
   border-radius: 4px;
 
-  font-size  : 0.75rem;
+  /* font-size  : 0.75rem; */
   line-height: 1;
   cursor     : pointer;
-
 
   opacity: .65;
 

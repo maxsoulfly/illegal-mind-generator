@@ -3,7 +3,12 @@ export function buildTagExplorerData(
   savedEntries = [],
   tagOverrides = {},
 ) {
-  const availableTags = projectConfig.availableTags || [];
+  const availableTags = [
+    ...new Set([
+      ...(projectConfig.availableTags || []),
+      ...Object.keys(projectConfig.tags || {}),
+    ]),
+  ];
   const tagRegistry = projectConfig.tags || {};
 
   const titleTagMap = projectConfig.title?.tagMap || {};
