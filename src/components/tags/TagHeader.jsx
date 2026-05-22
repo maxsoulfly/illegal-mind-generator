@@ -1,16 +1,14 @@
 export default function TagHeader({ tag, projectOverrides, resetTagOverride }) {
   const override = projectOverrides?.[tag.name];
-  const hasOverrides = !!override;
-  const isCustomTag = !!override?.isCustom || !!tag.isCustom;
+  const isCustomTag = !!override?.isCustom;
+  const hasResettableOverrides = !!override && !isCustomTag;
 
   const handleResetTag = () => {
-    const message = isCustomTag
-      ? `Delete custom tag "${tag.label}"?`
-      : `Reset "${tag.label}" to default tag settings?`;
+    const shouldReset = window.confirm(
+      `Reset "${tag.label}" to default tag settings?`,
+    );
 
-    const shouldContinue = window.confirm(message);
-
-    if (!shouldContinue) return;
+    if (!shouldReset) return;
 
     resetTagOverride(tag.name);
   };
@@ -20,14 +18,14 @@ export default function TagHeader({ tag, projectOverrides, resetTagOverride }) {
       <div>
         <h3>
           {tag.label}
-          {hasOverrides && (
+          {hasResettableOverrides && (
             <button
               type="button"
               className="tag-reset-button"
               onClick={handleResetTag}
-              title={tag.isCustom ? 'Delete custom tag' : 'Reset tag edits'}
+              title="Reset tag edits"
             >
-              {tag.isCustom ? '×' : '↺'}
+              ↺
             </button>
           )}
         </h3>
