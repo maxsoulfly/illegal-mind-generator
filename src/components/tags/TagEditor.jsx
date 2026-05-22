@@ -6,6 +6,8 @@ export default function TagEditor({
   categories,
   onUpdateTag,
   onToggleVisibility,
+  projectOverrides,
+  resetTagOverride,
 }) {
   return (
     <details className="tag-section">
@@ -102,6 +104,22 @@ export default function TagEditor({
       >
         {tag.isVisible ? 'Hide from Generator' : 'Show in Generator'}
       </button>
+
+      {projectOverrides?.[tag.name]?.isCustom && (
+        <button
+          type="button"
+          className="tag-delete-button button-secondary"
+          onClick={() => {
+            const shouldDelete = window.confirm(`Delete "${tag.label}"?`);
+
+            if (!shouldDelete) return;
+
+            resetTagOverride(tag.name);
+          }}
+        >
+          Delete custom tag
+        </button>
+      )}
     </details>
   );
 }

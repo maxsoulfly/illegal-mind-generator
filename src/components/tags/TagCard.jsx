@@ -31,6 +31,8 @@ export default function TagCard({
         categories={categories}
         onUpdateTag={onUpdateTag}
         onToggleVisibility={onToggleVisibility}
+        projectOverrides={projectOverrides}
+        resetTagOverride={resetTagOverride}
       />
     </article>
   );
