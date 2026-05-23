@@ -1068,35 +1068,19 @@ svg {
   display: none;
 }
 
-.queue-link {
+.queue-entry-link {
   background: none;
   border    : none;
   padding   : 0;
-
-  color: var(--color-text-accent);
-  font : inherit;
-
+  color     : inherit;
+  font      : inherit;
   cursor    : pointer;
   text-align: left;
-
-  transition: opacity .15s ease;
 }
 
-.queue-link:hover {
+.queue-entry-link:hover {
+  color          : var(--color-text-accent);
   text-decoration: underline;
-  opacity        : .85;
-}
-
-.queue-link:active {
-  opacity: .6;
-}
-
-.shorts-queue-list li {
-  display        : flex;
-  justify-content: space-between;
-  align-items    : center;
-  gap            : var(--space-3);
-  margin-bottom  : var(--space-2);
 }
 
 
