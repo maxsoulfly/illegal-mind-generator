@@ -9,6 +9,8 @@ export default function AppMenu({
 }) {
   return (
     <nav className="app-menu">
+
+      {/* TODO: Add refactor buttons */}
       <div className="app-menu-pages">
         <button
           type="button"
@@ -24,6 +26,14 @@ export default function AppMenu({
           onClick={() => setActivePage('tags')}
         >
           Tag Library
+        </button>
+
+        <button
+          type="button"
+          className={activePage === 'shortsQueue' ? 'active' : ''}
+          onClick={() => setActivePage('shortsQueue')}
+        >
+          Shorts Queue
         </button>
       </div>
 

@@ -17,6 +17,7 @@ import AppMenu from './components/AppMenu';
 
 import TagLibraryPage from './pages/TagLibraryPage';
 import GeneratorPage from './pages/GeneratorPage';
+import ShortsQueuePage from './pages/ShortsQueuePage';
 
 const DEFAULT_PROJECT_KEY = Object.keys(projects)[0];
 
@@ -212,6 +213,7 @@ function App() {
           resetTagOverride={resetTagOverride}
         />
       )}
+      {activePage === 'shortsQueue' && <ShortsQueuePage />}
     </div>
   );
 }
