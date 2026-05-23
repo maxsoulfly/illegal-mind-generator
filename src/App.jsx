@@ -213,7 +213,12 @@ function App() {
           resetTagOverride={resetTagOverride}
         />
       )}
-      {activePage === 'shortsQueue' && <ShortsQueuePage />}
+      {activePage === 'shortsQueue' && (
+        <ShortsQueuePage
+          projectId={projectId}
+          savedEntries={savedEntries}
+        />
+      )}
     </div>
   );
 }
