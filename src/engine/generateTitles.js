@@ -6,7 +6,10 @@ function buildTransformationVariations(formData = {}, config = {}) {
   }
 
   if (selectedTags.includes('faithful')) {
-    return shuffleArray(config.title?.faithfulPhrases || ['Faithful']);
+    const faithfulPhrases = config.tags?.faithful?.title ||
+      config.title?.faithfulPhrases || ['Faithful'];
+
+    return shuffleArray(faithfulPhrases);
   }
 
   const phrasePool = selectedTags.flatMap((tag) => {
@@ -46,16 +49,35 @@ function buildGeneratedArtistShort(artistRaw) {
   return artistRaw;
 }
 
+function getTitleTemplateGroups(config = {}) {
+  const templates = config.title?.templates || [];
+
+  if (Array.isArray(templates)) {
+    return {
+      standardTemplates: templates,
+      butItsTemplates: [],
+    };
+  }
+
+  return {
+    standardTemplates: templates.standard || [],
+    butItsTemplates: templates.butIts || [],
+  };
+}
+
 function getWeightedTemplates(formData = {}, config = {}) {
-  const isFaithful = (formData.transformationTags || []).includes('faithful');
+  const selectedTags = formData.transformationTags || [];
+  const excludedButItsTags = config.title?.butItsExcludedTags || [];
 
-  const baseTemplates = (config.title.templates || []).filter((template) => {
-    if (isFaithful && template.includes("but it's")) {
-      return false;
-    }
+  const hasButItsExcludedTag = selectedTags.some((tag) =>
+    excludedButItsTags.includes(tag),
+  );
 
-    return true;
-  });
+  const { standardTemplates, butItsTemplates } = getTitleTemplateGroups(config);
+
+  const baseTemplates = hasButItsExcludedTag
+    ? standardTemplates
+    : [...standardTemplates, ...butItsTemplates];
 
   return baseTemplates.flatMap((template) => {
     const hasArtist = template.includes('{artist}');

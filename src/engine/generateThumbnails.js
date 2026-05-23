@@ -34,9 +34,11 @@ function buildThumbnailVariations(formData = {}, config = {}) {
   const mappedPool = selectedTags.flatMap((tag) => {
     const specificPhrases = tagRegistry[tag]?.thumbnail || [];
 
-    const genericPhrases = buildGenericTagThumbnailPhrases(tag, config);
+    if (specificPhrases.length > 0) {
+      return specificPhrases;
+    }
 
-    return [...specificPhrases, ...genericPhrases];
+    return buildGenericTagThumbnailPhrases(tag, config);
   });
 
   const uniqueMapped = [...new Set(mappedPool)];

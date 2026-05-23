@@ -5,20 +5,19 @@
       "prefix": "[SIGNAL {num}] // ",
       "longSuffix": " // Illegal Mind Rework",
 
-      "templates": [
-        "{artist} - {song} // {transformation}",
-        "{song} // {transformation}",
-        "{artist} // {transformation}",
-        "{song} but it's {transformation}",
-        "{artist} but it's {transformation}"
-      ],
+      "templates": {
+        "standard": [
+          "{artist} - {song} // {transformation}",
+          "{song} // {transformation}",
+          "{artist} // {transformation}"
+        ],
 
-      "faithfulPhrases": [
-        "Authentic Cover",
-        "Full Band Cover",
-        "Original Energy",
-        "Classic Feel"
-      ],
+        "butIts": [
+          "{song} but it's {transformation}",
+          "{artist} but it's {transformation}"
+        ]
+      },
+      "butItsExcludedTags": ["faithful", "original"],
 
       "butItsTemplate": "but it's {value}"
     },
@@ -127,8 +126,19 @@
       "faithful": {
         "label": "Faithful",
         "category": "intent",
-        "title": [],
-        "thumbnail": [],
+        "title": [
+          "Authentic Cover",
+          "Full Band Cover",
+          "Original Energy",
+          "Classic Feel"
+        ],
+        "thumbnail": [
+          "AUTHENTIC COVER",
+          "FULL BAND COVER",
+          "ORIGINAL ENERGY",
+          "CLASSIC FEEL",
+          "TRUE TO SOURCE"
+        ],
         "description": {
           "technical": ["Structure: preserved.", "Intent: intact."],
           "log": [
@@ -538,20 +548,21 @@
     "title": {
       "prefix": "",
       "longSuffix": "",
-      "templates": [
-        "{artist} - {song} // {transformation}",
-        "{song} by {artist} // {transformation}",
-        "{artist} - {song} Cover",
-        "{song} Cover // {transformation}",
-        "{artist} - {song} // Full Band Cover"
-      ],
-      "faithfulPhrases": [
-        "Faithful Cover",
-        "Full Band Cover",
-        "Original Feel",
-        "Classic Cover"
-      ]
+      "templates": {
+        "standard": [
+          "{artist} - {song} // {transformation}",
+          "{song} // {transformation}",
+          "{artist} // {transformation}"
+        ],
+
+        "butIts": [
+          "{song} but it's {transformation}",
+          "{artist} but it's {transformation}"
+        ]
+      },
+      "butItsExcludedTags": ["faithful", "original"]
     },
+    "butItsExcludedTags": ["faithful", "original"],
 
     "tags": {
       "slower": {
@@ -659,8 +670,19 @@
       "faithful": {
         "label": "Faithful",
         "category": "intent",
-        "title": [],
-        "thumbnail": [],
+        "title": [
+          "Faithful Cover",
+          "Full Band Cover",
+          "Original Feel",
+          "Classic Cover"
+        ],
+        "thumbnail": [
+          "AUTHENTIC COVER",
+          "FULL BAND COVER",
+          "ORIGINAL ENERGY",
+          "CLASSIC FEEL",
+          "TRUE TO SOURCE"
+        ],
         "description": {
           "technical": ["Structure: preserved.", "Intent: intact."],
           "log": [
