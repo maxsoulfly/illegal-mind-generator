@@ -51,6 +51,20 @@ function buildQueue(savedEntries) {
   return queue;
 }
 
+function getValidReplacement(savedEntries, queue) {
+  const maxAttempts = savedEntries.length * 20;
+
+  for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+    const candidate = getRandomEntry(savedEntries);
+
+    if (!isTooClose(queue, candidate)) {
+      return candidate;
+    }
+  }
+
+  return null;
+}
+
 export function useShortsQueue(projectId, savedEntries = []) {
   const storedQueues = useMemo(() => getStoredQueues(), []);
 
@@ -77,8 +91,20 @@ export function useShortsQueue(projectId, savedEntries = []) {
     updateProjectQueue(nextQueue);
   }
 
+  function markUploaded(indexToRemove) {
+    const nextQueue = queue.filter((_, index) => index !== indexToRemove);
+    const replacement = getValidReplacement(savedEntries, nextQueue);
+
+    if (replacement) {
+      nextQueue.push(replacement);
+    }
+
+    updateProjectQueue(nextQueue);
+  }
+
   return {
     queue,
     randomizeQueue,
+    markUploaded,
   };
 }

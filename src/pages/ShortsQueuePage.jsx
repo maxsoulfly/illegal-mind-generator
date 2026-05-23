@@ -1,7 +1,10 @@
 import { useShortsQueue } from '../hooks/useShortsQueue';
 
 function ShortsQueuePage({ projectId, savedEntries }) {
-  const { queue, randomizeQueue } = useShortsQueue(projectId, savedEntries);
+  const { queue, randomizeQueue, markUploaded } = useShortsQueue(
+    projectId,
+    savedEntries,
+  );
 
   return (
     <section className="page-panel">
@@ -41,6 +44,9 @@ function ShortsQueuePage({ projectId, savedEntries }) {
               <strong>
                 {entry.artist} - {entry.song}
               </strong>
+              <button type="button" onClick={() => markUploaded(index)}>
+                Uploaded
+              </button>
             </li>
           ))}
         </ol>
