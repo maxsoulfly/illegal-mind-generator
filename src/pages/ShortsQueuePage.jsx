@@ -1,6 +1,6 @@
 import { useShortsQueue } from '../hooks/useShortsQueue';
 
-function ShortsQueuePage({ projectId, savedEntries }) {
+function ShortsQueuePage({ projectId, savedEntries, onLoadEntry }) {
   const { queue, randomizeQueue, markUploaded } = useShortsQueue(
     projectId,
     savedEntries,
@@ -41,9 +41,13 @@ function ShortsQueuePage({ projectId, savedEntries }) {
         <ol className="shorts-queue-list">
           {queue.map((entry, index) => (
             <li key={`${entry.artist}-${entry.song}-${index}`}>
-              <strong>
+              <button
+                type="button"
+                className="link-button"
+                onClick={() => onLoadEntry(entry)}
+              >
                 {entry.artist} - {entry.song}
-              </strong>
+              </button>
               <button type="button" onClick={() => markUploaded(index)}>
                 Uploaded
               </button>

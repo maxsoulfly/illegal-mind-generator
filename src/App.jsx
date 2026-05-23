@@ -217,6 +217,10 @@ function App() {
         <ShortsQueuePage
           projectId={projectId}
           savedEntries={savedEntries}
+          onLoadEntry={(entry) => {
+            handleLoadEntry(entry);
+            setActivePage('generator');
+          }}
         />
       )}
     </div>
