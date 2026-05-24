@@ -1,5 +1,7 @@
 import { useShortsQueue } from '../hooks/useShortsQueue';
 
+import ShortsQueueItem from '../components/ShortsQueueItem';
+
 function ShortsQueuePage({
   projectId,
   savedEntries,
@@ -44,40 +46,13 @@ function ShortsQueuePage({
       {!!queue.length && (
         <div className="saved-library-list shorts-queue-list">
           {queue.map((entry, index) => (
-            <div
+            <ShortsQueueItem
               key={`${entry.artist}-${entry.song}-${index}`}
-              className="saved-entry-row terminal-block"
-            >
-              <div className="saved-entry-main">
-                <span className="saved-entry-signal">
-                  {(index + 1).toString().padStart(2, '0')}.
-                </span>
-
-                <button
-                  type="button"
-                  className="queue-entry-link saved-entry-text"
-                  onClick={() => onLoadEntry(entry)}
-                >
-                  <strong>{entry.artist}</strong> — {entry.song}
-                </button>
-
-                {entry.transformationTags?.length > 0 && (
-                  <span className="saved-entry-tags">
-                    [{entry.transformationTags.slice(0, 2).join(', ')}]
-                  </span>
-                )}
-              </div>
-
-              <div className="saved-entry-actions">
-                <button
-                  type="button"
-                  className="button-secondary saved-entry-button"
-                  onClick={() => markUploaded(index)}
-                >
-                  Uploaded
-                </button>
-              </div>
-            </div>
+              entry={entry}
+              index={index}
+              onLoadEntry={onLoadEntry}
+              onUploaded={() => markUploaded(index)}
+            />
           ))}
         </div>
       )}
