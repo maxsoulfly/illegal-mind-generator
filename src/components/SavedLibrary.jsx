@@ -95,11 +95,13 @@ function SavedLibrary({
                       <strong>{entry.artist}</strong> - {entry.song}
                     </span>
 
-                    {entry.transformationTags?.length > 0 && (
-                      <span className="saved-entry-tags">
-                        [{entry.transformationTags.slice(0, 2).join(', ')}]
-                      </span>
-                    )}
+                    <span className="saved-entry-tags">
+                      {entry.transformationTags?.length > 0 &&
+                        `[${entry.transformationTags.join(', ')}]`}
+                    </span>
+                    <span className="saved-entry-hidden">
+                      {entry.excludeFromRandomizer && <> [hidden]</>}
+                    </span>
                   </div>
 
                   <div className="saved-entry-actions">

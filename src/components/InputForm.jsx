@@ -5,6 +5,8 @@ import TransformationTagSelector from './input/TransformationTagSelector';
 import AdvancedDescriptionFields from './input/AdvancedDescriptionFields';
 import InputFormActions from './input/InputFormActions';
 import ToggleButton from './ToggleButton';
+import FormField from './ui/FormField';
+import QueueSettings from './input/QueueSettings';
 
 function InputForm({
   projectId,
@@ -58,6 +60,16 @@ function InputForm({
             tagUsage={tagUsage}
             formData={formData}
             onTagToggle={handleTagToggle}
+          />
+
+          <QueueSettings
+            excludeFromRandomizer={formData.excludeFromRandomizer}
+            onToggle={(value) =>
+              setFormData((prev) => ({
+                ...prev,
+                excludeFromRandomizer: value,
+              }))
+            }
           />
 
           <AdvancedDescriptionFields

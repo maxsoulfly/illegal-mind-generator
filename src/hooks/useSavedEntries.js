@@ -71,6 +71,7 @@ function useSavedEntries(
       transformationTags: formData.transformationTags || [],
       customHashtags: formData.customHashtags?.trim() || '',
       customCta: formData.customCta,
+      excludeFromRandomizer: formData.excludeFromRandomizer || false,
     };
 
     if (!entry.artist || !entry.song) return;
@@ -100,6 +101,8 @@ function useSavedEntries(
       transformationTags: entry.transformationTags || [],
       customHashtags: entry.customHashtags?.trim() || '',
       customCta: entry.customCta || '',
+
+      excludeFromRandomizer: entry.excludeFromRandomizer || false,
     }));
   };
 
@@ -165,6 +168,7 @@ function useSavedEntries(
               : [],
             customHashtags: String(item.customHashtags || '').trim(),
             customCta: String(item.customCta || '').trim(),
+            excludeFromRandomizer: Boolean(item.excludeFromRandomizer),
           }));
 
         setSavedEntriesByProject((prev) => {

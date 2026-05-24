@@ -462,14 +462,22 @@ svg {
 }
 
 
-.saved-entry-tags {
+.saved-entry-tags,
+.saved-entry-hidden {
   min-width    : 0;
   overflow     : hidden;
   text-overflow: ellipsis;
   white-space  : nowrap;
   margin-left  : var(--space-2);
-  color        : var(--color-text-muted-2);
   font-style   : italic;
+}
+
+.saved-entry-tags {
+  color: var(--color-text-muted-2);
+}
+
+.saved-entry-hidden {
+  color: var(--color-text-muted-3);
 }
 
 .tag-category {

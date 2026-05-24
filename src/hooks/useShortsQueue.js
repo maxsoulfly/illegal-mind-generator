@@ -83,14 +83,21 @@ export function useShortsQueue(projectId, savedEntries = []) {
     setQueue(nextQueue);
   }
 
+  function getQueueCandidates(savedEntries) {
+    return savedEntries.filter((entry) => !entry.excludeFromRandomizer);
+  }
+
   function randomizeQueue() {
-    const nextQueue = buildQueue(savedEntries);
+    const nextQueue = buildQueue(getQueueCandidates(savedEntries));
     updateProjectQueue(nextQueue);
   }
 
   function markUploaded(indexToRemove) {
     const nextQueue = queue.filter((_, index) => index !== indexToRemove);
-    const replacement = getValidReplacement(savedEntries, nextQueue);
+    const replacement = getValidReplacement(
+      getQueueCandidates(savedEntries),
+      nextQueue,
+    );
 
     if (replacement) {
       nextQueue.push(replacement);
