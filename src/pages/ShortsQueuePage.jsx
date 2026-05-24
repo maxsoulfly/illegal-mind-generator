@@ -1,6 +1,11 @@
 import { useShortsQueue } from '../hooks/useShortsQueue';
 
-function ShortsQueuePage({ projectId, savedEntries, onLoadEntry }) {
+function ShortsQueuePage({
+  projectId,
+  savedEntries,
+  onLoadEntry,
+  projectConfig,
+}) {
   const { queue, randomizeQueue, markUploaded } = useShortsQueue(
     projectId,
     savedEntries,
@@ -8,19 +13,18 @@ function ShortsQueuePage({ projectId, savedEntries, onLoadEntry }) {
 
   return (
     <section className="page-panel">
-      <div className="section-header">
-        <div>
-          <h2>Shorts Queue</h2>
-          <p>Randomized upcoming Shorts list for this project.</p>
+      <div className="panel-header">
+        <h1 className="app-title">Shorts Queue — {projectConfig.name}</h1>
+        <div className="regenerate-row">
+          <button
+            type="button"
+            className="button-primary"
+            onClick={randomizeQueue}
+            disabled={!savedEntries.length}
+          >
+            Randomize
+          </button>
         </div>
-
-        <button
-          type="button"
-          onClick={randomizeQueue}
-          disabled={!savedEntries.length}
-        >
-          Randomize
-        </button>
       </div>
 
       {!savedEntries.length && (

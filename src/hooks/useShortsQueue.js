@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 const STORAGE_KEY = 'shortsQueueByProject';
 const QUEUE_LENGTH = 20;
@@ -66,12 +66,9 @@ function getValidReplacement(savedEntries, queue) {
 }
 
 export function useShortsQueue(projectId, savedEntries = []) {
-  const storedQueues = useMemo(() => getStoredQueues(), []);
-
   const [queue, setQueue] = useState(() => {
-    return storedQueues[projectId]?.queue || [];
+    return getStoredQueues()[projectId]?.queue || [];
   });
-
   function updateProjectQueue(nextQueue) {
     const latestQueues = getStoredQueues();
 
