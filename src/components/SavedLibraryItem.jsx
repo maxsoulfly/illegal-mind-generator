@@ -25,14 +25,6 @@ function SavedLibraryItem({ entry, onLoadEntry, onDeleteEntry }) {
       </div>
 
       <div className="saved-entry-actions">
-        {/* <button
-          type="button"
-          className="button-secondary saved-entry-button"
-          onClick={() => onLoadEntry(entry)}
-        >
-          Load
-        </button> */}
-
         <button
           type="button"
           className="button-secondary saved-entry-button"

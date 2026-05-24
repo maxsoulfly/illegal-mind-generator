@@ -27,7 +27,7 @@ function ShortsQueueItem({ entry, index, onLoadEntry, onUploaded }) {
           className="button-secondary saved-entry-button"
           onClick={onUploaded}
         >
-          Uploaded
+          Remove
         </button>
       </div>
     </div>
