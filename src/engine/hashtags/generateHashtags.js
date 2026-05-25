@@ -37,13 +37,16 @@ export function generateHashtags(formData = {}, config = {}) {
   const dynamicTags = [
     formData.artist ? toHashtag(formData.artist) : null,
     formData.song ? toHashtag(formData.song) : null,
-    formData.artist && formData.song
-      ? toHashtag(`${formData.artist} ${formData.song}`)
-      : null,
   ].filter(Boolean);
 
-  const tagBasedHashtags = (formData?.transformationTags || [])
-    .slice(0, 5)
+  const selectedTags = formData?.transformationTags || [];
+
+  const tagBasedHashtags = selectedTags
+    .flatMap((tag) => {
+      const configHashtags = config.tags?.[tag]?.hashtags || [];
+
+      return configHashtags.length > 0 ? configHashtags : [tag];
+    })
     .map(toHashtag);
 
   const allTags = [
@@ -59,7 +62,8 @@ export function generateHashtags(formData = {}, config = {}) {
       formData.artist,
       formData.song,
       `${formData.artist} ${formData.song}`.toLowerCase(),
-      ...formData.transformationTags,
+      ...selectedTags,
+      ...selectedTags.flatMap((tag) => config.tags?.[tag]?.hashtags || []),
       ...(formData.customHashtags || '')
         .split(',')
         .map((t) => t.trim())

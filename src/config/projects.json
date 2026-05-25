@@ -356,7 +356,8 @@
             "Modification: Signal tuned to early 2000s-era recall patterns."
           ],
           "status": ["Memory layer: 00s nostalgia."]
-        }
+        },
+        "hashtags": ["2000sMusic", "MusicNostalgia", "Throwback"]
       },
       "90s": {
         "label": "90s",
@@ -367,7 +368,8 @@
           "technical": ["Signal memory: 90s era."],
           "log": ["Modification: Signal tuned to 90s-era recall patterns."],
           "status": ["Memory layer: 90s nostalgia."]
-        }
+        },
+        "hashtags": ["1990sMusic", "MusicNostalgia", "Throwback"]
       }
     },
 
@@ -1041,6 +1043,7 @@
           ],
           "status": ["Deviation: Minimal.", "Source alignment: Maintained."]
         },
+        "hashtags": ["FaithfulCover", "FullBandCover", "OneManBand"],
         "shortHooks": {
           "emotion": [
             "{song} didn't need changing",
@@ -1139,7 +1142,8 @@
             "Revisited {song} with breakdowns in mind",
             "This version of {song} hit harder in my head"
           ]
-        }
+        },
+        "hashtags": ["Hardcore", "HardcoreMusic", "Breakdown"]
       },
       "nu metal": {
         "label": "Nu Metal",
@@ -1424,6 +1428,7 @@
           "log": ["Modification: Signal tuned toward pop punk structure."],
           "status": ["Tone: Brighter."]
         },
+        "hashtags": ["PunkRock", "PopPunk", "PunkCover"],
         "shortHooks": {
           "emotion": [
             "{song} gained a completely different energy",
@@ -1536,6 +1541,7 @@
           "log": ["Modification: Signal shifted toward skate punk velocity."],
           "status": ["Momentum: Surging."]
         },
+        "hashtags": ["PunkRock", "PopPunk", "PunkCover"],
         "shortHooks": {
           "emotion": [
             "{song} gained way too much speed",
@@ -1656,6 +1662,7 @@
           ],
           "status": ["Era sync: Active.", "Memory layer: Active."]
         },
+        "hashtags": ["Nostalgia", "Throwback", "ClassicSongs"],
         "shortHooks": {
           "emotion": [
             "{song} still feels like another time",
@@ -1706,7 +1713,8 @@
             "Modification: Signal tuned to early 2000s-era recall patterns."
           ],
           "status": ["Memory layer: 00s nostalgia."]
-        }
+        },
+        "hashtags": ["2000sMusic", "MusicNostalgia", "Throwback"]
       },
       "90s": {
         "label": "90s",
@@ -1717,7 +1725,8 @@
           "technical": ["Signal memory: 90s era."],
           "log": ["Modification: Signal tuned to 90s-era recall patterns."],
           "status": ["Memory layer: 90s nostalgia."]
-        }
+        },
+        "hashtags": ["90sMusic", "MusicNostalgia", "Throwback"]
       }
     },
 
@@ -1737,7 +1746,13 @@
       }
     },
 
-    "hashtags": ["#MaxxDee", "#CoverSong", "#RockCover"],
+    "hashtags": [
+      "#MaxxDee",
+      "#CoverSong",
+      "#RockCover",
+      "#FullBandCover",
+      "#OneManBand"
+    ],
     "youtubetags": ["Maxx Dee", "cover song", "rock cover"],
 
     "availableTags": [
