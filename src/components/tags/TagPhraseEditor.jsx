@@ -37,6 +37,21 @@ export default function TagPhraseEditor({
     onUpdateTag(tagName, buildUpdate([...phrases, '']));
   };
 
+  const bulkAddPhrases = () => {
+    const pastedText = window.prompt('Paste phrases, one per line');
+
+    if (!pastedText) return;
+
+    const newPhrases = pastedText
+      .split('\n')
+      .map((phrase) => phrase.trim())
+      .filter(Boolean);
+
+    if (newPhrases.length === 0) return;
+
+    onUpdateTag(tagName, buildUpdate([...phrases, ...newPhrases]));
+  };
+
   const removePhrase = (index) => {
     onUpdateTag(tagName, buildUpdate(phrases.filter((_, i) => i !== index)));
   };
@@ -65,13 +80,23 @@ export default function TagPhraseEditor({
               </button>
             </div>
           ))}
-          <button
-            type="button"
-            className="button-secondary"
-            onClick={addPhrase}
-          >
-            Add phrase
-          </button>
+          <div className="button-row">
+            <button
+              type="button"
+              className="button-secondary"
+              onClick={addPhrase}
+            >
+              Add phrase
+            </button>
+
+            <button
+              type="button"
+              className="button-secondary"
+              onClick={bulkAddPhrases}
+            >
+              Bulk add
+            </button>
+          </div>
         </FormField>
       </div>
     </details>

@@ -71,7 +71,7 @@ export default function TagEditor({
       </div>
 
       <TagPhraseEditor
-        title="Title phrases"
+        title="Long title phrases"
         tagName={tag.name}
         field="title"
         phrases={tag.maps.title}
