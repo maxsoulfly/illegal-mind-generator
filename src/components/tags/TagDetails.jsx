@@ -5,15 +5,9 @@ import DescriptionMap from './DescriptionMap';
 export default function TagDetails({ tag }) {
   return (
     <details className="tag-section">
-      <summary>View details</summary>
+      <summary>Tag info</summary>
 
       <TagMapStatus existsIn={tag.existsIn} tag={tag} />
-
-      <div className="tag-phrases">
-        <TagPhraseList title="Title" phrases={tag.maps.title} />
-        <TagPhraseList title="Thumbnail" phrases={tag.maps.thumbnail} />
-        <DescriptionMap description={tag.maps.description} />
-      </div>
     </details>
   );
 }
