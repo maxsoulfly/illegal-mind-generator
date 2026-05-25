@@ -76,7 +76,7 @@ export default function TagPhraseEditor({
                 className="button-secondary"
                 onClick={() => removePhrase(index)}
               >
-                Remove
+                ✕
               </button>
             </div>
           ))}
@@ -86,7 +86,7 @@ export default function TagPhraseEditor({
               className="button-secondary"
               onClick={addPhrase}
             >
-              Add phrase
+              + Add
             </button>
 
             <button
@@ -94,7 +94,7 @@ export default function TagPhraseEditor({
               className="button-secondary"
               onClick={bulkAddPhrases}
             >
-              Bulk add
+              + Bulk
             </button>
           </div>
         </FormField>
