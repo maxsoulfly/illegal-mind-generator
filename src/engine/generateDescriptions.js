@@ -294,31 +294,41 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     .join('\n\n');
 
   // --- Shorts ---
-  // --- Shorts ---
   const shortsConfig = projectConfig.description.templates.shorts;
   const count = shortsConfig.count || 3;
 
-  const secondary = shortsConfig.secondary || [];
-
-  const coverLabel =
-    projectConfig.name === 'Illegal Mind Covers'
-      ? 'Illegal Mind Rework'
-      : 'Maxx Dee Cover';
+  const shortsLayout = shortsConfig.layout || [
+    'coverLine',
+    'hook',
+    'secondary',
+  ];
+  const coverLabel = shortsConfig.coverLabel || 'Cover';
 
   const hookPool = shortHooks.flatMap((group) => group.hooks || []);
 
   const shortDescriptions = [];
 
+  function renderShortLine(blockName) {
+    if (blockName === 'coverLine') {
+      return `${formData.artist || ''} - ${formData.song || ''} // ${coverLabel}`;
+    }
+
+    if (blockName === 'hook') {
+      return pickRandom(hookPool);
+    }
+
+    const options = shortsConfig[blockName] || [];
+    const template = pickRandom(options);
+
+    return template
+      .replace(/\{num\}/g, formData.signalNumber || '00')
+      .replace(/\{artist\}/g, formData.artist || '')
+      .replace(/\{song\}/g, formData.song || '')
+      .replace(/\{tagLine\}/g, tagPhrase);
+  }
+
   for (let i = 0; i < count; i++) {
-    const line1 = `${formData.artist || ''} - ${
-      formData.song || ''
-    } // ${coverLabel}`;
-
-    const line2 = pickRandom(hookPool);
-
-    const line3 = pickRandom(secondary);
-
-    const text = [line1, line2, line3].filter(Boolean).join('\n');
+    const text = shortsLayout.map(renderShortLine).filter(Boolean).join('\n');
 
     shortDescriptions.push(text);
   }

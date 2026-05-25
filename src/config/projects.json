@@ -545,6 +545,8 @@
         },
         "shorts": {
           "count": 5,
+          "layout": ["header", "primary", "hook", "secondary"],
+          "coverLabel": "Illegal Mind Rework",
           "header": [
             "[SIGNAL_{num} // FILE_{num}]",
             "/// DEFIANCE LOOP_{num}",
@@ -1854,6 +1856,8 @@
         },
         "shorts": {
           "count": 5,
+          "layout": ["coverLine", "hook", "secondary"],
+          "coverLabel": "Maxx Dee Cover",
           "header": [
             "{artist} - {song}",
             "{song} // Cover by Maxx Dee",
