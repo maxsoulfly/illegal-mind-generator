@@ -5,7 +5,7 @@ function resolveDecade(transformationTags = []) {
   if (transformationTags.includes('90s')) return '90s';
   if (transformationTags.includes('80s')) return '80s';
 
-  return 'classic';
+  return 'Classic';
 }
 
 function resolvePrimaryTag(transformationTags = []) {
