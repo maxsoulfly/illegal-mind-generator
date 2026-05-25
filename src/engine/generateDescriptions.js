@@ -2,6 +2,7 @@ import { generateShortDescriptions } from './generateShortDescriptions';
 import { generateBroadcastBlock } from './generateBroadcastBlock';
 import { generateTechnicalBlock } from './generateTechnicalBlock';
 import { generateLogBlock } from './generateLogBlock';
+import { generateCustomBlocks } from './generateCustomBlocks';
 
 function toTitleCase(text) {
   return text
@@ -12,12 +13,6 @@ function toTitleCase(text) {
 
 function pickRandom(arr = []) {
   return arr[Math.floor(Math.random() * arr.length)] || '';
-}
-
-function replaceLinkPlaceholders(template, links = {}) {
-  return template.replace(/\{links\.(.*?)\}/g, (_, key) => {
-    return links?.[key] ?? '';
-  });
 }
 
 function buildTagLine(formData, projectConfig) {
@@ -86,38 +81,6 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
         .replace(/\{song\}/g, formData.song || '')
         .replace(/\{tagLine\}/g, tagPhrase);
 
-  // --- Support block ---
-  function renderStructuredBlock(block, links = {}) {
-    if (!block || !block.items) return '';
-
-    const title = block.title || '';
-
-    const items = block.items
-      .map((item) => {
-        if (item.link) {
-          const link = replaceLinkPlaceholders(item.link, links);
-          return item.label ? `${item.label}: ${link}` : link;
-        }
-
-        if (item.text) {
-          return item.label ? `${item.label}: ${item.text}` : item.text;
-        }
-
-        return '';
-      })
-      .filter(Boolean)
-      .join('\n');
-
-    return [title, items].filter(Boolean).join('\n');
-  }
-  const supportBlockConfig =
-    projectConfig.description.templates.long.supportBlock;
-
-  const supportBlock = renderStructuredBlock(
-    supportBlockConfig,
-    projectConfig.description.links,
-  );
-
   // --- Philosophy block ---
   const philosophyTemplate = pickRandom(
     projectConfig?.description.templates?.long?.philosophyLine,
@@ -150,46 +113,14 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     tagLine,
   );
 
-  // --- Short tag phrase ---
-
   // --- Long description ---
   if (!projectConfig?.description.templates?.long?.layout) {
     throw new Error('Missing description layout in project config');
   }
 
   // --- Custom blocks ---
-
-  const customBlocks =
-    projectConfig.description.templates.long.customBlocks || {};
-
-  function renderTextTemplate(text, projectConfig, formData, tagLine) {
-    return replaceLinkPlaceholders(text, projectConfig.description.links)
-      .replace(/\{artist\}/g, formData.artist || '')
-      .replace(/\{song\}/g, formData.song || '')
-      .replace(/\{tagLine\}/g, tagLine);
-  }
-
-  function renderCustomBlock(block, projectConfig, formData, tagLine) {
-    if (typeof block === 'string') {
-      return renderTextTemplate(block, projectConfig, formData, tagLine);
-    }
-
-    if (typeof block === 'object') {
-      return renderStructuredBlock(block, projectConfig.description.links);
-    }
-
-    return '';
-  }
-  const renderedCustomBlocks = Object.fromEntries(
-    Object.entries(customBlocks).map(([key, block]) => [
-      key,
-      renderCustomBlock(block, projectConfig, formData, tagLine),
-    ]),
-  );
-
-  const customCtaBlock = formData.customCta?.trim()
-    ? formData.customCta.trim()
-    : renderedCustomBlocks.customCtaBlock;
+  const { renderedCustomBlocks, customCtaBlock, supportBlock } =
+    generateCustomBlocks(formData, projectConfig, tagLine);
 
   const layout = projectConfig.description.templates.long.layout;
   const blocks = {
