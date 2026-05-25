@@ -122,6 +122,14 @@ export default function TagEditor({
         </div>
       </details>
 
+      <TagPhraseEditor
+        title="Hashtags"
+        tagName={tag.name}
+        field="hashtags"
+        phrases={tag.hashtags || []}
+        onUpdateTag={onUpdateTag}
+      />
+
       <button
         type="button"
         className="button-secondary tag-visibility-toggle"

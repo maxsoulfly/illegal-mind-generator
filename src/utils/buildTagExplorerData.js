@@ -52,6 +52,7 @@ export function buildTagExplorerData(
         title: registryTag.title || [],
         thumbnail: registryTag.thumbnail || [],
         description: registryTag.description || null,
+        hashtags: registryTag.hashtags || [],
       },
 
       existsIn: {
@@ -64,6 +65,7 @@ export function buildTagExplorerData(
 
       label: registryTag?.label || tag,
       category: registryTag?.category || 'uncategorized',
+      hashtags: registryTag.hashtags || [],
       excludeFromHashtags: Boolean(registryTag.excludeFromHashtags),
       excludeFromButIts: Boolean(registryTag.excludeFromButIts),
 
