@@ -1,4 +1,5 @@
 import FormField from '../ui/FormField';
+import ToggleField from '../ui/ToggleField';
 import TagPhraseEditor from './TagPhraseEditor';
 
 export default function TagEditor({
@@ -44,19 +45,29 @@ export default function TagEditor({
           </select>
         </FormField>
 
-        <label className="tag-option-inline">
-          <input
-            type="checkbox"
-            defaultChecked={Boolean(tag.excludeFromHashtags)}
-            onChange={(e) =>
-              onUpdateTag(tag.name, {
-                excludeFromHashtags: e.target.checked,
-              })
-            }
-          />
+        <div className="tag-options">
+          <div className="tag-options">
+            <ToggleField
+              label="Exclude from hashtags"
+              checked={tag.excludeFromHashtags}
+              onChange={(checked) =>
+                onUpdateTag(tag.name, {
+                  excludeFromHashtags: checked,
+                })
+              }
+            />
 
-          <span>Exclude from hashtags</span>
-        </label>
+            <ToggleField
+              label='Exclude from "but it’s..."'
+              checked={tag.excludeFromButIts}
+              onChange={(checked) =>
+                onUpdateTag(tag.name, {
+                  excludeFromButIts: checked,
+                })
+              }
+            />
+          </div>
+        </div>
       </div>
 
       <TagPhraseEditor

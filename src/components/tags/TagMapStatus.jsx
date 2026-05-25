@@ -10,6 +10,9 @@ export default function TagMapStatus({ existsIn, tag }) {
       {tag?.excludeFromHashtags && (
         <TagStatusChip label="No hashtags" variant="mapped" />
       )}
+      {tag?.excludeFromButIts && (
+        <TagStatusChip label={`No but it's...`} variant="mapped" />
+      )}
     </div>
   );
 }
