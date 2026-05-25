@@ -62,7 +62,7 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   // --- Technical block ---
   const technicalBlock = generateTechnicalBlock(selectedTags, projectConfig);
 
-  // --- Story block ---
+  // --- Log block ---
   const logBlock = generateLogBlock(
     selectedTags,
     projectConfig,
