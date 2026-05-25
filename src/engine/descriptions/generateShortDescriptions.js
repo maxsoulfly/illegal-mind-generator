@@ -38,7 +38,8 @@ export function generateShortDescriptions(
       .replace(/\{num\}/g, formData.signalNumber || '00')
       .replace(/\{artist\}/g, formData.artist || '')
       .replace(/\{song\}/g, formData.song || '')
-      .replace(/\{tagLine\}/g, tagPhrase);
+      .replace(/\{tagLine\}/g, tagPhrase)
+      .replace(/\{coverLabel\}/g, coverLabel);
   }
 
   const shortDescriptions = [];

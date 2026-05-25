@@ -563,15 +563,15 @@
           ],
           "primary": [
             "███ {artist} - {song}",
-            "{song} by {artist} // {tagLine}.",
-            "{artist} - {song} ██████ {tagLine}.",
-            "{song} // {tagLine}.",
-            "{artist} - {song} // {tagLine}.",
+            "{song} by {artist} // {coverLabel} ☣️",
+            "{artist} - {song} ██████ {coverLabel}",
+            "{song} // ███ {coverLabel}",
+            "{artist} - {song} // {coverLabel} ⚠️",
             "███ {song} // {artist}",
-            "{artist} presents {song} // {tagLine}.",
-            "{song} ██████ {artist} // {tagLine}.",
-            "{song} reinterpreted // {tagLine}.",
-            "{artist} - {song} /// {tagLine}."
+            "{artist} presents {song} // {coverLabel}",
+            "{song} ██████ {artist} // {coverLabel} ☣️",
+            "{song} reinterpreted // {coverLabel} ███",
+            "{artist} - {song} /// {coverLabel} ⚠️"
           ],
           "secondary": [
             "⚠️ Full pulse active in main broadcast.",
