@@ -123,13 +123,16 @@ function App() {
   const generatedOutput = useMemo(() => {
     const titles = generateTitles(formData, resolvedProjectConfig);
     const thumbnails = generateThumbnails(formData, resolvedProjectConfig);
+
+    const shortHooks = generateShortHooks(formData, resolvedProjectConfig);
+
     const { longDescription, shortDescriptions, fileId } = generateDescriptions(
       formData,
       resolvedProjectConfig,
+      shortHooks,
     );
-    const hashtagOutput = generateHashtags(formData, resolvedProjectConfig);
 
-    const shortHooks = generateShortHooks(formData, resolvedProjectConfig);
+    const hashtagOutput = generateHashtags(formData, resolvedProjectConfig);
 
     const hashtags = hashtagOutput.hashtags;
     const youtubeTags = hashtagOutput.youtubeTags;

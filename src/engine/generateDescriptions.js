@@ -52,7 +52,7 @@ function buildTagPhrase(formData) {
   return `${tags.slice(0, -1).join(', ')} and ${tags[tags.length - 1]}`;
 }
 
-export function generateDescriptions(formData, projectConfig) {
+export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const tagLine = buildTagLine(formData, projectConfig);
   const tagPhrase = buildTagPhrase(formData);
 
@@ -235,31 +235,6 @@ export function generateDescriptions(formData, projectConfig) {
   const logBlock = [baseLogBlock, tagLogBlock].filter(Boolean).join('\n');
 
   // --- Short tag phrase ---
-  function buildShortTagPhrase(formData, projectConfig) {
-    const shortTagConfig =
-      projectConfig?.description.templates?.long?.shortTagPhrase || {};
-    const excluded = shortTagConfig.excludedTags || [];
-
-    const maxTags = shortTagConfig.maxTags || 2;
-    const joinWord = shortTagConfig.joinWord || '/';
-    const fallback = shortTagConfig.fallback || '';
-
-    const tags = (formData.transformationTags || [])
-      .filter((tag) => !excluded.includes(tag))
-      .map(toTitleCase);
-
-    if (tags.length === 0) return fallback;
-
-    const shuffled = [...tags].sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, maxTags);
-
-    if (selected.length === 1) return selected[0];
-    if (selected.length >= 2) {
-      return selected.join(` ${joinWord} `);
-    }
-
-    return fallback;
-  }
 
   // --- Long description ---
   if (!projectConfig?.description.templates?.long?.layout) {
@@ -319,29 +294,31 @@ export function generateDescriptions(formData, projectConfig) {
     .join('\n\n');
 
   // --- Shorts ---
+  // --- Shorts ---
   const shortsConfig = projectConfig.description.templates.shorts;
   const count = shortsConfig.count || 3;
 
-  const headers = shortsConfig.header || [];
-  const primary = shortsConfig.primary || [];
   const secondary = shortsConfig.secondary || [];
 
-  const shortTagPhrase = buildShortTagPhrase(formData, projectConfig);
+  const coverLabel =
+    projectConfig.name === 'Illegal Mind Covers'
+      ? 'Illegal Mind Rework'
+      : 'Maxx Dee Cover';
+
+  const hookPool = shortHooks.flatMap((group) => group.hooks || []);
 
   const shortDescriptions = [];
 
   for (let i = 0; i < count; i++) {
-    const header = pickRandom(headers);
-    const line1 = pickRandom(primary);
-    const line2 = pickRandom(secondary);
+    const line1 = `${formData.artist || ''} - ${
+      formData.song || ''
+    } // ${coverLabel}`;
 
-    const text = [header, line1, line2]
-      .filter(Boolean)
-      .join('\n')
-      .replace(/\{num\}/g, formData.signalNumber || '00')
-      .replace(/\{artist\}/g, formData.artist || '')
-      .replace(/\{song\}/g, formData.song || '')
-      .replace(/\{tagLine\}/g, shortTagPhrase);
+    const line2 = pickRandom(hookPool);
+
+    const line3 = pickRandom(secondary);
+
+    const text = [line1, line2, line3].filter(Boolean).join('\n');
 
     shortDescriptions.push(text);
   }
