@@ -4,7 +4,7 @@ import BasicSongFields from './input/BasicSongFields';
 import TransformationTagSelector from './input/TransformationTagSelector';
 import AdvancedDescriptionFields from './input/AdvancedDescriptionFields';
 import InputFormActions from './input/InputFormActions';
-import ToggleButton from './ToggleButton';
+import ToggleButton from './ui/ToggleButton';
 import FormField from './ui/FormField';
 import QueueSettings from './input/QueueSettings';
 
@@ -53,29 +53,31 @@ function InputForm({
         label="Advanced Options"
       />
       {panelVisibility.advanced && (
-        <div className="advanced-options">
-          {/* TRANSFORMATION TAGS */}
-          <TransformationTagSelector
-            visibleTags={visibleTags}
-            tagUsage={tagUsage}
-            formData={formData}
-            onTagToggle={handleTagToggle}
-          />
+        <div className="advanced-panel-content">
+          <div className="advanced-options">
+            {/* TRANSFORMATION TAGS */}
+            <TransformationTagSelector
+              visibleTags={visibleTags}
+              tagUsage={tagUsage}
+              formData={formData}
+              onTagToggle={handleTagToggle}
+            />
 
-          <QueueSettings
-            excludeFromRandomizer={formData.excludeFromRandomizer}
-            onToggle={(value) =>
-              setFormData((prev) => ({
-                ...prev,
-                excludeFromRandomizer: value,
-              }))
-            }
-          />
+            <QueueSettings
+              excludeFromRandomizer={formData.excludeFromRandomizer}
+              onToggle={(value) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  excludeFromRandomizer: value,
+                }))
+              }
+            />
 
-          <AdvancedDescriptionFields
-            formData={formData}
-            setFormData={setFormData}
-          />
+            <AdvancedDescriptionFields
+              formData={formData}
+              setFormData={setFormData}
+            />
+          </div>
         </div>
       )}
 

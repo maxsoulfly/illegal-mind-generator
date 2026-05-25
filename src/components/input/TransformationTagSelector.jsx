@@ -1,5 +1,3 @@
-import FormField from '../ui/FormField';
-
 export default function TransformationTagSelector({
   visibleTags,
   tagUsage,
@@ -8,7 +6,9 @@ export default function TransformationTagSelector({
 }) {
   return (
     <div className="form-group">
-      <FormField label="Transformation Tags">
+      <details className="tag-section tag-selector-details" open>
+        <summary>Transformation Tags</summary>
+
         <div className="tag-list">
           {visibleTags
             .sort(
@@ -31,7 +31,7 @@ export default function TransformationTagSelector({
               );
             })}
         </div>
-      </FormField>
+      </details>
     </div>
   );
 }

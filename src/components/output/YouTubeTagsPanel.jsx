@@ -1,5 +1,5 @@
 import CopyButton from '../CopyButton';
-import ToggleButton from '../ToggleButton';
+import ToggleButton from '../ui/ToggleButton';
 
 function YouTubeTagsPanel({ youtubeTags, panelVisibility, togglePanel }) {
   return (

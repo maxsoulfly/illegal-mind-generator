@@ -1,4 +1,4 @@
-import ToggleButton from '../ToggleButton';
+import ToggleButton from '../ui/ToggleButton';
 import CopyButton from '../CopyButton';
 import ShortHookTitles from './ShortHookTitles';
 

@@ -676,6 +676,17 @@ svg {
   color       : var(--color-text-inverse);
 }
 
+.advanced-panel-content {
+  margin-top: var(--space-4);
+
+  padding: var(--space-5);
+
+  border       : 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+
+  background: rgba(255, 180, 90, 0.02);
+}
+
 .advanced-options {
   margin-top: var(--space-4);
 }
@@ -737,8 +748,12 @@ svg {
 }
 
 .toggle-button.compact {
-  padding  : var(--space-1) var(--space-3);
-  font-size: 12px;
+  width        : fit-content;
+  margin       : 0 0 var(--space-3);
+  padding      : var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size    : var(--font-size-toggle);
+  opacity      : .85;
 }
 
 .panel-collapsed {
@@ -1042,6 +1057,14 @@ svg {
 
 .tag-section summary:hover {
   color: var(--color-text-accent);
+}
+
+.tag-selector-details summary {
+  margin-bottom: var(--space-4);
+}
+
+.tag-selector-details .tag-list {
+  margin-top: var(--space-3);
 }
 
 .tag-section+.tag-section {
