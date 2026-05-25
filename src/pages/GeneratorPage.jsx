@@ -71,6 +71,7 @@ export default function GeneratorPage({
             titles={generatedOutput.titles}
             thumbnails={generatedOutput.thumbnails}
             descriptions={generatedOutput.shortDescriptions}
+            shortHooks={generatedOutput.shortHooks}
             hashtags={generatedOutput.hashtags}
             youtubeTags={generatedOutput.youtubeTags}
             hybridPrompt={generatedOutput.hybridPrompt}

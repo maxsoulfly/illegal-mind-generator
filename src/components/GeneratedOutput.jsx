@@ -2,6 +2,7 @@ import TitlesPanel from './output/TitlesPanel';
 import DescriptionsPanel from './output/DescriptionsPanel';
 import HashtagsPanel from './output/HashtagsPanel';
 import YouTubeTagsPanel from './output/YouTubeTagsPanel';
+import ShortHooksPanel from './output/ShortHooksPanel';
 // import HybridPromptPanel from './output/HybridPromptPanel';
 
 function GeneratedOutput({
@@ -16,6 +17,7 @@ function GeneratedOutput({
   setPanelVisibility,
   fileId,
   projectConfig,
+  shortHooks,
 }) {
   const togglePanel = (key) => {
     setPanelVisibility((prev) => ({
@@ -40,6 +42,13 @@ function GeneratedOutput({
       <TitlesPanel
         titles={titles}
         thumbnails={thumbnails}
+        panelVisibility={panelVisibility}
+        togglePanel={togglePanel}
+      />
+
+      {/* SHORT HOOKS */}
+      <ShortHooksPanel
+        shortHooks={shortHooks}
         panelVisibility={panelVisibility}
         togglePanel={togglePanel}
       />

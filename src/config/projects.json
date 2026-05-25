@@ -21,6 +21,61 @@
 
       "butItsTemplate": "but it's {value}"
     },
+    "shortHookTypes": {
+      "nostalgia": {
+        "label": "Nostalgia",
+        "templates": [
+          "{artist} still hits different",
+          "{decade} songs had no business going this hard",
+          "{song} still works in 2026"
+        ]
+      },
+
+      "emotion": {
+        "label": "Emotion",
+        "templates": [
+          "This chorus still hits",
+          "Some songs never lose energy",
+          "{song} hits differently now"
+        ]
+      },
+
+      "transformation": {
+        "label": "Transformation",
+        "templates": [
+          "What if {song} had a modern mix?",
+          "{artist}, but heavier",
+          "{song}, rebuilt with more bite"
+        ]
+      },
+
+      "discussion": {
+        "label": "Discussion",
+        "templates": [
+          "Most underrated {artist} song?",
+          "Does {song} still hold up?",
+          "Agree or disagree: {artist} still works today"
+        ]
+      },
+
+      "musician": {
+        "label": "Musician",
+        "templates": [
+          "That riff still works",
+          "{artist} guitars were built differently",
+          "Why this groove still survives"
+        ]
+      },
+
+      "progress": {
+        "label": "Progress",
+        "templates": [
+          "Re-recording this after {years} years",
+          "Past me vs current me",
+          "Studio upgrade test: {song}"
+        ]
+      }
+    },
 
     "tags": {
       "slower": {
@@ -562,7 +617,61 @@
       },
       "butItsExcludedTags": ["faithful", "original"]
     },
-    "butItsExcludedTags": ["faithful", "original"],
+    "shortHookTypes": {
+      "nostalgia": {
+        "label": "Nostalgia",
+        "templates": [
+          "{artist} still hits different",
+          "{decade} songs had no business going this hard",
+          "{song} still works in 2026"
+        ]
+      },
+
+      "emotion": {
+        "label": "Emotion",
+        "templates": [
+          "This chorus still hits",
+          "Some songs never lose energy",
+          "{song} hits differently now"
+        ]
+      },
+
+      "transformation": {
+        "label": "Transformation",
+        "templates": [
+          "What if {song} had a modern mix?",
+          "{artist}, but heavier",
+          "{song}, rebuilt with more bite"
+        ]
+      },
+
+      "discussion": {
+        "label": "Discussion",
+        "templates": [
+          "Most underrated {artist} song?",
+          "Does {song} still hold up?",
+          "Agree or disagree: {artist} still works today"
+        ]
+      },
+
+      "musician": {
+        "label": "Musician",
+        "templates": [
+          "That riff still works",
+          "{artist} guitars were built differently",
+          "Why this groove still survives"
+        ]
+      },
+
+      "progress": {
+        "label": "Progress",
+        "templates": [
+          "Re-recording this after {years} years",
+          "Past me vs current me",
+          "Studio upgrade test: {song}"
+        ]
+      }
+    },
 
     "tags": {
       "slower": {

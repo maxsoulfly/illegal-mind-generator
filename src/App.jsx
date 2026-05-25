@@ -6,7 +6,7 @@ import { generateTitles } from './engine/generateTitles';
 import { generateThumbnails } from './engine/generateThumbnails';
 import { generateDescriptions } from './engine/generateDescriptions';
 import { generateHashtags } from './engine/generateHashtags';
-// import { generateHybridPrompt } from './engine/generateHybridPrompt';
+import { generateShortHooks } from './engine/generateShortHooks';
 
 import buildResolvedProjectConfig from './utils/buildResolvedProjectConfig';
 
@@ -129,6 +129,8 @@ function App() {
     );
     const hashtagOutput = generateHashtags(formData, resolvedProjectConfig);
 
+    const shortHooks = generateShortHooks(formData, resolvedProjectConfig);
+
     const hashtags = hashtagOutput.hashtags;
     const youtubeTags = hashtagOutput.youtubeTags;
 
@@ -139,7 +141,7 @@ function App() {
       shortDescriptions,
       hashtags,
       youtubeTags,
-      // hybridPrompt,
+      shortHooks,
       fileId,
     };
   }, [formData, resolvedProjectConfig, generationSeed]);
