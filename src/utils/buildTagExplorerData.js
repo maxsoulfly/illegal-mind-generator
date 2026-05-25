@@ -64,6 +64,7 @@ export function buildTagExplorerData(
 
       label: registryTag?.label || tag,
       category: registryTag?.category || 'uncategorized',
+      excludeFromHashtags: Boolean(registryTag.excludeFromHashtags),
 
       hasMissingMappings,
       isUnused,

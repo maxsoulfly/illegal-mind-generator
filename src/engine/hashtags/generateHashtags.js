@@ -42,6 +42,7 @@ export function generateHashtags(formData = {}, config = {}) {
   const selectedTags = formData?.transformationTags || [];
 
   const tagBasedHashtags = selectedTags
+    .filter((tag) => !config.tags?.[tag]?.excludeFromHashtags)
     .flatMap((tag) => {
       const configHashtags = config.tags?.[tag]?.hashtags || [];
 
@@ -62,8 +63,10 @@ export function generateHashtags(formData = {}, config = {}) {
       formData.artist,
       formData.song,
       `${formData.artist} ${formData.song}`.toLowerCase(),
-      ...selectedTags,
-      ...selectedTags.flatMap((tag) => config.tags?.[tag]?.hashtags || []),
+      ...selectedTags.filter((tag) => !config.tags?.[tag]?.excludeFromHashtags),
+      ...selectedTags
+        .filter((tag) => !config.tags?.[tag]?.excludeFromHashtags)
+        .flatMap((tag) => config.tags?.[tag]?.hashtags || []),
       ...(formData.customHashtags || '')
         .split(',')
         .map((t) => t.trim())

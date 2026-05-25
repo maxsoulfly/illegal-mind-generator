@@ -43,6 +43,20 @@ export default function TagEditor({
             ))}
           </select>
         </FormField>
+
+        <label className="tag-option-inline">
+          <input
+            type="checkbox"
+            defaultChecked={Boolean(tag.excludeFromHashtags)}
+            onChange={(e) =>
+              onUpdateTag(tag.name, {
+                excludeFromHashtags: e.target.checked,
+              })
+            }
+          />
+
+          <span>Exclude from hashtags</span>
+        </label>
       </div>
 
       <TagPhraseEditor

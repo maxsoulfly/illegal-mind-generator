@@ -7,7 +7,7 @@ export default function TagDetails({ tag }) {
     <details className="tag-section">
       <summary>View details</summary>
 
-      <TagMapStatus existsIn={tag.existsIn} />
+      <TagMapStatus existsIn={tag.existsIn} tag={tag} />
 
       <div className="tag-phrases">
         <TagPhraseList title="Title" phrases={tag.maps.title} />

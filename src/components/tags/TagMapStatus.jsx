@@ -1,17 +1,15 @@
-export default function TagMapStatus({ existsIn }) {
+import TagStatusChip from './TagStatusChip';
+
+export default function TagMapStatus({ existsIn, tag }) {
   return (
     <div className="tag-map-status">
-      <span className={existsIn.title ? 'mapped' : 'missing'}>
-        Title: {existsIn.title ? '✓' : '—'}
-      </span>
+      <TagStatusChip label="Title" active={existsIn.title} />
+      <TagStatusChip label="Thumbnail" active={existsIn.thumbnail} />
+      <TagStatusChip label="Description" active={existsIn.description} />
 
-      <span className={existsIn.thumbnail ? 'mapped' : 'missing'}>
-        Thumbnail: {existsIn.thumbnail ? '✓' : '—'}
-      </span>
-
-      <span className={existsIn.description ? 'mapped' : 'missing'}>
-        Description: {existsIn.description ? '✓' : '—'}
-      </span>
+      {tag?.excludeFromHashtags && (
+        <TagStatusChip label="No hashtags" variant="mapped" />
+      )}
     </div>
   );
 }
