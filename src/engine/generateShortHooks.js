@@ -20,7 +20,7 @@ function fillHookTemplate(template, formData) {
     .replaceAll('{artist}', formData.artist || 'This band')
     .replaceAll('{song}', formData.song || 'this song')
     .replaceAll('{signalNumber}', formData.signalNumber || '')
-    .replaceAll('{num}', formData.signalNumber || '')
+    .replaceAll('{num}', formData.signalNumber || 'XX')
     .replaceAll('{decade}', decade)
     .replaceAll('{year}', formData.originalYear || '')
     .replaceAll('{years}', formData.years || DEFAULT_YEARS)
@@ -30,11 +30,15 @@ function fillHookTemplate(template, formData) {
 export function generateShortHooks(formData, projectConfig) {
   const hookTypes = projectConfig.shortHookTypes || {};
 
+  const suffix = projectConfig.title?.shortHookSuffix || '';
+
   return Object.entries(hookTypes).map(([type, hookConfig]) => ({
     type,
     label: hookConfig.label || type,
-    hooks: (hookConfig.templates || []).map((template) =>
-      fillHookTemplate(template, formData),
-    ),
+    hooks: (hookConfig.templates || []).map((template) => {
+      const hook = fillHookTemplate(template, formData);
+
+      return `${hook}${fillHookTemplate(suffix, formData)}`;
+    }),
   }));
 }

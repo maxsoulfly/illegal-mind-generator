@@ -2,8 +2,9 @@
   "illegalMindCovers": {
     "name": "Illegal Mind Covers",
     "title": {
-      "prefix": "[SIGNAL {num}] // ",
+      "longPrefix": "[SIGNAL {num}] // ",
       "longSuffix": " // Illegal Mind Rework",
+      "shortHookSuffix": " // [SIGNAL {num}]",
 
       "templates": {
         "standard": [
@@ -603,6 +604,7 @@
     "title": {
       "prefix": "",
       "longSuffix": "",
+      "shortHookSuffix": "",
       "templates": {
         "standard": [
           "{artist} - {song} // {transformation}",
@@ -691,6 +693,35 @@
             "Modification: The original pulse was slowed to increase weight and space."
           ],
           "status": ["Temporal drag: Active.", "Cycle speed: Reduced."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "{song} feels different when you let it breathe",
+            "Never realized how heavy {song} could feel",
+            "{song} hits in a completely different way slowed down",
+            "Slowing {song} down brought out a darker side"
+          ],
+
+          "transformation": [
+            "What happens when {song} loses the speed?",
+            "{song} rebuilt with more weight and less urgency",
+            "Pulled {song} into slower territory",
+            "Took {song} and removed the rush"
+          ],
+
+          "discussion": [
+            "Was {song} always this heavy?",
+            "Original or slowed-down version of {song}?",
+            "Did slowing {song} down improve it?",
+            "What if {artist} released {song} this way?"
+          ],
+
+          "musician": [
+            "Slowing {song} exposed details I missed",
+            "Same riff. Different gravity. // {song}",
+            "Turns out tempo changes everything in {song}",
+            "Stripped the speed from {song} and found something else"
+          ]
         }
       },
       "heavier": {
@@ -710,6 +741,42 @@
             "Modification: Additional weight was injected into the signal core."
           ],
           "status": ["Signal weight: Increased.", "Load: Elevated."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "{song} was never meant to hit this hard",
+            "Didn't expect {song} to sound this heavy",
+            "{song} gained a completely different energy",
+            "This version of {song} hits harder than I expected"
+          ],
+
+          "transformation": [
+            "What if {song} had more weight?",
+            "{song}, rebuilt with heavier bones",
+            "Took {song} into heavier territory",
+            "{song} with extra impact and less restraint"
+          ],
+
+          "discussion": [
+            "Does {song} work better heavier?",
+            "Original or heavier version of {song}?",
+            "Should {artist} have made this one heavier?",
+            "Did heavier make {song} better?"
+          ],
+
+          "musician": [
+            "More gain changed everything // {song}",
+            "Same song. Bigger punch. // {song}",
+            "Turns out {song} wanted heavier guitars",
+            "Some riffs wake up when you make them heavier"
+          ],
+
+          "progress": [
+            "I covered {song} before — this one hits harder",
+            "Years later, I pushed {song} further",
+            "Revisited {song} and gave it more weight",
+            "{song} sounded bigger in my head — finally made it happen"
+          ]
         }
       },
       "darker": {
@@ -729,6 +796,42 @@
             "Modification: The tonal profile was shifted into a darker spectrum."
           ],
           "status": ["Light levels: Suppressed.", "Visibility: Degraded."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "{song} feels completely different in the dark",
+            "Never expected {song} to become this dark",
+            "Changing the mood transformed {song}",
+            "{song} took a darker turn than I planned"
+          ],
+
+          "transformation": [
+            "What if {song} had a darker side?",
+            "{song}, rebuilt with darker energy",
+            "Dragged {song} into darker territory",
+            "Took {song} and removed some of the light"
+          ],
+
+          "discussion": [
+            "Does {song} work better darker?",
+            "Original or darker version of {song}?",
+            "Should {song} have sounded darker?",
+            "Did darkness improve {song}?"
+          ],
+
+          "musician": [
+            "Changing the atmosphere changed everything",
+            "Same song. Different shadows. // {song}",
+            "Turns out mood redesigns songs",
+            "Small production changes transformed {song}"
+          ],
+
+          "nostalgia": [
+            "Remember {song}? Not like this",
+            "Your old version of {song} felt brighter",
+            "{song} from the darker timeline",
+            "I think {song} took the wrong turn"
+          ]
         }
       },
       "alt metal": {
@@ -742,6 +845,53 @@
             "Modification: The structure was rerouted through an alternative metal framework."
           ],
           "status": ["Signal density: High.", "Layer depth: Increased."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "{song} became heavier than I expected",
+            "{song} gained a completely different energy",
+            "Never realized {song} could hit this hard",
+            "{song} feels bigger in this version"
+          ],
+
+          "transformation": [
+            "What if {artist} were Alt Metal?",
+            "What if {song} became Alt Metal?",
+            "{song}, reimagined through {artist} in Alt Metal mode",
+            "{song}, but pushed into Alt Metal territory",
+            "Dragged {song} into Alt Metal territory",
+            "{artist}, but heavier and darker",
+            "Took {song} through an Alt Metal filter",
+            "{song} rebuilt with Alt Metal energy"
+          ],
+
+          "discussion": [
+            "Does {song} work better as alt metal?",
+            "Original or alt-metal version? // {song}",
+            "Did {song} become stronger this way?",
+            "Should {artist} have gone heavier?"
+          ],
+
+          "musician": [
+            "Heavy guitars changed {song} completely",
+            "Turns out {song} wanted bigger guitars",
+            "Same song. Different weight. // {song}",
+            "Alternative metal changed the feel of {song}"
+          ],
+
+          "nostalgia": [
+            "Your old version of {song} wasn't this heavy",
+            "Remember {song}? Not like this",
+            "{song} from another timeline",
+            "I think {song} accidentally became heavier"
+          ],
+
+          "progress": [
+            "Revisited {song} and pushed it further",
+            "Always imagined {song} sounding bigger",
+            "Finally made {song} hit the way I heard it",
+            "{song} evolved into something heavier"
+          ]
         }
       },
       "punk": {
@@ -755,6 +905,52 @@
             "Modification: The signal was re-driven with a more aggressive punk velocity."
           ],
           "status": ["Pulse rate: Elevated.", "Momentum: Surging."]
+        },
+        "shortHooks": {
+          "transformation": [
+            "What if {artist} were Punk?",
+            "What if {song} became Punk?",
+            "{song}, rebuilt with Punk energy",
+            "Dragged {song} into Punk territory",
+            "{artist}, but faster and louder",
+            "Took {song} through a Punk filter",
+            "{song}, now with more chaos"
+          ],
+
+          "emotion": [
+            "{song} gained a completely different energy",
+            "Never expected {song} to sound this Punk",
+            "{song} wasn't supposed to move this fast",
+            "{song} feels way less controlled now"
+          ],
+
+          "discussion": [
+            "Does {song} work better as Punk?",
+            "Original or Punk version of {song}?",
+            "Should {artist} have gone Punk?",
+            "Did Punk improve {song}?"
+          ],
+
+          "musician": [
+            "Speed changed everything // {song}",
+            "Turns out {song} wanted more energy",
+            "Less polish. More movement. // {song}",
+            "Some songs wake up when you make them Punk"
+          ],
+
+          "nostalgia": [
+            "Remember {song}? Not like this",
+            "Your old version of {song} had fewer power chords",
+            "{song} from the Punk timeline",
+            "I think {song} accidentally joined a Punk band"
+          ],
+
+          "progress": [
+            "Always imagined {song} with more energy",
+            "Revisited {song} and pushed it harder",
+            "Finally made {song} move the way I heard it",
+            "{song} evolved into something faster"
+          ]
         }
       },
       "modernized": {
@@ -774,6 +970,50 @@
             "Modification: The signal was reconstructed using modern production techniques."
           ],
           "status": ["System version: Updated.", "Processing layer: Modern."]
+        },
+        "shortHooks": {
+          "transformation": [
+            "What if {artist} recorded {song} today?",
+            "{song}, rebuilt with modern production",
+            "Gave {song} a modern upgrade",
+            "{artist} through a modern production lens",
+            "What would {song} sound like in {currentYear}?"
+          ],
+
+          "emotion": [
+            "{song} feels bigger with a modern touch",
+            "{song} feels familiar and new at the same time",
+            "Never realized {song} could hit this clean",
+            "{artist} with a more modern punch"
+          ],
+
+          "discussion": [
+            "Original or modernized {song}?",
+            "Should {artist} sound like this today?",
+            "Did modern production improve {song}?",
+            "What would modern {artist} sound like?"
+          ],
+
+          "musician": [
+            "Production changes everything // {song}",
+            "Modern drums changed {song} completely",
+            "Same {song}. New punch.",
+            "Turns out {artist} sounds great with modern production"
+          ],
+
+          "nostalgia": [
+            "Remember {song}? Just upgraded it",
+            "{artist} through today's ears",
+            "{song} from another timeline",
+            "Your old version of {song} sounded different"
+          ],
+
+          "progress": [
+            "Re-recorded {song} with everything I learned",
+            "Covered {song} years ago — had to revisit it",
+            "Years later, {song} finally sounds like I imagined",
+            "Same {song}, better tools and more experience"
+          ]
         }
       },
       "faithful": {
@@ -798,6 +1038,42 @@
             "Modification: Core structure preserved with minimal deviation from source."
           ],
           "status": ["Deviation: Minimal.", "Source alignment: Maintained."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "{song} didn't need changing",
+            "Still love what {artist} did with {song}",
+            "{song} already worked — I just wanted to play it",
+            "Some songs like {song} deserve a faithful take"
+          ],
+
+          "appreciation": [
+            "{artist} got {song} right already",
+            "Wanted to give {song} the respect it deserves",
+            "This one was about preserving what made {song} special",
+            "Sometimes you don't rewrite songs like {song}"
+          ],
+
+          "discussion": [
+            "How close should a cover stay to {song}?",
+            "Faithful or transformed: {song}?",
+            "Would you change anything in {artist}'s {song}?",
+            "Should covers preserve songs like {song}?"
+          ],
+
+          "musician": [
+            "Recreating {song} by {artist} was harder than expected",
+            "The details in {artist}'s {song} matter",
+            "Faithful doesn't mean easy // {song}",
+            "Keeping the energy of {song} was the challenge"
+          ],
+
+          "nostalgia": [
+            "{song} still hits years later",
+            "{artist} knew exactly what they were doing with {song}",
+            "Some songs like {song} don't need fixing",
+            "Back with another take on {song}"
+          ]
         }
       },
       "hardcore": {
@@ -816,6 +1092,51 @@
             "Modification: The signal was pushed toward a more aggressive hardcore execution."
           ],
           "status": ["Impact level: Extreme.", "Stress factor: High."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "{song} wasn't supposed to hit this hard",
+            "Never expected {song} to survive Hardcore",
+            "{song} gained a dangerous amount of energy",
+            "{song} escalated quickly"
+          ],
+
+          "transformation": [
+            "What if {artist} were Hardcore?",
+            "What if {song} became Hardcore?",
+            "Dragged {song} into Hardcore territory",
+            "{song}, rebuilt with Hardcore energy",
+            "{artist}, but with breakdowns",
+            "Took {song} through a Hardcore filter"
+          ],
+
+          "discussion": [
+            "Does {song} work better as Hardcore?",
+            "Original or Hardcore version of {song}?",
+            "Should {artist} have gone Hardcore?",
+            "Did Hardcore improve {song}?"
+          ],
+
+          "musician": [
+            "Breakdowns changed {song} completely",
+            "Turns out {song} can handle screams",
+            "Heavy guitars changed the DNA of {song}",
+            "Some songs wake up when you add Hardcore"
+          ],
+
+          "nostalgia": [
+            "Remember {song}? Not like this",
+            "{song} from the Hardcore timeline",
+            "Your old version of {song} had fewer breakdowns",
+            "I think {song} accidentally joined a Hardcore band"
+          ],
+
+          "progress": [
+            "Always imagined {song} sounding heavier",
+            "Finally pushed {song} into Hardcore territory",
+            "Revisited {song} with breakdowns in mind",
+            "This version of {song} hit harder in my head"
+          ]
         }
       },
       "nu metal": {
@@ -834,6 +1155,51 @@
             "Modification: Groove elements were enhanced within a nu-metal structure."
           ],
           "status": ["Rhythmic load: Heavy.", "Bounce factor: Active."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "{song} was not ready for Nu Metal",
+            "Never expected {song} to groove this hard",
+            "{song} gained a completely different attitude",
+            "{song} accidentally entered its Nu Metal era"
+          ],
+
+          "transformation": [
+            "What if {artist} were Nu Metal?",
+            "What if {song} became Nu Metal?",
+            "Dragged {song} into Nu Metal territory",
+            "{song}, rebuilt with Nu Metal energy",
+            "{artist}, but with heavier grooves",
+            "Took {song} through a Nu Metal filter"
+          ],
+
+          "discussion": [
+            "Does {song} work better as Nu Metal?",
+            "Original or Nu Metal version of {song}?",
+            "Should {artist} have gone Nu Metal?",
+            "Did Nu Metal improve {song}?"
+          ],
+
+          "musician": [
+            "Groove changed {song} completely",
+            "Turns out {song} can handle Nu Metal riffs",
+            "Heavy rhythm changed the DNA of {song}",
+            "Some songs wake up when you add groove"
+          ],
+
+          "nostalgia": [
+            "Remember {song}? 2003 called",
+            "{song} from the Nu Metal timeline",
+            "Your old version of {song} had fewer riffs",
+            "I think {song} accidentally joined Limp Bizkit"
+          ],
+
+          "progress": [
+            "Always imagined {song} sounding like this",
+            "Finally pushed {song} into Nu Metal territory",
+            "Revisited {song} with heavier grooves",
+            "{song} sounded different in my head"
+          ]
         }
       },
       "hebrew": {
@@ -845,6 +1211,44 @@
           "technical": ["Language: Hebrew adaptation."],
           "log": ["Modification: Signal re-recorded in Hebrew."],
           "status": ["Localization: Hebrew."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "Never expected {song} to work in Hebrew",
+            "{artist} feels different in Hebrew",
+            "{song} somehow found a new identity",
+            "Didn't expect {artist} to sound like this"
+          ],
+
+          "transformation": [
+            "What if {artist} released songs in Hebrew?",
+            "What if {song} were in Hebrew?",
+            "{song}, rebuilt in Hebrew",
+            "Dragged {artist} into the Hebrew timeline",
+            "{song} from another reality",
+            "What if {artist} released {song} in Hebrew?"
+          ],
+
+          "discussion": [
+            "Does {song} work in Hebrew?",
+            "Should {artist} release songs in Hebrew?",
+            "Original or Hebrew version of {song}?",
+            "Did Hebrew change {song}?"
+          ],
+
+          "musician": [
+            "Changing language changed {song}",
+            "Turns out {artist} works in Hebrew",
+            "Different words, different feeling // {song}",
+            "Translation changed the energy"
+          ],
+
+          "nostalgia": [
+            "Remember {song}? Not in Hebrew",
+            "{artist} from another timeline",
+            "Didn't expect {artist} in Hebrew",
+            "{song}, but from another universe"
+          ]
         }
       },
       "russian": {
@@ -856,6 +1260,44 @@
           "technical": ["Language: Russian adaptation."],
           "log": ["Modification: Signal re-recorded in Russian."],
           "status": ["Localization: Russian."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "Never expected {song} to work in Russian",
+            "{artist} feels different in Russian",
+            "{song} somehow found a new identity",
+            "Didn't expect {artist} to sound like this"
+          ],
+
+          "transformation": [
+            "What if {artist} released songs in Russian?",
+            "What if {song} were in Russian?",
+            "{song}, rebuilt in Russian",
+            "Dragged {artist} into the Russian timeline",
+            "{song} from another reality",
+            "What if {artist} released {song} in Russian?"
+          ],
+
+          "discussion": [
+            "Does {song} work in Russian?",
+            "Should {artist} release songs in Russian?",
+            "Original or Russian version of {song}?",
+            "Did Russian change {song}?"
+          ],
+
+          "musician": [
+            "Changing language changed {song}",
+            "Turns out {artist} works in Russian",
+            "Different words, different feeling // {song}",
+            "Translation changed the energy of {song}"
+          ],
+
+          "nostalgia": [
+            "Remember {song}? Not in Russian",
+            "{artist} from another timeline",
+            "Didn't expect {artist} in Russian",
+            "{song}, but from another universe"
+          ]
         }
       },
       "easycore": {
@@ -867,6 +1309,51 @@
           "technical": ["Energy: uplifted.", "Drive: melodic and aggressive."],
           "log": ["Modification: Signal shifted toward easycore structure."],
           "status": ["Energy profile: Elevated."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "{song} gained way too much energy",
+            "Never expected {song} to sound this fun",
+            "{artist} somehow works as Easycore",
+            "{song} became heavier without losing the smile"
+          ],
+
+          "transformation": [
+            "What if {artist} were Easycore?",
+            "What if {song} became Easycore?",
+            "{song}, rebuilt with Easycore energy",
+            "Dragged {artist} into Easycore territory",
+            "{song}, but with breakdowns",
+            "What if {artist} released {song} as Easycore?"
+          ],
+
+          "discussion": [
+            "Does {song} work as Easycore?",
+            "Should {artist} have gone Easycore?",
+            "Original or Easycore version of {song}?",
+            "Did Easycore improve {song}?"
+          ],
+
+          "musician": [
+            "Breakdowns changed {song} completely",
+            "Turns out {song} can handle Easycore",
+            "Heavy guitars + happy melodies // {song}",
+            "Some songs wake up when you add breakdowns"
+          ],
+
+          "nostalgia": [
+            "Remember {song}? Now with breakdowns",
+            "{song} from the Easycore timeline",
+            "Didn't expect {artist} to become Easycore",
+            "{song}, but somehow happier and heavier"
+          ],
+
+          "progress": [
+            "Always imagined {song} with more energy",
+            "Finally pushed {song} into Easycore territory",
+            "{song} sounded bigger in my head",
+            "This version of {song} became way more fun"
+          ]
         }
       },
       "metal": {
@@ -878,6 +1365,51 @@
           "technical": ["Distortion: increased.", "Weight: reinforced."],
           "log": ["Modification: Signal pushed into full metal spectrum."],
           "status": ["Signal intensity: High."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "{song} was never supposed to hit this hard",
+            "Never expected {song} to sound this Metal",
+            "{artist} gained a completely different energy",
+            "{song} accidentally became heavier than planned"
+          ],
+
+          "transformation": [
+            "What if {artist} were Metal?",
+            "What if {song} became Metal?",
+            "{song}, rebuilt as Metal",
+            "Dragged {artist} into Metal territory",
+            "{song}, but heavier",
+            "What if {artist} released {song} as Metal?"
+          ],
+
+          "discussion": [
+            "Does {song} work as Metal?",
+            "Should {artist} have gone Metal?",
+            "Original or Metal version of {song}?",
+            "Did Metal improve {song}?"
+          ],
+
+          "musician": [
+            "Heavy guitars changed {song} completely",
+            "Turns out {artist} can handle Metal",
+            "Some riffs wake up when they become Metal",
+            "Distortion changed the DNA of {song}"
+          ],
+
+          "nostalgia": [
+            "Remember {song}? Not like this",
+            "{artist} from the Metal timeline",
+            "{song}, but heavier than you remember",
+            "Didn't expect {artist} to become Metal"
+          ],
+
+          "progress": [
+            "Always imagined {song} sounding heavier",
+            "Finally pushed {song} into Metal territory",
+            "{song} sounded heavier in my head",
+            "This version of {song} hit harder than expected"
+          ]
         }
       },
       "pop punk": {
@@ -889,6 +1421,51 @@
           "technical": ["Melody: emphasized.", "Tempo: upbeat."],
           "log": ["Modification: Signal tuned toward pop punk structure."],
           "status": ["Tone: Brighter."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "{song} gained a completely different energy",
+            "Never expected {song} to sound this Pop Punk",
+            "{artist} somehow fits Pop Punk perfectly",
+            "{song} became way more fun than expected"
+          ],
+
+          "transformation": [
+            "What if {artist} were Pop Punk?",
+            "What if {song} became Pop Punk?",
+            "{song}, rebuilt with Pop Punk energy",
+            "Dragged {artist} into Pop Punk territory",
+            "{song}, but faster and brighter",
+            "What if {artist} released {song} as Pop Punk?"
+          ],
+
+          "discussion": [
+            "Does {song} work as Pop Punk?",
+            "Should {artist} have gone Pop Punk?",
+            "Original or Pop Punk version of {song}?",
+            "Did Pop Punk improve {song}?"
+          ],
+
+          "musician": [
+            "Speed changed {song} completely",
+            "Turns out {artist} works as Pop Punk",
+            "Some songs wake up with power chords",
+            "More energy changed the DNA of {song}"
+          ],
+
+          "nostalgia": [
+            "Remember {song}? Warped Tour edition",
+            "{artist} from the Pop Punk timeline",
+            "{song}, but with extra teenage energy",
+            "Didn't expect {artist} to become Pop Punk"
+          ],
+
+          "progress": [
+            "Always imagined {song} with more energy",
+            "Finally pushed {song} into Pop Punk territory",
+            "{song} sounded faster in my head",
+            "This version of {song} became way more alive"
+          ]
         }
       },
       "hardcore punk": {
@@ -900,6 +1477,51 @@
           "technical": ["Aggression: maxed.", "Drive: relentless."],
           "log": ["Modification: Signal pushed into hardcore punk intensity."],
           "status": ["Impact: Extreme."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "{song} gained way too much energy",
+            "Never expected {song} to move this fast",
+            "{artist} somehow fits Hardcore Punk",
+            "{song} completely changed lanes"
+          ],
+
+          "transformation": [
+            "What if {artist} were Hardcore Punk?",
+            "What if {song} became Hardcore Punk?",
+            "{song}, rebuilt with Hardcore Punk energy",
+            "Dragged {artist} into Hardcore Punk territory",
+            "{song}, but faster and louder",
+            "What if {artist} released {song} as Hardcore Punk?"
+          ],
+
+          "discussion": [
+            "Does {song} work as Hardcore Punk?",
+            "Should {artist} have gone Hardcore Punk?",
+            "Original or Hardcore Punk version of {song}?",
+            "Did Hardcore Punk improve {song}?"
+          ],
+
+          "musician": [
+            "Speed changed {song} completely",
+            "Turns out {artist} can handle Hardcore Punk",
+            "Gang shouts changed the energy of {song}",
+            "Some songs wake up when you push the tempo"
+          ],
+
+          "nostalgia": [
+            "Remember {song}? Skatepunk timeline",
+            "{artist} from the Hardcore Punk universe",
+            "{song}, but ready for a circle pit",
+            "Didn't expect {artist} to become Hardcore Punk"
+          ],
+
+          "progress": [
+            "Always imagined {song} moving faster",
+            "Finally pushed {song} into Hardcore Punk territory",
+            "{song} sounded more alive in my head",
+            "This version of {song} refused to slow down"
+          ]
         }
       },
       "skate punk": {
@@ -911,6 +1533,51 @@
           "technical": ["Tempo: fast.", "Energy: high."],
           "log": ["Modification: Signal shifted toward skate punk velocity."],
           "status": ["Momentum: Surging."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "{song} gained way too much speed",
+            "Never expected {song} to move like this",
+            "{artist} somehow fits Skate Punk",
+            "{song} suddenly found extra momentum"
+          ],
+
+          "transformation": [
+            "What if {artist} were Skate Punk?",
+            "What if {song} became Skate Punk?",
+            "{song}, rebuilt with Skate Punk energy",
+            "Dragged {artist} into Skate Punk territory",
+            "{song}, but faster and more melodic",
+            "What if {artist} released {song} as Skate Punk?"
+          ],
+
+          "discussion": [
+            "Does {song} work as Skate Punk?",
+            "Should {artist} have gone Skate Punk?",
+            "Original or Skate Punk version of {song}?",
+            "Did Skate Punk improve {song}?"
+          ],
+
+          "musician": [
+            "Speed changed {song} completely",
+            "Turns out {artist} works as Skate Punk",
+            "Melody changed the energy of {song}",
+            "Some songs wake up when you push the tempo"
+          ],
+
+          "nostalgia": [
+            "Remember {song}? Tony Hawk edition",
+            "{artist} from the Skate Punk timeline",
+            "{song}, but ready for a halfpipe",
+            "Didn't expect {artist} to become Skate Punk"
+          ],
+
+          "progress": [
+            "Always imagined {song} moving faster",
+            "Finally pushed {song} into Skate Punk territory",
+            "{song} sounded more energetic in my head",
+            "This version of {song} refused to slow down"
+          ]
         }
       },
       "faster": {
@@ -924,6 +1591,50 @@
           "technical": ["Tempo: increased.", "Speed: boosted."],
           "log": ["Modification: Signal accelerated beyond original tempo."],
           "status": ["Cycle speed: Elevated."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "{song} gained way too much energy",
+            "Never expected {song} to move this fast",
+            "{song} completely changed pace",
+            "{song} refused to slow down"
+          ],
+
+          "transformation": [
+            "What if {song} moved faster?",
+            "{song}, rebuilt at a different speed",
+            "Pushed {song} into faster territory",
+            "Took {artist}'s {song} and hit the gas",
+            "{song}, but with extra momentum"
+          ],
+
+          "discussion": [
+            "Does {song} work better faster?",
+            "Original or faster version of {song}?",
+            "Did speeding up {song} improve it?",
+            "Should {artist} have played {song} faster?"
+          ],
+
+          "musician": [
+            "Tempo changed {song} completely",
+            "Speed changed the energy of {song}",
+            "Turns out {song} can handle more tempo",
+            "Some songs wake up when you speed them up"
+          ],
+
+          "nostalgia": [
+            "Remember {song}? Not this fast",
+            "{song} from the faster timeline",
+            "Didn't expect {artist}'s {song} to move like this",
+            "{song}, but late for something"
+          ],
+
+          "progress": [
+            "Always imagined {song} with more energy",
+            "Finally pushed {song} a little faster",
+            "{song} moved faster in my head",
+            "This version of {song} found extra momentum"
+          ]
         }
       },
       "nostalgia": {
@@ -942,6 +1653,44 @@
             "Modification: Signal tuned to evoke nostalgic recall patterns."
           ],
           "status": ["Era sync: Active.", "Memory layer: Active."]
+        },
+        "shortHooks": {
+          "emotion": [
+            "{song} still feels like another time",
+            "{song} brought back something I forgot",
+            "{artist} instantly takes me back",
+            "{song} still hits years later"
+          ],
+
+          "transformation": [
+            "What if {song} never left your playlist?",
+            "{song}, straight from another era",
+            "Back with {artist}'s {song}",
+            "Pulled {song} out of the memory vault"
+          ],
+
+          "discussion": [
+            "What song instantly takes you back?",
+            "Was {song} part of your playlist too?",
+            "Still listening to {artist} years later?",
+            "{song}: memory or masterpiece?"
+          ],
+
+          "musician": [
+            "Songs like {song} hit differently now",
+            "Revisiting {artist} feels different years later",
+            "Some songs like {song} never really disappear",
+            "{artist} still sounds like a time machine"
+          ],
+
+          "nostalgia": [
+            "Remember {song}?",
+            "Remember {artist}?",
+            "Remember {artist}'s {song}?",
+            "{song} unlocked a memory",
+            "This song lived somewhere on your MP3 player",
+            "{song} from the burned-CD era"
+          ]
         }
       },
       "00s": {
