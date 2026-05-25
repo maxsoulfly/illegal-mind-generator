@@ -74,7 +74,9 @@ export default function TransformationTagSelector({
 
         <div className="tag-selector-group">
           <p className="tag-selector-label">
-            {normalizedSearch ? 'Matching tags' : 'Available tags'}
+            {normalizedSearch
+              ? `Matching Tags (${visibleAvailableTags.length})`
+              : `Available Tags (${visibleAvailableTags.length} of ${availableTags.length})`}
           </p>
 
           <div className="tag-list">
