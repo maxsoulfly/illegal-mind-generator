@@ -1,5 +1,7 @@
 import { generateShortDescriptions } from './generateShortDescriptions';
 import { generateBroadcastBlock } from './generateBroadcastBlock';
+import { generateTechnicalBlock } from './generateTechnicalBlock';
+import { generateLogBlock } from './generateLogBlock';
 
 function toTitleCase(text) {
   return text
@@ -59,10 +61,6 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const tagLine = buildTagLine(formData, projectConfig);
   const tagPhrase = buildTagPhrase(formData);
   const selectedTags = formData.transformationTags || [];
-
-  const tagRegistry = projectConfig?.tags || {};
-
-  const getDescriptionTag = (tag) => tagRegistry[tag]?.description || {};
 
   // --- Broadcast block ---
   const { broadcastBlock, fileId } = generateBroadcastBlock(
@@ -142,60 +140,15 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     .join('\n');
 
   // --- Technical block ---
-  // Step 1: pick one line per tag
-  const perTagLines = selectedTags
-    .map((tag) => {
-      const options = getDescriptionTag(tag).technical || [];
-      return pickRandom(options);
-    })
-    .filter(Boolean);
-
-  // Step 2: if less than 3, fill from all available
-  const allLines = selectedTags.flatMap(
-    (tag) => getDescriptionTag(tag).technical || [],
-  );
-
-  const remaining = allLines
-    .filter((line) => !perTagLines.includes(line))
-    .sort(() => 0.5 - Math.random());
-
-  const finalLines = [...perTagLines, ...remaining].slice(0, 3);
-
-  const technicalBlock = finalLines.join('\n');
+  const technicalBlock = generateTechnicalBlock(selectedTags, projectConfig);
 
   // --- Story block ---
-  const logLines = selectedTags
-    .map((tag) => {
-      const options = getDescriptionTag(tag).log || [];
-      return pickRandom(options);
-    })
-    .filter(Boolean);
-  const shuffledLogs = logLines.sort(() => 0.5 - Math.random());
-
-  const tagLogBlock = shuffledLogs.slice(0, 1).join('\n');
-
-  // --- Log block ---
-  const logTemplate = pickRandom(
-    projectConfig?.description.templates?.long?.logBlock,
+  const logBlock = generateLogBlock(
+    selectedTags,
+    projectConfig,
+    formData,
+    tagLine,
   );
-
-  const logNotes = projectConfig?.description.templates?.long?.logNotes || [];
-
-  const defaultLogNote =
-    logNotes.length > 0
-      ? pickRandom(logNotes)
-      : projectConfig?.description.templates?.long?.defaultLogNote ||
-        'Signal stabilized.';
-
-  const logNote = formData.customLogNote?.trim()
-    ? formData.customLogNote.trim()
-    : defaultLogNote;
-
-  const baseLogBlock = logTemplate
-    .replace(/\{tagLine\}/g, tagLine)
-    .replace(/\{logNote\}/g, logNote);
-
-  const logBlock = [baseLogBlock, tagLogBlock].filter(Boolean).join('\n');
 
   // --- Short tag phrase ---
 
