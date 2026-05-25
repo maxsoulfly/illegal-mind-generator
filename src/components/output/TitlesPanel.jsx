@@ -1,7 +1,16 @@
 import CopyButton from '../CopyButton';
 import ToggleButton from '../ToggleButton';
+import ShortHookTitles from './ShortHookTitles';
+import GeneratedTitlePair from './GeneratedTitlePair';
 
-function TitlesPanel({ titles, thumbnails, panelVisibility, togglePanel }) {
+function TitlesPanel({
+  titles,
+  thumbnails,
+  shortHooks,
+  videoType,
+  panelVisibility,
+  togglePanel,
+}) {
   return (
     <div className={`panel ${panelVisibility.titles ? '' : 'panel-collapsed'}`}>
       <div className="panel-header">
@@ -16,30 +25,25 @@ function TitlesPanel({ titles, thumbnails, panelVisibility, togglePanel }) {
 
       {panelVisibility.titles && (
         <div>
-          {titles.map((title, index) => {
-            const thumbnail = thumbnails[index] ?? '';
-            return (
-              <div key={index} className="generated-pair terminal-block">
-                <div className="generated-pair-row">
-                  <p className="generated-pair-text">
-                    <strong className="saved-entry-signal">Title:</strong>{' '}
-                    {title}
-                  </p>
+          {videoType === 'Shorts'
+            ? shortHooks.map((group) => (
+                <ShortHookTitles
+                  key={group.type}
+                  title={group.label}
+                  hooks={group.hooks}
+                />
+              ))
+            : titles.map((title, index) => {
+                const thumbnail = thumbnails[index] ?? '';
 
-                  <CopyButton text={title} />
-                </div>
-
-                <div className="generated-pair-row">
-                  <p className="generated-pair-text">
-                    <strong className="saved-entry-signal">Thumb:</strong>{' '}
-                    {thumbnail}
-                  </p>
-
-                  <CopyButton text={thumbnail} />
-                </div>
-              </div>
-            );
-          })}
+                return (
+                  <GeneratedTitlePair
+                    key={index}
+                    title={title}
+                    thumbnail={thumbnail}
+                  />
+                );
+              })}
         </div>
       )}
     </div>

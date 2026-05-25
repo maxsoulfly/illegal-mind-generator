@@ -44,13 +44,8 @@ function GeneratedOutput({
         thumbnails={thumbnails}
         panelVisibility={panelVisibility}
         togglePanel={togglePanel}
-      />
-
-      {/* SHORT HOOKS */}
-      <ShortHooksPanel
         shortHooks={shortHooks}
-        panelVisibility={panelVisibility}
-        togglePanel={togglePanel}
+        videoType={videoType}
       />
 
       {/* DESCRIPTIONS */}

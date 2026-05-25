@@ -512,7 +512,7 @@ svg {
 
 .generated-pair {
   margin-bottom: var(--space-4);
-  padding      : var(--space-4) var(--space-5);
+  padding      : var(--space-2) var(--space-5);
 }
 
 .generated-pair-row {
