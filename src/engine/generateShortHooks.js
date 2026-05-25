@@ -12,9 +12,15 @@ function resolvePrimaryTag(transformationTags = []) {
   return transformationTags[0] || 'cover';
 }
 
+function shuffleArray(array) {
+  return [...array].sort(() => Math.random() - 0.5);
+}
+
 function fillHookTemplate(template, formData) {
   const decade = resolveDecade(formData.transformationTags);
   const primaryTag = resolvePrimaryTag(formData.transformationTags);
+
+  const currentYear = new Date().getFullYear();
 
   return template
     .replaceAll('{artist}', formData.artist || 'This band')
@@ -24,7 +30,20 @@ function fillHookTemplate(template, formData) {
     .replaceAll('{decade}', decade)
     .replaceAll('{year}', formData.originalYear || '')
     .replaceAll('{years}', formData.years || DEFAULT_YEARS)
+    .replaceAll('{currentYear}', currentYear)
     .replaceAll('{primaryTag}', primaryTag);
+}
+
+function getTagShortHooksForType(type, formData, projectConfig) {
+  const selectedTags = formData.transformationTags || [];
+
+  return selectedTags.flatMap((tag) => {
+    const tagHooks = projectConfig.tags?.[tag]?.shortHooks?.[type] || [];
+
+    return tagHooks.map((template) =>
+      fillHookTemplate(template, formData, projectConfig, { tag }),
+    );
+  });
 }
 
 export function generateShortHooks(formData, projectConfig) {
@@ -32,13 +51,21 @@ export function generateShortHooks(formData, projectConfig) {
 
   const suffix = projectConfig.title?.shortHookSuffix || '';
 
-  return Object.entries(hookTypes).map(([type, hookConfig]) => ({
-    type,
-    label: hookConfig.label || type,
-    hooks: (hookConfig.templates || []).map((template) => {
-      const hook = fillHookTemplate(template, formData);
+  return Object.entries(hookTypes).map(([type, hookConfig]) => {
+    const baseHooks = (hookConfig.templates || []).map((template) =>
+      fillHookTemplate(template, formData),
+    );
 
-      return `${hook}${fillHookTemplate(suffix, formData)}`;
-    }),
-  }));
+    const tagHooks = getTagShortHooksForType(type, formData, projectConfig);
+
+    const hooks = shuffleArray([...baseHooks, ...tagHooks])
+      .slice(0, 2)
+      .map((hook) => `${hook}${fillHookTemplate(suffix, formData)}`);
+
+    return {
+      type,
+      label: hookConfig.label || type,
+      hooks,
+    };
+  });
 }

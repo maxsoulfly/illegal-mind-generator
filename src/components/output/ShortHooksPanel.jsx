@@ -1,14 +1,17 @@
 import ToggleButton from '../ToggleButton';
+import CopyButton from '../CopyButton';
 
 function ShortHooksPanel({ shortHooks, panelVisibility, togglePanel }) {
   if (!shortHooks?.length) return null;
 
   return (
-    <div className="panel">
+    <div
+      className={`panel ${panelVisibility.shortHooks ? '' : 'panel-collapsed'}`}
+    >
       <div className="panel-header">
         <h2 className="panel-title">Short Hooks</h2>
         <ToggleButton
-          isOpen={panelVisibility.titles}
+          isOpen={panelVisibility.shortHooks}
           onClick={() => togglePanel('shortHooks')}
           label="Short Hooks"
           compact
@@ -16,16 +19,18 @@ function ShortHooksPanel({ shortHooks, panelVisibility, togglePanel }) {
       </div>
 
       {panelVisibility.shortHooks && (
-        <div className="output-list">
+        <div>
           {shortHooks.map((group) => (
-            <div className="output-item" key={group.type}>
-              <h3>{group.label}</h3>
+            <div key={group.type} className="generated-pair terminal-block">
+              <h3 className="saved-entry-signal">{group.label}</h3>
 
-              <ol>
-                {group.hooks.map((hook) => (
-                  <li key={hook}>{hook}</li>
-                ))}
-              </ol>
+              {group.hooks.map((hook, index) => (
+                <div key={index} className="generated-pair-row">
+                  <p className="generated-pair-text">{hook}</p>
+
+                  <CopyButton text={hook} />
+                </div>
+              ))}
             </div>
           ))}
         </div>
