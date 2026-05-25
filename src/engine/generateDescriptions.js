@@ -1,3 +1,6 @@
+import { generateShortDescriptions } from './generateShortDescriptions';
+import { generateBroadcastBlock } from './generateBroadcastBlock';
+
 function toTitleCase(text) {
   return text
     .split(' ')
@@ -55,63 +58,23 @@ function buildTagPhrase(formData) {
 export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const tagLine = buildTagLine(formData, projectConfig);
   const tagPhrase = buildTagPhrase(formData);
+  const selectedTags = formData.transformationTags || [];
+
+  const tagRegistry = projectConfig?.tags || {};
+
+  const getDescriptionTag = (tag) => tagRegistry[tag]?.description || {};
 
   // --- Broadcast block ---
-  const operatorStatuses = projectConfig?.description.operatorStatuses || [];
-
-  const operatorStatus =
-    operatorStatuses[Math.floor(Math.random() * operatorStatuses.length)] ||
-    'unstable cycle';
-
-  const fileCore =
-    (formData.song || '')
-      .split(/\s+/)
-      .filter(Boolean)
-      .map((word) => word[0]?.toUpperCase() || '')
-      .join('') || 'SIG';
-
-  const fileId = `${fileCore}-${formData.signalNumber || '00'}`;
+  const { broadcastBlock, fileId } = generateBroadcastBlock(
+    formData,
+    projectConfig,
+    selectedTags,
+  );
 
   // --- Intro block ---
   const introBlock = pickRandom(
     projectConfig?.description.templates?.long?.introHook,
   );
-
-  // --- Status block ---
-  const selectedTags = formData.transformationTags || [];
-  const tagRegistry = projectConfig?.tags || {};
-  const getDescriptionTag = (tag) => tagRegistry[tag]?.description || {};
-
-  // collect tag-based status lines
-  const tagStatusLines = selectedTags.flatMap(
-    (tag) => getDescriptionTag(tag).status || [],
-  );
-
-  // fallback to global status lines
-  const baseStatusLines =
-    projectConfig?.description.templates?.long?.statusLines || [];
-
-  // merge (tag lines first)
-  const combinedStatus = [...tagStatusLines, ...baseStatusLines];
-
-  // pick 2
-  const selectedStatus = [...combinedStatus]
-    .sort(() => 0.5 - Math.random())
-    .slice(0, 2);
-
-  const statusBlock = selectedStatus.join('\n');
-
-  // --- Broadcast block ---
-  const broadcastTemplate = pickRandom(
-    projectConfig?.description.templates?.long?.broadcastHeader,
-  );
-  const broadcastHeader = broadcastTemplate
-    .replace(/\{fileId\}/g, fileId)
-    .replace(/\{operatorStatus\}/g, operatorStatus);
-
-  const broadcastBlock = [broadcastHeader, statusBlock]
-    .filter(Boolean)
-    .join('\n');
 
   // --- Story block ---
   const storyTemplate = pickRandom(
@@ -294,44 +257,12 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     .join('\n\n');
 
   // --- Shorts ---
-  const shortsConfig = projectConfig.description.templates.shorts;
-  const count = shortsConfig.count || 3;
-
-  const shortsLayout = shortsConfig.layout || [
-    'coverLine',
-    'hook',
-    'secondary',
-  ];
-  const coverLabel = shortsConfig.coverLabel || 'Cover';
-
-  const hookPool = shortHooks.flatMap((group) => group.hooks || []);
-
-  const shortDescriptions = [];
-
-  function renderShortLine(blockName) {
-    if (blockName === 'coverLine') {
-      return `${formData.artist || ''} - ${formData.song || ''} // ${coverLabel}`;
-    }
-
-    if (blockName === 'hook') {
-      return pickRandom(hookPool);
-    }
-
-    const options = shortsConfig[blockName] || [];
-    const template = pickRandom(options);
-
-    return template
-      .replace(/\{num\}/g, formData.signalNumber || '00')
-      .replace(/\{artist\}/g, formData.artist || '')
-      .replace(/\{song\}/g, formData.song || '')
-      .replace(/\{tagLine\}/g, tagPhrase);
-  }
-
-  for (let i = 0; i < count; i++) {
-    const text = shortsLayout.map(renderShortLine).filter(Boolean).join('\n');
-
-    shortDescriptions.push(text);
-  }
+  const shortDescriptions = generateShortDescriptions(
+    formData,
+    projectConfig,
+    shortHooks,
+    tagPhrase,
+  );
 
   return {
     shortDescriptions,
