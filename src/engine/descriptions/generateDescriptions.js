@@ -3,53 +3,10 @@ import { generateBroadcastBlock } from './generateBroadcastBlock';
 import { generateTechnicalBlock } from './generateTechnicalBlock';
 import { generateLogBlock } from './generateLogBlock';
 import { generateCustomBlocks } from './generateCustomBlocks';
-
-function toTitleCase(text) {
-  return text
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
+import { buildTagLine, buildTagPhrase } from './descriptionTagHelpers';
 
 function pickRandom(arr = []) {
   return arr[Math.floor(Math.random() * arr.length)] || '';
-}
-
-function buildTagLine(formData, projectConfig) {
-  const longTemplates = projectConfig?.description.templates?.long || {};
-
-  const excluded = longTemplates.tagLineExcludedTags || [];
-
-  const tags = (formData.transformationTags || [])
-    .filter((tag) => !excluded.includes(tag))
-    .map(toTitleCase)
-    .sort(() => 0.5 - Math.random())
-    .slice(0, 3);
-
-  if (tags.length === 0) {
-    const fallback = longTemplates.tagLineFallbacks || [];
-    return fallback.length > 0 ? pickRandom(fallback) : '';
-  }
-
-  const templates = longTemplates.tagLineTemplates || ['{tags}'];
-
-  const formatTags = (tags) => {
-    if (tags.length === 1) return tags[0];
-    if (tags.length === 2) return `${tags[0]} and ${tags[1]}`;
-    return `${tags.slice(0, -1).join(', ')} and ${tags[tags.length - 1]}`;
-  };
-
-  const selectedTemplate = pickRandom(templates);
-
-  return selectedTemplate.replace(/\{tags\}/g, formatTags(tags).toLowerCase());
-}
-
-function buildTagPhrase(formData) {
-  const tags = (formData.transformationTags || []).map(toTitleCase);
-  if (tags.length === 0) return 'reshaped';
-  if (tags.length === 1) return tags[0];
-  if (tags.length === 2) return `${tags[0]} and ${tags[1]}`;
-  return `${tags.slice(0, -1).join(', ')} and ${tags[tags.length - 1]}`;
 }
 
 export function generateDescriptions(formData, projectConfig, shortHooks = []) {
