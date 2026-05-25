@@ -2,11 +2,11 @@ import { useEffect, useState, useMemo } from 'react';
 
 import projects from './config/projects.json';
 
-import { generateTitles } from './engine/generateTitles';
-import { generateThumbnails } from './engine/generateThumbnails';
-import { generateDescriptions } from './engine/generateDescriptions';
-import { generateHashtags } from './engine/generateHashtags';
-import { generateShortHooks } from './engine/generateShortHooks';
+import { generateDescriptions } from './engine/descriptions/generateDescriptions';
+import { generateTitles } from './engine/titles/generateTitles';
+import { generateThumbnails } from './engine/titles/generateThumbnails';
+import { generateHashtags } from './engine/hashtags/generateHashtags';
+import { generateShortHooks } from './engine/hooks/generateShortHooks';
 
 import buildResolvedProjectConfig from './utils/buildResolvedProjectConfig';
 
