@@ -9,6 +9,7 @@ export default function TagCard({
   onUpdateTag,
   projectOverrides,
   resetTagOverride,
+  onLoadEntry,
 }) {
   return (
     <article
@@ -24,7 +25,7 @@ export default function TagCard({
         projectOverrides={projectOverrides}
       />
 
-      <TagDetails tag={tag} />
+      <TagDetails tag={tag} onLoadEntry={onLoadEntry} />
 
       <TagEditor
         tag={tag}

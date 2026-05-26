@@ -217,6 +217,10 @@ function App() {
           projectOverrides={projectOverrides}
           updateTagOverride={updateTagOverride}
           resetTagOverride={resetTagOverride}
+          onLoadEntry={(entry) => {
+            handleLoadEntry(entry);
+            setActivePage('generator');
+          }}
         />
       )}
       {activePage === 'shortsQueue' && (

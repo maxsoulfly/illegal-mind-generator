@@ -13,6 +13,7 @@ export default function TagLibraryPage({
   projectOverrides,
   updateTagOverride,
   resetTagOverride,
+  onLoadEntry,
 }) {
   const [sortMode, setSortMode] = useState('usage-desc');
   const [filterMode, setFilterMode] = useState('all');
@@ -127,6 +128,7 @@ export default function TagLibraryPage({
             onUpdateTag={handleUpdateTag}
             projectOverrides={projectOverrides}
             resetTagOverride={resetTagOverride}
+            onLoadEntry={onLoadEntry}
           />
         ))}
       </div>

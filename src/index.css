@@ -417,6 +417,55 @@ svg {
   accent-color: var(--color-accent-strong);
 }
 
+.tag-song-links {
+  display   : grid;
+  gap       : var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.tag-song-link {
+  display              : grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap                  : 2px;
+
+  width  : 100%;
+  padding: var(--space-2) var(--space-3);
+
+  border       : 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  background   : var(--color-bg-transparent);
+  color        : var(--color-text-main);
+
+  text-align: left;
+  cursor    : pointer;
+}
+
+.tag-song-link:hover {
+  border-color: var(--color-border-hover);
+  color       : var(--color-text-accent);
+}
+
+.tag-song-link span {
+  overflow     : hidden;
+  text-overflow: ellipsis;
+  white-space  : nowrap;
+}
+
+.tag-song-link span:last-child {
+  color    : var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.tag-song-list summary {
+  margin-top: var(--space-3);
+  color     : var(--color-text-soft);
+}
+
+.tag-show-more {
+  margin-top: var(--space-3);
+  color     : var(--color-text-muted);
+}
+
 .toggle-row {
   display      : inline-flex;
   align-items  : center;
