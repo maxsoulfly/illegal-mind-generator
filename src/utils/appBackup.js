@@ -1,23 +1,12 @@
-const BACKUP_KEYS = [
-  'tagOverrides',
-  'tagVisibilityOverrides',
-  'formData',
-  'panelVisibility',
-];
+const STORAGE_KEY = 'illegalMindGeneratorData';
 
 export function buildAppBackup() {
+  const storage = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+
   return {
-    version: 1,
+    version: 2,
     exportedAt: new Date().toISOString(),
-    data: BACKUP_KEYS.reduce((backupData, key) => {
-      const value = localStorage.getItem(key);
-
-      if (value !== null) {
-        backupData[key] = JSON.parse(value);
-      }
-
-      return backupData;
-    }, {}),
+    data: storage,
   };
 }
 
@@ -42,9 +31,5 @@ export function restoreAppBackup(backup) {
     throw new Error('Invalid backup file.');
   }
 
-  BACKUP_KEYS.forEach((key) => {
-    if (backup.data[key] !== undefined) {
-      localStorage.setItem(key, JSON.stringify(backup.data[key]));
-    }
-  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(backup.data));
 }
