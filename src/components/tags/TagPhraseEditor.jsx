@@ -58,7 +58,9 @@ export default function TagPhraseEditor({
 
   return (
     <details className="tag-editor-section" open={false}>
-      <summary>{title}</summary>
+      <summary>
+        {title} ({phrases.length})
+      </summary>
 
       <div className="tag-phrase-editor">
         <FormField>
