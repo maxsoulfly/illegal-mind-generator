@@ -19,6 +19,11 @@ import TagLibraryPage from './pages/TagLibraryPage';
 import GeneratorPage from './pages/GeneratorPage';
 import ShortsQueuePage from './pages/ShortsQueuePage';
 
+import {
+  previewUnifiedStorageMigration,
+  writeUnifiedStorageMigration,
+} from './utils/storageMigration';
+
 const DEFAULT_PROJECT_KEY = Object.keys(projects)[0];
 
 const defaultFormData = {
@@ -75,7 +80,20 @@ function App() {
   const [projectId, setProjectId] = useState(() => {
     return localStorage.getItem('selectedProject') || DEFAULT_PROJECT_KEY;
   });
+
   // effects
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+
+    window.previewUnifiedStorageMigration = previewUnifiedStorageMigration;
+    window.writeUnifiedStorageMigration = writeUnifiedStorageMigration;
+
+    return () => {
+      delete window.previewUnifiedStorageMigration;
+      delete window.writeUnifiedStorageMigration;
+    };
+  }, []);
+
   useEffect(() => {
     localStorage.setItem('panelVisibility', JSON.stringify(panelVisibility));
   }, [panelVisibility]);

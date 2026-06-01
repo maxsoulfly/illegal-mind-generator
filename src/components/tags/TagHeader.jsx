@@ -12,7 +12,7 @@ export default function TagHeader({ tag, projectOverrides, resetTagOverride }) {
 
     resetTagOverride(tag.name);
   };
-  console.log(tag.name, tag.isCustom, projectOverrides?.[tag.name]);
+  // console.log(tag.name, tag.isCustom, projectOverrides?.[tag.name]);
   return (
     <div className="tag-card-header">
       <div>
