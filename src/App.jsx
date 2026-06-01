@@ -23,6 +23,7 @@ import {
   previewUnifiedStorageMigration,
   writeUnifiedStorageMigration,
 } from './utils/storageMigration';
+import { loadAppStorage } from './utils/storage';
 
 const DEFAULT_PROJECT_KEY = Object.keys(projects)[0];
 
@@ -48,37 +49,47 @@ const defaultFormData = {
 function App() {
   // states
   const [formData, setFormData] = useState(() => {
+    const storage = loadAppStorage();
     const savedFormData = localStorage.getItem('formData');
 
-    return savedFormData
-      ? {
-          ...defaultFormData,
-          ...JSON.parse(savedFormData),
-        }
-      : {
-          ...defaultFormData,
-        };
+    return {
+      ...defaultFormData,
+      ...(savedFormData ? JSON.parse(savedFormData) : {}),
+      ...(storage.generator.formData || {}),
+    };
   });
 
   const [panelVisibility, setPanelVisibility] = useState(() => {
+    const storage = loadAppStorage();
     const saved = localStorage.getItem('panelVisibility');
-    return saved
-      ? JSON.parse(saved)
-      : {
-          titles: true,
-          descriptions: true,
-          hashtags: true,
-          hybridPrompt: true,
-          advanced: false,
-        };
+
+    return {
+      titles: true,
+      descriptions: true,
+      hashtags: true,
+      hybridPrompt: true,
+      advanced: false,
+      ...(saved ? JSON.parse(saved) : {}),
+      ...(storage.ui.panelVisibility || {}),
+    };
   });
   const [generationSeed, setGenerationSeed] = useState(0);
   const [activePage, setActivePage] = useState(() => {
-    return localStorage.getItem('activePage') || 'generator';
+    const storage = loadAppStorage();
+
+    return (
+      storage.ui.activePage || localStorage.getItem('activePage') || 'generator'
+    );
   });
 
   const [projectId, setProjectId] = useState(() => {
-    return localStorage.getItem('selectedProject') || DEFAULT_PROJECT_KEY;
+    const storage = loadAppStorage();
+
+    return (
+      storage.ui.selectedProject ||
+      localStorage.getItem('selectedProject') ||
+      DEFAULT_PROJECT_KEY
+    );
   });
 
   // effects
