@@ -52,6 +52,7 @@ export function buildTagExplorerData(
         title: registryTag.title || [],
         thumbnail: registryTag.thumbnail || [],
         description: registryTag.description || null,
+        shortHooks: registryTag.shortHooks || {},
         hashtags: registryTag.hashtags || [],
       },
 

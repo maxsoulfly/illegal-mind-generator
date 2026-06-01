@@ -121,6 +121,7 @@ export default function TagEditor({
           />
         </div>
       </details>
+
       <details className="tag-editor-section">
         <summary>Short hooks</summary>
 
@@ -138,14 +139,15 @@ export default function TagEditor({
               title={`${hookType.charAt(0).toUpperCase()}${hookType.slice(1)} hooks`}
               tagName={tag.name}
               parentField="shortHooks"
-              parentValue={tag.shortHooks}
+              parentValue={tag.maps.shortHooks || {}}
               field={hookType}
-              phrases={tag.shortHooks?.[hookType]}
+              phrases={tag.maps.shortHooks?.[hookType] || []}
               onUpdateTag={onUpdateTag}
             />
           ))}
         </div>
       </details>
+
       <TagPhraseEditor
         title="Hashtags"
         tagName={tag.name}
