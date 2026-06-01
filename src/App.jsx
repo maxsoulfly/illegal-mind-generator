@@ -44,6 +44,10 @@ const defaultFormData = {
   customHashtags: '',
   customCta: '',
   excludeFromRandomizer: false,
+  todo: {
+    status: '',
+    notes: '',
+  },
 };
 
 function App() {

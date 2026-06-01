@@ -1110,10 +1110,11 @@ svg {
 }
 
 .tag-section summary {
-  cursor    : pointer;
-  color     : var(--color-text-soft);
-  font-size : 0.9rem;
-  transition: var(--transition-fast);
+  cursor       : pointer;
+  color        : var(--color-text-soft);
+  font-size    : 0.9rem;
+  transition   : var(--transition-fast);
+  margin-bottom: var(--space-2);
 }
 
 .tag-section summary:hover {

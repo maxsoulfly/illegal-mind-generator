@@ -1,8 +1,6 @@
 function QueueSettings({ excludeFromRandomizer, onToggle }) {
   return (
     <div className="form-group">
-      <label>QUEUE BEHAVIOR</label>
-
       <label className="checkbox-label">
         <input
           type="checkbox"

@@ -72,6 +72,10 @@ function useSavedEntries(
       customHashtags: formData.customHashtags?.trim() || '',
       customCta: formData.customCta,
       excludeFromRandomizer: formData.excludeFromRandomizer || false,
+      todo: {
+        status: formData.todo?.status || '',
+        notes: formData.todo?.notes?.trim() || '',
+      },
     };
 
     if (!entry.artist || !entry.song) return;
@@ -103,6 +107,10 @@ function useSavedEntries(
       customCta: entry.customCta || '',
 
       excludeFromRandomizer: entry.excludeFromRandomizer || false,
+      todo: {
+        status: entry.todo?.status || '',
+        notes: entry.todo?.notes || '',
+      },
     }));
   };
 
@@ -169,6 +177,10 @@ function useSavedEntries(
             customHashtags: String(item.customHashtags || '').trim(),
             customCta: String(item.customCta || '').trim(),
             excludeFromRandomizer: Boolean(item.excludeFromRandomizer),
+            todo: {
+              status: String(item.todo?.status || '').trim(),
+              notes: String(item.todo?.notes || '').trim(),
+            },
           }));
 
         setSavedEntriesByProject((prev) => {

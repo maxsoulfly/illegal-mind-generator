@@ -8,6 +8,8 @@ import ToggleButton from './ui/ToggleButton';
 import FormField from './ui/FormField';
 import QueueSettings from './input/QueueSettings';
 
+import TodoFields from './todo/TodoFields';
+
 function InputForm({
   projectId,
   formData,
@@ -46,6 +48,26 @@ function InputForm({
         artistSuggestions={artistSuggestions}
         songSuggestions={songSuggestions}
       />
+      <QueueSettings
+        excludeFromRandomizer={formData.excludeFromRandomizer}
+        onToggle={(value) =>
+          setFormData((prev) => ({
+            ...prev,
+            excludeFromRandomizer: value,
+          }))
+        }
+      />
+
+      <TodoFields
+        todo={formData.todo}
+        statuses={projectConfig.todoStatuses || []}
+        onChange={(todo) =>
+          setFormData((prev) => ({
+            ...prev,
+            todo,
+          }))
+        }
+      />
 
       <ToggleButton
         isOpen={panelVisibility.advanced}
@@ -61,16 +83,6 @@ function InputForm({
               tagUsage={tagUsage}
               formData={formData}
               onTagToggle={handleTagToggle}
-            />
-
-            <QueueSettings
-              excludeFromRandomizer={formData.excludeFromRandomizer}
-              onToggle={(value) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  excludeFromRandomizer: value,
-                }))
-              }
             />
 
             <AdvancedDescriptionFields

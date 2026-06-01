@@ -1,6 +1,12 @@
 {
   "illegalMindCovers": {
     "name": "Illegal Mind Covers",
+    "todoStatuses": [
+      "Idea",
+      "Needs Re-record",
+      "Needs Remaster",
+      "Needs Video"
+    ],
     "title": {
       "longPrefix": "[SIGNAL {num}] // ",
       "longSuffix": " // Illegal Mind Rework",
@@ -604,7 +610,12 @@
   },
   "maxxDeeCovers": {
     "name": "Maxx Dee Covers",
-
+    "todoStatuses": [
+      "Idea",
+      "Needs Re-record",
+      "Needs Remaster",
+      "Needs Video"
+    ],
     "title": {
       "prefix": "",
       "longSuffix": "",

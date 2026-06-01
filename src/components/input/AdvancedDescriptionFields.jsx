@@ -1,6 +1,9 @@
 import FormField from '../ui/FormField';
 
-export default function AdvancedDescriptionFields({ formData, setFormData }) {
+export default function AdvancedDescriptionFields({
+  formData,
+  setFormData,
+}) {
   return (
     <>
       <div className="form-group">
@@ -72,6 +75,7 @@ export default function AdvancedDescriptionFields({ formData, setFormData }) {
             placeholder="Write a custom CTA for comments..."
           />
         </FormField>
+
       </div>
     </>
   );
