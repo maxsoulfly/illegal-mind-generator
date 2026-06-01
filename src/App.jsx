@@ -23,7 +23,7 @@ import {
   previewUnifiedStorageMigration,
   writeUnifiedStorageMigration,
 } from './utils/storageMigration';
-import { loadAppStorage } from './utils/storage';
+import { loadAppStorage, updateAppStorage } from './utils/storage';
 
 const DEFAULT_PROJECT_KEY = Object.keys(projects)[0];
 
@@ -107,14 +107,38 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem('panelVisibility', JSON.stringify(panelVisibility));
+
+    updateAppStorage((storage) => ({
+      ...storage,
+      ui: {
+        ...storage.ui,
+        panelVisibility,
+      },
+    }));
   }, [panelVisibility]);
 
   useEffect(() => {
     localStorage.setItem('activePage', activePage);
+
+    updateAppStorage((storage) => ({
+      ...storage,
+      ui: {
+        ...storage.ui,
+        activePage,
+      },
+    }));
   }, [activePage]);
 
   useEffect(() => {
     localStorage.setItem('selectedProject', projectId);
+
+    updateAppStorage((storage) => ({
+      ...storage,
+      ui: {
+        ...storage.ui,
+        selectedProject: projectId,
+      },
+    }));
   }, [projectId]);
 
   const projectConfig = useMemo(() => {
@@ -138,6 +162,14 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem('formData', JSON.stringify(formData));
+
+    updateAppStorage((storage) => ({
+      ...storage,
+      generator: {
+        ...storage.generator,
+        formData,
+      },
+    }));
   }, [formData]);
 
   const handleProjectChange = (nextProjectId) => {

@@ -121,7 +121,31 @@ export default function TagEditor({
           />
         </div>
       </details>
+      <details className="tag-editor-section">
+        <summary>Short hooks</summary>
 
+        <div className="tag-editor-nested-section">
+          {[
+            'nostalgia',
+            'emotion',
+            'transformation',
+            'discussion',
+            'musician',
+            'progress',
+          ].map((hookType) => (
+            <TagPhraseEditor
+              key={hookType}
+              title={`${hookType.charAt(0).toUpperCase()}${hookType.slice(1)} hooks`}
+              tagName={tag.name}
+              parentField="shortHooks"
+              parentValue={tag.shortHooks}
+              field={hookType}
+              phrases={tag.shortHooks?.[hookType]}
+              onUpdateTag={onUpdateTag}
+            />
+          ))}
+        </div>
+      </details>
       <TagPhraseEditor
         title="Hashtags"
         tagName={tag.name}
