@@ -1,12 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import projects from './config/projects.json';
 
-import { generateDescriptions } from './engine/descriptions/generateDescriptions';
-import { generateTitles } from './engine/titles/generateTitles';
-import { generateThumbnails } from './engine/titles/generateThumbnails';
-import { generateHashtags } from './engine/hashtags/generateHashtags';
-import { generateShortHooks } from './engine/hooks/generateShortHooks';
+import useGeneratedOutput from './hooks/useGeneratedOutput';
 
 import buildResolvedProjectConfig from './utils/buildResolvedProjectConfig';
 
@@ -29,6 +25,7 @@ import {
 import useAppShellState from './hooks/useAppShellState';
 
 function App() {
+  // App-level UI state and persistence.
   const {
     formData,
     setFormData,
@@ -42,9 +39,7 @@ function App() {
     handleClearForm,
   } = useAppShellState();
 
-  const [generationSeed, setGenerationSeed] = useState(0);
-
-  // effects
+  // Development-only storage migration helpers.
   useEffect(() => {
     if (!import.meta.env.DEV) return;
 
@@ -57,16 +52,21 @@ function App() {
     };
   }, []);
 
+  // Base project config from projects.json.
   const projectConfig = useMemo(() => {
     return projects[projectId] || projects[DEFAULT_PROJECT_KEY] || {};
   }, [projectId]);
+
+  // User tag overrides stored in localStorage.
   const { projectOverrides, updateTagOverride, resetTagOverride } =
     useTagOverrides(projectId);
 
+  // Runtime config = base config + user overrides.
   const resolvedProjectConfig = useMemo(() => {
     return buildResolvedProjectConfig(projectConfig, projectOverrides);
   }, [projectConfig, projectOverrides]);
 
+  // Saved entries CRUD and import/export.
   const {
     savedEntries,
     handleSaveEntry,
@@ -79,43 +79,13 @@ function App() {
     handleUpdateEntry,
   } = useSavedEntries(formData, setFormData, projectId, projectConfig.name);
 
-  const generatedOutput = useMemo(() => {
-    const titles = generateTitles(formData, resolvedProjectConfig);
-    const thumbnails = generateThumbnails(formData, resolvedProjectConfig);
+  // Generated titles, descriptions, hooks, hashtags, etc.
+  const { generatedOutput, handleRegenerate } = useGeneratedOutput(
+    formData,
+    resolvedProjectConfig,
+  );
 
-    const shortHooks = generateShortHooks(formData, resolvedProjectConfig);
-
-    const { longDescription, shortDescriptions, fileId } = generateDescriptions(
-      formData,
-      resolvedProjectConfig,
-      shortHooks,
-    );
-
-    const hashtagOutput = generateHashtags(formData, resolvedProjectConfig);
-
-    const hashtags = hashtagOutput.hashtags;
-    const youtubeTags = hashtagOutput.youtubeTags;
-
-    return {
-      titles,
-      thumbnails,
-      longDescription,
-      shortDescriptions,
-      hashtags,
-      youtubeTags,
-      shortHooks,
-      fileId,
-    };
-  }, [formData, resolvedProjectConfig, generationSeed]);
-
-  // const projectOptions = Object.keys(projects);
-
-  // Clear form
-
-  const handleRegenerate = () => {
-    setGenerationSeed((prev) => prev + 1);
-  };
-
+  // Usage statistics used by Tag Library.
   const tagUsage = useMemo(() => {
     return savedEntries.reduce((acc, entry) => {
       (entry.transformationTags || []).forEach((tag) => {
@@ -128,6 +98,7 @@ function App() {
 
   return (
     <div className="app-shell">
+      {/* Global navigation and project selector */}
       <AppMenu
         activePage={activePage}
         setActivePage={setActivePage}
@@ -135,6 +106,7 @@ function App() {
         setProjectId={handleProjectChange}
         projects={projects}
       />
+      {/* Main generator workflow */}
       {activePage === 'generator' && (
         <GeneratorPage
           projectId={projectId}
@@ -157,6 +129,7 @@ function App() {
           projectOverrides={projectOverrides}
         />
       )}
+      {/* Tag management and phrase editing */}
       {activePage === 'tags' && (
         <TagLibraryPage
           projectId={projectId}
@@ -172,6 +145,7 @@ function App() {
           }}
         />
       )}
+      {/* Shorts planning queue */}
       {activePage === 'shortsQueue' && (
         <ShortsQueuePage
           key={projectId}
@@ -184,7 +158,7 @@ function App() {
           projectConfig={resolvedProjectConfig}
         />
       )}
-
+      {/* Cover planning and tracking */}
       {activePage === 'todo' && (
         <TodoPage
           savedEntries={savedEntries}
