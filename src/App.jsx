@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import projects from './config/projects.json';
 
@@ -20,62 +20,29 @@ import GeneratorPage from './pages/GeneratorPage';
 import ShortsQueuePage from './pages/ShortsQueuePage';
 import TodoPage from './pages/TodoPage';
 
-import {
-  DEFAULT_PROJECT_KEY,
-  defaultFormData,
-} from './constants/defaultFormData';
+import { DEFAULT_PROJECT_KEY } from './constants/defaultFormData';
 
 import {
   previewUnifiedStorageMigration,
   writeUnifiedStorageMigration,
 } from './utils/storageMigration';
-import { loadAppStorage, updateAppStorage } from './utils/storage';
+import useAppShellState from './hooks/useAppShellState';
 
 function App() {
-  // states
-  const [formData, setFormData] = useState(() => {
-    const storage = loadAppStorage();
-    const savedFormData = localStorage.getItem('formData');
+  const {
+    formData,
+    setFormData,
+    panelVisibility,
+    setPanelVisibility,
+    activePage,
+    setActivePage,
+    projectId,
+    handleProjectChange,
+    togglePanel,
+    handleClearForm,
+  } = useAppShellState();
 
-    return {
-      ...defaultFormData,
-      ...(savedFormData ? JSON.parse(savedFormData) : {}),
-      ...(storage.generator.formData || {}),
-    };
-  });
-
-  const [panelVisibility, setPanelVisibility] = useState(() => {
-    const storage = loadAppStorage();
-    const saved = localStorage.getItem('panelVisibility');
-
-    return {
-      titles: true,
-      descriptions: true,
-      hashtags: true,
-      hybridPrompt: true,
-      advanced: false,
-      ...(saved ? JSON.parse(saved) : {}),
-      ...(storage.ui.panelVisibility || {}),
-    };
-  });
   const [generationSeed, setGenerationSeed] = useState(0);
-  const [activePage, setActivePage] = useState(() => {
-    const storage = loadAppStorage();
-
-    return (
-      storage.ui.activePage || localStorage.getItem('activePage') || 'generator'
-    );
-  });
-
-  const [projectId, setProjectId] = useState(() => {
-    const storage = loadAppStorage();
-
-    return (
-      storage.ui.selectedProject ||
-      localStorage.getItem('selectedProject') ||
-      DEFAULT_PROJECT_KEY
-    );
-  });
 
   // effects
   useEffect(() => {
@@ -90,44 +57,8 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('panelVisibility', JSON.stringify(panelVisibility));
-
-    updateAppStorage((storage) => ({
-      ...storage,
-      ui: {
-        ...storage.ui,
-        panelVisibility,
-      },
-    }));
-  }, [panelVisibility]);
-
-  useEffect(() => {
-    localStorage.setItem('activePage', activePage);
-
-    updateAppStorage((storage) => ({
-      ...storage,
-      ui: {
-        ...storage.ui,
-        activePage,
-      },
-    }));
-  }, [activePage]);
-
-  useEffect(() => {
-    localStorage.setItem('selectedProject', projectId);
-
-    updateAppStorage((storage) => ({
-      ...storage,
-      ui: {
-        ...storage.ui,
-        selectedProject: projectId,
-      },
-    }));
-  }, [projectId]);
-
   const projectConfig = useMemo(() => {
-    return projects[projectId] || projects[defaultFormData.project] || {};
+    return projects[projectId] || projects[DEFAULT_PROJECT_KEY] || {};
   }, [projectId]);
   const { projectOverrides, updateTagOverride, resetTagOverride } =
     useTagOverrides(projectId);
@@ -147,27 +78,6 @@ function App() {
     handleAddEntries,
     handleUpdateEntry,
   } = useSavedEntries(formData, setFormData, projectId, projectConfig.name);
-
-  useEffect(() => {
-    localStorage.setItem('formData', JSON.stringify(formData));
-
-    updateAppStorage((storage) => ({
-      ...storage,
-      generator: {
-        ...storage.generator,
-        formData,
-      },
-    }));
-  }, [formData]);
-
-  const handleProjectChange = (nextProjectId) => {
-    setProjectId(nextProjectId);
-
-    setFormData((prev) => ({
-      ...prev,
-      project: nextProjectId,
-    }));
-  };
 
   const generatedOutput = useMemo(() => {
     const titles = generateTitles(formData, resolvedProjectConfig);
@@ -200,17 +110,7 @@ function App() {
 
   // const projectOptions = Object.keys(projects);
 
-  const togglePanel = (panelKey) => {
-    setPanelVisibility((prev) => ({
-      ...prev,
-      [panelKey]: !prev[panelKey],
-    }));
-  };
-
   // Clear form
-  const handleClearForm = () => {
-    setFormData({ ...defaultFormData });
-  };
 
   const handleRegenerate = () => {
     setGenerationSeed((prev) => prev + 1);
