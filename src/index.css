@@ -555,6 +555,12 @@ svg {
   padding-right: var(--space-1);
 }
 
+.shorts-queue-list {
+  max-height: none;
+  overflow  : visible;
+}
+
+
 .saved-library-list::-webkit-scrollbar {
   width: var(--size-scrollbar);
 }
@@ -574,10 +580,6 @@ svg {
   background: var(--color-accent-strong);
 }
 
-.shorts-queue-list {
-  max-height: none;
-  overflow  : visible;
-}
 
 .saved-library-header {
   position      : sticky;
@@ -992,15 +994,15 @@ svg {
   width        : auto;
 }
 
-.app-backup-controls .button-secondary {
-  border-radius: var(--radius-md);
-  min-width    : 120px;
-}
-
 .app-backup-controls {
   display    : flex;
   gap        : var(--space-2);
   align-items: center;
+}
+
+.app-backup-controls .button-secondary {
+  border-radius: var(--radius-md);
+  min-width    : 120px;
 }
 
 .app-backup-import input {
@@ -1112,6 +1114,13 @@ svg {
   white-space: nowrap;
 }
 
+.tag-map-status {
+  display   : flex;
+  flex-wrap : wrap;
+  gap       : var(--space-2);
+  margin-top: var(--space-4);
+}
+
 .tag-map-status span {
   display    : inline-flex;
   align-items: center;
@@ -1131,12 +1140,6 @@ svg {
   font-size: 0.85rem;
 }
 
-.tag-map-status {
-  display   : flex;
-  flex-wrap : wrap;
-  gap       : var(--space-2);
-  margin-top: var(--space-4);
-}
 
 .tag-editor-section {
   margin-top: var(--space-4);
@@ -1170,6 +1173,29 @@ svg {
   color       : var(--color-text-danger-hover);
 }
 
+
+.tag-used {
+  border-color: var(--color-accent-strong);
+}
+
+.tag-unused {
+  opacity     : 0.6;
+  border-color: var(--color-border-soft);
+}
+
+.tag-issue {
+  border-color: var(--color-text-alert);
+  box-shadow  : 0 0 8px var(--color-shadow-tag);
+}
+
+.tag-status {
+  font-size  : 0.75rem;
+  color      : var(--color-text-muted);
+  margin-left: var(--space-2);
+}
+
+
+
 /* Tag filter chips */
 .tag-filters {
   grid-column: 1 / -1;
@@ -1194,61 +1220,6 @@ svg {
   color       : var(--color-text-accent);
 }
 
-.tag-used {
-  border-color: var(--color-accent-strong);
-}
-
-.tag-unused {
-  opacity     : 0.6;
-  border-color: var(--color-border-soft);
-}
-
-.tag-issue {
-  border-color: var(--color-text-alert);
-  box-shadow  : 0 0 8px var(--color-shadow-tag);
-}
-
-.tag-status {
-  font-size  : 0.75rem;
-  color      : var(--color-text-muted);
-  margin-left: var(--space-2);
-}
-
-.tag-issue .tag-status {
-  color: var(--color-text-alert);
-}
-
-.tag-used .tag-status {
-  color: var(--color-text-accent);
-}
-
-.tag-edit-fields {
-  display              : grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap                  : var(--space-4);
-  margin-top           : var(--space-4);
-}
-
-.tag-edit-fields label {
-  color         : var(--color-text-muted);
-  font-size     : var(--font-size-label);
-  text-transform: uppercase;
-}
-
-.tag-edit-fields .form-input {
-  margin-top   : var(--space-2);
-  margin-bottom: 0;
-}
-
-.tag-edit-fields .form-select {
-  margin-top   : var(--space-2);
-  margin-bottom: 0;
-  width        : 100%;
-}
-
-.tag-edit-fields {
-  align-items: end;
-}
 
 .tag-section {
   margin-top: var(--space-3);
@@ -1279,35 +1250,8 @@ svg {
   padding-top: var(--space-3);
 }
 
-.tag-hidden {
-  font-size  : 0.75rem;
-  color      : var(--color-text-muted-3);
-  margin-left: var(--space-0);
-  white-space: nowrap;
-}
 
-.tag-visibility-toggle {
-  margin-top: var(--space-4);
-  width     : 100%;
-}
 
-.tag-phrase-row {
-  display      : flex;
-  width        : 100%;
-  gap          : var(--space-2);
-  align-items  : center;
-  margin-bottom: var(--space-2);
-}
-
-.tag-phrase-row .form-input {
-  flex         : 1 1 0;
-  min-width    : 0;
-  margin-bottom: 0;
-}
-
-.tag-phrase-row .button-secondarony {
-  flex: 0 0 auto;
-}
 
 
 
@@ -1466,6 +1410,72 @@ svg {
   .tag-status {
     grid-column: 1 / -1;
     margin-left: 0;
+  }
+
+
+  .tag-hidden {
+    font-size  : 0.75rem;
+    color      : var(--color-text-muted-3);
+    margin-left: var(--space-0);
+    white-space: nowrap;
+  }
+
+
+  .tag-visibility-toggle {
+    margin-top: var(--space-4);
+    width     : 100%;
+  }
+
+
+  .tag-issue .tag-status {
+    color: var(--color-text-alert);
+  }
+
+  .tag-used .tag-status {
+    color: var(--color-text-accent);
+  }
+
+  .tag-edit-fields {
+    display              : grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap                  : var(--space-4);
+    margin-top           : var(--space-4);
+    align-items          : end;
+  }
+
+  .tag-edit-fields label {
+    color         : var(--color-text-muted);
+    font-size     : var(--font-size-label);
+    text-transform: uppercase;
+  }
+
+  .tag-edit-fields .form-input {
+    margin-top   : var(--space-2);
+    margin-bottom: 0;
+  }
+
+  .tag-edit-fields .form-select {
+    margin-top   : var(--space-2);
+    margin-bottom: 0;
+    width        : 100%;
+  }
+
+  .tag-phrase-row {
+    display      : flex;
+    width        : 100%;
+    gap          : var(--space-2);
+    align-items  : center;
+    margin-bottom: var(--space-2);
+  }
+
+  .tag-phrase-row .form-input {
+    flex         : 1 1 0;
+    min-width    : 0;
+    margin-bottom: 0;
+  }
+
+  .tag-phrase-row .button-secondarony {
+    flex: 0 0 auto;
   }
 
   .tag-search-row {
