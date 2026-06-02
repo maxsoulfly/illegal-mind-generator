@@ -7,12 +7,14 @@ import { generateHashtags } from '../engine/hashtags/generateHashtags';
 import { generateShortHooks } from '../engine/hooks/generateShortHooks';
 
 export default function useGeneratedOutput(formData, resolvedProjectConfig) {
+  // Forces regeneration of randomized outputs without changing form data.
   const [generationSeed, setGenerationSeed] = useState(0);
 
   const handleRegenerate = () => {
     setGenerationSeed((prev) => prev + 1);
   };
 
+  // Build all generated content from the current form data and project config.
   const generatedOutput = useMemo(() => {
     const titles = generateTitles(formData, resolvedProjectConfig);
 

@@ -15,6 +15,7 @@ const defaultPanelVisibility = {
   advanced: false,
 };
 
+// Safely parse legacy localStorage values.
 function safeParse(value, fallback) {
   try {
     return value ? JSON.parse(value) : fallback;
@@ -24,6 +25,7 @@ function safeParse(value, fallback) {
 }
 
 export default function useAppShellState() {
+  // Generator form state.
   const [formData, setFormData] = useState(() => {
     const storage = loadAppStorage();
     const savedFormData = safeParse(localStorage.getItem('formData'), {});
@@ -35,6 +37,7 @@ export default function useAppShellState() {
     };
   });
 
+  // Panel open/closed state across the app.
   const [panelVisibility, setPanelVisibility] = useState(() => {
     const storage = loadAppStorage();
     const saved = safeParse(localStorage.getItem('panelVisibility'), {});
@@ -46,6 +49,7 @@ export default function useAppShellState() {
     };
   });
 
+  // Current page shown in the app menu.
   const [activePage, setActivePage] = useState(() => {
     const storage = loadAppStorage();
 
@@ -54,6 +58,7 @@ export default function useAppShellState() {
     );
   });
 
+  // Currently selected project.
   const [projectId, setProjectId] = useState(() => {
     const storage = loadAppStorage();
 
@@ -64,6 +69,7 @@ export default function useAppShellState() {
     );
   });
 
+  // Persist generator form state.
   useEffect(() => {
     localStorage.setItem('formData', JSON.stringify(formData));
 
@@ -76,6 +82,7 @@ export default function useAppShellState() {
     }));
   }, [formData]);
 
+  // Persist panel visibility preferences.
   useEffect(() => {
     localStorage.setItem('panelVisibility', JSON.stringify(panelVisibility));
 
@@ -88,6 +95,7 @@ export default function useAppShellState() {
     }));
   }, [panelVisibility]);
 
+  // Persist active page selection.
   useEffect(() => {
     localStorage.setItem('activePage', activePage);
 
@@ -100,6 +108,7 @@ export default function useAppShellState() {
     }));
   }, [activePage]);
 
+  // Persist selected project.
   useEffect(() => {
     localStorage.setItem('selectedProject', projectId);
 
@@ -112,6 +121,7 @@ export default function useAppShellState() {
     }));
   }, [projectId]);
 
+  // Change project and keep form state in sync.
   const handleProjectChange = (nextProjectId) => {
     setProjectId(nextProjectId);
 
@@ -121,6 +131,7 @@ export default function useAppShellState() {
     }));
   };
 
+  // Toggle any collapsible panel by key.
   const togglePanel = (panelKey) => {
     setPanelVisibility((prev) => ({
       ...prev,
@@ -128,6 +139,7 @@ export default function useAppShellState() {
     }));
   };
 
+  // Reset generator form to defaults.
   const handleClearForm = () => {
     setFormData({ ...defaultFormData });
   };
