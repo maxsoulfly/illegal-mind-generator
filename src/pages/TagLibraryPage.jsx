@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-import { buildTagExplorerData } from '../utils/buildTagExplorerData';
-import { getTagCategories } from '../utils/tagRegistry';
+import useTagLibraryData from '../hooks/useTagLibraryData';
 
 import TagCard from '../components/tags/TagCard';
 import TagControls from '../components/tags/TagControls';
@@ -54,49 +53,16 @@ export default function TagLibraryPage({
     });
   };
 
-  const tagData = buildTagExplorerData(
+  // Build filtered and sorted tag data for the current project.
+  const { categories, counts, sortedTags } = useTagLibraryData({
     projectConfig,
     savedEntries,
     projectOverrides,
-  );
-
-  const categoryFilteredTags = tagData.filter((tag) => {
-    if (categoryFilter === 'all') return true;
-    return tag.category === categoryFilter;
+    categoryFilter,
+    filterMode,
+    search,
+    sortMode,
   });
-
-  const counts = {
-    all: categoryFilteredTags.length,
-    used: categoryFilteredTags.filter((t) => t.usageCount > 0).length,
-    unused: categoryFilteredTags.filter((t) => t.isUnused).length,
-    issues: categoryFilteredTags.filter((t) => t.hasMissingMappings).length,
-  };
-  const normalizedSearch = search.trim().toLowerCase();
-
-  const filteredTags = categoryFilteredTags.filter((tag) => {
-    if (filterMode === 'used' && tag.usageCount === 0) return false;
-    if (filterMode === 'unused' && !tag.isUnused) return false;
-    if (filterMode === 'issues' && !tag.hasMissingMappings) return false;
-
-    if (normalizedSearch) {
-      return tag.name.toLowerCase().includes(normalizedSearch);
-    }
-
-    return true;
-  });
-
-  const sortedTags = [...filteredTags].sort((a, b) => {
-    if (sortMode === 'usage-desc') return b.usageCount - a.usageCount;
-    if (sortMode === 'usage-asc') return a.usageCount - b.usageCount;
-    if (sortMode === 'name') return a.name.localeCompare(b.name);
-    if (sortMode === 'issues') {
-      return Number(b.hasMissingMappings) - Number(a.hasMissingMappings);
-    }
-
-    return 0;
-  });
-
-  const categories = getTagCategories(projectConfig);
 
   return (
     <main>
