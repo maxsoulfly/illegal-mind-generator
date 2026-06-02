@@ -213,7 +213,16 @@ svg {
   border-radius: var(--radius-md);
   color        : var(--color-text-main);
   outline      : none;
+}
+
+.form-input,
+.form-textarea {
+
   margin-bottom: var(--space-4);
+}
+
+.form-select {
+  margin-bottom: 0;
 }
 
 .form-input:focus,
@@ -499,6 +508,11 @@ svg {
   overflow-y   : auto;
   overflow-x   : hidden;
   padding-right: var(--space-1);
+}
+
+.shorts-queue-list {
+  max-height: none;
+  overflow  : visible;
 }
 
 .saved-library-list::-webkit-scrollbar {
@@ -796,6 +810,8 @@ svg {
   width        : 170px;
 }
 
+/* Todo entry */
+
 .todo-entry-actions {
   display    : flex;
   align-items: center;
@@ -809,8 +825,30 @@ svg {
   flex     : 0 0 auto;
 }
 
+.todo-entry-select {
+  margin-bottom: 0;
+}
+
 .todo-notes-panel {
-  margin-top: var(--space-2);
+  margin-top   : 0;
+  margin-bottom: var(--space-2);
+}
+
+.todo-note-preview {
+  flex         : 1;
+  min-width    : 50px;
+  overflow     : hidden;
+  white-space  : nowrap;
+  text-overflow: ellipsis;
+
+  font-size : 0.75rem;
+  opacity   : 0.45;
+  font-style: italic;
+}
+
+.saved-entry-row:hover .todo-note-preview {
+  opacity: 0.8;
+  cursor : pointer;
 }
 
 /* Shared panel header pattern used across generator + library cards. */
@@ -1261,6 +1299,10 @@ svg {
     grid-template-columns: minmax(300px, 360px) minmax(0, 1fr);
     gap                  : var(--space-7);
   }
+
+  .todo-note-preview {
+    /* display: none; */
+  }
 }
 
 @media (max-width: 960px) {
@@ -1320,6 +1362,9 @@ svg {
     min-width: 150px;
   }
 
+  .todo-note-preview {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {

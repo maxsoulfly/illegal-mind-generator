@@ -14,7 +14,7 @@ export default function TodoItem({
       <div className="saved-entry-row terminal-block">
         <div className="saved-entry-main">
           <span className="saved-entry-signal">
-            {(entry.signalNumber || '--').toString().padStart(2, '0')}.
+            {(entry.signalNumber || '00').toString().padStart(2, '0')}.
           </span>
 
           <button
@@ -31,7 +31,18 @@ export default function TodoItem({
           </span>
         </div>
 
-        <div className="saved-entry-actions todo-entry-actions">
+        {entry.todo?.notes && (
+          <div
+            className="todo-note-preview"
+            title={entry.todo.notes}
+            onClick={() => setShowNotes((prev) => !prev)}
+          >
+            📝 {entry.todo.notes.slice(0, 40)}
+            {entry.todo.notes.length > 40 ? '…' : ''}
+          </div>
+        )}
+
+        <div className="saved-entry-actions todo-entry-actions ">
           <TodoStatusSelect
             value={entry.todo?.status || ''}
             statuses={todoStatuses}
@@ -52,7 +63,6 @@ export default function TodoItem({
           </button>
         </div>
       </div>
-
       {showNotes && (
         <div className="todo-notes-panel terminal-block">
           <textarea
