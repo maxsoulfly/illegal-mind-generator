@@ -1,8 +1,8 @@
-import TitlesPanel from './output/TitlesPanel';
-import DescriptionsPanel from './output/DescriptionsPanel';
-import HashtagsPanel from './output/HashtagsPanel';
-import YouTubeTagsPanel from './output/YouTubeTagsPanel';
-import ShortHooksPanel from './output/ShortHooksPanel';
+import TitlesPanel from '../output/TitlesPanel';
+import DescriptionsPanel from '../output/DescriptionsPanel';
+import HashtagsPanel from '../output/HashtagsPanel';
+import YouTubeTagsPanel from '../output/YouTubeTagsPanel';
+import ShortHooksPanel from '../output/ShortHooksPanel';
 // import HybridPromptPanel from './output/HybridPromptPanel';
 
 function GeneratedOutput({
@@ -71,7 +71,6 @@ function GeneratedOutput({
         panelVisibility={panelVisibility}
         togglePanel={togglePanel}
       />
-
     </div>
   );
 }

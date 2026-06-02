@@ -1,6 +1,5 @@
 import InputForm from '../components/InputForm';
-import SavedLibrary from '../components/savedLibrary/SavedLibrary';
-import GeneratedOutput from '../components/GeneratedOutput';
+import GeneratorResultsPanel from '../components/generator/GeneratorResultsPanel';
 
 export default function GeneratorPage({
   formData,
@@ -58,31 +57,18 @@ export default function GeneratorPage({
           />
         </div>
 
-        <div className="panel">
-          <SavedLibrary
-            savedEntries={savedEntries}
-            onLoadEntry={handleLoadEntry}
-            onDeleteEntry={handleDeleteEntry}
-            onExportEntries={handleExportEntries}
-            onImportEntries={handleImportEntries}
-            projectConfig={projectConfig}
-          />
-          <GeneratedOutput
-            titles={generatedOutput.titles}
-            thumbnails={generatedOutput.thumbnails}
-            descriptions={generatedOutput.shortDescriptions}
-            shortHooks={generatedOutput.shortHooks}
-            hashtags={generatedOutput.hashtags}
-            youtubeTags={generatedOutput.youtubeTags}
-            hybridPrompt={generatedOutput.hybridPrompt}
-            videoType={formData.videoType}
-            longDescription={generatedOutput.longDescription}
-            panelVisibility={panelVisibility}
-            setPanelVisibility={setPanelVisibility}
-            fileId={generatedOutput.fileId}
-            projectConfig={projectConfig}
-          />
-        </div>
+        <GeneratorResultsPanel
+          savedEntries={savedEntries}
+          handleLoadEntry={handleLoadEntry}
+          handleDeleteEntry={handleDeleteEntry}
+          handleExportEntries={handleExportEntries}
+          handleImportEntries={handleImportEntries}
+          projectConfig={projectConfig}
+          generatedOutput={generatedOutput}
+          formData={formData}
+          panelVisibility={panelVisibility}
+          setPanelVisibility={setPanelVisibility}
+        />
       </div>
     </>
   );

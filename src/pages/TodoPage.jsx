@@ -23,6 +23,7 @@ export default function TodoPage({
       <div className="panel-header">
         <h1 className="app-title">Todo — {projectConfig.name}</h1>
       </div>
+      
       <TodoBulkAdd
         savedEntries={savedEntries}
         onAddEntries={onAddEntries}
