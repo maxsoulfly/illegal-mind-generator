@@ -1,6 +1,7 @@
 import { useShortsQueue } from '../hooks/useShortsQueue';
 
-import ShortsQueueItem from '../components/ShortsQueueItem';
+import ShortsQueueItem from '../components/shortsQueue/ShortsQueueItem';
+import ShortsQueueEmptyState from '../components/shortsQueue/ShortsQueueEmptyState';
 
 function ShortsQueuePage({
   projectId,
@@ -13,6 +14,9 @@ function ShortsQueuePage({
     savedEntries,
   );
 
+  const hasSavedEntries = savedEntries.length > 0;
+  const hasQueue = queue.length > 0;
+
   return (
     <section className="page-panel">
       <div className="panel-header">
@@ -22,28 +26,28 @@ function ShortsQueuePage({
             type="button"
             className="button-primary"
             onClick={randomizeQueue}
-            disabled={!savedEntries.length}
+            disabled={!hasSavedEntries}
           >
             Randomize
           </button>
         </div>
       </div>
 
-      {!savedEntries.length && (
-        <div className="empty-state">
-          <p>No saved entries yet.</p>
-          <p>Save covers first, then generate a Shorts queue.</p>
-        </div>
+      {!hasSavedEntries && (
+        <ShortsQueueEmptyState
+          title="No saved entries yet."
+          message="Save covers first, then generate a Shorts queue."
+        />
       )}
 
-      {!!savedEntries.length && !queue.length && (
-        <div className="empty-state">
-          <p>No queue yet.</p>
-          <p>Click Randomize to create a 20-cover Shorts queue.</p>
-        </div>
+      {hasSavedEntries && !hasQueue && (
+        <ShortsQueueEmptyState
+          title="No queue yet."
+          message="Click Randomize to create a 20-cover Shorts queue."
+        />
       )}
 
-      {!!queue.length && (
+      {hasQueue && (
         <div className="saved-library-list shorts-queue-list">
           {queue.map((entry, index) => (
             <ShortsQueueItem
