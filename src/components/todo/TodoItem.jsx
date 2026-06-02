@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import TodoStatusSelect from './TodoStatusSelect';
+import QueueSettings from '../input/QueueSettings';
 
 export default function TodoItem({
   entry,

@@ -1,7 +1,5 @@
-import TodoItem from '../components/todo/TodoItem';
-import BulkSongEntry from '../components/shared/BulkSongEntry';
-import ToggleButton from '../components/ui/ToggleButton';
-
+import TodoBulkAdd from '../components/todo/TodoBulkAdd';
+import TodoStatusSection from '../components/todo/TodoStatusSection';
 export default function TodoPage({
   savedEntries = [],
   todoStatuses = [],
@@ -51,69 +49,25 @@ export default function TodoPage({
       <div className="panel-header">
         <h1 className="app-title">Todo — {projectConfig.name}</h1>
       </div>
-      <BulkSongEntry
-        title="Bulk Add Wishlist Covers"
-        buttonLabel="Add to Wishlist"
-        placeholder={`Thrice – The Artist in the Ambulance
-The Offspring – Gotta Get Away
-Papa Roach – Blood Brothers`}
+      <TodoBulkAdd
+        savedEntries={savedEntries}
+        onAddEntries={onAddEntries}
         isOpen={panelVisibility.todoBulkAdd}
         onToggle={() => togglePanel('todoBulkAdd')}
-        onAddSongs={handleBulkAddWishlistSongs}
       />
-      {!todoEntries.length && (
-        <div className="empty-state">
-          <p>No todo items yet.</p>
-          <p>Mark saved covers with a todo status to show them here.</p>
-        </div>
-      )}
 
-      {!!todoEntries.length && (
-        <div className="saved-library-list shorts-queue-list">
-          {entriesByStatus.map(({ status, entries }) => {
-            const panelKey = `todoStatus_${status
-              .toLowerCase()
-              .replace(/\s+/g, '_')
-              .replace(/[^a-z0-9_]/g, '')}`;
-
-            const isOpen = panelVisibility[panelKey] ?? entries.length > 0;
-
-            return (
-              <div className="terminal-block todo-status-section" key={status}>
-                <div className="panel-header">
-                  <h2 className="panel-title">
-                    {status} ({entries.length})
-                  </h2>
-
-                  <ToggleButton
-                    isOpen={isOpen}
-                    onClick={() => togglePanel(panelKey)}
-                    compact
-                  />
-                </div>
-
-                {isOpen && (
-                  <div className="todo-status-items">
-                    {entries.length === 0 && (
-                      <p className="empty-state">No items in this status.</p>
-                    )}
-
-                    {entries.map((entry) => (
-                      <TodoItem
-                        key={entry.id}
-                        entry={entry}
-                        todoStatuses={todoStatuses}
-                        onLoadEntry={onLoadEntry}
-                        onUpdateEntryTodo={onUpdateEntryTodo}
-                      />
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
+      {entriesByStatus.map(({ status, entries }) => (
+        <TodoStatusSection
+          key={status}
+          status={status}
+          entries={entries}
+          todoStatuses={todoStatuses}
+          panelVisibility={panelVisibility}
+          togglePanel={togglePanel}
+          onLoadEntry={onLoadEntry}
+          onUpdateEntryTodo={onUpdateEntryTodo}
+        />
+      ))}
     </section>
   );
 }

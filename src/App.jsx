@@ -317,6 +317,8 @@ function App() {
           onAddEntries={handleAddEntries}
           panelVisibility={panelVisibility}
           togglePanel={togglePanel}
+          formData={formData}
+          setFormData={setFormData}
         />
       )}
     </div>
