@@ -1,3 +1,4 @@
+/* ===== Theme tokens ===== */
 :root {
   font-family: Arial, Helvetica, sans-serif;
 
@@ -105,6 +106,7 @@
   background-color: var(--color-bg-page);
 }
 
+/* ===== Base reset ===== */
 * {
   box-sizing: border-box;
 }
@@ -144,6 +146,7 @@ svg {
   max-width: 100%;
 }
 
+/* ===== App layout ===== */
 #root {
   min-height: var(--height-root-min);
 }
@@ -173,6 +176,7 @@ svg {
   align-items          : start;
 }
 
+/* ===== Panels ===== */
 .panel {
   background   : var(--color-bg-panel);
   margin-top   : var(--space-6);
@@ -200,6 +204,7 @@ svg {
   gap           : var(--space-1);
 }
 
+/* ===== Forms ===== */
 .form-group {
   margin-bottom: var(--space-6);
 }
@@ -253,6 +258,7 @@ svg {
   resize    : vertical;
 }
 
+/* ===== Buttons ===== */
 .button-row {
   display   : flex;
   gap       : var(--space-4);
@@ -296,6 +302,7 @@ svg {
   color       : var(--color-text-accent);
 }
 
+/* ===== Generator output ===== */
 .terminal-block {
   margin-bottom: var(--space-4);
   padding      : var(--space-2) var(--space-3);
@@ -355,6 +362,7 @@ svg {
   font-family: var(--font-mono);
 }
 
+/* ===== Tags / tag selector ===== */
 .tag-selector-group {
   margin-top: var(--space-4);
 }
@@ -522,6 +530,7 @@ svg {
   cursor        : pointer;
 }
 
+/* ===== Saved Library / Queue ===== */
 .saved-library-list {
   max-height   : var(--height-library-max);
   overflow-y   : auto;
@@ -831,6 +840,7 @@ s .generated-pair-text {
 
 /* Todo entry */
 
+/* ===== Todo ===== */
 .todo-entry-actions {
   display    : flex;
   align-items: center;
@@ -925,6 +935,7 @@ s .generated-pair-text {
 }
 
 /* Top-level page navigation */
+/* ===== App menu ===== */
 .app-menu {
   display        : flex;
   align-items    : center;
@@ -993,6 +1004,7 @@ s .generated-pair-text {
 }
 
 /* Tag library grid + cards */
+/* ===== Tag Library ===== */
 .tag-library {
   display              : grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
@@ -1322,7 +1334,7 @@ s .generated-pair-text {
 }
 
 
-/* ===== Responsive layout overrides ===== */
+/* ===== Responsive overrides ===== */
 @media (max-width: 1200px) {
   .app-shell {
     padding: var(--space-8);
@@ -1333,8 +1345,8 @@ s .generated-pair-text {
     gap                  : var(--space-7);
   }
 
-  .todo-note-preview {
-    /* display: none; */
+  .app-menu {
+    flex-direction: row;
   }
 }
 
