@@ -21,35 +21,15 @@ import ShortsQueuePage from './pages/ShortsQueuePage';
 import TodoPage from './pages/TodoPage';
 
 import {
+  DEFAULT_PROJECT_KEY,
+  defaultFormData,
+} from './constants/defaultFormData';
+
+import {
   previewUnifiedStorageMigration,
   writeUnifiedStorageMigration,
 } from './utils/storageMigration';
 import { loadAppStorage, updateAppStorage } from './utils/storage';
-
-const DEFAULT_PROJECT_KEY = Object.keys(projects)[0];
-
-const defaultFormData = {
-  project: DEFAULT_PROJECT_KEY,
-  artist: '',
-  song: '',
-  signalNumber: '',
-  videoType: 'Long',
-  changesMade: '',
-  extraVibeNote: '',
-  transformationTags: [],
-  useCustomArtistShort: false,
-  artistShort: '',
-
-  customStory: '',
-  customLogNote: '',
-  customHashtags: '',
-  customCta: '',
-  excludeFromRandomizer: false,
-  todo: {
-    status: '',
-    notes: '',
-  },
-};
 
 function App() {
   // states
