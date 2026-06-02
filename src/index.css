@@ -66,6 +66,16 @@
   --space-8: 24px;
   --space-9: 32px;
 
+  --space--1: -6px;
+  --space--2: -8px;
+  --space--3: -10px;
+  --space--4: -12px;
+  --space--5: -14px;
+  --space--6: -16px;
+  --space--7: -20px;
+  --space--8: -24px;
+  --space--9: -32px;
+
   /* sizing */
   --width-root-min     : 320px;
   --width-app-max      : 1400px;
@@ -830,7 +840,7 @@ svg {
 }
 
 .todo-notes-panel {
-  margin-top   : 0;
+  margin-top   : var(--space--3);
   margin-bottom: var(--space-2);
 }
 
@@ -846,6 +856,20 @@ svg {
   font-style: italic;
 }
 
+.bulk-song-entry {
+  margin-bottom: var(--space-5);
+}
+
+.bulk-song-entry-actions {
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  gap            : var(--space-4);
+  margin-top     : var(--space-3);
+}
+
+
+
 .saved-entry-row:hover .todo-note-preview {
   opacity: 0.8;
   cursor : pointer;
@@ -857,7 +881,7 @@ svg {
   align-items    : center;
   justify-content: space-between;
   gap            : var(--space-4);
-  margin-bottom  : var(--space-4);
+  margin-bottom  : var(--space-2);
 }
 
 .panel-header .panel-title {

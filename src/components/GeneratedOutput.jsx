@@ -72,24 +72,6 @@ function GeneratedOutput({
         togglePanel={togglePanel}
       />
 
-      {/* <div className="panel">
-        <div className="panel-header">
-          <h2 className="panel-title">Hybrid Prompt</h2>
-
-          <button
-            className="button-primary"
-            onClick={() => togglePanel('hybrid')}
-          >
-            {panelVisibility.hybrid ? 'Hide' : 'Show'}
-          </button>
-        </div>
-        {panelVisibility.hybrid && (
-          <div className="output-item terminal-block">
-            <pre className="prompt-block">{hybridPrompt}</pre>
-            <CopyButton text={hybridPrompt} />
-          </div>
-        )}
-      </div> */}
     </div>
   );
 }

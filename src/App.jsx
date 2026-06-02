@@ -164,6 +164,7 @@ function App() {
     handleExportEntries,
     handleImportEntries,
     handleUpdateEntryTodo,
+    handleAddEntries,
   } = useSavedEntries(formData, setFormData, projectId, projectConfig.name);
 
   useEffect(() => {
@@ -313,6 +314,9 @@ function App() {
             handleLoadEntry(entry);
             setActivePage('generator');
           }}
+          onAddEntries={handleAddEntries}
+          panelVisibility={panelVisibility}
+          togglePanel={togglePanel}
         />
       )}
     </div>

@@ -229,6 +229,24 @@ function useSavedEntries(
       };
     });
   };
+
+  const handleAddEntries = (entries) => {
+    setSavedEntriesByProject((prev) => {
+      const currentProjectEntries = prev[selectedProjectId] || [];
+      const normalizedEntries = normalizeEntryIds(entries);
+
+      return {
+        ...prev,
+        [selectedProjectId]: [
+          ...normalizedEntries,
+          ...currentProjectEntries.filter(
+            (entry) =>
+              !normalizedEntries.some((newEntry) => newEntry.id === entry.id),
+          ),
+        ],
+      };
+    });
+  };
   return {
     savedEntries,
     handleSaveEntry,
@@ -237,6 +255,7 @@ function useSavedEntries(
     handleExportEntries,
     handleImportEntries,
     handleUpdateEntryTodo,
+    handleAddEntries,
   };
 }
 export default useSavedEntries;
