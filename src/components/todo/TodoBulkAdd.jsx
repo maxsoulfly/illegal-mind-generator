@@ -21,7 +21,7 @@ export default function TodoBulkAdd({
         signalNumber: '',
         videoType: 'short',
         transformationTags: [],
-        excludeFromRandomizer: false,
+        excludeFromRandomizer: true,
         todo: {
           status: 'Wishlist',
           notes: '',

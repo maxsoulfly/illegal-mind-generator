@@ -498,6 +498,13 @@ svg {
   border-radius: var(--space-0);
 }
 
+.filter-row {
+  display    : flex;
+  align-items: center;
+  gap        : var(--space-5);
+  flex-wrap  : wrap;
+}
+
 .toggle-checkbox {
   width       : var(--size-checkbox);
   height      : var(--size-checkbox);

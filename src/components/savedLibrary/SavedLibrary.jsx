@@ -18,10 +18,17 @@ function SavedLibrary({
   });
 
   const [sortBySignal, setSortBySignal] = useState(false);
+  const [hideQueueHidden, setHideQueueHidden] = useState(() => {
+    const saved = localStorage.getItem('hideQueueHidden');
+    return saved ? JSON.parse(saved) : false;
+  });
 
   useEffect(() => {
     localStorage.setItem('showSavedLibrary', JSON.stringify(showSavedLibrary));
   }, [showSavedLibrary]);
+  useEffect(() => {
+    localStorage.setItem('hideQueueHidden', JSON.stringify(hideQueueHidden));
+  }, [hideQueueHidden]);
 
   const filteredEntries = useMemo(() => {
     const q = search.toLowerCase().trim();
@@ -35,6 +42,11 @@ function SavedLibrary({
           entry.song.toLowerCase().includes(q)
         );
       })
+      .filter((entry) => {
+        if (!hideQueueHidden) return true;
+
+        return !entry.excludeFromRandomizer;
+      })
       .sort((a, b) => {
         if (sortBySignal) {
           return Number(a.signalNumber || 0) - Number(b.signalNumber || 0);
@@ -45,7 +57,7 @@ function SavedLibrary({
 
         return a.song.localeCompare(b.song);
       });
-  }, [savedEntries, search, sortBySignal]);
+  }, [savedEntries, search, sortBySignal, hideQueueHidden]);
   return (
     <div>
       <ToggleButton
@@ -68,16 +80,27 @@ function SavedLibrary({
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search saved songs..."
               />
+              <div className="filter-row">
+                <label className="toggle-row library-sort-toggle">
+                  <input
+                    className="toggle-checkbox"
+                    type="checkbox"
+                    checked={sortBySignal}
+                    onChange={(e) => setSortBySignal(e.target.checked)}
+                  />
+                  <span className="toggle-label">Sort by Signal #</span>
+                </label>
 
-              <label className="toggle-row library-sort-toggle">
-                <input
-                  className="toggle-checkbox"
-                  type="checkbox"
-                  checked={sortBySignal}
-                  onChange={(e) => setSortBySignal(e.target.checked)}
-                />
-                <span className="toggle-label">Sort by Signal #</span>
-              </label>
+                <label className="toggle-row library-sort-toggle">
+                  <input
+                    className="toggle-checkbox"
+                    type="checkbox"
+                    checked={hideQueueHidden}
+                    onChange={(e) => setHideQueueHidden(e.target.checked)}
+                  />
+                  <span className="toggle-label">Hide Queue-Hidden</span>
+                </label>
+              </div>
             </div>
 
             <div className="saved-library-list">
