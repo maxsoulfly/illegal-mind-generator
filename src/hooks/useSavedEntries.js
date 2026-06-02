@@ -247,6 +247,23 @@ function useSavedEntries(
       };
     });
   };
+  const handleUpdateEntry = (entryId, updates) => {
+    setSavedEntriesByProject((prev) => {
+      const currentProjectEntries = prev[selectedProjectId] || [];
+
+      return {
+        ...prev,
+        [selectedProjectId]: currentProjectEntries.map((entry) =>
+          entry.id === entryId
+            ? {
+                ...entry,
+                ...updates,
+              }
+            : entry,
+        ),
+      };
+    });
+  };
   return {
     savedEntries,
     handleSaveEntry,
@@ -256,6 +273,7 @@ function useSavedEntries(
     handleImportEntries,
     handleUpdateEntryTodo,
     handleAddEntries,
+    handleUpdateEntry,
   };
 }
 export default useSavedEntries;

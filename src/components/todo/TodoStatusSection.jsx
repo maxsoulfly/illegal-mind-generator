@@ -16,6 +16,7 @@ export default function TodoStatusSection({
   togglePanel,
   onLoadEntry,
   onUpdateEntryTodo,
+  onUpdateEntry,
 }) {
   const panelKey = buildTodoStatusPanelKey(status);
   const isOpen = panelVisibility[panelKey] ?? entries.length > 0;
@@ -47,6 +48,7 @@ export default function TodoStatusSection({
               todoStatuses={todoStatuses}
               onLoadEntry={onLoadEntry}
               onUpdateEntryTodo={onUpdateEntryTodo}
+              onUpdateEntry={onUpdateEntry}
             />
           ))}
         </div>

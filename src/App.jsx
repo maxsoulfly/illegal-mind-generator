@@ -165,6 +165,7 @@ function App() {
     handleImportEntries,
     handleUpdateEntryTodo,
     handleAddEntries,
+    handleUpdateEntry,
   } = useSavedEntries(formData, setFormData, projectId, projectConfig.name);
 
   useEffect(() => {
@@ -319,6 +320,7 @@ function App() {
           togglePanel={togglePanel}
           formData={formData}
           setFormData={setFormData}
+          onUpdateEntry={handleUpdateEntry}
         />
       )}
     </div>

@@ -30,7 +30,7 @@ function SavedLibraryItem({ entry, onLoadEntry, onDeleteEntry }) {
           className="button-secondary saved-entry-button"
           onClick={() => onDeleteEntry(entry.id)}
         >
-          Delete
+          X
         </button>
       </div>
     </div>

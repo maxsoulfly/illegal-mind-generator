@@ -9,6 +9,7 @@ export default function TodoPage({
   onAddEntries,
   panelVisibility,
   togglePanel,
+  onUpdateEntry,
 }) {
   const todoEntries = savedEntries.filter((entry) => entry.todo?.status);
 
@@ -16,33 +17,6 @@ export default function TodoPage({
     status,
     entries: todoEntries.filter((entry) => entry.todo?.status === status),
   }));
-  function handleBulkAddWishlistSongs(songs) {
-    const newEntries = songs
-      .filter(({ artist, song }) => {
-        return !savedEntries.some(
-          (entry) =>
-            entry.artist?.toLowerCase() === artist.toLowerCase() &&
-            entry.song?.toLowerCase() === song.toLowerCase(),
-        );
-      })
-      .map(({ artist, song }) => ({
-        id: crypto.randomUUID(),
-        artist,
-        song,
-        signalNumber: '',
-        videoType: 'short',
-        transformationTags: [],
-        excludeFromRandomizer: false,
-        todo: {
-          status: 'Wishlist',
-          notes: '',
-        },
-      }));
-
-    if (newEntries.length === 0) return;
-
-    onAddEntries(newEntries);
-  }
 
   return (
     <section className="page-panel">
@@ -66,6 +40,7 @@ export default function TodoPage({
           togglePanel={togglePanel}
           onLoadEntry={onLoadEntry}
           onUpdateEntryTodo={onUpdateEntryTodo}
+          onUpdateEntry={onUpdateEntry}
         />
       ))}
     </section>

@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import TodoStatusSelect from './TodoStatusSelect';
 import QueueSettings from '../input/QueueSettings';
+import ToggleButton from '../ui/ToggleButton';
+import EntrySettings from '../entry/EntrySettings';
 
 export default function TodoItem({
   entry,
   todoStatuses = [],
   onLoadEntry,
   onUpdateEntryTodo,
+  onUpdateEntry,
 }) {
   const [showNotes, setShowNotes] = useState(false);
 
@@ -55,17 +58,18 @@ export default function TodoItem({
             }
           />
 
-          <button
-            type="button"
-            className="button-secondary saved-entry-button"
+          <ToggleButton
+            isOpen={showNotes}
             onClick={() => setShowNotes((prev) => !prev)}
-          >
-            {showNotes ? 'Hide Notes' : 'Notes'}
-          </button>
+            label="Notes"
+            compact
+          />
         </div>
       </div>
       {showNotes && (
         <div className="todo-notes-panel terminal-block">
+          <EntrySettings entry={entry} onUpdateEntry={onUpdateEntry} />
+
           <textarea
             className="form-textarea"
             value={entry.todo?.notes || ''}

@@ -6,7 +6,7 @@ import AdvancedDescriptionFields from './input/AdvancedDescriptionFields';
 import InputFormActions from './input/InputFormActions';
 import ToggleButton from './ui/ToggleButton';
 import FormField from './ui/FormField';
-import QueueSettings from './input/QueueSettings';
+import EntrySettings from './entry/EntrySettings';
 
 import TodoFields from './todo/TodoFields';
 
@@ -48,12 +48,13 @@ function InputForm({
         artistSuggestions={artistSuggestions}
         songSuggestions={songSuggestions}
       />
-      <QueueSettings
-        excludeFromRandomizer={formData.excludeFromRandomizer}
-        onToggle={(value) =>
+
+      <EntrySettings
+        entry={formData}
+        onUpdateEntry={(_, updates) =>
           setFormData((prev) => ({
             ...prev,
-            excludeFromRandomizer: value,
+            ...updates,
           }))
         }
       />

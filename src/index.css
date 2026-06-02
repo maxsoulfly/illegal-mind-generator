@@ -197,7 +197,7 @@ svg {
 .output-stack {
   display       : flex;
   flex-direction: column;
-  gap           : var(--space-8);
+  gap           : var(--space-1);
 }
 
 .form-group {
@@ -216,7 +216,8 @@ svg {
 .form-input,
 .form-select,
 .form-textarea {
-  width        : 100%;
+  width: 100%;
+
   padding      : var(--space-4) var(--space-5);
   background   : var(--color-bg-input);
   border       : 1px solid var(--color-border-main);
@@ -227,7 +228,7 @@ svg {
 
 .form-input,
 .form-textarea {
-
+  margin-top   : var(--space-2);
   margin-bottom: var(--space-4);
 }
 
@@ -296,7 +297,8 @@ svg {
 }
 
 .terminal-block {
-  padding      : var(--space-5);
+  margin-bottom: var(--space-4);
+  padding      : var(--space-2) var(--space-3);
   background   : var(--color-bg-page-deep);
   border       : 1px solid var(--color-border-soft);
   border-radius: var(--radius-md);
@@ -561,7 +563,7 @@ svg {
   align-items    : center;
   justify-content: space-between;
   gap            : var(--space-6);
-  padding        : var(--space-3) var(--space-5);
+  padding        : var(--space-1) var(--space-2);
   margin-bottom  : var(--space-3);
   min-width      : 0;
 }
@@ -650,17 +652,17 @@ svg {
 
 .generated-pair-row {
   display        : flex;
-  align-items    : flex-start;
+  align-items    : center;
   justify-content: space-between;
   gap            : var(--space-4);
   min-width      : 0;
 }
 
 .generated-pair-row+.generated-pair-row {
-  margin-top: var(--space-3);
+  /* margin-top: var(--space-3); */
 }
 
-.generated-pair-text {
+s .generated-pair-text {
   margin    : var(--space-0);
   flex      : 1;
   min-width : 0;
@@ -750,7 +752,7 @@ svg {
 
 .toggle-button {
   width         : 100%;
-  margin        : var(--space-2) 0 var(--space-6);
+  margin        : var(--space-0) var(--space-0);
   padding       : var(--space-3) var(--space-5);
   border        : 1px solid var(--color-border-button-soft);
   border-radius : var(--radius-md);
