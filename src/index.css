@@ -337,11 +337,21 @@ svg {
   color          : var(--color-text-main);
   cursor         : pointer;
   transition     : var(--transition-fast);
+  transition     : all 0.2s ease;
 }
 
 .copy-button:hover {
   border-color: var(--color-border-hover);
   color       : var(--color-text-accent);
+}
+
+
+
+.copy-button.copied {
+  background-color: var(--color-text-accent);
+  /* green */
+  color           : black;
+  box-shadow      : 0 0 10px var(--color-accent-gradient-top);
 }
 
 .output-text {
@@ -406,20 +416,6 @@ svg {
 }
 
 
-.tag-option-inline {
-  display    : inline-flex;
-  align-items: center;
-  gap        : 0.5rem;
-  margin     : var(--space-4) 0;
-  color      : var(--color-text-main);
-  font-size  : 0.85rem;
-}
-
-.tag-option-inline input {
-  width       : 16px;
-  height      : 16px;
-  accent-color: var(--color-text-accent);
-}
 
 .tag-option-row input {
   width       : 18px;
@@ -571,8 +567,6 @@ svg {
   margin-bottom : var(--space-3);
   border-bottom : 1px solid var(--color-border-deep);
 }
-
-
 
 .saved-entry-row {
   display        : flex;
@@ -746,25 +740,8 @@ s .generated-pair-text {
   margin-bottom  : var(--space-4);
 }
 
-.panel-header {
-  display        : flex;
-  align-items    : center;
-  justify-content: space-between;
-  gap            : var(--space-4);
-  min-width      : 0;
-}
 
 
-.copy-button {
-  transition: all 0.2s ease;
-}
-
-.copy-button.copied {
-  background-color: var(--color-text-accent);
-  /* green */
-  color           : black;
-  box-shadow      : 0 0 10px var(--color-accent-gradient-top);
-}
 
 .toggle-button {
   width         : 100%;
@@ -821,12 +798,6 @@ s .generated-pair-text {
   align-items: center;
 }
 
-.tag-filters {
-  grid-column: 1 / -1;
-  display    : flex;
-  gap        : var(--space-3);
-  flex-wrap  : wrap;
-}
 
 .library-controls .form-input {
   margin-bottom: 0;
@@ -900,6 +871,7 @@ s .generated-pair-text {
   align-items    : center;
   justify-content: space-between;
   gap            : var(--space-4);
+  min-width      : 0;
   margin-bottom  : var(--space-2);
 }
 
@@ -1171,10 +1143,11 @@ s .generated-pair-text {
 
 /* Tag filter chips */
 .tag-filters {
+  grid-column: 1 / -1;
   display    : flex;
   gap        : var(--space-3);
-  flex-shrink: 0;
   flex-wrap  : wrap;
+  flex-shrink: 0;
 }
 
 .tag-filters button {
