@@ -550,6 +550,13 @@ svg {
   flex       : 1;
 }
 
+.saved-entry-main .form-select {
+  width    : auto;
+  min-width: 180px;
+  max-width: 220px;
+  flex     : 0 0 auto;
+}
+
 .saved-entry-signal {
   flex       : 0 0 auto;
   color      : var(--color-text-accent);
@@ -787,6 +794,23 @@ svg {
 .library-controls .form-select {
   margin-bottom: 0;
   width        : 170px;
+}
+
+.todo-entry-actions {
+  display    : flex;
+  align-items: center;
+  gap        : var(--space-2);
+  margin-left: auto;
+}
+
+.todo-entry-actions .form-select {
+  width    : 190px;
+  min-width: 190px;
+  flex     : 0 0 auto;
+}
+
+.todo-notes-panel {
+  margin-top: var(--space-2);
 }
 
 /* Shared panel header pattern used across generator + library cards. */

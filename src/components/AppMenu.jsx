@@ -9,7 +9,6 @@ export default function AppMenu({
 }) {
   return (
     <nav className="app-menu">
-
       {/* TODO: Add refactor buttons */}
       <div className="app-menu-pages">
         <button
@@ -34,6 +33,14 @@ export default function AppMenu({
           onClick={() => setActivePage('shortsQueue')}
         >
           Shorts Queue
+        </button>
+
+        <button
+          type="button"
+          className={activePage === 'todo' ? 'active' : ''}
+          onClick={() => setActivePage('todo')}
+        >
+          Todo
         </button>
       </div>
 

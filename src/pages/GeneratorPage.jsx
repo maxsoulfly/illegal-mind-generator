@@ -1,5 +1,5 @@
 import InputForm from '../components/InputForm';
-import SavedLibrary from '../components/SavedLibrary';
+import SavedLibrary from '../components/savedLibrary/SavedLibrary';
 import GeneratedOutput from '../components/GeneratedOutput';
 
 export default function GeneratorPage({

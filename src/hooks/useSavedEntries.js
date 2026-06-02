@@ -208,6 +208,27 @@ function useSavedEntries(
 
     event.target.value = '';
   };
+
+  const handleUpdateEntryTodo = (entryId, todo) => {
+    setSavedEntriesByProject((prev) => {
+      const currentProjectEntries = prev[selectedProjectId] || [];
+
+      return {
+        ...prev,
+        [selectedProjectId]: currentProjectEntries.map((entry) =>
+          entry.id === entryId
+            ? {
+                ...entry,
+                todo: {
+                  status: todo.status || '',
+                  notes: todo.notes || '',
+                },
+              }
+            : entry,
+        ),
+      };
+    });
+  };
   return {
     savedEntries,
     handleSaveEntry,
@@ -215,6 +236,7 @@ function useSavedEntries(
     handleDeleteEntry,
     handleExportEntries,
     handleImportEntries,
+    handleUpdateEntryTodo,
   };
 }
 export default useSavedEntries;

@@ -18,6 +18,7 @@ import AppMenu from './components/AppMenu';
 import TagLibraryPage from './pages/TagLibraryPage';
 import GeneratorPage from './pages/GeneratorPage';
 import ShortsQueuePage from './pages/ShortsQueuePage';
+import TodoPage from './pages/TodoPage';
 
 import {
   previewUnifiedStorageMigration,
@@ -162,6 +163,7 @@ function App() {
     handleDeleteEntry,
     handleExportEntries,
     handleImportEntries,
+    handleUpdateEntryTodo,
   } = useSavedEntries(formData, setFormData, projectId, projectConfig.name);
 
   useEffect(() => {
@@ -298,6 +300,19 @@ function App() {
             setActivePage('generator');
           }}
           projectConfig={resolvedProjectConfig}
+        />
+      )}
+
+      {activePage === 'todo' && (
+        <TodoPage
+          savedEntries={savedEntries}
+          todoStatuses={resolvedProjectConfig.todoStatuses || []}
+          projectConfig={resolvedProjectConfig}
+          onUpdateEntryTodo={handleUpdateEntryTodo}
+          onLoadEntry={(entry) => {
+            handleLoadEntry(entry);
+            setActivePage('generator');
+          }}
         />
       )}
     </div>
