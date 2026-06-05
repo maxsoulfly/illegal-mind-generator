@@ -6,18 +6,28 @@ import TagCard from '../components/tags/TagCard';
 import TagControls from '../components/tags/TagControls';
 
 export default function TagLibraryPage({
+  projectId,
+  projects,
   projectConfig,
   savedEntries,
   projectName,
   projectOverrides,
   updateTagOverride,
   resetTagOverride,
+  syncProjectTags,
   onLoadEntry,
 }) {
   const [sortMode, setSortMode] = useState('usage-desc');
   const [filterMode, setFilterMode] = useState('all');
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const destinationProjects = Object.entries(projects || {}).filter(
+    ([destinationProjectId]) => destinationProjectId !== projectId,
+  );
+
+  const [syncTargetProjectId, setSyncTargetProjectId] = useState(
+    destinationProjects[0]?.[0] || '',
+  );
 
   const handleToggleTagVisibility = (tagName, currentVisible) => {
     updateTagOverride(tagName, {
@@ -64,6 +74,19 @@ export default function TagLibraryPage({
     sortMode,
   });
 
+  const handleSyncTags = () => {
+    if (!syncTargetProjectId) return;
+
+    syncProjectTags({
+      sourceProjectId: projectId,
+      targetProjectId: syncTargetProjectId,
+      sourceTags: projectConfig.tags,
+      targetBaseTags: projects[syncTargetProjectId]?.tags || {},
+    });
+
+    window.alert(`Tags synced to ${projects[syncTargetProjectId]?.name}.`);
+  };
+
   return (
     <main>
       <h1 className="app-title">
@@ -82,6 +105,10 @@ export default function TagLibraryPage({
         setCategoryFilter={setCategoryFilter}
         categories={categories}
         onCreateTag={handleCreateTag}
+        projects={destinationProjects}
+        syncTargetProjectId={syncTargetProjectId}
+        setSyncTargetProjectId={setSyncTargetProjectId}
+        onSyncTags={handleSyncTags}
       />
 
       <div className="tag-library">

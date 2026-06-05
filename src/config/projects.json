@@ -41,7 +41,6 @@
       "emotion": {
         "label": "Emotion",
         "templates": [
-          "This chorus still hits",
           "Some songs never lose energy",
           "{song} hits differently now"
         ]
@@ -376,6 +375,29 @@
           "status": ["Memory layer: 90s nostalgia."]
         },
         "hashtags": ["1990sMusic", "MusicNostalgia", "Throwback"]
+      },
+      "chorus": {
+        "label": "Chorus",
+        "category": "song part",
+        "title": [],
+        "thumbnail": [],
+        "description": {
+          "technical": [],
+          "log": [],
+          "status": []
+        },
+        "excludeFromHashtags": true,
+        "excludeFromButIts": true,
+        "shortHooks": {
+          "nostalgia": [
+            "This chorus still hits in {year}",
+            "You hear this chorus and suddenly it's {releaseyear} again"
+          ],
+          "emotion": [
+            "This chorus still hits",
+            "Some choruses never lose power"
+          ]
+        }
       }
     },
 
@@ -1738,6 +1760,29 @@
           "status": ["Memory layer: 90s nostalgia."]
         },
         "hashtags": ["90sMusic", "MusicNostalgia", "Throwback"]
+      },
+      "chorus": {
+        "label": "Chorus",
+        "category": "song part",
+        "title": [],
+        "thumbnail": [],
+        "description": {
+          "technical": [],
+          "log": [],
+          "status": []
+        },
+        "excludeFromHashtags": true,
+        "excludeFromButIts": true,
+        "shortHooks": {
+          "nostalgia": [
+            "This chorus still hits in {year}",
+            "You hear this chorus and suddenly it's {releaseyear} again"
+          ],
+          "emotion": [
+            "This chorus still hits",
+            "Some choruses never lose power"
+          ]
+        }
       }
     },
 

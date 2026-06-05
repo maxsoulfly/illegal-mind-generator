@@ -1019,6 +1019,23 @@ svg {
   align-items          : start;
 }
 
+.tag-library-actions {
+  display        : flex;
+  justify-content: space-between;
+  gap            : var(--space-3);
+  flex-wrap      : wrap;
+  margin         : var(--space-3) 0 var(--space-4);
+
+}
+
+.tag-library-toolbar {
+  display        : flex;
+  justify-content: space-between;
+  align-items    : center;
+  gap            : var(--space-3);
+  flex-wrap      : wrap;
+}
+
 .tag-search-row {
   display    : flex;
   align-items: center;

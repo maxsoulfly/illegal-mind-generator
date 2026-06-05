@@ -58,8 +58,12 @@ function App() {
   }, [projectId]);
 
   // User tag overrides stored in localStorage.
-  const { projectOverrides, updateTagOverride, resetTagOverride } =
-    useTagOverrides(projectId);
+  const {
+    projectOverrides,
+    updateTagOverride,
+    resetTagOverride,
+    syncProjectTags,
+  } = useTagOverrides(projectId);
 
   // Runtime config = base config + user overrides.
   const resolvedProjectConfig = useMemo(() => {
@@ -133,12 +137,14 @@ function App() {
       {activePage === 'tags' && (
         <TagLibraryPage
           projectId={projectId}
+          projects={projects}
           projectConfig={resolvedProjectConfig}
           savedEntries={savedEntries}
           projectName={projectConfig.name}
           projectOverrides={projectOverrides}
           updateTagOverride={updateTagOverride}
           resetTagOverride={resetTagOverride}
+          syncProjectTags={syncProjectTags}
           onLoadEntry={(entry) => {
             handleLoadEntry(entry);
             setActivePage('generator');

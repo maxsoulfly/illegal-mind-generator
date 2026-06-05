@@ -1,4 +1,6 @@
 import TagActions from './TagActions';
+import TagSyncControls from './TagSyncControls';
+import TagFilters from './TagFilters';
 
 export default function TagControls({
   filterMode,
@@ -12,51 +14,34 @@ export default function TagControls({
   setCategoryFilter,
   categories,
   onCreateTag,
+  projects,
+  syncTargetProjectId,
+  setSyncTargetProjectId,
+  onSyncTags,
 }) {
   return (
     <div className="library-controls">
-      <div className="tag-filters">
-        <button
-          className={filterMode === 'all' ? 'active' : ''}
-          onClick={() => setFilterMode('all')}
-        >
-          All ({counts.all})
-        </button>
+      <div className="tag-library-toolbar">
+        <TagFilters
+          filterMode={filterMode}
+          setFilterMode={setFilterMode}
+          counts={counts}
+          categoryFilter={categoryFilter}
+          setCategoryFilter={setCategoryFilter}
+          categories={categories}
+        />
+        <div className="tag-library-actions">
+          <TagSyncControls
+            projects={projects}
+            syncTargetProjectId={syncTargetProjectId}
+            setSyncTargetProjectId={setSyncTargetProjectId}
+            onSyncTags={onSyncTags}
+          />
 
-        <button
-          className={filterMode === 'used' ? 'active' : ''}
-          onClick={() => setFilterMode('used')}
-        >
-          Used ({counts.used})
-        </button>
-
-        <button
-          className={filterMode === 'unused' ? 'active' : ''}
-          onClick={() => setFilterMode('unused')}
-        >
-          Unused ({counts.unused})
-        </button>
-
-        <button
-          className={filterMode === 'issues' ? 'active' : ''}
-          onClick={() => setFilterMode('issues')}
-        >
-          Issues ({counts.issues})
-        </button>
-        <select
-          className="form-select category-select"
-          value={categoryFilter}
-          onChange={(e) => setCategoryFilter(e.target.value)}
-        >
-          <option value="all">All categories</option>
-
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
+          <TagActions onCreateTag={onCreateTag} />
+        </div>
       </div>
+
       <div className="tag-search-row">
         <input
           type="text"
@@ -75,8 +60,6 @@ export default function TagControls({
           <option value="name">A to Z</option>
           <option value="issues">Issues first</option>
         </select>
-
-        <TagActions onCreateTag={onCreateTag} />
       </div>
     </div>
   );
