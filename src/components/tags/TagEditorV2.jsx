@@ -3,7 +3,9 @@ import { useState } from 'react';
 import TagEditorTabs from './editor/TagEditorTabs';
 import TagBasicsTab from './editor/TagBasicsTab';
 import TagTitlesTab from './editor/TagTitlesTab';
+import TagDescriptionsTab from './editor/TagDescriptionsTab';
 import TagShortHooksTab from './editor/TagShortHooksTab';
+import TagHashtagsTab from './editor/TagHashtagsTab';
 import TagPhraseEditor from './TagPhraseEditor';
 
 export default function TagEditor({
@@ -38,37 +40,7 @@ export default function TagEditor({
       )}
 
       {activeTab === 'descriptions' && (
-        <div className="tag-editor-nested-section">
-          <TagPhraseEditor
-            title="Technical phrases"
-            tagName={tag.name}
-            parentField="description"
-            parentValue={tag.maps.description}
-            field="technical"
-            phrases={tag.maps.description?.technical}
-            onUpdateTag={onUpdateTag}
-          />
-
-          <TagPhraseEditor
-            title="Log phrases"
-            tagName={tag.name}
-            parentField="description"
-            parentValue={tag.maps.description}
-            field="log"
-            phrases={tag.maps.description?.log}
-            onUpdateTag={onUpdateTag}
-          />
-
-          <TagPhraseEditor
-            title="Status phrases"
-            tagName={tag.name}
-            parentField="description"
-            parentValue={tag.maps.description}
-            field="status"
-            phrases={tag.maps.description?.status}
-            onUpdateTag={onUpdateTag}
-          />
-        </div>
+        <TagDescriptionsTab tag={tag} onUpdateTag={onUpdateTag} />
       )}
 
       {activeTab === 'shortHooks' && (
@@ -76,13 +48,7 @@ export default function TagEditor({
       )}
 
       {activeTab === 'hashtags' && (
-        <TagPhraseEditor
-          title="Hashtags"
-          tagName={tag.name}
-          field="hashtags"
-          phrases={tag.hashtags || []}
-          onUpdateTag={onUpdateTag}
-        />
+        <TagHashtagsTab tag={tag} onUpdateTag={onUpdateTag} />
       )}
     </details>
   );
