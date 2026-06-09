@@ -4,14 +4,20 @@ function getHookText(hook) {
   return typeof hook === 'string' ? hook : hook.text;
 }
 
+function formatHookType(type) {
+  return `${type.charAt(0).toUpperCase()}${type.slice(1)}`;
+}
+
 function getHookTooltip(hook) {
   if (typeof hook === 'string') return '';
 
+  const hookType = formatHookType(hook.hookType);
+
   if (hook.sourceType === 'tag') {
-    return `Generated from tag: ${hook.sourceTag} (${hook.hookType})`;
+    return `Generated from tag: ${hook.sourceTag} (${hookType})`;
   }
 
-  return `Generated from project ${hook.hookType} hooks`;
+  return `Generated from project preset (${hookType})`;
 }
 
 function isTagHook(hook) {

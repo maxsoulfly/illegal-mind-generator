@@ -1,7 +1,22 @@
 import ToggleButton from '../ui/ToggleButton';
 import ShortHookTitles from './ShortHookTitles';
 import GeneratedTitlePair from './GeneratedTitlePair';
+const SHORTS_TITLE_LIMIT = 5;
 
+function shuffleArray(array) {
+  return [...array].sort(() => Math.random() - 0.5);
+}
+
+function buildMixedShortTitles(shortHooks = []) {
+  return shuffleArray(
+    shortHooks.flatMap((group) =>
+      group.hooks.map((hook) => ({
+        ...hook,
+        hookTypeLabel: group.label,
+      })),
+    ),
+  ).slice(0, SHORTS_TITLE_LIMIT);
+}
 function TitlesPanel({
   titles,
   thumbnails,
@@ -11,6 +26,7 @@ function TitlesPanel({
   videoType,
   onOpenSourceTag,
 }) {
+  const mixedShortTitles = buildMixedShortTitles(shortHooks);
   return (
     <div className={`panel ${panelVisibility.titles ? '' : 'panel-collapsed'}`}>
       <div className="panel-header">
@@ -25,26 +41,25 @@ function TitlesPanel({
 
       {panelVisibility.titles && (
         <div>
-          {videoType === 'Shorts'
-            ? shortHooks.map((group) => (
-                <ShortHookTitles
-                  key={group.type}
-                  title={group.label}
-                  hooks={group.hooks}
-                  onOpenSourceTag={onOpenSourceTag}
-                />
-              ))
-            : titles.map((title, index) => {
-                const thumbnail = thumbnails[index] ?? '';
+          {videoType === 'Shorts' ? (
+            <ShortHookTitles
+              title="Best Shorts Title Candidates"
+              hooks={mixedShortTitles}
+              onOpenSourceTag={onOpenSourceTag}
+            />
+          ) : (
+            titles.map((title, index) => {
+              const thumbnail = thumbnails[index] ?? '';
 
-                return (
-                  <GeneratedTitlePair
-                    key={index}
-                    title={title}
-                    thumbnail={thumbnail}
-                  />
-                );
-              })}
+              return (
+                <GeneratedTitlePair
+                  key={index}
+                  title={title}
+                  thumbnail={thumbnail}
+                />
+              );
+            })
+          )}
         </div>
       )}
     </div>

@@ -1,6 +1,22 @@
 import ToggleButton from '../ui/ToggleButton';
-import CopyButton from '../CopyButton';
 import ShortHookTitles from './ShortHookTitles';
+
+const SHORT_HOOK_TITLE_LIMIT = 5;
+
+function shuffleArray(array) {
+  return [...array].sort(() => Math.random() - 0.5);
+}
+
+function buildMixedShortHooks(shortHooks) {
+  return shuffleArray(
+    shortHooks.flatMap((group) =>
+      group.hooks.map((hook) => ({
+        ...hook,
+        hookTypeLabel: group.label,
+      })),
+    ),
+  ).slice(0, SHORT_HOOK_TITLE_LIMIT);
+}
 
 function ShortHooksPanel({
   shortHooks,
@@ -9,6 +25,8 @@ function ShortHooksPanel({
   onOpenSourceTag,
 }) {
   if (!shortHooks?.length) return null;
+
+  const mixedShortHooks = buildMixedShortHooks(shortHooks);
 
   return (
     <div
@@ -25,16 +43,11 @@ function ShortHooksPanel({
       </div>
 
       {panelVisibility.shortHooks && (
-        <div>
-          {shortHooks.map((group) => (
-            <ShortHookTitles
-              key={group.type}
-              title={group.label}
-              hooks={group.hooks}
-              onOpenSourceTag={onOpenSourceTag}
-            />
-          ))}
-        </div>
+        <ShortHookTitles
+          title="Best Shorts Title Candidates"
+          hooks={mixedShortHooks}
+          onOpenSourceTag={onOpenSourceTag}
+        />
       )}
     </div>
   );

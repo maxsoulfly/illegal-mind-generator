@@ -36,7 +36,6 @@ export default function GeneratorPage({
           </button>
         </div>
       </div>
-
       <div className="layout-grid">
         <div className="panel">
           <InputForm
