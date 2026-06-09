@@ -42,6 +42,14 @@ export default function AppMenu({
         >
           Todo
         </button>
+
+        <button
+          type="button"
+          className={activePage === 'projectSettings' ? 'active' : ''}
+          onClick={() => setActivePage('projectSettings')}
+        >
+          Project Settings
+        </button>
       </div>
 
       <div className="app-menu-project">

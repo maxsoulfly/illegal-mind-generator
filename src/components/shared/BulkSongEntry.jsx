@@ -39,11 +39,11 @@ export default function BulkSongEntry({
   }
 
   return (
-    <div className="terminal-block bulk-song-entry">
+    <div className="bulk-song-entry">
       <ToggleButton isOpen={isOpen} onClick={onToggle} label={title} />
 
       {isOpen && (
-        <>
+        <div className="terminal-block">
           <textarea
             className="form-textarea"
             value={text}
@@ -67,7 +67,7 @@ export default function BulkSongEntry({
               {buttonLabel}
             </button>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

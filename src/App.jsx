@@ -15,6 +15,7 @@ import TagLibraryPage from './pages/TagLibraryPage';
 import GeneratorPage from './pages/GeneratorPage';
 import ShortsQueuePage from './pages/ShortsQueuePage';
 import TodoPage from './pages/TodoPage';
+import ProjectSettingsPage from './pages/ProjectSettingsPage';
 
 import { DEFAULT_PROJECT_KEY } from './constants/defaultFormData';
 
@@ -186,6 +187,13 @@ function App() {
           formData={formData}
           setFormData={setFormData}
           onUpdateEntry={handleUpdateEntry}
+        />
+      )}
+
+      {activePage === 'projectSettings' && (
+        <ProjectSettingsPage
+          projectId={projectId}
+          projectConfig={resolvedProjectConfig}
         />
       )}
     </div>
