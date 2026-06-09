@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 import SavedLibrary from '../components/savedLibrary/SavedLibrary';
 import InputForm from '../components/InputForm';
@@ -25,7 +25,6 @@ export default function GeneratorPage({
   projectOverrides,
   onOpenSourceTag,
 }) {
-  const inputPanelRef = useRef(null);
   const [inputFlash, setInputFlash] = useState(false);
 
   const [showSavedLibrary, setShowSavedLibrary] = useState(() => {
@@ -37,11 +36,6 @@ export default function GeneratorPage({
     handleLoadEntry(entry);
 
     setShowSavedLibrary(false);
-
-    inputPanelRef.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
 
     setInputFlash(true);
 
@@ -76,10 +70,7 @@ export default function GeneratorPage({
       />
 
       <div className="layout-grid">
-        <div
-          ref={inputPanelRef}
-          className={`panel ${inputFlash ? 'panel-flash-success' : ''}`}
-        >
+        <div className={`panel ${inputFlash ? 'panel-flash-success' : ''}`}>
           <InputForm
             projectId={projectId}
             formData={formData}
