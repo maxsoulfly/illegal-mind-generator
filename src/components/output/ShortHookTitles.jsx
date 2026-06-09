@@ -38,7 +38,7 @@ function ShortHookTitles({ title, hooks, onOpenSourceTag }) {
                   onOpenSourceTag?.({
                     tagName: hook.sourceTag,
                     hookType: hook.hookType,
-                    hookText,
+                    hookText: hook.sourceText || hookText,
                   })
                 }
               >

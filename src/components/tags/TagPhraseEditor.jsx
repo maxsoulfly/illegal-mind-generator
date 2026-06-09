@@ -9,6 +9,7 @@ export default function TagPhraseEditor({
 
   phrases = [],
   onUpdateTag,
+  autoOpen = false,
 }) {
   const buildUpdate = (nextPhrases) => {
     if (!parentField) {
@@ -57,7 +58,7 @@ export default function TagPhraseEditor({
   };
 
   return (
-    <details className="tag-editor-section" open={false}>
+    <details className="tag-editor-section" open={autoOpen}>
       <summary>
         {title} ({phrases.length})
       </summary>

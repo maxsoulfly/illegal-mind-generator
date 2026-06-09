@@ -12,7 +12,7 @@ const HOOK_TYPES = [
 ];
 
 function formatHookTitle(hookType) {
-  return `${hookType.charAt(0).toUpperCase()}${hookType.slice(1)} hooks`;
+  return `${hookType.charAt(0).toUpperCase()}${hookType.slice(1)}`;
 }
 
 function getMatchingPhrases(hookType, phrases, search) {
@@ -76,6 +76,7 @@ export default function TagShortHooksTab({ tag, onUpdateTag, sourceTarget }) {
           field={hookType}
           phrases={phrases}
           onUpdateTag={onUpdateTag}
+          autoOpen={sourceTarget?.hookType === hookType}
         />
       ))}
 

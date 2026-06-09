@@ -36,6 +36,7 @@ function fillHookTemplate(template, formData) {
 function createBaseHook(template, type, formData) {
   return {
     text: fillHookTemplate(template, formData),
+    sourceText: template,
     sourceType: 'base',
     sourceTag: '',
     hookType: type,
@@ -45,6 +46,7 @@ function createBaseHook(template, type, formData) {
 function createTagHook(template, type, tag, formData) {
   return {
     text: fillHookTemplate(template, formData),
+    sourceText: template,
     sourceType: 'tag',
     sourceTag: tag,
     hookType: type,
