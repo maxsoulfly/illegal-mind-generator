@@ -19,7 +19,6 @@ function shuffleArray(array) {
 function fillHookTemplate(template, formData) {
   const decade = resolveDecade(formData.transformationTags);
   const primaryTag = resolvePrimaryTag(formData.transformationTags);
-
   const currentYear = new Date().getFullYear();
 
   return template
@@ -34,6 +33,24 @@ function fillHookTemplate(template, formData) {
     .replaceAll('{primaryTag}', primaryTag);
 }
 
+function createBaseHook(template, type, formData) {
+  return {
+    text: fillHookTemplate(template, formData),
+    sourceType: 'base',
+    sourceTag: '',
+    hookType: type,
+  };
+}
+
+function createTagHook(template, type, tag, formData) {
+  return {
+    text: fillHookTemplate(template, formData),
+    sourceType: 'tag',
+    sourceTag: tag,
+    hookType: type,
+  };
+}
+
 function getTagShortHooksForType(type, formData, projectConfig) {
   const selectedTags = formData.transformationTags || [];
 
@@ -41,26 +58,28 @@ function getTagShortHooksForType(type, formData, projectConfig) {
     const tagHooks = projectConfig.tags?.[tag]?.shortHooks?.[type] || [];
 
     return tagHooks.map((template) =>
-      fillHookTemplate(template, formData, projectConfig, { tag }),
+      createTagHook(template, type, tag, formData),
     );
   });
 }
 
 export function generateShortHooks(formData, projectConfig) {
   const hookTypes = projectConfig.shortHookTypes || {};
-
   const suffix = projectConfig.title?.shortHookSuffix || '';
 
   return Object.entries(hookTypes).map(([type, hookConfig]) => {
     const baseHooks = (hookConfig.templates || []).map((template) =>
-      fillHookTemplate(template, formData),
+      createBaseHook(template, type, formData),
     );
 
     const tagHooks = getTagShortHooksForType(type, formData, projectConfig);
 
     const hooks = shuffleArray([...baseHooks, ...tagHooks])
       .slice(0, 2)
-      .map((hook) => `${hook}${fillHookTemplate(suffix, formData)}`);
+      .map((hook) => ({
+        ...hook,
+        text: `${hook.text}${fillHookTemplate(suffix, formData)}`,
+      }));
 
     return {
       type,

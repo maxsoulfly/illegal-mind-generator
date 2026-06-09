@@ -78,6 +78,7 @@
   --space--9: -32px;
 
   /* sizing */
+  --width-select       : 220px;
   --width-root-min     : 320px;
   --width-app-max      : 1400px;
   --width-sidebar      : 420px;
@@ -544,7 +545,7 @@ svg {
 
 .library-controls .form-select {
   margin-bottom: 0;
-  width        : 170px;
+  width        : var(--size-select);
 }
 
 .saved-library-list {
@@ -1062,6 +1063,7 @@ svg {
 .tag-actions {
   display    : flex;
   align-items: center;
+  gap        : var(--space-2);
 }
 
 .tag-card {
