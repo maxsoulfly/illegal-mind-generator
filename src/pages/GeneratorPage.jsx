@@ -20,6 +20,7 @@ export default function GeneratorPage({
   handleImportEntries,
   setPanelVisibility,
   projectOverrides,
+  onOpenSourceTag,
 }) {
   return (
     <>
@@ -68,6 +69,7 @@ export default function GeneratorPage({
           formData={formData}
           panelVisibility={panelVisibility}
           setPanelVisibility={setPanelVisibility}
+          onOpenSourceTag={onOpenSourceTag}
         />
       </div>
     </>

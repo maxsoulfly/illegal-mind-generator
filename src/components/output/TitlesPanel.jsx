@@ -1,4 +1,3 @@
-import CopyButton from '../CopyButton';
 import ToggleButton from '../ui/ToggleButton';
 import ShortHookTitles from './ShortHookTitles';
 import GeneratedTitlePair from './GeneratedTitlePair';
@@ -6,10 +5,11 @@ import GeneratedTitlePair from './GeneratedTitlePair';
 function TitlesPanel({
   titles,
   thumbnails,
-  shortHooks,
-  videoType,
   panelVisibility,
   togglePanel,
+  shortHooks,
+  videoType,
+  onOpenSourceTag,
 }) {
   return (
     <div className={`panel ${panelVisibility.titles ? '' : 'panel-collapsed'}`}>
@@ -31,6 +31,7 @@ function TitlesPanel({
                   key={group.type}
                   title={group.label}
                   hooks={group.hooks}
+                  onOpenSourceTag={onOpenSourceTag}
                 />
               ))
             : titles.map((title, index) => {

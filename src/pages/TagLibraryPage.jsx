@@ -16,6 +16,8 @@ export default function TagLibraryPage({
   resetTagOverride,
   syncProjectTags,
   onLoadEntry,
+  searchTarget,
+  clearSearchTarget,
 }) {
   const [sortMode, setSortMode] = useState('usage-desc');
   const [filterMode, setFilterMode] = useState('all');
@@ -28,6 +30,25 @@ export default function TagLibraryPage({
   const [syncTargetProjectId, setSyncTargetProjectId] = useState(
     destinationProjects[0]?.[0] || '',
   );
+
+  const activeSearch = searchTarget || search;
+  const activeFilterMode = searchTarget ? 'all' : filterMode;
+  const activeCategoryFilter = searchTarget ? 'all' : categoryFilter;
+
+  const handleSetSearch = (nextSearch) => {
+    clearSearchTarget?.();
+    setSearch(nextSearch);
+  };
+
+  const handleSetFilterMode = (nextFilterMode) => {
+    clearSearchTarget?.();
+    setFilterMode(nextFilterMode);
+  };
+
+  const handleSetCategoryFilter = (nextCategoryFilter) => {
+    clearSearchTarget?.();
+    setCategoryFilter(nextCategoryFilter);
+  };
 
   const handleToggleTagVisibility = (tagName, currentVisible) => {
     updateTagOverride(tagName, {
@@ -68,9 +89,9 @@ export default function TagLibraryPage({
     projectConfig,
     savedEntries,
     projectOverrides,
-    categoryFilter,
-    filterMode,
-    search,
+    categoryFilter: activeCategoryFilter,
+    filterMode: activeFilterMode,
+    search: activeSearch,
     sortMode,
   });
 
@@ -94,15 +115,15 @@ export default function TagLibraryPage({
       </h1>
 
       <TagControls
-        filterMode={filterMode}
-        setFilterMode={setFilterMode}
-        search={search}
-        setSearch={setSearch}
+        filterMode={activeFilterMode}
+        setFilterMode={handleSetFilterMode}
+        search={activeSearch}
+        setSearch={handleSetSearch}
         sortMode={sortMode}
         setSortMode={setSortMode}
         counts={counts}
-        categoryFilter={categoryFilter}
-        setCategoryFilter={setCategoryFilter}
+        categoryFilter={activeCategoryFilter}
+        setCategoryFilter={handleSetCategoryFilter}
         categories={categories}
         onCreateTag={handleCreateTag}
         projects={destinationProjects}

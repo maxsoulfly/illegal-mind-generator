@@ -37,8 +37,10 @@ function App() {
     handleProjectChange,
     togglePanel,
     handleClearForm,
+    tagLibrarySearchTarget,
+    openTagLibrarySearch,
+    clearTagLibrarySearchTarget,
   } = useAppShellState();
-
   // Development-only storage migration helpers.
   useEffect(() => {
     if (!import.meta.env.DEV) return;
@@ -131,6 +133,7 @@ function App() {
           tagUsage={tagUsage}
           handleRegenerate={handleRegenerate}
           projectOverrides={projectOverrides}
+          onOpenSourceTag={openTagLibrarySearch}
         />
       )}
       {/* Tag management and phrase editing */}
@@ -149,6 +152,8 @@ function App() {
             handleLoadEntry(entry);
             setActivePage('generator');
           }}
+          searchTarget={tagLibrarySearchTarget}
+          clearSearchTarget={clearTagLibrarySearchTarget}
         />
       )}
       {/* Shorts planning queue */}

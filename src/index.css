@@ -929,6 +929,16 @@ svg {
   margin-top: var(--space-4);
 }
 
+.generated-pair-link {
+  cursor: pointer;
+  color : var(--color-text-accent);
+}
+
+.generated-pair-link:hover {
+  text-decoration   : underline;
+  /* color          : var(--color-text-accent-soft); */
+}
+
 /* Top-level page navigation */
 /* ===== App menu ===== */
 .app-menu {

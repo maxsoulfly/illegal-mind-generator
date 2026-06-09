@@ -12,6 +12,7 @@ function GeneratorResultsPanel({
   formData,
   panelVisibility,
   setPanelVisibility,
+  onOpenSourceTag,
 }) {
   return (
     <div className="panel">
@@ -38,6 +39,7 @@ function GeneratorResultsPanel({
         setPanelVisibility={setPanelVisibility}
         fileId={generatedOutput.fileId}
         projectConfig={projectConfig}
+        onOpenSourceTag={onOpenSourceTag}
       />
     </div>
   );

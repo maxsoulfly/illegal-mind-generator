@@ -2,7 +2,12 @@ import ToggleButton from '../ui/ToggleButton';
 import CopyButton from '../CopyButton';
 import ShortHookTitles from './ShortHookTitles';
 
-function ShortHooksPanel({ shortHooks, panelVisibility, togglePanel }) {
+function ShortHooksPanel({
+  shortHooks,
+  panelVisibility,
+  togglePanel,
+  onOpenSourceTag,
+}) {
   if (!shortHooks?.length) return null;
 
   return (
@@ -26,6 +31,7 @@ function ShortHooksPanel({ shortHooks, panelVisibility, togglePanel }) {
               key={group.type}
               title={group.label}
               hooks={group.hooks}
+              onOpenSourceTag={onOpenSourceTag}
             />
           ))}
         </div>
