@@ -12,36 +12,46 @@ const HOOK_TYPES = [
 ];
 
 function formatHookTitle(hookType) {
-  return `${hookType.charAt(0).toUpperCase()}${hookType.slice(1)}`;
+  return `${hookType.charAt(0).toUpperCase()}${hookType.slice(1)} hooks`;
 }
 
-function hookTypeMatchesSearch(hookType, phrases, search) {
+function getMatchingPhrases(hookType, phrases, search) {
   const normalizedSearch = search.trim().toLowerCase();
 
-  if (!normalizedSearch) return true;
+  if (!normalizedSearch) return phrases;
 
   const titleMatches = hookType.toLowerCase().includes(normalizedSearch);
-  const phraseMatches = phrases.some((phrase) =>
+
+  if (titleMatches) return phrases;
+
+  return phrases.filter((phrase) =>
     phrase.toLowerCase().includes(normalizedSearch),
   );
-
-  return titleMatches || phraseMatches;
 }
 
 export default function TagShortHooksTab({ tag, onUpdateTag }) {
   const [search, setSearch] = useState('');
 
-  const visibleHookTypes = useMemo(
-    () =>
-      HOOK_TYPES.filter((hookType) =>
-        hookTypeMatchesSearch(
-          hookType,
-          tag.maps.shortHooks?.[hookType] || [],
-          search,
-        ),
-      ),
-    [tag.maps.shortHooks, search],
-  );
+  const visibleHookTypes = useMemo(() => {
+    const normalizedSearch = search.trim().toLowerCase();
+
+    if (!normalizedSearch) {
+      return HOOK_TYPES.map((hookType) => ({
+        hookType,
+        phrases: tag.maps.shortHooks?.[hookType] || [],
+      }));
+    }
+
+    return HOOK_TYPES.map((hookType) => {
+      const phrases = tag.maps.shortHooks?.[hookType] || [];
+      const matchingPhrases = getMatchingPhrases(hookType, phrases, search);
+
+      return {
+        hookType,
+        phrases: matchingPhrases,
+      };
+    }).filter((hookGroup) => hookGroup.phrases.length > 0);
+  }, [tag.maps.shortHooks, search]);
 
   return (
     <div className="tag-editor-nested-section">
@@ -53,7 +63,7 @@ export default function TagShortHooksTab({ tag, onUpdateTag }) {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      {visibleHookTypes.map((hookType) => (
+      {visibleHookTypes.map(({ hookType, phrases }) => (
         <TagPhraseEditor
           key={hookType}
           title={formatHookTitle(hookType)}
@@ -61,7 +71,7 @@ export default function TagShortHooksTab({ tag, onUpdateTag }) {
           parentField="shortHooks"
           parentValue={tag.maps.shortHooks || {}}
           field={hookType}
-          phrases={tag.maps.shortHooks?.[hookType] || []}
+          phrases={phrases}
           onUpdateTag={onUpdateTag}
         />
       ))}
