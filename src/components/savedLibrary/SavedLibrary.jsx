@@ -10,12 +10,22 @@ function SavedLibrary({
   onExportEntries,
   onImportEntries,
   projectConfig,
+  showSavedLibrary: controlledShowSavedLibrary,
+  setShowSavedLibrary: controlledSetShowSavedLibrary,
 }) {
   const [search, setSearch] = useState('');
-  const [showSavedLibrary, setShowSavedLibrary] = useState(() => {
-    const saved = localStorage.getItem('showSavedLibrary');
-    return saved ? JSON.parse(saved) : false;
-  });
+  const [internalShowSavedLibrary, setInternalShowSavedLibrary] = useState(
+    () => {
+      const saved = localStorage.getItem('showSavedLibrary');
+      return saved ? JSON.parse(saved) : false;
+    },
+  );
+
+  const showSavedLibrary =
+    controlledShowSavedLibrary ?? internalShowSavedLibrary;
+
+  const setShowSavedLibrary =
+    controlledSetShowSavedLibrary ?? setInternalShowSavedLibrary;
 
   const [sortBySignal, setSortBySignal] = useState(false);
   const [hideQueueHidden, setHideQueueHidden] = useState(() => {

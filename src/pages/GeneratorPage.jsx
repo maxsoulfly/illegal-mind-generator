@@ -1,3 +1,6 @@
+import { useRef, useState } from 'react';
+
+import SavedLibrary from '../components/savedLibrary/SavedLibrary';
 import InputForm from '../components/InputForm';
 import GeneratorResultsPanel from '../components/generator/GeneratorResultsPanel';
 
@@ -22,6 +25,30 @@ export default function GeneratorPage({
   projectOverrides,
   onOpenSourceTag,
 }) {
+  const inputPanelRef = useRef(null);
+  const [inputFlash, setInputFlash] = useState(false);
+
+  const [showSavedLibrary, setShowSavedLibrary] = useState(() => {
+    const saved = localStorage.getItem('showSavedLibrary');
+    return saved ? JSON.parse(saved) : false;
+  });
+
+  const handleLoadEntryFromLibrary = (entry) => {
+    handleLoadEntry(entry);
+
+    setShowSavedLibrary(false);
+
+    inputPanelRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+
+    setInputFlash(true);
+
+    window.setTimeout(() => {
+      setInputFlash(false);
+    }, 700);
+  };
   return (
     <>
       <div className="panel-header">
@@ -36,8 +63,23 @@ export default function GeneratorPage({
           </button>
         </div>
       </div>
+
+      <SavedLibrary
+        savedEntries={savedEntries}
+        onLoadEntry={handleLoadEntryFromLibrary}
+        onDeleteEntry={handleDeleteEntry}
+        onExportEntries={handleExportEntries}
+        onImportEntries={handleImportEntries}
+        projectConfig={projectConfig}
+        showSavedLibrary={showSavedLibrary}
+        setShowSavedLibrary={setShowSavedLibrary}
+      />
+
       <div className="layout-grid">
-        <div className="panel">
+        <div
+          ref={inputPanelRef}
+          className={`panel ${inputFlash ? 'panel-flash-success' : ''}`}
+        >
           <InputForm
             projectId={projectId}
             formData={formData}
@@ -56,13 +98,7 @@ export default function GeneratorPage({
             projectOverrides={projectOverrides}
           />
         </div>
-
         <GeneratorResultsPanel
-          savedEntries={savedEntries}
-          handleLoadEntry={handleLoadEntry}
-          handleDeleteEntry={handleDeleteEntry}
-          handleExportEntries={handleExportEntries}
-          handleImportEntries={handleImportEntries}
           projectConfig={projectConfig}
           generatedOutput={generatedOutput}
           formData={formData}

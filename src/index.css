@@ -1408,6 +1408,23 @@ svg {
     width: 100%;
   }
 
+  .panel-flash-success {
+    animation: panel-flash-success 0.7s ease;
+  }
+
+  @keyframes panel-flash-success {
+    0% {
+      border-color: var(--color-status-success);
+      box-shadow  :
+        0 0 0 1px var(--color-status-success) inset,
+        0 0 18px rgba(123, 196, 127, 0.35);
+    }
+
+    100% {
+      border-color: var(--color-border-main);
+    }
+  }
+
   .panel-header {
     flex-wrap  : wrap;
     align-items: flex-start;

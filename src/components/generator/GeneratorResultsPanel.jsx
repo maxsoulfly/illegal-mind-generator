@@ -1,12 +1,6 @@
-import SavedLibrary from '../savedLibrary/SavedLibrary';
 import GeneratedOutput from './GeneratedOutput';
 
 function GeneratorResultsPanel({
-  savedEntries,
-  handleLoadEntry,
-  handleDeleteEntry,
-  handleExportEntries,
-  handleImportEntries,
   projectConfig,
   generatedOutput,
   formData,
@@ -16,15 +10,7 @@ function GeneratorResultsPanel({
 }) {
   return (
     <div className="panel">
-      <SavedLibrary
-        savedEntries={savedEntries}
-        onLoadEntry={handleLoadEntry}
-        onDeleteEntry={handleDeleteEntry}
-        onExportEntries={handleExportEntries}
-        onImportEntries={handleImportEntries}
-        projectConfig={projectConfig}
-      />
-
+      <h2>Output</h2>
       <GeneratedOutput
         titles={generatedOutput.titles}
         thumbnails={generatedOutput.thumbnails}
