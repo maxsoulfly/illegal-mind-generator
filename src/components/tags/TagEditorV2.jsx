@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import TagEditorTabs from './editor/TagEditorTabs';
 import TagBasicsTab from './editor/TagBasicsTab';
@@ -7,6 +7,15 @@ import TagDescriptionsTab from './editor/TagDescriptionsTab';
 import TagShortHooksTab from './editor/TagShortHooksTab';
 import TagHashtagsTab from './editor/TagHashtagsTab';
 
+function getInitialTab(tag, sourceTarget) {
+  if (sourceTarget?.tagName !== tag.name) return 'basics';
+
+  if (sourceTarget.hookText || sourceTarget.hookType) {
+    return 'shortHooks';
+  }
+
+  return 'basics';
+}
 export default function TagEditor({
   tag,
   categories,
@@ -16,15 +25,9 @@ export default function TagEditor({
   resetTagOverride,
   sourceTarget,
 }) {
-  const [activeTab, setActiveTab] = useState('basics');
-
-  useEffect(() => {
-    if (sourceTarget?.tagName !== tag.name) return;
-
-    if (sourceTarget.hookText || sourceTarget.hookType) {
-      setActiveTab('shortHooks');
-    }
-  }, [sourceTarget, tag.name]);
+  const [activeTab, setActiveTab] = useState(() =>
+    getInitialTab(tag, sourceTarget),
+  );
   return (
     <details className="tag-section">
       <summary>Edit tag</summary>
