@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import TagEditorTabs from './editor/TagEditorTabs';
+import TagShortHooksTab from './editor/TagShortHooksTab';
 import FormField from '../ui/FormField';
 import ToggleField from '../ui/ToggleField';
 import TagPhraseEditor from './TagPhraseEditor';
@@ -158,27 +159,7 @@ export default function TagEditor({
       )}
 
       {activeTab === 'shortHooks' && (
-        <div className="tag-editor-nested-section">
-          {[
-            'nostalgia',
-            'emotion',
-            'transformation',
-            'discussion',
-            'musician',
-            'progress',
-          ].map((hookType) => (
-            <TagPhraseEditor
-              key={hookType}
-              title={`${hookType.charAt(0).toUpperCase()}${hookType.slice(1)} hooks`}
-              tagName={tag.name}
-              parentField="shortHooks"
-              parentValue={tag.maps.shortHooks || {}}
-              field={hookType}
-              phrases={tag.maps.shortHooks?.[hookType] || []}
-              onUpdateTag={onUpdateTag}
-            />
-          ))}
-        </div>
+        <TagShortHooksTab tag={tag} onUpdateTag={onUpdateTag} />
       )}
 
       {activeTab === 'hashtags' && (
