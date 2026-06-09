@@ -1,4 +1,7 @@
-import GeneratedOutput from './GeneratedOutput';
+import TitlesPanel from '../output/TitlesPanel';
+import DescriptionsPanel from '../output/DescriptionsPanel';
+import HashtagsPanel from '../output/HashtagsPanel';
+import YouTubeTagsPanel from '../output/YouTubeTagsPanel';
 
 function GeneratorResultsPanel({
   projectConfig,
@@ -8,25 +11,58 @@ function GeneratorResultsPanel({
   setPanelVisibility,
   onOpenSourceTag,
 }) {
+  const togglePanel = (key) => {
+    setPanelVisibility((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  const renderCopyFooter = () => {
+    const template = projectConfig?.description?.copyFooter;
+
+    if (!template) return '';
+
+    return template
+      .replace(/\{fileId\}/g, generatedOutput.fileId || '')
+      .replace(/\{hashtags\}/g, generatedOutput.hashtags || '');
+  };
+
   return (
     <div className="panel">
       <h2>Output</h2>
-      <GeneratedOutput
-        titles={generatedOutput.titles}
-        thumbnails={generatedOutput.thumbnails}
-        descriptions={generatedOutput.shortDescriptions}
-        shortHooks={generatedOutput.shortHooks}
-        hashtags={generatedOutput.hashtags}
-        youtubeTags={generatedOutput.youtubeTags}
-        hybridPrompt={generatedOutput.hybridPrompt}
-        videoType={formData.videoType}
-        longDescription={generatedOutput.longDescription}
-        panelVisibility={panelVisibility}
-        setPanelVisibility={setPanelVisibility}
-        fileId={generatedOutput.fileId}
-        projectConfig={projectConfig}
-        onOpenSourceTag={onOpenSourceTag}
-      />
+      <div className="output-stack">
+        <TitlesPanel
+          titles={generatedOutput.titles}
+          thumbnails={generatedOutput.thumbnails}
+          panelVisibility={panelVisibility}
+          togglePanel={togglePanel}
+          shortHooks={generatedOutput.shortHooks}
+          videoType={formData.videoType}
+          onOpenSourceTag={onOpenSourceTag}
+        />
+
+        <DescriptionsPanel
+          panelVisibility={panelVisibility}
+          togglePanel={togglePanel}
+          videoType={formData.videoType}
+          descriptions={generatedOutput.shortDescriptions}
+          longDescription={generatedOutput.longDescription}
+          renderCopyFooter={renderCopyFooter}
+        />
+
+        <HashtagsPanel
+          hashtags={generatedOutput.hashtags}
+          panelVisibility={panelVisibility}
+          togglePanel={togglePanel}
+        />
+
+        <YouTubeTagsPanel
+          youtubeTags={generatedOutput.youtubeTags}
+          panelVisibility={panelVisibility}
+          togglePanel={togglePanel}
+        />
+      </div>
     </div>
   );
 }
