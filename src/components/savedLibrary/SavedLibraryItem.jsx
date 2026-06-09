@@ -1,6 +1,20 @@
+import { useState } from 'react';
 function SavedLibraryItem({ entry, onLoadEntry, onDeleteEntry }) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLoad = () => {
+    setIsLoading(true);
+
+    window.setTimeout(() => {
+      onLoadEntry(entry);
+    }, 200);
+  };
   return (
-    <div className="saved-entry-row terminal-block">
+    <div
+      className={`saved-entry-row terminal-block ${
+        isLoading ? 'saved-entry-loading' : ''
+      }`}
+    >
       <div className="saved-entry-main">
         <span className="saved-entry-signal">
           {(entry.signalNumber || '--').toString().padStart(2, '0')}.
@@ -9,7 +23,7 @@ function SavedLibraryItem({ entry, onLoadEntry, onDeleteEntry }) {
         <button
           type="button"
           className="queue-entry-link saved-entry-text"
-          onClick={() => onLoadEntry(entry)}
+          onClick={handleLoad}
         >
           <strong>{entry.artist}</strong> — {entry.song}
         </button>

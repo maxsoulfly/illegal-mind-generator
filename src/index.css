@@ -3,16 +3,18 @@
   font-family: Arial, Helvetica, sans-serif;
 
   /* text */
-  --color-text-main       : #f3e6c8;
-  --color-text-soft       : #e9d7b0;
-  --color-text-muted      : #d9b77a;
-  --color-text-muted-2    : #cfa468;
-  --color-text-muted-3    : #8f6a39;
-  --color-text-accent     : #ffcc73;
-  --color-text-accent-soft: #ffbf66;
-  --color-text-inverse    : #fff4de;
-  --color-text-alert      : #c95a3a;
-  --color-status-success  : #7bc47f;
+  --color-text-main                 : #f3e6c8;
+  --color-text-soft                 : #e9d7b0;
+  --color-text-muted                : #d9b77a;
+  --color-text-muted-2              : #cfa468;
+  --color-text-muted-3              : #8f6a39;
+  --color-text-accent               : #ffcc73;
+  --color-text-accent-soft          : #ffbf66;
+  --color-text-inverse              : #fff4de;
+  --color-text-alert                : #c95a3a;
+  --color-status-success            : #7bc47f;
+  --color-status-success-transparent: rgba(0, 255, 0, 0.15);
+  ;
 
   /* alerts / destructive */
   --color-text-danger        : #d97d7d;
@@ -21,15 +23,16 @@
   --color-text-danger-hover  : #ffb3b3;
 
   /* backgrounds */
-  --color-bg-page            : #1a1714;
-  --color-bg-page-deep       : #120f0d;
-  --color-bg-page-top        : #2a241d;
-  --color-bg-panel           : rgba(30, 24, 20, 0.92);
-  --color-bg-input           : #16120f;
-  --color-bg-button-secondary: #241c16;
-  --color-bg-button-copy     : #201914;
-  --color-bg-tag             : #1a1410;
-  --color-bg-transparent     : transparent;
+  --color-bg-page               : #1a1714;
+  --color-bg-page-deep          : #120f0d;
+  --color-bg-page-top           : #2a241d;
+  --color-bg-panel              : rgba(30, 24, 20, 0.92);
+  --color-bg-input              : #16120f;
+  --color-bg-button-secondary   : #241c16;
+  --color-bg-button-copy        : #201914;
+  --color-bg-tag                : #1a1410;
+  --color-bg-transparent        : transparent;
+  --color-advanced-panel-content: rgba(255, 180, 90, 0.02);
 
   /* borders */
   --color-border-main       : #5a4632;
@@ -79,6 +82,8 @@
 
   /* sizing */
   --width-select       : 220px;
+  --width-select-min   : 240px;
+  --width-todo-select  : 160px;
   --width-root-min     : 320px;
   --width-app-max      : 1400px;
   --width-sidebar      : 420px;
@@ -314,6 +319,35 @@ svg {
   min-width    : 0;
 }
 
+.saved-entry-row {
+  position: relative;
+  overflow: hidden;
+}
+
+.saved-entry-row::before {
+  content       : '';
+  position      : absolute;
+  inset         : 0;
+  transform     : translateX(-100%);
+  pointer-events: none;
+}
+
+.saved-entry-loading::before {
+  animation: saved-entry-load 0.4s linear forwards;
+}
+
+@keyframes saved-entry-load {
+  0% {
+    transform : translateX(-100%);
+    background: var(--color-status-success-transparent);
+  }
+
+  100% {
+    transform : translateX(0%);
+    background: var(--color-status-success-transparent);
+  }
+}
+
 .output-item {
   margin-bottom: var(--space-5);
 }
@@ -349,7 +383,7 @@ svg {
 
 .copy-button.copied {
   background-color: var(--color-text-accent);
-  color           : black;
+  color           : var(--color-bg-page);
   box-shadow      : 0 0 10px var(--color-accent-gradient-top);
 }
 
@@ -814,7 +848,7 @@ svg {
   border       : 1px solid var(--color-border-soft);
   border-radius: var(--radius-md);
 
-  background: rgba(255, 180, 90, 0.02);
+  background: var(--color-advanced-panel-content);
 }
 
 .advanced-options {
@@ -842,9 +876,10 @@ svg {
 }
 
 .todo-entry-actions .form-select {
-  width    : 190px;
-  min-width: 190px;
-  flex     : 0 0 auto;
+  width    : var(--width-todo-select);
+  min-width: var(--width-todo-select);
+  ;
+  flex: 0 0 auto;
 }
 
 .todo-entry-select {
@@ -979,7 +1014,7 @@ svg {
 
 .app-menu button.active {
   background: var(--color-text-accent);
-  color     : black;
+  color     : var(--color-bg-page);
 }
 
 .app-menu-project {
@@ -1000,7 +1035,7 @@ svg {
 
 .app-menu-project .form-select {
   margin-bottom: 0;
-  min-width    : 240px;
+  min-width    : var(--width-select-min);
   width        : auto;
 }
 
