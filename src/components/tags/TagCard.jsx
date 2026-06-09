@@ -1,5 +1,6 @@
 import TagDetails from './TagDetails';
-import TagEditor from './TagEditor';
+// import TagEditor from './TagEditor';
+import TagEditor from './TagEditorV2';
 import TagHeader from './TagHeader';
 
 export default function TagCard({
