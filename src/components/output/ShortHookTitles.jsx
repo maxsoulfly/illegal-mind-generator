@@ -34,7 +34,13 @@ function ShortHookTitles({ title, hooks, onOpenSourceTag }) {
                 type="button"
                 className="queue-entry-link generated-pair-text generated-pair-link"
                 title={getHookTooltip(hook)}
-                onClick={() => onOpenSourceTag?.(hook.sourceTag)}
+                onClick={() =>
+                  onOpenSourceTag?.({
+                    tagName: hook.sourceTag,
+                    hookType: hook.hookType,
+                    hookText,
+                  })
+                }
               >
                 {hookText}
               </button>

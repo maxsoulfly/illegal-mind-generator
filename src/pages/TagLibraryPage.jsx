@@ -31,7 +31,7 @@ export default function TagLibraryPage({
     destinationProjects[0]?.[0] || '',
   );
 
-  const activeSearch = searchTarget || search;
+  const activeSearch = searchTarget?.tagName || search;
   const activeFilterMode = searchTarget ? 'all' : filterMode;
   const activeCategoryFilter = searchTarget ? 'all' : categoryFilter;
 
@@ -143,6 +143,7 @@ export default function TagLibraryPage({
             projectOverrides={projectOverrides}
             resetTagOverride={resetTagOverride}
             onLoadEntry={onLoadEntry}
+            sourceTarget={searchTarget}
           />
         ))}
       </div>

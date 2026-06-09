@@ -68,8 +68,7 @@ export default function useAppShellState() {
       DEFAULT_PROJECT_KEY
     );
   });
-
-  const [tagLibrarySearchTarget, setTagLibrarySearchTarget] = useState('');
+  const [tagLibrarySearchTarget, setTagLibrarySearchTarget] = useState(null);
 
   // Persist generator form state.
   useEffect(() => {
@@ -141,13 +140,22 @@ export default function useAppShellState() {
     }));
   };
 
-  const openTagLibrarySearch = (tagName) => {
-    setTagLibrarySearchTarget(tagName);
+  const openTagLibrarySearch = (target) => {
+    if (!target) return;
+
+    const nextTarget =
+      typeof target === 'string'
+        ? {
+            tagName: target,
+          }
+        : target;
+
+    setTagLibrarySearchTarget(nextTarget);
     setActivePage('tags');
   };
-  
+
   const clearTagLibrarySearchTarget = () => {
-    setTagLibrarySearchTarget('');
+    setTagLibrarySearchTarget(null);
   };
 
   // Reset generator form to defaults.

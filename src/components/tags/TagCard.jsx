@@ -11,6 +11,7 @@ export default function TagCard({
   projectOverrides,
   resetTagOverride,
   onLoadEntry,
+  sourceTarget,
 }) {
   return (
     <article
@@ -35,6 +36,7 @@ export default function TagCard({
         onToggleVisibility={onToggleVisibility}
         projectOverrides={projectOverrides}
         resetTagOverride={resetTagOverride}
+        sourceTarget={sourceTarget}
       />
     </article>
   );
