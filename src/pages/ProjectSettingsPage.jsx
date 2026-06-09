@@ -1,5 +1,8 @@
 import { useState } from 'react';
 
+import ProjectSettingsContent from '../components/projectSettings/ProjectSettingsContent';
+import ProjectSettingsGeneral from '../components/projectSettings/ProjectSettingsGeneral';
+
 const PROJECT_SETTING_SECTIONS = [
   {
     id: 'general',
@@ -84,102 +87,6 @@ function getSectionSummary(sectionId, projectConfig) {
   return '';
 }
 
-function ProjectSettingsSectionPreview({ activeSection, projectConfig }) {
-  if (activeSection === 'general') {
-    return (
-      <>
-        <h2 className="panel-title">General</h2>
-        <p className="tag-summary">Project name: {projectConfig.name}</p>
-        <p className="tag-summary">
-          Project editing and duplication will live here later.
-        </p>
-      </>
-    );
-  }
-
-  if (activeSection === 'shortHooks') {
-    const hookTypes = Object.entries(projectConfig.shortHookTypes || {});
-
-    return (
-      <>
-        <h2 className="panel-title">Shorts Hooks</h2>
-
-        {hookTypes.map(([hookType, hookConfig]) => (
-          <section key={hookType} className="tag-section">
-            <h3 className="tag-summary">{hookConfig.label}</h3>
-            <p className="tag-summary">
-              {hookConfig.templates?.length || 0} preset phrases
-            </p>
-          </section>
-        ))}
-      </>
-    );
-  }
-
-  if (activeSection === 'titles') {
-    const titleTemplates = Object.entries(projectConfig.title?.templates || {});
-
-    return (
-      <>
-        <h2 className="panel-title">Titles</h2>
-
-        {titleTemplates.map(([groupName, templates]) => (
-          <section key={groupName} className="tag-section">
-            <h3 className="tag-summary">{groupName}</h3>
-            <p className="tag-summary">{templates.length} templates</p>
-          </section>
-        ))}
-      </>
-    );
-  }
-
-  if (activeSection === 'descriptions') {
-    return (
-      <>
-        <h2 className="panel-title">Descriptions</h2>
-        <p className="tag-summary">
-          Description layout and phrase editing will be added here later.
-        </p>
-      </>
-    );
-  }
-
-  if (activeSection === 'thumbnails') {
-    return (
-      <>
-        <h2 className="panel-title">Thumbnail Templates</h2>
-        <p className="tag-summary">
-          Thumbnail words, fallbacks, and patterns will be edited here later.
-        </p>
-      </>
-    );
-  }
-
-  if (activeSection === 'hashtags') {
-    return (
-      <>
-        <h2 className="panel-title">Hashtags & YouTube Tags</h2>
-        <p className="tag-summary">
-          Project-level hashtags and YouTube tags will be edited here later.
-        </p>
-      </>
-    );
-  }
-
-  if (activeSection === 'todo') {
-    return (
-      <>
-        <h2 className="panel-title">Todo Settings</h2>
-        <p className="tag-summary">
-          Todo statuses and workflow settings will be edited here later.
-        </p>
-      </>
-    );
-  }
-
-  return null;
-}
-
 export default function ProjectSettingsPage({ projectId, projectConfig }) {
   const [activeSection, setActiveSection] = useState('general');
 
@@ -204,8 +111,9 @@ export default function ProjectSettingsPage({ projectId, projectConfig }) {
       </div>
 
       <div className="panel">
-        <ProjectSettingsSectionPreview
+        <ProjectSettingsContent
           activeSection={activeSection}
+          projectId={projectId}
           projectConfig={projectConfig}
         />
       </div>
