@@ -433,6 +433,7 @@ Stores:
 * Panel visibility
 * Saved Library visibility
 * Advanced Options visibility
+* Active Project Settings section
 
 ---
 
@@ -559,7 +560,34 @@ Before changing storage:
 
 ---
 
+## Project Settings
+
+* [x] General section (project name override)
+* [x] Short Hooks section — cards, edit/add/remove templates, reset per hook, 3-col layout
+* [x] Navigation from generator base hooks → source template in Short Hooks editor
+* [x] Titles section — edit standard and But It's template groups
+* [x] Titles generation settings — prefix/suffix per long/shorts with enable toggles
+* [x] Titles generation settings — connector, list separator, max phrases slider
+* [x] Active section persists across navigation and refresh
+* [ ] Descriptions section
+* [ ] Option to use shorts hooks for long video titles
+* [ ] Navigation link from generated long title → source hook
+
+---
+
 # Current Focus
+
+Highest priority work:
+
+## Project Settings — Titles (remaining)
+
+Goals:
+
+* Option to pull from shorts hook templates when generating long video titles
+* Navigation from generated long title to the source hook template
+* Generic / no-tags mode (slider or toggle to bypass transformation tags)
+
+---
 
 Highest priority work:
 
@@ -582,29 +610,33 @@ Goals:
 
 ---
 
-## Project Settings Expansion
+## Saved Library + Todo Integration
 
-Goal:
+Goals:
 
-Move more configuration from JSON into editable UI.
+* Todo visibility improvements
+* Better Saved Library filtering
+* Better status visibility
 
-Potential settings:
+---
 
-* Hook types
-* Todo statuses
-* Title settings
-* Thumbnail settings
-* Description settings
+## Queue Visibility Improvements
+
+Goals:
+
+* Queue-hidden indicators
+* Consistent visibility state across pages
 
 ---
 
 # Next Likely Tasks
 
-1. Queue-hidden indicator in Todo rows
-2. Todo status badges in Saved Library
-3. Saved Library Todo filtering
-4. Show-only-Todo mode
-5. Additional project settings editors
+1. Long title option to use shorts hooks (with navigation link back to source)
+2. Generic / no-tags title mode
+3. Project Settings — Descriptions section
+4. Queue-hidden indicator in Todo rows
+5. Todo status badges in Saved Library
+6. Saved Library Todo filtering
 
 ---
 
@@ -801,6 +833,29 @@ Tag changes often have wider effects than expected.
 Database migration is intentionally postponed.
 
 Current priority is feature completeness and storage stability.
+
+---
+
+## Title Engine Key Names
+
+`projects.json` for Illegal Mind uses `longPrefix` (legacy) instead of `prefix`.
+
+The engine reads `config.title?.prefix || config.title?.longPrefix` to support both.
+
+Do not consolidate these keys — legacy key must remain for storage compatibility.
+
+---
+
+## Short Hooks vs Shorts Titles
+
+Two separate systems generate shorts output:
+
+* `generateShortHooks.js` — generates hook-based shorts titles, reads `shortsPrefix` / `shortsSuffix` (with fallback to `shortHookSuffix`)
+* `generateTitles.js` in Shorts mode — generates transformation-based shorts titles, also reads `shortsPrefix` / `shortsSuffix`
+
+Both are editable via Project Settings → Titles → Generation card.
+
+`shortHookSuffix` in `projects.json` is the legacy fallback — do not remove it.
 
 ---
 
