@@ -1,8 +1,15 @@
-// Picks up to maxPhrases unique phrases from the pool and joins them with connector.
-// Single-item pools (faithful, rework fallback) return that item with no connector.
-function pickTransformation(phrasePool, maxPhrases, connector) {
+// Picks up to maxPhrases unique phrases and joins them list-style:
+// 1 phrase  → "Heavier"
+// 2 phrases → "Heavier & Darker"
+// 3+ phrases → "Heavier, Darker & Alt Metal"
+function pickTransformation(phrasePool, maxPhrases, connector, listSeparator) {
   const count = Math.min(maxPhrases, phrasePool.length);
-  return shuffleArray(phrasePool).slice(0, count).join(` ${connector} `);
+  const picked = shuffleArray(phrasePool).slice(0, count);
+  if (picked.length === 0) return 'Rework';
+  if (picked.length === 1) return picked[0];
+  if (picked.length === 2) return `${picked[0]} ${connector} ${picked[1]}`;
+  const allButLast = picked.slice(0, -1).join(listSeparator);
+  return `${allButLast} ${connector} ${picked[picked.length - 1]}`;
 }
 
 function buildTransformationVariations(formData = {}, config = {}) {
@@ -138,13 +145,14 @@ export function generateTitles(formData = {}, config = {}) {
 
   const maxPhrases = config.title?.maxTransformationPhrases || 1;
   const connector = config.title?.connector || '&';
+  const listSeparator = config.title?.listSeparator ?? ', ';
 
   const titles = [];
   const usedTitles = new Set();
   let attempts = 0;
 
   while (titles.length < 5 && attempts < 50) {
-    const transformation = pickTransformation(transformations, maxPhrases, connector);
+    const transformation = pickTransformation(transformations, maxPhrases, connector, listSeparator);
     const randomTemplates = shuffleArray(weightedTemplates);
     const template = randomTemplates[0];
 

@@ -28,6 +28,7 @@
 
       "butItsTemplate": "but it's {value}",
       "connector": "&",
+      "listSeparator": ", ",
       "maxTransformationPhrases": 2
     },
     "shortHookTypes": {
@@ -658,6 +659,7 @@
       },
       "butItsExcludedTags": ["faithful", "original"],
       "connector": "&",
+      "listSeparator": ", ",
       "maxTransformationPhrases": 1
     },
     "shortHookTypes": {
