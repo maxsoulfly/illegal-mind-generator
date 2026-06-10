@@ -8,7 +8,13 @@ import {
 import ProjectSettingsContent from '../components/projectSettings/ProjectSettingsContent';
 import ProjectSettingsGeneral from '../components/projectSettings/ProjectSettingsGeneral';
 
-export default function ProjectSettingsPage({ projectId, projectConfig }) {
+export default function ProjectSettingsPage({
+  projectId,
+  projectConfig,
+  projectSettingsOverrides,
+  updateProjectOverride,
+  resetProjectOverride,
+}) {
   const [activeSection, setActiveSection] = useState('general');
 
   return (
@@ -36,6 +42,9 @@ export default function ProjectSettingsPage({ projectId, projectConfig }) {
           activeSection={activeSection}
           projectId={projectId}
           projectConfig={projectConfig}
+          projectSettingsOverrides={projectSettingsOverrides}
+          updateProjectOverride={updateProjectOverride}
+          resetProjectOverride={resetProjectOverride}
         />
       </div>
     </section>

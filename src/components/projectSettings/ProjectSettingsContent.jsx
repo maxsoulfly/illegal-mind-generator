@@ -7,12 +7,18 @@ export default function ProjectSettingsContent({
   activeSection,
   projectId,
   projectConfig,
+  projectSettingsOverrides,
+  updateProjectOverride,
+  resetProjectOverride,
 }) {
   if (activeSection === 'general') {
     return (
       <ProjectSettingsGeneral
         projectId={projectId}
         projectConfig={projectConfig}
+        projectSettingsOverrides={projectSettingsOverrides}
+        updateProjectOverride={updateProjectOverride}
+        resetProjectOverride={resetProjectOverride}
       />
     );
   }
