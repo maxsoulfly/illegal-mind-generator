@@ -32,7 +32,7 @@ export default function ProjectSettingsShortHooks({
     <section>
       <h2 className="panel-title">Shorts Hooks</h2>
 
-      <div className="tag-library">
+      <div className="tag-library tag-library--3col">
         {hookTypes.map(([hookType, hookConfig]) => (
           <ShortHookCard
             key={hookType}
