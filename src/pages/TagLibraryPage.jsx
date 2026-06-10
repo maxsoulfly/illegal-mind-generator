@@ -10,7 +10,6 @@ export default function TagLibraryPage({
   projects,
   projectConfig,
   savedEntries,
-  projectName,
   projectOverrides,
   updateTagOverride,
   resetTagOverride,
@@ -111,7 +110,7 @@ export default function TagLibraryPage({
   return (
     <main>
       <h1 className="app-title">
-        Tag Library — <span className="project-name">{projectName}</span>
+        Tag Library — <span className="project-name">{projectConfig.name}</span>
       </h1>
 
       <TagControls

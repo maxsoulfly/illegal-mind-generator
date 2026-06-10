@@ -123,6 +123,7 @@ function App() {
         projectId={projectId}
         setProjectId={handleProjectChange}
         projects={projects}
+        projectConfig={resolvedProjectConfig}
       />
       {/* Main generator workflow */}
       {activePage === 'generator' && (
@@ -155,7 +156,6 @@ function App() {
           projects={projects}
           projectConfig={resolvedProjectConfig}
           savedEntries={savedEntries}
-          projectName={projectConfig.name}
           projectOverrides={tagOverrides}
           updateTagOverride={updateTagOverride}
           resetTagOverride={resetTagOverride}

@@ -6,6 +6,7 @@ export default function AppMenu({
   projectId,
   setProjectId,
   projects,
+  projectConfig,
 }) {
   return (
     <nav className="app-menu">
@@ -61,7 +62,7 @@ export default function AppMenu({
         >
           {Object.entries(projects).map(([id, project]) => (
             <option key={id} value={id}>
-              {project.name}
+              {id === projectId ? projectConfig.name : project.name}
             </option>
           ))}
         </select>
