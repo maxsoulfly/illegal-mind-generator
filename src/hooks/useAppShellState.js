@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import {
   DEFAULT_PROJECT_KEY,
@@ -147,9 +147,9 @@ export default function useAppShellState() {
     setActivePage('projectSettings');
   };
 
-  const clearShortHooksTarget = () => {
+  const clearShortHooksTarget = useCallback(() => {
     setShortHooksTarget(null);
-  };
+  }, []);
 
   const openTagLibrarySearch = (target) => {
     if (!target) return;

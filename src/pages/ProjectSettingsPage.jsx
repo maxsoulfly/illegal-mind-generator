@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import {
   PROJECT_SETTING_SECTIONS,
@@ -18,15 +18,15 @@ export default function ProjectSettingsPage({
   clearShortHooksTarget,
 }) {
   const [activeSection, setActiveSection] = useState('general');
-  // Local copy so the highlight persists after the external target is cleared.
-  const [hookTarget, setHookTarget] = useState(null);
 
-  useEffect(() => {
-    if (!shortHooksTarget) return;
-    setActiveSection('shortHooks');
-    setHookTarget(shortHooksTarget);
-    clearShortHooksTarget();
-  }, [shortHooksTarget]);
+  // If an incoming navigation target is present, force the shortHooks section.
+  // Derived directly to avoid setState-in-effect; clears on any manual tab click.
+  const resolvedSection = shortHooksTarget ? 'shortHooks' : activeSection;
+
+  function handleSectionChange(sectionId) {
+    setActiveSection(sectionId);
+    if (shortHooksTarget) clearShortHooksTarget();
+  }
 
   return (
     <section className="page-panel">
@@ -39,8 +39,8 @@ export default function ProjectSettingsPage({
           <button
             key={section.id}
             type="button"
-            className={activeSection === section.id ? 'active' : ''}
-            onClick={() => setActiveSection(section.id)}
+            className={resolvedSection === section.id ? 'active' : ''}
+            onClick={() => handleSectionChange(section.id)}
             title={getProjectSettingsSectionSummary(section.id, projectConfig)}
           >
             {section.label}
@@ -50,13 +50,13 @@ export default function ProjectSettingsPage({
 
       <div className="panel">
         <ProjectSettingsContent
-          activeSection={activeSection}
+          activeSection={resolvedSection}
           projectId={projectId}
           projectConfig={projectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}
           resetProjectOverride={resetProjectOverride}
-          hookTarget={hookTarget}
+          hookTarget={shortHooksTarget}
         />
       </div>
     </section>
