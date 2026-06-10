@@ -1,5 +1,6 @@
 import ShortHookCard from './ShortHookCard';
 
+
 export default function ProjectSettingsShortHooks({
   projectConfig,
   projectSettingsOverrides = {},
@@ -7,6 +8,8 @@ export default function ProjectSettingsShortHooks({
 }) {
   const hookTypes = Object.entries(projectConfig.shortHookTypes || {});
 
+  // Replaces the full templates array for one hook type in the override.
+  // Other hook types are preserved by spreading the existing shortHookTypes override.
   function updateHookTypeTemplates(hookType, hookConfig, newTemplates) {
     updateProjectOverride({
       shortHookTypes: {
@@ -16,6 +19,8 @@ export default function ProjectSettingsShortHooks({
     });
   }
 
+  // Removes the hook type key from the override entirely, so the base
+  // project config templates are restored on next render.
   function resetHookType(hookType) {
     const { [hookType]: _removed, ...remaining } =
       projectSettingsOverrides.shortHookTypes || {};
