@@ -1,38 +1,61 @@
-export default function ProjectSettingsGeneral({ projectId, projectConfig }) {
+export default function ProjectSettingsGeneral({
+  projectId,
+  projectConfig,
+  projectSettingsOverrides,
+  updateProjectOverride,
+  resetProjectOverride,
+}) {
+  const projectName =
+    projectSettingsOverrides?.name ?? projectConfig.name ?? '';
   return (
-    <>
+    <section>
       <h2 className="panel-title">General</h2>
 
-      <div className="tag-edit-fields">
-        <label>
-          Project Name
-          <input className="form-input" value={projectConfig.name} readOnly />
-        </label>
-
-        <label>
-          Project ID
-          <input className="form-input" value={projectId} readOnly />
-        </label>
-      </div>
-
-      <div className="tag-section">
-        <h3 className="tag-summary">Project management</h3>
-
-        <div className="button-row">
-          <button type="button" className="button-secondary" disabled>
-            Duplicate Project
-          </button>
-
-          <button type="button" className="button-secondary" disabled>
-            Export Project Config
-          </button>
+      <div className="tag-editor-section">
+        <div className="form-group">
+          <div className="form-label">Project ID</div>
+          <div className="terminal-block">{projectId}</div>
         </div>
+        <div className="form-group">
+          <div className="form-label">Project Name</div>
 
-        <p className="tag-summary">
-          Project editing, duplication, and project-level import/export will be
-          added here later.
-        </p>
+          <div className="tag-phrase-row">
+            <input
+              className="form-input"
+              value={projectName}
+              onChange={(e) =>
+                updateProjectOverride({
+                  name: e.target.value,
+                })
+              }
+            />
+
+            <button
+              type="button"
+              className="button-secondary"
+              onClick={() => resetProjectOverride('name')}
+              disabled={!projectSettingsOverrides?.name}
+            >
+              Reset
+            </button>
+          </div>
+        </div>
       </div>
-    </>
+
+      <div className="button-row">
+        <button type="button" className="button-secondary">
+          Duplicate Project
+        </button>
+
+        <button type="button" className="button-secondary">
+          Export Project Config
+        </button>
+      </div>
+
+      <p className="tag-summary">
+        Project editing, duplication, and project-level import/export will be
+        added here later.
+      </p>
+    </section>
   );
 }
