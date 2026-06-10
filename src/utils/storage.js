@@ -6,6 +6,7 @@ const defaultStorage = {
   tagOverrides: {},
   tagVisibilityOverrides: {},
   shortsQueues: {},
+  projectOverrides: {},
   ui: {
     selectedProject: '',
     activePage: '',
@@ -26,6 +27,10 @@ export function loadAppStorage() {
       ? {
           ...defaultStorage,
           ...stored,
+          projectOverrides: {
+            ...defaultStorage.projectOverrides,
+            ...stored.projectOverrides,
+          },
           ui: {
             ...defaultStorage.ui,
             ...stored.ui,

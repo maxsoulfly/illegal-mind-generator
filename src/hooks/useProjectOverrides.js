@@ -2,16 +2,17 @@ import { useCallback, useState } from 'react';
 
 import { loadAppStorage, updateAppStorage } from '../utils/storage';
 
-function getStoredProjectOverrides(projectId) {
+function getStoredProjectOverrides() {
   const appStorage = loadAppStorage();
 
-  return appStorage.projectOverrides?.[projectId] || {};
+  return appStorage.projectOverrides || {};
 }
 
 export default function useProjectOverrides(projectId) {
-  const [projectSettingsOverrides, setProjectSettingsOverrides] = useState(() =>
-    getStoredProjectOverrides(projectId),
-  );
+  const [allProjectSettingsOverrides, setAllProjectSettingsOverrides] =
+    useState(getStoredProjectOverrides);
+
+  const projectSettingsOverrides = allProjectSettingsOverrides[projectId] || {};
 
   const updateProjectOverride = useCallback(
     (updates) => {
@@ -19,23 +20,19 @@ export default function useProjectOverrides(projectId) {
         const currentProjectOverrides =
           currentStorage.projectOverrides?.[projectId] || {};
 
-        const nextProjectOverrides = {
-          ...currentProjectOverrides,
-          ...updates,
-        };
-
         return {
           ...currentStorage,
           projectOverrides: {
             ...(currentStorage.projectOverrides || {}),
-            [projectId]: nextProjectOverrides,
+            [projectId]: {
+              ...currentProjectOverrides,
+              ...updates,
+            },
           },
         };
       });
 
-      setProjectSettingsOverrides(
-        nextStorage.projectOverrides?.[projectId] || {},
-      );
+      setAllProjectSettingsOverrides(nextStorage.projectOverrides || {});
     },
     [projectId],
   );
@@ -61,9 +58,7 @@ export default function useProjectOverrides(projectId) {
         };
       });
 
-      setProjectSettingsOverrides(
-        nextStorage.projectOverrides?.[projectId] || {},
-      );
+      setAllProjectSettingsOverrides(nextStorage.projectOverrides || {});
     },
     [projectId],
   );
