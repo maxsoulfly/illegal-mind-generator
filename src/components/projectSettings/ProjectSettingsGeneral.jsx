@@ -1,3 +1,4 @@
+import ProjectTextField from './ProjectTextField';
 export default function ProjectSettingsGeneral({
   projectId,
   projectConfig,
@@ -16,30 +17,14 @@ export default function ProjectSettingsGeneral({
           <div className="form-label">Project ID</div>
           <div className="terminal-block">{projectId}</div>
         </div>
-        <div className="form-group">
-          <div className="form-label">Project Name</div>
-
-          <div className="tag-phrase-row">
-            <input
-              className="form-input"
-              value={projectName}
-              onChange={(e) =>
-                updateProjectOverride({
-                  name: e.target.value,
-                })
-              }
-            />
-
-            <button
-              type="button"
-              className="button-secondary"
-              onClick={() => resetProjectOverride('name')}
-              disabled={!projectSettingsOverrides?.name}
-            >
-              Reset
-            </button>
-          </div>
-        </div>
+        <ProjectTextField
+          label="Project Name"
+          value={projectName}
+          fieldName="name"
+          isOverridden={Boolean(projectSettingsOverrides?.name)}
+          onChange={updateProjectOverride}
+          onReset={resetProjectOverride}
+        />
       </div>
 
       <div className="button-row">
