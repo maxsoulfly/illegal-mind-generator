@@ -3,6 +3,7 @@ import { useEffect, useMemo } from 'react';
 import projects from './config/projects.json';
 
 import useGeneratedOutput from './hooks/useGeneratedOutput';
+import useProjectOverrides from './hooks/useProjectOverrides';
 
 import buildResolvedProjectConfig from './utils/buildResolvedProjectConfig';
 
@@ -62,16 +63,26 @@ function App() {
 
   // User tag overrides stored in localStorage.
   const {
-    projectOverrides,
+    projectOverrides: tagOverrides,
     updateTagOverride,
     resetTagOverride,
     syncProjectTags,
   } = useTagOverrides(projectId);
 
+  const {
+    projectSettingsOverrides,
+    updateProjectOverride,
+    resetProjectOverride,
+  } = useProjectOverrides(projectId);
+
   // Runtime config = base config + user overrides.
   const resolvedProjectConfig = useMemo(() => {
-    return buildResolvedProjectConfig(projectConfig, projectOverrides);
-  }, [projectConfig, projectOverrides]);
+    return buildResolvedProjectConfig(
+      projectConfig,
+      tagOverrides,
+      projectSettingsOverrides,
+    );
+  }, [projectConfig, tagOverrides, projectSettingsOverrides]);
 
   // Saved entries CRUD and import/export.
   const {
@@ -133,7 +144,7 @@ function App() {
           togglePanel={togglePanel}
           tagUsage={tagUsage}
           handleRegenerate={handleRegenerate}
-          projectOverrides={projectOverrides}
+          projectOverrides={tagOverrides}
           onOpenSourceTag={openTagLibrarySearch}
         />
       )}
@@ -145,7 +156,7 @@ function App() {
           projectConfig={resolvedProjectConfig}
           savedEntries={savedEntries}
           projectName={projectConfig.name}
-          projectOverrides={projectOverrides}
+          projectOverrides={tagOverrides}
           updateTagOverride={updateTagOverride}
           resetTagOverride={resetTagOverride}
           syncProjectTags={syncProjectTags}
@@ -194,6 +205,9 @@ function App() {
         <ProjectSettingsPage
           projectId={projectId}
           projectConfig={resolvedProjectConfig}
+          projectSettingsOverrides={projectSettingsOverrides}
+          updateProjectOverride={updateProjectOverride}
+          resetProjectOverride={resetProjectOverride}
         />
       )}
     </div>
