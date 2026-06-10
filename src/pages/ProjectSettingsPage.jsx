@@ -1,12 +1,9 @@
-import { useState } from 'react';
-
 import {
   PROJECT_SETTING_SECTIONS,
   getProjectSettingsSectionSummary,
 } from '../config/projectSettingsSections';
 
 import ProjectSettingsContent from '../components/projectSettings/ProjectSettingsContent';
-import ProjectSettingsGeneral from '../components/projectSettings/ProjectSettingsGeneral';
 
 export default function ProjectSettingsPage({
   projectId,
@@ -16,15 +13,14 @@ export default function ProjectSettingsPage({
   resetProjectOverride,
   shortHooksTarget,
   clearShortHooksTarget,
+  activeSection,
+  onSectionChange,
 }) {
-  const [activeSection, setActiveSection] = useState('general');
-
-  // If an incoming navigation target is present, force the shortHooks section.
-  // Derived directly to avoid setState-in-effect; clears on any manual tab click.
+  // Navigation targets override the active section; clears on any manual tab click.
   const resolvedSection = shortHooksTarget ? 'shortHooks' : activeSection;
 
   function handleSectionChange(sectionId) {
-    setActiveSection(sectionId);
+    onSectionChange(sectionId);
     if (shortHooksTarget) clearShortHooksTarget();
   }
 

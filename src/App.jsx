@@ -45,6 +45,8 @@ function App() {
     shortHooksTarget,
     openShortHooksSearch,
     clearShortHooksTarget,
+    activeProjectSettingsSection,
+    setActiveProjectSettingsSection,
   } = useAppShellState();
   // Development-only storage migration helpers.
   useEffect(() => {
@@ -214,6 +216,8 @@ function App() {
           resetProjectOverride={resetProjectOverride}
           shortHooksTarget={shortHooksTarget}
           clearShortHooksTarget={clearShortHooksTarget}
+          activeSection={activeProjectSettingsSection}
+          onSectionChange={setActiveProjectSettingsSection}
         />
       )}
     </div>

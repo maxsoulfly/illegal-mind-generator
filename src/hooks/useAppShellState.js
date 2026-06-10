@@ -71,6 +71,11 @@ export default function useAppShellState() {
   const [tagLibrarySearchTarget, setTagLibrarySearchTarget] = useState(null);
   const [shortHooksTarget, setShortHooksTarget] = useState(null);
 
+  const [activeProjectSettingsSection, setActiveProjectSettingsSection] = useState(() => {
+    const storage = loadAppStorage();
+    return storage.ui.projectSettingsSection || 'general';
+  });
+
   // Persist generator form state.
   useEffect(() => {
     localStorage.setItem('formData', JSON.stringify(formData));
@@ -109,6 +114,17 @@ export default function useAppShellState() {
       },
     }));
   }, [activePage]);
+
+  // Persist active Project Settings section.
+  useEffect(() => {
+    updateAppStorage((storage) => ({
+      ...storage,
+      ui: {
+        ...storage.ui,
+        projectSettingsSection: activeProjectSettingsSection,
+      },
+    }));
+  }, [activeProjectSettingsSection]);
 
   // Persist selected project.
   useEffect(() => {
@@ -191,5 +207,7 @@ export default function useAppShellState() {
     shortHooksTarget,
     openShortHooksSearch,
     clearShortHooksTarget,
+    activeProjectSettingsSection,
+    setActiveProjectSettingsSection,
   };
 }
