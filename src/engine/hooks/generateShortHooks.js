@@ -67,7 +67,11 @@ function getTagShortHooksForType(type, formData, projectConfig) {
 
 export function generateShortHooks(formData, projectConfig) {
   const hookTypes = projectConfig.shortHookTypes || {};
-  const suffix = projectConfig.title?.shortHookSuffix || '';
+  // shortsPrefix/shortsSuffix are the editable UI keys; fall back to legacy shortHookSuffix.
+  const prefix = projectConfig.title?.shortsPrefix || '';
+  const suffix = projectConfig.title?.shortsSuffix ?? projectConfig.title?.shortHookSuffix ?? '';
+  const prefixEnabled = projectConfig.title?.shortsPrefixEnabled !== false;
+  const suffixEnabled = projectConfig.title?.shortsSuffixEnabled !== false;
 
   return Object.entries(hookTypes).map(([type, hookConfig]) => {
     const baseHooks = (hookConfig.templates || []).map((template) =>
@@ -80,7 +84,7 @@ export function generateShortHooks(formData, projectConfig) {
       .slice(0, 2)
       .map((hook) => ({
         ...hook,
-        text: `${hook.text}${fillHookTemplate(suffix, formData)}`,
+        text: `${prefixEnabled ? fillHookTemplate(prefix, formData) : ''}${hook.text}${suffixEnabled ? fillHookTemplate(suffix, formData) : ''}`,
       }));
 
     return {

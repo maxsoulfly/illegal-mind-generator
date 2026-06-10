@@ -5,6 +5,12 @@ const GROUP_LABELS = {
   butIts: "But It's",
 };
 
+const GENERATION_SETTINGS_KEYS = [
+  'prefix', 'longSuffix', 'shortsPrefix', 'shortsSuffix',
+  'prefixEnabled', 'longSuffixEnabled', 'shortsPrefixEnabled', 'shortsSuffixEnabled',
+  'connector', 'listSeparator', 'maxTransformationPhrases',
+];
+
 // Stores template overrides at projectSettingsOverrides.title.templates[groupName],
 // which mergeProjectOverrides already knows how to shallow-merge per group.
 export default function ProjectSettingsTitles({
@@ -13,9 +19,21 @@ export default function ProjectSettingsTitles({
   updateProjectOverride,
 }) {
   const groups = Object.keys(projectConfig.title?.templates || {});
-  const connector = projectConfig.title?.connector ?? '&';
-  const listSeparator = projectConfig.title?.listSeparator ?? ', ';
-  const maxPhrases = projectConfig.title?.maxTransformationPhrases ?? 1;
+  const t = projectConfig.title || {};
+
+  const prefix = t.prefix ?? t.longPrefix ?? '';
+  const longSuffix = t.longSuffix ?? '';
+  const shortsPrefix = t.shortsPrefix ?? '';
+  const shortsSuffix = t.shortsSuffix ?? '';
+
+  const prefixEnabled = t.prefixEnabled !== false;
+  const longSuffixEnabled = t.longSuffixEnabled !== false;
+  const shortsPrefixEnabled = t.shortsPrefixEnabled !== false;
+  const shortsSuffixEnabled = t.shortsSuffixEnabled !== false;
+
+  const connector = t.connector ?? '&';
+  const listSeparator = t.listSeparator ?? ', ';
+  const maxPhrases = t.maxTransformationPhrases ?? 1;
 
   function updateTitleSetting(key, value) {
     updateProjectOverride({
@@ -27,8 +45,8 @@ export default function ProjectSettingsTitles({
   }
 
   function resetGenerationSettings() {
-    const { connector: _c, maxTransformationPhrases: _m, ...remaining } =
-      projectSettingsOverrides.title || {};
+    const remaining = { ...(projectSettingsOverrides.title || {}) };
+    GENERATION_SETTINGS_KEYS.forEach((k) => delete remaining[k]);
     updateProjectOverride({ title: remaining });
   }
 
@@ -72,6 +90,76 @@ export default function ProjectSettingsTitles({
               ↺
             </button>
           </header>
+
+          <p className="tag-category">Long Titles</p>
+
+          <div className="tag-phrase-row">
+            <input
+              type="checkbox"
+              checked={prefixEnabled}
+              onChange={(e) => updateTitleSetting('prefixEnabled', e.target.checked)}
+            />
+            <label className="form-label">Prefix</label>
+            <input
+              className="form-input"
+              value={prefix}
+              disabled={!prefixEnabled}
+              placeholder="{num} available"
+              onChange={(e) => updateTitleSetting('prefix', e.target.value)}
+            />
+          </div>
+
+          <div className="tag-phrase-row">
+            <input
+              type="checkbox"
+              checked={longSuffixEnabled}
+              onChange={(e) => updateTitleSetting('longSuffixEnabled', e.target.checked)}
+            />
+            <label className="form-label">Suffix</label>
+            <input
+              className="form-input"
+              value={longSuffix}
+              disabled={!longSuffixEnabled}
+              placeholder="e.g. // Illegal Mind Rework"
+              onChange={(e) => updateTitleSetting('longSuffix', e.target.value)}
+            />
+          </div>
+
+          <p className="tag-category">Shorts Titles</p>
+
+          <div className="tag-phrase-row">
+            <input
+              type="checkbox"
+              checked={shortsPrefixEnabled}
+              onChange={(e) => updateTitleSetting('shortsPrefixEnabled', e.target.checked)}
+            />
+            <label className="form-label">Prefix</label>
+            <input
+              className="form-input"
+              value={shortsPrefix}
+              disabled={!shortsPrefixEnabled}
+              placeholder="{num} available"
+              onChange={(e) => updateTitleSetting('shortsPrefix', e.target.value)}
+            />
+          </div>
+
+          <div className="tag-phrase-row">
+            <input
+              type="checkbox"
+              checked={shortsSuffixEnabled}
+              onChange={(e) => updateTitleSetting('shortsSuffixEnabled', e.target.checked)}
+            />
+            <label className="form-label">Suffix</label>
+            <input
+              className="form-input"
+              value={shortsSuffix}
+              disabled={!shortsSuffixEnabled}
+              placeholder="{num} available"
+              onChange={(e) => updateTitleSetting('shortsSuffix', e.target.value)}
+            />
+          </div>
+
+          <p className="tag-category">Transformation</p>
 
           <div className="tag-phrase-row">
             <label className="form-label">List separator</label>

@@ -139,9 +139,23 @@ export function generateTitles(formData = {}, config = {}) {
       : generatedArtistShort;
 
   const isShorts = formData.videoType === 'Shorts';
-  const longSuffix = config.title?.longSuffix || '';
-  const prefixTemplate = config.title?.prefix || '';
-  const prefix = prefixTemplate.replace('{num}', formData.signalNumber || 'XX');
+  const num = formData.signalNumber || 'XX';
+
+  const prefixEnabled = config.title?.prefixEnabled !== false;
+  const longSuffixEnabled = config.title?.longSuffixEnabled !== false;
+  const shortsPrefixEnabled = config.title?.shortsPrefixEnabled !== false;
+  const shortsSuffixEnabled = config.title?.shortsSuffixEnabled !== false;
+
+  // Support both 'prefix' and legacy 'longPrefix' key names.
+  const longPrefixRaw = config.title?.prefix || config.title?.longPrefix || '';
+  const longSuffixRaw = config.title?.longSuffix || '';
+  const shortsPrefixRaw = config.title?.shortsPrefix || '';
+  const shortsSuffixRaw = config.title?.shortsSuffix || '';
+
+  const longPrefix = prefixEnabled ? longPrefixRaw.replace('{num}', num) : '';
+  const longSuffix = longSuffixEnabled ? longSuffixRaw.replace('{num}', num) : '';
+  const shortsPrefix = shortsPrefixEnabled ? shortsPrefixRaw.replace('{num}', num) : '';
+  const shortsSuffix = shortsSuffixEnabled ? shortsSuffixRaw.replace('{num}', num) : '';
 
   const maxPhrases = config.title?.maxTransformationPhrases || 1;
   const connector = config.title?.connector || '&';
@@ -164,8 +178,8 @@ export function generateTitles(formData = {}, config = {}) {
     });
 
     const title = isShorts
-      ? `${prefix}${baseTitle}`
-      : `${prefix}${baseTitle}${longSuffix}`;
+      ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
+      : `${longPrefix}${baseTitle}${longSuffix}`;
 
     if (!usedTitles.has(title)) {
       usedTitles.add(title);

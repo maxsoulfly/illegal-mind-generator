@@ -10,6 +10,8 @@
     "title": {
       "longPrefix": "[SIGNAL {num}] // ",
       "longSuffix": " // Illegal Mind Rework",
+      "shortsPrefix": "",
+      "shortsSuffix": "",
       "shortHookSuffix": " // [SIGNAL {num}]",
 
       "templates": {
@@ -644,6 +646,8 @@
     "title": {
       "prefix": "",
       "longSuffix": "",
+      "shortsPrefix": "",
+      "shortsSuffix": "",
       "shortHookSuffix": "",
       "templates": {
         "standard": [
