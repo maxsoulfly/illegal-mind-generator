@@ -10,6 +10,7 @@ export default function ProjectSettingsContent({
   projectSettingsOverrides,
   updateProjectOverride,
   resetProjectOverride,
+  hookTarget,
 }) {
   if (activeSection === 'general') {
     return (
@@ -29,6 +30,7 @@ export default function ProjectSettingsContent({
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
+        hookTarget={hookTarget}
       />
     );
   }

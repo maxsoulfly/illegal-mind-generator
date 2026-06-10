@@ -1320,6 +1320,11 @@ svg {
   flex: 0 0 auto;
 }
 
+.tag-phrase-row--highlight .form-input {
+  box-shadow: 0 0 0 3px var(--color-shadow-focus);
+  border-color: var(--color-border-hover);
+}
+
 .tag-editor-tabs {
   display      : flex;
   gap          : var(--space-2);

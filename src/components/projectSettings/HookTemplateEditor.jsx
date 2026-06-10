@@ -1,11 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // Collapsible editor for a single hook type's templates array.
 // All mutations call onUpdateTemplates with the full replacement array —
 // the parent (ShortHookCard) is responsible for persisting it.
-export default function HookTemplateEditor({ templates = [], onUpdateTemplates }) {
+export default function HookTemplateEditor({ templates = [], onUpdateTemplates, highlightText }) {
   // null = bulk textarea closed; any string (including '') = open
   const [bulkValue, setBulkValue] = useState(null);
+  const detailsRef = useRef(null);
+  const highlightRowRef = useRef(null);
+
+  // When a hook button in the generator navigates here, auto-open the
+  // details panel and scroll the matching template row into view.
+  useEffect(() => {
+    if (!highlightText) return;
+    if (detailsRef.current) detailsRef.current.open = true;
+    if (highlightRowRef.current) {
+      highlightRowRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [highlightText]);
 
   function applyBulk() {
     const newLines = (bulkValue || '')
@@ -19,11 +31,17 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates }
   }
 
   return (
-    <details className="tag-section">
+    <details className="tag-section" ref={detailsRef}>
       <summary>Edit hooks</summary>
 
-      {templates.map((template, i) => (
-        <div key={i} className="tag-phrase-row">
+      {templates.map((template, i) => {
+        const isHighlighted = template === highlightText;
+        return (
+        <div
+          key={i}
+          ref={isHighlighted ? highlightRowRef : null}
+          className={`tag-phrase-row${isHighlighted ? ' tag-phrase-row--highlight' : ''}`}
+        >
           <input
             className="form-input"
             value={template}
@@ -42,7 +60,8 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates }
             ×
           </button>
         </div>
-      ))}
+        );
+      })}
 
       {bulkValue != null && (
         <div className="tag-section">

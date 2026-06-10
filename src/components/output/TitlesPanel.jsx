@@ -25,6 +25,7 @@ function TitlesPanel({
   shortHooks,
   videoType,
   onOpenSourceTag,
+  onOpenSourceHook,
 }) {
   const mixedShortTitles = buildMixedShortTitles(shortHooks);
   return (
@@ -46,6 +47,7 @@ function TitlesPanel({
               title="Best Shorts Title Candidates"
               hooks={mixedShortTitles}
               onOpenSourceTag={onOpenSourceTag}
+              onOpenSourceHook={onOpenSourceHook}
             />
           ) : (
             titles.map((title, index) => {

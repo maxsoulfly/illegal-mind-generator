@@ -42,6 +42,9 @@ function App() {
     tagLibrarySearchTarget,
     openTagLibrarySearch,
     clearTagLibrarySearchTarget,
+    shortHooksTarget,
+    openShortHooksSearch,
+    clearShortHooksTarget,
   } = useAppShellState();
   // Development-only storage migration helpers.
   useEffect(() => {
@@ -147,6 +150,7 @@ function App() {
           handleRegenerate={handleRegenerate}
           projectOverrides={tagOverrides}
           onOpenSourceTag={openTagLibrarySearch}
+          onOpenSourceHook={openShortHooksSearch}
         />
       )}
       {/* Tag management and phrase editing */}
@@ -208,6 +212,8 @@ function App() {
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}
           resetProjectOverride={resetProjectOverride}
+          shortHooksTarget={shortHooksTarget}
+          clearShortHooksTarget={clearShortHooksTarget}
         />
       )}
     </div>

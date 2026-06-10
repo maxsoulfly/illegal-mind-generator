@@ -3,7 +3,7 @@ import HookTemplateEditor from './HookTemplateEditor';
 // Edits persist immediately via onUpdateTemplates, which replaces the full
 // templates array for this hook type in the project override storage.
 // onReset removes the override entirely, restoring the base project config.
-export default function ShortHookCard({ hookType, hookConfig, onUpdateTemplates, onReset }) {
+export default function ShortHookCard({ hookType, hookConfig, onUpdateTemplates, onReset, highlightText }) {
   const phraseCount = hookConfig.templates?.length || 0;
 
   return (
@@ -28,6 +28,7 @@ export default function ShortHookCard({ hookType, hookConfig, onUpdateTemplates,
       <HookTemplateEditor
         templates={hookConfig.templates}
         onUpdateTemplates={onUpdateTemplates}
+        highlightText={highlightText}
       />
     </article>
   );

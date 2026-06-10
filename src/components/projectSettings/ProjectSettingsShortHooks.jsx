@@ -5,6 +5,7 @@ export default function ProjectSettingsShortHooks({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,
+  hookTarget,
 }) {
   const hookTypes = Object.entries(projectConfig.shortHookTypes || {});
 
@@ -41,6 +42,7 @@ export default function ProjectSettingsShortHooks({
               updateHookTypeTemplates(hookType, hookConfig, newTemplates)
             }
             onReset={() => resetHookType(hookType)}
+            highlightText={hookTarget?.hookType === hookType ? hookTarget.sourceText : null}
           />
         ))}
       </div>

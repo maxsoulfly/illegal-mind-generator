@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   PROJECT_SETTING_SECTIONS,
@@ -14,8 +14,19 @@ export default function ProjectSettingsPage({
   projectSettingsOverrides,
   updateProjectOverride,
   resetProjectOverride,
+  shortHooksTarget,
+  clearShortHooksTarget,
 }) {
   const [activeSection, setActiveSection] = useState('general');
+  // Local copy so the highlight persists after the external target is cleared.
+  const [hookTarget, setHookTarget] = useState(null);
+
+  useEffect(() => {
+    if (!shortHooksTarget) return;
+    setActiveSection('shortHooks');
+    setHookTarget(shortHooksTarget);
+    clearShortHooksTarget();
+  }, [shortHooksTarget]);
 
   return (
     <section className="page-panel">
@@ -45,6 +56,7 @@ export default function ProjectSettingsPage({
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}
           resetProjectOverride={resetProjectOverride}
+          hookTarget={hookTarget}
         />
       </div>
     </section>

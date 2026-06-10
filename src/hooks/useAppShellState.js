@@ -69,6 +69,7 @@ export default function useAppShellState() {
     );
   });
   const [tagLibrarySearchTarget, setTagLibrarySearchTarget] = useState(null);
+  const [shortHooksTarget, setShortHooksTarget] = useState(null);
 
   // Persist generator form state.
   useEffect(() => {
@@ -140,6 +141,16 @@ export default function useAppShellState() {
     }));
   };
 
+  const openShortHooksSearch = (target) => {
+    if (!target) return;
+    setShortHooksTarget(target);
+    setActivePage('projectSettings');
+  };
+
+  const clearShortHooksTarget = () => {
+    setShortHooksTarget(null);
+  };
+
   const openTagLibrarySearch = (target) => {
     if (!target) return;
 
@@ -177,5 +188,8 @@ export default function useAppShellState() {
     tagLibrarySearchTarget,
     openTagLibrarySearch,
     clearTagLibrarySearchTarget,
+    shortHooksTarget,
+    openShortHooksSearch,
+    clearShortHooksTarget,
   };
 }

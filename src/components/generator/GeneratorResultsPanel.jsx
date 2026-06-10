@@ -10,6 +10,7 @@ function GeneratorResultsPanel({
   panelVisibility,
   setPanelVisibility,
   onOpenSourceTag,
+  onOpenSourceHook,
 }) {
   const togglePanel = (key) => {
     setPanelVisibility((prev) => ({
@@ -40,6 +41,7 @@ function GeneratorResultsPanel({
           shortHooks={generatedOutput.shortHooks}
           videoType={formData.videoType}
           onOpenSourceTag={onOpenSourceTag}
+          onOpenSourceHook={onOpenSourceHook}
         />
 
         <DescriptionsPanel

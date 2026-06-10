@@ -24,6 +24,7 @@ export default function GeneratorPage({
   setPanelVisibility,
   projectOverrides,
   onOpenSourceTag,
+  onOpenSourceHook,
 }) {
   const [inputFlash, setInputFlash] = useState(false);
 
@@ -96,6 +97,7 @@ export default function GeneratorPage({
           panelVisibility={panelVisibility}
           setPanelVisibility={setPanelVisibility}
           onOpenSourceTag={onOpenSourceTag}
+          onOpenSourceHook={onOpenSourceHook}
         />
       </div>
     </>

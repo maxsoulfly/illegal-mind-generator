@@ -24,7 +24,11 @@ function isTagHook(hook) {
   return typeof hook !== 'string' && hook.sourceType === 'tag';
 }
 
-function ShortHookTitles({ title, hooks, onOpenSourceTag }) {
+function isBaseHook(hook) {
+  return typeof hook !== 'string' && hook.sourceType === 'base';
+}
+
+function ShortHookTitles({ title, hooks, onOpenSourceTag, onOpenSourceHook }) {
   return (
     <div className="generated-pair terminal-block">
       <h3 className="saved-entry-signal">{title}</h3>
@@ -32,6 +36,7 @@ function ShortHookTitles({ title, hooks, onOpenSourceTag }) {
       {hooks.map((hook, index) => {
         const hookText = getHookText(hook);
         const tagHook = isTagHook(hook);
+        const baseHook = isBaseHook(hook);
 
         return (
           <div key={index} className="generated-pair-row">
@@ -45,6 +50,20 @@ function ShortHookTitles({ title, hooks, onOpenSourceTag }) {
                     tagName: hook.sourceTag,
                     hookType: hook.hookType,
                     hookText: hook.sourceText || hookText,
+                  })
+                }
+              >
+                {hookText}
+              </button>
+            ) : baseHook ? (
+              <button
+                type="button"
+                className="queue-entry-link generated-pair-text generated-pair-link"
+                title={getHookTooltip(hook)}
+                onClick={() =>
+                  onOpenSourceHook?.({
+                    hookType: hook.hookType,
+                    sourceText: hook.sourceText || hookText,
                   })
                 }
               >
