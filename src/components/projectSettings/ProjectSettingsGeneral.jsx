@@ -1,4 +1,5 @@
 import ProjectTextField from './ProjectTextField';
+
 export default function ProjectSettingsGeneral({
   projectId,
   projectConfig,
@@ -8,6 +9,7 @@ export default function ProjectSettingsGeneral({
 }) {
   const projectName =
     projectSettingsOverrides?.name ?? projectConfig.name ?? '';
+
   return (
     <section>
       <h2 className="panel-title">General</h2>
@@ -17,11 +19,11 @@ export default function ProjectSettingsGeneral({
           <div className="form-label">Project ID</div>
           <div className="terminal-block">{projectId}</div>
         </div>
+
         <ProjectTextField
           label="Project Name"
           value={projectName}
           fieldName="name"
-          isOverridden={Boolean(projectSettingsOverrides?.name)}
           onChange={updateProjectOverride}
           onReset={resetProjectOverride}
         />
