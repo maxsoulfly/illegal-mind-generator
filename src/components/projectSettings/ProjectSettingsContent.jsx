@@ -35,7 +35,13 @@ export default function ProjectSettingsContent({
     );
   }
   if (activeSection === 'titles') {
-    return <ProjectSettingsTitles projectConfig={projectConfig} />;
+    return (
+      <ProjectSettingsTitles
+        projectConfig={projectConfig}
+        projectSettingsOverrides={projectSettingsOverrides}
+        updateProjectOverride={updateProjectOverride}
+      />
+    );
   }
 
   if (activeSection === 'descriptions') {

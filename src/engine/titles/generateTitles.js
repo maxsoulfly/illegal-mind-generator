@@ -1,3 +1,10 @@
+// Picks up to maxPhrases unique phrases from the pool and joins them with connector.
+// Single-item pools (faithful, rework fallback) return that item with no connector.
+function pickTransformation(phrasePool, maxPhrases, connector) {
+  const count = Math.min(maxPhrases, phrasePool.length);
+  return shuffleArray(phrasePool).slice(0, count).join(` ${connector} `);
+}
+
 function buildTransformationVariations(formData = {}, config = {}) {
   const selectedTags = formData?.transformationTags || [];
 
@@ -129,12 +136,15 @@ export function generateTitles(formData = {}, config = {}) {
   const prefixTemplate = config.title?.prefix || '';
   const prefix = prefixTemplate.replace('{num}', formData.signalNumber || 'XX');
 
+  const maxPhrases = config.title?.maxTransformationPhrases || 1;
+  const connector = config.title?.connector || '&';
+
   const titles = [];
   const usedTitles = new Set();
   let attempts = 0;
 
   while (titles.length < 5 && attempts < 50) {
-    const transformation = transformations[attempts % transformations.length];
+    const transformation = pickTransformation(transformations, maxPhrases, connector);
     const randomTemplates = shuffleArray(weightedTemplates);
     const template = randomTemplates[0];
 
