@@ -25,10 +25,11 @@ export default function ProjectSettingsContent({
 
   if (activeSection === 'shortHooks') {
     return (
-      <>
-        <h2 className="panel-title">Shorts Hooks</h2>
-        <p className="tag-summary">Shorts hook editor will be added here.</p>
-      </>
+      <ProjectSettingsShortHooks
+        projectConfig={projectConfig}
+        projectSettingsOverrides={projectSettingsOverrides}
+        updateProjectOverride={updateProjectOverride}
+      />
     );
   }
   if (activeSection === 'titles') {
