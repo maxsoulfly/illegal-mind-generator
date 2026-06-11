@@ -1,55 +1,40 @@
 import CopyButton from '../CopyButton';
+import NavLinkButton from '../ui/NavLinkButton';
 
-// Renders the title text as a clickable nav link when it was generated from
-// a short hook template, so you can jump back to the source.
-// Mirrors the same tag/base distinction used in ShortHookTitles.
 function TitleNavLink({ titleText, sourceHook, sourceTemplate, onOpenSourceTag, onOpenSourceHook, onOpenSourceTemplate }) {
+  const label = <><strong className="saved-entry-signal">Title:</strong> {titleText}</>;
+
   if (sourceHook?.sourceType === 'tag') {
     return (
-      <button
-        type="button"
-        className="queue-entry-link generated-pair-text generated-pair-link"
+      <NavLinkButton
         title={`Hook from tag: ${sourceHook.sourceTag} (${sourceHook.hookType})`}
-        onClick={() => onOpenSourceTag?.({
-          tagName: sourceHook.sourceTag,
-          hookType: sourceHook.hookType,
-          hookText: sourceHook.sourceText,
-        })}
+        onClick={() => onOpenSourceTag?.({ tagName: sourceHook.sourceTag, hookType: sourceHook.hookType, hookText: sourceHook.sourceText })}
       >
-        <strong className="saved-entry-signal">Title:</strong> {titleText}
-      </button>
+        {label}
+      </NavLinkButton>
     );
   }
 
   if (sourceHook?.sourceType === 'base') {
     return (
-      <button
-        type="button"
-        className="queue-entry-link generated-pair-text generated-pair-link"
+      <NavLinkButton
         title={`Hook preset: ${sourceHook.hookType}`}
-        onClick={() => onOpenSourceHook?.({
-          hookType: sourceHook.hookType,
-          sourceText: sourceHook.sourceText,
-        })}
+        onClick={() => onOpenSourceHook?.({ hookType: sourceHook.hookType, sourceText: sourceHook.sourceText })}
       >
-        <strong className="saved-entry-signal">Title:</strong> {titleText}
-      </button>
+        {label}
+      </NavLinkButton>
     );
   }
 
   if (sourceTemplate) {
     return (
-      <button
-        type="button"
-        className="queue-entry-link generated-pair-text generated-pair-link generated-pair-link--muted"
+      <NavLinkButton
+        muted
         title={`Template: ${sourceTemplate.template} (${sourceTemplate.groupName})`}
-        onClick={() => onOpenSourceTemplate?.({
-          groupName: sourceTemplate.groupName,
-          template: sourceTemplate.template,
-        })}
+        onClick={() => onOpenSourceTemplate?.({ groupName: sourceTemplate.groupName, template: sourceTemplate.template })}
       >
-        <strong className="saved-entry-signal">Title:</strong> {titleText}
-      </button>
+        {label}
+      </NavLinkButton>
     );
   }
 
@@ -84,7 +69,6 @@ function GeneratedTitlePair({ title, thumbnail, onOpenSourceTag, onOpenSourceHoo
           <strong className="saved-entry-signal">Thumb:</strong>{' '}
           {thumbnail}
         </p>
-
         <CopyButton text={thumbnail} />
       </div>
     </div>

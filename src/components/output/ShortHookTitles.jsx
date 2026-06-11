@@ -1,4 +1,5 @@
 import CopyButton from '../CopyButton';
+import NavLinkButton from '../ui/NavLinkButton';
 
 function getHookText(hook) {
   return typeof hook === 'string' ? hook : hook.text;
@@ -41,34 +42,20 @@ function ShortHookTitles({ title, hooks, onOpenSourceTag, onOpenSourceHook }) {
         return (
           <div key={index} className="generated-pair-row">
             {tagHook ? (
-              <button
-                type="button"
-                className="queue-entry-link generated-pair-text generated-pair-link"
+              <NavLinkButton
                 title={getHookTooltip(hook)}
-                onClick={() =>
-                  onOpenSourceTag?.({
-                    tagName: hook.sourceTag,
-                    hookType: hook.hookType,
-                    hookText: hook.sourceText || hookText,
-                  })
-                }
+                onClick={() => onOpenSourceTag?.({ tagName: hook.sourceTag, hookType: hook.hookType, hookText: hook.sourceText || hookText })}
               >
                 {hookText}
-              </button>
+              </NavLinkButton>
             ) : baseHook ? (
-              <button
-                type="button"
-                className="queue-entry-link generated-pair-text generated-pair-link generated-pair-link--muted"
+              <NavLinkButton
+                muted
                 title={getHookTooltip(hook)}
-                onClick={() =>
-                  onOpenSourceHook?.({
-                    hookType: hook.hookType,
-                    sourceText: hook.sourceText || hookText,
-                  })
-                }
+                onClick={() => onOpenSourceHook?.({ hookType: hook.hookType, sourceText: hook.sourceText || hookText })}
               >
                 {hookText}
-              </button>
+              </NavLinkButton>
             ) : (
               <p className="generated-pair-text" title={getHookTooltip(hook)}>
                 {hookText}
