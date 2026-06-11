@@ -91,107 +91,113 @@ export default function ProjectSettingsTitles({
             </button>
           </header>
 
-          <p className="tag-category">Long Titles</p>
+          <details className="tag-editor-section">
+            <summary className="tag-category">Prefix / Suffix</summary>
 
-          <div className="tag-phrase-row">
-            <input
-              type="checkbox"
-              checked={prefixEnabled}
-              onChange={(e) => updateTitleSetting('prefixEnabled', e.target.checked)}
-            />
-            <label className="form-label">Prefix</label>
-            <input
-              className="form-input"
-              value={prefix}
-              disabled={!prefixEnabled}
-              placeholder="{num} available"
-              onChange={(e) => updateTitleSetting('prefix', e.target.value)}
-            />
-          </div>
+            <p className="tag-category">Long Titles</p>
 
-          <div className="tag-phrase-row">
-            <input
-              type="checkbox"
-              checked={longSuffixEnabled}
-              onChange={(e) => updateTitleSetting('longSuffixEnabled', e.target.checked)}
-            />
-            <label className="form-label">Suffix</label>
-            <input
-              className="form-input"
-              value={longSuffix}
-              disabled={!longSuffixEnabled}
-              placeholder="e.g. // Illegal Mind Rework"
-              onChange={(e) => updateTitleSetting('longSuffix', e.target.value)}
-            />
-          </div>
+            <div className="tag-phrase-row">
+              <input
+                type="checkbox"
+                checked={prefixEnabled}
+                onChange={(e) => updateTitleSetting('prefixEnabled', e.target.checked)}
+              />
+              <label className="form-label">Prefix</label>
+              <input
+                className="form-input"
+                value={prefix}
+                disabled={!prefixEnabled}
+                placeholder="{num} available"
+                onChange={(e) => updateTitleSetting('prefix', e.target.value)}
+              />
+            </div>
 
-          <p className="tag-category">Shorts Titles</p>
+            <div className="tag-phrase-row">
+              <input
+                type="checkbox"
+                checked={longSuffixEnabled}
+                onChange={(e) => updateTitleSetting('longSuffixEnabled', e.target.checked)}
+              />
+              <label className="form-label">Suffix</label>
+              <input
+                className="form-input"
+                value={longSuffix}
+                disabled={!longSuffixEnabled}
+                placeholder="e.g. // Illegal Mind Rework"
+                onChange={(e) => updateTitleSetting('longSuffix', e.target.value)}
+              />
+            </div>
 
-          <div className="tag-phrase-row">
-            <input
-              type="checkbox"
-              checked={shortsPrefixEnabled}
-              onChange={(e) => updateTitleSetting('shortsPrefixEnabled', e.target.checked)}
-            />
-            <label className="form-label">Prefix</label>
-            <input
-              className="form-input"
-              value={shortsPrefix}
-              disabled={!shortsPrefixEnabled}
-              placeholder="{num} available"
-              onChange={(e) => updateTitleSetting('shortsPrefix', e.target.value)}
-            />
-          </div>
+            <p className="tag-category">Shorts Titles</p>
 
-          <div className="tag-phrase-row">
-            <input
-              type="checkbox"
-              checked={shortsSuffixEnabled}
-              onChange={(e) => updateTitleSetting('shortsSuffixEnabled', e.target.checked)}
-            />
-            <label className="form-label">Suffix</label>
-            <input
-              className="form-input"
-              value={shortsSuffix}
-              disabled={!shortsSuffixEnabled}
-              placeholder="{num} available"
-              onChange={(e) => updateTitleSetting('shortsSuffix', e.target.value)}
-            />
-          </div>
+            <div className="tag-phrase-row">
+              <input
+                type="checkbox"
+                checked={shortsPrefixEnabled}
+                onChange={(e) => updateTitleSetting('shortsPrefixEnabled', e.target.checked)}
+              />
+              <label className="form-label">Prefix</label>
+              <input
+                className="form-input"
+                value={shortsPrefix}
+                disabled={!shortsPrefixEnabled}
+                placeholder="{num} available"
+                onChange={(e) => updateTitleSetting('shortsPrefix', e.target.value)}
+              />
+            </div>
 
-          <p className="tag-category">Transformation</p>
+            <div className="tag-phrase-row">
+              <input
+                type="checkbox"
+                checked={shortsSuffixEnabled}
+                onChange={(e) => updateTitleSetting('shortsSuffixEnabled', e.target.checked)}
+              />
+              <label className="form-label">Suffix</label>
+              <input
+                className="form-input"
+                value={shortsSuffix}
+                disabled={!shortsSuffixEnabled}
+                placeholder="{num} available"
+                onChange={(e) => updateTitleSetting('shortsSuffix', e.target.value)}
+              />
+            </div>
+          </details>
 
-          <div className="tag-phrase-row">
-            <label className="form-label">List separator</label>
-            <input
-              className="form-input"
-              value={listSeparator}
-              onChange={(e) => updateTitleSetting('listSeparator', e.target.value)}
-            />
-          </div>
+          <details className="tag-editor-section">
+            <summary className="tag-category">Transformation</summary>
 
-          <div className="tag-phrase-row">
-            <label className="form-label">Connector</label>
-            <input
-              className="form-input"
-              value={connector}
-              onChange={(e) => updateTitleSetting('connector', e.target.value)}
-            />
-          </div>
+            <div className="tag-phrase-row">
+              <label className="form-label">List separator</label>
+              <input
+                className="form-input"
+                value={listSeparator}
+                onChange={(e) => updateTitleSetting('listSeparator', e.target.value)}
+              />
+            </div>
 
-          <div className="tag-phrase-row">
-            <label className="form-label">Max phrases</label>
-            <input
-              type="range"
-              min={1}
-              max={4}
-              value={maxPhrases}
-              onChange={(e) =>
-                updateTitleSetting('maxTransformationPhrases', Number(e.target.value))
-              }
-            />
-            <span className="tag-status">{maxPhrases}</span>
-          </div>
+            <div className="tag-phrase-row">
+              <label className="form-label">Connector</label>
+              <input
+                className="form-input"
+                value={connector}
+                onChange={(e) => updateTitleSetting('connector', e.target.value)}
+              />
+            </div>
+
+            <div className="tag-phrase-row">
+              <label className="form-label">Max phrases</label>
+              <input
+                type="range"
+                min={1}
+                max={4}
+                value={maxPhrases}
+                onChange={(e) =>
+                  updateTitleSetting('maxTransformationPhrases', Number(e.target.value))
+                }
+              />
+              <span className="tag-status">{maxPhrases}</span>
+            </div>
+          </details>
         </article>
 
         {groups.map((groupName) => {
