@@ -3,6 +3,7 @@ import { useState } from 'react';
 import AddBulkRow from '../ui/AddBulkRow';
 import BulkTextarea from '../ui/BulkTextarea';
 import FormField from '../ui/FormField';
+import PhraseRow from '../ui/PhraseRow';
 
 export default function TagPhraseEditor({
   title,
@@ -64,22 +65,12 @@ export default function TagPhraseEditor({
       <div className="tag-phrase-editor">
         <FormField>
           {phrases.map((phrase, index) => (
-            <div className="tag-phrase-row" key={index}>
-              <input
-                key={`${tagName}-${field}-${index}-${phrase}`}
-                className="form-input"
-                defaultValue={phrase}
-                onBlur={(e) => updatePhrase(index, e.target.value)}
-              />
-
-              <button
-                type="button"
-                className="button-secondary"
-                onClick={() => removePhrase(index)}
-              >
-                ✕
-              </button>
-            </div>
+            <PhraseRow
+              key={index}
+              value={phrase}
+              onCommit={(newValue) => updatePhrase(index, newValue)}
+              onRemove={() => removePhrase(index)}
+            />
           ))}
 
           {bulkValue != null && (

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import AddBulkRow from './AddBulkRow';
 import BulkTextarea from './BulkTextarea';
+import PhraseRow from './PhraseRow';
 
 // Collapsible editor for a single hook type's templates array.
 // All mutations call onUpdateTemplates with the full replacement array —
@@ -55,29 +56,21 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
       {visibleTemplates.map(({ template, index }) => {
         const isHighlighted = template === highlightText;
         return (
-        <div
-          key={index}
-          ref={isHighlighted ? highlightRowRef : null}
-          className={`tag-phrase-row${isHighlighted ? ' tag-phrase-row--highlight' : ''}`}
-        >
-          <input
-            className="form-input"
-            value={template}
-            onChange={(e) => {
-              const next = [...templates];
-              next[index] = e.target.value;
-              onUpdateTemplates(next);
-            }}
-          />
-
-          <button
-            type="button"
-            className="button-secondary"
-            onClick={() => onUpdateTemplates(templates.filter((_, idx) => idx !== index))}
+          <div
+            key={index}
+            ref={isHighlighted ? highlightRowRef : null}
+            className={isHighlighted ? 'tag-phrase-row--highlight' : undefined}
           >
-            ×
-          </button>
-        </div>
+            <PhraseRow
+              value={template}
+              onCommit={(newValue) => {
+                const next = [...templates];
+                next[index] = newValue;
+                onUpdateTemplates(next);
+              }}
+              onRemove={() => onUpdateTemplates(templates.filter((_, idx) => idx !== index))}
+            />
+          </div>
         );
       })}
 
