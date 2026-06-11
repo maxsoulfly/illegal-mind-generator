@@ -1,3 +1,5 @@
+import FormField from './FormField';
+
 export default function ProjectTextField({
   label,
   value,
@@ -6,9 +8,7 @@ export default function ProjectTextField({
   onReset,
 }) {
   return (
-    <div className="form-group">
-      <div className="form-label">{label}</div>
-
+    <FormField label={label}>
       <div className="tag-phrase-row">
         <input
           className="form-input"
@@ -28,6 +28,6 @@ export default function ProjectTextField({
           Reset
         </button>
       </div>
-    </div>
+    </FormField>
   );
 }
