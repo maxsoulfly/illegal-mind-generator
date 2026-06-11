@@ -1066,7 +1066,7 @@ svg {
 }
 
 .tag-library--3col {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
 }
 
 .tag-library-actions {
@@ -1320,12 +1320,17 @@ svg {
   margin-bottom: 0;
 }
 
+.tag-phrase-row .form-input--compact {
+  flex     : 0 1 50%;
+  min-width: 0;
+}
+
 .tag-phrase-row .button-secondary {
   flex: 0 0 auto;
 }
 
 .tag-phrase-row--highlight .form-input {
-  box-shadow: 0 0 0 3px var(--color-shadow-focus);
+  box-shadow  : 0 0 0 3px var(--color-shadow-focus);
   border-color: var(--color-border-hover);
 }
 

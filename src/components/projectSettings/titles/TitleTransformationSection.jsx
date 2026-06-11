@@ -1,3 +1,5 @@
+import LabelInputRow from '../../ui/LabelInputRow';
+
 export default function TitleTransformationSection({
   listSeparator,
   connector,
@@ -8,23 +10,19 @@ export default function TitleTransformationSection({
     <details className="tag-editor-section">
       <summary className="tag-category">Transformation</summary>
 
-      <div className="tag-phrase-row">
-        <label className="form-label">List separator</label>
-        <input
-          className="form-input"
-          value={listSeparator}
-          onChange={(e) => onUpdate('listSeparator', e.target.value)}
-        />
-      </div>
+      <LabelInputRow
+        label="Separator"
+        value={listSeparator}
+        onChange={(val) => onUpdate('listSeparator', val)}
+        compact
+      />
 
-      <div className="tag-phrase-row">
-        <label className="form-label">Connector</label>
-        <input
-          className="form-input"
-          value={connector}
-          onChange={(e) => onUpdate('connector', e.target.value)}
-        />
-      </div>
+      <LabelInputRow
+        label="Connector"
+        value={connector}
+        onChange={(val) => onUpdate('connector', val)}
+        compact
+      />
 
       <div className="tag-phrase-row">
         <label className="form-label">Max phrases</label>
@@ -33,7 +31,9 @@ export default function TitleTransformationSection({
           min={1}
           max={4}
           value={maxPhrases}
-          onChange={(e) => onUpdate('maxTransformationPhrases', Number(e.target.value))}
+          onChange={(e) =>
+            onUpdate('maxTransformationPhrases', Number(e.target.value))
+          }
         />
         <span className="tag-status">{maxPhrases}</span>
       </div>
