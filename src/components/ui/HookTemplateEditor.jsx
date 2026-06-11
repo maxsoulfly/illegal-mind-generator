@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 export default function HookTemplateEditor({ templates = [], onUpdateTemplates, highlightText }) {
   // null = bulk textarea closed; any string (including '') = open
   const [bulkValue, setBulkValue] = useState(null);
+  const [searchText, setSearchText] = useState('');
   const detailsRef = useRef(null);
   const highlightRowRef = useRef(null);
 
@@ -30,15 +31,29 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
     setBulkValue(null);
   }
 
+  // Keep original index so edits and deletes target the right entry even when filtered.
+  const visibleTemplates = templates
+    .map((template, index) => ({ template, index }))
+    .filter(({ template }) =>
+      template.toLowerCase().includes(searchText.toLowerCase())
+    );
+
   return (
     <details className="tag-section" ref={detailsRef}>
       <summary>Edit hooks</summary>
 
-      {templates.map((template, i) => {
+      <input
+        className="form-input"
+        placeholder="Search..."
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+      />
+
+      {visibleTemplates.map(({ template, index }) => {
         const isHighlighted = template === highlightText;
         return (
         <div
-          key={i}
+          key={index}
           ref={isHighlighted ? highlightRowRef : null}
           className={`tag-phrase-row${isHighlighted ? ' tag-phrase-row--highlight' : ''}`}
         >
@@ -47,7 +62,7 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
             value={template}
             onChange={(e) => {
               const next = [...templates];
-              next[i] = e.target.value;
+              next[index] = e.target.value;
               onUpdateTemplates(next);
             }}
           />
@@ -55,7 +70,7 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
           <button
             type="button"
             className="button-secondary"
-            onClick={() => onUpdateTemplates(templates.filter((_, idx) => idx !== i))}
+            onClick={() => onUpdateTemplates(templates.filter((_, idx) => idx !== index))}
           >
             ×
           </button>
