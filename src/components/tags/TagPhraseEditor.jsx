@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import FormField from '../ui/FormField';
 
 export default function TagPhraseEditor({
@@ -6,16 +8,16 @@ export default function TagPhraseEditor({
   field,
   parentField,
   parentValue = {},
-
   phrases = [],
   onUpdateTag,
   autoOpen = false,
 }) {
+  // null = bulk textarea closed; any string (including '') = open
+  const [bulkValue, setBulkValue] = useState(null);
+
   const buildUpdate = (nextPhrases) => {
     if (!parentField) {
-      return {
-        [field]: nextPhrases,
-      };
+      return { [field]: nextPhrases };
     }
 
     return {
@@ -27,10 +29,7 @@ export default function TagPhraseEditor({
   };
 
   const updatePhrase = (index, value) => {
-    const nextPhrases = phrases.map((phrase, i) =>
-      i === index ? value : phrase,
-    );
-
+    const nextPhrases = phrases.map((phrase, i) => (i === index ? value : phrase));
     onUpdateTag(tagName, buildUpdate(nextPhrases));
   };
 
@@ -38,19 +37,16 @@ export default function TagPhraseEditor({
     onUpdateTag(tagName, buildUpdate([...phrases, '']));
   };
 
-  const bulkAddPhrases = () => {
-    const pastedText = window.prompt('Paste phrases, one per line');
-
-    if (!pastedText) return;
-
-    const newPhrases = pastedText
+  const applyBulk = () => {
+    const newPhrases = (bulkValue || '')
       .split('\n')
-      .map((phrase) => phrase.trim())
+      .map((line) => line.trim())
       .filter(Boolean);
 
     if (newPhrases.length === 0) return;
 
     onUpdateTag(tagName, buildUpdate([...phrases, ...newPhrases]));
+    setBulkValue(null);
   };
 
   const removePhrase = (index) => {
@@ -83,20 +79,35 @@ export default function TagPhraseEditor({
               </button>
             </div>
           ))}
+
+          {bulkValue != null && (
+            <div className="tag-section">
+              <textarea
+                className="form-input"
+                rows={4}
+                placeholder="One phrase per line"
+                value={bulkValue}
+                onChange={(e) => setBulkValue(e.target.value)}
+              />
+
+              <div className="button-row">
+                <button type="button" className="button-secondary" onClick={applyBulk}>
+                  Apply
+                </button>
+
+                <button type="button" className="button-secondary" onClick={() => setBulkValue(null)}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+
           <div className="button-row">
-            <button
-              type="button"
-              className="button-secondary"
-              onClick={addPhrase}
-            >
+            <button type="button" className="button-secondary" onClick={addPhrase}>
               + Add
             </button>
 
-            <button
-              type="button"
-              className="button-secondary"
-              onClick={bulkAddPhrases}
-            >
+            <button type="button" className="button-secondary" onClick={() => setBulkValue('')}>
               + Bulk
             </button>
           </div>
