@@ -26,12 +26,29 @@ function TitlesPanel({
   videoType,
   onOpenSourceTag,
   onOpenSourceHook,
+  useHooksForLongTitles,
+  onToggleHooksForLongTitles,
 }) {
   const mixedShortTitles = buildMixedShortTitles(shortHooks);
+  const isShorts = videoType === 'Shorts';
+
   return (
     <div className={`panel ${panelVisibility.titles ? '' : 'panel-collapsed'}`}>
       <div className="panel-header">
         <h2 className="panel-title">Titles</h2>
+
+        {/* Only show the hooks toggle for long video mode — Shorts already use hooks directly. */}
+        {!isShorts && (
+          <button
+            type="button"
+            className="button-secondary"
+            title="Mix shorts hooks into long title candidates"
+            onClick={onToggleHooksForLongTitles}
+          >
+            {useHooksForLongTitles ? 'Hooks: ON' : 'Hooks: OFF'}
+          </button>
+        )}
+
         <ToggleButton
           isOpen={panelVisibility.titles}
           onClick={() => togglePanel('titles')}
@@ -42,7 +59,7 @@ function TitlesPanel({
 
       {panelVisibility.titles && (
         <div>
-          {videoType === 'Shorts' ? (
+          {isShorts ? (
             <ShortHookTitles
               title="Best Shorts Title Candidates"
               hooks={mixedShortTitles}
@@ -58,6 +75,8 @@ function TitlesPanel({
                   key={index}
                   title={title}
                   thumbnail={thumbnail}
+                  onOpenSourceTag={onOpenSourceTag}
+                  onOpenSourceHook={onOpenSourceHook}
                 />
               );
             })

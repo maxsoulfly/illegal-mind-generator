@@ -16,11 +16,11 @@ export default function useGeneratedOutput(formData, resolvedProjectConfig) {
 
   // Build all generated content from the current form data and project config.
   const generatedOutput = useMemo(() => {
-    const titles = generateTitles(formData, resolvedProjectConfig);
+    const shortHooks = generateShortHooks(formData, resolvedProjectConfig);
+
+    const titles = generateTitles(formData, resolvedProjectConfig, shortHooks);
 
     const thumbnails = generateThumbnails(formData, resolvedProjectConfig);
-
-    const shortHooks = generateShortHooks(formData, resolvedProjectConfig);
 
     const { longDescription, shortDescriptions, fileId } = generateDescriptions(
       formData,

@@ -11,6 +11,8 @@ function GeneratorResultsPanel({
   setPanelVisibility,
   onOpenSourceTag,
   onOpenSourceHook,
+  useHooksForLongTitles,
+  onToggleHooksForLongTitles,
 }) {
   const togglePanel = (key) => {
     setPanelVisibility((prev) => ({
@@ -42,6 +44,8 @@ function GeneratorResultsPanel({
           videoType={formData.videoType}
           onOpenSourceTag={onOpenSourceTag}
           onOpenSourceHook={onOpenSourceHook}
+          useHooksForLongTitles={useHooksForLongTitles}
+          onToggleHooksForLongTitles={onToggleHooksForLongTitles}
         />
 
         <DescriptionsPanel

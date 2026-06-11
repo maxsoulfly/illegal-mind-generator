@@ -123,14 +123,71 @@ function fillTemplate(template, values) {
     .replace('{transformation}', values.transformation);
 }
 
-export function generateTitles(formData = {}, config = {}) {
+// Builds the pool of transformation-based titles (same logic as before).
+// Each entry is { text, sourceHook: null } — sourceHook is null because
+// these come from tag phrases, not short hook templates.
+function buildTransformationTitles(formData, config, isShorts, artistFull, artistShortFinal, longPrefix, longSuffix, shortsPrefix, shortsSuffix) {
   const transformations = buildTransformationVariations(formData, config);
   const weightedTemplates = getWeightedTemplates(formData, config);
 
-  if (weightedTemplates.length === 0) {
-    return [];
+  if (weightedTemplates.length === 0) return [];
+
+  const maxPhrases = config.title?.maxTransformationPhrases || 1;
+  const connector = config.title?.connector || '&';
+  const listSeparator = config.title?.listSeparator ?? ', ';
+
+  const results = [];
+  const usedTexts = new Set();
+  let attempts = 0;
+
+  while (results.length < 5 && attempts < 50) {
+    const transformation = pickTransformation(transformations, maxPhrases, connector, listSeparator);
+    const template = shuffleArray(weightedTemplates)[0];
+
+    const baseTitle = fillTemplate(template, {
+      signalNumber: formData.signalNumber || 'XX',
+      artist: isShorts ? artistShortFinal : artistFull,
+      song: formData.song || '[Song Name]',
+      transformation,
+    });
+
+    const text = isShorts
+      ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
+      : `${longPrefix}${baseTitle}${longSuffix}`;
+
+    if (!usedTexts.has(text)) {
+      usedTexts.add(text);
+      results.push({ text, sourceHook: null });
+    }
+
+    attempts += 1;
   }
 
+  return results;
+}
+
+// Builds hook-based titles by pulling from the short hook pool and applying
+// the long title prefix/suffix. Each entry carries sourceHook metadata so
+// the UI can show a navigation link back to where the hook came from.
+function buildHookTitles(shortHooks, longPrefix, longSuffix) {
+  const hookPool = shortHooks.flatMap((group) => group.hooks || []);
+
+  if (hookPool.length === 0) return [];
+
+  return shuffleArray(hookPool)
+    .slice(0, 5)
+    .map((hook) => ({
+      text: `${longPrefix}${hook.text}${longSuffix}`,
+      sourceHook: {
+        sourceType: hook.sourceType,
+        sourceTag: hook.sourceTag,
+        hookType: hook.hookType,
+        sourceText: hook.sourceText,
+      },
+    }));
+}
+
+export function generateTitles(formData = {}, config = {}, shortHooks = []) {
   const artistFull = formData.artist || '[Artist Name]';
   const generatedArtistShort = buildGeneratedArtistShort(artistFull);
   const artistShortFinal =
@@ -157,37 +214,25 @@ export function generateTitles(formData = {}, config = {}) {
   const shortsPrefix = shortsPrefixEnabled ? shortsPrefixRaw.replace('{num}', num) : '';
   const shortsSuffix = shortsSuffixEnabled ? shortsSuffixRaw.replace('{num}', num) : '';
 
-  const maxPhrases = config.title?.maxTransformationPhrases || 1;
-  const connector = config.title?.connector || '&';
-  const listSeparator = config.title?.listSeparator ?? ', ';
+  const transformationTitles = buildTransformationTitles(
+    formData, config, isShorts,
+    artistFull, artistShortFinal,
+    longPrefix, longSuffix, shortsPrefix, shortsSuffix,
+  );
 
-  const titles = [];
-  const usedTitles = new Set();
-  let attempts = 0;
+  // Hooks only mix into long video titles, not Shorts (Shorts already use
+  // hooks directly via the Short Hooks panel).
+  // formData.useHooksForLongTitles acts as a per-session override of the
+  // project config default.
+  const useHooksForLongTitles =
+    formData.useHooksForLongTitles ?? config.title?.useHooksForLongTitles ?? false;
 
-  while (titles.length < 5 && attempts < 50) {
-    const transformation = pickTransformation(transformations, maxPhrases, connector, listSeparator);
-    const randomTemplates = shuffleArray(weightedTemplates);
-    const template = randomTemplates[0];
-
-    const baseTitle = fillTemplate(template, {
-      signalNumber: formData.signalNumber || 'XX',
-      artist: isShorts ? artistShortFinal : artistFull,
-      song: formData.song || '[Song Name]',
-      transformation,
-    });
-
-    const title = isShorts
-      ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
-      : `${longPrefix}${baseTitle}${longSuffix}`;
-
-    if (!usedTitles.has(title)) {
-      usedTitles.add(title);
-      titles.push(title);
-    }
-
-    attempts += 1;
+  if (!useHooksForLongTitles || isShorts) {
+    return transformationTitles;
   }
 
-  return titles;
+  const hookTitles = buildHookTitles(shortHooks, longPrefix, longSuffix);
+
+  // Combine both pools, shuffle, and return the first 5.
+  return shuffleArray([...transformationTitles, ...hookTitles]).slice(0, 5);
 }

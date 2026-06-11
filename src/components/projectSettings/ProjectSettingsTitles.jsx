@@ -9,6 +9,7 @@ const GENERATION_SETTINGS_KEYS = [
   'prefix', 'longSuffix', 'shortsPrefix', 'shortsSuffix',
   'prefixEnabled', 'longSuffixEnabled', 'shortsPrefixEnabled', 'shortsSuffixEnabled',
   'connector', 'listSeparator', 'maxTransformationPhrases',
+  'useHooksForLongTitles',
 ];
 
 // Stores template overrides at projectSettingsOverrides.title.templates[groupName],
@@ -34,6 +35,7 @@ export default function ProjectSettingsTitles({
   const connector = t.connector ?? '&';
   const listSeparator = t.listSeparator ?? ', ';
   const maxPhrases = t.maxTransformationPhrases ?? 1;
+  const useHooksForLongTitles = t.useHooksForLongTitles ?? false;
 
   function updateTitleSetting(key, value) {
     updateProjectOverride({
@@ -90,6 +92,18 @@ export default function ProjectSettingsTitles({
               ↺
             </button>
           </header>
+
+          <div className="tag-phrase-row">
+            <input
+              type="checkbox"
+              id="useHooksForLongTitles"
+              checked={useHooksForLongTitles}
+              onChange={(e) => updateTitleSetting('useHooksForLongTitles', e.target.checked)}
+            />
+            <label className="form-label" htmlFor="useHooksForLongTitles">
+              Mix shorts hooks into long titles by default
+            </label>
+          </div>
 
           <details className="tag-editor-section">
             <summary className="tag-category">Prefix / Suffix</summary>

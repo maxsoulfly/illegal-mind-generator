@@ -28,6 +28,19 @@ export default function GeneratorPage({
 }) {
   const [inputFlash, setInputFlash] = useState(false);
 
+  // Resolve whether to mix shorts hooks into long title candidates.
+  // formData.useHooksForLongTitles acts as a per-session override of the
+  // project config default (projectConfig.title.useHooksForLongTitles).
+  const useHooksForLongTitles =
+    formData.useHooksForLongTitles ?? projectConfig.title?.useHooksForLongTitles ?? false;
+
+  const handleToggleHooksForLongTitles = () => {
+    setFormData((prev) => ({
+      ...prev,
+      useHooksForLongTitles: !useHooksForLongTitles,
+    }));
+  };
+
   const [showSavedLibrary, setShowSavedLibrary] = useState(() => {
     const saved = localStorage.getItem('showSavedLibrary');
     return saved ? JSON.parse(saved) : false;
@@ -98,6 +111,8 @@ export default function GeneratorPage({
           setPanelVisibility={setPanelVisibility}
           onOpenSourceTag={onOpenSourceTag}
           onOpenSourceHook={onOpenSourceHook}
+          useHooksForLongTitles={useHooksForLongTitles}
+          onToggleHooksForLongTitles={handleToggleHooksForLongTitles}
         />
       </div>
     </>
