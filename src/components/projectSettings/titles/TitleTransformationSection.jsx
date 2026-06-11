@@ -1,4 +1,5 @@
 import LabelInputRow from '../../ui/LabelInputRow';
+import LabelSliderRow from '../../ui/LabelSliderRow';
 
 export default function TitleTransformationSection({
   listSeparator,
@@ -24,19 +25,13 @@ export default function TitleTransformationSection({
         compact
       />
 
-      <div className="tag-phrase-row">
-        <label className="form-label">Max phrases</label>
-        <input
-          type="range"
-          min={1}
-          max={4}
-          value={maxPhrases}
-          onChange={(e) =>
-            onUpdate('maxTransformationPhrases', Number(e.target.value))
-          }
-        />
-        <span className="tag-status">{maxPhrases}</span>
-      </div>
+      <LabelSliderRow
+        label="Max phrases"
+        value={maxPhrases}
+        min={1}
+        max={4}
+        onChange={(val) => onUpdate('maxTransformationPhrases', val)}
+      />
     </details>
   );
 }
