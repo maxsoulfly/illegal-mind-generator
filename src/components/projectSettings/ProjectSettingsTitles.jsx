@@ -10,7 +10,6 @@ const GENERATION_SETTINGS_KEYS = [
   'prefix', 'longSuffix', 'shortsPrefix', 'shortsSuffix',
   'prefixEnabled', 'longSuffixEnabled', 'shortsPrefixEnabled', 'shortsSuffixEnabled',
   'connector', 'listSeparator', 'maxTransformationPhrases',
-  'useHooksForLongTitles',
 ];
 
 // Stores template overrides at projectSettingsOverrides.title.templates[groupName],

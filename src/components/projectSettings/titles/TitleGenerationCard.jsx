@@ -18,8 +18,6 @@ export default function TitleGenerationCard({ titleConfig, onUpdate, onReset }) 
   const connector = t.connector ?? '&';
   const listSeparator = t.listSeparator ?? ', ';
   const maxPhrases = t.maxTransformationPhrases ?? 1;
-  const useHooksForLongTitles = t.useHooksForLongTitles ?? false;
-
   return (
     <article className="tag-card">
       <header className="tag-card-header">
@@ -34,18 +32,6 @@ export default function TitleGenerationCard({ titleConfig, onUpdate, onReset }) 
           ↺
         </button>
       </header>
-
-      <div className="tag-phrase-row">
-        <input
-          type="checkbox"
-          id="useHooksForLongTitles"
-          checked={useHooksForLongTitles}
-          onChange={(e) => onUpdate('useHooksForLongTitles', e.target.checked)}
-        />
-        <label className="form-label" htmlFor="useHooksForLongTitles">
-          Mix shorts hooks into long titles by default
-        </label>
-      </div>
 
       <TitlePrefixSuffixSection
         prefix={prefix}
