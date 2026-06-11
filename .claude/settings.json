@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(node -e \"const p = require\\('./src/config/projects.json'\\); const proj = Object.values\\(p\\)[0]; const long = proj?.description?.templates?.long || {}; console.log\\('introHook count:', long.introHook?.length\\); console.log\\('storyBlock count:', long.storyBlock?.length\\); console.log\\('philosophyLine count:', long.philosophyLine?.length\\); console.log\\('closingSignal count:', long.closingSignal?.length\\); console.log\\('layout:', JSON.stringify\\(long.layout\\)\\); console.log\\('introHook[0]:', long.introHook?.[0]?.substring\\(0,80\\)\\); console.log\\('storyBlock[0]:', long.storyBlock?.[0]?.substring\\(0,80\\)\\);\")",
+      "Bash(node -e \"const p = require\\('./src/config/projects.json'\\); const proj = Object.values\\(p\\)[0]; const long = proj?.description?.templates?.long || {}; console.log\\('customBlocks:', JSON.stringify\\(Object.keys\\(long.customBlocks || {}\\)\\)\\); const cb = long.customBlocks || {}; Object.entries\\(cb\\).forEach\\(\\([k,v]\\) => console.log\\(k, ':', JSON.stringify\\(v\\).substring\\(0,100\\)\\)\\);\")",
+      "Bash(node -e \"const p = require\\('./src/config/projects.json'\\); const proj = Object.values\\(p\\)[1]; const long = proj?.description?.templates?.long || {}; console.log\\('proj 2 long keys:', Object.keys\\(long\\)\\); console.log\\('layout:', JSON.stringify\\(long.layout\\)\\); console.log\\('introHook count:', long.introHook?.length\\);\")"
     ]
   }
 }
