@@ -1,5 +1,5 @@
 import HookTemplateEditor from './HookTemplateEditor';
-import TitleGenerationCard from './TitleGenerationCard';
+import TitleGenerationCard from './titles/TitleGenerationCard';
 
 const GROUP_LABELS = {
   standard: 'Standard',
