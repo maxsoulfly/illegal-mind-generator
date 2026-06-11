@@ -969,6 +969,10 @@ svg {
   color : var(--color-text-accent);
 }
 
+.generated-pair-link--muted {
+  color: var(--color-text-muted-3);
+}
+
 .generated-pair-link:hover {
   text-decoration   : underline;
   /* color          : var(--color-text-accent-soft); */

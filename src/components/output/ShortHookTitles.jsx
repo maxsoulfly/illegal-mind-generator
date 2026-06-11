@@ -58,7 +58,7 @@ function ShortHookTitles({ title, hooks, onOpenSourceTag, onOpenSourceHook }) {
             ) : baseHook ? (
               <button
                 type="button"
-                className="queue-entry-link generated-pair-text generated-pair-link"
+                className="queue-entry-link generated-pair-text generated-pair-link generated-pair-link--muted"
                 title={getHookTooltip(hook)}
                 onClick={() =>
                   onOpenSourceHook?.({
