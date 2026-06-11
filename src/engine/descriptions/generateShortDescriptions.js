@@ -18,7 +18,13 @@ export function generateShortDescriptions(
   ];
 
   const coverLabel = shortsConfig.coverLabel || 'Cover';
-  const hookPool = shortHooks.flatMap((group) => group.hooks || []);
+
+  // shortHooks is an array of groups, each with a `hooks` array of hook objects.
+  // We only need the text string from each hook object for use in descriptions.
+  const hookTextPool = shortHooks.flatMap((hookGroup) => {
+    const hooksInGroup = hookGroup.hooks || [];
+    return hooksInGroup.map((hook) => hook.text || '');
+  });
 
   function renderShortLine(blockName) {
     if (blockName === 'coverLine') {
@@ -28,7 +34,7 @@ export function generateShortDescriptions(
     }
 
     if (blockName === 'hook') {
-      return pickRandom(hookPool);
+      return pickRandom(hookTextPool);
     }
 
     const options = shortsConfig[blockName] || [];
