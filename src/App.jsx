@@ -45,6 +45,9 @@ function App() {
     shortHooksTarget,
     openShortHooksSearch,
     clearShortHooksTarget,
+    titlesTarget,
+    openTitlesSearch,
+    clearTitlesTarget,
     activeProjectSettingsSection,
     setActiveProjectSettingsSection,
   } = useAppShellState();
@@ -153,6 +156,7 @@ function App() {
           projectOverrides={tagOverrides}
           onOpenSourceTag={openTagLibrarySearch}
           onOpenSourceHook={openShortHooksSearch}
+          onOpenSourceTemplate={openTitlesSearch}
         />
       )}
       {/* Tag management and phrase editing */}
@@ -216,6 +220,8 @@ function App() {
           resetProjectOverride={resetProjectOverride}
           shortHooksTarget={shortHooksTarget}
           clearShortHooksTarget={clearShortHooksTarget}
+          titlesTarget={titlesTarget}
+          clearTitlesTarget={clearTitlesTarget}
           activeSection={activeProjectSettingsSection}
           onSectionChange={setActiveProjectSettingsSection}
         />

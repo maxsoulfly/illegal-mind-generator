@@ -18,6 +18,7 @@ export default function ProjectSettingsTitles({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,
+  titlesTarget = null,
 }) {
   const groups = Object.keys(projectConfig.title?.templates || {});
   const titleConfig = projectConfig.title || {};
@@ -95,6 +96,7 @@ export default function ProjectSettingsTitles({
                 onUpdateTemplates={(newTemplates) =>
                   updateGroupTemplates(groupName, newTemplates)
                 }
+                highlightText={titlesTarget?.groupName === groupName ? titlesTarget.template : null}
               />
             </article>
           );

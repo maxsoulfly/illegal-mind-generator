@@ -70,6 +70,7 @@ export default function useAppShellState() {
   });
   const [tagLibrarySearchTarget, setTagLibrarySearchTarget] = useState(null);
   const [shortHooksTarget, setShortHooksTarget] = useState(null);
+  const [titlesTarget, setTitlesTarget] = useState(null);
 
   const [activeProjectSettingsSection, setActiveProjectSettingsSection] = useState(() => {
     const storage = loadAppStorage();
@@ -167,6 +168,16 @@ export default function useAppShellState() {
     setShortHooksTarget(null);
   }, []);
 
+  const openTitlesSearch = (target) => {
+    if (!target) return;
+    setTitlesTarget(target);
+    setActivePage('projectSettings');
+  };
+
+  const clearTitlesTarget = useCallback(() => {
+    setTitlesTarget(null);
+  }, []);
+
   const openTagLibrarySearch = (target) => {
     if (!target) return;
 
@@ -207,6 +218,9 @@ export default function useAppShellState() {
     shortHooksTarget,
     openShortHooksSearch,
     clearShortHooksTarget,
+    titlesTarget,
+    openTitlesSearch,
+    clearTitlesTarget,
     activeProjectSettingsSection,
     setActiveProjectSettingsSection,
   };
