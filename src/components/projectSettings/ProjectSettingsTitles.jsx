@@ -1,4 +1,4 @@
-import HookTemplateEditor from './HookTemplateEditor';
+import HookTemplateEditor from '../ui/HookTemplateEditor';
 import TitleGenerationCard from './titles/TitleGenerationCard';
 
 const GROUP_LABELS = {

@@ -1,4 +1,4 @@
-import HookTemplateEditor from '../projectSettings/HookTemplateEditor';
+import HookTemplateEditor from './HookTemplateEditor';
 
 // Edits persist immediately via onUpdateTemplates, which replaces the full
 // templates array for this hook type in the project override storage.
