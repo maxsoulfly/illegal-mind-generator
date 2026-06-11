@@ -11,6 +11,7 @@ function GeneratorResultsPanel({
   setPanelVisibility,
   onOpenSourceTag,
   onOpenSourceHook,
+  onOpenSourceTemplate,
   useHooksForLongTitles,
   onToggleHooksForLongTitles,
 }) {
@@ -44,6 +45,7 @@ function GeneratorResultsPanel({
           videoType={formData.videoType}
           onOpenSourceTag={onOpenSourceTag}
           onOpenSourceHook={onOpenSourceHook}
+          onOpenSourceTemplate={onOpenSourceTemplate}
           useHooksForLongTitles={useHooksForLongTitles}
           onToggleHooksForLongTitles={onToggleHooksForLongTitles}
         />

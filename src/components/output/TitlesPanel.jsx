@@ -26,6 +26,7 @@ function TitlesPanel({
   videoType,
   onOpenSourceTag,
   onOpenSourceHook,
+  onOpenSourceTemplate,
   useHooksForLongTitles,
   onToggleHooksForLongTitles,
 }) {
@@ -77,6 +78,7 @@ function TitlesPanel({
                   thumbnail={thumbnail}
                   onOpenSourceTag={onOpenSourceTag}
                   onOpenSourceHook={onOpenSourceHook}
+                  onOpenSourceTemplate={onOpenSourceTemplate}
                 />
               );
             })

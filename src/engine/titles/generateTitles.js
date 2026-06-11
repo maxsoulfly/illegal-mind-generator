@@ -79,6 +79,8 @@ function getTitleTemplateGroups(config = {}) {
   };
 }
 
+// Returns weighted template entries as { template, groupName } so callers
+// can track which group (standard / butIts) each template came from.
 function getWeightedTemplates(formData = {}, config = {}) {
   const selectedTags = formData.transformationTags || [];
   const excludedButItsTags = config.title?.butItsExcludedTags || [];
@@ -89,26 +91,26 @@ function getWeightedTemplates(formData = {}, config = {}) {
 
   const { standardTemplates, butItsTemplates } = getTitleTemplateGroups(config);
 
-  const baseTemplates = hasButItsExcludedTag
-    ? standardTemplates
-    : [...standardTemplates, ...butItsTemplates];
+  const taggedTemplates = [
+    ...standardTemplates.map((template) => ({ template, groupName: 'standard' })),
+    ...(hasButItsExcludedTag ? [] : butItsTemplates.map((template) => ({ template, groupName: 'butIts' }))),
+  ];
 
-  return baseTemplates.flatMap((template) => {
+  return taggedTemplates.flatMap(({ template, groupName }) => {
     const hasArtist = template.includes('{artist}');
     const hasSong = template.includes('{song}');
     const hasTransformation = template.includes('{transformation}');
 
-    const isArtistSongTransformation =
-      hasArtist && hasSong && hasTransformation;
+    const isArtistSongTransformation = hasArtist && hasSong && hasTransformation;
     const isSongTransformation = !hasArtist && hasSong && hasTransformation;
     const isArtistTransformation = hasArtist && !hasSong && hasTransformation;
 
     if (isSongTransformation || isArtistTransformation) {
-      return [template, template, template];
+      return [{ template, groupName }, { template, groupName }, { template, groupName }];
     }
 
     if (isArtistSongTransformation) {
-      return [template];
+      return [{ template, groupName }];
     }
 
     return [];
@@ -142,7 +144,7 @@ function buildTransformationTitles(formData, config, isShorts, artistFull, artis
 
   while (results.length < 5 && attempts < 50) {
     const transformation = pickTransformation(transformations, maxPhrases, connector, listSeparator);
-    const template = shuffleArray(weightedTemplates)[0];
+    const { template, groupName } = shuffleArray(weightedTemplates)[0];
 
     const baseTitle = fillTemplate(template, {
       signalNumber: formData.signalNumber || 'XX',
@@ -157,7 +159,9 @@ function buildTransformationTitles(formData, config, isShorts, artistFull, artis
 
     if (!usedTexts.has(text)) {
       usedTexts.add(text);
-      results.push({ text, sourceHook: null });
+      // sourceTemplate tracks which template and group produced this title
+      // so the UI can navigate back to Project Settings → Titles.
+      results.push({ text, sourceHook: null, sourceTemplate: { template, groupName } });
     }
 
     attempts += 1;
@@ -184,6 +188,7 @@ function buildHookTitles(shortHooks, longPrefix, longSuffix) {
         hookType: hook.hookType,
         sourceText: hook.sourceText,
       },
+      sourceTemplate: null,
     }));
 }
 

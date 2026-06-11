@@ -25,6 +25,7 @@ export default function GeneratorPage({
   projectOverrides,
   onOpenSourceTag,
   onOpenSourceHook,
+  onOpenSourceTemplate,
 }) {
   const [inputFlash, setInputFlash] = useState(false);
 
@@ -111,6 +112,7 @@ export default function GeneratorPage({
           setPanelVisibility={setPanelVisibility}
           onOpenSourceTag={onOpenSourceTag}
           onOpenSourceHook={onOpenSourceHook}
+          onOpenSourceTemplate={onOpenSourceTemplate}
           useHooksForLongTitles={useHooksForLongTitles}
           onToggleHooksForLongTitles={handleToggleHooksForLongTitles}
         />
