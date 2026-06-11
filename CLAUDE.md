@@ -920,6 +920,13 @@ When implementing features:
 * Provide Conventional Commit messages when asked
 * Continue incrementally
 
+Default working style:
+
+* Hands-on, file by file, in small chunks
+* Show the change, explain it, let the user review before moving on
+* Do NOT batch everything into one autonomous pass unless the user explicitly says to
+* If the user wants autonomous agent mode for a section, they will say so
+
 When uncertain:
 
 Choose the simpler solution.
