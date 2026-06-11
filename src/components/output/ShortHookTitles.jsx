@@ -13,12 +13,13 @@ function getHookTooltip(hook) {
   if (typeof hook === 'string') return '';
 
   const hookType = formatHookType(hook.hookType);
+  const sourceText = hook.sourceText ? `: "${hook.sourceText}"` : '';
 
   if (hook.sourceType === 'tag') {
-    return `Generated from tag: ${hook.sourceTag} (${hookType})`;
+    return `${hook.sourceTag} (${hookType})${sourceText}`;
   }
 
-  return `Generated from project preset (${hookType})`;
+  return `Project preset (${hookType})${sourceText}`;
 }
 
 function isTagHook(hook) {

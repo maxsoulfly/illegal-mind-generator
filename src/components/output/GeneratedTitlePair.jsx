@@ -7,7 +7,7 @@ function TitleNavLink({ titleText, sourceHook, sourceTemplate, onOpenSourceTag, 
   if (sourceHook?.sourceType === 'tag') {
     return (
       <NavLinkButton
-        title={`Hook from tag: ${sourceHook.sourceTag} (${sourceHook.hookType})`}
+        title={`${sourceHook.sourceTag} (${sourceHook.hookType}): "${sourceHook.sourceText}"`}
         onClick={() => onOpenSourceTag?.({ tagName: sourceHook.sourceTag, hookType: sourceHook.hookType, hookText: sourceHook.sourceText })}
       >
         {label}
@@ -18,7 +18,7 @@ function TitleNavLink({ titleText, sourceHook, sourceTemplate, onOpenSourceTag, 
   if (sourceHook?.sourceType === 'base') {
     return (
       <NavLinkButton
-        title={`Hook preset: ${sourceHook.hookType}`}
+        title={`Project preset (${sourceHook.hookType}): "${sourceHook.sourceText}"`}
         onClick={() => onOpenSourceHook?.({ hookType: sourceHook.hookType, sourceText: sourceHook.sourceText })}
       >
         {label}
