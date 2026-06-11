@@ -47,7 +47,13 @@ export default function ProjectSettingsContent({
   }
 
   if (activeSection === 'descriptions') {
-    return <ProjectSettingsDescriptions />;
+    return (
+      <ProjectSettingsDescriptions
+        projectConfig={projectConfig}
+        projectSettingsOverrides={projectSettingsOverrides}
+        updateProjectOverride={updateProjectOverride}
+      />
+    );
   }
 
   return (
