@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import AddBulkRow from '../ui/AddBulkRow';
 import FormField from '../ui/FormField';
 
 export default function TagPhraseEditor({
@@ -102,15 +103,7 @@ export default function TagPhraseEditor({
             </div>
           )}
 
-          <div className="button-row">
-            <button type="button" className="button-secondary" onClick={addPhrase}>
-              + Add
-            </button>
-
-            <button type="button" className="button-secondary" onClick={() => setBulkValue('')}>
-              + Bulk
-            </button>
-          </div>
+          <AddBulkRow onAdd={addPhrase} onBulk={() => setBulkValue('')} />
         </FormField>
       </div>
     </details>

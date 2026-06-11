@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
+import AddBulkRow from './AddBulkRow';
+
 // Collapsible editor for a single hook type's templates array.
 // All mutations call onUpdateTemplates with the full replacement array —
 // the parent (ShortHookCard) is responsible for persisting it.
@@ -104,23 +106,10 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
         </div>
       )}
 
-      <div className="button-row">
-        <button
-          type="button"
-          className="button-secondary"
-          onClick={() => onUpdateTemplates([...templates, ''])}
-        >
-          + Add
-        </button>
-
-        <button
-          type="button"
-          className="button-secondary"
-          onClick={() => setBulkValue('')}
-        >
-          + Bulk
-        </button>
-      </div>
+      <AddBulkRow
+        onAdd={() => onUpdateTemplates([...templates, ''])}
+        onBulk={() => setBulkValue('')}
+      />
     </details>
   );
 }
