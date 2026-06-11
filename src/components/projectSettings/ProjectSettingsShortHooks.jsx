@@ -1,4 +1,4 @@
-import ShortHookCard from './ShortHookCard';
+import ShortHookCard from '../ui/ShortHookCard';
 
 
 export default function ProjectSettingsShortHooks({
