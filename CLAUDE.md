@@ -640,6 +640,55 @@ Goals:
 
 ---
 
+# Post-Upload Session Todos
+
+Discovered during real upload workflow. Work on these after Project Settings is complete.
+
+## Shorts Descriptions — Tag Awareness
+
+Current shorts descriptions are generic and not affected by transformation tags.
+
+Goals:
+
+* Pull tag-specific phrases into shorts description blocks
+* More variation across outputs based on selected tags
+* Mirror the same tag-driven approach used in titles and hooks
+
+---
+
+## Generator Output — Source Navigation
+
+Like titles, description blocks should be clickable and navigate back to the source that generated them.
+
+Goals:
+
+* Click a description block segment → jump to the source template or tag that produced it
+* Consistent with existing title → hook navigation pattern
+
+---
+
+## Generator — Selective Regeneration
+
+Switching tabs or making any input change currently regenerates all output.
+
+Some input changes should trigger regeneration. Others should not.
+
+Should regenerate:
+
+* Changing artist or song
+* Adding or removing transformation tags
+* Changing signal number or video type
+
+Should NOT regenerate:
+
+* Adding or editing story notes
+* Toggling Hide from Queue
+* Switching between pages/tabs
+
+This needs careful design before implementation.
+
+---
+
 # Long-Term Roadmap
 
 ## Content Calendar
