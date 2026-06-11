@@ -1,4 +1,4 @@
-import ProjectTextField from './ProjectTextField';
+import ProjectTextField from '../ui/ProjectTextField';
 
 export default function ProjectSettingsGeneral({
   projectId,
