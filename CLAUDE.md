@@ -518,19 +518,6 @@ Before changing storage:
 
 ---
 
-## Tag Library
-
-* [x] Editable tags
-* [x] Custom tags
-* [x] Tag visibility
-* [x] Phrase editing
-* [x] Hashtag editing
-* [x] Hook editing
-* [x] Usage preview
-* [x] Reset support
-
----
-
 ## Shorts Queue
 
 * [x] Queue generation
@@ -564,49 +551,67 @@ Before changing storage:
 
 * [x] General section (project name override)
 * [x] Short Hooks section — cards, edit/add/remove templates, reset per hook, 3-col layout
-* [x] Navigation from generator base hooks → source template in Short Hooks editor
+* [x] Navigation from generator base hooks → source template in Short Hooks editor (highlight + scroll)
 * [x] Titles section — edit standard and But It's template groups
 * [x] Titles generation settings — prefix/suffix per long/shorts with enable toggles
 * [x] Titles generation settings — connector, list separator, max phrases slider
 * [x] Active section persists across navigation and refresh
+* [x] Navigation from generated long title → source template in Titles editor (highlight + scroll)
+* [x] Transformation-based title source tracking (`sourceTemplate: { template, groupName }`)
+* [x] Nav link tooltips show full source template text
 * [ ] Descriptions section
-* [ ] Option to use shorts hooks for long video titles
-* [ ] Navigation link from generated long title → source hook
+* [ ] Generic / no-tags title mode (bypass transformation tags)
+
+---
+
+## UI Primitives (`src/components/ui/`)
+
+Extracted and consolidated reusable components:
+
+* [x] `NavLinkButton` — clickable text button for source navigation (muted variant for base hooks)
+* [x] `PhraseRow` — forwardRef row with onBlur save, highlighted prop, scroll target
+* [x] `ToggleInputRow` — checkbox + label + text input (clicking label toggles checkbox)
+* [x] `LabelInputRow` — label + input, compact mode via `form-input--compact` class
+* [x] `LabelSliderRow` — label + range slider + value display
+* [x] `AddBulkRow` — + Add / + Bulk button row
+* [x] `BulkTextarea` — textarea with Apply / Cancel buttons
+* [x] `HookTemplateEditor` — moved from projectSettings/, now has search filter + highlight/scroll
+* [x] `ShortHookCard` — moved from projectSettings/
+* [x] `ProjectTextField` — moved from projectSettings/, uses FormField wrapper
+
+---
+
+## Tag Library
+
+* [x] Editable tags
+* [x] Custom tags
+* [x] Tag visibility
+* [x] Phrase editing — uses PhraseRow (onBlur save)
+* [x] Bulk phrase edit — inline BulkTextarea (no more window.prompt)
+* [x] Hashtag editing
+* [x] Hook editing — TagPhraseEditor with highlight + scroll navigation from generator
+* [x] Usage preview
+* [x] Reset support
 
 ---
 
 # Current Focus
 
-Highest priority work:
+## Project Settings — Descriptions section
+
+Goals:
+
+* Description templates for long videos
+* Description templates for shorts
+* Editable blocks similar to Titles section
+
+---
 
 ## Project Settings — Titles (remaining)
 
 Goals:
 
-* Option to pull from shorts hook templates when generating long video titles
-* Navigation from generated long title to the source hook template
 * Generic / no-tags mode (slider or toggle to bypass transformation tags)
-
----
-
-Highest priority work:
-
-## Saved Library + Todo Integration
-
-Goals:
-
-* Todo visibility improvements
-* Better Saved Library filtering
-* Better status visibility
-
----
-
-## Queue Visibility Improvements
-
-Goals:
-
-* Queue-hidden indicators
-* Consistent visibility state across pages
 
 ---
 
@@ -631,12 +636,12 @@ Goals:
 
 # Next Likely Tasks
 
-1. Long title option to use shorts hooks (with navigation link back to source)
+1. Project Settings — Descriptions section
 2. Generic / no-tags title mode
-3. Project Settings — Descriptions section
-4. Queue-hidden indicator in Todo rows
-5. Todo status badges in Saved Library
-6. Saved Library Todo filtering
+3. Queue-hidden indicator in Todo rows
+4. Todo status badges in Saved Library
+5. Saved Library Todo filtering
+6. CSS refactor (consolidate index.css, clean up class naming)
 
 ---
 
@@ -892,6 +897,22 @@ Current priority is feature completeness and storage stability.
 The engine reads `config.title?.prefix || config.title?.longPrefix` to support both.
 
 Do not consolidate these keys — legacy key must remain for storage compatibility.
+
+---
+
+## Title Object Shape
+
+Generated titles are objects, not plain strings:
+
+```js
+{ text, sourceHook, sourceTemplate }
+```
+
+* `sourceHook` — present for hook-based titles. Shape: `{ sourceType: 'tag'|'base', sourceTag, hookType, sourceText }`
+* `sourceTemplate` — present for transformation-based titles. Shape: `{ template, groupName }`
+* Both are `null` for plain text titles.
+
+`NavLinkButton` in `GeneratedTitlePair` handles all four cases: tag hook, base hook, sourceTemplate (muted), and plain `<p>`.
 
 ---
 
