@@ -30,10 +30,7 @@ function getMatchingPhrases(hookType, phrases, search) {
 }
 
 export default function TagShortHooksTab({ tag, onUpdateTag, sourceTarget }) {
-  const initialSearch =
-    sourceTarget?.tagName === tag.name ? sourceTarget.hookText || '' : '';
-
-  const [search, setSearch] = useState(initialSearch);
+  const [search, setSearch] = useState('');
 
   const visibleHookTypes = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
