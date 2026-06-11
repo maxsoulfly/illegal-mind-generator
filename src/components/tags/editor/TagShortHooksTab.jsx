@@ -77,6 +77,7 @@ export default function TagShortHooksTab({ tag, onUpdateTag, sourceTarget }) {
           phrases={phrases}
           onUpdateTag={onUpdateTag}
           autoOpen={sourceTarget?.hookType === hookType}
+          highlightText={sourceTarget?.hookType === hookType ? sourceTarget.hookText : null}
         />
       ))}
 

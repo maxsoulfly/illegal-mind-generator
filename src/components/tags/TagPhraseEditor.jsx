@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import AddBulkRow from '../ui/AddBulkRow';
 import BulkTextarea from '../ui/BulkTextarea';
@@ -14,9 +14,21 @@ export default function TagPhraseEditor({
   phrases = [],
   onUpdateTag,
   autoOpen = false,
+  highlightText = null,
 }) {
   // null = bulk textarea closed; any string (including '') = open
   const [bulkValue, setBulkValue] = useState(null);
+  const detailsRef = useRef(null);
+  const highlightRowRef = useRef(null);
+
+  // When navigating here from the generator, auto-open and scroll to the matching phrase.
+  useEffect(() => {
+    if (!highlightText) return;
+    if (detailsRef.current) detailsRef.current.open = true;
+    if (highlightRowRef.current) {
+      highlightRowRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [highlightText]);
 
   const buildUpdate = (nextPhrases) => {
     if (!parentField) {
@@ -57,21 +69,26 @@ export default function TagPhraseEditor({
   };
 
   return (
-    <details className="tag-editor-section" open={autoOpen}>
+    <details className="tag-editor-section" ref={detailsRef} open={autoOpen}>
       <summary>
         {title} ({phrases.length})
       </summary>
 
       <div className="tag-phrase-editor">
         <FormField>
-          {phrases.map((phrase, index) => (
-            <PhraseRow
-              key={index}
-              value={phrase}
-              onCommit={(newValue) => updatePhrase(index, newValue)}
-              onRemove={() => removePhrase(index)}
-            />
-          ))}
+          {phrases.map((phrase, index) => {
+            const isHighlighted = phrase === highlightText;
+            return (
+              <PhraseRow
+                key={index}
+                ref={isHighlighted ? highlightRowRef : null}
+                highlighted={isHighlighted}
+                value={phrase}
+                onCommit={(newValue) => updatePhrase(index, newValue)}
+                onRemove={() => removePhrase(index)}
+              />
+            );
+          })}
 
           {bulkValue != null && (
             <BulkTextarea

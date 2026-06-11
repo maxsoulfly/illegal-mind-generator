@@ -56,21 +56,18 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
       {visibleTemplates.map(({ template, index }) => {
         const isHighlighted = template === highlightText;
         return (
-          <div
+          <PhraseRow
             key={index}
             ref={isHighlighted ? highlightRowRef : null}
-            className={isHighlighted ? 'tag-phrase-row--highlight' : undefined}
-          >
-            <PhraseRow
-              value={template}
-              onCommit={(newValue) => {
-                const next = [...templates];
-                next[index] = newValue;
-                onUpdateTemplates(next);
-              }}
-              onRemove={() => onUpdateTemplates(templates.filter((_, idx) => idx !== index))}
-            />
-          </div>
+            highlighted={isHighlighted}
+            value={template}
+            onCommit={(newValue) => {
+              const next = [...templates];
+              next[index] = newValue;
+              onUpdateTemplates(next);
+            }}
+            onRemove={() => onUpdateTemplates(templates.filter((_, idx) => idx !== index))}
+          />
         );
       })}
 
