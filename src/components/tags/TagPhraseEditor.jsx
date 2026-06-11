@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import AddBulkRow from '../ui/AddBulkRow';
+import BulkTextarea from '../ui/BulkTextarea';
 import FormField from '../ui/FormField';
 
 export default function TagPhraseEditor({
@@ -82,25 +83,12 @@ export default function TagPhraseEditor({
           ))}
 
           {bulkValue != null && (
-            <div className="tag-section">
-              <textarea
-                className="form-input"
-                rows={4}
-                placeholder="One phrase per line"
-                value={bulkValue}
-                onChange={(e) => setBulkValue(e.target.value)}
-              />
-
-              <div className="button-row">
-                <button type="button" className="button-secondary" onClick={applyBulk}>
-                  Apply
-                </button>
-
-                <button type="button" className="button-secondary" onClick={() => setBulkValue(null)}>
-                  Cancel
-                </button>
-              </div>
-            </div>
+            <BulkTextarea
+              value={bulkValue}
+              onChange={setBulkValue}
+              onApply={applyBulk}
+              onCancel={() => setBulkValue(null)}
+            />
           )}
 
           <AddBulkRow onAdd={addPhrase} onBulk={() => setBulkValue('')} />

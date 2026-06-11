@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import AddBulkRow from './AddBulkRow';
+import BulkTextarea from './BulkTextarea';
 
 // Collapsible editor for a single hook type's templates array.
 // All mutations call onUpdateTemplates with the full replacement array —
@@ -81,29 +82,12 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
       })}
 
       {bulkValue != null && (
-        <div className="tag-section">
-          <textarea
-            className="form-input"
-            rows={4}
-            placeholder="One template per line"
-            value={bulkValue}
-            onChange={(e) => setBulkValue(e.target.value)}
-          />
-
-          <div className="button-row">
-            <button type="button" className="button-secondary" onClick={applyBulk}>
-              Apply
-            </button>
-
-            <button
-              type="button"
-              className="button-secondary"
-              onClick={() => setBulkValue(null)}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
+        <BulkTextarea
+          value={bulkValue}
+          onChange={setBulkValue}
+          onApply={applyBulk}
+          onCancel={() => setBulkValue(null)}
+        />
       )}
 
       <AddBulkRow
