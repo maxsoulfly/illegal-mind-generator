@@ -1,4 +1,5 @@
 import ProjectSettingsGeneral from './ProjectSettingsGeneral';
+import ProjectSettingsLinks from './ProjectSettingsLinks';
 import ProjectSettingsShortHooks from './ProjectSettingsShortHooks';
 import ProjectSettingsTitles from './ProjectSettingsTitles';
 import ProjectSettingsDescriptions from './ProjectSettingsDescriptions';
@@ -43,6 +44,16 @@ export default function ProjectSettingsContent({
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
         titlesTarget={titlesTarget}
+      />
+    );
+  }
+
+  if (activeSection === 'links') {
+    return (
+      <ProjectSettingsLinks
+        projectConfig={projectConfig}
+        projectSettingsOverrides={projectSettingsOverrides}
+        updateProjectOverride={updateProjectOverride}
       />
     );
   }

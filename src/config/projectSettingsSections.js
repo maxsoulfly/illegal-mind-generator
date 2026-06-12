@@ -20,6 +20,11 @@ export const PROJECT_SETTING_SECTIONS = [
     description: 'Description layouts, blocks, and text pools',
   },
   {
+    id: 'links',
+    label: 'Links',
+    description: 'Channel and support links used in descriptions',
+  },
+  {
     id: 'thumbnails',
     label: 'Thumbnail Templates',
     description: 'Thumbnail words, fallbacks, and patterns',
@@ -56,6 +61,10 @@ export function getProjectSettingsSectionSummary(sectionId, projectConfig) {
       projectConfig.description?.templates?.shorts?.layout?.length || 0;
 
     return `${longLayoutCount} long blocks, ${shortsLayoutCount} shorts blocks`;
+  }
+
+  if (sectionId === 'links') {
+    return `${Object.keys(projectConfig.description?.links || {}).length} links`;
   }
 
   if (sectionId === 'thumbnails') {
