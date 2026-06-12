@@ -184,6 +184,26 @@ export default function LongDescriptionSettings({
     updateLayout(sorted);
   }
 
+  function getSliderConfig(groupKey) {
+    if (groupKey === 'statusLines') return {
+      label: 'Lines to show',
+      min: 1, max: 4,
+      value: projectSettingsOverrides.description?.statusLineCount ?? 2,
+      onChange: (val) => updateProjectOverride({
+        description: { ...(projectSettingsOverrides.description || {}), statusLineCount: val },
+      }),
+    };
+    if (groupKey === 'technicalLines') return {
+      label: 'Lines to show',
+      min: 2, max: 5,
+      value: projectSettingsOverrides.description?.technicalLineCount ?? 3,
+      onChange: (val) => updateProjectOverride({
+        description: { ...(projectSettingsOverrides.description || {}), technicalLineCount: val },
+      }),
+    };
+    return undefined;
+  }
+
   function renderActiveBlock(blockKey, index) {
     const meta = KNOWN_BLOCK_META[blockKey] || { label: blockKey };
     const groups = TEMPLATE_GROUPS[blockKey];
@@ -215,6 +235,7 @@ export default function LongDescriptionSettings({
           onReset={() => resetGroup(group.key, group.path)}
           onRemove={() => removeFromLayout(blockKey)}
           initialCollapsed={true}
+          sliderConfig={getSliderConfig(group.key)}
         />
       );
     } else {
@@ -228,18 +249,7 @@ export default function LongDescriptionSettings({
               onUpdateTemplates={(t) => updateTemplates(group.key, group.path, t)}
               onReset={() => resetGroup(group.key, group.path)}
               initialCollapsed
-              sliderConfig={group.key === 'statusLines' ? {
-                label: 'Lines to show',
-                min: 1,
-                max: 4,
-                value: projectSettingsOverrides.description?.statusLineCount ?? 2,
-                onChange: (val) => updateProjectOverride({
-                  description: {
-                    ...(projectSettingsOverrides.description || {}),
-                    statusLineCount: val,
-                  },
-                }),
-              } : undefined}
+              sliderConfig={getSliderConfig(group.key)}
             />
           ))}
         </CollapsibleBlockGroup>
