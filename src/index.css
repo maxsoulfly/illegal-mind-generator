@@ -1187,10 +1187,6 @@ svg {
   color: var(--color-text-accent);
 }
 
-.desc-block-group--collapsed .desc-block-group-header {
-  border-bottom: none;
-  border-radius: 6px;
-}
 
 .tag-reset-button {
   height : var(--space-3);
@@ -1521,6 +1517,8 @@ svg {
 .desc-block-move-controls .tag-reset-button {
   padding   : 0;
   width     : var(--space-7);
+  height    : var(--space-7);
+  min-height: 0;
   margin-left: 0;
 }
 

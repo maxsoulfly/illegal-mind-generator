@@ -5,16 +5,31 @@ import SubTabNav from '../../ui/SubTabNav';
 
 function CollapsibleBlockGroup({ label, onRemove, children }) {
   const [collapsed, setCollapsed] = useState(true);
+
+  if (collapsed) {
+    return (
+      <article className="tag-card tag-card--collapsed">
+        <header className="tag-card-header">
+          <h3 className="tag-card-toggle" onClick={() => setCollapsed(false)}>
+            <span className="tag-card-collapse-icon">▶</span>
+            {label}
+          </h3>
+          <button type="button" className="tag-reset-button" title="Remove from layout" onClick={onRemove}>×</button>
+        </header>
+      </article>
+    );
+  }
+
   return (
-    <div className={`desc-block-group${collapsed ? ' desc-block-group--collapsed' : ''}`}>
+    <div className="desc-block-group">
       <div className="desc-block-group-header">
-        <span className="desc-block-group-toggle" onClick={() => setCollapsed((c) => !c)}>
-          <span className="tag-card-collapse-icon">{collapsed ? '▶' : '▼'}</span>
+        <span className="desc-block-group-toggle" onClick={() => setCollapsed(true)}>
+          <span className="tag-card-collapse-icon">▼</span>
           {label}
         </span>
         <button type="button" className="tag-reset-button" title="Remove from layout" onClick={onRemove}>×</button>
       </div>
-      {!collapsed && children}
+      {children}
     </div>
   );
 }
