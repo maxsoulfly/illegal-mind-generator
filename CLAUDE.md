@@ -599,11 +599,65 @@ Extracted and consolidated reusable components:
 
 ## Project Settings — Descriptions section
 
-Goals:
+This is a description layout builder, not just a template editor.
+The design is based on a two-column block palette + active layout pattern.
 
-* Description templates for long videos
-* Description templates for shorts
-* Editable blocks similar to Titles section
+### Layout
+
+* Two sub-tabs inside the Descriptions section: **Long Description** and **Shorts Description**
+* Sub-tabs use a lighter visual style than the main Project Settings nav (underline-only active indicator)
+* On desktop: two-column layout (Available palette left, Active Layout right)
+* On mobile: Option C — sub-tabs replace columns ("Layout" tab / "Available" tab), same lighter tab style
+
+### Long Description — Active Layout (right column)
+
+* Shows blocks currently in the layout array, in order
+* Each block is a card with:
+  * `≡` drag handle placeholder (visual only for now — drag-and-drop is future work)
+  * Block label (e.g. "Intro Hook", "Story Block")
+  * `[×]` remove button — moves block back to Available
+  * Collapsible template editor (`<details>`/`<summary>`) using existing `HookTemplateEditor`
+* The layout order matches the `description.templates.long.layout` array in config
+* Overriding the layout is stored in `projectSettingsOverrides.description.templates.long.layout`
+
+### Long Description — Available Palette (left column)
+
+* Shows blocks that exist in config but are not in the current layout
+* Each entry has a `[+]` button to add it to the bottom of the active layout
+* Later: custom block types (paragraph, link block, list)
+
+### Editable block types (Long Description)
+
+These are the template arrays that feed into the description engine:
+
+| Block name in layout | Config key | Location |
+|---|---|---|
+| `broadcastBlock` | `broadcastHeader` | `templates.long` |
+| `broadcastBlock` | `operatorStatuses` | `description` (top level) |
+| `broadcastBlock` | `statusLines` | `templates.long` |
+| `introBlock` | `introHook` | `templates.long` |
+| `storyBlock` | `storyBlock` | `templates.long` |
+| `logBlock` | `logNotes` | `templates.long` |
+| `closingBlock` | `closingSignal` | `templates.long` |
+| `closingBlock` | `philosophyLine` | `templates.long` |
+
+Note: `technicalBlock`, `supportBlock` are tag-driven or link-structured — not editable as template arrays.
+
+### Shorts Description
+
+* Simpler — single column, no palette needed for now
+* Editable fields: `coverLabel`, `secondary` template array, `layout` order, `count`
+
+### Implementation Steps
+
+* [ ] Step 1: Add Long / Shorts sub-tabs to `ProjectSettingsDescriptions.jsx` (lighter tab style, no layout change yet)
+* [ ] Step 2: Build two-column skeleton (left = Available, right = Active Layout) — desktop layout, CSS only
+* [ ] Step 3: Mobile Option C — stack into "Layout" / "Available" tabs below breakpoint
+* [ ] Step 4: Wire `layout` array override into `buildResolvedProjectConfig` and UI (add/remove blocks)
+* [ ] Step 5: Expand editable blocks — add missing template groups (broadcastHeader, operatorStatuses, statusLines, logNotes)
+* [ ] Step 6: Shorts Description sub-section (coverLabel, secondary, count)
+* [ ] Step 7: Drag-and-drop reordering in Active Layout (future)
+* [ ] Step 8: Custom block types — paragraph, link block, list (future)
 
 ---
 
