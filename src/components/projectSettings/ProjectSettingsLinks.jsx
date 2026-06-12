@@ -1,3 +1,4 @@
+import LinksRegistryEditor from './links/LinksRegistryEditor';
 import StructuredListEditor from './links/StructuredListEditor';
 
 function updateLongKey(overrides, key, value) {
@@ -81,6 +82,12 @@ export default function ProjectSettingsLinks({
   return (
     <>
       <h2 className="panel-title">Links</h2>
+
+      <LinksRegistryEditor
+        projectConfig={projectConfig}
+        projectSettingsOverrides={projectSettingsOverrides}
+        updateProjectOverride={updateProjectOverride}
+      />
 
       {noBlocks && (
         <p className="tag-summary">No link blocks configured for this project.</p>
