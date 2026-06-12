@@ -5,6 +5,7 @@ export default function TemplateGroupCard({
   templates = [],
   onUpdateTemplates,
   onReset,
+  onRemove,
   highlightText,
   subtitle,
   countLabel = 'templates',
@@ -21,6 +22,16 @@ export default function TemplateGroupCard({
         >
           ↺
         </button>
+        {onRemove && (
+          <button
+            type="button"
+            className="tag-reset-button"
+            title="Remove from layout"
+            onClick={onRemove}
+          >
+            ×
+          </button>
+        )}
         <span className="tag-status">{templates.length} {countLabel}</span>
       </header>
 
