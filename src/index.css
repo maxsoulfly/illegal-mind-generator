@@ -1383,6 +1383,28 @@ svg {
   color       : var(--color-text-accent);
 }
 
+.subtab-nav {
+  display       : flex;
+  gap           : var(--space-5);
+  margin-bottom : var(--space-4);
+}
+
+.subtab-nav button {
+  background    : none;
+  border        : none;
+  border-bottom : 2px solid transparent;
+  padding       : var(--space-1) 0;
+  color         : var(--color-text-muted);
+  font-size     : var(--font-size-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor        : pointer;
+}
+
+.subtab-nav button.active {
+  border-bottom-color: var(--color-border-hover);
+  color              : var(--color-text-accent);
+}
 
 .tag-section {
   margin-top: var(--space-3);

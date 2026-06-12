@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import HookTemplateEditor from '../ui/HookTemplateEditor';
 
 const LONG_GROUPS = [
@@ -14,6 +15,7 @@ export default function ProjectSettingsDescriptions({
   projectSettingsOverrides = {},
   updateProjectOverride,
 }) {
+  const [activeSubTab, setActiveSubTab] = useState('long');
   const longTemplates = projectConfig.description?.templates?.long || {};
 
   function updateLongTemplates(key, newTemplates) {
@@ -49,7 +51,28 @@ export default function ProjectSettingsDescriptions({
     <>
       <h2 className="panel-title">Descriptions</h2>
 
-      <div className="tag-library tag-library--3col">
+      <nav className="subtab-nav">
+        <button
+          type="button"
+          className={activeSubTab === 'long' ? 'active' : ''}
+          onClick={() => setActiveSubTab('long')}
+        >
+          Long Description
+        </button>
+        <button
+          type="button"
+          className={activeSubTab === 'shorts' ? 'active' : ''}
+          onClick={() => setActiveSubTab('shorts')}
+        >
+          Shorts Description
+        </button>
+      </nav>
+
+      {activeSubTab === 'shorts' && (
+        <p className="tag-summary">Shorts description templates — coming in a future step.</p>
+      )}
+
+      {activeSubTab === 'long' && <div className="tag-library tag-library--3col">
         {LONG_GROUPS.map(({ key, label }) => {
           const templates = longTemplates[key] || [];
 
@@ -75,7 +98,7 @@ export default function ProjectSettingsDescriptions({
             </article>
           );
         })}
-      </div>
+      </div>}
     </>
   );
 }
