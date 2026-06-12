@@ -1148,6 +1148,50 @@ svg {
   gap        : var(--space-2);
 }
 
+.tag-card-toggle {
+  cursor     : pointer;
+  user-select: none;
+}
+
+.tag-card-toggle:hover {
+  color: var(--color-text-accent);
+}
+
+.tag-card-collapse-icon {
+  font-size  : 0.6em;
+  opacity    : 0.6;
+  flex-shrink: 0;
+}
+
+.tag-card--collapsed {
+  padding-top   : var(--space-3);
+  padding-bottom: var(--space-3);
+}
+
+.tag-card--collapsed .tag-card-header {
+  margin-bottom : 0;
+  padding-bottom: 0;
+  border-bottom : none;
+}
+
+.desc-block-group-toggle {
+  display    : flex;
+  align-items: center;
+  gap        : var(--space-2);
+  cursor     : pointer;
+  user-select: none;
+  flex       : 1;
+}
+
+.desc-block-group-toggle:hover {
+  color: var(--color-text-accent);
+}
+
+.desc-block-group--collapsed .desc-block-group-header {
+  border-bottom: none;
+  border-radius: 6px;
+}
+
 .tag-reset-button {
   height : var(--space-3);
   padding: 0 var(--space-6);

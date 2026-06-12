@@ -3,6 +3,22 @@ import TemplateGroupCard from '../../ui/TemplateGroupCard';
 import BlockInfoCard from '../../ui/BlockInfoCard';
 import SubTabNav from '../../ui/SubTabNav';
 
+function CollapsibleBlockGroup({ label, onRemove, children }) {
+  const [collapsed, setCollapsed] = useState(true);
+  return (
+    <div className={`desc-block-group${collapsed ? ' desc-block-group--collapsed' : ''}`}>
+      <div className="desc-block-group-header">
+        <span className="desc-block-group-toggle" onClick={() => setCollapsed((c) => !c)}>
+          <span className="tag-card-collapse-icon">{collapsed ? '▶' : '▼'}</span>
+          {label}
+        </span>
+        <button type="button" className="tag-reset-button" title="Remove from layout" onClick={onRemove}>×</button>
+      </div>
+      {!collapsed && children}
+    </div>
+  );
+}
+
 const MOBILE_COLUMN_TABS = [
   { id: 'layout', label: 'Layout' },
   { id: 'available', label: 'Available' },
@@ -176,22 +192,12 @@ export default function LongDescriptionSettings({
           onUpdateTemplates={(t) => updateTemplates(group.key, group.path, t)}
           onReset={() => resetGroup(group.key, group.path)}
           onRemove={() => removeFromLayout(blockKey)}
+          initialCollapsed={true}
         />
       );
     } else {
       card = (
-        <div className="desc-block-group">
-          <div className="desc-block-group-header">
-            <span>{meta.label}</span>
-            <button
-              type="button"
-              className="tag-reset-button"
-              title="Remove from layout"
-              onClick={() => removeFromLayout(blockKey)}
-            >
-              ×
-            </button>
-          </div>
+        <CollapsibleBlockGroup label={meta.label} onRemove={() => removeFromLayout(blockKey)}>
           {groups.map((group) => (
             <TemplateGroupCard
               key={group.key}
@@ -199,9 +205,10 @@ export default function LongDescriptionSettings({
               templates={getTemplates(group.key, group.path)}
               onUpdateTemplates={(t) => updateTemplates(group.key, group.path, t)}
               onReset={() => resetGroup(group.key, group.path)}
+              initialCollapsed
             />
           ))}
-        </div>
+        </CollapsibleBlockGroup>
       );
     }
 

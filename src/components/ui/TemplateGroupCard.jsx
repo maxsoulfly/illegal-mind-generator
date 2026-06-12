@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import HookTemplateEditor from './HookTemplateEditor';
 
 export default function TemplateGroupCard({
@@ -9,11 +10,17 @@ export default function TemplateGroupCard({
   highlightText,
   subtitle,
   countLabel = 'templates',
+  initialCollapsed = false,
 }) {
+  const [collapsed, setCollapsed] = useState(initialCollapsed);
+
   return (
-    <article className="tag-card">
+    <article className={`tag-card${collapsed ? ' tag-card--collapsed' : ''}`}>
       <header className="tag-card-header">
-        <h3>{label}</h3>
+        <h3 className="tag-card-toggle" onClick={() => setCollapsed((c) => !c)}>
+          <span className="tag-card-collapse-icon">{collapsed ? '▶' : '▼'}</span>
+          {label}
+        </h3>
         <button
           type="button"
           className="tag-reset-button"
@@ -34,14 +41,17 @@ export default function TemplateGroupCard({
         )}
       </header>
 
-      <span className="tag-status">{templates.length} {countLabel}</span>
-      {subtitle && <p className="tag-category">{subtitle}</p>}
-
-      <HookTemplateEditor
-        templates={templates}
-        onUpdateTemplates={onUpdateTemplates}
-        highlightText={highlightText}
-      />
+      {!collapsed && (
+        <>
+          <span className="tag-status">{templates.length} {countLabel}</span>
+          {subtitle && <p className="tag-category">{subtitle}</p>}
+          <HookTemplateEditor
+            templates={templates}
+            onUpdateTemplates={onUpdateTemplates}
+            highlightText={highlightText}
+          />
+        </>
+      )}
     </article>
   );
 }
