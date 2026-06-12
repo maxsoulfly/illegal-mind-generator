@@ -1,4 +1,4 @@
-import HookTemplateEditor from '../../ui/HookTemplateEditor';
+import TemplateGroupCard from '../../ui/TemplateGroupCard';
 
 const LONG_GROUPS = [
   { key: 'introHook', label: 'Intro Hook' },
@@ -55,25 +55,13 @@ export default function LongDescriptionSettings({
           const templates = longTemplates[key] || [];
 
           return (
-            <article key={key} className="tag-card">
-              <header className="tag-card-header">
-                <h3>{label}</h3>
-                <button
-                  type="button"
-                  className="tag-reset-button"
-                  title="Reset to defaults"
-                  onClick={() => resetLongGroup(key)}
-                >
-                  ↺
-                </button>
-                <span className="tag-status">{templates.length} templates</span>
-              </header>
-
-              <HookTemplateEditor
-                templates={templates}
-                onUpdateTemplates={(newTemplates) => updateLongTemplates(key, newTemplates)}
-              />
-            </article>
+            <TemplateGroupCard
+              key={key}
+              label={label}
+              templates={templates}
+              onUpdateTemplates={(newTemplates) => updateLongTemplates(key, newTemplates)}
+              onReset={() => resetLongGroup(key)}
+            />
           );
         })}
       </div>
