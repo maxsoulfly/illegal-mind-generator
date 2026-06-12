@@ -214,6 +214,7 @@ function App() {
       {activePage === 'projectSettings' && (
         <ProjectSettingsPage
           projectId={projectId}
+          baseProjectConfig={projectConfig}
           projectConfig={resolvedProjectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}

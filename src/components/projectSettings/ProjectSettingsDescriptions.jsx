@@ -8,6 +8,7 @@ const DESCRIPTION_SUBTABS = [
 ];
 
 export default function ProjectSettingsDescriptions({
+  baseProjectConfig,
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,
@@ -35,6 +36,7 @@ export default function ProjectSettingsDescriptions({
 
       {activeSubTab === 'long' && (
         <LongDescriptionSettings
+          baseProjectConfig={baseProjectConfig}
           projectConfig={projectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}

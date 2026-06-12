@@ -6,6 +6,7 @@ import ProjectSettingsDescriptions from './ProjectSettingsDescriptions';
 export default function ProjectSettingsContent({
   activeSection,
   projectId,
+  baseProjectConfig,
   projectConfig,
   projectSettingsOverrides,
   updateProjectOverride,
@@ -49,6 +50,7 @@ export default function ProjectSettingsContent({
   if (activeSection === 'descriptions') {
     return (
       <ProjectSettingsDescriptions
+        baseProjectConfig={baseProjectConfig}
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}

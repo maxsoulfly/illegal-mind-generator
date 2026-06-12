@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import TemplateGroupCard from '../../ui/TemplateGroupCard';
+import BlockInfoCard from '../../ui/BlockInfoCard';
 import SubTabNav from '../../ui/SubTabNav';
 
 const MOBILE_COLUMN_TABS = [
@@ -7,21 +8,41 @@ const MOBILE_COLUMN_TABS = [
   { id: 'available', label: 'Available' },
 ];
 
-// path: 'top' means the key lives at description[key], not description.templates.long[key]
-const ALL_GROUPS = [
-  { key: 'broadcastHeader', label: 'Broadcast Header' },
-  { key: 'operatorStatuses', label: 'Operator Statuses', path: 'top' },
-  { key: 'statusLines', label: 'Status Lines' },
-  { key: 'introHook', label: 'Intro Hook' },
-  { key: 'storyBlock', label: 'Story Block' },
-  { key: 'logNotes', label: 'Log Notes' },
-  { key: 'closingSignal', label: 'Closing Signal' },
-  { key: 'philosophyLine', label: 'Philosophy Line' },
-];
+// Maps layout block names (engine keys) to display metadata
+const KNOWN_BLOCK_META = {
+  broadcastBlock:    { label: 'Broadcast Block',   subtitle: 'tag-driven' },
+  introBlock:        { label: 'Intro Hook' },
+  storyBlock:        { label: 'Story Block' },
+  technicalBlock:    { label: 'Technical Block',   subtitle: 'tag-driven' },
+  logBlock:          { label: 'Log Block',          subtitle: 'tag-driven' },
+  closingBlock:      { label: 'Closing Block' },
+  supportBlock:      { label: 'Support Block',      subtitle: 'links from config' },
+  customCtaBlock:    { label: 'Custom CTA',          subtitle: 'editable in generator' },
+  mixingCtaBlock:    { label: 'Mixing CTA' },
+  gearBlock:         { label: 'Gear Used' },
+  playlistBlock:     { label: 'Playlist' },
+  renovationBlock:   { label: 'Renovation Block' },
+  coverSummaryBlock: { label: 'Cover Summary' },
+};
 
-const DEFAULT_ACTIVE_KEYS = ALL_GROUPS.map((g) => g.key);
+// Maps layout block keys to the template config sub-groups they expose for editing
+const TEMPLATE_GROUPS = {
+  broadcastBlock: [
+    { key: 'broadcastHeader', label: 'Broadcast Header' },
+    { key: 'operatorStatuses', label: 'Operator Statuses', path: 'top' },
+    { key: 'statusLines', label: 'Status Lines' },
+  ],
+  introBlock:  [{ key: 'introHook',     label: 'Intro Hook' }],
+  storyBlock:  [{ key: 'storyBlock',    label: 'Story Block' }],
+  logBlock:    [{ key: 'logNotes',      label: 'Log Notes' }],
+  closingBlock: [
+    { key: 'closingSignal',  label: 'Closing Signal' },
+    { key: 'philosophyLine', label: 'Philosophy Line' },
+  ],
+};
 
 export default function LongDescriptionSettings({
+  baseProjectConfig,
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,
@@ -30,14 +51,14 @@ export default function LongDescriptionSettings({
 
   const longTemplates = projectConfig.description?.templates?.long || {};
 
+  // Use base (pre-override) layout so Available always reflects the original config
+  const defaultLayout =
+    baseProjectConfig?.description?.templates?.long?.layout ?? longTemplates.layout ?? [];
   const activeKeys =
-    projectSettingsOverrides.description?.editorLayout ?? DEFAULT_ACTIVE_KEYS;
+    projectSettingsOverrides.description?.templates?.long?.layout ?? defaultLayout;
 
-  const activeGroups = activeKeys
-    .map((key) => ALL_GROUPS.find((g) => g.key === key))
-    .filter(Boolean);
-
-  const availableGroups = ALL_GROUPS.filter((g) => !activeKeys.includes(g.key));
+  // Available = blocks in the project's default layout that have been removed
+  const availableKeys = defaultLayout.filter((k) => !activeKeys.includes(k));
 
   function getTemplates(key, path) {
     if (path === 'top') return projectConfig.description?.[key] || [];
@@ -88,21 +109,88 @@ export default function LongDescriptionSettings({
     }
   }
 
-  function updateEditorLayout(newKeys) {
+  function updateLayout(newKeys) {
     updateProjectOverride({
       description: {
         ...(projectSettingsOverrides.description || {}),
-        editorLayout: newKeys,
+        templates: {
+          ...(projectSettingsOverrides.description?.templates || {}),
+          long: {
+            ...(projectSettingsOverrides.description?.templates?.long || {}),
+            layout: newKeys,
+          },
+        },
       },
     });
   }
 
   function addToLayout(key) {
-    updateEditorLayout([...activeKeys, key]);
+    // Re-insert at its original position in the default layout
+    const targetIndex = defaultLayout.indexOf(key);
+    const next = [...activeKeys];
+    const insertAt = next.findLastIndex((k) => defaultLayout.indexOf(k) < targetIndex) + 1;
+    next.splice(insertAt, 0, key);
+    updateLayout(next);
   }
 
   function removeFromLayout(key) {
-    updateEditorLayout(activeKeys.filter((k) => k !== key));
+    updateLayout(activeKeys.filter((k) => k !== key));
+  }
+
+  function renderActiveBlock(blockKey) {
+    const meta = KNOWN_BLOCK_META[blockKey] || { label: blockKey };
+    const groups = TEMPLATE_GROUPS[blockKey];
+
+    if (!groups) {
+      return (
+        <BlockInfoCard
+          key={blockKey}
+          label={meta.label}
+          subtitle={meta.subtitle}
+          onRemove={() => removeFromLayout(blockKey)}
+        />
+      );
+    }
+
+    if (groups.length === 1) {
+      const group = groups[0];
+      return (
+        <TemplateGroupCard
+          key={blockKey}
+          label={meta.label}
+          templates={getTemplates(group.key, group.path)}
+          onUpdateTemplates={(t) => updateTemplates(group.key, group.path, t)}
+          onReset={() => resetGroup(group.key, group.path)}
+          onRemove={() => removeFromLayout(blockKey)}
+        />
+      );
+    }
+
+    // Multiple template groups under one block — wrapper with single remove button
+    return (
+      <div key={blockKey} className="desc-block-group">
+        <div className="desc-block-group-header">
+          <span>{meta.label}</span>
+          <button
+            type="button"
+            className="tag-reset-button"
+            title="Remove from layout"
+            onClick={() => removeFromLayout(blockKey)}
+          >
+            ×
+          </button>
+        </div>
+        {groups.map((group) => (
+          <TemplateGroupCard
+            key={group.key}
+            label={group.label}
+            templates={getTemplates(group.key, group.path)}
+            onUpdateTemplates={(t) => updateTemplates(group.key, group.path, t)}
+            onReset={() => resetGroup(group.key, group.path)}
+          />
+        ))}
+      </div>
+    );
   }
 
   return (
@@ -117,38 +205,32 @@ export default function LongDescriptionSettings({
       <div className="desc-layout" data-mobile-tab={mobileTab}>
         <aside className="desc-layout-available">
           <h3>Available</h3>
-          {availableGroups.length === 0 ? (
+          {availableKeys.length === 0 ? (
             <p className="tag-summary">All blocks are in the layout.</p>
           ) : (
             <ul className="desc-available-list">
-              {availableGroups.map(({ key, label }) => (
-                <li key={key} className="desc-available-item">
-                  <span>{label}</span>
-                  <button
-                    type="button"
-                    className="tag-reset-button"
-                    title="Add to layout"
-                    onClick={() => addToLayout(key)}
-                  >
-                    +
-                  </button>
-                </li>
-              ))}
+              {availableKeys.map((key) => {
+                const meta = KNOWN_BLOCK_META[key] || { label: key };
+                return (
+                  <li key={key} className="desc-available-item">
+                    <span>{meta.label}</span>
+                    <button
+                      type="button"
+                      className="tag-reset-button"
+                      title="Add to layout"
+                      onClick={() => addToLayout(key)}
+                    >
+                      +
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </aside>
 
         <div className="desc-layout-active">
-          {activeGroups.map(({ key, label, path }) => (
-            <TemplateGroupCard
-              key={key}
-              label={label}
-              templates={getTemplates(key, path)}
-              onUpdateTemplates={(newTemplates) => updateTemplates(key, path, newTemplates)}
-              onReset={() => resetGroup(key, path)}
-              onRemove={() => removeFromLayout(key)}
-            />
-          ))}
+          {activeKeys.map(renderActiveBlock)}
         </div>
       </div>
     </>

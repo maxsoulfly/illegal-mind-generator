@@ -7,6 +7,7 @@ import ProjectSettingsContent from '../components/projectSettings/ProjectSetting
 
 export default function ProjectSettingsPage({
   projectId,
+  baseProjectConfig,
   projectConfig,
   projectSettingsOverrides,
   updateProjectOverride,
@@ -51,6 +52,7 @@ export default function ProjectSettingsPage({
         <ProjectSettingsContent
           activeSection={resolvedSection}
           projectId={projectId}
+          baseProjectConfig={baseProjectConfig}
           projectConfig={projectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}
