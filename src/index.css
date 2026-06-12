@@ -1168,16 +1168,13 @@ svg {
 
   opacity: .65;
 
-  transition:
-    opacity .15s ease,
-    transform .15s ease;
+  transition: opacity .15s ease, color .15s ease, border-color .15s ease;
 }
 
 .tag-reset-button:hover {
   color       : var(--color-text-accent);
   border-color: var(--color-text-accent);
   opacity     : 1;
-  transform   : rotate(-90deg);
 }
 
 .tag-usage,
