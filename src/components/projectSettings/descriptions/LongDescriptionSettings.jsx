@@ -227,6 +227,18 @@ export default function LongDescriptionSettings({
               onUpdateTemplates={(t) => updateTemplates(group.key, group.path, t)}
               onReset={() => resetGroup(group.key, group.path)}
               initialCollapsed
+              sliderConfig={group.key === 'statusLines' ? {
+                label: 'Lines to show',
+                min: 1,
+                max: 4,
+                value: projectSettingsOverrides.description?.statusLineCount ?? 2,
+                onChange: (val) => updateProjectOverride({
+                  description: {
+                    ...(projectSettingsOverrides.description || {}),
+                    statusLineCount: val,
+                  },
+                }),
+              } : undefined}
             />
           ))}
         </CollapsibleBlockGroup>

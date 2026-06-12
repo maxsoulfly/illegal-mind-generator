@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import HookTemplateEditor from './HookTemplateEditor';
+import LabelSliderRow from './LabelSliderRow';
 
 export default function TemplateGroupCard({
   label,
@@ -11,6 +12,7 @@ export default function TemplateGroupCard({
   subtitle,
   countLabel = 'templates',
   initialCollapsed = false,
+  sliderConfig,
 }) {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
 
@@ -45,6 +47,15 @@ export default function TemplateGroupCard({
 
       {!collapsed && (
         <>
+          {sliderConfig && (
+            <LabelSliderRow
+              label={sliderConfig.label}
+              min={sliderConfig.min}
+              max={sliderConfig.max}
+              value={sliderConfig.value}
+              onChange={sliderConfig.onChange}
+            />
+          )}
           <span className="tag-status">{templates.length} {countLabel}</span>
           {subtitle && <p className="tag-category">{subtitle}</p>}
           <HookTemplateEditor

@@ -29,9 +29,11 @@ export function generateBroadcastBlock(formData, projectConfig, selectedTags) {
 
   const combinedStatus = [...tagStatusLines, ...baseStatusLines];
 
+  const statusLineCount = projectConfig?.description?.statusLineCount ?? 2;
+
   const selectedStatus = [...combinedStatus]
     .sort(() => 0.5 - Math.random())
-    .slice(0, 2);
+    .slice(0, statusLineCount);
 
   const statusBlock = selectedStatus.join('\n');
 
