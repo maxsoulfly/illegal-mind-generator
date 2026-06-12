@@ -25,13 +25,16 @@ export default function ShortsDescriptionSettings({
   const [mobileTab, setMobileTab] = useState('layout');
 
   const shortsConfig = projectConfig.description?.templates?.shorts || {};
-  const overriddenShorts = projectSettingsOverrides.description?.templates?.shorts || {};
+  const overriddenShorts =
+    projectSettingsOverrides.description?.templates?.shorts || {};
 
-  const coverLabel = overriddenShorts.coverLabel ?? shortsConfig.coverLabel ?? '';
+  const coverLabel =
+    overriddenShorts.coverLabel ?? shortsConfig.coverLabel ?? '';
   const count = overriddenShorts.count ?? shortsConfig.count ?? 3;
 
   const activeKeys =
-    projectSettingsOverrides.description?.shortsEditorLayout ?? DEFAULT_ACTIVE_KEYS;
+    projectSettingsOverrides.description?.shortsEditorLayout ??
+    DEFAULT_ACTIVE_KEYS;
 
   const activeGroups = activeKeys
     .map((key) => ALL_GROUPS.find((g) => g.key === key))
@@ -87,6 +90,16 @@ export default function ShortsDescriptionSettings({
 
   return (
     <>
+      <div className="desc-generation-settings">
+        <LabelSliderRow
+          label="Descriptions to generate"
+          value={count}
+          min={3}
+          max={10}
+          onChange={(val) => updateShortsField('count', val)}
+        />
+      </div>
+
       <SubTabNav
         tabs={MOBILE_COLUMN_TABS}
         activeTab={mobileTab}
@@ -121,20 +134,16 @@ export default function ShortsDescriptionSettings({
         <div className="desc-layout-active">
           <article className="tag-card">
             <header className="tag-card-header">
-              <h3>Settings</h3>
+              <h3>Cover Line</h3>
             </header>
             <div className="tag-section">
+              <p className="tag-summary">
+                Format: Artist – Song // <em>Cover Label</em>
+              </p>
               <LabelInputRow
                 label="Cover Label"
                 value={coverLabel}
                 onChange={(val) => updateShortsField('coverLabel', val)}
-              />
-              <LabelSliderRow
-                label="Count"
-                value={count}
-                min={1}
-                max={10}
-                onChange={(val) => updateShortsField('count', val)}
               />
             </div>
           </article>
@@ -147,7 +156,9 @@ export default function ShortsDescriptionSettings({
                 key={key}
                 label={label}
                 templates={templates}
-                onUpdateTemplates={(newTemplates) => updateTemplates(key, newTemplates)}
+                onUpdateTemplates={(newTemplates) =>
+                  updateTemplates(key, newTemplates)
+                }
                 onReset={() => resetGroup(key)}
                 onRemove={() => removeFromLayout(key)}
               />

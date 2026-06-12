@@ -1452,6 +1452,14 @@ svg {
   gap           : var(--space-4);
 }
 
+.desc-generation-settings {
+  background   : var(--color-bg-input);
+  border       : 1px solid var(--color-border-main);
+  border-radius: var(--radius-md);
+  padding      : var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
 /* Hidden on desktop — shown only on mobile via media query */
 .desc-mobile-tabs {
   display: none;
