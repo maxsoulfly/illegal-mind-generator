@@ -126,6 +126,38 @@ Both editable via Project Settings → Titles → Generation card. `shortHookSuf
 
 ---
 
+# Block Type System
+
+The description block system is designed to be fully UI-configurable. The goal: a user should be able to build a new project from scratch — different language, different goals, original songs — without editing any JSON.
+
+`projects.json` is a **bootstrap template only**. All real configuration lives in localStorage overrides (backed up/restored via Backup System), eventually migrated to a DB once feature-complete.
+
+## Four block types
+
+| Type | What it is | User-creatable | Examples |
+|---|---|---|---|
+| **List** | `{ title, items: [{ label, text\|link }] }` | Yes | `gearBlock`, `supportBlock`, `playlistBlock` |
+| **Text** | Single paragraph, optional `{placeholders}` | Yes | `storyBlock`, `introBlock`, CTA, static text |
+| **Block Group** | Multiple template lines forming a section | Yes | `broadcastBlock`, `logBlock` |
+| **Generated** | Engine-driven output, parameters only | No (engine code required) | `technicalBlock`, hook blocks |
+
+Types 1–3 are pure data — no engine code needed to add new blocks of these types from the UI. Generated blocks are system-provided and configurable but not user-creatable.
+
+## Block scope
+
+Each block has a **scope** field (stored in overrides, user-set in the editor):
+
+- **Project** — same value across all songs (links, playlists, support info)
+- **Song** — has a project default, overridable per song (gear, custom notes)
+
+`customGear` in the generator form is an existing ad-hoc song-level override — eventually replaced by a proper song-scoped List editor.
+
+## Block targets
+
+Each block can target **Long Description**, **Shorts Description**, or both. This is set per block and drives which layout palette the block appears in.
+
+---
+
 # Current Focus
 
 ## Project Settings — Descriptions (in progress)
@@ -156,19 +188,25 @@ Description layout builder. Two-column: Available palette (left) + Active Layout
 * [ ] Step 5: Add missing editable blocks (broadcastHeader, operatorStatuses, statusLines, logNotes)
 * [ ] Step 6: Shorts Description (coverLabel, secondary, count)
 * [ ] Step 7: Drag-and-drop reordering (future)
-* [ ] Step 8: Custom block types — paragraph, link, list (future)
+* [ ] Step 8: Add new blocks from UI (List → Text → Block Group, in that order)
 
 ---
 
-## Next Session — Structured List Editor (Links section)
+## Next — Structured List Editor (Project Settings → Links)
 
-Build a reusable structured block editor for `{ title, items: [{ label, text/link }] }` in **Project Settings → Links** (`src/components/projectSettings/ProjectSettingsLinks.jsx` — placeholder exists). One component covers three blocks:
+First implementation of the **List** block type. Lives in `src/components/projectSettings/ProjectSettingsLinks.jsx` (placeholder exists).
 
-- `gearBlock` — label + text rows (Maxx Dee)
-- `supportBlock` — label + link rows (both projects)
-- `playlistBlock` — label + link rows (Maxx Dee)
+Reusable `StructuredListEditor` component — one editor covers all List blocks:
 
-Saves to `projectSettingsOverrides` to override config defaults. `customGear` form field already overrides `gearBlock` at generation time — config stays as fallback until this editor is built.
+| Block | Item shape | Scope | Target |
+|---|---|---|---|
+| `gearBlock` | label + text | Song | Long |
+| `supportBlock` | label + link | Project | Long + Shorts |
+| `playlistBlock` | label + link | Project | Long |
+
+Each block has: title, items (add/edit/remove/reorder), scope badge (Project / Song), target (Long / Shorts / Both).
+
+Saves to `projectSettingsOverrides`. `customGear` form field remains as song-level override — eventually replaced by a song-scoped List editor in the generator form.
 
 ---
 
