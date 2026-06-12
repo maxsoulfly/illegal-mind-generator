@@ -251,6 +251,7 @@ Saves to `projectSettingsOverrides`. `customGear` form field remains as song-lev
 
 # Development Preferences
 
+- **Step-by-step, one change at a time.** Present each step, implement it, then stop and wait for the user to review and approve before moving to the next. Never chain multiple steps autonomously.
 - Hands-on, file by file, small chunks
 - Show the change, explain it, let the user review before moving on
 - Do NOT batch into autonomous pass unless user says so

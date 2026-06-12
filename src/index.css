@@ -1507,6 +1507,39 @@ svg {
   letter-spacing : 0.05em;
 }
 
+.links-editor-badges {
+  display    : flex;
+  align-items: center;
+  gap        : var(--space-2);
+}
+
+.links-editor-badge {
+  font-size     : var(--font-size-xs);
+  color         : var(--color-text-muted);
+  background    : var(--color-bg-input);
+  border        : 1px solid var(--color-border-main);
+  border-radius : 4px;
+  padding       : 1px var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.links-editor-row {
+  display              : grid;
+  grid-template-columns: 1fr 2fr auto;
+  gap                  : var(--space-2);
+  align-items          : center;
+  margin-bottom        : var(--space-2);
+}
+
+.links-editor-row--header {
+  margin-bottom: var(--space-1);
+}
+
+.links-editor-row--header .form-label {
+  margin-bottom: 0;
+}
+
 .desc-block-wrapper {
   display    : flex;
   gap        : var(--space-2);
