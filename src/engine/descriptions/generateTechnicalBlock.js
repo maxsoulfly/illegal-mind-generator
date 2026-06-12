@@ -4,6 +4,7 @@ function pickRandom(arr = []) {
 
 export function generateTechnicalBlock(selectedTags, projectConfig) {
   const tagRegistry = projectConfig?.tags || {};
+  const baseLines = projectConfig?.description?.templates?.long?.technicalLines || [];
 
   const getDescriptionTag = (tag) => tagRegistry[tag]?.description || {};
 
@@ -11,17 +12,16 @@ export function generateTechnicalBlock(selectedTags, projectConfig) {
   const perTagLines = selectedTags
     .map((tag) => {
       const options = getDescriptionTag(tag).technical || [];
-
       return pickRandom(options);
     })
     .filter(Boolean);
 
-  // Step 2: if less than 3, fill from all available
-  const allLines = selectedTags.flatMap(
+  // Step 2: fill remaining slots from all tag lines, then base defaults
+  const allTagLines = selectedTags.flatMap(
     (tag) => getDescriptionTag(tag).technical || [],
   );
 
-  const remaining = allLines
+  const remaining = [...allTagLines, ...baseLines]
     .filter((line) => !perTagLines.includes(line))
     .sort(() => 0.5 - Math.random());
 

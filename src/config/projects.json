@@ -549,7 +549,15 @@
             "Archive integrity: Compromised.",
             "Noise floor: Elevated."
           ],
-          "technicalBreakdown": [],
+          "technicalLines": [
+            "Mix: refined.",
+            "Frequency balance: adjusted.",
+            "Dynamic range: expanded.",
+            "Production layer: enhanced.",
+            "Sonic texture: updated.",
+            "Low end: reinforced.",
+            "Transient response: tightened."
+          ],
           "closingSignal": [
             "[SIGNAL {num}: TRANSMISSION STABLE]",
             "[SIGNAL {num}: LOOP LOCKED]",
@@ -1917,6 +1925,12 @@
           ],
           "logBlock": ["Production Note:\n {logNote}"],
           "statusLines": [],
+          "technicalLines": [
+            "Mix: refined.",
+            "Frequency balance: adjusted.",
+            "Dynamic range: expanded.",
+            "Production layer: enhanced."
+          ],
           "closingSignal": [],
           "philosophyLine": [],
           "supportBlock": {

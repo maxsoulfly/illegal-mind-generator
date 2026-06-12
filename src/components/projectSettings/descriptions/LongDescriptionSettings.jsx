@@ -63,6 +63,7 @@ const TEMPLATE_GROUPS = {
     { key: 'operatorStatuses', label: 'Operator Statuses', path: 'top' },
     { key: 'statusLines', label: 'Status Lines' },
   ],
+  technicalBlock: [{ key: 'technicalLines', label: 'Technical Lines' }],
   introBlock:  [{ key: 'introHook',     label: 'Intro Hook' }],
   storyBlock:  [{ key: 'storyBlock',    label: 'Story Block' }],
   logBlock:    [{ key: 'logNotes',      label: 'Log Notes' }],
