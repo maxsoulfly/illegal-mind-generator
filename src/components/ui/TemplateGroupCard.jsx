@@ -17,18 +17,20 @@ export default function TemplateGroupCard({
   return (
     <article className={`tag-card${collapsed ? ' tag-card--collapsed' : ''}`}>
       <header className="tag-card-header">
-        <h3 className="tag-card-toggle" onClick={() => setCollapsed((c) => !c)}>
-          <span className="tag-card-collapse-icon">{collapsed ? '▶' : '▼'}</span>
-          {label}
-        </h3>
-        <button
-          type="button"
-          className="tag-reset-button"
-          title="Reset to defaults"
-          onClick={onReset}
-        >
-          ↺
-        </button>
+        <div className="tag-card-label-row">
+          <h3 className="tag-card-toggle" onClick={() => setCollapsed((c) => !c)}>
+            <span className="tag-card-collapse-icon">{collapsed ? '▶' : '▼'}</span>
+            {label}
+          </h3>
+          <button
+            type="button"
+            className="tag-reset-button"
+            title="Reset to defaults"
+            onClick={(e) => { e.stopPropagation(); onReset(); }}
+          >
+            ↺
+          </button>
+        </div>
         {onRemove && (
           <button
             type="button"
