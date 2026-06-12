@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import SubTabNav from '../ui/SubTabNav';
 import LongDescriptionSettings from './descriptions/LongDescriptionSettings';
 import ShortsDescriptionSettings from './descriptions/ShortsDescriptionSettings';
@@ -13,7 +12,16 @@ export default function ProjectSettingsDescriptions({
   projectSettingsOverrides = {},
   updateProjectOverride,
 }) {
-  const [activeSubTab, setActiveSubTab] = useState('long');
+  const activeSubTab = projectSettingsOverrides.description?.activeSubTab ?? 'long';
+
+  function setActiveSubTab(tab) {
+    updateProjectOverride({
+      description: {
+        ...(projectSettingsOverrides.description || {}),
+        activeSubTab: tab,
+      },
+    });
+  }
 
   return (
     <>
