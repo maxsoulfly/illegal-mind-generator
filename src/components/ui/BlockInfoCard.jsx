@@ -1,8 +1,20 @@
-export default function BlockInfoCard({ label, subtitle, onRemove }) {
+import { useState } from 'react';
+
+export default function BlockInfoCard({ label, subtitle, onRemove, collapsible = false, children }) {
+  const [collapsed, setCollapsed] = useState(true);
+
   return (
-    <article className="tag-card">
+    <article className={`tag-card${collapsed || !collapsible ? ' tag-card--collapsed' : ''}`}>
       <header className="tag-card-header">
-        <h3>{label}</h3>
+        <h3
+          className={collapsible ? 'tag-card-toggle' : undefined}
+          onClick={collapsible ? () => setCollapsed((c) => !c) : undefined}
+        >
+          {collapsible && (
+            <span className="tag-card-collapse-icon">{collapsed ? '▶' : '▼'}</span>
+          )}
+          {label}
+        </h3>
         {onRemove && (
           <button
             type="button"
@@ -15,6 +27,7 @@ export default function BlockInfoCard({ label, subtitle, onRemove }) {
         )}
         {subtitle && <span className="tag-status">{subtitle}</span>}
       </header>
+      {collapsible && !collapsed && children}
     </article>
   );
 }

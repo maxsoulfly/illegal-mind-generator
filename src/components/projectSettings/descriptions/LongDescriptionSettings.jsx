@@ -41,14 +41,14 @@ const MOBILE_COLUMN_TABS = [
 
 // Maps layout block names (engine keys) to display metadata
 const KNOWN_BLOCK_META = {
-  broadcastBlock:    { label: 'Broadcast Block',   subtitle: 'tag-driven' },
+  broadcastBlock:    { label: 'Broadcast Block' },
   introBlock:        { label: 'Intro Hook' },
   storyBlock:        { label: 'Story Block' },
-  technicalBlock:    { label: 'Technical Block',   subtitle: 'tag-driven' },
-  logBlock:          { label: 'Log Block',          subtitle: 'tag-driven' },
+  technicalBlock:    { label: 'Technical Block' },
+  logBlock:          { label: 'Log Block' },
   closingBlock:      { label: 'Closing Block' },
-  supportBlock:      { label: 'Support Block',      subtitle: 'links from config' },
-  customCtaBlock:    { label: 'Custom CTA',          subtitle: 'editable in generator' },
+  supportBlock:      { label: 'Support Block' },
+  customCtaBlock:    { label: 'Custom CTA' },
   mixingCtaBlock:    { label: 'Mixing CTA' },
   gearBlock:         { label: 'Gear Used' },
   playlistBlock:     { label: 'Playlist' },
@@ -191,12 +191,18 @@ export default function LongDescriptionSettings({
 
     let card;
     if (!groups) {
+      const isCollapsible = blockKey === 'supportBlock';
       card = (
         <BlockInfoCard
           label={meta.label}
           subtitle={meta.subtitle}
           onRemove={() => removeFromLayout(blockKey)}
-        />
+          collapsible={isCollapsible}
+        >
+          {isCollapsible && (
+            <p className="tag-summary">Edit links in Project Settings → Links.</p>
+          )}
+        </BlockInfoCard>
       );
     } else if (groups.length === 1) {
       const group = groups[0];
