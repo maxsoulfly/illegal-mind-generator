@@ -7,12 +7,16 @@ const MOBILE_COLUMN_TABS = [
   { id: 'available', label: 'Available' },
 ];
 
-// All editable long description template groups. Step 5 will add more entries here.
+// path: 'top' means the key lives at description[key], not description.templates.long[key]
 const ALL_GROUPS = [
+  { key: 'broadcastHeader', label: 'Broadcast Header' },
+  { key: 'operatorStatuses', label: 'Operator Statuses', path: 'top' },
+  { key: 'statusLines', label: 'Status Lines' },
   { key: 'introHook', label: 'Intro Hook' },
   { key: 'storyBlock', label: 'Story Block' },
-  { key: 'philosophyLine', label: 'Philosophy Line' },
+  { key: 'logNotes', label: 'Log Notes' },
   { key: 'closingSignal', label: 'Closing Signal' },
+  { key: 'philosophyLine', label: 'Philosophy Line' },
 ];
 
 const DEFAULT_ACTIVE_KEYS = ALL_GROUPS.map((g) => g.key);
@@ -23,9 +27,9 @@ export default function LongDescriptionSettings({
   updateProjectOverride,
 }) {
   const [mobileTab, setMobileTab] = useState('layout');
+
   const longTemplates = projectConfig.description?.templates?.long || {};
 
-  // Which groups are in the active layout (persisted in overrides).
   const activeKeys =
     projectSettingsOverrides.description?.editorLayout ?? DEFAULT_ACTIVE_KEYS;
 
@@ -34,6 +38,55 @@ export default function LongDescriptionSettings({
     .filter(Boolean);
 
   const availableGroups = ALL_GROUPS.filter((g) => !activeKeys.includes(g.key));
+
+  function getTemplates(key, path) {
+    if (path === 'top') return projectConfig.description?.[key] || [];
+    return longTemplates[key] || [];
+  }
+
+  function updateTemplates(key, path, newTemplates) {
+    if (path === 'top') {
+      updateProjectOverride({
+        description: {
+          ...(projectSettingsOverrides.description || {}),
+          [key]: newTemplates,
+        },
+      });
+    } else {
+      updateProjectOverride({
+        description: {
+          ...(projectSettingsOverrides.description || {}),
+          templates: {
+            ...(projectSettingsOverrides.description?.templates || {}),
+            long: {
+              ...(projectSettingsOverrides.description?.templates?.long || {}),
+              [key]: newTemplates,
+            },
+          },
+        },
+      });
+    }
+  }
+
+  function resetGroup(key, path) {
+    if (path === 'top') {
+      const { [key]: _removed, ...remaining } =
+        projectSettingsOverrides.description || {};
+      updateProjectOverride({ description: remaining });
+    } else {
+      const { [key]: _removed, ...remaining } =
+        projectSettingsOverrides.description?.templates?.long || {};
+      updateProjectOverride({
+        description: {
+          ...(projectSettingsOverrides.description || {}),
+          templates: {
+            ...(projectSettingsOverrides.description?.templates || {}),
+            long: remaining,
+          },
+        },
+      });
+    }
+  }
 
   function updateEditorLayout(newKeys) {
     updateProjectOverride({
@@ -50,35 +103,6 @@ export default function LongDescriptionSettings({
 
   function removeFromLayout(key) {
     updateEditorLayout(activeKeys.filter((k) => k !== key));
-  }
-
-  function updateLongTemplates(key, newTemplates) {
-    updateProjectOverride({
-      description: {
-        ...(projectSettingsOverrides.description || {}),
-        templates: {
-          ...(projectSettingsOverrides.description?.templates || {}),
-          long: {
-            ...(projectSettingsOverrides.description?.templates?.long || {}),
-            [key]: newTemplates,
-          },
-        },
-      },
-    });
-  }
-
-  function resetLongGroup(key) {
-    const { [key]: _removed, ...remaining } =
-      projectSettingsOverrides.description?.templates?.long || {};
-    updateProjectOverride({
-      description: {
-        ...(projectSettingsOverrides.description || {}),
-        templates: {
-          ...(projectSettingsOverrides.description?.templates || {}),
-          long: remaining,
-        },
-      },
-    });
   }
 
   return (
@@ -115,20 +139,16 @@ export default function LongDescriptionSettings({
         </aside>
 
         <div className="desc-layout-active">
-          {activeGroups.map(({ key, label }) => {
-            const templates = longTemplates[key] || [];
-
-            return (
-              <TemplateGroupCard
-                key={key}
-                label={label}
-                templates={templates}
-                onUpdateTemplates={(newTemplates) => updateLongTemplates(key, newTemplates)}
-                onReset={() => resetLongGroup(key)}
-                onRemove={() => removeFromLayout(key)}
-              />
-            );
-          })}
+          {activeGroups.map(({ key, label, path }) => (
+            <TemplateGroupCard
+              key={key}
+              label={label}
+              templates={getTemplates(key, path)}
+              onUpdateTemplates={(newTemplates) => updateTemplates(key, path, newTemplates)}
+              onReset={() => resetGroup(key, path)}
+              onRemove={() => removeFromLayout(key)}
+            />
+          ))}
         </div>
       </div>
     </>
