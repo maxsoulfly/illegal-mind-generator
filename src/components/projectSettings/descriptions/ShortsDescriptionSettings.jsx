@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import TemplateGroupCard from '../../ui/TemplateGroupCard';
-import LabelInputRow from '../../ui/LabelInputRow';
 import LabelSliderRow from '../../ui/LabelSliderRow';
 import SubTabNav from '../../ui/SubTabNav';
 
@@ -28,8 +27,6 @@ export default function ShortsDescriptionSettings({
   const overriddenShorts =
     projectSettingsOverrides.description?.templates?.shorts || {};
 
-  const coverLabel =
-    overriddenShorts.coverLabel ?? shortsConfig.coverLabel ?? '';
   const count = overriddenShorts.count ?? shortsConfig.count ?? 3;
 
   const activeKeys =
@@ -132,22 +129,6 @@ export default function ShortsDescriptionSettings({
         </aside>
 
         <div className="desc-layout-active">
-          <article className="tag-card">
-            <header className="tag-card-header">
-              <h3>Cover Line</h3>
-            </header>
-            <div className="tag-section">
-              <p className="tag-summary">
-                Format: Artist – Song // <em>Cover Label</em>
-              </p>
-              <LabelInputRow
-                label="Cover Label"
-                value={coverLabel}
-                onChange={(val) => updateShortsField('coverLabel', val)}
-              />
-            </div>
-          </article>
-
           {activeGroups.map(({ key, label }) => {
             const templates = overriddenShorts[key] ?? shortsConfig[key] ?? [];
 

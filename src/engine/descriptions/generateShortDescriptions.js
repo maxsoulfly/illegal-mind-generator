@@ -10,14 +10,13 @@ export function generateShortDescriptions(
 ) {
   const shortsConfig = projectConfig.description.templates.shorts;
   const count = shortsConfig.count || 3;
+  const coverLabel = shortsConfig.coverLabel || '';
 
   const shortsLayout = shortsConfig.layout || [
     'coverLine',
     'hook',
     'secondary',
   ];
-
-  const coverLabel = shortsConfig.coverLabel || 'Cover';
 
   // shortHooks is an array of groups, each with a `hooks` array of hook objects.
   // We only need the text string from each hook object for use in descriptions.
@@ -28,9 +27,15 @@ export function generateShortDescriptions(
 
   function renderShortLine(blockName) {
     if (blockName === 'coverLine') {
-      return `${formData.artist || ''} - ${
-        formData.song || ''
-      } // ${coverLabel}`;
+      const headerTemplates = shortsConfig.header || [];
+      const template =
+        pickRandom(headerTemplates) || '{artist} - {song}';
+
+      return template
+        .replace(/\{artist\}/g, formData.artist || '')
+        .replace(/\{song\}/g, formData.song || '')
+        .replace(/\{coverLabel\}/g, coverLabel)
+        .replace(/\{num\}/g, formData.signalNumber || '00');
     }
 
     if (blockName === 'hook') {
@@ -52,7 +57,6 @@ export function generateShortDescriptions(
 
   for (let i = 0; i < count; i++) {
     const text = shortsLayout.map(renderShortLine).filter(Boolean).join('\n');
-
     shortDescriptions.push(text);
   }
 
