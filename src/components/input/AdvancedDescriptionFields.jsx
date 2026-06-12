@@ -76,6 +76,23 @@ export default function AdvancedDescriptionFields({
           />
         </FormField>
 
+        {/* GEAR */}
+        <FormField label="Gear">
+          <textarea
+            id="customGear"
+            className="form-textarea"
+            value={formData.customGear || ''}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                customGear: e.target.value,
+              }))
+            }
+            rows={4}
+            placeholder="List gear used for this recording..."
+          />
+        </FormField>
+
       </div>
     </>
   );

@@ -16,6 +16,7 @@ export const defaultFormData = {
 
   customStory: '',
   customLogNote: '',
+  customGear: '',
   customHashtags: '',
   customCta: '',
   excludeFromRandomizer: false,

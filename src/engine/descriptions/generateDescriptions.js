@@ -79,6 +79,9 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const { renderedCustomBlocks, customCtaBlock, supportBlock } =
     generateCustomBlocks(formData, projectConfig, tagLine);
 
+  // --- Gear block ---
+  const gearBlock = formData.customGear?.trim() || '';
+
   const layout = projectConfig.description.templates.long.layout;
   const blocks = {
     broadcastBlock,
@@ -88,6 +91,7 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     logBlock,
     closingBlock: closingCombined,
     supportBlock,
+    gearBlock,
     ...renderedCustomBlocks,
     customCtaBlock,
   };
