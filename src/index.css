@@ -1474,6 +1474,12 @@ svg {
   flex-shrink   : 0;
 }
 
+.desc-block-move-controls .tag-reset-button {
+  padding   : 0;
+  width     : var(--space-7);
+  margin-left: 0;
+}
+
 .desc-block-move-controls .tag-reset-button:disabled {
   opacity: 0.2;
   cursor : default;

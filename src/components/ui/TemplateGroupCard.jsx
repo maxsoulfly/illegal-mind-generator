@@ -32,9 +32,9 @@ export default function TemplateGroupCard({
             ×
           </button>
         )}
-        <span className="tag-status">{templates.length} {countLabel}</span>
       </header>
 
+      <span className="tag-status">{templates.length} {countLabel}</span>
       {subtitle && <p className="tag-category">{subtitle}</p>}
 
       <HookTemplateEditor
