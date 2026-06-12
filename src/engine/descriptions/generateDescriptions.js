@@ -79,8 +79,10 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const { renderedCustomBlocks, customCtaBlock, supportBlock } =
     generateCustomBlocks(formData, projectConfig, tagLine);
 
-  // --- Gear block ---
-  const gearBlock = formData.customGear?.trim() || '';
+  // Form gear overrides config gear; config gear is fallback when form is empty
+  const gearBlock = formData.customGear?.trim()
+    ? formData.customGear.trim()
+    : (renderedCustomBlocks.gearBlock || '');
 
   const layout = projectConfig.description.templates.long.layout;
   const blocks = {
@@ -91,9 +93,9 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     logBlock,
     closingBlock: closingCombined,
     supportBlock,
-    gearBlock,
     ...renderedCustomBlocks,
     customCtaBlock,
+    gearBlock,
   };
 
   const longDescription = layout
