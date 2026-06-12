@@ -34,7 +34,11 @@ export default function ProjectSettingsDescriptions({
       )}
 
       {activeSubTab === 'shorts' && (
-        <ShortsDescriptionSettings />
+        <ShortsDescriptionSettings
+          projectConfig={projectConfig}
+          projectSettingsOverrides={projectSettingsOverrides}
+          updateProjectOverride={updateProjectOverride}
+        />
       )}
     </>
   );

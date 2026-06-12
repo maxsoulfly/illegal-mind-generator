@@ -36,9 +36,9 @@ function mergeProjectOverrides(projectConfig, projectSettingsOverrides = {}) {
           ...(projectConfig.description?.templates?.long || {}),
           ...(projectSettingsOverrides.description?.templates?.long || {}),
         },
-        short: {
-          ...(projectConfig.description?.templates?.short || {}),
-          ...(projectSettingsOverrides.description?.templates?.short || {}),
+        shorts: {
+          ...(projectConfig.description?.templates?.shorts || {}),
+          ...(projectSettingsOverrides.description?.templates?.shorts || {}),
         },
       },
       links: {
