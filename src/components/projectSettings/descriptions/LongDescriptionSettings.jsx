@@ -1,4 +1,11 @@
+import { useState } from 'react';
 import TemplateGroupCard from '../../ui/TemplateGroupCard';
+import SubTabNav from '../../ui/SubTabNav';
+
+const MOBILE_COLUMN_TABS = [
+  { id: 'layout', label: 'Layout' },
+  { id: 'available', label: 'Available' },
+];
 
 const LONG_GROUPS = [
   { key: 'introHook', label: 'Intro Hook' },
@@ -12,6 +19,7 @@ export default function LongDescriptionSettings({
   projectSettingsOverrides = {},
   updateProjectOverride,
 }) {
+  const [mobileTab, setMobileTab] = useState('layout');
   const longTemplates = projectConfig.description?.templates?.long || {};
 
   function updateLongTemplates(key, newTemplates) {
@@ -44,7 +52,15 @@ export default function LongDescriptionSettings({
   }
 
   return (
-    <div className="desc-layout">
+    <>
+      <SubTabNav
+        tabs={MOBILE_COLUMN_TABS}
+        activeTab={mobileTab}
+        onTabChange={setMobileTab}
+        className="desc-mobile-tabs"
+      />
+
+    <div className="desc-layout" data-mobile-tab={mobileTab}>
       <aside className="desc-layout-available">
         <h3>Available</h3>
         <p className="tag-summary">Unused blocks will appear here.</p>
@@ -66,5 +82,6 @@ export default function LongDescriptionSettings({
         })}
       </div>
     </div>
+    </>
   );
 }

@@ -1,6 +1,6 @@
-export default function SubTabNav({ tabs, activeTab, onTabChange }) {
+export default function SubTabNav({ tabs, activeTab, onTabChange, className }) {
   return (
-    <nav className="subtab-nav">
+    <nav className={`subtab-nav${className ? ` ${className}` : ''}`}>
       {tabs.map((tab) => (
         <button
           key={tab.id}

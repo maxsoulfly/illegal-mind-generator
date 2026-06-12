@@ -1434,6 +1434,29 @@ svg {
   gap           : var(--space-4);
 }
 
+/* Hidden on desktop — shown only on mobile via media query */
+.desc-mobile-tabs {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .desc-mobile-tabs {
+    display: flex;
+  }
+
+  .desc-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .desc-layout[data-mobile-tab="layout"] .desc-layout-available {
+    display: none;
+  }
+
+  .desc-layout[data-mobile-tab="available"] .desc-layout-active {
+    display: none;
+  }
+}
+
 .tag-section {
   margin-top: var(--space-3);
 }
