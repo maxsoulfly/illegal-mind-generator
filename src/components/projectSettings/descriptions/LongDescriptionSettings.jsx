@@ -66,7 +66,11 @@ const TEMPLATE_GROUPS = {
   technicalBlock: [{ key: 'technicalLines', label: 'Technical Lines' }],
   introBlock:  [{ key: 'introHook',     label: 'Intro Hook' }],
   storyBlock:  [{ key: 'storyBlock',    label: 'Story Block' }],
-  logBlock:    [{ key: 'logNotes',      label: 'Log Notes' }],
+  logBlock: [
+    { key: 'logNotes',          label: 'Log Notes' },
+    { key: 'tagLineFallbacks',  label: 'Tag Line Fallbacks' },
+    { key: 'tagLineTemplates',  label: 'Tag Line Templates' },
+  ],
   closingBlock: [
     { key: 'closingSignal',  label: 'Closing Signal' },
     { key: 'philosophyLine', label: 'Philosophy Line' },
