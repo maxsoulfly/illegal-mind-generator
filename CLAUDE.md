@@ -160,6 +160,18 @@ Description layout builder. Two-column: Available palette (left) + Active Layout
 
 ---
 
+## Next Session — Structured List Editor (Links section)
+
+Build a reusable structured block editor for `{ title, items: [{ label, text/link }] }` in **Project Settings → Links** (`src/components/projectSettings/ProjectSettingsLinks.jsx` — placeholder exists). One component covers three blocks:
+
+- `gearBlock` — label + text rows (Maxx Dee)
+- `supportBlock` — label + link rows (both projects)
+- `playlistBlock` — label + link rows (Maxx Dee)
+
+Saves to `projectSettingsOverrides` to override config defaults. `customGear` form field already overrides `gearBlock` at generation time — config stays as fallback until this editor is built.
+
+---
+
 ## Other Active Goals
 
 - Generic / no-tags title mode (bypass transformation tags)
