@@ -137,26 +137,40 @@ export default function LongDescriptionSettings({
     updateLayout(activeKeys.filter((k) => k !== key));
   }
 
-  function renderActiveBlock(blockKey) {
+  function moveBlock(key, direction) {
+    const idx = activeKeys.indexOf(key);
+    const next = [...activeKeys];
+    next.splice(idx, 1);
+    next.splice(idx + direction, 0, key);
+    updateLayout(next);
+  }
+
+  function resetOrder() {
+    const sorted = [...activeKeys].sort(
+      (a, b) => defaultLayout.indexOf(a) - defaultLayout.indexOf(b),
+    );
+    updateLayout(sorted);
+  }
+
+  function renderActiveBlock(blockKey, index) {
     const meta = KNOWN_BLOCK_META[blockKey] || { label: blockKey };
     const groups = TEMPLATE_GROUPS[blockKey];
+    const isFirst = index === 0;
+    const isLast = index === activeKeys.length - 1;
 
+    let card;
     if (!groups) {
-      return (
+      card = (
         <BlockInfoCard
-          key={blockKey}
           label={meta.label}
           subtitle={meta.subtitle}
           onRemove={() => removeFromLayout(blockKey)}
         />
       );
-    }
-
-    if (groups.length === 1) {
+    } else if (groups.length === 1) {
       const group = groups[0];
-      return (
+      card = (
         <TemplateGroupCard
-          key={blockKey}
           label={meta.label}
           templates={getTemplates(group.key, group.path)}
           onUpdateTemplates={(t) => updateTemplates(group.key, group.path, t)}
@@ -164,31 +178,56 @@ export default function LongDescriptionSettings({
           onRemove={() => removeFromLayout(blockKey)}
         />
       );
+    } else {
+      card = (
+        <div className="desc-block-group">
+          <div className="desc-block-group-header">
+            <span>{meta.label}</span>
+            <button
+              type="button"
+              className="tag-reset-button"
+              title="Remove from layout"
+              onClick={() => removeFromLayout(blockKey)}
+            >
+              ×
+            </button>
+          </div>
+          {groups.map((group) => (
+            <TemplateGroupCard
+              key={group.key}
+              label={group.label}
+              templates={getTemplates(group.key, group.path)}
+              onUpdateTemplates={(t) => updateTemplates(group.key, group.path, t)}
+              onReset={() => resetGroup(group.key, group.path)}
+            />
+          ))}
+        </div>
+      );
     }
 
-    // Multiple template groups under one block — wrapper with single remove button
     return (
-      <div key={blockKey} className="desc-block-group">
-        <div className="desc-block-group-header">
-          <span>{meta.label}</span>
+      <div key={blockKey} className="desc-block-wrapper">
+        <div className="desc-block-move-controls">
           <button
             type="button"
             className="tag-reset-button"
-            title="Remove from layout"
-            onClick={() => removeFromLayout(blockKey)}
+            title="Move up"
+            disabled={isFirst}
+            onClick={() => moveBlock(blockKey, -1)}
           >
-            ×
+            ↑
+          </button>
+          <button
+            type="button"
+            className="tag-reset-button"
+            title="Move down"
+            disabled={isLast}
+            onClick={() => moveBlock(blockKey, 1)}
+          >
+            ↓
           </button>
         </div>
-        {groups.map((group) => (
-          <TemplateGroupCard
-            key={group.key}
-            label={group.label}
-            templates={getTemplates(group.key, group.path)}
-            onUpdateTemplates={(t) => updateTemplates(group.key, group.path, t)}
-            onReset={() => resetGroup(group.key, group.path)}
-          />
-        ))}
+        {card}
       </div>
     );
   }
@@ -230,7 +269,18 @@ export default function LongDescriptionSettings({
         </aside>
 
         <div className="desc-layout-active">
-          {activeKeys.map(renderActiveBlock)}
+          <div className="desc-active-header">
+            <span>Active Layout</span>
+            <button
+              type="button"
+              className="tag-reset-button"
+              title="Reset to default order"
+              onClick={resetOrder}
+            >
+              ↺ Reset Order
+            </button>
+          </div>
+          {activeKeys.map((key, i) => renderActiveBlock(key, i))}
         </div>
       </div>
     </>
