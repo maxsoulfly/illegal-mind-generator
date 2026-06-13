@@ -1518,10 +1518,24 @@ svg {
   color         : var(--color-text-muted);
   background    : var(--color-bg-input);
   border        : 1px solid var(--color-border-main);
-  border-radius : 4px;
-  padding       : 1px var(--space-2);
+  border-radius : var(--radius-pill);
+  padding       : var(--space-2) var(--space-4);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  white-space   : nowrap;
+}
+
+.links-editor-badge-select {
+  font-size     : var(--font-size-xs);
+  color         : var(--color-text-muted);
+  background    : var(--color-bg-input);
+  border        : 1px solid var(--color-border-hover);
+  border-radius : var(--radius-pill);
+  padding       : var(--space-2) var(--space-4);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor        : pointer;
+  margin-bottom : 0;
 }
 
 .links-editor-row {

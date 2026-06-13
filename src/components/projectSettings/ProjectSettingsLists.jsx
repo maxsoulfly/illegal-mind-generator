@@ -89,8 +89,8 @@ export default function ProjectSettingsLists({
           key={`gear-${hasGearOverride}`}
           label="Gear Used"
           blockData={gearBlockData}
-          scope="song"
-          target="long"
+          defaultScope="song"
+          defaultTarget="long"
           hasOverride={hasGearOverride}
           onSave={(value) => saveCustomBlock('gearBlock', value)}
           onReset={() => resetCustomBlock('gearBlock')}
@@ -102,8 +102,8 @@ export default function ProjectSettingsLists({
           key={`support-${hasSupportOverride}`}
           label="Support Block"
           blockData={supportBlockData}
-          scope="project"
-          target="both"
+          defaultScope="project"
+          defaultTarget="both"
           hasOverride={hasSupportOverride}
           onSave={(value) => saveLongBlock('supportBlock', value)}
           onReset={() => resetLongBlock('supportBlock')}
@@ -115,8 +115,8 @@ export default function ProjectSettingsLists({
           key={`playlist-${hasPlaylistOverride}`}
           label="Playlists"
           blockData={playlistBlockData}
-          scope="project"
-          target="long"
+          defaultScope="project"
+          defaultTarget="long"
           hasOverride={hasPlaylistOverride}
           onSave={(value) => saveCustomBlock('playlistBlock', value)}
           onReset={() => resetCustomBlock('playlistBlock')}
