@@ -1540,7 +1540,7 @@ svg {
 
 .links-editor-row {
   display              : grid;
-  grid-template-columns: 1fr 2fr auto;
+  grid-template-columns: auto 1fr 2fr auto;
   gap                  : var(--space-2);
   align-items          : center;
   margin-bottom        : var(--space-2);
@@ -1548,6 +1548,25 @@ svg {
 
 .links-editor-row .form-input {
   margin-bottom: 0;
+}
+
+.list-item-move-controls {
+  display       : flex;
+  flex-direction: column;
+  gap           : 2px;
+}
+
+.list-item-move-controls .tag-reset-button {
+  padding   : 0;
+  width     : var(--space-7);
+  height    : var(--space-7);
+  min-height: 0;
+  margin-left: 0;
+}
+
+.list-item-move-controls .tag-reset-button:disabled {
+  opacity: 0.2;
+  cursor : default;
 }
 
 .links-editor-row--header {

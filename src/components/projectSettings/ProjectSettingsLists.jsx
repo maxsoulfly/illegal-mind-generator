@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import StructuredListEditor from './lists/StructuredListEditor';
 
 function updateLongKey(overrides, key, value) {
@@ -74,6 +75,10 @@ export default function ProjectSettingsLists({
   const hasPlaylistOverride = !!overriddenCustomBlocks.playlistBlock;
   const hasSupportOverride = !!overriddenLong.supportBlock;
 
+  const [gearResetKey, setGearResetKey] = useState(0);
+  const [supportResetKey, setSupportResetKey] = useState(0);
+  const [playlistResetKey, setPlaylistResetKey] = useState(0);
+
   const noBlocks = !gearBlockData && !supportBlockData && !playlistBlockData;
 
   return (
@@ -86,40 +91,40 @@ export default function ProjectSettingsLists({
 
       {gearBlockData && (
         <StructuredListEditor
-          key={`gear-${hasGearOverride}`}
+          key={`gear-${gearResetKey}`}
           label="Gear Used"
           blockData={gearBlockData}
           defaultScope="song"
           defaultTarget="long"
           hasOverride={hasGearOverride}
           onSave={(value) => saveCustomBlock('gearBlock', value)}
-          onReset={() => resetCustomBlock('gearBlock')}
+          onReset={() => { resetCustomBlock('gearBlock'); setGearResetKey((k) => k + 1); }}
         />
       )}
 
       {supportBlockData && (
         <StructuredListEditor
-          key={`support-${hasSupportOverride}`}
+          key={`support-${supportResetKey}`}
           label="Support Block"
           blockData={supportBlockData}
           defaultScope="project"
           defaultTarget="both"
           hasOverride={hasSupportOverride}
           onSave={(value) => saveLongBlock('supportBlock', value)}
-          onReset={() => resetLongBlock('supportBlock')}
+          onReset={() => { resetLongBlock('supportBlock'); setSupportResetKey((k) => k + 1); }}
         />
       )}
 
       {playlistBlockData && (
         <StructuredListEditor
-          key={`playlist-${hasPlaylistOverride}`}
+          key={`playlist-${playlistResetKey}`}
           label="Playlists"
           blockData={playlistBlockData}
           defaultScope="project"
           defaultTarget="long"
           hasOverride={hasPlaylistOverride}
           onSave={(value) => saveCustomBlock('playlistBlock', value)}
-          onReset={() => resetCustomBlock('playlistBlock')}
+          onReset={() => { resetCustomBlock('playlistBlock'); setPlaylistResetKey((k) => k + 1); }}
         />
       )}
     </>

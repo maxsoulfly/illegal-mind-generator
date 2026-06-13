@@ -77,6 +77,22 @@ export default function StructuredListEditor({
     save(title, next, scope, target);
   }
 
+  function handleMove(index, direction) {
+    const next = [...items];
+    next.splice(index, 1);
+    next.splice(index + direction, 0, items[index]);
+    setItems(next);
+    save(title, next, scope, target);
+  }
+
+  function handleSort() {
+    const next = [...items].sort((a, b) =>
+      (a.label ?? '').localeCompare(b.label ?? ''),
+    );
+    setItems(next);
+    save(title, next, scope, target);
+  }
+
   return (
     <article className={`tag-card${collapsed ? ' tag-card--collapsed' : ''}`}>
       <header className="tag-card-header">
@@ -142,12 +158,29 @@ export default function StructuredListEditor({
 
           <div className="form-group">
             <div className="links-editor-row links-editor-row--header">
+              <span />
               <span className="form-label">Label</span>
               <span className="form-label">{valueLabel}</span>
               <span />
             </div>
             {items.map((item, i) => (
               <div key={item._id} className="links-editor-row">
+                <div className="list-item-move-controls">
+                  <button
+                    type="button"
+                    className="tag-reset-button"
+                    title="Move up"
+                    disabled={i === 0}
+                    onClick={() => handleMove(i, -1)}
+                  >↑</button>
+                  <button
+                    type="button"
+                    className="tag-reset-button"
+                    title="Move down"
+                    disabled={i === items.length - 1}
+                    onClick={() => handleMove(i, 1)}
+                  >↓</button>
+                </div>
                 <input
                   className="form-input"
                   defaultValue={item.label ?? ''}
@@ -165,14 +198,17 @@ export default function StructuredListEditor({
                   className="tag-reset-button"
                   title="Remove item"
                   onClick={() => handleRemove(i)}
-                >
-                  ×
-                </button>
+                >×</button>
               </div>
             ))}
-            <button type="button" className="button-secondary" onClick={handleAdd}>
-              + Add
-            </button>
+            <div className="button-row">
+              <button type="button" className="button-secondary" onClick={handleAdd}>
+                + Add
+              </button>
+              <button type="button" className="button-secondary" onClick={handleSort}>
+                Sort A–Z
+              </button>
+            </div>
           </div>
         </div>
       )}
