@@ -1,4 +1,4 @@
-import StructuredListEditor from './links/StructuredListEditor';
+import StructuredListEditor from './lists/StructuredListEditor';
 
 function updateLongKey(overrides, key, value) {
   return {

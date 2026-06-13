@@ -1,14 +1,15 @@
 import { useState } from 'react';
 
 export default function LinksRegistryEditor({
-  projectConfig,
+  baseProjectConfig,
   projectSettingsOverrides,
   updateProjectOverride,
 }) {
+  const [search, setSearch] = useState('');
   const [newKey, setNewKey] = useState('');
   const [newUrl, setNewUrl] = useState('');
 
-  const configLinks = projectConfig.description?.links || {};
+  const configLinks = baseProjectConfig.description?.links || {};
   const overrideLinks = projectSettingsOverrides?.description?.links || {};
   const resolvedLinks = { ...configLinks, ...overrideLinks };
 
@@ -40,10 +41,21 @@ export default function LinksRegistryEditor({
     setNewUrl('');
   }
 
+  const needle = search.trim().toLowerCase();
+  const filteredLinks = Object.entries(resolvedLinks).filter(
+    ([key, url]) => !needle || key.toLowerCase().includes(needle) || url.toLowerCase().includes(needle),
+  );
+
   return (
     <section className="tag-editor-section">
+      <input
+        className="form-input links-registry-search"
+        placeholder="Search keys or URLs…"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
       <div className="links-registry">
-        {Object.entries(resolvedLinks).map(([key, url]) => {
+        {filteredLinks.map(([key, url]) => {
           const isUserAdded = !(key in configLinks);
           const isOverridden = !isUserAdded && key in overrideLinks;
 

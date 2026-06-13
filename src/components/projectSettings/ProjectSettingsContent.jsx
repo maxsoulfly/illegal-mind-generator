@@ -52,6 +52,7 @@ export default function ProjectSettingsContent({
   if (activeSection === 'links') {
     return (
       <ProjectSettingsLinks
+        baseProjectConfig={baseProjectConfig}
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
