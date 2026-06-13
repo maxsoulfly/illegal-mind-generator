@@ -1567,6 +1567,10 @@ svg {
   margin-bottom: 0;
 }
 
+.links-registry-url--full {
+  grid-column: 2 / -1;
+}
+
 .links-registry-key {
   font-family  : monospace;
   font-size    : var(--font-size-sm);

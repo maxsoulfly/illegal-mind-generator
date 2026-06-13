@@ -63,21 +63,22 @@ export default function LinksRegistryEditor({
             <div key={key} className="links-registry-row">
               <span className="links-registry-key">{key}</span>
               <input
-                className="form-input"
+                className={`form-input${isOverridden || isUserAdded ? '' : ' links-registry-url--full'}`}
                 defaultValue={url}
                 onBlur={(e) => {
                   if (e.target.value !== url) saveLink(key, e.target.value);
                 }}
               />
-              <button
-                type="button"
-                className="tag-reset-button"
-                title={isUserAdded ? 'Remove' : 'Reset to default'}
-                onClick={() => removeLink(key)}
-                style={isOverridden || isUserAdded ? undefined : { visibility: 'hidden' }}
-              >
-                {isUserAdded ? '×' : '↺'}
-              </button>
+              {(isOverridden || isUserAdded) && (
+                <button
+                  type="button"
+                  className="tag-reset-button"
+                  title={isUserAdded ? 'Remove' : 'Reset to default'}
+                  onClick={() => removeLink(key)}
+                >
+                  {isUserAdded ? '×' : '↺'}
+                </button>
+              )}
             </div>
           );
         })}
