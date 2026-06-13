@@ -57,19 +57,15 @@ export default function LinksRegistryEditor({
                   if (e.target.value !== url) saveLink(key, e.target.value);
                 }}
               />
-              {(isOverridden || isUserAdded) && (
-                <button
-                  type="button"
-                  className="tag-reset-button"
-                  title={isUserAdded ? 'Remove' : 'Reset to default'}
-                  onClick={() => removeLink(key)}
-                >
-                  {isUserAdded ? '×' : '↺'}
-                </button>
-              )}
-              {!isOverridden && !isUserAdded && (
-                <span className="links-registry-spacer" />
-              )}
+              <button
+                type="button"
+                className="tag-reset-button"
+                title={isUserAdded ? 'Remove' : 'Reset to default'}
+                onClick={() => removeLink(key)}
+                style={isOverridden || isUserAdded ? undefined : { visibility: 'hidden' }}
+              >
+                {isUserAdded ? '×' : '↺'}
+              </button>
             </div>
           );
         })}
