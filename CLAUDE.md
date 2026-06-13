@@ -217,6 +217,7 @@ Saves to `projectSettingsOverrides`. `customGear` form field remains as song-lev
 - Todo status badges in Saved Library
 - Saved Library Todo filtering
 - CSS refactor (consolidate index.css, clean up class naming)
+- **List block target not wired to engine** — `target` (long/shorts/both) is saved per block in overrides but the shorts description generator does not yet read it. List blocks with target "shorts" or "both" will not appear in Shorts Description until the shorts generator is updated to include blocks based on their `target` field.
 
 ---
 
