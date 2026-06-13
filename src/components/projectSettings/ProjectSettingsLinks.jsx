@@ -1,4 +1,4 @@
-import LinksRegistryEditor from './links/LinksRegistryEditor';
+import LinksRegistryEditor from './lists/LinksRegistryEditor';
 
 export default function ProjectSettingsLinks({
   projectConfig,

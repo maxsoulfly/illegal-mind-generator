@@ -42,8 +42,6 @@ export default function LinksRegistryEditor({
 
   return (
     <section className="tag-editor-section">
-      <h3 className="tag-card-title">Links</h3>
-
       <div className="links-registry">
         {Object.entries(resolvedLinks).map(([key, url]) => {
           const isUserAdded = !(key in configLinks);
