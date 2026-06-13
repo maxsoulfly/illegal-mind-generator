@@ -1428,9 +1428,9 @@ svg {
 }
 
 .subtab-nav {
-  display       : flex;
-  gap           : var(--space-5);
-  margin-bottom : var(--space-4);
+  display      : flex;
+  gap          : var(--space-5);
+  margin-bottom: var(--space-4);
 }
 
 .subtab-nav button {
@@ -1473,12 +1473,12 @@ svg {
 }
 
 .desc-available-list {
-  list-style: none;
-  margin    : 0;
-  padding   : 0;
-  display   : flex;
+  list-style    : none;
+  margin        : 0;
+  padding       : 0;
+  display       : flex;
   flex-direction: column;
-  gap       : var(--space-2);
+  gap           : var(--space-2);
 }
 
 .desc-available-item {
@@ -1568,12 +1568,13 @@ svg {
 }
 
 .links-registry-key {
-  font-family   : monospace;
-  font-size     : var(--font-size-sm);
-  color         : var(--color-text-muted);
-  overflow      : hidden;
-  text-overflow : ellipsis;
-  white-space   : nowrap;
+  font-family  : monospace;
+  font-size    : var(--font-size-sm);
+  color        : var(--color-text-muted);
+  overflow     : hidden;
+  text-overflow: ellipsis;
+  white-space  : nowrap;
+  padding      : var(--space-4) var(--space-6);
 }
 
 .links-registry-key-input {
@@ -1583,13 +1584,13 @@ svg {
 
 
 .links-registry-row--add {
-  position   : sticky;
-  bottom     : 0;
-  margin-top : var(--space-2);
-  padding-top: var(--space-2);
+  position      : sticky;
+  bottom        : 0;
+  margin-top    : var(--space-2);
+  padding-top   : var(--space-2);
   padding-bottom: var(--space-2);
-  border-top : 1px solid var(--color-border-main);
-  background : var(--color-bg-panel);
+  border-top    : 1px solid var(--color-border-main);
+  background    : var(--color-bg-panel);
 }
 
 .desc-block-wrapper {
@@ -1607,10 +1608,10 @@ svg {
 }
 
 .desc-block-move-controls .tag-reset-button {
-  padding   : 0;
-  width     : var(--space-7);
-  height    : var(--space-7);
-  min-height: 0;
+  padding    : 0;
+  width      : var(--space-7);
+  height     : var(--space-7);
+  min-height : 0;
   margin-left: 0;
 }
 
@@ -1619,9 +1620,9 @@ svg {
   cursor : default;
 }
 
-.desc-block-wrapper > .tag-card,
-.desc-block-wrapper > .desc-block-group {
-  flex: 1;
+.desc-block-wrapper>.tag-card,
+.desc-block-wrapper>.desc-block-group {
+  flex     : 1;
   min-width: 0;
 }
 
