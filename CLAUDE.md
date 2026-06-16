@@ -65,7 +65,7 @@ src/
 - **Shorts Queue** — upload planning. ~20-item queue with randomization, duplicate spacing, exclusions.
 - **Todo System** — cover planning. Statuses: Wishlist, Needs Re-record, Needs Remaster, Needs Video.
 - **Backup System** — full export/import. Must remain reliable — it's the safety net for storage work.
-- **Project Settings** — per-project config overrides for hooks, titles, descriptions, general settings.
+- **Project Settings** — per-project config overrides for hooks, titles, descriptions, links, blocks (Lists / Text Blocks), general settings.
 
 ---
 
@@ -108,6 +108,10 @@ src/
 - `LabelSliderRow` — label + range slider + value display
 - `AddBulkRow` — + Add / + Bulk button row
 - `BulkTextarea` — textarea + Apply/Cancel
+- `IconButton` — shared shell for every icon-only action (reset ↺, remove ×, lock 🔒/🔓, move ↑/↓, add +). Takes `icon, title, onClick, disabled, stopPropagation, className`. Default `className` is `tag-reset-button`; pass a different one (e.g. `button-secondary`) to reuse the click/disabled wiring with a different look.
+- `MoveControls` — up/down reorder button pair built on `IconButton`. Used by list items and description block reordering; pass `className` for context-specific layout (see `.desc-block-move-controls`).
+- `FormSelect` — the standard `form-select` dropdown (same look as `TodoStatusSelect`) wrapped with `stopPropagation` for use inside clickable card headers. Takes `value, onChange(value), options: [{value, label}]`.
+- `BlockInfoCard` — structural-only card (label + optional remove + optional collapsible body). Used in Description layouts for blocks that aren't edited inline (e.g. List/Text blocks point here to "Edit content in Project Settings → Blocks").
 
 ---
 
@@ -149,12 +153,14 @@ The description block system is designed to be fully UI-configurable. The goal: 
 
 | Type | What it is | User-creatable | Examples |
 |---|---|---|---|
-| **List** | `{ title, items: [{ label, text\|link }] }` | Yes | `gearBlock`, `supportBlock`, `playlistBlock` |
-| **Text** | Single paragraph, optional `{placeholders}` | Yes | `storyBlock`, `introBlock`, CTA, static text |
-| **Block Group** | Multiple template lines forming a section | Yes | `broadcastBlock`, `logBlock` |
+| **List** | `{ title, items: [{ label, text\|link }], scope, target, itemType, isCore, name }` | **Yes — built** | `gearBlock`, `supportBlock`, `playlistBlock`, `customCtaBlock` |
+| **Text** | Single paragraph, optional `{placeholders}`. Legacy blocks are a plain string; UI-created ones are `{ text, scope, target, isCore, name }` | **Yes — built** | `mixingCtaBlock` |
+| **Block Group** | Multiple template lines forming a section | Not started | `broadcastBlock`, `logBlock` |
 | **Generated** | Engine-driven output, parameters only | No (engine code required) | `technicalBlock`, hook blocks |
 
-Types 1–3 are pure data — no engine code needed to add new blocks of these types from the UI. Generated blocks are system-provided and configurable but not user-creatable.
+All List/Text blocks live together in `customBlocks` under `templates.long` regardless of which description(s) they `target` — `target` decides eligibility for Long/Shorts, not storage location. `src/utils/customBlocks.js` is the shared home for `isListBlock`/`isTextBlock`/`getBlockLabel`/`generateBlockKey`/`updateLongKey`/`removeLongKey` — both block-type editors and both Description settings pages import from here so List and Text stay consistent. `generateBlockKey` collision checks must see *every* `customBlocks` key regardless of type (List and Text share one namespace).
+
+**Project Settings → Blocks** has Lists / Text Blocks sub-tabs (`ProjectSettingsBlocks.jsx`). Each block type's editor (`StructuredListEditor` / `TextBlockEditor`) shares: header with Scope/Target `FormSelect`s, `BlockActions` (Reset for blocks with a JSON default; Lock 🔒/🔓 + Delete for blocks without one — deletion is blocked while locked), and an "+ Add" form at the bottom (`AddListBlockForm` / `AddTextBlockForm`).
 
 ## Block scope
 
@@ -167,7 +173,9 @@ Each block has a **scope** field (stored in overrides, user-set in the editor):
 
 ## Block targets
 
-Each block can target **Long Description**, **Shorts Description**, or both. This is set per block and drives which layout palette the block appears in.
+Each block can target **Long Description**, **Shorts Description**, or both, via a `target` field (`long`/`shorts`/`both`). Both `generateDescriptions.js` (Long) and `generateShortDescriptions.js` (Shorts) render List/Text blocks via the shared `renderCustomBlock` (in `generateCustomBlocks.js`) — Shorts list-block output is padded with blank lines so it stands apart from the single-newline-joined surrounding lines.
+
+Dynamic blocks (no JSON default, created from the Blocks tab) have no position in the static layout array — they're appended at the end when added to a layout, and sort to the end on "Reset Order". In each Description settings page (`LongDescriptionSettings.jsx` / `ShortsDescriptionSettings.jsx`), an active List/Text block renders as a structural-only `BlockInfoCard` pointing to "Project Settings → Blocks → Lists/Text Blocks" — Descriptions never shows a List/Text content editor inline, only structure (order, scope, target). Phrase-template blocks (`introBlock`, `header`, etc.) are the exception — those still edit inline via `TemplateGroupCard`, matching how they worked before this system existed.
 
 ---
 
@@ -196,30 +204,12 @@ Description layout builder. Two-column: Available palette (left) + Active Layout
 
 * [x] Step 1: Long/Shorts sub-tabs (`SubTabNav`, lighter style)
 * [x] Step 2: Two-column skeleton (Available + Active Layout) + `TemplateGroupCard` for cards
-* [ ] Step 3: Mobile — stack into Layout/Available sub-tabs below breakpoint
-* [ ] Step 4: Wire `layout` array override (add/remove blocks between columns)
-* [ ] Step 5: Add missing editable blocks (broadcastHeader, operatorStatuses, statusLines, logNotes)
-* [ ] Step 6: Shorts Description (coverLabel, secondary, count)
-* [ ] Step 7: Drag-and-drop reordering (future)
-* [ ] Step 8: Add new blocks from UI (List → Text → Block Group, in that order)
-
----
-
-## Next — Structured List Editor (Project Settings → Links)
-
-First implementation of the **List** block type. Lives in `src/components/projectSettings/ProjectSettingsLinks.jsx` (placeholder exists).
-
-Reusable `StructuredListEditor` component — one editor covers all List blocks:
-
-| Block | Item shape | Scope | Target |
-|---|---|---|---|
-| `gearBlock` | label + text | Song | Long |
-| `supportBlock` | label + link | Project | Long + Shorts |
-| `playlistBlock` | label + link | Project | Long |
-
-Each block has: title, items (add/edit/remove/reorder), scope badge (Project / Song), target (Long / Shorts / Both).
-
-Saves to `projectSettingsOverrides`. `customGear` form field remains as song-level override — eventually replaced by a song-scoped List editor in the generator form.
+* [x] Step 3: Mobile — stack into Layout/Available sub-tabs below breakpoint
+* [x] Step 4: Wire `layout` array override (add/remove blocks between columns) — both Long and Shorts; Shorts previously had a disconnected editor-only arrangement (`shortsEditorLayout`) that didn't affect generation at all, now replaced by the real thing
+* [x] Step 5: Add missing editable blocks (broadcastHeader, operatorStatuses, statusLines, logNotes)
+* [~] Step 6: Shorts Description — `secondary`/`count`/layout done; `coverLabel` still has no settings field anywhere, only read by the engine
+* [ ] Step 7: Drag-and-drop reordering (future) — currently up/down buttons (`MoveControls`) only
+* [x] Step 8: Add new blocks from UI — List done, Text done, Block Group not started
 
 ---
 
@@ -230,7 +220,8 @@ Saves to `projectSettingsOverrides`. `customGear` form field remains as song-lev
 - Todo status badges in Saved Library
 - Saved Library Todo filtering
 - CSS refactor (consolidate index.css, clean up class naming)
-- **List block target not wired to engine** — `target` (long/shorts/both) is saved per block in overrides but the shorts description generator does not yet read it. List blocks with target "shorts" or "both" will not appear in Shorts Description until the shorts generator is updated to include blocks based on their `target` field.
+- `coverLabel` (Shorts Description) has no settings UI — only editable by hand-editing `projects.json`
+- Block Group block type not started (Step 8 above)
 
 ---
 
