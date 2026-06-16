@@ -1,4 +1,5 @@
 import ProjectTextField from '../ui/ProjectTextField';
+import IconButton from '../ui/IconButton';
 
 export default function ProjectSettingsGeneral({
   projectId,
@@ -30,13 +31,8 @@ export default function ProjectSettingsGeneral({
       </div>
 
       <div className="button-row">
-        <button type="button" className="button-secondary">
-          Duplicate Project
-        </button>
-
-        <button type="button" className="button-secondary">
-          Export Project Config
-        </button>
+        <IconButton icon="Duplicate Project" className="button-secondary" />
+        <IconButton icon="Export Project Config" className="button-secondary" />
       </div>
 
       <p className="tag-summary">

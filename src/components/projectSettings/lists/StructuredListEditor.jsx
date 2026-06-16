@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import FormSelect from '../../ui/FormSelect';
+import IconButton from '../../ui/IconButton';
 import ListItemRow from './ListItemRow';
 import BlockActions from '../blocks/BlockActions';
 
@@ -194,12 +195,8 @@ export default function StructuredListEditor({
               </datalist>
             )}
             <div className="button-row">
-              <button type="button" className="button-secondary" onClick={handleAdd}>
-                + Add
-              </button>
-              <button type="button" className="button-secondary" onClick={handleSort}>
-                Sort A–Z
-              </button>
+              <IconButton icon="+ Add" className="button-secondary" onClick={handleAdd} />
+              <IconButton icon="Sort A–Z" className="button-secondary" onClick={handleSort} />
             </div>
           </div>
         </div>

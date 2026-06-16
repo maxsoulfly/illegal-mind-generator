@@ -1,13 +1,10 @@
+import IconButton from './IconButton';
+
 export default function AddBulkRow({ onAdd, onBulk }) {
   return (
     <div className="button-row">
-      <button type="button" className="button-secondary" onClick={onAdd}>
-        + Add
-      </button>
-
-      <button type="button" className="button-secondary" onClick={onBulk}>
-        + Bulk
-      </button>
+      <IconButton icon="+ Add" className="button-secondary" onClick={onAdd} />
+      <IconButton icon="+ Bulk" className="button-secondary" onClick={onBulk} />
     </div>
   );
 }

@@ -17,7 +17,7 @@ export default function IconButton({
       disabled={disabled}
       onClick={(e) => {
         if (stopPropagation) e.stopPropagation();
-        onClick(e);
+        onClick?.(e);
       }}
     >
       {icon}

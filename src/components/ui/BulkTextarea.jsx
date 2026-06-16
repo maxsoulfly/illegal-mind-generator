@@ -1,4 +1,5 @@
 import PlaceholderField from './PlaceholderField';
+import IconButton from './IconButton';
 
 export default function BulkTextarea({ value, onChange, onApply, onCancel, placeholders }) {
   return (
@@ -14,13 +15,8 @@ export default function BulkTextarea({ value, onChange, onApply, onCancel, place
       />
 
       <div className="button-row">
-        <button type="button" className="button-secondary" onClick={onApply}>
-          Apply
-        </button>
-
-        <button type="button" className="button-secondary" onClick={onCancel}>
-          Cancel
-        </button>
+        <IconButton icon="Apply" className="button-secondary" onClick={onApply} />
+        <IconButton icon="Cancel" className="button-secondary" onClick={onCancel} />
       </div>
     </div>
   );
