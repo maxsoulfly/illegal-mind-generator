@@ -4,6 +4,7 @@ import BlockInfoCard from '../../ui/BlockInfoCard';
 import SubTabNav from '../../ui/SubTabNav';
 import MoveControls from '../../ui/MoveControls';
 import IconButton from '../../ui/IconButton';
+import { isListBlock, getBlockLabel } from '../../../utils/customBlocks';
 
 function CollapsibleBlockGroup({ label, onRemove, children }) {
   const [collapsed, setCollapsed] = useState(true);
@@ -88,6 +89,7 @@ export default function LongDescriptionSettings({
   const [mobileTab, setMobileTab] = useState('layout');
 
   const longTemplates = projectConfig.description?.templates?.long || {};
+  const customBlocks = longTemplates.customBlocks || {};
 
   // Use base (pre-override) layout so Available always reflects the original config
   const defaultLayout =
@@ -95,8 +97,24 @@ export default function LongDescriptionSettings({
   const activeKeys =
     projectSettingsOverrides.description?.templates?.long?.layout ?? defaultLayout;
 
-  // Available = blocks in the project's default layout that have been removed
-  const availableKeys = defaultLayout.filter((k) => !activeKeys.includes(k));
+  // List blocks created from the Lists tab aren't in the static default
+  // layout at all, so they need their own path into Available.
+  const dynamicListKeys = Object.keys(customBlocks).filter((key) => {
+    if (defaultLayout.includes(key) || !isListBlock(customBlocks[key])) return false;
+    const target = customBlocks[key].target || 'long';
+    return target === 'long' || target === 'both';
+  });
+
+  // Available = blocks in the project's default layout, plus dynamic list
+  // blocks, that aren't currently active.
+  const availableKeys = [...defaultLayout, ...dynamicListKeys].filter(
+    (k) => !activeKeys.includes(k),
+  );
+
+  function layoutIndex(key) {
+    const idx = defaultLayout.indexOf(key);
+    return idx === -1 ? Infinity : idx;
+  }
 
   function getTemplates(key, path) {
     if (path === 'top') return projectConfig.description?.[key] || [];
@@ -163,10 +181,16 @@ export default function LongDescriptionSettings({
   }
 
   function addToLayout(key) {
-    // Re-insert at its original position in the default layout
+    // Dynamic list blocks have no default position — append at the end.
+    if (!defaultLayout.includes(key)) {
+      updateLayout([...activeKeys, key]);
+      return;
+    }
+
+    // Re-insert at its original position in the default layout.
     const targetIndex = defaultLayout.indexOf(key);
     const next = [...activeKeys];
-    const insertAt = next.findLastIndex((k) => defaultLayout.indexOf(k) < targetIndex) + 1;
+    const insertAt = next.findLastIndex((k) => layoutIndex(k) < targetIndex) + 1;
     next.splice(insertAt, 0, key);
     updateLayout(next);
   }
@@ -184,8 +208,9 @@ export default function LongDescriptionSettings({
   }
 
   function resetOrder() {
+    // Dynamic list blocks have no default position — they sort to the end.
     const sorted = [...activeKeys].sort(
-      (a, b) => defaultLayout.indexOf(a) - defaultLayout.indexOf(b),
+      (a, b) => layoutIndex(a) - layoutIndex(b),
     );
     updateLayout(sorted);
   }
@@ -211,23 +236,29 @@ export default function LongDescriptionSettings({
   }
 
   function renderActiveBlock(blockKey, index) {
-    const meta = KNOWN_BLOCK_META[blockKey] || { label: blockKey };
+    const meta =
+      KNOWN_BLOCK_META[blockKey] ||
+      { label: getBlockLabel(blockKey, customBlocks[blockKey]) };
     const groups = TEMPLATE_GROUPS[blockKey];
     const isFirst = index === 0;
     const isLast = index === activeKeys.length - 1;
 
+    // supportBlock is list-shaped too, but lives outside customBlocks.
+    const blockData =
+      blockKey === 'supportBlock' ? longTemplates.supportBlock : customBlocks[blockKey];
+    const isListShaped = isListBlock(blockData);
+
     let card;
     if (!groups) {
-      const isCollapsible = blockKey === 'supportBlock';
       card = (
         <BlockInfoCard
           label={meta.label}
           subtitle={meta.subtitle}
           onRemove={() => removeFromLayout(blockKey)}
-          collapsible={isCollapsible}
+          collapsible={isListShaped}
         >
-          {isCollapsible && (
-            <p className="tag-summary">Edit links in Project Settings → Links.</p>
+          {isListShaped && (
+            <p className="tag-summary">Edit content in Project Settings → Lists.</p>
           )}
         </BlockInfoCard>
       );
@@ -293,7 +324,9 @@ export default function LongDescriptionSettings({
           ) : (
             <ul className="desc-available-list">
               {availableKeys.map((key) => {
-                const meta = KNOWN_BLOCK_META[key] || { label: key };
+                const meta =
+                  KNOWN_BLOCK_META[key] ||
+                  { label: getBlockLabel(key, customBlocks[key]) };
                 return (
                   <li key={key} className="desc-available-item">
                     <span>{meta.label}</span>
