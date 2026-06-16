@@ -127,6 +127,37 @@ export default function StructuredListEditor({
             <span className="tag-card-collapse-icon">{collapsed ? '▶' : '▼'}</span>
             {label}
           </h3>
+          <span className="tag-status">{items.length} items</span>
+        </div>
+        <div className="links-editor-badges">
+          {collapsed ? (
+            <>
+              <span className="links-editor-badge">{scopeLabel}</span>
+              <span className="links-editor-badge">{targetLabel}</span>
+            </>
+          ) : (
+            <>
+              <select
+                className="links-editor-badge-select"
+                value={scope}
+                onChange={handleScopeChange}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <option value="project">Project</option>
+                <option value="song">Song</option>
+              </select>
+              <select
+                className="links-editor-badge-select"
+                value={target}
+                onChange={handleTargetChange}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <option value="long">Long</option>
+                <option value="shorts">Shorts</option>
+                <option value="both">Long + Shorts</option>
+              </select>
+            </>
+          )}
           {hasOverride && (
             <button
               type="button"
@@ -158,37 +189,6 @@ export default function StructuredListEditor({
               </button>
             </>
           )}
-        </div>
-        <div className="links-editor-badges">
-          {collapsed ? (
-            <>
-              <span className="links-editor-badge">{scopeLabel}</span>
-              <span className="links-editor-badge">{targetLabel}</span>
-            </>
-          ) : (
-            <>
-              <select
-                className="links-editor-badge-select"
-                value={scope}
-                onChange={handleScopeChange}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <option value="project">Project</option>
-                <option value="song">Song</option>
-              </select>
-              <select
-                className="links-editor-badge-select"
-                value={target}
-                onChange={handleTargetChange}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <option value="long">Long</option>
-                <option value="shorts">Shorts</option>
-                <option value="both">Long + Shorts</option>
-              </select>
-            </>
-          )}
-          <span className="tag-status">{items.length} items</span>
         </div>
       </header>
 
