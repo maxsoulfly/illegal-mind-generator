@@ -154,12 +154,16 @@ The description block system is designed to be fully UI-configurable. The goal: 
 
 | Type | What it is | User-creatable | Examples |
 |---|---|---|---|
-| **List** | `{ title, items: [{ label, text\|link }], scope, target, itemType, isCore, name }` | **Yes — built** | `gearBlock`, `supportBlock`, `playlistBlock`, `customCtaBlock` |
-| **Text** | Single paragraph, optional `{placeholders}`. Legacy blocks are a plain string; UI-created ones are `{ text, scope, target, isCore, name }` | **Yes — built** | `mixingCtaBlock` |
+| **List** | `{ title, items: [{ label, text\|link }], scope, target, itemType, isCore, name, displayMode }` | **Yes — built** | `gearBlock`, `supportBlock`, `playlistBlock` |
+| **Text** | Single paragraph, optional `{placeholders}`. Legacy blocks are a plain string; UI-created ones are `{ text, scope, target, isCore, name }` | **Yes — built** | `mixingCtaBlock`, `customCtaBlock` |
 | **Block Group** | Multiple template lines forming a section | Not started | `broadcastBlock`, `logBlock` |
 | **Generated** | Engine-driven output, parameters only | No (engine code required) | `technicalBlock`, hook blocks |
 
 All List/Text blocks live together in `customBlocks` under `templates.long` regardless of which description(s) they `target` — `target` decides eligibility for Long/Shorts, not storage location. `src/utils/customBlocks.js` is the shared home for `isListBlock`/`isTextBlock`/`getBlockLabel`/`generateBlockKey`/`updateLongKey`/`removeLongKey` — both block-type editors and both Description settings pages import from here so List and Text stay consistent. `generateBlockKey` collision checks must see *every* `customBlocks` key regardless of type (List and Text share one namespace).
+
+**List `displayMode`** (`'all'` default, or `'random'`): `renderStructuredBlock` either joins every item (current behavior, unchanged) or picks one item at random per generation. Useful for CTA-style lists where you want variety instead of always showing every line.
+
+**`customCtaBlock` is Text, not List**, as of the migration that combined its two CTA lines into one paragraph (joined with `\n`) — this matches the shape of `formData.customCta`'s per-song override (see `getEffectiveSongOverrides`), removing a structural mismatch where the project default was a List but the override was always plain text. If a project's stored override for `customCtaBlock` predates this (still List-shaped), it'll keep showing in the Lists tab until "Reset to default" (↺) is clicked once, after which it resolves to the new Text default and moves to the Text Blocks tab.
 
 **Project Settings → Blocks** has Lists / Text Blocks sub-tabs (`ProjectSettingsBlocks.jsx`). Each block type's editor (`StructuredListEditor` / `TextBlockEditor`) shares: header with Scope/Target `FormSelect`s, `BlockActions` (Reset for blocks with a JSON default; Lock 🔒/🔓 + Delete for blocks without one — deletion is blocked while locked), and an "+ Add" form at the bottom (`AddListBlockForm` / `AddTextBlockForm`).
 

@@ -1874,13 +1874,7 @@
           "customBlocks": {
             "mixingCtaBlock": "🎚️ DOES YOUR MUSIC SOUND THIN?\nIf you have old covers or demos that need a \"Modern Renovation\" like this one, I’m currently taking on new Mixing & Mastering projects. Let’s make your music sound massive.\nInquire here: {links.mixingForm}",
 
-            "customCtaBlock": {
-              "title": "",
-              "items": [
-                { "text": "👉 What cover should I do next?" },
-                { "text": "👉 Drop a comment — I’d love to hear your take." }
-              ]
-            },
+            "customCtaBlock": "👉 What cover should I do next?\n👉 Drop a comment — I’d love to hear your take.",
             "gearBlock": {
               "title": "🎛 Gear Used",
               "items": [

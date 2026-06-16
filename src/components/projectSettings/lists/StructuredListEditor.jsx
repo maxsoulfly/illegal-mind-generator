@@ -16,6 +16,11 @@ const TARGET_OPTIONS = [
   { value: 'both', label: 'Long + Shorts' },
 ];
 
+const DISPLAY_MODE_OPTIONS = [
+  { value: 'all', label: 'Show all items' },
+  { value: 'random', label: 'Pick one randomly' },
+];
+
 function detectItemType(blockData) {
   if (blockData?.itemType === 'text' || blockData?.itemType === 'link') {
     return blockData.itemType;
@@ -44,9 +49,10 @@ export default function StructuredListEditor({
     scope: blockData?.scope ?? defaultScope,
     target: blockData?.target ?? defaultTarget,
     isCore: blockData?.isCore ?? false,
+    displayMode: blockData?.displayMode ?? 'all',
     items: (blockData?.items ?? []).map((item, i) => ({ ...item, _id: i })),
   }));
-  const { title, scope, target, isCore, items } = block;
+  const { title, scope, target, isCore, displayMode, items } = block;
 
   const itemType = detectItemType(blockData);
   const valueLabel = itemType === 'link' ? 'Link' : 'Text';
@@ -65,6 +71,7 @@ export default function StructuredListEditor({
       scope: next.scope,
       target: next.target,
       isCore: next.isCore,
+      displayMode: next.displayMode,
     });
   }
 
@@ -89,6 +96,10 @@ export default function StructuredListEditor({
 
   function handleTargetChange(next) {
     save({ ...block, target: next });
+  }
+
+  function handleDisplayModeChange(next) {
+    save({ ...block, displayMode: next });
   }
 
   function handleItemBlur(index, field, value) {
@@ -163,6 +174,15 @@ export default function StructuredListEditor({
               className="form-input"
               defaultValue={title}
               onBlur={handleTitleBlur}
+            />
+          </div>
+
+          <div className="form-group">
+            <div className="form-label">Display Mode</div>
+            <FormSelect
+              value={displayMode}
+              onChange={handleDisplayModeChange}
+              options={DISPLAY_MODE_OPTIONS}
             />
           </div>
 

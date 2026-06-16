@@ -4,12 +4,20 @@ function replaceLinkPlaceholders(template, links = {}) {
   });
 }
 
+function pickRandomItem(items) {
+  return [items[Math.floor(Math.random() * items.length)]];
+}
+
 export function renderStructuredBlock(block, links = {}) {
   if (!block || !block.items) return '';
 
   const title = block.title || '';
+  const sourceItems =
+    block.displayMode === 'random' && block.items.length > 0
+      ? pickRandomItem(block.items)
+      : block.items;
 
-  const items = block.items
+  const items = sourceItems
     .map((item) => {
       if (item.link) {
         const link = replaceLinkPlaceholders(item.link, links);
