@@ -106,8 +106,6 @@ export default function ProjectSettingsLists({
 
   return (
     <>
-      <h2 className="panel-title">Lists</h2>
-
       {customBlockKeys.length + (supportBlockData ? 1 : 0) > 5 && (
         <input
           className="form-input links-registry-search"

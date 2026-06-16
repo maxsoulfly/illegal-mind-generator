@@ -25,9 +25,9 @@ export const PROJECT_SETTING_SECTIONS = [
     description: 'Channel and support links used in descriptions',
   },
   {
-    id: 'lists',
-    label: 'Lists',
-    description: 'Structured list blocks: gear, support, playlists',
+    id: 'blocks',
+    label: 'Blocks',
+    description: 'List and text blocks used in descriptions',
   },
   {
     id: 'thumbnails',
@@ -72,11 +72,16 @@ export function getProjectSettingsSectionSummary(sectionId, projectConfig) {
     return `${Object.keys(projectConfig.description?.links || {}).length} links`;
   }
 
-  if (sectionId === 'lists') {
+  if (sectionId === 'blocks') {
     const long = projectConfig.description?.templates?.long || {};
     const customBlocks = long.customBlocks || {};
-    const count = [customBlocks.gearBlock, customBlocks.playlistBlock, long.supportBlock].filter(Boolean).length;
-    return `${count} list blocks`;
+    const listCount = Object.values(customBlocks).filter(
+      (b) => b && typeof b === 'object' && Array.isArray(b.items),
+    ).length + (long.supportBlock ? 1 : 0);
+    const textCount = Object.values(customBlocks).filter(
+      (b) => typeof b === 'string',
+    ).length;
+    return `${listCount} list, ${textCount} text`;
   }
 
   if (sectionId === 'thumbnails') {

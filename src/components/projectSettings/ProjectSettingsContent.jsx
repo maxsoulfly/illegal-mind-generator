@@ -1,6 +1,6 @@
 import ProjectSettingsGeneral from './ProjectSettingsGeneral';
 import ProjectSettingsLinks from './ProjectSettingsLinks';
-import ProjectSettingsLists from './ProjectSettingsLists';
+import ProjectSettingsBlocks from './ProjectSettingsBlocks';
 import ProjectSettingsShortHooks from './ProjectSettingsShortHooks';
 import ProjectSettingsTitles from './ProjectSettingsTitles';
 import ProjectSettingsDescriptions from './ProjectSettingsDescriptions';
@@ -60,9 +60,9 @@ export default function ProjectSettingsContent({
     );
   }
 
-  if (activeSection === 'lists') {
+  if (activeSection === 'blocks') {
     return (
-      <ProjectSettingsLists
+      <ProjectSettingsBlocks
         baseProjectConfig={baseProjectConfig}
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
