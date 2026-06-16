@@ -1,5 +1,11 @@
 # CLAUDE.md
 
+# PRIORITY TODO (fix on laptop)
+
+**Backup system is broken or incomplete.** A backup exported at end of last laptop session was missing: Saved Library, full tag library (tags incomplete), Todos, Shorts Queue. Investigate what keys are being written to the export and compare against the full storage shape in `illegalMindGeneratorData`. Likely a subset of keys is being exported or the backup was taken before data was flushed. Fix export to capture all keys reliably before any other storage work.
+
+---
+
 # Illegal Mind Generator
 
 Local-first React app for generating and managing YouTube content packaging for two music channels. Generates titles, hooks, thumbnails, descriptions, hashtags, and tags. Also manages saved entries, tag library, upload queues, todo tracking, and project settings.
