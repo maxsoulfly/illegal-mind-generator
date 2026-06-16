@@ -63,6 +63,7 @@ export default function ProjectSettingsContent({
   if (activeSection === 'lists') {
     return (
       <ProjectSettingsLists
+        baseProjectConfig={baseProjectConfig}
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}

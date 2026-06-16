@@ -1,7 +1,13 @@
 import { useState } from 'react';
 
-function detectItemType(items = []) {
-  return items.some((item) => 'link' in item) ? 'link' : 'text';
+function detectItemType(blockData) {
+  if (blockData?.itemType === 'text' || blockData?.itemType === 'link') {
+    return blockData.itemType;
+  }
+
+  return (blockData?.items ?? []).some((item) => 'link' in item)
+    ? 'link'
+    : 'text';
 }
 
 export default function StructuredListEditor({
@@ -13,30 +19,48 @@ export default function StructuredListEditor({
   hasOverride,
   onSave,
   onReset,
+  onDelete,
 }) {
   const [collapsed, setCollapsed] = useState(true);
   const linkSuggestionsId = `link-suggestions-${label.replace(/\s+/g, '-')}`;
   const [title, setTitle] = useState(blockData?.title ?? '');
   const [scope, setScope] = useState(blockData?.scope ?? defaultScope);
   const [target, setTarget] = useState(blockData?.target ?? defaultTarget);
+  const [isCore, setIsCore] = useState(blockData?.isCore ?? false);
   const [items, setItems] = useState(() =>
     (blockData?.items ?? []).map((item, i) => ({ ...item, _id: i })),
   );
 
-  const itemType = detectItemType(blockData?.items);
+  const itemType = detectItemType(blockData);
   const valueLabel = itemType === 'link' ? 'Link' : 'Text';
 
   const scopeLabel = scope === 'song' ? 'Song' : 'Project';
   const targetLabel =
     target === 'both' ? 'Long + Shorts' : target === 'shorts' ? 'Shorts' : 'Long';
 
-  function save(nextTitle, nextItems, nextScope, nextTarget) {
+  function save(nextTitle, nextItems, nextScope, nextTarget, nextIsCore = isCore) {
     onSave({
+      name: blockData?.name,
+      itemType: blockData?.itemType,
       title: nextTitle,
       items: nextItems.map(({ _id, ...item }) => item),
       scope: nextScope,
       target: nextTarget,
+      isCore: nextIsCore,
     });
+  }
+
+  function handleToggleCore() {
+    const next = !isCore;
+    setIsCore(next);
+    save(title, items, scope, target, next);
+  }
+
+  function handleDelete() {
+    if (isCore) return;
+    if (window.confirm(`Delete "${label}"? This cannot be undone.`)) {
+      onDelete();
+    }
   }
 
   function handleTitleBlur(e) {
@@ -112,6 +136,27 @@ export default function StructuredListEditor({
             >
               ↺
             </button>
+          )}
+          {onDelete && (
+            <>
+              <button
+                type="button"
+                className="tag-reset-button"
+                title={isCore ? 'Locked — click to unlock' : 'Lock to prevent deletion'}
+                onClick={(e) => { e.stopPropagation(); handleToggleCore(); }}
+              >
+                {isCore ? '🔒' : '🔓'}
+              </button>
+              <button
+                type="button"
+                className="tag-reset-button"
+                title={isCore ? 'Unlock to delete' : 'Delete this block'}
+                disabled={isCore}
+                onClick={(e) => { e.stopPropagation(); handleDelete(); }}
+              >
+                ×
+              </button>
+            </>
           )}
         </div>
         <div className="links-editor-badges">

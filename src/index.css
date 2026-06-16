@@ -1630,6 +1630,19 @@ svg {
   background    : var(--color-bg-panel);
 }
 
+.list-block-add-row {
+  display     : flex;
+  flex-wrap   : wrap;
+  align-items : center;
+  gap         : var(--space-2);
+  margin-top  : var(--space-3);
+}
+
+.list-block-add-row .form-input {
+  flex         : 1 1 16rem;
+  margin-bottom: 0;
+}
+
 .desc-block-wrapper {
   display    : flex;
   gap        : var(--space-2);
