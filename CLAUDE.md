@@ -163,7 +163,13 @@ All List/Text blocks live together in `customBlocks` under `templates.long` rega
 
 **List `displayMode`** (`'all'` default, or `'random'`): `renderStructuredBlock` either joins every item (current behavior, unchanged) or picks one item at random per generation. Useful for CTA-style lists where you want variety instead of always showing every line.
 
-**`customCtaBlock` is Text, not List**, as of the migration that combined its two CTA lines into one paragraph (joined with `\n`) — this matches the shape of `formData.customCta`'s per-song override (see `getEffectiveSongOverrides`), removing a structural mismatch where the project default was a List but the override was always plain text. If a project's stored override for `customCtaBlock` predates this (still List-shaped), it'll keep showing in the Lists tab until "Reset to default" (↺) is clicked once, after which it resolves to the new Text default and moves to the Text Blocks tab.
+**`customCtaBlock` is Text, not List**, as of the migration that combined its two CTA lines into one paragraph (joined with `\n`) — this matches the shape of the per-song override mechanism below, removing a structural mismatch where the project default was a List but the override was always plain text. If a project's stored override for `customCtaBlock` predates this (still List-shaped), it'll keep showing in the Lists tab until "Reset to default" (↺) is clicked once, after which it resolves to the new Text default and moves to the Text Blocks tab.
+
+## Per-song block overrides (`formData.songBlockOverrides`)
+
+Any Text block with `scope: 'song'` gets a collapsible override field automatically in the generator's Advanced panel (`AdvancedDescriptionFields.jsx`'s `SongBlockOverrideFields` — a generic loop, not per-block code). Typing there writes `formData.songBlockOverrides[blockKey]`, persisted with the saved entry (`useSavedEntries.js`) — and since `formData`/`savedEntries` already live in the unified storage that `appBackup.js` exports wholesale, this is automatically included in backups, no separate backup code.
+
+Engine: `renderCustomBlock(block, projectConfig, formData, tagLine, songOverride)` takes the override as its last param and, when non-empty, renders it as plain text *regardless of the original block's shape* (List or Text) — used by both `generateDescriptions.js` (Long) and `generateShortDescriptions.js` (Shorts) via `getEffectiveSongOverrides(formData)`, which also merges in two **legacy fields that predate this mechanism**: `formData.customCta` (→ `customCtaBlock`) and `formData.customGear` (→ `gearBlock`). `songBlockOverrides` wins when both are set — `useSavedEntries.js`'s `handleLoadEntry` seeds `songBlockOverrides.customCtaBlock` from legacy `entry.customCta` on load (if not already set), so old saved data shows up in the new field and migrates forward on next save, with no manual migration step. `customGear` doesn't have a generic field yet (see Other Active Goals) so its legacy fallback is still load-bearing.
 
 **Project Settings → Blocks** has Lists / Text Blocks sub-tabs (`ProjectSettingsBlocks.jsx`). Each block type's editor (`StructuredListEditor` / `TextBlockEditor`) shares: header with Scope/Target `FormSelect`s, `BlockActions` (Reset for blocks with a JSON default; Lock 🔒/🔓 + Delete for blocks without one — deletion is blocked while locked), and an "+ Add" form at the bottom (`AddListBlockForm` / `AddTextBlockForm`).
 
@@ -174,7 +180,7 @@ Each block has a **scope** field (stored in overrides, user-set in the editor):
 - **Project** — same value across all songs (links, playlists, support info)
 - **Song** — has a project default, overridable per song (gear, custom notes)
 
-`customGear` in the generator form is an existing ad-hoc song-level override — eventually replaced by a proper song-scoped List editor.
+`customGear`, `customStory`, `customLogNote`, `customHashtags` in the generator form are still hardcoded ad-hoc song-level fields (not wired to the dynamic block system) — see Other Active Goals. `customCta` was the first to be migrated (now `customCtaBlock`, a Text block with `scope: 'song'`, rendered via the generic per-song override loop above) — same approach to follow for the rest, where it makes sense.
 
 ## Block targets
 
@@ -227,6 +233,7 @@ Description layout builder. Two-column: Available palette (left) + Active Layout
 - CSS refactor (consolidate index.css, clean up class naming)
 - `coverLabel` (Shorts Description) has no settings UI — only editable by hand-editing `projects.json`
 - Block Group block type not started (Step 8 above)
+- **Go through the remaining hardcoded per-song generator fields** (`customGear`, `customStory`, `customLogNote`, `customHashtags` in `AdvancedDescriptionFields.jsx`) one at a time and figure out, case by case, whether/how each can render dynamically through the block system instead — same approach used for `customCta` → `customCtaBlock`. Not all of them necessarily fit cleanly: `customStory`/`customLogNote` override phrase-*template arrays* (`templates.long.storyBlock`/`logBlock`), a different, older subsystem than `customBlocks` — migrating those means moving them into `customBlocks` first, a real data-shape change, not just a rendering tweak. `customHashtags` isn't a block at all. Investigate each on its own merits; don't force a uniform conversion.
 
 ---
 
