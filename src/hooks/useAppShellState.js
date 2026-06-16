@@ -28,24 +28,30 @@ export default function useAppShellState() {
   // Generator form state.
   const [formData, setFormData] = useState(() => {
     const storage = loadAppStorage();
-    const savedFormData = safeParse(localStorage.getItem('formData'), {});
+    const unified = storage.generator.formData;
+    const legacy = Object.keys(unified || {}).length
+      ? {}
+      : safeParse(localStorage.getItem('formData'), {});
 
     return {
       ...defaultFormData,
-      ...savedFormData,
-      ...(storage.generator.formData || {}),
+      ...legacy,
+      ...unified,
     };
   });
 
   // Panel open/closed state across the app.
   const [panelVisibility, setPanelVisibility] = useState(() => {
     const storage = loadAppStorage();
-    const saved = safeParse(localStorage.getItem('panelVisibility'), {});
+    const unified = storage.ui.panelVisibility;
+    const legacy = Object.keys(unified || {}).length
+      ? {}
+      : safeParse(localStorage.getItem('panelVisibility'), {});
 
     return {
       ...defaultPanelVisibility,
-      ...saved,
-      ...(storage.ui.panelVisibility || {}),
+      ...legacy,
+      ...unified,
     };
   });
 
@@ -79,8 +85,6 @@ export default function useAppShellState() {
 
   // Persist generator form state.
   useEffect(() => {
-    localStorage.setItem('formData', JSON.stringify(formData));
-
     updateAppStorage((storage) => ({
       ...storage,
       generator: {
@@ -92,8 +96,6 @@ export default function useAppShellState() {
 
   // Persist panel visibility preferences.
   useEffect(() => {
-    localStorage.setItem('panelVisibility', JSON.stringify(panelVisibility));
-
     updateAppStorage((storage) => ({
       ...storage,
       ui: {
@@ -105,8 +107,6 @@ export default function useAppShellState() {
 
   // Persist active page selection.
   useEffect(() => {
-    localStorage.setItem('activePage', activePage);
-
     updateAppStorage((storage) => ({
       ...storage,
       ui: {
@@ -129,8 +129,6 @@ export default function useAppShellState() {
 
   // Persist selected project.
   useEffect(() => {
-    localStorage.setItem('selectedProject', projectId);
-
     updateAppStorage((storage) => ({
       ...storage,
       ui: {

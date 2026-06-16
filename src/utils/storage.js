@@ -11,6 +11,7 @@ const defaultStorage = {
     selectedProject: '',
     activePage: '',
     showSavedLibrary: false,
+    hideQueueHidden: false,
     advancedOptionsOpen: false,
     panelVisibility: {},
   },

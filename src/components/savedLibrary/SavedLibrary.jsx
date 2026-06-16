@@ -2,6 +2,18 @@ import { useMemo, useState, useEffect } from 'react';
 
 import ToggleButton from '../ui/ToggleButton';
 import SavedLibraryItem from './SavedLibraryItem';
+import { updateAppStorage } from '../../utils/storage';
+
+// Unified storage applies a default for ui.hideQueueHidden, so a plain
+// loadAppStorage() read can't tell "never set" apart from "explicitly false".
+// Read the raw stored JSON instead to check whether it was actually written.
+function readRawUnifiedUi() {
+  try {
+    return JSON.parse(localStorage.getItem('illegalMindGeneratorData'))?.ui;
+  } catch {
+    return undefined;
+  }
+}
 
 function SavedLibrary({
   savedEntries,
@@ -29,15 +41,24 @@ function SavedLibrary({
 
   const [sortBySignal, setSortBySignal] = useState(false);
   const [hideQueueHidden, setHideQueueHidden] = useState(() => {
+    const ui = readRawUnifiedUi();
+
+    if (typeof ui?.hideQueueHidden === 'boolean') {
+      return ui.hideQueueHidden;
+    }
+
     const saved = localStorage.getItem('hideQueueHidden');
     return saved ? JSON.parse(saved) : false;
   });
 
   useEffect(() => {
-    localStorage.setItem('showSavedLibrary', JSON.stringify(showSavedLibrary));
-  }, [showSavedLibrary]);
-  useEffect(() => {
-    localStorage.setItem('hideQueueHidden', JSON.stringify(hideQueueHidden));
+    updateAppStorage((storage) => ({
+      ...storage,
+      ui: {
+        ...storage.ui,
+        hideQueueHidden,
+      },
+    }));
   }, [hideQueueHidden]);
 
   const filteredEntries = useMemo(() => {
