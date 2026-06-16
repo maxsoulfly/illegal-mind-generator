@@ -1224,6 +1224,16 @@ svg {
   opacity     : 1;
 }
 
+.tag-reset-button:disabled {
+  opacity: 0.2;
+  cursor : default;
+}
+
+.tag-reset-button:disabled:hover {
+  color       : var(--color-text-muted);
+  border-color: var(--color-border-main);
+}
+
 .tag-usage,
 .tag-status {
   white-space: nowrap;

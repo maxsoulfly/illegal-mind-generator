@@ -16,6 +16,11 @@ function isListBlock(value) {
   return Boolean(value) && typeof value === 'object' && Array.isArray(value.items);
 }
 
+function getBlockLabel(key, blockData) {
+  const known = KNOWN_CUSTOM_BLOCKS[key];
+  return known?.label || blockData?.name || prettifyKey(key);
+}
+
 function prettifyKey(key) {
   return key
     .replace(/Block$/, '')
@@ -123,6 +128,14 @@ export default function ProjectSettingsLists({
     isListBlock(customBlocks[key]),
   );
 
+  const [search, setSearch] = useState('');
+  const needle = search.trim().toLowerCase();
+
+  const visibleBlockKeys = customBlockKeys.filter((key) =>
+    !needle || getBlockLabel(key, customBlocks[key]).toLowerCase().includes(needle),
+  );
+  const supportMatchesSearch = !needle || 'support block'.includes(needle);
+
   const [resetKeys, setResetKeys] = useState({});
   const [supportResetKey, setSupportResetKey] = useState(0);
 
@@ -158,16 +171,29 @@ export default function ProjectSettingsLists({
   }
 
   const noBlocks = customBlockKeys.length === 0 && !supportBlockData;
+  const noMatches =
+    !noBlocks && visibleBlockKeys.length === 0 && !(supportBlockData && supportMatchesSearch);
 
   return (
     <>
       <h2 className="panel-title">Lists</h2>
 
+      {customBlockKeys.length + (supportBlockData ? 1 : 0) > 5 && (
+        <input
+          className="form-input links-registry-search"
+          placeholder="Search lists…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      )}
+
       {noBlocks && (
         <p className="tag-summary">No list blocks configured for this project.</p>
       )}
 
-      {customBlockKeys.map((blockKey) => {
+      {noMatches && <p className="tag-summary">No lists match your search.</p>}
+
+      {visibleBlockKeys.map((blockKey) => {
         const known = KNOWN_CUSTOM_BLOCKS[blockKey];
         const blockData = customBlocks[blockKey];
         const hasBaseDefault = blockKey in baseCustomBlocks;
@@ -197,7 +223,7 @@ export default function ProjectSettingsLists({
         );
       })}
 
-      {supportBlockData && (
+      {supportBlockData && supportMatchesSearch && (
         <StructuredListEditor
           key={`support-${supportResetKey}`}
           label="Support Block"
