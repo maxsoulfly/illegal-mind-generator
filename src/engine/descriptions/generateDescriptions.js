@@ -76,13 +76,10 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   }
 
   // --- Custom blocks ---
-  const { renderedCustomBlocks, customCtaBlock, supportBlock } =
+  // gearBlock/customCtaBlock overrides (formData.customGear/customCta) are
+  // already baked into renderedCustomBlocks — see getEffectiveSongOverrides.
+  const { renderedCustomBlocks, supportBlock } =
     generateCustomBlocks(formData, projectConfig, tagLine);
-
-  // Form gear overrides config gear; config gear is fallback when form is empty
-  const gearBlock = formData.customGear?.trim()
-    ? formData.customGear.trim()
-    : (renderedCustomBlocks.gearBlock || '');
 
   const layout = projectConfig.description.templates.long.layout;
   const blocks = {
@@ -94,8 +91,6 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     closingBlock: closingCombined,
     supportBlock,
     ...renderedCustomBlocks,
-    customCtaBlock,
-    gearBlock,
   };
 
   const longDescription = layout

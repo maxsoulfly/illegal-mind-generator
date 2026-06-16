@@ -1,4 +1,4 @@
-import { renderStructuredBlock, renderCustomBlock } from './generateCustomBlocks';
+import { renderStructuredBlock, renderCustomBlock, getEffectiveSongOverrides } from './generateCustomBlocks';
 import { isListBlock } from '../../utils/customBlocks';
 
 function pickRandom(arr = []) {
@@ -24,7 +24,7 @@ export function generateShortDescriptions(
   // List blocks live under templates.long.customBlocks regardless of which
   // description(s) they target — target decides eligibility, not location.
   const customBlocks = projectConfig.description?.templates?.long?.customBlocks || {};
-  const songOverrides = formData.songBlockOverrides || {};
+  const songOverrides = getEffectiveSongOverrides(formData);
 
   // shortHooks is an array of groups, each with a `hooks` array of hook objects.
   // We only need the text string from each hook object for use in descriptions.
@@ -62,7 +62,7 @@ export function generateShortDescriptions(
         customBlocks[blockName],
         projectConfig,
         formData,
-        tagLine,
+        tagPhrase,
         songOverrides[blockName]?.trim(),
       );
     }

@@ -35,9 +35,24 @@ function renderTextTemplate(text, projectConfig, formData, tagLine) {
     .replace(/\{tagLine\}/g, tagLine);
 }
 
-// songOverride, when non-empty, is a per-song Text override (typed in the
+// Merges the generic per-song block overrides with the legacy customCta/
+// customGear fields (which predate songBlockOverrides but target blocks —
+// customCtaBlock/gearBlock — that already live in customBlocks). Legacy
+// fields win when both are set, since they're still the only UI path for
+// those two keys today.
+export function getEffectiveSongOverrides(formData) {
+  const overrides = { ...(formData.songBlockOverrides || {}) };
+
+  if (formData.customCta?.trim()) overrides.customCtaBlock = formData.customCta.trim();
+  if (formData.customGear?.trim()) overrides.gearBlock = formData.customGear.trim();
+
+  return overrides;
+}
+
+// songOverride, when non-empty, is a per-song override (typed in the
 // generator's Advanced panel) that takes precedence over the block's own
-// project-level text — only meaningful for Text blocks (scope: 'song').
+// project-level content, rendered as plain text regardless of the
+// original block's shape (List or Text).
 export function renderCustomBlock(block, projectConfig, formData, tagLine, songOverride) {
   if (songOverride) {
     return renderTextTemplate(songOverride, projectConfig, formData, tagLine);
@@ -63,7 +78,7 @@ export function renderCustomBlock(block, projectConfig, formData, tagLine, songO
 export function generateCustomBlocks(formData, projectConfig, tagLine) {
   const customBlocks =
     projectConfig.description.templates.long.customBlocks || {};
-  const songOverrides = formData.songBlockOverrides || {};
+  const songOverrides = getEffectiveSongOverrides(formData);
 
   const renderedCustomBlocks = Object.fromEntries(
     Object.entries(customBlocks).map(([key, block]) => [
@@ -71,10 +86,6 @@ export function generateCustomBlocks(formData, projectConfig, tagLine) {
       renderCustomBlock(block, projectConfig, formData, tagLine, songOverrides[key]?.trim()),
     ]),
   );
-
-  const customCtaBlock = formData.customCta?.trim()
-    ? formData.customCta.trim()
-    : renderedCustomBlocks.customCtaBlock;
 
   const supportBlockConfig =
     projectConfig.description.templates.long.supportBlock;
@@ -86,7 +97,6 @@ export function generateCustomBlocks(formData, projectConfig, tagLine) {
 
   return {
     renderedCustomBlocks,
-    customCtaBlock,
     supportBlock,
   };
 }
