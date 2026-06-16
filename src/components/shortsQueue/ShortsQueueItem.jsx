@@ -1,3 +1,5 @@
+import IconButton from '../ui/IconButton';
+
 function ShortsQueueItem({ entry, index, onLoadEntry, onUploaded }) {
   return (
     <div className="saved-entry-row terminal-block">
@@ -22,13 +24,11 @@ function ShortsQueueItem({ entry, index, onLoadEntry, onUploaded }) {
       </div>
 
       <div className="saved-entry-actions">
-        <button
-          type="button"
-          className="button-secondary saved-entry-button"
+        <IconButton
+          icon="×"
+          className="button-secondary"
           onClick={onUploaded}
-        >
-          X
-        </button>
+        />
       </div>
     </div>
   );

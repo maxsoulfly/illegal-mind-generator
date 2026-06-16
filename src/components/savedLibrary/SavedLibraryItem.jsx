@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import IconButton from '../ui/IconButton';
+
 function SavedLibraryItem({ entry, onLoadEntry, onDeleteEntry }) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -39,13 +41,11 @@ function SavedLibraryItem({ entry, onLoadEntry, onDeleteEntry }) {
       </div>
 
       <div className="saved-entry-actions">
-        <button
-          type="button"
-          className="button-secondary saved-entry-button"
+        <IconButton
+          icon="×"
+          className="button-secondary"
           onClick={() => onDeleteEntry(entry.id)}
-        >
-          X
-        </button>
+        />
       </div>
     </div>
   );

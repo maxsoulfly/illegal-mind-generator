@@ -1,3 +1,5 @@
+import IconButton from '../ui/IconButton';
+
 export default function TagHeader({ tag, projectOverrides, resetTagOverride }) {
   const override = projectOverrides?.[tag.name];
   const isCustomTag = !!override?.isCustom;
@@ -19,14 +21,7 @@ export default function TagHeader({ tag, projectOverrides, resetTagOverride }) {
         <h3>
           {tag.label}
           {hasResettableOverrides && (
-            <button
-              type="button"
-              className="tag-reset-button"
-              onClick={handleResetTag}
-              title="Reset tag edits"
-            >
-              ↺
-            </button>
+            <IconButton icon="↺" title="Reset tag edits" onClick={handleResetTag} />
           )}
         </h3>
         <div className="tag-category">{tag.category}</div>
