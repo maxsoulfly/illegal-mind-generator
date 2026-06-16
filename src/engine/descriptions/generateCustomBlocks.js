@@ -4,7 +4,7 @@ function replaceLinkPlaceholders(template, links = {}) {
   });
 }
 
-function renderStructuredBlock(block, links = {}) {
+export function renderStructuredBlock(block, links = {}) {
   if (!block || !block.items) return '';
 
   const title = block.title || '';

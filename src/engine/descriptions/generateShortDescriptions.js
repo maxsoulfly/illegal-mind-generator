@@ -1,3 +1,6 @@
+import { renderStructuredBlock } from './generateCustomBlocks';
+import { isListBlock } from '../../utils/customBlocks';
+
 function pickRandom(arr = []) {
   return arr[Math.floor(Math.random() * arr.length)] || '';
 }
@@ -17,6 +20,10 @@ export function generateShortDescriptions(
     'hook',
     'secondary',
   ];
+
+  // List blocks live under templates.long.customBlocks regardless of which
+  // description(s) they target — target decides eligibility, not location.
+  const customBlocks = projectConfig.description?.templates?.long?.customBlocks || {};
 
   // shortHooks is an array of groups, each with a `hooks` array of hook objects.
   // We only need the text string from each hook object for use in descriptions.
@@ -40,6 +47,13 @@ export function generateShortDescriptions(
 
     if (blockName === 'hook') {
       return pickRandom(hookTextPool);
+    }
+
+    if (isListBlock(customBlocks[blockName])) {
+      const rendered = renderStructuredBlock(customBlocks[blockName], projectConfig.description.links);
+      // Pad list blocks with blank lines so they stand apart from the
+      // single-newline-joined surrounding lines.
+      return rendered ? `\n${rendered}\n` : '';
     }
 
     const options = shortsConfig[blockName] || [];
