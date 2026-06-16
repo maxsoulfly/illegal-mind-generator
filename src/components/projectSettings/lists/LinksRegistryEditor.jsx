@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import IconButton from '../../ui/IconButton';
 
 export default function LinksRegistryEditor({
   baseProjectConfig,
@@ -70,14 +71,11 @@ export default function LinksRegistryEditor({
                 }}
               />
               {(isOverridden || isUserAdded) && (
-                <button
-                  type="button"
-                  className="tag-reset-button"
+                <IconButton
+                  icon={isUserAdded ? '×' : '↺'}
                   title={isUserAdded ? 'Remove' : 'Reset to default'}
                   onClick={() => removeLink(key)}
-                >
-                  {isUserAdded ? '×' : '↺'}
-                </button>
+                />
               )}
             </div>
           );
@@ -96,14 +94,11 @@ export default function LinksRegistryEditor({
             value={newUrl}
             onChange={(e) => setNewUrl(e.target.value)}
           />
-          <button
-            type="button"
-            className="tag-reset-button"
+          <IconButton
+            icon="+"
             onClick={handleAdd}
             disabled={!newKey.trim() || !newUrl.trim()}
-          >
-            +
-          </button>
+          />
         </div>
       </div>
     </section>

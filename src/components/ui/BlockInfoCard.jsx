@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import IconButton from './IconButton';
 
 export default function BlockInfoCard({ label, subtitle, onRemove, collapsible = false, children }) {
   const [collapsed, setCollapsed] = useState(true);
@@ -16,14 +17,7 @@ export default function BlockInfoCard({ label, subtitle, onRemove, collapsible =
           {label}
         </h3>
         {onRemove && (
-          <button
-            type="button"
-            className="tag-reset-button"
-            title="Remove from layout"
-            onClick={onRemove}
-          >
-            ×
-          </button>
+          <IconButton icon="×" title="Remove from layout" onClick={onRemove} />
         )}
         {subtitle && <span className="tag-status">{subtitle}</span>}
       </header>

@@ -1,4 +1,5 @@
 import MoveControls from '../../ui/MoveControls';
+import IconButton from '../../ui/IconButton';
 
 // One row in a StructuredListEditor: move up/down, label input, value input
 // (text or link, with optional datalist suggestions), remove button.
@@ -34,12 +35,7 @@ export default function ListItemRow({
         list={itemType === 'link' ? linkSuggestionsId : undefined}
         onBlur={(e) => onBlurField(index, itemType, e.target.value)}
       />
-      <button
-        type="button"
-        className="tag-reset-button"
-        title="Remove item"
-        onClick={() => onRemove(index)}
-      >×</button>
+      <IconButton icon="×" title="Remove item" onClick={() => onRemove(index)} />
     </div>
   );
 }

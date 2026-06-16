@@ -1,3 +1,5 @@
+import IconButton from '../../ui/IconButton';
+
 // Reset/Lock/Delete button trio for a list block's header. Reset only shows
 // when the block has a JSON default to revert to; Lock/Delete only show when
 // the block can be deleted (no JSON default), gating deletion behind isCore.
@@ -11,34 +13,28 @@ export default function ListBlockActions({
   return (
     <>
       {hasOverride && (
-        <button
-          type="button"
-          className="tag-reset-button"
+        <IconButton
+          icon="↺"
           title="Reset to default"
-          onClick={(e) => { e.stopPropagation(); onReset(); }}
-        >
-          ↺
-        </button>
+          stopPropagation
+          onClick={onReset}
+        />
       )}
       {onDelete && (
         <>
-          <button
-            type="button"
-            className="tag-reset-button"
+          <IconButton
+            icon={isCore ? '🔒' : '🔓'}
             title={isCore ? 'Locked — click to unlock' : 'Lock to prevent deletion'}
-            onClick={(e) => { e.stopPropagation(); onToggleCore(); }}
-          >
-            {isCore ? '🔒' : '🔓'}
-          </button>
-          <button
-            type="button"
-            className="tag-reset-button"
+            stopPropagation
+            onClick={onToggleCore}
+          />
+          <IconButton
+            icon="×"
             title={isCore ? 'Unlock to delete' : 'Delete this block'}
             disabled={isCore}
-            onClick={(e) => { e.stopPropagation(); onDelete(); }}
-          >
-            ×
-          </button>
+            stopPropagation
+            onClick={onDelete}
+          />
         </>
       )}
     </>

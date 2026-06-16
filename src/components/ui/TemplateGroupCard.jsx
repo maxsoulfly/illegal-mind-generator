@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import HookTemplateEditor from './HookTemplateEditor';
 import LabelSliderRow from './LabelSliderRow';
+import IconButton from './IconButton';
 
 export default function TemplateGroupCard({
   label,
@@ -24,24 +25,15 @@ export default function TemplateGroupCard({
             <span className="tag-card-collapse-icon">{collapsed ? '▶' : '▼'}</span>
             {label}
           </h3>
-          <button
-            type="button"
-            className="tag-reset-button"
+          <IconButton
+            icon="↺"
             title="Reset to defaults"
-            onClick={(e) => { e.stopPropagation(); onReset(); }}
-          >
-            ↺
-          </button>
+            stopPropagation
+            onClick={onReset}
+          />
         </div>
         {onRemove && (
-          <button
-            type="button"
-            className="tag-reset-button"
-            title="Remove from layout"
-            onClick={onRemove}
-          >
-            ×
-          </button>
+          <IconButton icon="×" title="Remove from layout" onClick={onRemove} />
         )}
       </header>
 

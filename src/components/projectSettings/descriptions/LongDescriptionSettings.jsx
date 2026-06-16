@@ -3,6 +3,7 @@ import TemplateGroupCard from '../../ui/TemplateGroupCard';
 import BlockInfoCard from '../../ui/BlockInfoCard';
 import SubTabNav from '../../ui/SubTabNav';
 import MoveControls from '../../ui/MoveControls';
+import IconButton from '../../ui/IconButton';
 
 function CollapsibleBlockGroup({ label, onRemove, children }) {
   const [collapsed, setCollapsed] = useState(true);
@@ -15,7 +16,7 @@ function CollapsibleBlockGroup({ label, onRemove, children }) {
             <span className="tag-card-collapse-icon">▶</span>
             {label}
           </h3>
-          <button type="button" className="tag-reset-button" title="Remove from layout" onClick={onRemove}>×</button>
+          <IconButton icon="×" title="Remove from layout" onClick={onRemove} />
         </header>
       </article>
     );
@@ -28,7 +29,7 @@ function CollapsibleBlockGroup({ label, onRemove, children }) {
           <span className="tag-card-collapse-icon">▼</span>
           {label}
         </span>
-        <button type="button" className="tag-reset-button" title="Remove from layout" onClick={onRemove}>×</button>
+        <IconButton icon="×" title="Remove from layout" onClick={onRemove} />
       </div>
       {children}
     </div>
@@ -296,14 +297,11 @@ export default function LongDescriptionSettings({
                 return (
                   <li key={key} className="desc-available-item">
                     <span>{meta.label}</span>
-                    <button
-                      type="button"
-                      className="tag-reset-button"
+                    <IconButton
+                      icon="+"
                       title="Add to layout"
                       onClick={() => addToLayout(key)}
-                    >
-                      +
-                    </button>
+                    />
                   </li>
                 );
               })}
@@ -314,14 +312,11 @@ export default function LongDescriptionSettings({
         <div className="desc-layout-active">
           <div className="desc-active-header">
             <span>Active Layout</span>
-            <button
-              type="button"
-              className="tag-reset-button"
+            <IconButton
+              icon="↺ Reset Order"
               title="Reset to default order"
               onClick={resetOrder}
-            >
-              ↺ Reset Order
-            </button>
+            />
           </div>
           {activeKeys.map((key, i) => renderActiveBlock(key, i))}
         </div>
