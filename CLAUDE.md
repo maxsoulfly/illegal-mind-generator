@@ -1,8 +1,13 @@
 # CLAUDE.md
 
-# PRIORITY TODO (fix on laptop)
+# PRIORITY TODO (cleanup, not urgent)
 
-**Backup system is broken or incomplete.** A backup exported at end of last laptop session was missing: Saved Library, full tag library (tags incomplete), Todos, Shorts Queue. Investigate what keys are being written to the export and compare against the full storage shape in `illegalMindGeneratorData`. Likely a subset of keys is being exported or the backup was taken before data was flushed. Fix export to capture all keys reliably before any other storage work.
+**Storage unification is functionally done — cleanup pass still needed.** Saved entries, shorts queue, tag overrides, tag visibility overrides, form data, panel visibility, active page, selected project, saved-library visibility, and hide-queue-hidden all now read/write `illegalMindGeneratorData` exclusively. What's left:
+- `appBackup.js` still captures/restores the old standalone legacy keys via a `legacy` field — no longer needed since the unified key has everything live. Safe to remove.
+- `storageMigration.js` and its `window.previewUnifiedStorageMigration` / `writeUnifiedStorageMigration` exposure in `App.jsx` are obsolete — each hook now does its own one-time fallback-and-migrate instead.
+- The old standalone localStorage keys (`savedEntries`, `shortsQueueByProject`, `tagOverrides`, `tagVisibilityOverrides`, `formData`, `panelVisibility`, `activePage`, `selectedProject`, `showSavedLibrary`, `hideQueueHidden`) are now inert — nothing reads or writes them anymore. Safe to delete from localStorage once confident nothing regressed.
+
+Do this cleanup only after a few real sessions confirm nothing else was silently relying on stale legacy data (a stale unified `savedEntries` snapshot once shadowed live Todo statuses — recovered, but be alert for similar surprises in shorts queue / tag overrides / tag visibility).
 
 ---
 
@@ -81,9 +86,11 @@ src/
 ```
 
 **Rules — these matter:**
-- Never delete legacy keys even if they seem redundant
+- All live app state now reads/writes `illegalMindGeneratorData` exclusively (unification completed — see PRIORITY TODO for remaining cleanup). The standalone legacy localStorage keys are inert leftovers, not active data sources — don't assume code still reads them.
+- `tagVisibilityOverrides` as a *field inside* the unified object must stay — that's a data-shape compatibility concern, separate from the now-dead standalone legacy key of the same name.
 - No automatic migration — migration is intentionally paused
 - Storage changes are high risk: backup → verify shape → add safe fallbacks → test export/import → test refresh persistence
+- When migrating a hook off a legacy key, don't assume a populated unified field is authoritative — it may be a stale one-time snapshot. Verify which source actually has live data before preferring it.
 
 ---
 
