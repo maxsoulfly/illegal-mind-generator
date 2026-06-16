@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // Scan backwards from the cursor for an unclosed '{' with no space/newline/
 // '}' in between — that's an active placeholder query in progress.
@@ -22,21 +22,28 @@ function detectTrigger(text, cursor) {
   return null;
 }
 
-// A textarea that offers an autocomplete dropdown for {placeholder} syntax.
-// Typing '{' starts tracking a query; matching placeholders (passed in,
-// braces included, e.g. '{artist}') show in a dropdown below the field.
-export default function PlaceholderTextarea({
+// A single-line input or textarea that offers an autocomplete dropdown for
+// {placeholder} syntax. Typing '{' starts tracking a query; matching
+// placeholders (passed in, braces included, e.g. '{artist}') show in a
+// dropdown below the field. Resyncs display value if defaultValue changes
+// from outside (e.g. a reset-to-default elsewhere) without remounting.
+export default function PlaceholderField({
   defaultValue = '',
   onBlur,
   placeholders = [],
+  multiline = false,
   rows = 4,
-  className = 'form-textarea',
+  className,
 }) {
   const [value, setValue] = useState(defaultValue);
   const [query, setQuery] = useState(null);
   const [triggerStart, setTriggerStart] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const textareaRef = useRef(null);
+  const fieldRef = useRef(null);
+
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue]);
 
   const matches =
     query === null
@@ -64,7 +71,7 @@ export default function PlaceholderTextarea({
   function insertPlaceholder(placeholder) {
     if (triggerStart === null) return;
 
-    const cursor = textareaRef.current.selectionStart;
+    const cursor = fieldRef.current.selectionStart;
     const before = value.slice(0, triggerStart);
     const after = value.slice(cursor);
     const next = `${before}${placeholder}${after}`;
@@ -75,8 +82,8 @@ export default function PlaceholderTextarea({
 
     requestAnimationFrame(() => {
       const pos = before.length + placeholder.length;
-      textareaRef.current.focus();
-      textareaRef.current.setSelectionRange(pos, pos);
+      fieldRef.current.focus();
+      fieldRef.current.setSelectionRange(pos, pos);
     });
   }
 
@@ -104,13 +111,16 @@ export default function PlaceholderTextarea({
     onBlur(value);
   }
 
+  const Field = multiline ? 'textarea' : 'input';
+  const resolvedClassName = className ?? (multiline ? 'form-textarea' : 'form-input');
+
   return (
     <div className="placeholder-field">
-      <textarea
-        ref={textareaRef}
-        className={className}
+      <Field
+        ref={fieldRef}
+        className={resolvedClassName}
         value={value}
-        rows={rows}
+        {...(multiline ? { rows } : {})}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         onBlur={handleBlur}

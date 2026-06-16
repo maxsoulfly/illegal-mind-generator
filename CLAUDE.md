@@ -102,7 +102,8 @@ src/
 - `HookTemplateEditor` — searchable template list with add/bulk/highlight+scroll support
 - `SubTabNav` — lightweight tab nav (underline active, no pill borders). Takes `tabs: [{id, label}]`.
 - `NavLinkButton` — clickable text for source navigation. `muted` prop for base hooks.
-- `PhraseRow` — forwardRef row, onBlur save, `highlighted` prop for scroll target
+- `PhraseRow` — forwardRef row, onBlur save, `highlighted` prop for scroll target. Optional `placeholders` prop enables the `{placeholder}` autocomplete on its field (see `PlaceholderField`); omit it to keep a plain input (e.g. `TagPhraseEditor` doesn't pass one yet).
+- `PlaceholderField` — input or textarea (`multiline` prop) with a `{placeholder}` autocomplete dropdown: typing `{` starts tracking a query, filters the passed-in `placeholders` array (braces included, e.g. `'{artist}'`), arrow keys + Enter to select, Escape/click-away to dismiss, inserts at cursor. Each caller supplies its own contextually-correct placeholder list (Text Blocks: `artist`/`song`/`tagLine`/`links.*`; Hooks: `artist`/`song`/`signalNumber`/`num`/`decade`/`year`/`years`/`currentYear`/`primaryTag` — matches what each engine function actually replaces, so keep these two lists in sync with `generateCustomBlocks.js`'s `renderTextTemplate` and `generateShortHooks.js`'s `fillHookTemplate` respectively if those change). `defaultValue`-driven with onBlur save, but resyncs on external `defaultValue` change (e.g. reset) without needing a remount.
 - `ToggleInputRow` — checkbox + label + input (clicking label toggles checkbox)
 - `LabelInputRow` — label + input, `compact` mode via `form-input--compact`
 - `LabelSliderRow` — label + range slider + value display

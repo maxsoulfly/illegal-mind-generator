@@ -4,6 +4,19 @@ import AddBulkRow from './AddBulkRow';
 import BulkTextarea from './BulkTextarea';
 import PhraseRow from './PhraseRow';
 
+// Matches the placeholders generateShortHooks.js's fillHookTemplate replaces.
+const HOOK_PLACEHOLDERS = [
+  '{artist}',
+  '{song}',
+  '{signalNumber}',
+  '{num}',
+  '{decade}',
+  '{year}',
+  '{years}',
+  '{currentYear}',
+  '{primaryTag}',
+];
+
 // Collapsible editor for a single hook type's templates array.
 // All mutations call onUpdateTemplates with the full replacement array —
 // the parent (ShortHookCard) is responsible for persisting it.
@@ -61,6 +74,7 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
             ref={isHighlighted ? highlightRowRef : null}
             highlighted={isHighlighted}
             value={template}
+            placeholders={HOOK_PLACEHOLDERS}
             onCommit={(newValue) => {
               const next = [...templates];
               next[index] = newValue;

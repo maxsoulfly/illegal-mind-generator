@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import FormSelect from '../../ui/FormSelect';
-import PlaceholderTextarea from '../../ui/PlaceholderTextarea';
+import PlaceholderField from '../../ui/PlaceholderField';
 import BlockActions from './BlockActions';
 
 const SCOPE_OPTIONS = [
@@ -105,7 +105,8 @@ export default function TextBlockEditor({
         <div className="tag-editor-section">
           <div className="form-group">
             <div className="form-label">Text</div>
-            <PlaceholderTextarea
+            <PlaceholderField
+              multiline
               defaultValue={text}
               onBlur={handleTextBlur}
               placeholders={placeholders}
