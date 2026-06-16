@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import FormSelect from '../../ui/FormSelect';
+import PlaceholderTextarea from '../../ui/PlaceholderTextarea';
 import BlockActions from './BlockActions';
 
 const SCOPE_OPTIONS = [
@@ -22,6 +23,7 @@ export default function TextBlockEditor({
   blockData,
   defaultScope,
   defaultTarget,
+  linkKeys = [],
   hasOverride,
   onSave,
   onReset,
@@ -58,9 +60,16 @@ export default function TextBlockEditor({
     }
   }
 
-  function handleTextBlur(e) {
-    save({ ...block, text: e.target.value });
+  function handleTextBlur(nextText) {
+    save({ ...block, text: nextText });
   }
+
+  const placeholders = [
+    '{artist}',
+    '{song}',
+    '{tagLine}',
+    ...linkKeys.map((key) => `{links.${key}}`),
+  ];
 
   function handleScopeChange(next) {
     save({ ...block, scope: next });
@@ -96,10 +105,10 @@ export default function TextBlockEditor({
         <div className="tag-editor-section">
           <div className="form-group">
             <div className="form-label">Text</div>
-            <textarea
-              className="form-textarea"
+            <PlaceholderTextarea
               defaultValue={text}
               onBlur={handleTextBlur}
+              placeholders={placeholders}
               rows={4}
             />
           </div>

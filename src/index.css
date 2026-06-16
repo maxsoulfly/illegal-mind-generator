@@ -1640,6 +1640,40 @@ svg {
   flex       : 0 0 auto;
 }
 
+.placeholder-field {
+  position: relative;
+}
+
+.placeholder-suggestions {
+  position      : absolute;
+  top           : 100%;
+  left          : 0;
+  right         : 0;
+  z-index       : 20;
+  margin-top    : var(--space-1);
+  max-height    : 12rem;
+  overflow-y    : auto;
+  background    : var(--color-bg-input);
+  border        : 1px solid var(--color-border-hover);
+  border-radius : var(--radius-md);
+  list-style    : none;
+  padding       : var(--space-1) 0;
+}
+
+.placeholder-suggestion {
+  padding    : var(--space-2) var(--space-4);
+  cursor     : pointer;
+  font-family: monospace;
+  font-size  : var(--font-size-sm);
+  color      : var(--color-text-muted);
+}
+
+.placeholder-suggestion:hover,
+.placeholder-suggestion--active {
+  background: var(--color-bg-panel);
+  color     : var(--color-text-accent);
+}
+
 .desc-block-wrapper {
   display    : flex;
   gap        : var(--space-2);

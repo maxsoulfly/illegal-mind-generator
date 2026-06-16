@@ -19,6 +19,7 @@ export default function ProjectSettingsTextBlocks({
   const customBlocks = longTemplates.customBlocks || {};
   const baseCustomBlocks =
     baseProjectConfig?.description?.templates?.long?.customBlocks || {};
+  const linkKeys = Object.keys(projectConfig.description?.links || {});
 
   const overriddenCustomBlocks =
     projectSettingsOverrides?.description?.templates?.long?.customBlocks || {};
@@ -89,6 +90,7 @@ export default function ProjectSettingsTextBlocks({
             blockData={blockData}
             defaultScope={known?.defaultScope || 'project'}
             defaultTarget={known?.defaultTarget || 'long'}
+            linkKeys={linkKeys}
             hasOverride={hasBaseDefault && !!overriddenCustomBlocks[blockKey]}
             onSave={(value) => saveCustomBlock(blockKey, value)}
             onReset={
