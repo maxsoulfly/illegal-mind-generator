@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { loadAppStorage, updateAppStorage } from '../utils/storage';
+
 const buildEntryId = (artist, song) =>
   `${artist}-${song}`.trim().toLowerCase().replace(/\s+/g, ' ');
 
@@ -33,29 +35,43 @@ function useSavedEntries(
   projectName,
 ) {
   const [savedEntriesByProject, setSavedEntriesByProject] = useState(() => {
+    const unified = loadAppStorage().savedEntries;
+
+    if (unified && Object.keys(unified).length > 0) {
+      return Object.fromEntries(
+        Object.entries(unified).map(([projectId, entries]) => [
+          projectId,
+          normalizeEntryIds(entries),
+        ]),
+      );
+    }
+
     const saved = localStorage.getItem('savedEntries');
     if (!saved) return {};
 
     const parsed = JSON.parse(saved);
 
-    if (Array.isArray(parsed)) {
-      return {
-        illegalMindCovers: normalizeEntryIds(parsed),
-      };
-    }
+    const normalized = Array.isArray(parsed)
+      ? { illegalMindCovers: normalizeEntryIds(parsed) }
+      : Object.fromEntries(
+          Object.entries(parsed).map(([projectId, entries]) => [
+            projectId,
+            normalizeEntryIds(entries),
+          ]),
+        );
 
-    return Object.fromEntries(
-      Object.entries(parsed).map(([projectId, entries]) => [
-        projectId,
-        normalizeEntryIds(entries),
-      ]),
-    );
+    updateAppStorage((storage) => ({ ...storage, savedEntries: normalized }));
+
+    return normalized;
   });
 
   const savedEntries = savedEntriesByProject[selectedProjectId] || [];
 
   useEffect(() => {
-    localStorage.setItem('savedEntries', JSON.stringify(savedEntriesByProject));
+    updateAppStorage((storage) => ({
+      ...storage,
+      savedEntries: savedEntriesByProject,
+    }));
   }, [savedEntriesByProject]);
 
   // Save entry

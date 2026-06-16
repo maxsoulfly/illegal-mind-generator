@@ -1,18 +1,34 @@
 import { useState } from 'react';
 
-const STORAGE_KEY = 'shortsQueueByProject';
+import { loadAppStorage, updateAppStorage } from '../utils/storage';
+
+const LEGACY_STORAGE_KEY = 'shortsQueueByProject';
 const QUEUE_LENGTH = 20;
 
 function getStoredQueues() {
+  const unified = loadAppStorage().shortsQueues;
+
+  if (unified && Object.keys(unified).length > 0) {
+    return unified;
+  }
+
+  let legacy;
+
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    legacy = JSON.parse(localStorage.getItem(LEGACY_STORAGE_KEY)) || {};
   } catch {
     return {};
   }
+
+  if (Object.keys(legacy).length > 0) {
+    updateAppStorage((storage) => ({ ...storage, shortsQueues: legacy }));
+  }
+
+  return legacy;
 }
 
 function saveStoredQueues(queues) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(queues));
+  updateAppStorage((storage) => ({ ...storage, shortsQueues: queues }));
 }
 
 function getCoverId(entry) {

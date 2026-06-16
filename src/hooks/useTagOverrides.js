@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 
-const STORAGE_KEY = 'tagOverrides';
+import { loadAppStorage, updateAppStorage } from '../utils/storage';
+
+const LEGACY_STORAGE_KEY = 'tagOverrides';
 
 const mergeUniqueArray = (target = [], source = []) => {
   return Array.from(new Set([...(target || []), ...(source || [])]));
@@ -38,12 +40,24 @@ const mergeTagData = (targetTag = {}, sourceTag = {}) => ({
 
 export default function useTagOverrides(projectId) {
   const [overrides, setOverrides] = useState(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : {};
+    const unified = loadAppStorage().tagOverrides;
+
+    if (unified && Object.keys(unified).length > 0) {
+      return unified;
+    }
+
+    const saved = localStorage.getItem(LEGACY_STORAGE_KEY);
+    const legacy = saved ? JSON.parse(saved) : {};
+
+    if (Object.keys(legacy).length > 0) {
+      updateAppStorage((storage) => ({ ...storage, tagOverrides: legacy }));
+    }
+
+    return legacy;
   });
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(overrides));
+    updateAppStorage((storage) => ({ ...storage, tagOverrides: overrides }));
   }, [overrides]);
 
   const projectOverrides = overrides[projectId] || {};
