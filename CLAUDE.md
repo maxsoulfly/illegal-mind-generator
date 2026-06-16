@@ -108,7 +108,7 @@ src/
 - `LabelInputRow` — label + input, `compact` mode via `form-input--compact`
 - `LabelSliderRow` — label + range slider + value display
 - `AddBulkRow` — + Add / + Bulk button row
-- `BulkTextarea` — textarea + Apply/Cancel
+- `BulkTextarea` — textarea + Apply/Cancel. Input is a `PlaceholderField` (`multiline`, `onChange` live mode); optional `placeholders` prop enables the autocomplete (wired in `HookTemplateEditor`/`TagPhraseEditor`).
 - `IconButton` — shared shell for every icon-only action (reset ↺, remove ×, lock 🔒/🔓, move ↑/↓, add +). Takes `icon, title, onClick, disabled, stopPropagation, className`. Default `className` is `tag-reset-button`; pass a different one (e.g. `button-secondary`) to reuse the click/disabled wiring with a different look.
 - `MoveControls` — up/down reorder button pair built on `IconButton`. Used by list items and description block reordering; pass `className` for context-specific layout (see `.desc-block-move-controls`).
 - `FormSelect` — the standard `form-select` dropdown (same look as `TodoStatusSelect`) wrapped with `stopPropagation` for use inside clickable card headers. Takes `value, onChange(value), options: [{value, label}]`.

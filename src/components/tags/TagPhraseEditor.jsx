@@ -98,6 +98,7 @@ export default function TagPhraseEditor({
               onChange={setBulkValue}
               onApply={applyBulk}
               onCancel={() => setBulkValue(null)}
+              placeholders={placeholders}
             />
           )}
 

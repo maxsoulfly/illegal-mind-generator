@@ -79,6 +79,7 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
           onChange={setBulkValue}
           onApply={applyBulk}
           onCancel={() => setBulkValue(null)}
+          placeholders={HOOK_PLACEHOLDERS}
         />
       )}
 

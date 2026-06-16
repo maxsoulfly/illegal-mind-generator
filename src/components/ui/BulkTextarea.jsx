@@ -1,12 +1,16 @@
-export default function BulkTextarea({ value, onChange, onApply, onCancel }) {
+import PlaceholderField from './PlaceholderField';
+
+export default function BulkTextarea({ value, onChange, onApply, onCancel, placeholders }) {
   return (
     <div className="tag-section">
-      <textarea
+      <PlaceholderField
+        multiline
         className="form-input"
         rows={4}
         placeholder="One phrase per line"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        defaultValue={value}
+        onChange={onChange}
+        placeholders={placeholders}
       />
 
       <div className="button-row">
