@@ -1,22 +1,6 @@
 import { useState } from 'react';
 import StructuredListEditor from './lists/StructuredListEditor';
-import PillSelect from '../ui/PillSelect';
-
-const TYPE_OPTIONS = [
-  { value: 'text', label: 'Text' },
-  { value: 'link', label: 'Link' },
-];
-
-const SCOPE_OPTIONS = [
-  { value: 'project', label: 'Project' },
-  { value: 'song', label: 'Song' },
-];
-
-const TARGET_OPTIONS = [
-  { value: 'long', label: 'Long' },
-  { value: 'shorts', label: 'Shorts' },
-  { value: 'both', label: 'Long + Shorts' },
-];
+import AddListBlockForm from './lists/AddListBlockForm';
 
 // Metadata for built-in customBlocks keys. Anything not listed here is a
 // user-created block — its card label falls back to blockData.name or a
@@ -43,29 +27,6 @@ function prettifyKey(key) {
     .replace(/Block$/, '')
     .replace(/([a-z])([A-Z])/g, '$1 $2')
     .replace(/^./, (c) => c.toUpperCase());
-}
-
-function generateBlockKey(name, existingKeys) {
-  const words = name
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, '')
-    .split(/\s+/)
-    .filter(Boolean);
-
-  const base = words
-    .map((word, i) => (i === 0 ? word : word[0].toUpperCase() + word.slice(1)))
-    .join('') || 'list';
-
-  let key = `${base}Block`;
-  let suffix = 2;
-
-  while (existingKeys.includes(key) || key === 'supportBlock') {
-    key = `${base}Block${suffix}`;
-    suffix += 1;
-  }
-
-  return key;
 }
 
 function updateLongKey(overrides, key, value) {
@@ -160,33 +121,6 @@ export default function ProjectSettingsLists({
     setResetKeys((prev) => ({ ...prev, [blockKey]: (prev[blockKey] || 0) + 1 }));
   }
 
-  const [newBlockName, setNewBlockName] = useState('');
-  const [newBlockType, setNewBlockType] = useState('text');
-  const [newBlockScope, setNewBlockScope] = useState('project');
-  const [newBlockTarget, setNewBlockTarget] = useState('long');
-
-  function handleAddBlock() {
-    const name = newBlockName.trim();
-    if (!name) return;
-
-    const key = generateBlockKey(name, customBlockKeys);
-
-    saveCustomBlock(key, {
-      name,
-      title: '',
-      items: [],
-      scope: newBlockScope,
-      target: newBlockTarget,
-      itemType: newBlockType,
-      isCore: false,
-    });
-
-    setNewBlockName('');
-    setNewBlockType('text');
-    setNewBlockScope('project');
-    setNewBlockTarget('long');
-  }
-
   const noBlocks = customBlockKeys.length === 0 && !supportBlockData;
   const noMatches =
     !noBlocks && visibleBlockKeys.length === 0 && !(supportBlockData && supportMatchesSearch);
@@ -254,37 +188,10 @@ export default function ProjectSettingsLists({
         />
       )}
 
-      <div className="tag-editor-section list-block-add-row">
-        <input
-          className="form-input"
-          placeholder="New list name (e.g. Sponsor Shoutouts)"
-          value={newBlockName}
-          onChange={(e) => setNewBlockName(e.target.value)}
-        />
-        <PillSelect
-          value={newBlockType}
-          onChange={setNewBlockType}
-          options={TYPE_OPTIONS}
-        />
-        <PillSelect
-          value={newBlockScope}
-          onChange={setNewBlockScope}
-          options={SCOPE_OPTIONS}
-        />
-        <PillSelect
-          value={newBlockTarget}
-          onChange={setNewBlockTarget}
-          options={TARGET_OPTIONS}
-        />
-        <button
-          type="button"
-          className="tag-reset-button"
-          onClick={handleAddBlock}
-          disabled={!newBlockName.trim()}
-        >
-          +
-        </button>
-      </div>
+      <AddListBlockForm
+        existingKeys={customBlockKeys}
+        onAdd={saveCustomBlock}
+      />
     </>
   );
 }
