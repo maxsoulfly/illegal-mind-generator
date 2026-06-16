@@ -1,5 +1,22 @@
 import { useState } from 'react';
 import StructuredListEditor from './lists/StructuredListEditor';
+import PillSelect from '../ui/PillSelect';
+
+const TYPE_OPTIONS = [
+  { value: 'text', label: 'Text' },
+  { value: 'link', label: 'Link' },
+];
+
+const SCOPE_OPTIONS = [
+  { value: 'project', label: 'Project' },
+  { value: 'song', label: 'Song' },
+];
+
+const TARGET_OPTIONS = [
+  { value: 'long', label: 'Long' },
+  { value: 'shorts', label: 'Shorts' },
+  { value: 'both', label: 'Long + Shorts' },
+];
 
 // Metadata for built-in customBlocks keys. Anything not listed here is a
 // user-created block — its card label falls back to blockData.name or a
@@ -244,31 +261,21 @@ export default function ProjectSettingsLists({
           value={newBlockName}
           onChange={(e) => setNewBlockName(e.target.value)}
         />
-        <select
-          className="links-editor-badge-select"
+        <PillSelect
           value={newBlockType}
-          onChange={(e) => setNewBlockType(e.target.value)}
-        >
-          <option value="text">Text</option>
-          <option value="link">Link</option>
-        </select>
-        <select
-          className="links-editor-badge-select"
+          onChange={setNewBlockType}
+          options={TYPE_OPTIONS}
+        />
+        <PillSelect
           value={newBlockScope}
-          onChange={(e) => setNewBlockScope(e.target.value)}
-        >
-          <option value="project">Project</option>
-          <option value="song">Song</option>
-        </select>
-        <select
-          className="links-editor-badge-select"
+          onChange={setNewBlockScope}
+          options={SCOPE_OPTIONS}
+        />
+        <PillSelect
           value={newBlockTarget}
-          onChange={(e) => setNewBlockTarget(e.target.value)}
-        >
-          <option value="long">Long</option>
-          <option value="shorts">Shorts</option>
-          <option value="both">Long + Shorts</option>
-        </select>
+          onChange={setNewBlockTarget}
+          options={TARGET_OPTIONS}
+        />
         <button
           type="button"
           className="tag-reset-button"

@@ -1,5 +1,20 @@
 import { useState } from 'react';
 
+import PillSelect from '../../ui/PillSelect';
+import ListItemRow from './ListItemRow';
+import ListBlockActions from './ListBlockActions';
+
+const SCOPE_OPTIONS = [
+  { value: 'project', label: 'Project' },
+  { value: 'song', label: 'Song' },
+];
+
+const TARGET_OPTIONS = [
+  { value: 'long', label: 'Long' },
+  { value: 'shorts', label: 'Shorts' },
+  { value: 'both', label: 'Long + Shorts' },
+];
+
 function detectItemType(blockData) {
   if (blockData?.itemType === 'text' || blockData?.itemType === 'link') {
     return blockData.itemType;
@@ -69,14 +84,12 @@ export default function StructuredListEditor({
     save(next, items, scope, target);
   }
 
-  function handleScopeChange(e) {
-    const next = e.target.value;
+  function handleScopeChange(next) {
     setScope(next);
     save(title, items, next, target);
   }
 
-  function handleTargetChange(e) {
-    const next = e.target.value;
+  function handleTargetChange(next) {
     setTarget(next);
     save(title, items, scope, next);
   }
@@ -137,58 +150,25 @@ export default function StructuredListEditor({
             </>
           ) : (
             <>
-              <select
-                className="links-editor-badge-select"
+              <PillSelect
                 value={scope}
                 onChange={handleScopeChange}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <option value="project">Project</option>
-                <option value="song">Song</option>
-              </select>
-              <select
-                className="links-editor-badge-select"
+                options={SCOPE_OPTIONS}
+              />
+              <PillSelect
                 value={target}
                 onChange={handleTargetChange}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <option value="long">Long</option>
-                <option value="shorts">Shorts</option>
-                <option value="both">Long + Shorts</option>
-              </select>
+                options={TARGET_OPTIONS}
+              />
             </>
           )}
-          {hasOverride && (
-            <button
-              type="button"
-              className="tag-reset-button"
-              title="Reset to default"
-              onClick={(e) => { e.stopPropagation(); onReset(); }}
-            >
-              ↺
-            </button>
-          )}
-          {onDelete && (
-            <>
-              <button
-                type="button"
-                className="tag-reset-button"
-                title={isCore ? 'Locked — click to unlock' : 'Lock to prevent deletion'}
-                onClick={(e) => { e.stopPropagation(); handleToggleCore(); }}
-              >
-                {isCore ? '🔒' : '🔓'}
-              </button>
-              <button
-                type="button"
-                className="tag-reset-button"
-                title={isCore ? 'Unlock to delete' : 'Delete this block'}
-                disabled={isCore}
-                onClick={(e) => { e.stopPropagation(); handleDelete(); }}
-              >
-                ×
-              </button>
-            </>
-          )}
+          <ListBlockActions
+            hasOverride={hasOverride}
+            onReset={onReset}
+            onDelete={onDelete ? handleDelete : undefined}
+            isCore={isCore}
+            onToggleCore={handleToggleCore}
+          />
         </div>
       </header>
 
@@ -211,43 +191,18 @@ export default function StructuredListEditor({
               <span />
             </div>
             {items.map((item, i) => (
-              <div key={item._id} className="links-editor-row">
-                <div className="list-item-move-controls">
-                  <button
-                    type="button"
-                    className="tag-reset-button"
-                    title="Move up"
-                    disabled={i === 0}
-                    onClick={() => handleMove(i, -1)}
-                  >↑</button>
-                  <button
-                    type="button"
-                    className="tag-reset-button"
-                    title="Move down"
-                    disabled={i === items.length - 1}
-                    onClick={() => handleMove(i, 1)}
-                  >↓</button>
-                </div>
-                <input
-                  className="form-input"
-                  defaultValue={item.label ?? ''}
-                  placeholder="Label"
-                  onBlur={(e) => handleItemBlur(i, 'label', e.target.value)}
-                />
-                <input
-                  className="form-input"
-                  defaultValue={item[itemType] ?? ''}
-                  placeholder={valueLabel}
-                  list={itemType === 'link' ? linkSuggestionsId : undefined}
-                  onBlur={(e) => handleItemBlur(i, itemType, e.target.value)}
-                />
-                <button
-                  type="button"
-                  className="tag-reset-button"
-                  title="Remove item"
-                  onClick={() => handleRemove(i)}
-                >×</button>
-              </div>
+              <ListItemRow
+                key={item._id}
+                item={item}
+                index={i}
+                itemCount={items.length}
+                itemType={itemType}
+                valueLabel={valueLabel}
+                linkSuggestionsId={linkSuggestionsId}
+                onMove={handleMove}
+                onBlurField={handleItemBlur}
+                onRemove={handleRemove}
+              />
             ))}
             {itemType === 'link' && (
               <datalist id={linkSuggestionsId}>
