@@ -1,3 +1,5 @@
+import MoveControls from '../../ui/MoveControls';
+
 // One row in a StructuredListEditor: move up/down, label input, value input
 // (text or link, with optional datalist suggestions), remove button.
 export default function ListItemRow({
@@ -13,22 +15,12 @@ export default function ListItemRow({
 }) {
   return (
     <div className="links-editor-row">
-      <div className="list-item-move-controls">
-        <button
-          type="button"
-          className="tag-reset-button"
-          title="Move up"
-          disabled={index === 0}
-          onClick={() => onMove(index, -1)}
-        >↑</button>
-        <button
-          type="button"
-          className="tag-reset-button"
-          title="Move down"
-          disabled={index === itemCount - 1}
-          onClick={() => onMove(index, 1)}
-        >↓</button>
-      </div>
+      <MoveControls
+        disabledUp={index === 0}
+        disabledDown={index === itemCount - 1}
+        onMoveUp={() => onMove(index, -1)}
+        onMoveDown={() => onMove(index, 1)}
+      />
       <input
         className="form-input"
         defaultValue={item.label ?? ''}

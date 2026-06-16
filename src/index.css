@@ -1560,13 +1560,13 @@ svg {
   margin-bottom: 0;
 }
 
-.list-item-move-controls {
+.move-controls {
   display       : flex;
   flex-direction: column;
   gap           : 2px;
 }
 
-.list-item-move-controls .tag-reset-button {
+.move-controls .tag-reset-button {
   padding   : 0;
   width     : var(--space-7);
   height    : var(--space-7);
@@ -1574,7 +1574,7 @@ svg {
   margin-left: 0;
 }
 
-.list-item-move-controls .tag-reset-button:disabled {
+.move-controls .tag-reset-button:disabled {
   opacity: 0.2;
   cursor : default;
 }
@@ -1660,24 +1660,8 @@ svg {
 }
 
 .desc-block-move-controls {
-  display       : flex;
-  flex-direction: column;
-  gap           : 2px;
-  padding-top   : var(--space-1);
-  flex-shrink   : 0;
-}
-
-.desc-block-move-controls .tag-reset-button {
-  padding    : 0;
-  width      : var(--space-7);
-  height     : var(--space-7);
-  min-height : 0;
-  margin-left: 0;
-}
-
-.desc-block-move-controls .tag-reset-button:disabled {
-  opacity: 0.2;
-  cursor : default;
+  padding-top: var(--space-1);
+  flex-shrink: 0;
 }
 
 .desc-block-wrapper>.tag-card,

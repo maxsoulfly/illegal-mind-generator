@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TemplateGroupCard from '../../ui/TemplateGroupCard';
 import BlockInfoCard from '../../ui/BlockInfoCard';
 import SubTabNav from '../../ui/SubTabNav';
+import MoveControls from '../../ui/MoveControls';
 
 function CollapsibleBlockGroup({ label, onRemove, children }) {
   const [collapsed, setCollapsed] = useState(true);
@@ -262,26 +263,13 @@ export default function LongDescriptionSettings({
 
     return (
       <div key={blockKey} className="desc-block-wrapper">
-        <div className="desc-block-move-controls">
-          <button
-            type="button"
-            className="tag-reset-button"
-            title="Move up"
-            disabled={isFirst}
-            onClick={() => moveBlock(blockKey, -1)}
-          >
-            ↑
-          </button>
-          <button
-            type="button"
-            className="tag-reset-button"
-            title="Move down"
-            disabled={isLast}
-            onClick={() => moveBlock(blockKey, 1)}
-          >
-            ↓
-          </button>
-        </div>
+        <MoveControls
+          className="desc-block-move-controls"
+          disabledUp={isFirst}
+          disabledDown={isLast}
+          onMoveUp={() => moveBlock(blockKey, -1)}
+          onMoveDown={() => moveBlock(blockKey, 1)}
+        />
         {card}
       </div>
     );
