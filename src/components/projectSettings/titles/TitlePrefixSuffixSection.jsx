@@ -25,6 +25,7 @@ export default function TitlePrefixSuffixSection({
         value={prefix}
         onChange={(val) => onUpdate('prefix', val)}
         placeholder="{num} available"
+        placeholders={['{num}']}
       />
 
       <ToggleInputRow
@@ -35,6 +36,7 @@ export default function TitlePrefixSuffixSection({
         value={longSuffix}
         onChange={(val) => onUpdate('longSuffix', val)}
         placeholder="e.g. // Illegal Mind Rework"
+        placeholders={['{num}']}
       />
 
       <p className="tag-category">Shorts Titles</p>
@@ -47,6 +49,7 @@ export default function TitlePrefixSuffixSection({
         value={shortsPrefix}
         onChange={(val) => onUpdate('shortsPrefix', val)}
         placeholder="{num} available"
+        placeholders={['{num}']}
       />
 
       <ToggleInputRow
@@ -57,6 +60,7 @@ export default function TitlePrefixSuffixSection({
         value={shortsSuffix}
         onChange={(val) => onUpdate('shortsSuffix', val)}
         placeholder="{num} available"
+        placeholders={['{num}']}
       />
     </details>
   );

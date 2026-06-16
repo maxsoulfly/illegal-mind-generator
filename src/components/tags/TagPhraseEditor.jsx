@@ -15,6 +15,7 @@ export default function TagPhraseEditor({
   onUpdateTag,
   autoOpen = false,
   highlightText = null,
+  placeholders,
 }) {
   // null = bulk textarea closed; any string (including '') = open
   const [bulkValue, setBulkValue] = useState(null);
@@ -84,6 +85,7 @@ export default function TagPhraseEditor({
                 ref={isHighlighted ? highlightRowRef : null}
                 highlighted={isHighlighted}
                 value={phrase}
+                placeholders={placeholders}
                 onCommit={(newValue) => updatePhrase(index, newValue)}
                 onRemove={() => removePhrase(index)}
               />

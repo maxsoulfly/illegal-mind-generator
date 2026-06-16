@@ -3,19 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import AddBulkRow from './AddBulkRow';
 import BulkTextarea from './BulkTextarea';
 import PhraseRow from './PhraseRow';
-
-// Matches the placeholders generateShortHooks.js's fillHookTemplate replaces.
-const HOOK_PLACEHOLDERS = [
-  '{artist}',
-  '{song}',
-  '{signalNumber}',
-  '{num}',
-  '{decade}',
-  '{year}',
-  '{years}',
-  '{currentYear}',
-  '{primaryTag}',
-];
+import { HOOK_PLACEHOLDERS } from '../../utils/hookPlaceholders';
 
 // Collapsible editor for a single hook type's templates array.
 // All mutations call onUpdateTemplates with the full replacement array —

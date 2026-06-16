@@ -27,13 +27,21 @@ function detectTrigger(text, cursor) {
 // placeholders (passed in, braces included, e.g. '{artist}') show in a
 // dropdown below the field. Resyncs display value if defaultValue changes
 // from outside (e.g. a reset-to-default elsewhere) without remounting.
+//
+// Two save modes, pick one: onBlur (commit only when focus leaves, the
+// default — used by PhraseRow/TextBlockEditor) or onChange (live, every
+// keystroke and every placeholder insert — used by fully-controlled fields
+// like ToggleInputRow's prefix/suffix inputs).
 export default function PlaceholderField({
   defaultValue = '',
   onBlur,
+  onChange,
   placeholders = [],
   multiline = false,
   rows = 4,
   className,
+  disabled = false,
+  placeholder,
 }) {
   const [value, setValue] = useState(defaultValue);
   const [query, setQuery] = useState(null);
@@ -55,6 +63,7 @@ export default function PlaceholderField({
   function handleChange(e) {
     const next = e.target.value;
     setValue(next);
+    onChange?.(next);
 
     const trigger = detectTrigger(next, e.target.selectionStart);
 
@@ -68,20 +77,21 @@ export default function PlaceholderField({
     }
   }
 
-  function insertPlaceholder(placeholder) {
+  function insertPlaceholder(token) {
     if (triggerStart === null) return;
 
     const cursor = fieldRef.current.selectionStart;
     const before = value.slice(0, triggerStart);
     const after = value.slice(cursor);
-    const next = `${before}${placeholder}${after}`;
+    const next = `${before}${token}${after}`;
 
     setValue(next);
+    onChange?.(next);
     setQuery(null);
     setTriggerStart(null);
 
     requestAnimationFrame(() => {
-      const pos = before.length + placeholder.length;
+      const pos = before.length + token.length;
       fieldRef.current.focus();
       fieldRef.current.setSelectionRange(pos, pos);
     });
@@ -108,7 +118,7 @@ export default function PlaceholderField({
   function handleBlur() {
     setQuery(null);
     setTriggerStart(null);
-    onBlur(value);
+    onBlur?.(value);
   }
 
   const Field = multiline ? 'textarea' : 'input';
@@ -120,6 +130,8 @@ export default function PlaceholderField({
         ref={fieldRef}
         className={resolvedClassName}
         value={value}
+        disabled={disabled}
+        placeholder={placeholder}
         {...(multiline ? { rows } : {})}
         onChange={handleChange}
         onKeyDown={handleKeyDown}

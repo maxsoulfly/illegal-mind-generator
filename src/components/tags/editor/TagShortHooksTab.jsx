@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 
 import TagPhraseEditor from '../TagPhraseEditor';
+import { HOOK_PLACEHOLDERS } from '../../../utils/hookPlaceholders';
 
 const HOOK_TYPES = [
   'nostalgia',
@@ -72,6 +73,7 @@ export default function TagShortHooksTab({ tag, onUpdateTag, sourceTarget }) {
           parentValue={tag.maps.shortHooks || {}}
           field={hookType}
           phrases={phrases}
+          placeholders={HOOK_PLACEHOLDERS}
           onUpdateTag={onUpdateTag}
           autoOpen={sourceTarget?.hookType === hookType}
           highlightText={sourceTarget?.hookType === hookType ? sourceTarget.hookText : null}

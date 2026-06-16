@@ -1,7 +1,19 @@
+import PlaceholderField from './PlaceholderField';
+
 // A checkbox + label + text input row.
 // The label is linked to the checkbox via id/htmlFor so clicking the label toggles it.
 // The input is automatically disabled when the checkbox is unchecked.
-export default function ToggleInputRow({ id, label, checked, onToggle, value, onChange, placeholder }) {
+// Optional placeholders enables the {placeholder} autocomplete dropdown.
+export default function ToggleInputRow({
+  id,
+  label,
+  checked,
+  onToggle,
+  value,
+  onChange,
+  placeholder,
+  placeholders,
+}) {
   return (
     <div className="tag-phrase-row">
       <input
@@ -13,12 +25,12 @@ export default function ToggleInputRow({ id, label, checked, onToggle, value, on
       <label className="form-label" htmlFor={id}>
         {label}
       </label>
-      <input
-        className="form-input"
-        value={value}
+      <PlaceholderField
+        defaultValue={value}
+        onChange={onChange}
         disabled={!checked}
         placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
+        placeholders={placeholders}
       />
     </div>
   );
