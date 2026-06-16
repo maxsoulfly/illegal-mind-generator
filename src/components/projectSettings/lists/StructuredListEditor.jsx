@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import FormSelect from '../../ui/FormSelect';
 import ListItemRow from './ListItemRow';
-import ListBlockActions from './ListBlockActions';
+import BlockActions from '../blocks/BlockActions';
 
 const SCOPE_OPTIONS = [
   { value: 'project', label: 'Project' },
@@ -144,7 +144,7 @@ export default function StructuredListEditor({
             onChange={handleTargetChange}
             options={TARGET_OPTIONS}
           />
-          <ListBlockActions
+          <BlockActions
             hasOverride={hasOverride}
             onReset={onReset}
             onDelete={onDelete ? handleDelete : undefined}

@@ -6,36 +6,9 @@ import {
   isListBlock,
   getBlockLabel,
   prettifyBlockKey,
+  updateLongKey,
+  removeLongKey,
 } from '../../utils/customBlocks';
-
-function updateLongKey(overrides, key, value) {
-  return {
-    description: {
-      ...(overrides.description || {}),
-      templates: {
-        ...(overrides.description?.templates || {}),
-        long: {
-          ...(overrides.description?.templates?.long || {}),
-          [key]: value,
-        },
-      },
-    },
-  };
-}
-
-function removeLongKey(overrides, key) {
-  const { [key]: _removed, ...remaining } =
-    overrides?.description?.templates?.long || {};
-  return {
-    description: {
-      ...(overrides.description || {}),
-      templates: {
-        ...(overrides.description?.templates || {}),
-        long: remaining,
-      },
-    },
-  };
-}
 
 export default function ProjectSettingsLists({
   baseProjectConfig,
@@ -166,7 +139,7 @@ export default function ProjectSettingsLists({
       )}
 
       <AddListBlockForm
-        existingKeys={customBlockKeys}
+        existingKeys={Object.keys(customBlocks)}
         onAdd={saveCustomBlock}
       />
     </>

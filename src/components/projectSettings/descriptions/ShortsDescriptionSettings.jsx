@@ -5,7 +5,7 @@ import LabelSliderRow from '../../ui/LabelSliderRow';
 import SubTabNav from '../../ui/SubTabNav';
 import MoveControls from '../../ui/MoveControls';
 import IconButton from '../../ui/IconButton';
-import { isListBlock, getBlockLabel } from '../../../utils/customBlocks';
+import { isListBlock, isTextBlock, getBlockLabel } from '../../../utils/customBlocks';
 
 const MOBILE_COLUMN_TABS = [
   { id: 'layout', label: 'Layout' },
@@ -48,15 +48,17 @@ export default function ShortsDescriptionSettings({
 
   const activeKeys = overriddenShorts.layout ?? defaultLayout;
 
-  // List blocks created from the Lists tab aren't in the static default
-  // layout at all, so they need their own path into Available.
-  const dynamicListKeys = Object.keys(customBlocks).filter((key) => {
-    if (defaultLayout.includes(key) || !isListBlock(customBlocks[key])) return false;
-    const target = customBlocks[key].target || 'long';
+  // List/Text blocks created from the Blocks tab aren't in the static
+  // default layout at all, so they need their own path into Available.
+  const dynamicBlockKeys = Object.keys(customBlocks).filter((key) => {
+    if (defaultLayout.includes(key)) return false;
+    if (!isListBlock(customBlocks[key]) && !isTextBlock(customBlocks[key])) return false;
+    const blockData = customBlocks[key];
+    const target = (typeof blockData === 'object' && blockData?.target) || 'long';
     return target === 'shorts' || target === 'both';
   });
 
-  const availableKeys = [...defaultLayout, ...dynamicListKeys].filter(
+  const availableKeys = [...defaultLayout, ...dynamicBlockKeys].filter(
     (k) => !activeKeys.includes(k),
   );
 
@@ -154,9 +156,14 @@ export default function ShortsDescriptionSettings({
         </BlockInfoCard>
       );
     } else {
+      const isListShaped = isListBlock(customBlocks[key]);
       card = (
         <BlockInfoCard label={meta.label} onRemove={() => removeFromLayout(key)} collapsible>
-          <p className="tag-summary">Edit content in Project Settings → Lists.</p>
+          <p className="tag-summary">
+            {isListShaped
+              ? 'Edit content in Project Settings → Blocks → Lists.'
+              : 'Edit content in Project Settings → Blocks → Text Blocks.'}
+          </p>
         </BlockInfoCard>
       );
     }

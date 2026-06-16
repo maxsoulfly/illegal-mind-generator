@@ -4,7 +4,7 @@ import BlockInfoCard from '../../ui/BlockInfoCard';
 import SubTabNav from '../../ui/SubTabNav';
 import MoveControls from '../../ui/MoveControls';
 import IconButton from '../../ui/IconButton';
-import { isListBlock, getBlockLabel } from '../../../utils/customBlocks';
+import { isListBlock, isTextBlock, getBlockLabel } from '../../../utils/customBlocks';
 
 function CollapsibleBlockGroup({ label, onRemove, children }) {
   const [collapsed, setCollapsed] = useState(true);
@@ -97,17 +97,19 @@ export default function LongDescriptionSettings({
   const activeKeys =
     projectSettingsOverrides.description?.templates?.long?.layout ?? defaultLayout;
 
-  // List blocks created from the Lists tab aren't in the static default
-  // layout at all, so they need their own path into Available.
-  const dynamicListKeys = Object.keys(customBlocks).filter((key) => {
-    if (defaultLayout.includes(key) || !isListBlock(customBlocks[key])) return false;
-    const target = customBlocks[key].target || 'long';
+  // List/Text blocks created from the Blocks tab aren't in the static
+  // default layout at all, so they need their own path into Available.
+  const dynamicBlockKeys = Object.keys(customBlocks).filter((key) => {
+    if (defaultLayout.includes(key)) return false;
+    if (!isListBlock(customBlocks[key]) && !isTextBlock(customBlocks[key])) return false;
+    const blockData = customBlocks[key];
+    const target = (typeof blockData === 'object' && blockData?.target) || 'long';
     return target === 'long' || target === 'both';
   });
 
-  // Available = blocks in the project's default layout, plus dynamic list
+  // Available = blocks in the project's default layout, plus dynamic
   // blocks, that aren't currently active.
-  const availableKeys = [...defaultLayout, ...dynamicListKeys].filter(
+  const availableKeys = [...defaultLayout, ...dynamicBlockKeys].filter(
     (k) => !activeKeys.includes(k),
   );
 
@@ -247,6 +249,7 @@ export default function LongDescriptionSettings({
     const blockData =
       blockKey === 'supportBlock' ? longTemplates.supportBlock : customBlocks[blockKey];
     const isListShaped = isListBlock(blockData);
+    const isTextShaped = isTextBlock(blockData);
 
     let card;
     if (!groups) {
@@ -255,10 +258,13 @@ export default function LongDescriptionSettings({
           label={meta.label}
           subtitle={meta.subtitle}
           onRemove={() => removeFromLayout(blockKey)}
-          collapsible={isListShaped}
+          collapsible={isListShaped || isTextShaped}
         >
           {isListShaped && (
-            <p className="tag-summary">Edit content in Project Settings → Lists.</p>
+            <p className="tag-summary">Edit content in Project Settings → Blocks → Lists.</p>
+          )}
+          {isTextShaped && (
+            <p className="tag-summary">Edit content in Project Settings → Blocks → Text Blocks.</p>
           )}
         </BlockInfoCard>
       );

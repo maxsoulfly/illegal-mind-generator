@@ -35,13 +35,19 @@ function renderTextTemplate(text, projectConfig, formData, tagLine) {
     .replace(/\{tagLine\}/g, tagLine);
 }
 
-function renderCustomBlock(block, projectConfig, formData, tagLine) {
+export function renderCustomBlock(block, projectConfig, formData, tagLine) {
   if (typeof block === 'string') {
     return renderTextTemplate(block, projectConfig, formData, tagLine);
   }
 
-  if (typeof block === 'object') {
+  if (typeof block !== 'object' || !block) return '';
+
+  if (Array.isArray(block.items)) {
     return renderStructuredBlock(block, projectConfig.description.links);
+  }
+
+  if (typeof block.text === 'string') {
+    return renderTextTemplate(block.text, projectConfig, formData, tagLine);
   }
 
   return '';

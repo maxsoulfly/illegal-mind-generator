@@ -1,9 +1,10 @@
 import IconButton from '../../ui/IconButton';
 
-// Reset/Lock/Delete button trio for a list block's header. Reset only shows
-// when the block has a JSON default to revert to; Lock/Delete only show when
-// the block can be deleted (no JSON default), gating deletion behind isCore.
-export default function ListBlockActions({
+// Reset/Lock/Delete button trio for a block's header (List or Text). Reset
+// only shows when the block has a JSON default to revert to; Lock/Delete
+// only show when the block can be deleted (no JSON default), gating
+// deletion behind isCore.
+export default function BlockActions({
   hasOverride,
   onReset,
   onDelete,

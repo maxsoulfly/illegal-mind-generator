@@ -1,4 +1,4 @@
-import { renderStructuredBlock } from './generateCustomBlocks';
+import { renderStructuredBlock, renderCustomBlock } from './generateCustomBlocks';
 import { isListBlock } from '../../utils/customBlocks';
 
 function pickRandom(arr = []) {
@@ -54,6 +54,10 @@ export function generateShortDescriptions(
       // Pad list blocks with blank lines so they stand apart from the
       // single-newline-joined surrounding lines.
       return rendered ? `\n${rendered}\n` : '';
+    }
+
+    if (blockName in customBlocks) {
+      return renderCustomBlock(customBlocks[blockName], projectConfig, formData, tagLine);
     }
 
     const options = shortsConfig[blockName] || [];
