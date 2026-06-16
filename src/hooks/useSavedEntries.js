@@ -87,6 +87,7 @@ function useSavedEntries(
       transformationTags: formData.transformationTags || [],
       customHashtags: formData.customHashtags?.trim() || '',
       customCta: formData.customCta,
+      songBlockOverrides: formData.songBlockOverrides || {},
       excludeFromRandomizer: formData.excludeFromRandomizer || false,
       todo: {
         status: formData.todo?.status || '',
@@ -121,6 +122,7 @@ function useSavedEntries(
       transformationTags: entry.transformationTags || [],
       customHashtags: entry.customHashtags?.trim() || '',
       customCta: entry.customCta || '',
+      songBlockOverrides: entry.songBlockOverrides || {},
 
       excludeFromRandomizer: entry.excludeFromRandomizer || false,
       todo: {
@@ -192,6 +194,10 @@ function useSavedEntries(
               : [],
             customHashtags: String(item.customHashtags || '').trim(),
             customCta: String(item.customCta || '').trim(),
+            songBlockOverrides:
+              item.songBlockOverrides && typeof item.songBlockOverrides === 'object'
+                ? item.songBlockOverrides
+                : {},
             excludeFromRandomizer: Boolean(item.excludeFromRandomizer),
             todo: {
               status: String(item.todo?.status || '').trim(),

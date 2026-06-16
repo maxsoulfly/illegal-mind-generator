@@ -35,7 +35,14 @@ function renderTextTemplate(text, projectConfig, formData, tagLine) {
     .replace(/\{tagLine\}/g, tagLine);
 }
 
-export function renderCustomBlock(block, projectConfig, formData, tagLine) {
+// songOverride, when non-empty, is a per-song Text override (typed in the
+// generator's Advanced panel) that takes precedence over the block's own
+// project-level text — only meaningful for Text blocks (scope: 'song').
+export function renderCustomBlock(block, projectConfig, formData, tagLine, songOverride) {
+  if (songOverride) {
+    return renderTextTemplate(songOverride, projectConfig, formData, tagLine);
+  }
+
   if (typeof block === 'string') {
     return renderTextTemplate(block, projectConfig, formData, tagLine);
   }
@@ -56,11 +63,12 @@ export function renderCustomBlock(block, projectConfig, formData, tagLine) {
 export function generateCustomBlocks(formData, projectConfig, tagLine) {
   const customBlocks =
     projectConfig.description.templates.long.customBlocks || {};
+  const songOverrides = formData.songBlockOverrides || {};
 
   const renderedCustomBlocks = Object.fromEntries(
     Object.entries(customBlocks).map(([key, block]) => [
       key,
-      renderCustomBlock(block, projectConfig, formData, tagLine),
+      renderCustomBlock(block, projectConfig, formData, tagLine, songOverrides[key]?.trim()),
     ]),
   );
 

@@ -19,6 +19,7 @@ export const defaultFormData = {
   customGear: '',
   customHashtags: '',
   customCta: '',
+  songBlockOverrides: {},
   excludeFromRandomizer: false,
   todo: {
     status: '',

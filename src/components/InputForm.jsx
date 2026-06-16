@@ -89,6 +89,7 @@ function InputForm({
             <AdvancedDescriptionFields
               formData={formData}
               setFormData={setFormData}
+              projectConfig={projectConfig}
             />
           </div>
         </div>

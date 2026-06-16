@@ -24,6 +24,7 @@ export function generateShortDescriptions(
   // List blocks live under templates.long.customBlocks regardless of which
   // description(s) they target — target decides eligibility, not location.
   const customBlocks = projectConfig.description?.templates?.long?.customBlocks || {};
+  const songOverrides = formData.songBlockOverrides || {};
 
   // shortHooks is an array of groups, each with a `hooks` array of hook objects.
   // We only need the text string from each hook object for use in descriptions.
@@ -57,7 +58,13 @@ export function generateShortDescriptions(
     }
 
     if (blockName in customBlocks) {
-      return renderCustomBlock(customBlocks[blockName], projectConfig, formData, tagLine);
+      return renderCustomBlock(
+        customBlocks[blockName],
+        projectConfig,
+        formData,
+        tagLine,
+        songOverrides[blockName]?.trim(),
+      );
     }
 
     const options = shortsConfig[blockName] || [];
