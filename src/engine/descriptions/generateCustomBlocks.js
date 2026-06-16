@@ -45,14 +45,21 @@ function renderTextTemplate(text, projectConfig, formData, tagLine) {
 
 // Merges the generic per-song block overrides with the legacy customCta/
 // customGear fields (which predate songBlockOverrides but target blocks —
-// customCtaBlock/gearBlock — that already live in customBlocks). Legacy
-// fields win when both are set, since they're still the only UI path for
-// those two keys today.
+// customCtaBlock/gearBlock — that already live in customBlocks).
+// songBlockOverrides wins when both are set: customCtaBlock now has a real
+// UI field that writes there (useSavedEntries seeds it from legacy customCta
+// on load), so a fresh edit there must not be shadowed by a stale legacy
+// value. The legacy field is only a fallback for entries that never went
+// through that seeding (e.g. customGear, which still has no generic field).
 export function getEffectiveSongOverrides(formData) {
   const overrides = { ...(formData.songBlockOverrides || {}) };
 
-  if (formData.customCta?.trim()) overrides.customCtaBlock = formData.customCta.trim();
-  if (formData.customGear?.trim()) overrides.gearBlock = formData.customGear.trim();
+  if (!overrides.customCtaBlock && formData.customCta?.trim()) {
+    overrides.customCtaBlock = formData.customCta.trim();
+  }
+  if (!overrides.gearBlock && formData.customGear?.trim()) {
+    overrides.gearBlock = formData.customGear.trim();
+  }
 
   return overrides;
 }

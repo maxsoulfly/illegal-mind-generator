@@ -112,23 +112,6 @@ export default function AdvancedDescriptionFields({
           />
         </FormField>
 
-        {/* CUSTOM CTA */}
-        <FormField label="Custom Cta">
-          <textarea
-            id="customCta"
-            className="form-textarea"
-            value={formData.customCta}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                customCta: e.target.value,
-              }))
-            }
-            rows={4}
-            placeholder="Write a custom CTA for comments..."
-          />
-        </FormField>
-
         {/* GEAR */}
         <FormField label="Gear">
           <textarea

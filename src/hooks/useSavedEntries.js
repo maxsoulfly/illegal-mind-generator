@@ -112,6 +112,15 @@ function useSavedEntries(
 
   // Load entry
   const handleLoadEntry = (entry) => {
+    const songBlockOverrides = { ...(entry.songBlockOverrides || {}) };
+
+    // customCta predates songBlockOverrides — seed it forward once so the
+    // generic Custom CTA field shows old data and future saves migrate it
+    // naturally, without touching stored entries directly.
+    if (!songBlockOverrides.customCtaBlock && entry.customCta?.trim()) {
+      songBlockOverrides.customCtaBlock = entry.customCta.trim();
+    }
+
     setFormData((prev) => ({
       ...prev,
       artist: entry.artist || '',
@@ -122,7 +131,7 @@ function useSavedEntries(
       transformationTags: entry.transformationTags || [],
       customHashtags: entry.customHashtags?.trim() || '',
       customCta: entry.customCta || '',
-      songBlockOverrides: entry.songBlockOverrides || {},
+      songBlockOverrides,
 
       excludeFromRandomizer: entry.excludeFromRandomizer || false,
       todo: {
