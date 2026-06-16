@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import PillSelect from '../../ui/PillSelect';
+import FormSelect from '../../ui/FormSelect';
 import IconButton from '../../ui/IconButton';
 
 const TYPE_OPTIONS = [
@@ -79,9 +79,9 @@ export default function AddListBlockForm({ existingKeys, onAdd }) {
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <PillSelect value={type} onChange={setType} options={TYPE_OPTIONS} />
-      <PillSelect value={scope} onChange={setScope} options={SCOPE_OPTIONS} />
-      <PillSelect value={target} onChange={setTarget} options={TARGET_OPTIONS} />
+      <FormSelect value={type} onChange={setType} options={TYPE_OPTIONS} />
+      <FormSelect value={scope} onChange={setScope} options={SCOPE_OPTIONS} />
+      <FormSelect value={target} onChange={setTarget} options={TARGET_OPTIONS} />
       <IconButton icon="+" onClick={handleAdd} disabled={!name.trim()} />
     </div>
   );

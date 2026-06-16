@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import PillSelect from '../../ui/PillSelect';
+import FormSelect from '../../ui/FormSelect';
 import ListItemRow from './ListItemRow';
 import ListBlockActions from './ListBlockActions';
 
@@ -49,9 +49,6 @@ export default function StructuredListEditor({
 
   const itemType = detectItemType(blockData);
   const valueLabel = itemType === 'link' ? 'Link' : 'Text';
-
-  const scopeLabel = SCOPE_OPTIONS.find((o) => o.value === scope)?.label;
-  const targetLabel = TARGET_OPTIONS.find((o) => o.value === target)?.label;
 
   function save(next) {
     setBlock(next);
@@ -137,25 +134,16 @@ export default function StructuredListEditor({
           <span className="tag-status">{items.length} items</span>
         </div>
         <div className="links-editor-badges">
-          {collapsed ? (
-            <>
-              <span className="links-editor-badge">{scopeLabel}</span>
-              <span className="links-editor-badge">{targetLabel}</span>
-            </>
-          ) : (
-            <>
-              <PillSelect
-                value={scope}
-                onChange={handleScopeChange}
-                options={SCOPE_OPTIONS}
-              />
-              <PillSelect
-                value={target}
-                onChange={handleTargetChange}
-                options={TARGET_OPTIONS}
-              />
-            </>
-          )}
+          <FormSelect
+            value={scope}
+            onChange={handleScopeChange}
+            options={SCOPE_OPTIONS}
+          />
+          <FormSelect
+            value={target}
+            onChange={handleTargetChange}
+            options={TARGET_OPTIONS}
+          />
           <ListBlockActions
             hasOverride={hasOverride}
             onReset={onReset}
