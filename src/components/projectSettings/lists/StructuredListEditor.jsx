@@ -38,37 +38,40 @@ export default function StructuredListEditor({
 }) {
   const [collapsed, setCollapsed] = useState(true);
   const linkSuggestionsId = `link-suggestions-${label.replace(/\s+/g, '-')}`;
-  const [title, setTitle] = useState(blockData?.title ?? '');
-  const [scope, setScope] = useState(blockData?.scope ?? defaultScope);
-  const [target, setTarget] = useState(blockData?.target ?? defaultTarget);
-  const [isCore, setIsCore] = useState(blockData?.isCore ?? false);
-  const [items, setItems] = useState(() =>
-    (blockData?.items ?? []).map((item, i) => ({ ...item, _id: i })),
-  );
+  const [block, setBlock] = useState(() => ({
+    title: blockData?.title ?? '',
+    scope: blockData?.scope ?? defaultScope,
+    target: blockData?.target ?? defaultTarget,
+    isCore: blockData?.isCore ?? false,
+    items: (blockData?.items ?? []).map((item, i) => ({ ...item, _id: i })),
+  }));
+  const { title, scope, target, isCore, items } = block;
 
   const itemType = detectItemType(blockData);
   const valueLabel = itemType === 'link' ? 'Link' : 'Text';
 
-  const scopeLabel = scope === 'song' ? 'Song' : 'Project';
-  const targetLabel =
-    target === 'both' ? 'Long + Shorts' : target === 'shorts' ? 'Shorts' : 'Long';
+  const scopeLabel = SCOPE_OPTIONS.find((o) => o.value === scope)?.label;
+  const targetLabel = TARGET_OPTIONS.find((o) => o.value === target)?.label;
 
-  function save(nextTitle, nextItems, nextScope, nextTarget, nextIsCore = isCore) {
+  function save(next) {
+    setBlock(next);
     onSave({
       name: blockData?.name,
       itemType: blockData?.itemType,
-      title: nextTitle,
-      items: nextItems.map(({ _id, ...item }) => item),
-      scope: nextScope,
-      target: nextTarget,
-      isCore: nextIsCore,
+      title: next.title,
+      items: next.items.map((item) => {
+        const persisted = { ...item };
+        delete persisted._id;
+        return persisted;
+      }),
+      scope: next.scope,
+      target: next.target,
+      isCore: next.isCore,
     });
   }
 
   function handleToggleCore() {
-    const next = !isCore;
-    setIsCore(next);
-    save(title, items, scope, target, next);
+    save({ ...block, isCore: !isCore });
   }
 
   function handleDelete() {
@@ -79,57 +82,48 @@ export default function StructuredListEditor({
   }
 
   function handleTitleBlur(e) {
-    const next = e.target.value;
-    setTitle(next);
-    save(next, items, scope, target);
+    save({ ...block, title: e.target.value });
   }
 
   function handleScopeChange(next) {
-    setScope(next);
-    save(title, items, next, target);
+    save({ ...block, scope: next });
   }
 
   function handleTargetChange(next) {
-    setTarget(next);
-    save(title, items, scope, next);
+    save({ ...block, target: next });
   }
 
   function handleItemBlur(index, field, value) {
-    const next = items.map((item, i) =>
-      i === index ? { ...item, [field]: value } : item,
-    );
-    setItems(next);
-    save(title, next, scope, target);
+    save({
+      ...block,
+      items: items.map((item, i) =>
+        i === index ? { ...item, [field]: value } : item,
+      ),
+    });
   }
 
   function handleAdd() {
     const newItem =
       itemType === 'link' ? { label: '', link: '' } : { label: '', text: '' };
-    const next = [...items, { ...newItem, _id: Date.now() }];
-    setItems(next);
-    save(title, next, scope, target);
+    save({ ...block, items: [...items, { ...newItem, _id: Date.now() }] });
   }
 
   function handleRemove(index) {
-    const next = items.filter((_, i) => i !== index);
-    setItems(next);
-    save(title, next, scope, target);
+    save({ ...block, items: items.filter((_, i) => i !== index) });
   }
 
   function handleMove(index, direction) {
     const next = [...items];
     next.splice(index, 1);
     next.splice(index + direction, 0, items[index]);
-    setItems(next);
-    save(title, next, scope, target);
+    save({ ...block, items: next });
   }
 
   function handleSort() {
     const next = [...items].sort((a, b) =>
       (a.label ?? '').localeCompare(b.label ?? ''),
     );
-    setItems(next);
-    save(title, next, scope, target);
+    save({ ...block, items: next });
   }
 
   return (
