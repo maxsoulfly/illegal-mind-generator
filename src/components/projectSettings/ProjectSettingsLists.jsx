@@ -37,6 +37,7 @@ export default function ProjectSettingsLists({
 }) {
   const longTemplates = projectConfig.description?.templates?.long || {};
   const customBlocks = longTemplates.customBlocks || {};
+  const linkKeys = Object.keys(projectConfig.description?.links || {});
 
   const overriddenCustomBlocks =
     projectSettingsOverrides?.description?.templates?.long?.customBlocks || {};
@@ -96,6 +97,7 @@ export default function ProjectSettingsLists({
           blockData={gearBlockData}
           defaultScope="song"
           defaultTarget="long"
+          linkKeys={linkKeys}
           hasOverride={hasGearOverride}
           onSave={(value) => saveCustomBlock('gearBlock', value)}
           onReset={() => { resetCustomBlock('gearBlock'); setGearResetKey((k) => k + 1); }}
@@ -109,6 +111,7 @@ export default function ProjectSettingsLists({
           blockData={supportBlockData}
           defaultScope="project"
           defaultTarget="both"
+          linkKeys={linkKeys}
           hasOverride={hasSupportOverride}
           onSave={(value) => saveLongBlock('supportBlock', value)}
           onReset={() => { resetLongBlock('supportBlock'); setSupportResetKey((k) => k + 1); }}
@@ -122,6 +125,7 @@ export default function ProjectSettingsLists({
           blockData={playlistBlockData}
           defaultScope="project"
           defaultTarget="long"
+          linkKeys={linkKeys}
           hasOverride={hasPlaylistOverride}
           onSave={(value) => saveCustomBlock('playlistBlock', value)}
           onReset={() => { resetCustomBlock('playlistBlock'); setPlaylistResetKey((k) => k + 1); }}

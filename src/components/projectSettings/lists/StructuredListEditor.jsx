@@ -9,11 +9,13 @@ export default function StructuredListEditor({
   blockData,
   defaultScope,
   defaultTarget,
+  linkKeys = [],
   hasOverride,
   onSave,
   onReset,
 }) {
   const [collapsed, setCollapsed] = useState(true);
+  const linkSuggestionsId = `link-suggestions-${label.replace(/\s+/g, '-')}`;
   const [title, setTitle] = useState(blockData?.title ?? '');
   const [scope, setScope] = useState(blockData?.scope ?? defaultScope);
   const [target, setTarget] = useState(blockData?.target ?? defaultTarget);
@@ -191,6 +193,7 @@ export default function StructuredListEditor({
                   className="form-input"
                   defaultValue={item[itemType] ?? ''}
                   placeholder={valueLabel}
+                  list={itemType === 'link' ? linkSuggestionsId : undefined}
                   onBlur={(e) => handleItemBlur(i, itemType, e.target.value)}
                 />
                 <button
@@ -201,6 +204,13 @@ export default function StructuredListEditor({
                 >×</button>
               </div>
             ))}
+            {itemType === 'link' && (
+              <datalist id={linkSuggestionsId}>
+                {linkKeys.map((key) => (
+                  <option key={key} value={`{links.${key}}`} />
+                ))}
+              </datalist>
+            )}
             <div className="button-row">
               <button type="button" className="button-secondary" onClick={handleAdd}>
                 + Add
