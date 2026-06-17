@@ -2,7 +2,7 @@ import { generateShortDescriptions } from './generateShortDescriptions';
 import { generateBroadcastBlock } from './generateBroadcastBlock';
 import { generateTechnicalBlock } from './generateTechnicalBlock';
 import { generateLogBlock } from './generateLogBlock';
-import { generateCustomBlocks } from './generateCustomBlocks';
+import { generateCustomBlocks, getEffectiveSongOverrides } from './generateCustomBlocks';
 import { buildTagLine, buildTagPhrase } from './descriptionTagHelpers';
 
 function pickRandom(arr = []) {
@@ -27,16 +27,17 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   );
 
   // --- Story block ---
+  const songOverrides = getEffectiveSongOverrides(formData);
+
   const storyTemplate = pickRandom(
     projectConfig?.description.templates?.long?.storyBlock,
   );
 
-  const storyBlock = formData.customStory?.trim()
-    ? formData.customStory.trim()
-    : storyTemplate
-        .replace(/\{artist\}/g, formData.artist || '')
-        .replace(/\{song\}/g, formData.song || '')
-        .replace(/\{tagLine\}/g, tagPhrase);
+  const storyOverride = songOverrides.storyBlock?.trim();
+  const storyBlock = (storyOverride || storyTemplate)
+    .replace(/\{artist\}/g, formData.artist || '')
+    .replace(/\{song\}/g, formData.song || '')
+    .replace(/\{tagLine\}/g, tagPhrase);
 
   // --- Philosophy block ---
   const philosophyTemplate = pickRandom(

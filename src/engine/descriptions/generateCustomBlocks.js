@@ -54,6 +54,12 @@ export function getEffectiveSongOverrides(formData) {
   if (!overrides.customCtaBlock && formData.customCta?.trim()) {
     overrides.customCtaBlock = formData.customCta.trim();
   }
+  if (!overrides.storyBlock && formData.customStory?.trim()) {
+    overrides.storyBlock = formData.customStory.trim();
+  }
+  if (!overrides.logBlock && formData.customLogNote?.trim()) {
+    overrides.logBlock = formData.customLogNote.trim();
+  }
 
   return overrides;
 }

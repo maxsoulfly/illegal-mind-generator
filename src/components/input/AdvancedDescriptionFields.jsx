@@ -56,6 +56,27 @@ function SongListBlockEditor({ items: initialItems, itemType, onChange }) {
   );
 }
 
+// Built-in engine blocks that support per-song text overrides.
+// These are phrase-template blocks (not in customBlocks) so they're listed
+// explicitly here. The engine reads from songBlockOverrides for these keys
+// and falls back to the project-level template.
+const PHRASE_BLOCK_OVERRIDES = [
+  {
+    key: 'storyBlock',
+    label: 'Story',
+    rows: 5,
+    placeholder: 'Write a custom story paragraph... Supports {artist}, {song}, {tagLine}.',
+    placeholders: ['{artist}', '{song}', '{tagLine}'],
+  },
+  {
+    key: 'logBlock',
+    label: 'Log Note',
+    rows: 3,
+    placeholder: 'Write a custom operator/log note...',
+    placeholders: [],
+  },
+];
+
 // Song-scoped blocks get a per-song override field here.
 // Text blocks: a textarea override (plain string).
 // List blocks: a mini list editor initialized from project defaults.
@@ -72,9 +93,7 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
       (isTextBlock(block) || isListBlock(block)),
   );
 
-  if (songBlocks.length === 0) return null;
-
-  const placeholders = ['{artist}', '{song}', '{tagLine}', ...linkKeys.map((key) => `{links.${key}}`)];
+  const textPlaceholders = ['{artist}', '{song}', '{tagLine}', ...linkKeys.map((key) => `{links.${key}}`)];
 
   function updateOverride(key, value) {
     setFormData((prev) => ({
@@ -95,6 +114,20 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
 
   return (
     <>
+      {PHRASE_BLOCK_OVERRIDES.map(({ key, label, rows, placeholder, placeholders }) => (
+        <details key={key} className="tag-section">
+          <summary>{label}</summary>
+          <PlaceholderField
+            multiline
+            rows={rows}
+            defaultValue={formData.songBlockOverrides?.[key] || ''}
+            onChange={(value) => updateOverride(key, value)}
+            placeholders={placeholders}
+            placeholder={placeholder}
+          />
+        </details>
+      ))}
+
       {songBlocks.map(([key, block]) => {
         const label = getBlockLabel(key, block);
 
@@ -107,7 +140,7 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
           return (
             <details key={key} className="tag-section">
               <summary>
-                {label} (this song only)
+                {label}
                 {hasOverride && (
                   <IconButton
                     icon="↺"
@@ -129,17 +162,15 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
 
         return (
           <details key={key} className="tag-section">
-            <summary>{label} (this song only)</summary>
-            <FormField label={label}>
-              <PlaceholderField
-                multiline
-                rows={3}
-                defaultValue={formData.songBlockOverrides?.[key] || ''}
-                onChange={(value) => updateOverride(key, value)}
-                placeholders={placeholders}
-                placeholder="Override for this song only. Leave blank to use the project default."
-              />
-            </FormField>
+            <summary>{label}</summary>
+            <PlaceholderField
+              multiline
+              rows={3}
+              defaultValue={formData.songBlockOverrides?.[key] || ''}
+              onChange={(value) => updateOverride(key, value)}
+              placeholders={textPlaceholders}
+              placeholder="Override for this song only. Leave blank to use the project default."
+            />
           </details>
         );
       })}
@@ -153,66 +184,28 @@ export default function AdvancedDescriptionFields({
   projectConfig,
 }) {
   return (
-    <>
-      <div className="form-group">
-        {/* CUSTOM STORY BLOCK */}
-        <FormField label="Custom Story Block">
-          <textarea
-            id="customStory"
-            className="form-textarea"
-            value={formData.customStory}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                customStory: e.target.value,
-              }))
-            }
-            rows={5}
-            placeholder="Write a custom story paragraph for the long description..."
-          />
-        </FormField>
-      </div>
-
-      <div className="form-group">
-        {/* CUSTOM LOG NOTE */}
-        <FormField label="Custom Log Note">
-          <textarea
-            id="customLogNote"
-            className="form-textarea"
-            value={formData.customLogNote}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                customLogNote: e.target.value,
-              }))
-            }
-            rows={4}
-            placeholder="Write a custom operator/log note..."
-          />
-        </FormField>
-
-        {/* ADDITIONAL HASHTAGS */}
-        <FormField label="Additional Hashtags">
-          <input
-            type="text"
-            className="form-input"
-            value={formData.customHashtags || ''}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                customHashtags: e.target.value,
-              }))
-            }
-            placeholder="tag1, tag2, tag3"
-          />
-        </FormField>
-
-        <SongBlockOverrideFields
-          formData={formData}
-          setFormData={setFormData}
-          projectConfig={projectConfig}
+    <div className="form-group">
+      {/* ADDITIONAL HASHTAGS */}
+      <FormField label="Additional Hashtags">
+        <input
+          type="text"
+          className="form-input"
+          value={formData.customHashtags || ''}
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              customHashtags: e.target.value,
+            }))
+          }
+          placeholder="tag1, tag2, tag3"
         />
-      </div>
-    </>
+      </FormField>
+
+      <SongBlockOverrideFields
+        formData={formData}
+        setFormData={setFormData}
+        projectConfig={projectConfig}
+      />
+    </div>
   );
 }

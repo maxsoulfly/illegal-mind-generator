@@ -1,3 +1,5 @@
+import { getEffectiveSongOverrides } from './generateCustomBlocks';
+
 function pickRandom(arr = []) {
   return arr[Math.floor(Math.random() * arr.length)] || '';
 }
@@ -36,9 +38,8 @@ export function generateLogBlock(
       : projectConfig?.description.templates?.long?.defaultLogNote ||
         'Signal stabilized.';
 
-  const logNote = formData.customLogNote?.trim()
-    ? formData.customLogNote.trim()
-    : defaultLogNote;
+  const songOverrides = getEffectiveSongOverrides(formData);
+  const logNote = songOverrides.logBlock?.trim() || defaultLogNote;
 
   const baseLogBlock = logTemplate
     .replace(/\{tagLine\}/g, tagLine)

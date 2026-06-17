@@ -177,7 +177,7 @@ svg {
 
 .layout-grid {
   display              : grid;
-  grid-template-columns: minmax(0, var(--width-sidebar-fluid)) minmax(0, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap                  : var(--space-8);
   align-items          : start;
 }
@@ -1802,8 +1802,7 @@ svg {
   }
 
   .layout-grid {
-    grid-template-columns: minmax(300px, 360px) minmax(0, 1fr);
-    gap                  : var(--space-7);
+    gap: var(--space-7);
   }
 
   .app-menu {

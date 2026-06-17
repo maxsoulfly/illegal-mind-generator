@@ -14,8 +14,6 @@ export const defaultFormData = {
   useCustomArtistShort: false,
   artistShort: '',
 
-  customStory: '',
-  customLogNote: '',
   customHashtags: '',
   customCta: '',
   songBlockOverrides: {},

@@ -82,8 +82,6 @@ function useSavedEntries(
       song: formData.song.trim(),
       signalNumber: formData.signalNumber.trim(),
 
-      customStory: formData.customStory?.trim() || '',
-      customLogNote: formData.customLogNote?.trim() || '',
       transformationTags: formData.transformationTags || [],
       customHashtags: formData.customHashtags?.trim() || '',
       customCta: formData.customCta,
@@ -114,11 +112,17 @@ function useSavedEntries(
   const handleLoadEntry = (entry) => {
     const songBlockOverrides = { ...(entry.songBlockOverrides || {}) };
 
-    // customCta predates songBlockOverrides — seed it forward once so the
-    // generic Custom CTA field shows old data and future saves migrate it
+    // Legacy fields that predate songBlockOverrides — seed them forward once
+    // so the generic override fields show old data and future saves migrate
     // naturally, without touching stored entries directly.
     if (!songBlockOverrides.customCtaBlock && entry.customCta?.trim()) {
       songBlockOverrides.customCtaBlock = entry.customCta.trim();
+    }
+    if (!songBlockOverrides.storyBlock && entry.customStory?.trim()) {
+      songBlockOverrides.storyBlock = entry.customStory.trim();
+    }
+    if (!songBlockOverrides.logBlock && entry.customLogNote?.trim()) {
+      songBlockOverrides.logBlock = entry.customLogNote.trim();
     }
 
     setFormData((prev) => ({
@@ -126,8 +130,6 @@ function useSavedEntries(
       artist: entry.artist || '',
       song: entry.song || '',
       signalNumber: entry.signalNumber || '',
-      customStory: entry.customStory || '',
-      customLogNote: entry.customLogNote || '',
       transformationTags: entry.transformationTags || [],
       customHashtags: entry.customHashtags?.trim() || '',
       customCta: entry.customCta || '',
@@ -196,17 +198,24 @@ function useSavedEntries(
             artist: item.artist.trim(),
             song: item.song.trim(),
             signalNumber: String(item.signalNumber || '').trim(),
-            customStory: String(item.customStory || '').trim(),
-            customLogNote: String(item.customLogNote || '').trim(),
             transformationTags: Array.isArray(item.transformationTags)
               ? item.transformationTags
               : [],
             customHashtags: String(item.customHashtags || '').trim(),
             customCta: String(item.customCta || '').trim(),
-            songBlockOverrides:
-              item.songBlockOverrides && typeof item.songBlockOverrides === 'object'
-                ? item.songBlockOverrides
-                : {},
+            songBlockOverrides: (() => {
+              const overrides =
+                item.songBlockOverrides && typeof item.songBlockOverrides === 'object'
+                  ? { ...item.songBlockOverrides }
+                  : {};
+              if (!overrides.storyBlock && String(item.customStory || '').trim()) {
+                overrides.storyBlock = String(item.customStory).trim();
+              }
+              if (!overrides.logBlock && String(item.customLogNote || '').trim()) {
+                overrides.logBlock = String(item.customLogNote).trim();
+              }
+              return overrides;
+            })(),
             excludeFromRandomizer: Boolean(item.excludeFromRandomizer),
             todo: {
               status: String(item.todo?.status || '').trim(),
