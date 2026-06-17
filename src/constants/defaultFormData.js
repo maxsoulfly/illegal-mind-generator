@@ -16,7 +16,6 @@ export const defaultFormData = {
 
   customStory: '',
   customLogNote: '',
-  customGear: '',
   customHashtags: '',
   customCta: '',
   songBlockOverrides: {},

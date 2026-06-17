@@ -1882,6 +1882,7 @@
             },
             "gearBlock": {
               "title": "🎛 Gear Used",
+              "scope": "song",
               "items": [
                 { "label": "• Guitars", "text": "Schecter Omen-6" },
                 { "label": "• Bass", "text": "Cort Action Bass" },

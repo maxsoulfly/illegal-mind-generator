@@ -76,8 +76,6 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   }
 
   // --- Custom blocks ---
-  // gearBlock/customCtaBlock overrides (formData.customGear/customCta) are
-  // already baked into renderedCustomBlocks — see getEffectiveSongOverrides.
   const { renderedCustomBlocks, supportBlock } =
     generateCustomBlocks(formData, projectConfig, tagLine);
 

@@ -43,33 +43,34 @@ function renderTextTemplate(text, projectConfig, formData, tagLine) {
     .replace(/\{tagLine\}/g, tagLine);
 }
 
-// Merges the generic per-song block overrides with the legacy customCta/
-// customGear fields (which predate songBlockOverrides but target blocks —
-// customCtaBlock/gearBlock — that already live in customBlocks).
+// Merges the generic per-song block overrides with the legacy customCta
+// field (which predates songBlockOverrides but targets customCtaBlock).
 // songBlockOverrides wins when both are set: customCtaBlock now has a real
 // UI field that writes there (useSavedEntries seeds it from legacy customCta
-// on load), so a fresh edit there must not be shadowed by a stale legacy
-// value. The legacy field is only a fallback for entries that never went
-// through that seeding (e.g. customGear, which still has no generic field).
+// on load), so a fresh edit there must not be shadowed by a stale legacy value.
 export function getEffectiveSongOverrides(formData) {
   const overrides = { ...(formData.songBlockOverrides || {}) };
 
   if (!overrides.customCtaBlock && formData.customCta?.trim()) {
     overrides.customCtaBlock = formData.customCta.trim();
   }
-  if (!overrides.gearBlock && formData.customGear?.trim()) {
-    overrides.gearBlock = formData.customGear.trim();
-  }
 
   return overrides;
 }
 
-// songOverride, when non-empty, is a per-song override (typed in the
-// generator's Advanced panel) that takes precedence over the block's own
-// project-level content, rendered as plain text regardless of the
-// original block's shape (List or Text).
+// songOverride, when present, takes precedence over the block's project-level
+// content. String overrides (Text blocks) render as plain text; object
+// overrides with an items array (List blocks) render as a structured block
+// using the project-level block's title and displayMode.
 export function renderCustomBlock(block, projectConfig, formData, tagLine, songOverride) {
-  if (songOverride) {
+  if (songOverride && typeof songOverride === 'object' && Array.isArray(songOverride.items)) {
+    return renderStructuredBlock(
+      { ...block, items: songOverride.items },
+      projectConfig.description.links,
+    );
+  }
+
+  if (songOverride && typeof songOverride === 'string' && songOverride.trim()) {
     return renderTextTemplate(songOverride, projectConfig, formData, tagLine);
   }
 
@@ -98,7 +99,7 @@ export function generateCustomBlocks(formData, projectConfig, tagLine) {
   const renderedCustomBlocks = Object.fromEntries(
     Object.entries(customBlocks).map(([key, block]) => [
       key,
-      renderCustomBlock(block, projectConfig, formData, tagLine, songOverrides[key]?.trim()),
+      renderCustomBlock(block, projectConfig, formData, tagLine, songOverrides[key]),
     ]),
   );
 
