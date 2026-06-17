@@ -99,10 +99,10 @@ src/
 - `TemplateGroupCard` — generic card: label + templates + reset + count + optional subtitle. Base for ShortHookCard and description cards.
 - `ShortHookCard` — adapter over TemplateGroupCard for hook-specific data shape (`hookConfig` object + `hookType`). **TODO:** evaluate collapsing adapter once hook data shape is refactored.
 - **TODO:** extract `CardHeader` component (h3 + reset button + optional remove button + count badge) — then refactor TemplateGroupCard and ShortHookCard to use it.
-- `HookTemplateEditor` — searchable template list with add/bulk/highlight+scroll support
+- `HookTemplateEditor` — searchable template list with add/bulk/highlight+scroll support. `noWrapper` prop skips the `<details>` collapse wrapper (used by Hook Blocks tab where the parent card already collapses).
 - `SubTabNav` — lightweight tab nav (underline active, no pill borders). Takes `tabs: [{id, label}]`.
 - `NavLinkButton` — clickable text for source navigation. `muted` prop for base hooks.
-- `PhraseRow` — forwardRef row, onBlur save, `highlighted` prop for scroll target. Optional `placeholders` prop enables the `{placeholder}` autocomplete on its field (see `PlaceholderField`); used by `HookTemplateEditor` (project-level hooks) and `TagShortHooksTab`/`TagPhraseEditor` (per-tag hooks) via the shared `HOOK_PLACEHOLDERS` in `src/utils/hookPlaceholders.js`. `TagPhraseEditor`'s title/hashtag phrase editors don't pass any yet.
+- `PhraseRow` — forwardRef row, onBlur save, `highlighted` prop for scroll target. Optional `placeholders` prop enables the `{placeholder}` autocomplete on its field (see `PlaceholderField`); used by `HookTemplateEditor` (project-level hooks) and `TagShortHooksTab`/`TagPhraseEditor` (per-tag hooks) via the shared `HOOK_PLACEHOLDERS` in `src/utils/hookPlaceholders.js`. `TagPhraseEditor`'s title/hashtag phrase editors don't pass any yet. CSS: flex lives on `.placeholder-field` wrapper (not `.form-input` directly) so the input fills its flex slot responsively.
 - `PlaceholderField` — input or textarea (`multiline` prop) with a `{placeholder}` autocomplete dropdown: typing `{` starts tracking a query, filters the passed-in `placeholders` array (braces included, e.g. `'{artist}'`), arrow keys + Enter to select, Escape/click-away to dismiss, inserts at cursor. Two save modes — `onBlur` (commit only on blur; `PhraseRow`/`TextBlockEditor`) or `onChange` (live, every keystroke and every insert; `ToggleInputRow`'s prefix/suffix fields, which are fully-controlled). Resyncs on external `defaultValue` change (e.g. reset) without needing a remount. Each caller supplies its own contextually-correct placeholder list — Text Blocks: `artist`/`song`/`tagLine`/`links.*` (matches `generateCustomBlocks.js`'s `renderTextTemplate`); Hooks: `HOOK_PLACEHOLDERS` from `src/utils/hookPlaceholders.js` (matches `generateShortHooks.js`'s `fillHookTemplate`); Title prefix/suffix: `{num}` only (matches `generateTitles.js`). Keep these in sync if the underlying engine substitutions change.
 - `ToggleInputRow` — checkbox + label + input (clicking label toggles checkbox). Input is a `PlaceholderField` in `onChange` (live) mode; optional `placeholders` prop enables the autocomplete (used by Title prefix/suffix fields).
 - `LabelInputRow` — label + input, `compact` mode via `form-input--compact`
@@ -150,14 +150,15 @@ The description block system is designed to be fully UI-configurable. The goal: 
 
 `projects.json` is a **bootstrap template only**. All real configuration lives in localStorage overrides (backed up/restored via Backup System), eventually migrated to a DB once feature-complete.
 
-## Four block types
+## Block types
 
 | Type | What it is | User-creatable | Examples |
 |---|---|---|---|
 | **List** | `{ title, items: [{ label, text\|link }], scope, target, itemType, isCore, name, displayMode }` | **Yes — built** | `gearBlock`, `supportBlock`, `playlistBlock` |
 | **Text** | Single paragraph, optional `{placeholders}`. Legacy blocks are a plain string; UI-created ones are `{ text, scope, target, isCore, name }` | **Yes — built** | `mixingCtaBlock`, `customCtaBlock` |
-| **Block Group** | Multiple template lines forming a section | Not started | `broadcastBlock`, `logBlock` |
-| **Generated** | Engine-driven output, parameters only | No (engine code required) | `technicalBlock`, hook blocks |
+| **Hook Block** | Array of strings, one picked at random per generation. Song-scoped ones get per-song override fields in the generator. Edited in Project Settings → Blocks → Hook Blocks. | No (managed via Hook Blocks tab) | `storyBlock`, `logBlock` |
+| **Block Group** | Multiple template lines forming a section | Not started | `broadcastBlock` |
+| **Generated** | Engine-driven output, parameters only | No (engine code required) | `technicalBlock` |
 
 All List/Text blocks live together in `customBlocks` under `templates.long` regardless of which description(s) they `target` — `target` decides eligibility for Long/Shorts, not storage location. `src/utils/customBlocks.js` is the shared home for `isListBlock`/`isTextBlock`/`getBlockLabel`/`generateBlockKey`/`updateLongKey`/`removeLongKey` — both block-type editors and both Description settings pages import from here so List and Text stay consistent. `generateBlockKey` collision checks must see *every* `customBlocks` key regardless of type (List and Text share one namespace).
 
@@ -171,7 +172,7 @@ Any Text or List block with `scope: 'song'` gets a collapsible override field au
 
 Engine: `renderCustomBlock(block, projectConfig, formData, tagLine, songOverride)` takes the override as its last param — when it is `{ items: [...] }`, renders as a structured block using the project-level block's `title`/`displayMode`; when a non-empty string, renders as plain text — used by both `generateDescriptions.js` (Long) and `generateShortDescriptions.js` (Shorts) via `getEffectiveSongOverrides(formData)`, which merges in one **legacy field that predates this mechanism**: `formData.customCta` (→ `customCtaBlock`). `songBlockOverrides` wins when both are set — `useSavedEntries.js`'s `handleLoadEntry` seeds `songBlockOverrides.customCtaBlock` from legacy `entry.customCta` on load (if not already set), so old saved data shows up in the new field and migrates forward on next save, with no manual migration step.
 
-**Project Settings → Blocks** has Lists / Text Blocks sub-tabs (`ProjectSettingsBlocks.jsx`). Each block type's editor (`StructuredListEditor` / `TextBlockEditor`) shares: header with Scope/Target `FormSelect`s, `BlockActions` (Reset for blocks with a JSON default; Lock 🔒/🔓 + Delete for blocks without one — deletion is blocked while locked), and an "+ Add" form at the bottom (`AddListBlockForm` / `AddTextBlockForm`).
+**Project Settings → Blocks** has three sub-tabs (`ProjectSettingsBlocks.jsx`): Lists, Text Blocks, and Hook Blocks. List/Text editors (`StructuredListEditor` / `TextBlockEditor`) share: header with Scope/Target `FormSelect`s, `BlockActions` (Reset for blocks with a JSON default; Lock 🔒/🔓 + Delete for blocks without one — deletion is blocked while locked), and an "+ Add" form at the bottom (`AddListBlockForm` / `AddTextBlockForm`). Hook Blocks (`ProjectSettingsHookBlocks.jsx`) shows phrase-template arrays for `storyBlock`/`logBlock` with a Scope dropdown in the header — no Target (always Long).
 
 ## Block scope
 
@@ -180,7 +181,20 @@ Each block has a **scope** field (stored in overrides, user-set in the editor):
 - **Project** — same value across all songs (links, playlists, support info)
 - **Song** — has a project default, overridable per song (gear, custom notes)
 
-`customStory`, `customLogNote`, `customHashtags` in the generator form are still hardcoded ad-hoc song-level fields (not wired to the dynamic block system) — see Other Active Goals. `customCta` was the first to be migrated (now `customCtaBlock`, a Text block with `scope: 'song'`), `customGear` followed (now `gearBlock`, a List block with `scope: 'song'`, using the mini list editor) — same approach to follow for the rest, where it makes sense.
+Migration progress for old hardcoded per-song generator fields:
+- `customCta` → `customCtaBlock` (Text, `scope: 'song'`) ✓
+- `customGear` → `gearBlock` (List, `scope: 'song'`, mini list editor) ✓
+- `customStory` → `storyBlock` (Hook Block, `scope: 'song'`) ✓
+- `customLogNote` → `logBlock` (Hook Block, `scope: 'song'`) ✓
+- `customHashtags` — not a description block, still hardcoded (see Other Active Goals)
+
+Legacy `formData.customStory`/`customLogNote` fields are still supported via `getEffectiveSongOverrides` fallbacks and seeded into `songBlockOverrides` on entry load, so old saved entries migrate forward automatically on next save.
+
+## Hook Block song overrides and scope
+
+Hook Blocks (`storyBlock`, `logBlock`) are phrase-template arrays — the engine picks one at random per generation. When `scope: 'song'`, a per-song override text field appears in the generator's Advanced panel (rendered by `PHRASE_BLOCK_OVERRIDES` in `AdvancedDescriptionFields.jsx`'s `SongBlockOverrideFields`). The override is a plain string stored in `formData.songBlockOverrides[blockKey]` and wins over the randomly-picked project template.
+
+Scope for Hook Blocks is stored in `description.templates.long.phraseBlockScopes` (a map of `blockKey → 'song'|'project'`). When scope is `'project'`, no override field appears in the generator. Editable in Project Settings → Blocks → Hook Blocks. Default scope (when no override exists) is `'song'`.
 
 ## Block targets
 
@@ -233,7 +247,7 @@ Description layout builder. Two-column: Available palette (left) + Active Layout
 - CSS refactor (consolidate index.css, clean up class naming)
 - `coverLabel` (Shorts Description) has no settings UI — only editable by hand-editing `projects.json`
 - Block Group block type not started (Step 8 above)
-- **Go through the remaining hardcoded per-song generator fields** (`customStory`, `customLogNote`, `customHashtags` in `AdvancedDescriptionFields.jsx`) one at a time and figure out, case by case, whether/how each can render dynamically through the block system instead — `customCta` → `customCtaBlock` (Text) and `customGear` → `gearBlock` (List) are done. Not all remaining ones fit cleanly: `customStory`/`customLogNote` override phrase-*template arrays* (`templates.long.storyBlock`/`logBlock`), a different, older subsystem than `customBlocks` — migrating those means moving them into `customBlocks` first, a real data-shape change. `customHashtags` isn't a block at all. Investigate each on its own merits; don't force a uniform conversion.
+- **`customHashtags`** — last remaining hardcoded per-song field in `AdvancedDescriptionFields.jsx`. It's not a description block at all, so it won't fit the block system — investigate separately.
 
 ---
 

@@ -114,7 +114,10 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
 
   return (
     <>
-      {PHRASE_BLOCK_OVERRIDES.map(({ key, label, rows, placeholder, placeholders }) => (
+      {PHRASE_BLOCK_OVERRIDES.filter(({ key }) => {
+        const scope = projectConfig?.description?.templates?.long?.phraseBlockScopes?.[key] ?? 'song';
+        return scope === 'song';
+      }).map(({ key, label, rows, placeholder, placeholders }) => (
         <details key={key} className="tag-section">
           <summary>{label}</summary>
           <PlaceholderField

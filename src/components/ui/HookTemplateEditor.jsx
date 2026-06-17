@@ -8,7 +8,7 @@ import { HOOK_PLACEHOLDERS } from '../../utils/hookPlaceholders';
 // Collapsible editor for a single hook type's templates array.
 // All mutations call onUpdateTemplates with the full replacement array —
 // the parent (ShortHookCard) is responsible for persisting it.
-export default function HookTemplateEditor({ templates = [], onUpdateTemplates, highlightText }) {
+export default function HookTemplateEditor({ templates = [], onUpdateTemplates, highlightText, noWrapper = false }) {
   // null = bulk textarea closed; any string (including '') = open
   const [bulkValue, setBulkValue] = useState(null);
   const [searchText, setSearchText] = useState('');
@@ -43,10 +43,8 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
       template.toLowerCase().includes(searchText.toLowerCase())
     );
 
-  return (
-    <details className="tag-section" ref={detailsRef}>
-      <summary>Edit hooks</summary>
-
+  const inner = (
+    <>
       <input
         className="form-input"
         placeholder="Search..."
@@ -87,6 +85,15 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
         onAdd={() => onUpdateTemplates([...templates, ''])}
         onBulk={() => setBulkValue('')}
       />
+    </>
+  );
+
+  if (noWrapper) return inner;
+
+  return (
+    <details className="tag-section" ref={detailsRef}>
+      <summary>Edit hooks</summary>
+      {inner}
     </details>
   );
 }
