@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import FormSelect from '../../ui/FormSelect';
 import PlaceholderField from '../../ui/PlaceholderField';
-import BlockActions from './BlockActions';
-import { SCOPE_OPTIONS, TARGET_OPTIONS } from '../../../utils/customBlocks';
+import BlockEditorCard from './BlockEditorCard';
 
 function textOf(blockData) {
   return typeof blockData === 'string' ? blockData : blockData?.text ?? '';
@@ -19,7 +17,6 @@ export default function TextBlockEditor({
   onReset,
   onDelete,
 }) {
-  const [collapsed, setCollapsed] = useState(true);
   const [block, setBlock] = useState(() => ({
     text: textOf(blockData),
     scope: (typeof blockData === 'object' && blockData?.scope) || defaultScope,
@@ -70,41 +67,28 @@ export default function TextBlockEditor({
   }
 
   return (
-    <article className={`tag-card${collapsed ? ' tag-card--collapsed' : ''}`}>
-      <header className="tag-card-header">
-        <div className="tag-card-label-row">
-          <h3 className="tag-card-toggle" onClick={() => setCollapsed((c) => !c)}>
-            <span className="tag-card-collapse-icon">{collapsed ? '▶' : '▼'}</span>
-            {label}
-          </h3>
-        </div>
-        <div className="links-editor-badges">
-          <FormSelect value={scope} onChange={handleScopeChange} options={SCOPE_OPTIONS} />
-          <FormSelect value={target} onChange={handleTargetChange} options={TARGET_OPTIONS} />
-          <BlockActions
-            hasOverride={hasOverride}
-            onReset={onReset}
-            onDelete={onDelete ? handleDelete : undefined}
-            isCore={isCore}
-            onToggleCore={handleToggleCore}
-          />
-        </div>
-      </header>
-
-      {!collapsed && (
-        <div className="tag-editor-section">
-          <div className="form-group">
-            <div className="form-label">Text</div>
-            <PlaceholderField
-              multiline
-              defaultValue={text}
-              onBlur={handleTextBlur}
-              placeholders={placeholders}
-              rows={4}
-            />
-          </div>
-        </div>
-      )}
-    </article>
+    <BlockEditorCard
+      label={label}
+      scope={scope}
+      target={target}
+      onScopeChange={handleScopeChange}
+      onTargetChange={handleTargetChange}
+      hasOverride={hasOverride}
+      onReset={onReset}
+      onDelete={onDelete ? handleDelete : undefined}
+      isCore={isCore}
+      onToggleCore={handleToggleCore}
+    >
+      <div className="form-group">
+        <div className="form-label">Text</div>
+        <PlaceholderField
+          multiline
+          defaultValue={text}
+          onBlur={handleTextBlur}
+          placeholders={placeholders}
+          rows={4}
+        />
+      </div>
+    </BlockEditorCard>
   );
 }

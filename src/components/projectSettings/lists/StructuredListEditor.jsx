@@ -3,8 +3,7 @@ import { useState } from 'react';
 import FormSelect from '../../ui/FormSelect';
 import IconButton from '../../ui/IconButton';
 import ListItemRow from './ListItemRow';
-import BlockActions from '../blocks/BlockActions';
-import { SCOPE_OPTIONS, TARGET_OPTIONS } from '../../../utils/customBlocks';
+import BlockEditorCard from '../blocks/BlockEditorCard';
 
 const DISPLAY_MODE_OPTIONS = [
   { value: 'all', label: 'Show all items' },
@@ -32,7 +31,6 @@ export default function StructuredListEditor({
   onReset,
   onDelete,
 }) {
-  const [collapsed, setCollapsed] = useState(true);
   const linkSuggestionsId = `link-suggestions-${label.replace(/\s+/g, '-')}`;
   const [block, setBlock] = useState(() => ({
     title: blockData?.title ?? '',
@@ -126,91 +124,70 @@ export default function StructuredListEditor({
   }
 
   return (
-    <article className={`tag-card${collapsed ? ' tag-card--collapsed' : ''}`}>
-      <header className="tag-card-header">
-        <div className="tag-card-label-row">
-          <h3 className="tag-card-toggle" onClick={() => setCollapsed((c) => !c)}>
-            <span className="tag-card-collapse-icon">{collapsed ? '▶' : '▼'}</span>
-            {label}
-          </h3>
-          <span className="tag-status">{items.length} items</span>
+    <BlockEditorCard
+      label={label}
+      badge={`${items.length} items`}
+      scope={scope}
+      target={target}
+      onScopeChange={handleScopeChange}
+      onTargetChange={handleTargetChange}
+      hasOverride={hasOverride}
+      onReset={onReset}
+      onDelete={onDelete ? handleDelete : undefined}
+      isCore={isCore}
+      onToggleCore={handleToggleCore}
+    >
+      <div className="form-group">
+        <div className="form-label">Block Title</div>
+        <input
+          className="form-input"
+          defaultValue={title}
+          onBlur={handleTitleBlur}
+        />
+      </div>
+
+      <div className="form-group">
+        <div className="form-label">Display Mode</div>
+        <FormSelect
+          value={displayMode}
+          onChange={handleDisplayModeChange}
+          options={DISPLAY_MODE_OPTIONS}
+        />
+      </div>
+
+      <div className="form-group">
+        <div className="links-editor-row links-editor-row--header">
+          <span />
+          <span className="form-label">Label</span>
+          <span className="form-label">{valueLabel}</span>
+          <span />
         </div>
-        <div className="links-editor-badges">
-          <FormSelect
-            value={scope}
-            onChange={handleScopeChange}
-            options={SCOPE_OPTIONS}
+        {items.map((item, i) => (
+          <ListItemRow
+            key={item._id}
+            item={item}
+            index={i}
+            itemCount={items.length}
+            itemType={itemType}
+            valueLabel={valueLabel}
+            linkSuggestionsId={linkSuggestionsId}
+            onMove={handleMove}
+            onBlurField={handleItemBlur}
+            onRemove={handleRemove}
           />
-          <FormSelect
-            value={target}
-            onChange={handleTargetChange}
-            options={TARGET_OPTIONS}
-          />
-          <BlockActions
-            hasOverride={hasOverride}
-            onReset={onReset}
-            onDelete={onDelete ? handleDelete : undefined}
-            isCore={isCore}
-            onToggleCore={handleToggleCore}
-          />
-        </div>
-      </header>
-
-      {!collapsed && (
-        <div className="tag-editor-section">
-          <div className="form-group">
-            <div className="form-label">Block Title</div>
-            <input
-              className="form-input"
-              defaultValue={title}
-              onBlur={handleTitleBlur}
-            />
-          </div>
-
-          <div className="form-group">
-            <div className="form-label">Display Mode</div>
-            <FormSelect
-              value={displayMode}
-              onChange={handleDisplayModeChange}
-              options={DISPLAY_MODE_OPTIONS}
-            />
-          </div>
-
-          <div className="form-group">
-            <div className="links-editor-row links-editor-row--header">
-              <span />
-              <span className="form-label">Label</span>
-              <span className="form-label">{valueLabel}</span>
-              <span />
-            </div>
-            {items.map((item, i) => (
-              <ListItemRow
-                key={item._id}
-                item={item}
-                index={i}
-                itemCount={items.length}
-                itemType={itemType}
-                valueLabel={valueLabel}
-                linkSuggestionsId={linkSuggestionsId}
-                onMove={handleMove}
-                onBlurField={handleItemBlur}
-                onRemove={handleRemove}
-              />
+        ))}
+        {itemType === 'link' && (
+          <datalist id={linkSuggestionsId}>
+            {linkKeys.map((key) => (
+              <option key={key} value={`{links.${key}}`} />
             ))}
-            {itemType === 'link' && (
-              <datalist id={linkSuggestionsId}>
-                {linkKeys.map((key) => (
-                  <option key={key} value={`{links.${key}}`} />
-                ))}
-              </datalist>
-            )}
-            <div className="button-row">
-              <IconButton icon="+ Add" className="button-secondary" onClick={handleAdd} />
-              <IconButton icon="Sort A–Z" className="button-secondary" onClick={handleSort} />
-            </div>
-          </div>
+          </datalist>
+        )}
+        <div className="button-row">
+          <IconButton icon="+ Add" className="button-secondary" onClick={handleAdd} />
+          <IconButton icon="Sort A–Z" className="button-secondary" onClick={handleSort} />
         </div>
-      )}
-    </article>
+      </div>
+    </BlockEditorCard>
   );
 }

@@ -1,8 +1,5 @@
-import { useState } from 'react';
 import HookTemplateEditor from '../ui/HookTemplateEditor';
-import FormSelect from '../ui/FormSelect';
-import IconButton from '../ui/IconButton';
-import { SCOPE_OPTIONS, TARGET_OPTIONS } from '../../utils/customBlocks';
+import BlockEditorCard from './blocks/BlockEditorCard';
 
 // Hook block definitions live in projects.json → description.hookBlocks.
 // Each entry: { key, label, path, templateKey, scope?, countMax?, countDefault?, descriptionLayoutKey? }
@@ -23,89 +20,59 @@ function HookBlockEditor({
   onMaxLinesChange,
   onCountChange,
 }) {
-  const [collapsed, setCollapsed] = useState(true);
-
   const pct =
     maxLines > 1 ? `${((countValue - 1) / (maxLines - 1)) * 100}%` : '0%';
 
   return (
-    <article className={`tag-card${collapsed ? ' tag-card--collapsed' : ''}`}>
-      <header className="tag-card-header">
-        <div className="tag-card-label-row">
-          <h3
-            className="tag-card-toggle"
-            onClick={() => setCollapsed((c) => !c)}
-          >
-            <span className="tag-card-collapse-icon">
-              {collapsed ? '▶' : '▼'}
-            </span>
-            {label}
-          </h3>
-          <span className="tag-status">{templates.length} templates</span>
-        </div>
-        <div className="links-editor-badges">
-          <FormSelect
-            value={scope}
-            onChange={onScopeChange}
-            options={SCOPE_OPTIONS}
+    <BlockEditorCard
+      label={label}
+      badge={`${templates.length} templates`}
+      scope={scope}
+      target={target}
+      onScopeChange={onScopeChange}
+      onTargetChange={onTargetChange}
+      hasOverride={hasOverride}
+      onReset={onReset}
+    >
+      <div className="tag-phrase-row hook-block-lines-row">
+        <span className="form-label">Lines</span>
+        {maxLines > 1 ? (
+          <input
+            type="range"
+            min={1}
+            max={maxLines}
+            value={countValue}
+            style={{ '--val': pct }}
+            onChange={(e) => onCountChange(Number(e.target.value))}
           />
-          <FormSelect
-            value={target}
-            onChange={onTargetChange}
-            options={TARGET_OPTIONS}
+        ) : (
+          <span className="hook-block-lines-empty" />
+        )}
+        <span className="tag-status">
+          {maxLines > 1 ? countValue : '—'}
+        </span>
+        <label className="hook-block-max-label">
+          max
+          <input
+            key={maxLines}
+            type="number"
+            min="1"
+            className="form-input hook-block-max-input"
+            defaultValue={maxLines}
+            onBlur={(e) =>
+              onMaxLinesChange(
+                Math.max(1, parseInt(e.target.value, 10) || 1),
+              )
+            }
           />
-          <IconButton
-            icon="↺"
-            title="Reset to defaults"
-            onClick={hasOverride ? onReset : undefined}
-            disabled={!hasOverride}
-          />
-        </div>
-      </header>
-
-      {!collapsed && (
-        <div className="tag-editor-section">
-          <div className="tag-phrase-row hook-block-lines-row">
-            <span className="form-label">Lines</span>
-            {maxLines > 1 ? (
-              <input
-                type="range"
-                min={1}
-                max={maxLines}
-                value={countValue}
-                style={{ '--val': pct }}
-                onChange={(e) => onCountChange(Number(e.target.value))}
-              />
-            ) : (
-              <span className="hook-block-lines-empty" />
-            )}
-            <span className="tag-status">
-              {maxLines > 1 ? countValue : '—'}
-            </span>
-            <label className="hook-block-max-label">
-              max
-              <input
-                key={maxLines}
-                type="number"
-                min="1"
-                className="form-input hook-block-max-input"
-                defaultValue={maxLines}
-                onBlur={(e) =>
-                  onMaxLinesChange(
-                    Math.max(1, parseInt(e.target.value, 10) || 1),
-                  )
-                }
-              />
-            </label>
-          </div>
-          <HookTemplateEditor
-            templates={templates}
-            onUpdateTemplates={onUpdateTemplates}
-            noWrapper
-          />
-        </div>
-      )}
-    </article>
+        </label>
+      </div>
+      <HookTemplateEditor
+        templates={templates}
+        onUpdateTemplates={onUpdateTemplates}
+        noWrapper
+      />
+    </BlockEditorCard>
   );
 }
 
