@@ -30,14 +30,20 @@ export default function ShortsDescriptionSettings({
   const shortsConfig    = projectConfig.description?.templates?.shorts || {};
   const overriddenShorts =
     projectSettingsOverrides.description?.templates?.shorts || {};
+  const overriddenDesc = projectSettingsOverrides.description || {};
   const customBlocks =
     projectConfig.description?.templates?.long?.customBlocks || {};
 
-  // Derive hook-block-backed layout keys from config
-  const shortsHookBlockKeys = new Set(
-    (projectConfig.description?.hookBlocks || [])
-      .filter((b) => b.path === 'shorts')
-      .map((b) => b.descriptionLayoutKey ?? b.templateKey),
+  const hookBlocks = projectConfig.description?.hookBlocks || [];
+
+  // All hook block layout keys (for subtitle detection in the active layout)
+  const allHookBlockLayoutKeys = new Set(
+    hookBlocks.map((b) => b.descriptionLayoutKey ?? b.key),
+  );
+
+  // Label map derived from hookBlocks config
+  const hookBlockLabelMap = Object.fromEntries(
+    hookBlocks.map((b) => [b.descriptionLayoutKey ?? b.key, b.label]),
   );
 
   const count = overriddenShorts.count ?? shortsConfig.count ?? 3;
@@ -56,9 +62,23 @@ export default function ShortsDescriptionSettings({
     return target === 'shorts' || target === 'both';
   });
 
-  const availableKeys = [...defaultLayout, ...dynamicBlockKeys].filter(
-    (k) => !activeKeys.includes(k),
-  );
+  // Hook blocks eligible for Shorts (target = 'shorts' or 'both') that aren't
+  // already in defaultLayout (those are managed via the layout array already)
+  const hookBlockAvailableKeys = hookBlocks
+    .filter((b) => {
+      const target =
+        overriddenDesc.hookBlockTargets?.[b.key] ??
+        (b.path === 'shorts' ? 'shorts' : 'long');
+      return target === 'shorts' || target === 'both';
+    })
+    .map((b) => b.descriptionLayoutKey ?? b.key)
+    .filter((k) => !defaultLayout.includes(k));
+
+  const availableKeys = [
+    ...defaultLayout,
+    ...dynamicBlockKeys,
+    ...hookBlockAvailableKeys,
+  ].filter((k) => !activeKeys.includes(k));
 
   function layoutIndex(key) {
     const idx = defaultLayout.indexOf(key);
@@ -111,13 +131,15 @@ export default function ShortsDescriptionSettings({
   }
 
   function renderActiveBlock(key, index) {
-    const meta =
-      KNOWN_SHORTS_BLOCK_META[key] || { label: getBlockLabel(key, customBlocks[key]) };
+    const label =
+      hookBlockLabelMap[key] ??
+      KNOWN_SHORTS_BLOCK_META[key]?.label ??
+      getBlockLabel(key, customBlocks[key]);
     const isFirst = index === 0;
     const isLast  = index === activeKeys.length - 1;
 
     let subtitle;
-    if (shortsHookBlockKeys.has(key)) {
+    if (allHookBlockLayoutKeys.has(key)) {
       subtitle = 'Edit in Project Settings → Blocks → Hook Blocks.';
     } else if (key === 'hook') {
       subtitle = 'Edit hooks in Project Settings → Shorts Hooks.';
@@ -137,7 +159,7 @@ export default function ShortsDescriptionSettings({
           onMoveDown={() => moveBlock(key, 1)}
         />
         <BlockInfoCard
-          label={meta.label}
+          label={label}
           onRemove={() => removeFromLayout(key)}
           collapsible={!!subtitle}
         >
@@ -174,12 +196,13 @@ export default function ShortsDescriptionSettings({
           ) : (
             <ul className="desc-available-list">
               {availableKeys.map((key) => {
-                const meta =
-                  KNOWN_SHORTS_BLOCK_META[key] ||
-                  { label: getBlockLabel(key, customBlocks[key]) };
+                const itemLabel =
+                  hookBlockLabelMap[key] ??
+                  KNOWN_SHORTS_BLOCK_META[key]?.label ??
+                  getBlockLabel(key, customBlocks[key]);
                 return (
                   <li key={key} className="desc-available-item">
-                    <span>{meta.label}</span>
+                    <span>{itemLabel}</span>
                     <IconButton
                       icon="+"
                       title="Add to layout"

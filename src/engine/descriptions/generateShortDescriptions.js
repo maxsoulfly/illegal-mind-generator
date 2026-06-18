@@ -1,4 +1,4 @@
-import { renderStructuredBlock, renderCustomBlock, getEffectiveSongOverrides } from './generateCustomBlocks';
+import { renderStructuredBlock, renderCustomBlock, getEffectiveSongOverrides, resolveHookBlockTemplates } from './generateCustomBlocks';
 import { isListBlock } from '../../utils/customBlocks';
 
 function pickRandom(arr = []) {
@@ -67,7 +67,8 @@ export function generateShortDescriptions(
       );
     }
 
-    const options = shortsConfig[blockName] || [];
+    const hookTemplates = resolveHookBlockTemplates(blockName, projectConfig);
+    const options = hookTemplates ?? shortsConfig[blockName] ?? [];
     const template = pickRandom(options);
 
     return template
