@@ -25,7 +25,10 @@ export function generateTechnicalBlock(selectedTags, projectConfig) {
     .filter((line) => !perTagLines.includes(line))
     .sort(() => 0.5 - Math.random());
 
-  const technicalLineCount = projectConfig?.description?.technicalLineCount ?? 3;
+  const technicalLineCount =
+    projectConfig?.description?.hookBlockCounts?.technicalLines ??
+    projectConfig?.description?.technicalLineCount ??
+    3;
 
   const finalLines = [...perTagLines, ...remaining].slice(0, technicalLineCount);
 

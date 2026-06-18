@@ -1533,6 +1533,28 @@ svg {
   flex       : 0 0 auto;
 }
 
+.hook-block-target {
+  font-size  : 0.75rem;
+  color      : var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.hook-block-max-label {
+  display    : flex;
+  align-items: center;
+  gap        : var(--space-2);
+  font-size  : 0.8rem;
+  color      : var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.hook-block-max-input {
+  width        : 3.5rem;
+  margin-bottom: 0;
+  padding      : var(--space-1) var(--space-2);
+  text-align   : center;
+}
+
 .links-editor-row {
   display              : grid;
   grid-template-columns: auto 1fr 2fr auto;

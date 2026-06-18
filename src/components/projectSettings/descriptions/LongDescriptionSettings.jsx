@@ -1,48 +1,15 @@
 import { useState } from 'react';
-import TemplateGroupCard from '../../ui/TemplateGroupCard';
 import BlockInfoCard from '../../ui/BlockInfoCard';
 import SubTabNav from '../../ui/SubTabNav';
 import MoveControls from '../../ui/MoveControls';
 import IconButton from '../../ui/IconButton';
 import { isListBlock, isTextBlock, getBlockLabel } from '../../../utils/customBlocks';
 
-function CollapsibleBlockGroup({ label, onRemove, children }) {
-  const [collapsed, setCollapsed] = useState(true);
-
-  if (collapsed) {
-    return (
-      <article className="tag-card tag-card--collapsed">
-        <header className="tag-card-header">
-          <h3 className="tag-card-toggle" onClick={() => setCollapsed(false)}>
-            <span className="tag-card-collapse-icon">▶</span>
-            {label}
-          </h3>
-          <IconButton icon="×" title="Remove from layout" onClick={onRemove} />
-        </header>
-      </article>
-    );
-  }
-
-  return (
-    <div className="desc-block-group">
-      <div className="desc-block-group-header">
-        <span className="desc-block-group-toggle" onClick={() => setCollapsed(true)}>
-          <span className="tag-card-collapse-icon">▼</span>
-          {label}
-        </span>
-        <IconButton icon="×" title="Remove from layout" onClick={onRemove} />
-      </div>
-      {children}
-    </div>
-  );
-}
-
 const MOBILE_COLUMN_TABS = [
   { id: 'layout', label: 'Layout' },
   { id: 'available', label: 'Available' },
 ];
 
-// Maps layout block names (engine keys) to display metadata
 const KNOWN_BLOCK_META = {
   broadcastBlock:    { label: 'Broadcast Block' },
   introBlock:        { label: 'Intro Hook' },
@@ -59,27 +26,6 @@ const KNOWN_BLOCK_META = {
   coverSummaryBlock: { label: 'Cover Summary' },
 };
 
-// Maps layout block keys to the template config sub-groups they expose for editing
-const TEMPLATE_GROUPS = {
-  broadcastBlock: [
-    { key: 'broadcastHeader', label: 'Broadcast Header' },
-    { key: 'operatorStatuses', label: 'Operator Statuses', path: 'top' },
-    { key: 'statusLines', label: 'Status Lines' },
-  ],
-  technicalBlock: [{ key: 'technicalLines', label: 'Technical Lines' }],
-  introBlock:  [{ key: 'introHook',     label: 'Intro Hook' }],
-  storyBlock:  [{ key: 'storyBlock',    label: 'Story Block' }],
-  logBlock: [
-    { key: 'logNotes',          label: 'Log Notes' },
-    { key: 'tagLineFallbacks',  label: 'Tag Line Fallbacks' },
-    { key: 'tagLineTemplates',  label: 'Tag Line Templates' },
-  ],
-  closingBlock: [
-    { key: 'closingSignal',  label: 'Closing Signal' },
-    { key: 'philosophyLine', label: 'Philosophy Line' },
-  ],
-};
-
 export default function LongDescriptionSettings({
   baseProjectConfig,
   projectConfig,
@@ -89,16 +35,20 @@ export default function LongDescriptionSettings({
   const [mobileTab, setMobileTab] = useState('layout');
 
   const longTemplates = projectConfig.description?.templates?.long || {};
-  const customBlocks = longTemplates.customBlocks || {};
+  const customBlocks  = longTemplates.customBlocks || {};
 
-  // Use base (pre-override) layout so Available always reflects the original config
+  // Derive hook-block-backed layout keys from config — no hardcoding
+  const hookBlockLayoutKeys = new Set(
+    (projectConfig.description?.hookBlocks || [])
+      .filter((b) => b.path !== 'shorts')
+      .map((b) => b.descriptionLayoutKey ?? b.key),
+  );
+
   const defaultLayout =
     baseProjectConfig?.description?.templates?.long?.layout ?? longTemplates.layout ?? [];
   const activeKeys =
     projectSettingsOverrides.description?.templates?.long?.layout ?? defaultLayout;
 
-  // List/Text blocks created from the Blocks tab aren't in the static
-  // default layout at all, so they need their own path into Available.
   const dynamicBlockKeys = Object.keys(customBlocks).filter((key) => {
     if (defaultLayout.includes(key)) return false;
     if (!isListBlock(customBlocks[key]) && !isTextBlock(customBlocks[key])) return false;
@@ -107,8 +57,6 @@ export default function LongDescriptionSettings({
     return target === 'long' || target === 'both';
   });
 
-  // Available = blocks in the project's default layout, plus dynamic
-  // blocks, that aren't currently active.
   const availableKeys = [...defaultLayout, ...dynamicBlockKeys].filter(
     (k) => !activeKeys.includes(k),
   );
@@ -116,55 +64,6 @@ export default function LongDescriptionSettings({
   function layoutIndex(key) {
     const idx = defaultLayout.indexOf(key);
     return idx === -1 ? Infinity : idx;
-  }
-
-  function getTemplates(key, path) {
-    if (path === 'top') return projectConfig.description?.[key] || [];
-    return longTemplates[key] || [];
-  }
-
-  function updateTemplates(key, path, newTemplates) {
-    if (path === 'top') {
-      updateProjectOverride({
-        description: {
-          ...(projectSettingsOverrides.description || {}),
-          [key]: newTemplates,
-        },
-      });
-    } else {
-      updateProjectOverride({
-        description: {
-          ...(projectSettingsOverrides.description || {}),
-          templates: {
-            ...(projectSettingsOverrides.description?.templates || {}),
-            long: {
-              ...(projectSettingsOverrides.description?.templates?.long || {}),
-              [key]: newTemplates,
-            },
-          },
-        },
-      });
-    }
-  }
-
-  function resetGroup(key, path) {
-    if (path === 'top') {
-      const { [key]: _removed, ...remaining } =
-        projectSettingsOverrides.description || {};
-      updateProjectOverride({ description: remaining });
-    } else {
-      const { [key]: _removed, ...remaining } =
-        projectSettingsOverrides.description?.templates?.long || {};
-      updateProjectOverride({
-        description: {
-          ...(projectSettingsOverrides.description || {}),
-          templates: {
-            ...(projectSettingsOverrides.description?.templates || {}),
-            long: remaining,
-          },
-        },
-      });
-    }
   }
 
   function updateLayout(newKeys) {
@@ -183,13 +82,10 @@ export default function LongDescriptionSettings({
   }
 
   function addToLayout(key) {
-    // Dynamic list blocks have no default position — append at the end.
     if (!defaultLayout.includes(key)) {
       updateLayout([...activeKeys, key]);
       return;
     }
-
-    // Re-insert at its original position in the default layout.
     const targetIndex = defaultLayout.indexOf(key);
     const next = [...activeKeys];
     const insertAt = next.findLastIndex((k) => layoutIndex(k) < targetIndex) + 1;
@@ -210,93 +106,29 @@ export default function LongDescriptionSettings({
   }
 
   function resetOrder() {
-    // Dynamic list blocks have no default position — they sort to the end.
-    const sorted = [...activeKeys].sort(
-      (a, b) => layoutIndex(a) - layoutIndex(b),
-    );
+    const sorted = [...activeKeys].sort((a, b) => layoutIndex(a) - layoutIndex(b));
     updateLayout(sorted);
-  }
-
-  function getSliderConfig(groupKey) {
-    if (groupKey === 'statusLines') return {
-      label: 'Lines to show',
-      min: 1, max: 4,
-      value: projectSettingsOverrides.description?.statusLineCount ?? 2,
-      onChange: (val) => updateProjectOverride({
-        description: { ...(projectSettingsOverrides.description || {}), statusLineCount: val },
-      }),
-    };
-    if (groupKey === 'technicalLines') return {
-      label: 'Lines to show',
-      min: 2, max: 5,
-      value: projectSettingsOverrides.description?.technicalLineCount ?? 3,
-      onChange: (val) => updateProjectOverride({
-        description: { ...(projectSettingsOverrides.description || {}), technicalLineCount: val },
-      }),
-    };
-    return undefined;
   }
 
   function renderActiveBlock(blockKey, index) {
     const meta =
       KNOWN_BLOCK_META[blockKey] ||
       { label: getBlockLabel(blockKey, customBlocks[blockKey]) };
-    const groups = TEMPLATE_GROUPS[blockKey];
     const isFirst = index === 0;
-    const isLast = index === activeKeys.length - 1;
+    const isLast  = index === activeKeys.length - 1;
 
-    // supportBlock is list-shaped too, but lives outside customBlocks.
     const blockData =
       blockKey === 'supportBlock' ? longTemplates.supportBlock : customBlocks[blockKey];
     const isListShaped = isListBlock(blockData);
     const isTextShaped = isTextBlock(blockData);
 
-    let card;
-    if (!groups) {
-      card = (
-        <BlockInfoCard
-          label={meta.label}
-          subtitle={meta.subtitle}
-          onRemove={() => removeFromLayout(blockKey)}
-          collapsible={isListShaped || isTextShaped}
-        >
-          {isListShaped && (
-            <p className="tag-summary">Edit content in Project Settings → Blocks → Lists.</p>
-          )}
-          {isTextShaped && (
-            <p className="tag-summary">Edit content in Project Settings → Blocks → Text Blocks.</p>
-          )}
-        </BlockInfoCard>
-      );
-    } else if (groups.length === 1) {
-      const group = groups[0];
-      card = (
-        <TemplateGroupCard
-          label={meta.label}
-          templates={getTemplates(group.key, group.path)}
-          onUpdateTemplates={(t) => updateTemplates(group.key, group.path, t)}
-          onReset={() => resetGroup(group.key, group.path)}
-          onRemove={() => removeFromLayout(blockKey)}
-          initialCollapsed={true}
-          sliderConfig={getSliderConfig(group.key)}
-        />
-      );
-    } else {
-      card = (
-        <CollapsibleBlockGroup label={meta.label} onRemove={() => removeFromLayout(blockKey)}>
-          {groups.map((group) => (
-            <TemplateGroupCard
-              key={group.key}
-              label={group.label}
-              templates={getTemplates(group.key, group.path)}
-              onUpdateTemplates={(t) => updateTemplates(group.key, group.path, t)}
-              onReset={() => resetGroup(group.key, group.path)}
-              initialCollapsed
-              sliderConfig={getSliderConfig(group.key)}
-            />
-          ))}
-        </CollapsibleBlockGroup>
-      );
+    let subtitle;
+    if (hookBlockLayoutKeys.has(blockKey)) {
+      subtitle = 'Edit in Project Settings → Blocks → Hook Blocks.';
+    } else if (isListShaped) {
+      subtitle = 'Edit content in Project Settings → Blocks → Lists.';
+    } else if (isTextShaped) {
+      subtitle = 'Edit content in Project Settings → Blocks → Text Blocks.';
     }
 
     return (
@@ -308,7 +140,13 @@ export default function LongDescriptionSettings({
           onMoveUp={() => moveBlock(blockKey, -1)}
           onMoveDown={() => moveBlock(blockKey, 1)}
         />
-        {card}
+        <BlockInfoCard
+          label={meta.label}
+          onRemove={() => removeFromLayout(blockKey)}
+          collapsible={!!subtitle}
+        >
+          {subtitle && <p className="tag-summary">{subtitle}</p>}
+        </BlockInfoCard>
       </div>
     );
   }

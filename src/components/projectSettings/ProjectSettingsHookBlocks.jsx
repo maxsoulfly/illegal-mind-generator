@@ -2,18 +2,24 @@ import { useState } from 'react';
 import HookTemplateEditor from '../ui/HookTemplateEditor';
 import FormSelect from '../ui/FormSelect';
 import IconButton from '../ui/IconButton';
+import LabelSliderRow from '../ui/LabelSliderRow';
 
-const HOOK_BLOCKS = [
-  { key: 'storyBlock', label: 'Story Block', templateKey: 'storyBlock' },
-  { key: 'logBlock',   label: 'Log Block',   templateKey: 'logNotes' },
-];
+// Hook block definitions live in projects.json → description.hookBlocks.
+// Each entry: { key, label, path, templateKey, scope?, countMax?, countDefault? }
+// path: 'long' | 'top' (description root) | 'shorts'
+// countMax: initial max-lines value (user can change from UI)
+// countDefault: initial slider value
 
 const SCOPE_OPTIONS = [
   { value: 'project', label: 'Project' },
   { value: 'song',    label: 'Song' },
 ];
 
-function HookBlockEditor({ label, templates, scope, hasOverride, onUpdateTemplates, onReset, onScopeChange }) {
+function HookBlockEditor({
+  label, templates, scope, target, hasOverride,
+  maxLines, countValue,
+  onUpdateTemplates, onReset, onScopeChange, onMaxLinesChange, onCountChange,
+}) {
   const [collapsed, setCollapsed] = useState(true);
 
   return (
@@ -27,7 +33,19 @@ function HookBlockEditor({ label, templates, scope, hasOverride, onUpdateTemplat
           <span className="tag-status">{templates.length} templates</span>
         </div>
         <div className="links-editor-badges">
+          <span className="hook-block-target">{target}</span>
           <FormSelect value={scope} onChange={onScopeChange} options={SCOPE_OPTIONS} />
+          <label className="hook-block-max-label">
+            max
+            <input
+              key={maxLines}
+              type="number"
+              min="1"
+              className="form-input hook-block-max-input"
+              defaultValue={maxLines}
+              onBlur={(e) => onMaxLinesChange(Math.max(1, parseInt(e.target.value, 10) || 1))}
+            />
+          </label>
           <IconButton
             icon="↺"
             title="Reset to defaults"
@@ -39,6 +57,15 @@ function HookBlockEditor({ label, templates, scope, hasOverride, onUpdateTemplat
 
       {!collapsed && (
         <div className="tag-editor-section">
+          {maxLines > 1 && (
+            <LabelSliderRow
+              label="Lines to show"
+              min={1}
+              max={maxLines}
+              value={countValue}
+              onChange={onCountChange}
+            />
+          )}
           <HookTemplateEditor
             templates={templates}
             onUpdateTemplates={onUpdateTemplates}
@@ -51,87 +78,160 @@ function HookBlockEditor({ label, templates, scope, hasOverride, onUpdateTemplat
 }
 
 export default function ProjectSettingsHookBlocks({
-  baseProjectConfig,
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,
 }) {
-  const longTemplates = projectConfig.description?.templates?.long || {};
-  const baseLongTemplates = baseProjectConfig?.description?.templates?.long || {};
-  const overriddenLong = projectSettingsOverrides.description?.templates?.long || {};
+  const overriddenDesc   = projectSettingsOverrides.description || {};
+  const overriddenLong   = projectSettingsOverrides.description?.templates?.long    || {};
+  const overriddenShorts = projectSettingsOverrides.description?.templates?.shorts  || {};
 
-  function getTemplates(templateKey) {
-    return longTemplates[templateKey] || [];
+  const longTemplates   = projectConfig.description?.templates?.long    || {};
+  const shortsTemplates = projectConfig.description?.templates?.shorts  || {};
+  const descConfig      = projectConfig.description || {};
+
+  function getTemplates({ path, templateKey }) {
+    if (path === 'long')   return longTemplates[templateKey]   || [];
+    if (path === 'top')    return descConfig[templateKey]      || [];
+    if (path === 'shorts') return shortsTemplates[templateKey] || [];
+    return [];
   }
 
-  function hasTemplateOverride(templateKey) {
-    return templateKey in overriddenLong;
+  function getMaxLines({ key, countMax }) {
+    return overriddenDesc.hookBlockMaxLines?.[key] ?? countMax ?? 1;
   }
 
-  function updateTemplates(templateKey, newTemplates) {
-    updateProjectOverride({
-      description: {
-        ...(projectSettingsOverrides.description || {}),
-        templates: {
-          ...(projectSettingsOverrides.description?.templates || {}),
-          long: {
-            ...overriddenLong,
-            [templateKey]: newTemplates,
-          },
+  function getCountValue(block) {
+    const max = getMaxLines(block);
+    const stored = overriddenDesc.hookBlockCounts?.[block.key] ?? block.countDefault ?? 1;
+    return Math.min(stored, max);
+  }
+
+  function isOverridden({ key, path, templateKey }) {
+    const tplOverridden =
+      path === 'long'   ? templateKey in overriddenLong
+      : path === 'top'  ? templateKey in overriddenDesc
+      : path === 'shorts' ? templateKey in overriddenShorts
+      : false;
+    return (
+      tplOverridden ||
+      (overriddenDesc.hookBlockMaxLines != null && key in overriddenDesc.hookBlockMaxLines) ||
+      (overriddenDesc.hookBlockCounts   != null && key in overriddenDesc.hookBlockCounts)
+    );
+  }
+
+  function updateTemplates({ path, templateKey }, newTemplates) {
+    const templates_ = projectSettingsOverrides.description?.templates || {};
+    if (path === 'long') {
+      updateProjectOverride({
+        description: { ...overriddenDesc, templates: { ...templates_, long: { ...overriddenLong, [templateKey]: newTemplates } } },
+      });
+    } else if (path === 'top') {
+      updateProjectOverride({
+        description: { ...overriddenDesc, [templateKey]: newTemplates },
+      });
+    } else if (path === 'shorts') {
+      updateProjectOverride({
+        description: { ...overriddenDesc, templates: { ...templates_, shorts: { ...overriddenShorts, [templateKey]: newTemplates } } },
+      });
+    }
+  }
+
+  function resetBlock({ key, path, templateKey }) {
+    const templates_ = projectSettingsOverrides.description?.templates || {};
+    const { [key]: _mx, ...remainingMaxLines } = overriddenDesc.hookBlockMaxLines || {};
+    const { [key]: _cv, ...remainingCounts   } = overriddenDesc.hookBlockCounts   || {};
+
+    if (path === 'long') {
+      const { [templateKey]: _t, ...remainingLong } = overriddenLong;
+      updateProjectOverride({
+        description: {
+          ...overriddenDesc,
+          hookBlockMaxLines: remainingMaxLines,
+          hookBlockCounts:   remainingCounts,
+          templates: { ...templates_, long: remainingLong },
         },
-      },
-    });
-  }
-
-  function resetTemplates(templateKey) {
-    const { [templateKey]: _removed, ...remaining } = overriddenLong;
-    updateProjectOverride({
-      description: {
-        ...(projectSettingsOverrides.description || {}),
-        templates: {
-          ...(projectSettingsOverrides.description?.templates || {}),
-          long: remaining,
+      });
+    } else if (path === 'top') {
+      const { [templateKey]: _t, ...remaining } = overriddenDesc;
+      updateProjectOverride({
+        description: { ...remaining, hookBlockMaxLines: remainingMaxLines, hookBlockCounts: remainingCounts },
+      });
+    } else if (path === 'shorts') {
+      const { [templateKey]: _t, ...remainingShorts } = overriddenShorts;
+      updateProjectOverride({
+        description: {
+          ...overriddenDesc,
+          hookBlockMaxLines: remainingMaxLines,
+          hookBlockCounts:   remainingCounts,
+          templates: { ...templates_, shorts: remainingShorts },
         },
-      },
-    });
+      });
+    }
   }
 
   function getScope(key) {
-    return overriddenLong.phraseBlockScopes?.[key] ?? 'song';
+    return overriddenLong.phraseBlockScopes?.[key] ?? 'project';
   }
 
   function updateScope(key, scope) {
+    const templates_ = projectSettingsOverrides.description?.templates || {};
     updateProjectOverride({
       description: {
-        ...(projectSettingsOverrides.description || {}),
+        ...overriddenDesc,
         templates: {
-          ...(projectSettingsOverrides.description?.templates || {}),
+          ...templates_,
           long: {
             ...overriddenLong,
-            phraseBlockScopes: {
-              ...(overriddenLong.phraseBlockScopes || {}),
-              [key]: scope,
-            },
+            phraseBlockScopes: { ...(overriddenLong.phraseBlockScopes || {}), [key]: scope },
           },
         },
       },
     });
   }
 
+  function updateMaxLines(key, value) {
+    updateProjectOverride({
+      description: {
+        ...overriddenDesc,
+        hookBlockMaxLines: { ...(overriddenDesc.hookBlockMaxLines || {}), [key]: value },
+      },
+    });
+  }
+
+  function updateCount(key, value) {
+    updateProjectOverride({
+      description: {
+        ...overriddenDesc,
+        hookBlockCounts: { ...(overriddenDesc.hookBlockCounts || {}), [key]: value },
+      },
+    });
+  }
+
+  const hookBlocks = projectConfig.description?.hookBlocks || [];
+
   return (
     <>
-      {HOOK_BLOCKS.map(({ key, label, templateKey }) => (
-        <HookBlockEditor
-          key={key}
-          label={label}
-          templates={getTemplates(templateKey)}
-          scope={getScope(key)}
-          hasOverride={hasTemplateOverride(templateKey)}
-          onUpdateTemplates={(t) => updateTemplates(templateKey, t)}
-          onReset={() => resetTemplates(templateKey)}
-          onScopeChange={(val) => updateScope(key, val)}
-        />
-      ))}
+      {hookBlocks.map((block) => {
+        const { key } = block;
+        return (
+          <HookBlockEditor
+            key={key}
+            label={block.label}
+            templates={getTemplates(block)}
+            scope={getScope(key)}
+            target={block.path === 'shorts' ? 'Shorts' : 'Long'}
+            hasOverride={isOverridden(block)}
+            maxLines={getMaxLines(block)}
+            countValue={getCountValue(block)}
+            onUpdateTemplates={(t) => updateTemplates(block, t)}
+            onReset={() => resetBlock(block)}
+            onScopeChange={(val) => updateScope(key, val)}
+            onMaxLinesChange={(val) => updateMaxLines(key, val)}
+            onCountChange={(val) => updateCount(key, val)}
+          />
+        );
+      })}
     </>
   );
 }

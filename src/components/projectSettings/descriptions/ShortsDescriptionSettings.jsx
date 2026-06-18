@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import TemplateGroupCard from '../../ui/TemplateGroupCard';
 import BlockInfoCard from '../../ui/BlockInfoCard';
 import LabelSliderRow from '../../ui/LabelSliderRow';
 import SubTabNav from '../../ui/SubTabNav';
@@ -14,16 +13,11 @@ const MOBILE_COLUMN_TABS = [
 
 const KNOWN_SHORTS_BLOCK_META = {
   coverLine: { label: 'Cover Line' },
-  header: { label: 'Header' },
-  primary: { label: 'Primary' },
+  header:    { label: 'Header' },
+  primary:   { label: 'Primary' },
   secondary: { label: 'Secondary' },
-  hook: { label: 'Hook' },
+  hook:      { label: 'Hook' },
 };
-
-// Phrase-template blocks edited directly here. coverLine and header share
-// the same underlying template array — coverLine is just the engine's
-// fallback name for it. hook pulls from the Shorts Hooks tab instead.
-const TEMPLATE_KEYS = ['coverLine', 'header', 'primary', 'secondary'];
 
 export default function ShortsDescriptionSettings({
   baseProjectConfig,
@@ -33,23 +27,27 @@ export default function ShortsDescriptionSettings({
 }) {
   const [mobileTab, setMobileTab] = useState('layout');
 
-  const shortsConfig = projectConfig.description?.templates?.shorts || {};
+  const shortsConfig    = projectConfig.description?.templates?.shorts || {};
   const overriddenShorts =
     projectSettingsOverrides.description?.templates?.shorts || {};
   const customBlocks =
     projectConfig.description?.templates?.long?.customBlocks || {};
 
+  // Derive hook-block-backed layout keys from config
+  const shortsHookBlockKeys = new Set(
+    (projectConfig.description?.hookBlocks || [])
+      .filter((b) => b.path === 'shorts')
+      .map((b) => b.descriptionLayoutKey ?? b.templateKey),
+  );
+
   const count = overriddenShorts.count ?? shortsConfig.count ?? 3;
 
-  // Use base (pre-override) layout so Available always reflects the original config
   const defaultLayout =
     baseProjectConfig?.description?.templates?.shorts?.layout ??
     shortsConfig.layout ?? ['coverLine', 'hook', 'secondary'];
 
   const activeKeys = overriddenShorts.layout ?? defaultLayout;
 
-  // List/Text blocks created from the Blocks tab aren't in the static
-  // default layout at all, so they need their own path into Available.
   const dynamicBlockKeys = Object.keys(customBlocks).filter((key) => {
     if (defaultLayout.includes(key)) return false;
     if (!isListBlock(customBlocks[key]) && !isTextBlock(customBlocks[key])) return false;
@@ -79,31 +77,15 @@ export default function ShortsDescriptionSettings({
     });
   }
 
-  function resetField(key) {
-    const { [key]: _removed, ...remaining } = overriddenShorts;
-    updateProjectOverride({
-      description: {
-        ...(projectSettingsOverrides.description || {}),
-        templates: {
-          ...(projectSettingsOverrides.description?.templates || {}),
-          shorts: remaining,
-        },
-      },
-    });
-  }
-
   function updateLayout(newKeys) {
     updateShortsField('layout', newKeys);
   }
 
   function addToLayout(key) {
-    // Dynamic list blocks have no default position — append at the end.
     if (!defaultLayout.includes(key)) {
       updateLayout([...activeKeys, key]);
       return;
     }
-
-    // Re-insert at its original position in the default layout.
     const targetIndex = defaultLayout.indexOf(key);
     const next = [...activeKeys];
     const insertAt = next.findLastIndex((k) => layoutIndex(k) < targetIndex) + 1;
@@ -124,7 +106,6 @@ export default function ShortsDescriptionSettings({
   }
 
   function resetOrder() {
-    // Dynamic list blocks have no default position — they sort to the end.
     const sorted = [...activeKeys].sort((a, b) => layoutIndex(a) - layoutIndex(b));
     updateLayout(sorted);
   }
@@ -133,39 +114,17 @@ export default function ShortsDescriptionSettings({
     const meta =
       KNOWN_SHORTS_BLOCK_META[key] || { label: getBlockLabel(key, customBlocks[key]) };
     const isFirst = index === 0;
-    const isLast = index === activeKeys.length - 1;
+    const isLast  = index === activeKeys.length - 1;
 
-    let card;
-    if (TEMPLATE_KEYS.includes(key)) {
-      const templateKey = key === 'coverLine' ? 'header' : key;
-      const templates = overriddenShorts[templateKey] ?? shortsConfig[templateKey] ?? [];
-      card = (
-        <TemplateGroupCard
-          label={meta.label}
-          templates={templates}
-          onUpdateTemplates={(t) => updateShortsField(templateKey, t)}
-          onReset={() => resetField(templateKey)}
-          onRemove={() => removeFromLayout(key)}
-          initialCollapsed
-        />
-      );
+    let subtitle;
+    if (shortsHookBlockKeys.has(key)) {
+      subtitle = 'Edit in Project Settings → Blocks → Hook Blocks.';
     } else if (key === 'hook') {
-      card = (
-        <BlockInfoCard label={meta.label} onRemove={() => removeFromLayout(key)} collapsible>
-          <p className="tag-summary">Edit hooks in Project Settings → Shorts Hooks.</p>
-        </BlockInfoCard>
-      );
-    } else {
-      const isListShaped = isListBlock(customBlocks[key]);
-      card = (
-        <BlockInfoCard label={meta.label} onRemove={() => removeFromLayout(key)} collapsible>
-          <p className="tag-summary">
-            {isListShaped
-              ? 'Edit content in Project Settings → Blocks → Lists.'
-              : 'Edit content in Project Settings → Blocks → Text Blocks.'}
-          </p>
-        </BlockInfoCard>
-      );
+      subtitle = 'Edit hooks in Project Settings → Shorts Hooks.';
+    } else if (isListBlock(customBlocks[key])) {
+      subtitle = 'Edit content in Project Settings → Blocks → Lists.';
+    } else if (isTextBlock(customBlocks[key])) {
+      subtitle = 'Edit content in Project Settings → Blocks → Text Blocks.';
     }
 
     return (
@@ -177,7 +136,13 @@ export default function ShortsDescriptionSettings({
           onMoveUp={() => moveBlock(key, -1)}
           onMoveDown={() => moveBlock(key, 1)}
         />
-        {card}
+        <BlockInfoCard
+          label={meta.label}
+          onRemove={() => removeFromLayout(key)}
+          collapsible={!!subtitle}
+        >
+          {subtitle && <p className="tag-summary">{subtitle}</p>}
+        </BlockInfoCard>
       </div>
     );
   }
