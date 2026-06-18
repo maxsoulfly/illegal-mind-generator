@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import SubTabNav from '../ui/SubTabNav';
 import ProjectSettingsLists from './ProjectSettingsLists';
 import ProjectSettingsTextBlocks from './ProjectSettingsTextBlocks';
@@ -29,17 +28,6 @@ export default function ProjectSettingsBlocks({
       },
     });
   }
-
-  // Persist the sub-tab and clear the target. Children effects (scroll in BlockEditorCard)
-  // run before parent effects, so the scroll fires before open becomes false.
-  useEffect(() => {
-    if (!blocksTarget) return;
-    clearBlocksTarget();
-    updateProjectOverride({
-      blocks: { ...(projectSettingsOverrides.blocks || {}), activeSubTab: blocksTarget.subTab },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blocksTarget]);
 
   return (
     <>
