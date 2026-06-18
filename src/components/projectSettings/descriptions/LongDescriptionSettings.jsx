@@ -36,12 +36,16 @@ export default function LongDescriptionSettings({
 
   const longTemplates = projectConfig.description?.templates?.long || {};
   const customBlocks  = longTemplates.customBlocks || {};
+  const overriddenDesc = projectSettingsOverrides.description || {};
+  const hookBlocks = projectConfig.description?.hookBlocks || [];
 
-  // Derive hook-block-backed layout keys from config — no hardcoding
-  const hookBlockLayoutKeys = new Set(
-    (projectConfig.description?.hookBlocks || [])
-      .filter((b) => b.path !== 'shorts')
-      .map((b) => b.descriptionLayoutKey ?? b.key),
+  // All hook block layout keys — for subtitle detection and available palette
+  const allHookBlockLayoutKeys = new Set(
+    hookBlocks.map((b) => b.descriptionLayoutKey ?? b.key),
+  );
+
+  const hookBlockLabelMap = Object.fromEntries(
+    hookBlocks.map((b) => [b.descriptionLayoutKey ?? b.key, b.label]),
   );
 
   const defaultLayout =
@@ -57,9 +61,22 @@ export default function LongDescriptionSettings({
     return target === 'long' || target === 'both';
   });
 
-  const availableKeys = [...defaultLayout, ...dynamicBlockKeys].filter(
-    (k) => !activeKeys.includes(k),
-  );
+  // Hook blocks eligible for Long (target = 'long' or 'both') not already in defaultLayout
+  const hookBlockAvailableKeys = hookBlocks
+    .filter((b) => {
+      const target =
+        overriddenDesc.hookBlockTargets?.[b.key] ??
+        (b.path === 'shorts' ? 'shorts' : 'long');
+      return target === 'long' || target === 'both';
+    })
+    .map((b) => b.descriptionLayoutKey ?? b.key)
+    .filter((k) => !defaultLayout.includes(k));
+
+  const availableKeys = [
+    ...defaultLayout,
+    ...dynamicBlockKeys,
+    ...hookBlockAvailableKeys,
+  ].filter((k) => !activeKeys.includes(k));
 
   function layoutIndex(key) {
     const idx = defaultLayout.indexOf(key);
@@ -111,9 +128,10 @@ export default function LongDescriptionSettings({
   }
 
   function renderActiveBlock(blockKey, index) {
-    const meta =
-      KNOWN_BLOCK_META[blockKey] ||
-      { label: getBlockLabel(blockKey, customBlocks[blockKey]) };
+    const label =
+      hookBlockLabelMap[blockKey] ??
+      KNOWN_BLOCK_META[blockKey]?.label ??
+      getBlockLabel(blockKey, customBlocks[blockKey]);
     const isFirst = index === 0;
     const isLast  = index === activeKeys.length - 1;
 
@@ -123,7 +141,7 @@ export default function LongDescriptionSettings({
     const isTextShaped = isTextBlock(blockData);
 
     let subtitle;
-    if (hookBlockLayoutKeys.has(blockKey)) {
+    if (allHookBlockLayoutKeys.has(blockKey)) {
       subtitle = 'Edit in Project Settings → Blocks → Hook Blocks.';
     } else if (isListShaped) {
       subtitle = 'Edit content in Project Settings → Blocks → Lists.';
@@ -141,7 +159,7 @@ export default function LongDescriptionSettings({
           onMoveDown={() => moveBlock(blockKey, 1)}
         />
         <BlockInfoCard
-          label={meta.label}
+          label={label}
           onRemove={() => removeFromLayout(blockKey)}
           collapsible={!!subtitle}
         >
@@ -168,12 +186,13 @@ export default function LongDescriptionSettings({
           ) : (
             <ul className="desc-available-list">
               {availableKeys.map((key) => {
-                const meta =
-                  KNOWN_BLOCK_META[key] ||
-                  { label: getBlockLabel(key, customBlocks[key]) };
+                const itemLabel =
+                  hookBlockLabelMap[key] ??
+                  KNOWN_BLOCK_META[key]?.label ??
+                  getBlockLabel(key, customBlocks[key]);
                 return (
                   <li key={key} className="desc-available-item">
-                    <span>{meta.label}</span>
+                    <span>{itemLabel}</span>
                     <IconButton
                       icon="+"
                       title="Add to layout"

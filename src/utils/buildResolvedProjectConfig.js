@@ -62,6 +62,21 @@ export default function buildResolvedProjectConfig(
     mergeProjectOverrides(projectConfig, projectSettingsOverrides),
   );
 
+  // Append user-created hook blocks (stored in overrides) to the resolved
+  // hookBlocks array so all downstream code sees them alongside JSON-defined ones.
+  const customHookBlocks = nextConfig.description?.customHookBlocks || [];
+  if (customHookBlocks.length) {
+    nextConfig.description.hookBlocks = [
+      ...(projectConfig.description?.hookBlocks || []),
+      ...customHookBlocks.map((b) => ({
+        key: b.key,
+        label: b.label,
+        path: 'long',
+        templateKey: b.key,
+      })),
+    ];
+  }
+
   Object.entries(tagOverrides || {}).forEach(([tagName, override]) => {
     const baseTag = nextConfig.tags?.[tagName] || {};
 

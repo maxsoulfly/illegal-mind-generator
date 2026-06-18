@@ -1,5 +1,7 @@
 import HookTemplateEditor from '../ui/HookTemplateEditor';
 import BlockEditorCard from './blocks/BlockEditorCard';
+import AddBlockForm from './blocks/AddBlockForm';
+import { generateBlockKey } from '../../utils/customBlocks';
 
 // Hook block definitions live in projects.json → description.hookBlocks.
 // Each entry: { key, label, path, templateKey, scope?, countMax?, countDefault?, descriptionLayoutKey? }
@@ -15,6 +17,7 @@ function HookBlockEditor({
   countValue,
   onUpdateTemplates,
   onReset,
+  onDelete,
   onScopeChange,
   onTargetChange,
   onMaxLinesChange,
@@ -33,6 +36,7 @@ function HookBlockEditor({
       onTargetChange={onTargetChange}
       hasOverride={hasOverride}
       onReset={onReset}
+      onDelete={onDelete}
     >
       <div className="tag-phrase-row hook-block-lines-row">
         <span className="form-label">Lines</span>
@@ -269,11 +273,70 @@ export default function ProjectSettingsHookBlocks({
   }
 
   const hookBlocks = projectConfig.description?.hookBlocks || [];
+  const customBlocks = projectConfig.description?.templates?.long?.customBlocks || {};
+  const dynamicHookBlockKeys = new Set(
+    (overriddenDesc.customHookBlocks || []).map((b) => b.key),
+  );
+
+  function addHookBlock(key, name, scope, target) {
+    const templates_ = projectSettingsOverrides.description?.templates || {};
+    updateProjectOverride({
+      description: {
+        ...overriddenDesc,
+        customHookBlocks: [
+          ...(overriddenDesc.customHookBlocks || []),
+          { key, label: name },
+        ],
+        hookBlockTargets: { ...(overriddenDesc.hookBlockTargets || {}), [key]: target },
+        templates: {
+          ...templates_,
+          long: {
+            ...overriddenLong,
+            phraseBlockScopes: {
+              ...(overriddenLong.phraseBlockScopes || {}),
+              [key]: scope,
+            },
+          },
+        },
+      },
+    });
+  }
+
+  function deleteHookBlock(key) {
+    if (!window.confirm(`Delete this hook block? This cannot be undone.`)) return;
+    const templates_ = projectSettingsOverrides.description?.templates || {};
+    const { [key]: _tpl, ...remainingLongBase } = overriddenLong;
+    const { [key]: _sc, ...remainingScopes } = overriddenLong.phraseBlockScopes || {};
+    const { [key]: _mx, ...remainingMaxLines } = overriddenDesc.hookBlockMaxLines || {};
+    const { [key]: _cv, ...remainingCounts } = overriddenDesc.hookBlockCounts || {};
+    const { [key]: _tgt, ...remainingTargets } = overriddenDesc.hookBlockTargets || {};
+    updateProjectOverride({
+      description: {
+        ...overriddenDesc,
+        customHookBlocks: (overriddenDesc.customHookBlocks || []).filter(
+          (b) => b.key !== key,
+        ),
+        hookBlockMaxLines: remainingMaxLines,
+        hookBlockCounts: remainingCounts,
+        hookBlockTargets: remainingTargets,
+        templates: {
+          ...templates_,
+          long: { ...remainingLongBase, phraseBlockScopes: remainingScopes },
+        },
+      },
+    });
+  }
+
+  const existingKeys = [
+    ...hookBlocks.map((b) => b.key),
+    ...Object.keys(customBlocks),
+  ];
 
   return (
     <>
       {hookBlocks.map((block) => {
         const { key } = block;
+        const isDynamic = dynamicHookBlockKeys.has(key);
         return (
           <HookBlockEditor
             key={key}
@@ -281,11 +344,12 @@ export default function ProjectSettingsHookBlocks({
             templates={getTemplates(block)}
             scope={getScope(key)}
             target={getTarget(block)}
-            hasOverride={isOverridden(block)}
+            hasOverride={!isDynamic && isOverridden(block)}
             maxLines={getMaxLines(block)}
             countValue={getCountValue(block)}
             onUpdateTemplates={(t) => updateTemplates(block, t)}
-            onReset={() => resetBlock(block)}
+            onReset={!isDynamic ? () => resetBlock(block) : undefined}
+            onDelete={isDynamic ? () => deleteHookBlock(key) : undefined}
             onScopeChange={(val) => updateScope(key, val)}
             onTargetChange={(val) => updateTarget(key, val)}
             onMaxLinesChange={(val) => updateMaxLines(key, val)}
@@ -293,6 +357,11 @@ export default function ProjectSettingsHookBlocks({
           />
         );
       })}
+      <AddBlockForm
+        placeholder="New hook block name (e.g. Sponsor Hook)"
+        existingKeys={existingKeys}
+        onAdd={addHookBlock}
+      />
     </>
   );
 }
