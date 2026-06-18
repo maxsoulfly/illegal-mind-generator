@@ -4,17 +4,7 @@ import FormSelect from '../../ui/FormSelect';
 import IconButton from '../../ui/IconButton';
 import ListItemRow from './ListItemRow';
 import BlockActions from '../blocks/BlockActions';
-
-const SCOPE_OPTIONS = [
-  { value: 'project', label: 'Project' },
-  { value: 'song', label: 'Song' },
-];
-
-const TARGET_OPTIONS = [
-  { value: 'long', label: 'Long' },
-  { value: 'shorts', label: 'Shorts' },
-  { value: 'both', label: 'Long + Shorts' },
-];
+import { SCOPE_OPTIONS, TARGET_OPTIONS } from '../../../utils/customBlocks';
 
 const DISPLAY_MODE_OPTIONS = [
   { value: 'all', label: 'Show all items' },

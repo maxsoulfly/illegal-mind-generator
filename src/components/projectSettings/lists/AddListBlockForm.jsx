@@ -1,22 +1,11 @@
 import { useState } from 'react';
 import FormSelect from '../../ui/FormSelect';
 import IconButton from '../../ui/IconButton';
-import { generateBlockKey } from '../../../utils/customBlocks';
+import { generateBlockKey, SCOPE_OPTIONS, TARGET_OPTIONS } from '../../../utils/customBlocks';
 
 const TYPE_OPTIONS = [
   { value: 'text', label: 'Text' },
   { value: 'link', label: 'Link' },
-];
-
-const SCOPE_OPTIONS = [
-  { value: 'project', label: 'Project' },
-  { value: 'song', label: 'Song' },
-];
-
-const TARGET_OPTIONS = [
-  { value: 'long', label: 'Long' },
-  { value: 'shorts', label: 'Shorts' },
-  { value: 'both', label: 'Long + Shorts' },
 ];
 
 // Creation form for a new list block — generates a key from the name and

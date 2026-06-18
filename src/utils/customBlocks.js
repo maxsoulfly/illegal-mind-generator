@@ -1,3 +1,14 @@
+export const SCOPE_OPTIONS = [
+  { value: 'project', label: 'Project' },
+  { value: 'song',    label: 'Song' },
+];
+
+export const TARGET_OPTIONS = [
+  { value: 'long',   label: 'Long' },
+  { value: 'shorts', label: 'Shorts' },
+  { value: 'both',   label: 'Long + Shorts' },
+];
+
 // Metadata for built-in customBlocks keys. Anything not listed here is a
 // user-created block — its label falls back to blockData.name or a
 // prettified version of its key.

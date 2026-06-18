@@ -1,18 +1,7 @@
 import { useState } from 'react';
 import FormSelect from '../../ui/FormSelect';
 import IconButton from '../../ui/IconButton';
-import { generateBlockKey } from '../../../utils/customBlocks';
-
-const SCOPE_OPTIONS = [
-  { value: 'project', label: 'Project' },
-  { value: 'song', label: 'Song' },
-];
-
-const TARGET_OPTIONS = [
-  { value: 'long', label: 'Long' },
-  { value: 'shorts', label: 'Shorts' },
-  { value: 'both', label: 'Long + Shorts' },
-];
+import { generateBlockKey, SCOPE_OPTIONS, TARGET_OPTIONS } from '../../../utils/customBlocks';
 
 // Creation form for a new text block — generates a key from the name and
 // hands off an empty, unlocked block to onAdd.

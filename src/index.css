@@ -246,6 +246,64 @@ svg {
   margin-bottom: 0;
 }
 
+/* ─── Range Slider ─────────────────────────── */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance        : none;
+  flex              : 1;
+  height            : 4px;
+  background        : linear-gradient(
+    to right,
+    var(--color-text-accent)  0%,
+    var(--color-text-accent)  var(--val, 0%),
+    var(--color-border-soft)  var(--val, 0%),
+    var(--color-border-soft)  100%
+  );
+  border-radius: 2px;
+  cursor       : pointer;
+  outline      : none;
+  border       : none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width             : 14px;
+  height            : 14px;
+  border-radius     : 50%;
+  background        : var(--color-text-accent);
+  border            : 2px solid var(--color-accent-strong);
+  cursor            : pointer;
+  transition        : transform 0.1s, box-shadow 0.1s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover,
+input[type="range"]:focus::-webkit-slider-thumb {
+  transform : scale(1.15);
+  box-shadow: 0 0 0 4px var(--color-shadow-focus);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width        : 14px;
+  height       : 14px;
+  border-radius: 50%;
+  background   : var(--color-text-accent);
+  border       : 2px solid var(--color-accent-strong);
+  cursor       : pointer;
+  transition   : transform 0.1s, box-shadow 0.1s;
+}
+
+input[type="range"]::-moz-range-track {
+  height       : 4px;
+  background   : var(--color-border-soft);
+  border-radius: 2px;
+}
+
+input[type="range"]::-moz-range-progress {
+  height       : 4px;
+  background   : var(--color-text-accent);
+  border-radius: 2px;
+}
+
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
@@ -1533,10 +1591,12 @@ svg {
   flex       : 0 0 auto;
 }
 
-.hook-block-target {
-  font-size  : 0.75rem;
-  color      : var(--color-text-muted);
-  white-space: nowrap;
+.hook-block-lines-row input[type="range"] {
+  flex: 1;
+}
+
+.hook-block-lines-empty {
+  flex: 1;
 }
 
 .hook-block-max-label {

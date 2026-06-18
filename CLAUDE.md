@@ -106,13 +106,13 @@ src/
 - `PlaceholderField` — input or textarea (`multiline` prop) with a `{placeholder}` autocomplete dropdown: typing `{` starts tracking a query, filters the passed-in `placeholders` array (braces included, e.g. `'{artist}'`), arrow keys + Enter to select, Escape/click-away to dismiss, inserts at cursor. Two save modes — `onBlur` (commit only on blur; `PhraseRow`/`TextBlockEditor`) or `onChange` (live, every keystroke and every insert; `ToggleInputRow`'s prefix/suffix fields, which are fully-controlled). Resyncs on external `defaultValue` change (e.g. reset) without needing a remount. Each caller supplies its own contextually-correct placeholder list — Text Blocks: `artist`/`song`/`tagLine`/`links.*` (matches `generateCustomBlocks.js`'s `renderTextTemplate`); Hooks: `HOOK_PLACEHOLDERS` from `src/utils/hookPlaceholders.js` (matches `generateShortHooks.js`'s `fillHookTemplate`); Title prefix/suffix: `{num}` only (matches `generateTitles.js`). Keep these in sync if the underlying engine substitutions change.
 - `ToggleInputRow` — checkbox + label + input (clicking label toggles checkbox). Input is a `PlaceholderField` in `onChange` (live) mode; optional `placeholders` prop enables the autocomplete (used by Title prefix/suffix fields).
 - `LabelInputRow` — label + input, `compact` mode via `form-input--compact`
-- `LabelSliderRow` — label + range slider + value display
+- `LabelSliderRow` — label + range slider + value display. Passes `--val` CSS custom property to the `<input type="range">` so the global slider theme (amber fill, amber thumb) works via a linear-gradient background.
 - `AddBulkRow` — + Add / + Bulk button row
 - `BulkTextarea` — textarea + Apply/Cancel. Input is a `PlaceholderField` (`multiline`, `onChange` live mode); optional `placeholders` prop enables the autocomplete (wired in `HookTemplateEditor`/`TagPhraseEditor`).
 - `IconButton` — shared shell for every small action button, icon or text (reset ↺, remove ×, lock 🔒/🔓, move ↑/↓, add +, or labeled buttons like "+ Add"/"Apply"/"Cancel"/"Duplicate Project" — `icon` is just rendered as children, no icon required). Takes `icon, title, onClick, disabled, stopPropagation, className`. `onClick` is optional (no-op if omitted — used by not-yet-wired placeholder buttons). Default `className` is `tag-reset-button`; pass `button-secondary` (or another) to reuse the click/disabled wiring with a different look.
 - `MoveControls` — up/down reorder button pair built on `IconButton`. Used by list items and description block reordering; pass `className` for context-specific layout (see `.desc-block-move-controls`).
 - `FormSelect` — the standard `form-select` dropdown (same look as `TodoStatusSelect`) wrapped with `stopPropagation` for use inside clickable card headers. Takes `value, onChange(value), options: [{value, label}]`.
-- `BlockInfoCard` — structural-only card (label + optional remove + optional collapsible body). Used in Description layouts for blocks that aren't edited inline (e.g. List/Text blocks point here to "Edit content in Project Settings → Blocks").
+- `BlockInfoCard` — structural-only card (label + optional remove + optional collapsible body). Used in Description layouts for all block types — List/Text blocks point to "Edit in Blocks → Lists/Text Blocks", Hook blocks point to "Edit in Blocks → Hook Blocks". Descriptions tab is now layout-only; no inline editing of any block type.
 
 ---
 
@@ -156,11 +156,10 @@ The description block system is designed to be fully UI-configurable. The goal: 
 |---|---|---|---|
 | **List** | `{ title, items: [{ label, text\|link }], scope, target, itemType, isCore, name, displayMode }` | **Yes — built** | `gearBlock`, `supportBlock`, `playlistBlock` |
 | **Text** | Single paragraph, optional `{placeholders}`. Legacy blocks are a plain string; UI-created ones are `{ text, scope, target, isCore, name }` | **Yes — built** | `mixingCtaBlock`, `customCtaBlock` |
-| **Hook Block** | Array of strings, one picked at random per generation. Song-scoped ones get per-song override fields in the generator. Edited in Project Settings → Blocks → Hook Blocks. | No (managed via Hook Blocks tab) | `storyBlock`, `logBlock` |
-| **Block Group** | Multiple template lines forming a section | Not started | `broadcastBlock` |
-| **Generated** | Engine-driven output, parameters only | No (engine code required) | `technicalBlock` |
+| **Hook Block** | Array of strings, one picked at random per generation. ALL phrase-template arrays across Long and Shorts descriptions are now Hook Blocks. Song-scoped ones get per-song override fields in the generator. Edited in Project Settings → Blocks → Hook Blocks. | No (managed via Hook Blocks tab) | `storyBlock`, `logBlock`, `introHook`, `broadcastHeader`, `statusLines`, `technicalLines`, `closingSignal`, `philosophyLine`, `shortsHeader`, etc. |
+| **Generated** | Engine-driven output, parameters only | No (engine code required) | `supportBlock`, `tagLine` |
 
-All List/Text blocks live together in `customBlocks` under `templates.long` regardless of which description(s) they `target` — `target` decides eligibility for Long/Shorts, not storage location. `src/utils/customBlocks.js` is the shared home for `isListBlock`/`isTextBlock`/`getBlockLabel`/`generateBlockKey`/`updateLongKey`/`removeLongKey` — both block-type editors and both Description settings pages import from here so List and Text stay consistent. `generateBlockKey` collision checks must see *every* `customBlocks` key regardless of type (List and Text share one namespace).
+All List/Text blocks live together in `customBlocks` under `templates.long` regardless of which description(s) they `target` — `target` decides eligibility for Long/Shorts, not storage location. `src/utils/customBlocks.js` is the shared home for `isListBlock`/`isTextBlock`/`getBlockLabel`/`generateBlockKey`/`updateLongKey`/`removeLongKey` AND `SCOPE_OPTIONS`/`TARGET_OPTIONS` — all block-type editors (List, Text, Hook) import from here. `generateBlockKey` collision checks must see *every* `customBlocks` key regardless of type (List and Text share one namespace).
 
 **List `displayMode`** (`'all'` default, or `'random'`): `renderStructuredBlock` either joins every item (current behavior, unchanged) or picks one item at random per generation. Useful for CTA-style lists where you want variety instead of always showing every line.
 
@@ -172,7 +171,7 @@ Any Text or List block with `scope: 'song'` gets a collapsible override field au
 
 Engine: `renderCustomBlock(block, projectConfig, formData, tagLine, songOverride)` takes the override as its last param — when it is `{ items: [...] }`, renders as a structured block using the project-level block's `title`/`displayMode`; when a non-empty string, renders as plain text — used by both `generateDescriptions.js` (Long) and `generateShortDescriptions.js` (Shorts) via `getEffectiveSongOverrides(formData)`, which merges in one **legacy field that predates this mechanism**: `formData.customCta` (→ `customCtaBlock`). `songBlockOverrides` wins when both are set — `useSavedEntries.js`'s `handleLoadEntry` seeds `songBlockOverrides.customCtaBlock` from legacy `entry.customCta` on load (if not already set), so old saved data shows up in the new field and migrates forward on next save, with no manual migration step.
 
-**Project Settings → Blocks** has three sub-tabs (`ProjectSettingsBlocks.jsx`): Lists, Text Blocks, and Hook Blocks. List/Text editors (`StructuredListEditor` / `TextBlockEditor`) share: header with Scope/Target `FormSelect`s, `BlockActions` (Reset for blocks with a JSON default; Lock 🔒/🔓 + Delete for blocks without one — deletion is blocked while locked), and an "+ Add" form at the bottom (`AddListBlockForm` / `AddTextBlockForm`). Hook Blocks (`ProjectSettingsHookBlocks.jsx`) shows phrase-template arrays for `storyBlock`/`logBlock` with a Scope dropdown in the header — no Target (always Long).
+**Project Settings → Blocks** has three sub-tabs (`ProjectSettingsBlocks.jsx`): Lists, Text Blocks, and Hook Blocks. List/Text editors (`StructuredListEditor` / `TextBlockEditor`) share: header with Scope/Target `FormSelect`s (from shared `SCOPE_OPTIONS`/`TARGET_OPTIONS` in `customBlocks.js`), `BlockActions` (Reset for blocks with a JSON default; Lock 🔒/🔓 + Delete for blocks without one — deletion is blocked while locked), and an "+ Add" form at the bottom. Hook Blocks (`ProjectSettingsHookBlocks.jsx`) is fully config-driven from `description.hookBlocks` per project — covers ALL phrase-template arrays across Long and Shorts. Each card shows: Target dropdown (Long/Shorts/Long+Shorts), Scope dropdown (Project/Song), ↺ reset. Expanded body: Lines row with slider + max number input (slider only appears when max > 1); template editor via `HookTemplateEditor noWrapper`.
 
 ## Block scope
 
@@ -194,13 +193,15 @@ Legacy `formData.customStory`/`customLogNote` fields are still supported via `ge
 
 Hook Blocks (`storyBlock`, `logBlock`) are phrase-template arrays — the engine picks one at random per generation. When `scope: 'song'`, a per-song override text field appears in the generator's Advanced panel (rendered by `PHRASE_BLOCK_OVERRIDES` in `AdvancedDescriptionFields.jsx`'s `SongBlockOverrideFields`). The override is a plain string stored in `formData.songBlockOverrides[blockKey]` and wins over the randomly-picked project template.
 
-Scope for Hook Blocks is stored in `description.templates.long.phraseBlockScopes` (a map of `blockKey → 'song'|'project'`). When scope is `'project'`, no override field appears in the generator. Editable in Project Settings → Blocks → Hook Blocks. Default scope (when no override exists) is `'song'`.
+Scope for Hook Blocks is stored in `description.templates.long.phraseBlockScopes` (a map of `blockKey → 'song'|'project'`). When scope is `'project'`, no override field appears in the generator. Editable in Project Settings → Blocks → Hook Blocks. Default scope (when no override exists) is `'project'`.
 
 ## Block targets
 
 Each block can target **Long Description**, **Shorts Description**, or both, via a `target` field (`long`/`shorts`/`both`). Both `generateDescriptions.js` (Long) and `generateShortDescriptions.js` (Shorts) render List/Text blocks via the shared `renderCustomBlock` (in `generateCustomBlocks.js`) — Shorts list-block output is padded with blank lines so it stands apart from the single-newline-joined surrounding lines.
 
-Dynamic blocks (no JSON default, created from the Blocks tab) have no position in the static layout array — they're appended at the end when added to a layout, and sort to the end on "Reset Order". In each Description settings page (`LongDescriptionSettings.jsx` / `ShortsDescriptionSettings.jsx`), an active List/Text block renders as a structural-only `BlockInfoCard` pointing to "Project Settings → Blocks → Lists/Text Blocks" — Descriptions never shows a List/Text content editor inline, only structure (order, scope, target). Phrase-template blocks (`introBlock`, `header`, etc.) are the exception — those still edit inline via `TemplateGroupCard`, matching how they worked before this system existed.
+Hook Block target is stored in `description.hookBlockTargets[key]` in overrides. Default is derived from `block.path` (`'shorts'` → `'shorts'`, anything else → `'long'`). The engine does not yet read `hookBlockTargets` — wiring it to control which description a hook block appears in is future work.
+
+Dynamic blocks (no JSON default, created from the Blocks tab) have no position in the static layout array — they're appended at the end when added to a layout, and sort to the end on "Reset Order". Both Description settings pages (`LongDescriptionSettings.jsx` / `ShortsDescriptionSettings.jsx`) are now **layout-only** — all block types render as `BlockInfoCard` pointing to their editing location. No inline template editing in the Descriptions tab. Hook blocks are detected by deriving `hookBlockLayoutKeys` from `projectConfig.description.hookBlocks` at runtime (using `descriptionLayoutKey ?? key` on each entry) — no hardcoded lists.
 
 ---
 
@@ -213,28 +214,25 @@ Description layout builder. Two-column: Available palette (left) + Active Layout
 **Sub-tabs:** Long Description / Shorts Description — lighter style (`SubTabNav`, underline active).
 **Desktop:** two columns. **Mobile:** Option C — sub-tabs replace columns (Layout / Available tabs).
 
-### Editable long description blocks
+### hookBlocks config shape (in `projects.json description.hookBlocks`)
 
-| Layout block | Config key | Location |
-|---|---|---|
-| `broadcastBlock` | `broadcastHeader`, `operatorStatuses`, `statusLines` | `templates.long` / `description` |
-| `introBlock` | `introHook` | `templates.long` |
-| `storyBlock` | `storyBlock` | `templates.long` |
-| `logBlock` | `logNotes` | `templates.long` |
-| `closingBlock` | `closingSignal`, `philosophyLine` | `templates.long` |
-
-`technicalBlock` and `supportBlock` are tag-driven or link-structured — not template-editable.
+Each entry: `{ key, label, path, templateKey, descriptionLayoutKey?, scope?, countMax?, countDefault? }`
+- `path`: `'long'` (→ `templates.long[templateKey]`), `'top'` (→ `description[templateKey]`), `'shorts'` (→ `templates.shorts[templateKey]`)
+- `descriptionLayoutKey`: layout block key in the Descriptions tab when it differs from `key` (e.g. `introHook` → `introBlock`, `broadcastHeader`/`operatorStatuses`/`statusLines` → `broadcastBlock`)
+- `scope: true` flag in JSON is legacy — scope is now always shown and stored in `phraseBlockScopes`
+- `countMax`/`countDefault`: initial max and default for the Lines slider
 
 ### Steps
 
 * [x] Step 1: Long/Shorts sub-tabs (`SubTabNav`, lighter style)
 * [x] Step 2: Two-column skeleton (Available + Active Layout) + `TemplateGroupCard` for cards
 * [x] Step 3: Mobile — stack into Layout/Available sub-tabs below breakpoint
-* [x] Step 4: Wire `layout` array override (add/remove blocks between columns) — both Long and Shorts; Shorts previously had a disconnected editor-only arrangement (`shortsEditorLayout`) that didn't affect generation at all, now replaced by the real thing
+* [x] Step 4: Wire `layout` array override (add/remove blocks between columns) — both Long and Shorts
 * [x] Step 5: Add missing editable blocks (broadcastHeader, operatorStatuses, statusLines, logNotes)
-* [~] Step 6: Shorts Description — `secondary`/`count`/layout done; `coverLabel` still has no settings field anywhere, only read by the engine
+* [x] Step 6: Shorts Description — layout done; `coverLabel` still has no settings field, only read by the engine
 * [ ] Step 7: Drag-and-drop reordering (future) — currently up/down buttons (`MoveControls`) only
 * [x] Step 8: Add new blocks from UI — List done, Text done, Block Group not started
+* [x] Step 9: Strip inline editing from Descriptions — all blocks now `BlockInfoCard`; Hook blocks detected via `hookBlocks` config, no hardcoded lists
 
 ---
 

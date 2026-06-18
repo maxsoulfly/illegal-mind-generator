@@ -2,17 +2,7 @@ import { useState } from 'react';
 import FormSelect from '../../ui/FormSelect';
 import PlaceholderField from '../../ui/PlaceholderField';
 import BlockActions from './BlockActions';
-
-const SCOPE_OPTIONS = [
-  { value: 'project', label: 'Project' },
-  { value: 'song', label: 'Song' },
-];
-
-const TARGET_OPTIONS = [
-  { value: 'long', label: 'Long' },
-  { value: 'shorts', label: 'Shorts' },
-  { value: 'both', label: 'Long + Shorts' },
-];
+import { SCOPE_OPTIONS, TARGET_OPTIONS } from '../../../utils/customBlocks';
 
 function textOf(blockData) {
   return typeof blockData === 'string' ? blockData : blockData?.text ?? '';

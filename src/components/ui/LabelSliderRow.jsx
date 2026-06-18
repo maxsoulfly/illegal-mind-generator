@@ -9,6 +9,7 @@ export default function LabelSliderRow({ label, value, min, max, onChange }) {
         min={min}
         max={max}
         value={value}
+        style={{ '--val': `${((value - min) / (max - min)) * 100}%` }}
         onChange={(e) => onChange(Number(e.target.value))}
       />
       <span className="tag-status">{value}</span>
