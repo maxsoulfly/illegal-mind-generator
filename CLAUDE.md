@@ -251,6 +251,25 @@ Each entry: `{ key, label, path, templateKey, descriptionLayoutKey?, scope?, cou
 
 ---
 
+## Next Session Todos (Descriptions + Blocks)
+
+### Blocks with no edit target (nav arrow does nothing)
+These blocks appear in Description layouts but aren't hook/list/text blocks, so `onNavigate` is never set — they're non-interactive. Investigate and fix:
+- **Renovation Block** (Maxx Dee Long Description) — not in `hookBlocks` config and not a customBlock; needs an editor or a hardcoded nav target
+- **Hook** (both Maxx Dee and Illegal Mind Shorts Description) — points to Shorts Hooks section, not Blocks; needs a special nav case (`onNavigateToBlock` currently only handles the three Blocks sub-tabs)
+- **Header** (Illegal Mind Shorts Description) — same situation as Hook, investigate config
+
+### Duplicate block that can't be deleted
+- **Technical · Lines** (Maxx Dee) — was duplicated from Illegal Mind somehow; appears as a `hookBlock` entry but delete is unavailable (probably `isCore`/no-delete guard or wrong path). Investigate `projectSettingsOverrides` for Maxx Dee and find/remove the duplicate entry.
+
+### Description layout visual refresh
+Available and Active Layout columns should look nearly identical in width and style. Currently Active is wider. Goal: same-width columns, same card style. The only difference: Available blocks have no move controls (no ordering needed). Remove the width asymmetry from `.desc-layout` CSS.
+
+### Block renaming
+In Project Settings → Blocks (all three sub-tabs: Lists, Text Blocks, Hook Blocks), add an inline name-edit field to each `BlockEditorCard` header so users can rename blocks. Applies to both JSON-default blocks (override the label in projectSettingsOverrides) and user-created blocks (update the stored `label` field in `customHookBlocks` / `customBlocks`). The engine uses `block.label` for display only — renaming is UI-only and doesn't affect template keys or block keys.
+
+---
+
 # Post-Upload Session Todos
 
 - **Shorts descriptions tag awareness** — pull tag-specific phrases into shorts description blocks
