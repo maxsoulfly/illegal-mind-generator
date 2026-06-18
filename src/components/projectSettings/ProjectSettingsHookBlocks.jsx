@@ -1,7 +1,6 @@
 import HookTemplateEditor from '../ui/HookTemplateEditor';
 import BlockEditorCard from './blocks/BlockEditorCard';
 import AddBlockForm from './blocks/AddBlockForm';
-import { generateBlockKey } from '../../utils/customBlocks';
 
 // Hook block definitions live in projects.json → description.hookBlocks.
 // Each entry: { key, label, path, templateKey, scope?, countMax?, countDefault?, descriptionLayoutKey? }
@@ -22,6 +21,7 @@ function HookBlockEditor({
   onTargetChange,
   onMaxLinesChange,
   onCountChange,
+  open,
 }) {
   const pct =
     maxLines > 1 ? `${((countValue - 1) / (maxLines - 1)) * 100}%` : '0%';
@@ -37,6 +37,7 @@ function HookBlockEditor({
       hasOverride={hasOverride}
       onReset={onReset}
       onDelete={onDelete}
+      open={open}
     >
       <div className="tag-phrase-row hook-block-lines-row">
         <span className="form-label">Lines</span>
@@ -84,6 +85,7 @@ export default function ProjectSettingsHookBlocks({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,
+  openBlockKey,
 }) {
   const overriddenDesc = projectSettingsOverrides.description || {};
   const overriddenLong =
@@ -354,6 +356,7 @@ export default function ProjectSettingsHookBlocks({
             onTargetChange={(val) => updateTarget(key, val)}
             onMaxLinesChange={(val) => updateMaxLines(key, val)}
             onCountChange={(val) => updateCount(key, val)}
+            open={openBlockKey === key}
           />
         );
       })}

@@ -16,16 +16,20 @@ export default function ProjectSettingsPage({
   clearShortHooksTarget,
   titlesTarget,
   clearTitlesTarget,
+  blocksTarget,
+  clearBlocksTarget,
+  openBlocksEditor,
   activeSection,
   onSectionChange,
 }) {
   // Navigation targets override the active section; clears on any manual tab click.
-  const resolvedSection = shortHooksTarget ? 'shortHooks' : titlesTarget ? 'titles' : activeSection;
+  const resolvedSection = shortHooksTarget ? 'shortHooks' : titlesTarget ? 'titles' : blocksTarget ? 'blocks' : activeSection;
 
   function handleSectionChange(sectionId) {
     onSectionChange(sectionId);
     if (shortHooksTarget) clearShortHooksTarget();
     if (titlesTarget) clearTitlesTarget();
+    if (blocksTarget) clearBlocksTarget();
   }
 
   return (
@@ -59,6 +63,9 @@ export default function ProjectSettingsPage({
           resetProjectOverride={resetProjectOverride}
           hookTarget={shortHooksTarget}
           titlesTarget={titlesTarget}
+          blocksTarget={blocksTarget}
+          clearBlocksTarget={clearBlocksTarget}
+          openBlocksEditor={openBlocksEditor}
         />
       </div>
     </section>

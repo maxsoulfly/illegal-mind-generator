@@ -12,6 +12,7 @@ export default function ProjectSettingsDescriptions({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,
+  openBlocksEditor,
 }) {
   const activeSubTab = projectSettingsOverrides.description?.activeSubTab ?? 'long';
 
@@ -40,6 +41,7 @@ export default function ProjectSettingsDescriptions({
           projectConfig={projectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}
+          onNavigateToBlock={openBlocksEditor}
         />
       )}
 
@@ -49,6 +51,7 @@ export default function ProjectSettingsDescriptions({
           projectConfig={projectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}
+          onNavigateToBlock={openBlocksEditor}
         />
       )}
     </>

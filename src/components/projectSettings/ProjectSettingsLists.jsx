@@ -15,6 +15,7 @@ export default function ProjectSettingsLists({
   projectConfig,
   projectSettingsOverrides,
   updateProjectOverride,
+  openBlockKey,
 }) {
   const longTemplates = projectConfig.description?.templates?.long || {};
   const customBlocks = longTemplates.customBlocks || {};
@@ -120,6 +121,7 @@ export default function ProjectSettingsLists({
             onDelete={
               hasBaseDefault ? undefined : () => resetCustomBlock(blockKey)
             }
+            open={openBlockKey === blockKey}
           />
         );
       })}
@@ -135,6 +137,7 @@ export default function ProjectSettingsLists({
           hasOverride={hasSupportOverride}
           onSave={(value) => saveLongBlock('supportBlock', value)}
           onReset={() => { resetLongBlock('supportBlock'); setSupportResetKey((k) => k + 1); }}
+          open={openBlockKey === 'supportBlock'}
         />
       )}
 

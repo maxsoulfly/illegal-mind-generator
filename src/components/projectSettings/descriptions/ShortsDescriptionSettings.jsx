@@ -24,6 +24,7 @@ export default function ShortsDescriptionSettings({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,
+  onNavigateToBlock,
 }) {
   const [mobileTab, setMobileTab] = useState('layout');
 
@@ -44,6 +45,11 @@ export default function ShortsDescriptionSettings({
   // Label map derived from hookBlocks config
   const hookBlockLabelMap = Object.fromEntries(
     hookBlocks.map((b) => [b.descriptionLayoutKey ?? b.key, b.label]),
+  );
+
+  // Maps description layout key → actual hook block key (for navigation).
+  const layoutKeyToBlockKey = Object.fromEntries(
+    hookBlocks.map((b) => [b.descriptionLayoutKey ?? b.key, b.key]),
   );
 
   const count = overriddenShorts.count ?? shortsConfig.count ?? 3;
@@ -138,15 +144,15 @@ export default function ShortsDescriptionSettings({
     const isFirst = index === 0;
     const isLast  = index === activeKeys.length - 1;
 
-    let subtitle;
-    if (allHookBlockLayoutKeys.has(key)) {
-      subtitle = 'Edit in Project Settings → Blocks → Hook Blocks.';
-    } else if (key === 'hook') {
-      subtitle = 'Edit hooks in Project Settings → Shorts Hooks.';
-    } else if (isListBlock(customBlocks[key])) {
-      subtitle = 'Edit content in Project Settings → Blocks → Lists.';
-    } else if (isTextBlock(customBlocks[key])) {
-      subtitle = 'Edit content in Project Settings → Blocks → Text Blocks.';
+    let onNavigate;
+    if (onNavigateToBlock) {
+      if (allHookBlockLayoutKeys.has(key)) {
+        onNavigate = () => onNavigateToBlock({ subTab: 'hooks', blockKey: layoutKeyToBlockKey[key] });
+      } else if (isListBlock(customBlocks[key])) {
+        onNavigate = () => onNavigateToBlock({ subTab: 'lists', blockKey: key });
+      } else if (isTextBlock(customBlocks[key])) {
+        onNavigate = () => onNavigateToBlock({ subTab: 'text', blockKey: key });
+      }
     }
 
     return (
@@ -161,10 +167,8 @@ export default function ShortsDescriptionSettings({
         <BlockInfoCard
           label={label}
           onRemove={() => removeFromLayout(key)}
-          collapsible={!!subtitle}
-        >
-          {subtitle && <p className="tag-summary">{subtitle}</p>}
-        </BlockInfoCard>
+          onNavigate={onNavigate}
+        />
       </div>
     );
   }

@@ -48,6 +48,9 @@ function App() {
     titlesTarget,
     openTitlesSearch,
     clearTitlesTarget,
+    blocksTarget,
+    openBlocksEditor,
+    clearBlocksTarget,
     activeProjectSettingsSection,
     setActiveProjectSettingsSection,
   } = useAppShellState();
@@ -223,6 +226,9 @@ function App() {
           clearShortHooksTarget={clearShortHooksTarget}
           titlesTarget={titlesTarget}
           clearTitlesTarget={clearTitlesTarget}
+          blocksTarget={blocksTarget}
+          clearBlocksTarget={clearBlocksTarget}
+          openBlocksEditor={openBlocksEditor}
           activeSection={activeProjectSettingsSection}
           onSectionChange={setActiveProjectSettingsSection}
         />

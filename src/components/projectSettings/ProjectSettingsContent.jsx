@@ -15,6 +15,9 @@ export default function ProjectSettingsContent({
   resetProjectOverride,
   hookTarget,
   titlesTarget,
+  blocksTarget,
+  clearBlocksTarget,
+  openBlocksEditor,
 }) {
   if (activeSection === 'general') {
     return (
@@ -67,6 +70,8 @@ export default function ProjectSettingsContent({
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
+        blocksTarget={blocksTarget}
+        clearBlocksTarget={clearBlocksTarget}
       />
     );
   }
@@ -78,6 +83,7 @@ export default function ProjectSettingsContent({
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
+        openBlocksEditor={openBlocksEditor}
       />
     );
   }

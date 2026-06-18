@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import FormSelect from '../../ui/FormSelect';
 import BlockActions from './BlockActions';
 import { SCOPE_OPTIONS, TARGET_OPTIONS } from '../../../utils/customBlocks';
@@ -15,12 +15,19 @@ export default function BlockEditorCard({
   onDelete,
   isCore,
   onToggleCore,
+  open,
   children,
 }) {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(!open);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [open]);
 
   return (
-    <article className={`tag-card${collapsed ? ' tag-card--collapsed' : ''}`}>
+    <article ref={ref} className={`tag-card${collapsed ? ' tag-card--collapsed' : ''}`}>
       <header className="tag-card-header">
         <div className="tag-card-label-row">
           <h3

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import SubTabNav from '../ui/SubTabNav';
 import ProjectSettingsLists from './ProjectSettingsLists';
 import ProjectSettingsTextBlocks from './ProjectSettingsTextBlocks';
@@ -14,10 +15,13 @@ export default function ProjectSettingsBlocks({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,
+  blocksTarget,
+  clearBlocksTarget,
 }) {
-  const activeSubTab = projectSettingsOverrides.blocks?.activeSubTab ?? 'lists';
+  const activeSubTab = blocksTarget?.subTab ?? projectSettingsOverrides.blocks?.activeSubTab ?? 'lists';
 
   function setActiveSubTab(tab) {
+    if (blocksTarget) clearBlocksTarget();
     updateProjectOverride({
       blocks: {
         ...(projectSettingsOverrides.blocks || {}),
@@ -25,6 +29,17 @@ export default function ProjectSettingsBlocks({
       },
     });
   }
+
+  // Persist the sub-tab and clear the target. Children effects (scroll in BlockEditorCard)
+  // run before parent effects, so the scroll fires before open becomes false.
+  useEffect(() => {
+    if (!blocksTarget) return;
+    clearBlocksTarget();
+    updateProjectOverride({
+      blocks: { ...(projectSettingsOverrides.blocks || {}), activeSubTab: blocksTarget.subTab },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blocksTarget]);
 
   return (
     <>
@@ -42,6 +57,7 @@ export default function ProjectSettingsBlocks({
           projectConfig={projectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}
+          openBlockKey={blocksTarget?.subTab === 'lists' ? blocksTarget.blockKey : null}
         />
       )}
 
@@ -51,6 +67,7 @@ export default function ProjectSettingsBlocks({
           projectConfig={projectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}
+          openBlockKey={blocksTarget?.subTab === 'text' ? blocksTarget.blockKey : null}
         />
       )}
 
@@ -60,6 +77,7 @@ export default function ProjectSettingsBlocks({
           projectConfig={projectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}
+          openBlockKey={blocksTarget?.subTab === 'hooks' ? blocksTarget.blockKey : null}
         />
       )}
     </>

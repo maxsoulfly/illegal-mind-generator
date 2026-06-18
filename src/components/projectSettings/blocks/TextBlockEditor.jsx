@@ -16,6 +16,7 @@ export default function TextBlockEditor({
   onSave,
   onReset,
   onDelete,
+  open,
 }) {
   const [block, setBlock] = useState(() => ({
     text: textOf(blockData),
@@ -78,6 +79,7 @@ export default function TextBlockEditor({
       onDelete={onDelete ? handleDelete : undefined}
       isCore={isCore}
       onToggleCore={handleToggleCore}
+      open={open}
     >
       <div className="form-group">
         <div className="form-label">Text</div>

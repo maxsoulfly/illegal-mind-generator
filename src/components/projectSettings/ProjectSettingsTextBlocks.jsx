@@ -14,6 +14,7 @@ export default function ProjectSettingsTextBlocks({
   projectConfig,
   projectSettingsOverrides,
   updateProjectOverride,
+  openBlockKey,
 }) {
   const longTemplates = projectConfig.description?.templates?.long || {};
   const customBlocks = longTemplates.customBlocks || {};
@@ -104,6 +105,7 @@ export default function ProjectSettingsTextBlocks({
             onDelete={
               hasBaseDefault ? undefined : () => resetCustomBlock(blockKey)
             }
+            open={openBlockKey === blockKey}
           />
         );
       })}

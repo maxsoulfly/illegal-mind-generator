@@ -77,6 +77,7 @@ export default function useAppShellState() {
   const [tagLibrarySearchTarget, setTagLibrarySearchTarget] = useState(null);
   const [shortHooksTarget, setShortHooksTarget] = useState(null);
   const [titlesTarget, setTitlesTarget] = useState(null);
+  const [blocksTarget, setBlocksTarget] = useState(null);
 
   const [activeProjectSettingsSection, setActiveProjectSettingsSection] = useState(() => {
     const storage = loadAppStorage();
@@ -176,6 +177,14 @@ export default function useAppShellState() {
     setTitlesTarget(null);
   }, []);
 
+  const openBlocksEditor = useCallback(({ subTab, blockKey }) => {
+    setBlocksTarget({ subTab, blockKey });
+  }, []);
+
+  const clearBlocksTarget = useCallback(() => {
+    setBlocksTarget(null);
+  }, []);
+
   const openTagLibrarySearch = (target) => {
     if (!target) return;
 
@@ -219,6 +228,9 @@ export default function useAppShellState() {
     titlesTarget,
     openTitlesSearch,
     clearTitlesTarget,
+    blocksTarget,
+    openBlocksEditor,
+    clearBlocksTarget,
     activeProjectSettingsSection,
     setActiveProjectSettingsSection,
   };

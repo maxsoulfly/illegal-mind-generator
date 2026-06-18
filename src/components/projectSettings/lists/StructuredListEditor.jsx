@@ -30,6 +30,7 @@ export default function StructuredListEditor({
   onSave,
   onReset,
   onDelete,
+  open,
 }) {
   const linkSuggestionsId = `link-suggestions-${label.replace(/\s+/g, '-')}`;
   const [block, setBlock] = useState(() => ({
@@ -136,6 +137,7 @@ export default function StructuredListEditor({
       onDelete={onDelete ? handleDelete : undefined}
       isCore={isCore}
       onToggleCore={handleToggleCore}
+      open={open}
     >
       <div className="form-group">
         <div className="form-label">Block Title</div>
