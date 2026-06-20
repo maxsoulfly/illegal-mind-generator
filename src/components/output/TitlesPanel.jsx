@@ -62,7 +62,6 @@ function TitlesPanel({
         <div>
           {isShorts ? (
             <ShortHookTitles
-              title="Best Shorts Title Candidates"
               hooks={mixedShortTitles}
               onOpenSourceTag={onOpenSourceTag}
               onOpenSourceHook={onOpenSourceHook}
