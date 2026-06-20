@@ -5,6 +5,11 @@ function toTitleCase(text) {
     .join(' ');
 }
 
+function resolveTagLabel(tagKey, projectConfig) {
+  const label = projectConfig?.tags?.[tagKey]?.label;
+  return label ? toTitleCase(label) : toTitleCase(tagKey.replace(/_/g, ' '));
+}
+
 function pickRandom(arr = []) {
   return arr[Math.floor(Math.random() * arr.length)] || '';
 }
@@ -16,7 +21,7 @@ export function buildTagLine(formData, projectConfig) {
 
   const tags = (formData.transformationTags || [])
     .filter((tag) => !excluded.includes(tag))
-    .map(toTitleCase)
+    .map((tag) => resolveTagLabel(tag, projectConfig))
     .sort(() => 0.5 - Math.random())
     .slice(0, 3);
 
@@ -38,8 +43,8 @@ export function buildTagLine(formData, projectConfig) {
   return selectedTemplate.replace(/\{tags\}/g, formatTags(tags).toLowerCase());
 }
 
-export function buildTagPhrase(formData) {
-  const tags = (formData.transformationTags || []).map(toTitleCase);
+export function buildTagPhrase(formData, projectConfig) {
+  const tags = (formData.transformationTags || []).map((tag) => resolveTagLabel(tag, projectConfig));
 
   if (tags.length === 0) return 'reshaped';
   if (tags.length === 1) return tags[0];

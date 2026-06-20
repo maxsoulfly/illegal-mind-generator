@@ -11,7 +11,7 @@ function pickRandom(arr = []) {
 
 export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const tagLine = buildTagLine(formData, projectConfig);
-  const tagPhrase = buildTagPhrase(formData);
+  const tagPhrase = buildTagPhrase(formData, projectConfig);
   const selectedTags = formData.transformationTags || [];
 
   // --- Broadcast block ---
