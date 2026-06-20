@@ -177,7 +177,7 @@ svg {
 
 .layout-grid {
   display              : grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 3fr;
   gap                  : var(--space-8);
   align-items          : start;
 }
