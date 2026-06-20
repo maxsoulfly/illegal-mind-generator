@@ -15,6 +15,10 @@ dist-ssr
 # Graphify knowledge graph (regeneratable outputs)
 graphify-out/graph.html
 graphify-out/cache/
+# Graphify machine-specific and temp files
+graphify-out/.graphify_python
+graphify-out/.graphify_root
+graphify-out/.graphify_uncached.txt
 
 # Editor directories and files
 .vscode/*
