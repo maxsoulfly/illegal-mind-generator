@@ -133,6 +133,7 @@ function useSavedEntries(
       transformationTags: entry.transformationTags || [],
       customHashtags: entry.customHashtags?.trim() || '',
       customCta: entry.customCta || '',
+      customLogNote: entry.customLogNote || '',
       songBlockOverrides,
 
       excludeFromRandomizer: entry.excludeFromRandomizer || false,
