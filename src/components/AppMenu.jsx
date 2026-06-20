@@ -51,6 +51,14 @@ export default function AppMenu({
         >
           Project Settings
         </button>
+
+        <button
+          type="button"
+          className={activePage === 'uikit' ? 'active' : ''}
+          onClick={() => setActivePage('uikit')}
+        >
+          UIKit
+        </button>
       </div>
 
       <div className="app-menu-project">

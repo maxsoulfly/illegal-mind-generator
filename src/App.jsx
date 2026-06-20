@@ -17,6 +17,7 @@ import GeneratorPage from './pages/GeneratorPage';
 import ShortsQueuePage from './pages/ShortsQueuePage';
 import TodoPage from './pages/TodoPage';
 import ProjectSettingsPage from './pages/ProjectSettingsPage';
+import UIKitPage from './pages/UIKitPage';
 
 import { DEFAULT_PROJECT_KEY } from './constants/defaultFormData';
 
@@ -233,6 +234,8 @@ function App() {
           onSectionChange={setActiveProjectSettingsSection}
         />
       )}
+
+      {activePage === 'uikit' && <UIKitPage />}
     </div>
   );
 }
