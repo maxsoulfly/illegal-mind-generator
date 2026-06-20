@@ -51,7 +51,7 @@ export default function useTagLibraryData({
     const sortedTags = [...filteredTags].sort((a, b) => {
       if (sortMode === 'usage-desc') return b.usageCount - a.usageCount;
       if (sortMode === 'usage-asc') return a.usageCount - b.usageCount;
-      if (sortMode === 'name') return a.name.localeCompare(b.name);
+      if (sortMode === 'name') return a.label.localeCompare(b.label);
 
       if (sortMode === 'issues') {
         return Number(b.hasMissingMappings) - Number(a.hasMissingMappings);

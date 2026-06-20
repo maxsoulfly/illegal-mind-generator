@@ -94,7 +94,7 @@ export default function useTagOverrides(projectId) {
   const syncProjectTags = ({
     sourceProjectId,
     targetProjectId,
-    sourceTags,
+    sourceBaseTags,
     targetBaseTags,
   }) => {
     if (
@@ -106,33 +106,53 @@ export default function useTagOverrides(projectId) {
     }
 
     setOverrides((prev) => {
+      // Read raw overrides directly from prev — guaranteed to be latest state.
+      const sourceOverrides = prev[sourceProjectId] || {};
       const targetOverrides = prev[targetProjectId] || {};
       const nextTargetOverrides = { ...targetOverrides };
 
-      Object.entries(sourceTags || {}).forEach(([tagName, sourceTag]) => {
-        const targetEffectiveTag = {
-          ...(targetBaseTags?.[tagName] || {}),
-          ...(targetOverrides[tagName] || {}),
-          description: {
-            ...(targetBaseTags?.[tagName]?.description || {}),
-            ...(targetOverrides[tagName]?.description || {}),
-          },
-          shortHooks: {
-            ...(targetBaseTags?.[tagName]?.shortHooks || {}),
-            ...(targetOverrides[tagName]?.shortHooks || {}),
-          },
-        };
+      const buildEffective = (baseTag = {}, override = {}) => ({
+        ...baseTag,
+        ...override,
+        description: mergeDescription(baseTag.description, override.description),
+        shortHooks: mergeShortHooks(baseTag.shortHooks, override.shortHooks),
+      });
+
+      const processedTags = new Set();
+
+      // Step 1: process source overrides (custom tags + base tags with user edits).
+      // These have the highest fidelity since they include actual user additions.
+      Object.entries(sourceOverrides).forEach(([tagName, sourceOverride]) => {
+        processedTags.add(tagName);
+
+        const sourceEffective = buildEffective(
+          sourceBaseTags?.[tagName],
+          sourceOverride,
+        );
+        const targetEffective = buildEffective(
+          targetBaseTags?.[tagName],
+          targetOverrides[tagName],
+        );
 
         const tagExistsInTarget =
-          Boolean(targetBaseTags?.[tagName]) ||
-          Boolean(targetOverrides[tagName]);
+          Boolean(targetBaseTags?.[tagName]) || Boolean(targetOverrides[tagName]);
 
         nextTargetOverrides[tagName] = tagExistsInTarget
-          ? mergeTagData(targetEffectiveTag, sourceTag)
-          : {
-              ...sourceTag,
-              isCustom: true,
-            };
+          ? mergeTagData(targetEffective, sourceEffective)
+          : { ...sourceOverride, isCustom: true };
+      });
+
+      // Step 2: merge base-only source tags that had no overrides.
+      // Copies project-specific base templates into target's overrides.
+      Object.entries(sourceBaseTags || {}).forEach(([tagName, sourceBaseTag]) => {
+        if (processedTags.has(tagName)) return;
+
+        const targetEffective = buildEffective(
+          targetBaseTags?.[tagName],
+          targetOverrides[tagName],
+        );
+
+        nextTargetOverrides[tagName] = mergeTagData(targetEffective, sourceBaseTag);
       });
 
       return {

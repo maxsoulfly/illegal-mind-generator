@@ -113,22 +113,10 @@ export default function TagLibraryPage({
   const handleSyncTags = () => {
     if (!syncTargetProjectId) return;
 
-    // Mirror the same union that buildTagExplorerData uses for the count,
-    // so every tag visible in this library is included in the sync.
-    const allTagNames = [
-      ...new Set([
-        ...(projectConfig.availableTags || []),
-        ...Object.keys(projectConfig.tags || {}),
-      ]),
-    ];
-    const sourceTags = Object.fromEntries(
-      allTagNames.map((name) => [name, (projectConfig.tags || {})[name] || {}]),
-    );
-
     syncProjectTags({
       sourceProjectId: projectId,
       targetProjectId: syncTargetProjectId,
-      sourceTags,
+      sourceBaseTags: projects[projectId]?.tags || {},
       targetBaseTags: projects[syncTargetProjectId]?.tags || {},
     });
 
