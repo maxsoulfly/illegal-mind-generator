@@ -66,6 +66,7 @@ src/
 - **Todo System** — cover planning. Statuses: Wishlist, Needs Re-record, Needs Remaster, Needs Video.
 - **Backup System** — full export/import. Must remain reliable — it's the safety net for storage work.
 - **Project Settings** — per-project config overrides for hooks, titles, descriptions, links, blocks (Lists / Text Blocks), general settings.
+- **UIKit** — living component catalog at the `/uikit` nav route. Browse before building anything new. Covers all reusable UI primitives with interactive examples.
 
 ---
 
@@ -175,6 +176,12 @@ Engine: `renderCustomBlock(block, projectConfig, formData, tagLine, songOverride
 
 **Dynamic Hook Blocks** — user-created hook blocks are stored as `description.customHookBlocks: [{ key, label }]` in overrides. Templates stored in `description.templates.long[key]` (same as `path: 'long'` static blocks). `buildResolvedProjectConfig.js` appends these to `projectConfig.description.hookBlocks` during resolution, so all downstream code (engine, Descriptions tab palette, `resolveHookBlockTemplates`) sees them automatically. Collision checking uses both existing hookBlock keys and customBlocks keys.
 
+**`hookBlocks` config shape** (in `projects.json description.hookBlocks`): `{ key, label, path, templateKey, descriptionLayoutKey?, scope?, countMax?, countDefault? }`
+- `path`: `'long'` (→ `templates.long[templateKey]`), `'top'` (→ `description[templateKey]`), `'shorts'` (→ `templates.shorts[templateKey]`)
+- `descriptionLayoutKey`: layout key when it differs from `key` (e.g. `introHook` → `introBlock`, `broadcastHeader`/`operatorStatuses`/`statusLines` → `broadcastBlock`)
+- `scope: true` flag in JSON is legacy — scope is now always shown and stored in `phraseBlockScopes`
+- `countMax`/`countDefault`: initial max and default for the Lines slider
+
 ## Block scope
 
 Each block has a **scope** field (stored in overrides, user-set in the editor):
@@ -209,32 +216,13 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 # Current Focus
 
-## Project Settings — Descriptions (in progress)
-
-Description layout builder. Two-column: Available palette (left) + Active Layout (right).
-
-**Sub-tabs:** Long Description / Shorts Description — lighter style (`SubTabNav`, underline active).
-**Desktop:** two columns. **Mobile:** Option C — sub-tabs replace columns (Layout / Available tabs).
-
-### hookBlocks config shape (in `projects.json description.hookBlocks`)
-
-Each entry: `{ key, label, path, templateKey, descriptionLayoutKey?, scope?, countMax?, countDefault? }`
-- `path`: `'long'` (→ `templates.long[templateKey]`), `'top'` (→ `description[templateKey]`), `'shorts'` (→ `templates.shorts[templateKey]`)
-- `descriptionLayoutKey`: layout block key in the Descriptions tab when it differs from `key` (e.g. `introHook` → `introBlock`, `broadcastHeader`/`operatorStatuses`/`statusLines` → `broadcastBlock`)
-- `scope: true` flag in JSON is legacy — scope is now always shown and stored in `phraseBlockScopes`
-- `countMax`/`countDefault`: initial max and default for the Lines slider
-
-### Steps
-
-* [x] Step 1: Long/Shorts sub-tabs (`SubTabNav`, lighter style)
-* [x] Step 2: Two-column skeleton (Available + Active Layout) + `TemplateGroupCard` for cards
-* [x] Step 3: Mobile — stack into Layout/Available sub-tabs below breakpoint
-* [x] Step 4: Wire `layout` array override (add/remove blocks between columns) — both Long and Shorts
-* [x] Step 5: Add missing editable blocks (broadcastHeader, operatorStatuses, statusLines, logNotes)
-* [x] Step 6: Shorts Description — layout done; `coverLabel` still has no settings field, only read by the engine
-* [ ] Step 7: Drag-and-drop reordering (future) — currently up/down buttons (`MoveControls`) only
-* [x] Step 8: Add new blocks from UI — List done, Text done, Block Group not started
-* [x] Step 9: Strip inline editing from Descriptions — all blocks now `BlockInfoCard`; Hook blocks detected via `hookBlocks` config, no hardcoded lists
+- **Description layout column parity** — Available and Active Layout columns in Project Settings → Descriptions should be equal width. Currently `.desc-layout` uses `220px 1fr`; goal is `1fr 1fr`. The only difference between columns: Available blocks have no move controls.
+- **Block renaming** — inline name-edit field in `BlockEditorCard` header for all three Blocks sub-tabs (Lists, Text Blocks, Hook Blocks). JSON-default blocks: override label in `projectSettingsOverrides`. User-created: update stored `label` in `customHookBlocks` / `customBlocks`. Engine uses `block.label` for display only — renaming is UI-only, does not affect template keys or block keys.
+- **Fix blocks with no nav target** — these description layout cards have non-interactive `→` arrows:
+  - **Renovation Block** (Maxx Dee Long Description) — not in `hookBlocks` config and not a `customBlock`; needs an editor or a hardcoded nav target
+  - **Hook** (Shorts Description) — routes to Shorts Hooks section, not Blocks; `onNavigateToBlock` currently only handles the three Blocks sub-tabs
+  - **Header** (Illegal Mind Shorts Description) — same situation as Hook
+- **Remove duplicate Technical · Lines block** (Maxx Dee) — duplicated from Illegal Mind; appears as a `hookBlock` entry with no delete option (likely `isCore` guard or wrong path). Inspect `projectSettingsOverrides` for Maxx Dee and remove the stale entry.
 
 ---
 
@@ -246,27 +234,8 @@ Each entry: `{ key, label, path, templateKey, descriptionLayoutKey?, scope?, cou
 - Saved Library Todo filtering
 - CSS refactor (consolidate index.css, clean up class naming)
 - `coverLabel` (Shorts Description) has no settings UI — only editable by hand-editing `projects.json`
-- Block Group block type not started (Step 8 above)
+- Block Group block type not started
 - **`customHashtags`** — last remaining hardcoded per-song field in `AdvancedDescriptionFields.jsx`. It's not a description block at all, so it won't fit the block system — investigate separately.
-
----
-
-## Next Session Todos (Descriptions + Blocks)
-
-### Blocks with no edit target (nav arrow does nothing)
-These blocks appear in Description layouts but aren't hook/list/text blocks, so `onNavigate` is never set — they're non-interactive. Investigate and fix:
-- **Renovation Block** (Maxx Dee Long Description) — not in `hookBlocks` config and not a customBlock; needs an editor or a hardcoded nav target
-- **Hook** (both Maxx Dee and Illegal Mind Shorts Description) — points to Shorts Hooks section, not Blocks; needs a special nav case (`onNavigateToBlock` currently only handles the three Blocks sub-tabs)
-- **Header** (Illegal Mind Shorts Description) — same situation as Hook, investigate config
-
-### Duplicate block that can't be deleted
-- **Technical · Lines** (Maxx Dee) — was duplicated from Illegal Mind somehow; appears as a `hookBlock` entry but delete is unavailable (probably `isCore`/no-delete guard or wrong path). Investigate `projectSettingsOverrides` for Maxx Dee and find/remove the duplicate entry.
-
-### Description layout visual refresh
-Available and Active Layout columns should look nearly identical in width and style. Currently Active is wider. Goal: same-width columns, same card style. The only difference: Available blocks have no move controls (no ordering needed). Remove the width asymmetry from `.desc-layout` CSS.
-
-### Block renaming
-In Project Settings → Blocks (all three sub-tabs: Lists, Text Blocks, Hook Blocks), add an inline name-edit field to each `BlockEditorCard` header so users can rename blocks. Applies to both JSON-default blocks (override the label in projectSettingsOverrides) and user-created blocks (update the stored `label` field in `customHookBlocks` / `customBlocks`). The engine uses `block.label` for display only — renaming is UI-only and doesn't affect template keys or block keys.
 
 ---
 
