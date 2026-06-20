@@ -59,6 +59,22 @@ export default function TagLibraryPage({
     updateTagOverride(tagName, updates);
   };
 
+  const handleDuplicateTag = (tag) => {
+    const newName = tag.name + '_copy';
+    updateTagOverride(newName, {
+      label: tag.label + ' Copy',
+      category: tag.category,
+      excludeFromHashtags: Boolean(tag.excludeFromHashtags),
+      excludeFromButIts: Boolean(tag.excludeFromButIts),
+      visible: true,
+      title: [],
+      thumbnail: [],
+      hashtags: [],
+      description: { technical: [], log: [], status: [] },
+      isCustom: true,
+    });
+  };
+
   const handleCreateTag = () => {
     const rawName = window.prompt('New tag name');
 
@@ -151,6 +167,7 @@ export default function TagLibraryPage({
             categories={categories}
             onToggleVisibility={handleToggleTagVisibility}
             onUpdateTag={handleUpdateTag}
+            onDuplicateTag={handleDuplicateTag}
             projectOverrides={projectOverrides}
             resetTagOverride={resetTagOverride}
             onLoadEntry={onLoadEntry}

@@ -8,6 +8,7 @@ export default function TagCard({
   categories = [],
   onToggleVisibility,
   onUpdateTag,
+  onDuplicateTag,
   projectOverrides,
   resetTagOverride,
   onLoadEntry,
@@ -15,7 +16,7 @@ export default function TagCard({
 }) {
   return (
     <article
-      className={`tag-card 
+      className={`tag-card
         ${tag.hasMissingMappings ? 'tag-issue' : ''}
         ${!tag.hasMissingMappings && tag.isUnused ? 'tag-unused' : ''}
         ${tag.isPopular ? 'tag-used' : ''}
@@ -34,6 +35,7 @@ export default function TagCard({
         categories={categories}
         onUpdateTag={onUpdateTag}
         onToggleVisibility={onToggleVisibility}
+        onDuplicateTag={onDuplicateTag}
         projectOverrides={projectOverrides}
         resetTagOverride={resetTagOverride}
         sourceTarget={sourceTarget}

@@ -25,6 +25,7 @@ export default function TagEditor({
   categories,
   onUpdateTag,
   onToggleVisibility,
+  onDuplicateTag,
   projectOverrides,
   resetTagOverride,
   sourceTarget,
@@ -44,6 +45,7 @@ export default function TagEditor({
           categories={categories}
           onUpdateTag={onUpdateTag}
           onToggleVisibility={onToggleVisibility}
+          onDuplicateTag={onDuplicateTag}
           projectOverrides={projectOverrides}
           resetTagOverride={resetTagOverride}
         />

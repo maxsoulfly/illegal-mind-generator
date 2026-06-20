@@ -8,6 +8,7 @@ export default function TagBasicsTab({
   categories,
   onUpdateTag,
   onToggleVisibility,
+  onDuplicateTag,
   projectOverrides,
   resetTagOverride,
 }) {
@@ -73,6 +74,14 @@ export default function TagBasicsTab({
         onClick={() => onToggleVisibility(tag.name, tag.isVisible)}
       >
         {tag.isVisible ? 'Hide from Generator' : 'Show in Generator'}
+      </button>
+
+      <button
+        type="button"
+        className="button-secondary tag-visibility-toggle"
+        onClick={() => onDuplicateTag?.(tag)}
+      >
+        Duplicate tag
       </button>
 
       {projectOverrides?.[tag.name]?.isCustom && (
