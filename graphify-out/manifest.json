@@ -1,830 +1,830 @@
 {
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\.claude\\settings.json": {
+  ".claude/settings.json": {
     "mtime": 1781993227.159351,
     "ast_hash": "60015935f6dbfa3b39d1bdadd8d1237e",
     "semantic_hash": "60015935f6dbfa3b39d1bdadd8d1237e"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\.claude\\settings.local.json": {
+  ".claude/settings.local.json": {
     "mtime": 1781203197.0353055,
     "ast_hash": "cca58af8ba28eb68891a62516f3d9da0",
     "semantic_hash": "cca58af8ba28eb68891a62516f3d9da0"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\eslint.config.js": {
+  "eslint.config.js": {
     "mtime": 1776087354.741715,
     "ast_hash": "49c8473bcfcec3aef596a5fb04a6df06",
     "semantic_hash": "49c8473bcfcec3aef596a5fb04a6df06"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\package.json": {
+  "package.json": {
     "mtime": 1776087411.5200977,
     "ast_hash": "75d0b59abcfb0bc640cc19629d2fd0c9",
     "semantic_hash": "75d0b59abcfb0bc640cc19629d2fd0c9"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\App.jsx": {
+  "src/App.jsx": {
     "mtime": 1781978412.79968,
     "ast_hash": "af9a93d86a3763b33c3203ba03770cc5",
     "semantic_hash": "af9a93d86a3763b33c3203ba03770cc5"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\AppBackupControls.jsx": {
+  "src/components/AppBackupControls.jsx": {
     "mtime": 1779142717.1887078,
     "ast_hash": "7975b6eb79940c4bb75d2c98bca1893d",
     "semantic_hash": "7975b6eb79940c4bb75d2c98bca1893d"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\AppMenu.jsx": {
+  "src/components/AppMenu.jsx": {
     "mtime": 1781978398.9462817,
     "ast_hash": "b0938ecfa4a1f9420ea0860df6b7a76c",
     "semantic_hash": "b0938ecfa4a1f9420ea0860df6b7a76c"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\CopyButton.jsx": {
+  "src/components/CopyButton.jsx": {
     "mtime": 1777391016.5143702,
     "ast_hash": "11873377320ceba87a87a45d62f5b4f8",
     "semantic_hash": "11873377320ceba87a87a45d62f5b4f8"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\InputForm.jsx": {
+  "src/components/InputForm.jsx": {
     "mtime": 1781621733.3455894,
     "ast_hash": "ac7eab02f0f0fbb080d587e00d02cd22",
     "semantic_hash": "ac7eab02f0f0fbb080d587e00d02cd22"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\entry\\EntrySettings.jsx": {
+  "src/components/entry/EntrySettings.jsx": {
     "mtime": 1780395047.8659406,
     "ast_hash": "fcebd5e9d60a2bfa5470a116de977ad6",
     "semantic_hash": "fcebd5e9d60a2bfa5470a116de977ad6"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\generator\\GeneratorResultsPanel.jsx": {
+  "src/components/generator/GeneratorResultsPanel.jsx": {
     "mtime": 1781219561.02812,
     "ast_hash": "a2a83474ce105b284b203676a596b431",
     "semantic_hash": "a2a83474ce105b284b203676a596b431"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\input\\AdvancedDescriptionFields.jsx": {
+  "src/components/input/AdvancedDescriptionFields.jsx": {
     "mtime": 1781720566.693323,
     "ast_hash": "f4fa54a2155f20f312f9792efbafc621",
     "semantic_hash": "f4fa54a2155f20f312f9792efbafc621"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\input\\BasicSongFields.jsx": {
-    "mtime": 1778557129.2238827,
-    "ast_hash": "2430f2e4e0fdf055fadc256c3a40539e",
-    "semantic_hash": "2430f2e4e0fdf055fadc256c3a40539e"
+  "src/components/input/BasicSongFields.jsx": {
+    "mtime": 1782013672.1839466,
+    "ast_hash": "808b8b3fad7d0e16b943f62947cc25a1",
+    "semantic_hash": ""
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\input\\InputFormActions.jsx": {
+  "src/components/input/InputFormActions.jsx": {
     "mtime": 1778555917.877625,
     "ast_hash": "fdc1b3f934520e14b765393877153d17",
     "semantic_hash": "fdc1b3f934520e14b765393877153d17"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\input\\QueueSettings.jsx": {
+  "src/components/input/QueueSettings.jsx": {
     "mtime": 1781927064.294309,
     "ast_hash": "958fe7a274daf20adddbffdef93886b6",
     "semantic_hash": "958fe7a274daf20adddbffdef93886b6"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\input\\TransformationTagSelector.jsx": {
+  "src/components/input/TransformationTagSelector.jsx": {
     "mtime": 1779749462.158065,
     "ast_hash": "436e1a072b7e584cb118260fdf56db70",
     "semantic_hash": "436e1a072b7e584cb118260fdf56db70"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\output\\DescriptionsPanel.jsx": {
+  "src/components/output/DescriptionsPanel.jsx": {
     "mtime": 1781219561.0292878,
     "ast_hash": "a0eb3939d72cf4b33a48d317fbe6f1ff",
     "semantic_hash": "a0eb3939d72cf4b33a48d317fbe6f1ff"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\output\\GeneratedTitlePair.jsx": {
+  "src/components/output/GeneratedTitlePair.jsx": {
     "mtime": 1781214161.009083,
     "ast_hash": "1c1b880d5f9540ce69bcf06b31433430",
     "semantic_hash": "1c1b880d5f9540ce69bcf06b31433430"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\output\\HashtagsPanel.jsx": {
+  "src/components/output/HashtagsPanel.jsx": {
     "mtime": 1779747230.4019175,
     "ast_hash": "9a96d400bc03fe4d8b316e71975a89de",
     "semantic_hash": "9a96d400bc03fe4d8b316e71975a89de"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\output\\ShortHookTitles.jsx": {
+  "src/components/output/ShortHookTitles.jsx": {
     "mtime": 1781214151.8536081,
     "ast_hash": "6aa02d8d9ccc349caf735745ac67be36",
     "semantic_hash": "6aa02d8d9ccc349caf735745ac67be36"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\output\\ShortHooksPanel.jsx": {
+  "src/components/output/ShortHooksPanel.jsx": {
     "mtime": 1781218995.6210487,
     "ast_hash": "73e14c42d230c1c04bbc89912e6eca05",
     "semantic_hash": "73e14c42d230c1c04bbc89912e6eca05"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\output\\TitlesPanel.jsx": {
+  "src/components/output/TitlesPanel.jsx": {
     "mtime": 1781926703.069859,
     "ast_hash": "ae3ff8b7936b3800abbece058c368421",
     "semantic_hash": "ae3ff8b7936b3800abbece058c368421"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\output\\YouTubeTagsPanel.jsx": {
+  "src/components/output/YouTubeTagsPanel.jsx": {
     "mtime": 1779747230.4517734,
     "ast_hash": "378cd3ac01f29ee0b6e168eeecb259ea",
     "semantic_hash": "378cd3ac01f29ee0b6e168eeecb259ea"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\ProjectSettingsBlocks.jsx": {
+  "src/components/projectSettings/ProjectSettingsBlocks.jsx": {
     "mtime": 1781749456.548629,
     "ast_hash": "9d937b85138a1449c4b2491c01cef878",
     "semantic_hash": "9d937b85138a1449c4b2491c01cef878"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\ProjectSettingsContent.jsx": {
+  "src/components/projectSettings/ProjectSettingsContent.jsx": {
     "mtime": 1781748219.5104814,
     "ast_hash": "4526f86f3cd63d511e300f0cb6b460ca",
     "semantic_hash": "4526f86f3cd63d511e300f0cb6b460ca"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\ProjectSettingsDescriptions.jsx": {
+  "src/components/projectSettings/ProjectSettingsDescriptions.jsx": {
     "mtime": 1781748555.7275524,
     "ast_hash": "29716302e5890343464e60715624c917",
     "semantic_hash": "29716302e5890343464e60715624c917"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\ProjectSettingsGeneral.jsx": {
+  "src/components/projectSettings/ProjectSettingsGeneral.jsx": {
     "mtime": 1781620863.6535802,
     "ast_hash": "9c35659cb5ff5cce0a77d9cec6933a35",
     "semantic_hash": "9c35659cb5ff5cce0a77d9cec6933a35"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\ProjectSettingsHookBlocks.jsx": {
+  "src/components/projectSettings/ProjectSettingsHookBlocks.jsx": {
     "mtime": 1781748729.9022377,
     "ast_hash": "efbc01bf307001b6d7ef498782e1fd2c",
     "semantic_hash": "efbc01bf307001b6d7ef498782e1fd2c"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\ProjectSettingsLinks.jsx": {
+  "src/components/projectSettings/ProjectSettingsLinks.jsx": {
     "mtime": 1781320820.0702486,
     "ast_hash": "404d44f29d8cf1ab44a88cc9767dc491",
     "semantic_hash": "404d44f29d8cf1ab44a88cc9767dc491"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\ProjectSettingsLists.jsx": {
+  "src/components/projectSettings/ProjectSettingsLists.jsx": {
     "mtime": 1781748492.010299,
     "ast_hash": "9eb4304f20ade292e91d11de3ebcb8bb",
     "semantic_hash": "9eb4304f20ade292e91d11de3ebcb8bb"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\ProjectSettingsShortHooks.jsx": {
+  "src/components/projectSettings/ProjectSettingsShortHooks.jsx": {
     "mtime": 1781209463.738593,
     "ast_hash": "8fcd9a596c755903b843821e86b885a6",
     "semantic_hash": "8fcd9a596c755903b843821e86b885a6"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\ProjectSettingsTextBlocks.jsx": {
+  "src/components/projectSettings/ProjectSettingsTextBlocks.jsx": {
     "mtime": 1781748516.9119143,
     "ast_hash": "2ef442a47d9ce50825826c472480d248",
     "semantic_hash": "2ef442a47d9ce50825826c472480d248"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\ProjectSettingsTitles.jsx": {
+  "src/components/projectSettings/ProjectSettingsTitles.jsx": {
     "mtime": 1781213539.126002,
     "ast_hash": "5c9e236216a666e4b7dbf158f47e04dc",
     "semantic_hash": "5c9e236216a666e4b7dbf158f47e04dc"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\blocks\\AddBlockForm.jsx": {
+  "src/components/projectSettings/blocks/AddBlockForm.jsx": {
     "mtime": 1781747041.5604486,
     "ast_hash": "2895a061f997937b27157802a8675e45",
     "semantic_hash": "2895a061f997937b27157802a8675e45"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\blocks\\AddTextBlockForm.jsx": {
+  "src/components/projectSettings/blocks/AddTextBlockForm.jsx": {
     "mtime": 1781747047.261411,
     "ast_hash": "026eeeaa86fe3766862930d583749392",
     "semantic_hash": "026eeeaa86fe3766862930d583749392"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\blocks\\BlockActions.jsx": {
+  "src/components/projectSettings/blocks/BlockActions.jsx": {
     "mtime": 1781617331.2354312,
     "ast_hash": "800039de682cb4c9dcff62a69e5abd79",
     "semantic_hash": "800039de682cb4c9dcff62a69e5abd79"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\blocks\\BlockEditorCard.jsx": {
+  "src/components/projectSettings/blocks/BlockEditorCard.jsx": {
     "mtime": 1781748321.1556394,
     "ast_hash": "72b9a1d49c22f0c541a2acc80446e816",
     "semantic_hash": "72b9a1d49c22f0c541a2acc80446e816"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\blocks\\TextBlockEditor.jsx": {
+  "src/components/projectSettings/blocks/TextBlockEditor.jsx": {
     "mtime": 1781748453.8213713,
     "ast_hash": "61622b8407d89c94f32528503edf3be9",
     "semantic_hash": "61622b8407d89c94f32528503edf3be9"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\descriptions\\LongDescriptionSettings.jsx": {
+  "src/components/projectSettings/descriptions/LongDescriptionSettings.jsx": {
     "mtime": 1781748595.382008,
     "ast_hash": "56eb7c9405e583e91092f3eb2fcc5432",
     "semantic_hash": "56eb7c9405e583e91092f3eb2fcc5432"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\descriptions\\ShortsDescriptionSettings.jsx": {
+  "src/components/projectSettings/descriptions/ShortsDescriptionSettings.jsx": {
     "mtime": 1781748642.9778886,
     "ast_hash": "fb3f1418d2456b3c9f14d9451f202c81",
     "semantic_hash": "fb3f1418d2456b3c9f14d9451f202c81"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\lists\\AddListBlockForm.jsx": {
+  "src/components/projectSettings/lists/AddListBlockForm.jsx": {
     "mtime": 1781744849.6445148,
     "ast_hash": "fc82c6adad75ba7d261af78ef00a6390",
     "semantic_hash": "fc82c6adad75ba7d261af78ef00a6390"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\lists\\LinksRegistryEditor.jsx": {
+  "src/components/projectSettings/lists/LinksRegistryEditor.jsx": {
     "mtime": 1781610348.3620732,
     "ast_hash": "77fb187e4cdb2d3a0924ce8df9b06b3f",
     "semantic_hash": "77fb187e4cdb2d3a0924ce8df9b06b3f"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\lists\\ListItemRow.jsx": {
+  "src/components/projectSettings/lists/ListItemRow.jsx": {
     "mtime": 1781610267.7184422,
     "ast_hash": "91d4576b0b2565731a44421d69197de7",
     "semantic_hash": "91d4576b0b2565731a44421d69197de7"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\lists\\StructuredListEditor.jsx": {
+  "src/components/projectSettings/lists/StructuredListEditor.jsx": {
     "mtime": 1781748432.451031,
     "ast_hash": "009b4c84b66b3c846035c782da69ba27",
     "semantic_hash": "009b4c84b66b3c846035c782da69ba27"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\titles\\TitleGenerationCard.jsx": {
+  "src/components/projectSettings/titles/TitleGenerationCard.jsx": {
     "mtime": 1781206803.5641415,
     "ast_hash": "8c9cd18844e2d4d69b957920d15c1ed0",
     "semantic_hash": "8c9cd18844e2d4d69b957920d15c1ed0"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\titles\\TitlePrefixSuffixSection.jsx": {
+  "src/components/projectSettings/titles/TitlePrefixSuffixSection.jsx": {
     "mtime": 1781620284.5077496,
     "ast_hash": "56fe919eca64bcdc7be37248a520c06d",
     "semantic_hash": "56fe919eca64bcdc7be37248a520c06d"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\projectSettings\\titles\\TitleTransformationSection.jsx": {
+  "src/components/projectSettings/titles/TitleTransformationSection.jsx": {
     "mtime": 1781208344.4938226,
     "ast_hash": "531c92db9de9a5595a79a982c9b05ad4",
     "semantic_hash": "531c92db9de9a5595a79a982c9b05ad4"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\savedLibrary\\SavedLibrary.jsx": {
+  "src/components/savedLibrary/SavedLibrary.jsx": {
     "mtime": 1781592870.2816322,
     "ast_hash": "1e21a440476bd0d0c9157565d07fbed1",
     "semantic_hash": "1e21a440476bd0d0c9157565d07fbed1"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\savedLibrary\\SavedLibraryItem.jsx": {
+  "src/components/savedLibrary/SavedLibraryItem.jsx": {
     "mtime": 1781613587.7980223,
     "ast_hash": "7182603a15ab16e8129336125afa03ae",
     "semantic_hash": "7182603a15ab16e8129336125afa03ae"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\shared\\BulkSongEntry.jsx": {
+  "src/components/shared/BulkSongEntry.jsx": {
     "mtime": 1781013302.244514,
     "ast_hash": "1d2c9d00af039f04357ad8b19f17ed7e",
     "semantic_hash": "1d2c9d00af039f04357ad8b19f17ed7e"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\shortsQueue\\ShortsQueueEmptyState.jsx": {
+  "src/components/shortsQueue/ShortsQueueEmptyState.jsx": {
     "mtime": 1780410973.0633135,
     "ast_hash": "0f178af672dea77b5931198f657104df",
     "semantic_hash": "0f178af672dea77b5931198f657104df"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\shortsQueue\\ShortsQueueItem.jsx": {
+  "src/components/shortsQueue/ShortsQueueItem.jsx": {
     "mtime": 1781613531.133572,
     "ast_hash": "a3bd71495335dd3799ef93b1f3131892",
     "semantic_hash": "a3bd71495335dd3799ef93b1f3131892"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\DescriptionMap.jsx": {
+  "src/components/tags/DescriptionMap.jsx": {
     "mtime": 1777678219.0127738,
     "ast_hash": "319502d6d9ff647f06dbbd5aba040cc7",
     "semantic_hash": "319502d6d9ff647f06dbbd5aba040cc7"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\TagActions.jsx": {
+  "src/components/tags/TagActions.jsx": {
     "mtime": 1780627977.3377762,
     "ast_hash": "2c4018f029a0df846c47f5458c383e69",
     "semantic_hash": "2c4018f029a0df846c47f5458c383e69"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\TagCard.jsx": {
+  "src/components/tags/TagCard.jsx": {
     "mtime": 1781922071.6756055,
     "ast_hash": "f78810e138a0fa023be9ecc9b0d53b12",
     "semantic_hash": "f78810e138a0fa023be9ecc9b0d53b12"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\TagControls.jsx": {
+  "src/components/tags/TagControls.jsx": {
     "mtime": 1780627859.0623548,
     "ast_hash": "b6ff12fdf1aec81deacc6282cf6328dd",
     "semantic_hash": "b6ff12fdf1aec81deacc6282cf6328dd"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\TagDetails.jsx": {
+  "src/components/tags/TagDetails.jsx": {
     "mtime": 1779767202.4742756,
     "ast_hash": "f8effbdb14b486d6286a9410dfb17d36",
     "semantic_hash": "f8effbdb14b486d6286a9410dfb17d36"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\TagEditor.jsx": {
+  "src/components/tags/TagEditor.jsx": {
     "mtime": 1781922100.5946307,
     "ast_hash": "7ce0c14f5a0b1d17410117ae3923c628",
     "semantic_hash": "7ce0c14f5a0b1d17410117ae3923c628"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\TagFilters.jsx": {
+  "src/components/tags/TagFilters.jsx": {
     "mtime": 1780627265.468246,
     "ast_hash": "7d1e29f4a94c76fa30b77cd23fc313ba",
     "semantic_hash": "7d1e29f4a94c76fa30b77cd23fc313ba"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\TagHeader.jsx": {
+  "src/components/tags/TagHeader.jsx": {
     "mtime": 1781923320.2805681,
     "ast_hash": "b9e55eebe605fbbc5090386f13a7d95d",
     "semantic_hash": "b9e55eebe605fbbc5090386f13a7d95d"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\TagMapStatus.jsx": {
+  "src/components/tags/TagMapStatus.jsx": {
     "mtime": 1779745789.371187,
     "ast_hash": "9ed6daf8c630f97313198a69f4723e62",
     "semantic_hash": "9ed6daf8c630f97313198a69f4723e62"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\TagPhraseEditor.jsx": {
+  "src/components/tags/TagPhraseEditor.jsx": {
     "mtime": 1781620603.0247397,
     "ast_hash": "3838daec86785859b27edfbe6212503c",
     "semantic_hash": "3838daec86785859b27edfbe6212503c"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\TagPhraseList.jsx": {
+  "src/components/tags/TagPhraseList.jsx": {
     "mtime": 1777678078.9700923,
     "ast_hash": "c32261851c588a282ff88080e888568c",
     "semantic_hash": "c32261851c588a282ff88080e888568c"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\TagStatusChip.jsx": {
+  "src/components/tags/TagStatusChip.jsx": {
     "mtime": 1779743891.8904457,
     "ast_hash": "25d0759f9472d013357bb13bedb169d5",
     "semantic_hash": "25d0759f9472d013357bb13bedb169d5"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\TagSyncControls.jsx": {
+  "src/components/tags/TagSyncControls.jsx": {
     "mtime": 1780627150.7910538,
     "ast_hash": "e386778bffdcbef0d5b31c0e33cd9eb5",
     "semantic_hash": "e386778bffdcbef0d5b31c0e33cd9eb5"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\TagUsedSongList.jsx": {
+  "src/components/tags/TagUsedSongList.jsx": {
     "mtime": 1779767186.0702672,
     "ast_hash": "f10371c7f0c1d74e4763e8ef4b2e7976",
     "semantic_hash": "f10371c7f0c1d74e4763e8ef4b2e7976"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\editor\\TagBasicsTab.jsx": {
+  "src/components/tags/editor/TagBasicsTab.jsx": {
     "mtime": 1781922134.795425,
     "ast_hash": "2e6d2da932f99cff3d3f1aa5167e0deb",
     "semantic_hash": "2e6d2da932f99cff3d3f1aa5167e0deb"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\editor\\TagDescriptionsTab.jsx": {
+  "src/components/tags/editor/TagDescriptionsTab.jsx": {
     "mtime": 1781003016.362536,
     "ast_hash": "f7656d186505a6fe7efee9c49dec60f7",
     "semantic_hash": "f7656d186505a6fe7efee9c49dec60f7"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\editor\\TagEditorTabs.jsx": {
+  "src/components/tags/editor/TagEditorTabs.jsx": {
     "mtime": 1781000436.3237016,
     "ast_hash": "8ff6ea583b7a5c6cfdb258ca22908484",
     "semantic_hash": "8ff6ea583b7a5c6cfdb258ca22908484"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\editor\\TagHashtagsTab.jsx": {
+  "src/components/tags/editor/TagHashtagsTab.jsx": {
     "mtime": 1781003303.7115266,
     "ast_hash": "aab6aab988580445c4371b5e0fa9a1ee",
     "semantic_hash": "aab6aab988580445c4371b5e0fa9a1ee"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\editor\\TagShortHooksTab.jsx": {
+  "src/components/tags/editor/TagShortHooksTab.jsx": {
     "mtime": 1781620174.5676086,
     "ast_hash": "88dae3e9f8bbeaf2bbabc529c22c10f1",
     "semantic_hash": "88dae3e9f8bbeaf2bbabc529c22c10f1"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\tags\\editor\\TagTitlesTab.jsx": {
+  "src/components/tags/editor/TagTitlesTab.jsx": {
     "mtime": 1781002815.4131203,
     "ast_hash": "96674d7e32af57b086485a29ac73901d",
     "semantic_hash": "96674d7e32af57b086485a29ac73901d"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\todo\\TodoBulkAdd.jsx": {
+  "src/components/todo/TodoBulkAdd.jsx": {
     "mtime": 1780396833.3229847,
     "ast_hash": "44641507ce9b9b6538570d679fd82e22",
     "semantic_hash": "44641507ce9b9b6538570d679fd82e22"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\todo\\TodoFields.jsx": {
+  "src/components/todo/TodoFields.jsx": {
     "mtime": 1780327712.409213,
     "ast_hash": "93c746fbfa83a1d2d5fccafa9fa46f37",
     "semantic_hash": "93c746fbfa83a1d2d5fccafa9fa46f37"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\todo\\TodoItem.jsx": {
+  "src/components/todo/TodoItem.jsx": {
     "mtime": 1780395531.4469151,
     "ast_hash": "e919f1e1252ecf4dd1d3027d2739c309",
     "semantic_hash": "e919f1e1252ecf4dd1d3027d2739c309"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\todo\\TodoStatusSection.jsx": {
+  "src/components/todo/TodoStatusSection.jsx": {
     "mtime": 1780395424.8542492,
     "ast_hash": "680a8585a3727ef7e1675fc45dbadeff",
     "semantic_hash": "680a8585a3727ef7e1675fc45dbadeff"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\todo\\TodoStatusSelect.jsx": {
+  "src/components/todo/TodoStatusSelect.jsx": {
     "mtime": 1780383080.9833114,
     "ast_hash": "bcce288e6227aa00f0c3890910b35fe4",
     "semantic_hash": "bcce288e6227aa00f0c3890910b35fe4"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\AddBulkRow.jsx": {
+  "src/components/ui/AddBulkRow.jsx": {
     "mtime": 1781620797.048485,
     "ast_hash": "959d840dd2180fffdf39498b07c9412a",
     "semantic_hash": "959d840dd2180fffdf39498b07c9412a"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\BlockInfoCard.jsx": {
+  "src/components/ui/BlockInfoCard.jsx": {
     "mtime": 1781749091.0385096,
     "ast_hash": "35e499dcb91cb858335ec0c0686b2ce1",
     "semantic_hash": "35e499dcb91cb858335ec0c0686b2ce1"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\BulkTextarea.jsx": {
+  "src/components/ui/BulkTextarea.jsx": {
     "mtime": 1781620820.3661573,
     "ast_hash": "108cdd7835bdae7544dcdcea41397124",
     "semantic_hash": "108cdd7835bdae7544dcdcea41397124"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\FormField.jsx": {
+  "src/components/ui/FormField.jsx": {
     "mtime": 1778556582.6368823,
     "ast_hash": "923fd6ddc8248e7f4f96218f6391c19d",
     "semantic_hash": "923fd6ddc8248e7f4f96218f6391c19d"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\FormSelect.jsx": {
+  "src/components/ui/FormSelect.jsx": {
     "mtime": 1781614150.5968032,
     "ast_hash": "9c7538fcbf9bb6f75f33ad7b277694b6",
     "semantic_hash": "9c7538fcbf9bb6f75f33ad7b277694b6"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\HookTemplateEditor.jsx": {
+  "src/components/ui/HookTemplateEditor.jsx": {
     "mtime": 1781733731.4713304,
     "ast_hash": "320f39ee663a97afa223c8c256127c0c",
     "semantic_hash": "320f39ee663a97afa223c8c256127c0c"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\IconButton.jsx": {
+  "src/components/ui/IconButton.jsx": {
     "mtime": 1781620771.3122394,
     "ast_hash": "705e6ddbfaadcba5702c7a5b7a23a6c7",
     "semantic_hash": "705e6ddbfaadcba5702c7a5b7a23a6c7"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\LabelInputRow.jsx": {
+  "src/components/ui/LabelInputRow.jsx": {
     "mtime": 1781207988.936751,
     "ast_hash": "4b790eb2479023201acd89795b927d5a",
     "semantic_hash": "4b790eb2479023201acd89795b927d5a"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\LabelSliderRow.jsx": {
+  "src/components/ui/LabelSliderRow.jsx": {
     "mtime": 1781744463.0712235,
     "ast_hash": "981ee90d68d936d2a72a0504e011dc93",
     "semantic_hash": "981ee90d68d936d2a72a0504e011dc93"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\MoveControls.jsx": {
+  "src/components/ui/MoveControls.jsx": {
     "mtime": 1781610231.4849772,
     "ast_hash": "4635e0ab75c14e28b04cfebe97a966ad",
     "semantic_hash": "4635e0ab75c14e28b04cfebe97a966ad"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\NavLinkButton.jsx": {
+  "src/components/ui/NavLinkButton.jsx": {
     "mtime": 1781213809.7212937,
     "ast_hash": "f20d45e2b5421f4e0b76538c1767ca6a",
     "semantic_hash": "f20d45e2b5421f4e0b76538c1767ca6a"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\PhraseRow.jsx": {
+  "src/components/ui/PhraseRow.jsx": {
     "mtime": 1781733722.5192904,
     "ast_hash": "dfd0f4b2d1038a2923b56293a3445bd4",
     "semantic_hash": "dfd0f4b2d1038a2923b56293a3445bd4"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\PlaceholderField.jsx": {
+  "src/components/ui/PlaceholderField.jsx": {
     "mtime": 1781733713.5875065,
     "ast_hash": "c39417ca1bdb7919c6052a62934f2bfb",
     "semantic_hash": "c39417ca1bdb7919c6052a62934f2bfb"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\ProjectTextField.jsx": {
+  "src/components/ui/ProjectTextField.jsx": {
     "mtime": 1781209401.9106522,
     "ast_hash": "c8554b88bec87f3607bfeac9b2852688",
     "semantic_hash": "c8554b88bec87f3607bfeac9b2852688"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\ShortHookCard.jsx": {
+  "src/components/ui/ShortHookCard.jsx": {
     "mtime": 1781224443.2451577,
     "ast_hash": "a7540641caaa26e80b8cd578a5fe35a9",
     "semantic_hash": "a7540641caaa26e80b8cd578a5fe35a9"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\SubTabNav.jsx": {
+  "src/components/ui/SubTabNav.jsx": {
     "mtime": 1781225046.652454,
     "ast_hash": "90108733fbf70ae69bbb28ccf985663d",
     "semantic_hash": "90108733fbf70ae69bbb28ccf985663d"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\TemplateGroupCard.jsx": {
+  "src/components/ui/TemplateGroupCard.jsx": {
     "mtime": 1781610391.5287657,
     "ast_hash": "00ec79e5736ce4c0fbb86460c3a72c4b",
     "semantic_hash": "00ec79e5736ce4c0fbb86460c3a72c4b"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\ToggleButton.jsx": {
+  "src/components/ui/ToggleButton.jsx": {
     "mtime": 1779747836.6182468,
     "ast_hash": "bc438d6a27e4392e7a52fa8c146b6c8f",
     "semantic_hash": "bc438d6a27e4392e7a52fa8c146b6c8f"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\ToggleField.jsx": {
+  "src/components/ui/ToggleField.jsx": {
     "mtime": 1779746136.3855944,
     "ast_hash": "8db9eba40a23f3f4b17c3f7ed292238c",
     "semantic_hash": "8db9eba40a23f3f4b17c3f7ed292238c"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\components\\ui\\ToggleInputRow.jsx": {
+  "src/components/ui/ToggleInputRow.jsx": {
     "mtime": 1781620267.5207205,
     "ast_hash": "0dc65108a54d9fa6e26eb5ab371da0c9",
     "semantic_hash": "0dc65108a54d9fa6e26eb5ab371da0c9"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\config\\projectSettingsSections.js": {
+  "src/config/projectSettingsSections.js": {
     "mtime": 1781616983.1346333,
     "ast_hash": "2d6938802248172fbe3ffc5543946b18",
     "semantic_hash": "2d6938802248172fbe3ffc5543946b18"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\config\\projects.json": {
+  "src/config/projects.json": {
     "mtime": 1781743924.112689,
     "ast_hash": "f178c8185661696cd6e427effebf15f9",
     "semantic_hash": "f178c8185661696cd6e427effebf15f9"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\constants\\defaultFormData.js": {
-    "mtime": 1781719420.2791288,
-    "ast_hash": "7dd9ca707a39e2531df79c162948547b",
-    "semantic_hash": "7dd9ca707a39e2531df79c162948547b"
+  "src/constants/defaultFormData.js": {
+    "mtime": 1782013577.9212925,
+    "ast_hash": "ecb769e48d3a912c43a3f9f63349fcf0",
+    "semantic_hash": ""
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\engine\\descriptions\\descriptionTagHelpers.js": {
+  "src/engine/descriptions/descriptionTagHelpers.js": {
     "mtime": 1781994023.3488665,
     "ast_hash": "32ab662f391fd77d4fa42c6ed7b51649",
     "semantic_hash": "32ab662f391fd77d4fa42c6ed7b51649"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\engine\\descriptions\\generateBroadcastBlock.js": {
+  "src/engine/descriptions/generateBroadcastBlock.js": {
     "mtime": 1781737173.9498384,
     "ast_hash": "e13aa5017478f48ed8bf64925922ffcf",
     "semantic_hash": "e13aa5017478f48ed8bf64925922ffcf"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\engine\\descriptions\\generateCustomBlocks.js": {
-    "mtime": 1781746349.5905068,
-    "ast_hash": "36b90cf821cd601bc217a06d59a90737",
-    "semantic_hash": "36b90cf821cd601bc217a06d59a90737"
+  "src/engine/descriptions/generateCustomBlocks.js": {
+    "mtime": 1782013721.4752262,
+    "ast_hash": "a109303588b8592012b2ab7dab1774e1",
+    "semantic_hash": ""
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\engine\\descriptions\\generateDescriptions.js": {
+  "src/engine/descriptions/generateDescriptions.js": {
     "mtime": 1781994027.2438066,
     "ast_hash": "47f70b429a9853ae650b816a22ac111b",
     "semantic_hash": "47f70b429a9853ae650b816a22ac111b"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\engine\\descriptions\\generateLogBlock.js": {
+  "src/engine/descriptions/generateLogBlock.js": {
     "mtime": 1781719415.8822024,
     "ast_hash": "46f74fe328e60e3b5a75631575720e81",
     "semantic_hash": "46f74fe328e60e3b5a75631575720e81"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\engine\\descriptions\\generateShortDescriptions.js": {
+  "src/engine/descriptions/generateShortDescriptions.js": {
     "mtime": 1781746363.219191,
     "ast_hash": "02d445d45eb0f982db952204fe13ef8f",
     "semantic_hash": "02d445d45eb0f982db952204fe13ef8f"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\engine\\descriptions\\generateTechnicalBlock.js": {
+  "src/engine/descriptions/generateTechnicalBlock.js": {
     "mtime": 1781737169.7136393,
     "ast_hash": "d83eec6a5e42172fc9cfd97635f855bb",
     "semantic_hash": "d83eec6a5e42172fc9cfd97635f855bb"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\engine\\hashtags\\generateHashtags.js": {
+  "src/engine/hashtags/generateHashtags.js": {
     "mtime": 1779742682.6084018,
     "ast_hash": "0178def44d5823829e91c4f44192ca33",
     "semantic_hash": "0178def44d5823829e91c4f44192ca33"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\engine\\hooks\\generateShortHooks.js": {
+  "src/engine/hooks/generateShortHooks.js": {
     "mtime": 1781107196.1891973,
     "ast_hash": "22a180d51e677ecbea23c8a6089b8112",
     "semantic_hash": "22a180d51e677ecbea23c8a6089b8112"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\engine\\prompts\\generateHybridPrompt.js": {
+  "src/engine/prompts/generateHybridPrompt.js": {
     "mtime": 1777387017.5316744,
     "ast_hash": "aaea4d6aff25440947c29deda2626390",
     "semantic_hash": "aaea4d6aff25440947c29deda2626390"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\engine\\titles\\generateThumbnails.js": {
+  "src/engine/titles/generateThumbnails.js": {
     "mtime": 1779548175.6020617,
     "ast_hash": "1bec3619042e24d7e88159b08eab0c97",
     "semantic_hash": "1bec3619042e24d7e88159b08eab0c97"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\engine\\titles\\generateTitles.js": {
+  "src/engine/titles/generateTitles.js": {
     "mtime": 1781213028.6853988,
     "ast_hash": "61992846bf356c1fd7aef9eab739cce3",
     "semantic_hash": "61992846bf356c1fd7aef9eab739cce3"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\hooks\\useAppShellState.js": {
+  "src/hooks/useAppShellState.js": {
     "mtime": 1781748140.3945322,
     "ast_hash": "0c40175c1a450cad6b5ddb7ba1005dd0",
     "semantic_hash": "0c40175c1a450cad6b5ddb7ba1005dd0"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\hooks\\useGeneratedOutput.js": {
+  "src/hooks/useGeneratedOutput.js": {
     "mtime": 1781219561.035178,
     "ast_hash": "0091ae67bba493c15d6a03c510815d15",
     "semantic_hash": "0091ae67bba493c15d6a03c510815d15"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\hooks\\useInputFormLogic.js": {
+  "src/hooks/useInputFormLogic.js": {
     "mtime": 1779028492.5245166,
     "ast_hash": "3fa11d4efe186721718c59e807afb504",
     "semantic_hash": "3fa11d4efe186721718c59e807afb504"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\hooks\\useProjectOverrides.js": {
+  "src/hooks/useProjectOverrides.js": {
     "mtime": 1781072934.9714317,
     "ast_hash": "623361920905f663393073ac0571873f",
     "semantic_hash": "623361920905f663393073ac0571873f"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\hooks\\useSavedEntries.js": {
+  "src/hooks/useSavedEntries.js": {
     "mtime": 1781916921.4717386,
     "ast_hash": "5f5af6ad7218a20231e7c4dd248589cf",
     "semantic_hash": "5f5af6ad7218a20231e7c4dd248589cf"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\hooks\\useShortsQueue.js": {
+  "src/hooks/useShortsQueue.js": {
     "mtime": 1781590157.3222113,
     "ast_hash": "08b5d9e65ebf31662ae4ae0562bec6ff",
     "semantic_hash": "08b5d9e65ebf31662ae4ae0562bec6ff"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\hooks\\useTagLibraryData.js": {
+  "src/hooks/useTagLibraryData.js": {
     "mtime": 1781924272.182914,
     "ast_hash": "6da6edb4c7ad52b482fd65021cf746b2",
     "semantic_hash": "6da6edb4c7ad52b482fd65021cf746b2"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\hooks\\useTagOverrides.js": {
+  "src/hooks/useTagOverrides.js": {
     "mtime": 1781923697.3234615,
     "ast_hash": "1a3b4d203874c15c9b32c8c7b01f0148",
     "semantic_hash": "1a3b4d203874c15c9b32c8c7b01f0148"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\hooks\\useTagVisibilityOverrides.js": {
+  "src/hooks/useTagVisibilityOverrides.js": {
     "mtime": 1781590404.9251342,
     "ast_hash": "f037ab9403d793816310fea1a66b159c",
     "semantic_hash": "f037ab9403d793816310fea1a66b159c"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\main.jsx": {
+  "src/main.jsx": {
     "mtime": 1776087354.8424315,
     "ast_hash": "e13723e2574429d9a6d849727e3ff695",
     "semantic_hash": "e13723e2574429d9a6d849727e3ff695"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\pages\\GeneratorPage.jsx": {
+  "src/pages/GeneratorPage.jsx": {
     "mtime": 1781592854.4434774,
     "ast_hash": "5e701259ceffbf56d2baabef50d9f7fb",
     "semantic_hash": "5e701259ceffbf56d2baabef50d9f7fb"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\pages\\ProjectSettingsPage.jsx": {
+  "src/pages/ProjectSettingsPage.jsx": {
     "mtime": 1781748203.9985929,
     "ast_hash": "b35d0942fb0019c5e87e5b25f6ec5118",
     "semantic_hash": "b35d0942fb0019c5e87e5b25f6ec5118"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\pages\\ShortsQueuePage.jsx": {
+  "src/pages/ShortsQueuePage.jsx": {
     "mtime": 1780411015.2153268,
     "ast_hash": "245155094ad549c569b0712af7d06230",
     "semantic_hash": "245155094ad549c569b0712af7d06230"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\pages\\TagLibraryPage.jsx": {
+  "src/pages/TagLibraryPage.jsx": {
     "mtime": 1781923711.3098447,
     "ast_hash": "32689464c87551c18df1675b042de788",
     "semantic_hash": "32689464c87551c18df1675b042de788"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\pages\\TodoPage.jsx": {
+  "src/pages/TodoPage.jsx": {
     "mtime": 1780411195.954929,
     "ast_hash": "a63820bcf75228815275fb29d33e80a2",
     "semantic_hash": "a63820bcf75228815275fb29d33e80a2"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\pages\\UIKitPage.jsx": {
+  "src/pages/UIKitPage.jsx": {
     "mtime": 1781978393.3354478,
     "ast_hash": "e49bef195e85b59adb774ea389ec5ce3",
     "semantic_hash": "e49bef195e85b59adb774ea389ec5ce3"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\utils\\appBackup.js": {
+  "src/utils/appBackup.js": {
     "mtime": 1781589555.180238,
     "ast_hash": "8b231b969b829348ec34d32543415f39",
     "semantic_hash": "8b231b969b829348ec34d32543415f39"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\utils\\buildResolvedProjectConfig.js": {
+  "src/utils/buildResolvedProjectConfig.js": {
     "mtime": 1781747056.9132888,
     "ast_hash": "501f20223baead9ee774db7ad276ccdd",
     "semantic_hash": "501f20223baead9ee774db7ad276ccdd"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\utils\\buildTagExplorerData.js": {
+  "src/utils/buildTagExplorerData.js": {
     "mtime": 1780314476.2305977,
     "ast_hash": "5171ea75aed760637bb40be63b688ae5",
     "semantic_hash": "5171ea75aed760637bb40be63b688ae5"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\utils\\createTagRegistryFromLegacy.js": {
+  "src/utils/createTagRegistryFromLegacy.js": {
     "mtime": 1778465282.2762928,
     "ast_hash": "0cff7665c441be764ce27d4e27be7240",
     "semantic_hash": "0cff7665c441be764ce27d4e27be7240"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\utils\\customBlocks.js": {
+  "src/utils/customBlocks.js": {
     "mtime": 1781744812.5489032,
     "ast_hash": "ef9cb556182272250b1461cc306e5594",
     "semantic_hash": "ef9cb556182272250b1461cc306e5594"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\utils\\hookPlaceholders.js": {
+  "src/utils/hookPlaceholders.js": {
     "mtime": 1781620129.5730238,
     "ast_hash": "46a65e1e47bace82efc5a9eb971bde82",
     "semantic_hash": "46a65e1e47bace82efc5a9eb971bde82"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\utils\\storage.js": {
+  "src/utils/storage.js": {
     "mtime": 1781592810.1415172,
     "ast_hash": "a2a8fbb356ac58367dc378587c466a05",
     "semantic_hash": "a2a8fbb356ac58367dc378587c466a05"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\utils\\storageMigration.js": {
+  "src/utils/storageMigration.js": {
     "mtime": 1780304387.0882678,
     "ast_hash": "ddbd94170aa755f12e3ceecbe36587e4",
     "semantic_hash": "ddbd94170aa755f12e3ceecbe36587e4"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\utils\\tagRegistry.js": {
+  "src/utils/tagRegistry.js": {
     "mtime": 1778547225.06919,
     "ast_hash": "c17e007e5997ea6ad8afdf80a9467f05",
     "semantic_hash": "c17e007e5997ea6ad8afdf80a9467f05"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\vite.config.js": {
+  "vite.config.js": {
     "mtime": 1776087354.7667265,
     "ast_hash": "88439104b3c207f17d33ef3160e3b080",
     "semantic_hash": "88439104b3c207f17d33ef3160e3b080"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\.claude\\CLAUDE.md": {
+  ".claude/CLAUDE.md": {
     "mtime": 1781993047.3875735,
     "ast_hash": "817fe671013b35ae0bc9301dfe449a87",
     "semantic_hash": "817fe671013b35ae0bc9301dfe449a87"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\.claude\\skills\\graphify\\SKILL.md": {
+  ".claude/skills/graphify/SKILL.md": {
     "mtime": 1781993047.3855722,
     "ast_hash": "707be4eb520993d3e813fd11f383140b",
     "semantic_hash": "707be4eb520993d3e813fd11f383140b"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\.claude\\skills\\graphify\\references\\add-watch.md": {
+  ".claude/skills/graphify/references/add-watch.md": {
     "mtime": 1781993007.749007,
     "ast_hash": "d59d027fe449f06aa03905a01184e779",
     "semantic_hash": "d59d027fe449f06aa03905a01184e779"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\.claude\\skills\\graphify\\references\\exports.md": {
+  ".claude/skills/graphify/references/exports.md": {
     "mtime": 1781993007.7502518,
     "ast_hash": "9da2a2152e60a22f07f05fed5158f287",
     "semantic_hash": "9da2a2152e60a22f07f05fed5158f287"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\.claude\\skills\\graphify\\references\\extraction-spec.md": {
+  ".claude/skills/graphify/references/extraction-spec.md": {
     "mtime": 1781993007.7507637,
     "ast_hash": "2e620982acb506f557538cdcfb1ef6da",
     "semantic_hash": "2e620982acb506f557538cdcfb1ef6da"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\.claude\\skills\\graphify\\references\\github-and-merge.md": {
+  ".claude/skills/graphify/references/github-and-merge.md": {
     "mtime": 1781993007.7527835,
     "ast_hash": "cde13df085e4c492aeb7ba298a996d0d",
     "semantic_hash": "cde13df085e4c492aeb7ba298a996d0d"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\.claude\\skills\\graphify\\references\\hooks.md": {
+  ".claude/skills/graphify/references/hooks.md": {
     "mtime": 1781993007.7527835,
     "ast_hash": "3f545db6ce646650bb9de588f5512a27",
     "semantic_hash": "3f545db6ce646650bb9de588f5512a27"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\.claude\\skills\\graphify\\references\\query.md": {
+  ".claude/skills/graphify/references/query.md": {
     "mtime": 1781993007.7547717,
     "ast_hash": "0b329f30b63b0bd89282848575c86428",
     "semantic_hash": "0b329f30b63b0bd89282848575c86428"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\.claude\\skills\\graphify\\references\\transcribe.md": {
+  ".claude/skills/graphify/references/transcribe.md": {
     "mtime": 1781993007.7547717,
     "ast_hash": "67b6a5fa6c0974e18f60db9f8932fbd8",
     "semantic_hash": "67b6a5fa6c0974e18f60db9f8932fbd8"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\.claude\\skills\\graphify\\references\\update.md": {
+  ".claude/skills/graphify/references/update.md": {
     "mtime": 1781993007.756771,
     "ast_hash": "2f78598160bfb12ab775831e0787b02a",
     "semantic_hash": "2f78598160bfb12ab775831e0787b02a"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\CLAUDE.md": {
-    "mtime": 1781993047.3993294,
-    "ast_hash": "ccb64f5ba6d94b6dd8ec70099d513c4a",
-    "semantic_hash": "ccb64f5ba6d94b6dd8ec70099d513c4a"
+  "CLAUDE.md": {
+    "mtime": 1782013862.3346152,
+    "ast_hash": "9cbe6d6d7fd0de9eba080fd70b66b624",
+    "semantic_hash": ""
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\README.md": {
+  "README.md": {
     "mtime": 1776087354.8504274,
     "ast_hash": "a28dc4cb878325f3e9e5649f3e1469ac",
     "semantic_hash": "a28dc4cb878325f3e9e5649f3e1469ac"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\docs\\architecture.md": {
+  "docs/architecture.md": {
     "mtime": 1781976947.6486025,
     "ast_hash": "241cff29250c2e81deb0de8edbfc36d1",
     "semantic_hash": "241cff29250c2e81deb0de8edbfc36d1"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\docs\\conventions.md": {
+  "docs/conventions.md": {
     "mtime": 1781979700.9627035,
     "ast_hash": "b1af7c6209125b2f64ed33b9e4e21ee7",
     "semantic_hash": "b1af7c6209125b2f64ed33b9e4e21ee7"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\docs\\current-context.md": {
-    "mtime": 1781978927.394424,
-    "ast_hash": "9014cc88f202a22a367f29105ddbdc50",
-    "semantic_hash": "9014cc88f202a22a367f29105ddbdc50"
+  "docs/current-context.md": {
+    "mtime": 1782013873.4105544,
+    "ast_hash": "ccd8b5e66183f4b3fd8855d2afb9a03d",
+    "semantic_hash": ""
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\docs\\data-model.md": {
+  "docs/data-model.md": {
     "mtime": 1781977439.3080227,
     "ast_hash": "17f65133ab5cef179e4a9aa67281423a",
     "semantic_hash": "17f65133ab5cef179e4a9aa67281423a"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\docs\\graph-report.md": {
+  "docs/graph-report.md": {
     "mtime": 1781977824.5901983,
     "ast_hash": "4a030d005eab96b9d2c4b8c51ec2ca04",
     "semantic_hash": "4a030d005eab96b9d2c4b8c51ec2ca04"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\docs\\project-overview.md": {
+  "docs/project-overview.md": {
     "mtime": 1781976503.2983377,
     "ast_hash": "2a087660a7d9fced99aacd11b78f2030",
     "semantic_hash": "2a087660a7d9fced99aacd11b78f2030"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\docs\\roadmap.md": {
+  "docs/roadmap.md": {
     "mtime": 1781979017.8569038,
     "ast_hash": "7610f76c35892626ec435f7d45576e15",
     "semantic_hash": "7610f76c35892626ec435f7d45576e15"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\illegal-mind-generator-project-overview.md": {
+  "illegal-mind-generator-project-overview.md": {
     "mtime": 1776200920.9232624,
     "ast_hash": "8a438d241adc1e771142d6d28665ce3e",
     "semantic_hash": "8a438d241adc1e771142d6d28665ce3e"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\illegal_mind_generator_mvp_spec.md": {
+  "illegal_mind_generator_mvp_spec.md": {
     "mtime": 1776077588.9042156,
     "ast_hash": "a492a8b644189739d5be8c97dc4cd06e",
     "semantic_hash": "a492a8b644189739d5be8c97dc4cd06e"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\illegal_mind_generator_roadmap.md": {
+  "illegal_mind_generator_roadmap.md": {
     "mtime": 1776671546.2593262,
     "ast_hash": "c96e3333956b9dfcbc467c5d48e23a19",
     "semantic_hash": "c96e3333956b9dfcbc467c5d48e23a19"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\index.html": {
+  "index.html": {
     "mtime": 1776087411.4538417,
     "ast_hash": "b25abf0c6275751cf8ba461b31fe64f6",
     "semantic_hash": "b25abf0c6275751cf8ba461b31fe64f6"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\public\\favicon.svg": {
+  "public/favicon.svg": {
     "mtime": 1776087355.23676,
     "ast_hash": "7e840862161341271697daa99a40d76b",
     "semantic_hash": "7e840862161341271697daa99a40d76b"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\public\\icons.svg": {
+  "public/icons.svg": {
     "mtime": 1776087355.2717588,
     "ast_hash": "3b4fcfcf393eca4d264dca4a4663bc37",
     "semantic_hash": "3b4fcfcf393eca4d264dca4a4663bc37"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\assets\\hero.png": {
+  "src/assets/hero.png": {
     "mtime": 1776087354.9873261,
     "ast_hash": "5cf2b0762834cdddc0dd3ec1397b5011",
     "semantic_hash": "5cf2b0762834cdddc0dd3ec1397b5011"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\assets\\react.svg": {
+  "src/assets/react.svg": {
     "mtime": 1776087355.29933,
     "ast_hash": "f0402b67b6ce880f65666bb49e841696",
     "semantic_hash": "f0402b67b6ce880f65666bb49e841696"
   },
-  "D:\\Documents\\Projects\\Dev2026\\illegal-mind-generator\\src\\assets\\vite.svg": {
+  "src/assets/vite.svg": {
     "mtime": 1776087355.3269787,
     "ast_hash": "9960a24288958394ac50e57ff638b036",
     "semantic_hash": "9960a24288958394ac50e57ff638b036"

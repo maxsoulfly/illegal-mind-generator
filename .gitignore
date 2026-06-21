@@ -19,6 +19,8 @@ graphify-out/cache/
 graphify-out/.graphify_python
 graphify-out/.graphify_root
 graphify-out/.graphify_uncached.txt
+# Graphify dated backup directories (created by graphify update)
+graphify-out/20*/
 
 # Editor directories and files
 .vscode/*

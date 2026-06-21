@@ -30,6 +30,9 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 - **Tag duplicate button** — duplicates a tag's full override data in the Tag Library.
 - **Tag sync fix** — sync now reads raw state, not registry; A-Z sort fixed.
 - **Layout widening** — output column is now 3fr (was 1fr) vs 2fr input column.
+- **Tag label fix** — duplicated tags (e.g. `verse_copy_copy_copy`) now show their label in descriptions. `buildTagLine`/`buildTagPhrase` resolve `projectConfig.tags[key].label` instead of using the raw key.
+- **`{year}` placeholder** — `originalYear` field added to `formData` and generator input (side by side with Signal Number). `renderTextTemplate` now substitutes `{year}` in text block templates. Hook templates already supported it via `fillHookTemplate`.
+- **Graphify knowledge graph** — `graphify-out/graph.json` built (510 nodes, 980 edges). Use `graphify query "..."` for codebase questions instead of grepping files. `graphify update .` after code changes (AST-only, no token cost).
 
 ---
 
