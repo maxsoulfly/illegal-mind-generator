@@ -25,14 +25,14 @@
     "semantic_hash": "af9a93d86a3763b33c3203ba03770cc5"
   },
   "src/components/AppBackupControls.jsx": {
-    "mtime": 1779142717.1887078,
-    "ast_hash": "7975b6eb79940c4bb75d2c98bca1893d",
-    "semantic_hash": "7975b6eb79940c4bb75d2c98bca1893d"
+    "mtime": 1782014475.9430816,
+    "ast_hash": "59a49c863e87d74b1d07ef2253eb7eb0",
+    "semantic_hash": ""
   },
   "src/components/AppMenu.jsx": {
-    "mtime": 1781978398.9462817,
-    "ast_hash": "b0938ecfa4a1f9420ea0860df6b7a76c",
-    "semantic_hash": "b0938ecfa4a1f9420ea0860df6b7a76c"
+    "mtime": 1782014373.997587,
+    "ast_hash": "c87d26549fe56e0f7d881c6bb1313c12",
+    "semantic_hash": ""
   },
   "src/components/CopyButton.jsx": {
     "mtime": 1777391016.5143702,
@@ -130,9 +130,9 @@
     "semantic_hash": "29716302e5890343464e60715624c917"
   },
   "src/components/projectSettings/ProjectSettingsGeneral.jsx": {
-    "mtime": 1781620863.6535802,
-    "ast_hash": "9c35659cb5ff5cce0a77d9cec6933a35",
-    "semantic_hash": "9c35659cb5ff5cce0a77d9cec6933a35"
+    "mtime": 1782014825.8368492,
+    "ast_hash": "b2d93dea7c8fc1da095e966ee4aa217b",
+    "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsHookBlocks.jsx": {
     "mtime": 1781748729.9022377,
@@ -635,9 +635,9 @@
     "semantic_hash": "a63820bcf75228815275fb29d33e80a2"
   },
   "src/pages/UIKitPage.jsx": {
-    "mtime": 1781978393.3354478,
-    "ast_hash": "e49bef195e85b59adb774ea389ec5ce3",
-    "semantic_hash": "e49bef195e85b59adb774ea389ec5ce3"
+    "mtime": 1782013942.3213186,
+    "ast_hash": "2776b816f03d1ac620967621aca42b0f",
+    "semantic_hash": ""
   },
   "src/utils/appBackup.js": {
     "mtime": 1781589555.180238,
@@ -760,8 +760,8 @@
     "semantic_hash": "b1af7c6209125b2f64ed33b9e4e21ee7"
   },
   "docs/current-context.md": {
-    "mtime": 1782013873.4105544,
-    "ast_hash": "ccd8b5e66183f4b3fd8855d2afb9a03d",
+    "mtime": 1782014895.9910994,
+    "ast_hash": "9311c96bc90c233364b1432042eb3977",
     "semantic_hash": ""
   },
   "docs/data-model.md": {

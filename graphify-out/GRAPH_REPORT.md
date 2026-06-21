@@ -1,16 +1,16 @@
 # Graph Report - illegal-mind-generator  (2026-06-21)
 
 ## Corpus Check
-- 160 files · ~73,010 words
+- 160 files · ~73,166 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 946 nodes · 1415 edges · 69 communities (53 shown, 16 thin omitted)
+- 946 nodes · 1417 edges · 74 communities (58 shown, 16 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 15 edges (avg confidence: 0.9)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `062f17e0`
+- Built from commit: `0e9bb85f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -79,6 +79,11 @@
 - [[_COMMUNITY_Community 66|Community 66]]
 - [[_COMMUNITY_Community 67|Community 67]]
 - [[_COMMUNITY_Community 68|Community 68]]
+- [[_COMMUNITY_Community 69|Community 69]]
+- [[_COMMUNITY_Community 70|Community 70]]
+- [[_COMMUNITY_Community 71|Community 71]]
+- [[_COMMUNITY_Community 72|Community 72]]
+- [[_COMMUNITY_Community 73|Community 73]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `IconButton()` - 20 edges
@@ -112,27 +117,27 @@
 - **Config Merge Pipeline (projects.json + tagOverrides + projectOverrides → resolvedProjectConfig)** — docs_architecture_projects_json, docs_architecture_use_tag_overrides, docs_architecture_use_project_overrides, docs_architecture_build_resolved_project_config, docs_architecture_resolved_project_config [EXTRACTED 0.95]
 - **Block Type Ecosystem (List / Text / Hook blocks with scope, target, song overrides)** — docs_data_model_list_block, docs_data_model_text_block, docs_data_model_hook_block_type, claude_md_song_block_overrides, docs_architecture_custom_blocks_js [EXTRACTED 0.90]
 
-## Communities (69 total, 16 thin omitted)
+## Communities (74 total, 16 thin omitted)
 
 ### Community 0 - "Block System UI"
-Cohesion: 0.05
-Nodes (56): AddBlockForm(), AddTextBlockForm(), BlockActions(), BlockEditorCard(), TextBlockEditor(), KNOWN_BLOCK_META, LongDescriptionSettings(), MOBILE_COLUMN_TABS (+48 more)
+Cohesion: 0.13
+Nodes (20): AddBlockForm(), AddTextBlockForm(), BlockEditorCard(), TextBlockEditor(), AddListBlockForm(), TYPE_OPTIONS, BLOCKS_SUBTABS, ProjectSettingsBlocks() (+12 more)
 
 ### Community 1 - "App Shell & State Hooks"
-Cohesion: 0.07
-Nodes (36): defaultFormData, defaultPanelVisibility, useAppShellState(), useGeneratedOutput(), getStoredProjectOverrides(), useProjectOverrides(), useSavedEntries(), buildQueue() (+28 more)
+Cohesion: 0.06
+Nodes (40): getProjectSettingsSectionSummary(), PROJECT_SETTING_SECTIONS, defaultFormData, defaultPanelVisibility, useAppShellState(), useGeneratedOutput(), getStoredProjectOverrides(), useProjectOverrides() (+32 more)
 
 ### Community 2 - "Architecture Documentation"
 Cohesion: 0.05
 Nodes (56): Storage Unification (illegalMindGeneratorData), appBackup.js (export/import backup), App.jsx (root state coordinator), Illegal Mind Generator Architecture Document, customBlocks.js (shared block utilities), formData (generator form state), generateCustomBlocks.js (shared block rendering), generateDescriptions.js (Long description engine) (+48 more)
 
 ### Community 3 - "Generator Output & Saved Entries"
-Cohesion: 0.08
-Nodes (27): CopyButton(), GeneratorResultsPanel(), DescriptionsPanel(), GeneratedTitlePair(), HashtagsPanel(), buildMixedShortHooks(), ShortHooksPanel(), shuffleArray() (+19 more)
+Cohesion: 0.06
+Nodes (35): CopyButton(), EntrySettings(), GeneratorResultsPanel(), BasicSongFields(), InputFormActions(), QueueSettings(), TransformationTagSelector(), DescriptionsPanel() (+27 more)
 
 ### Community 4 - "Generator Input & Tag Editor"
-Cohesion: 0.14
-Nodes (17): InputForm(), EntrySettings(), useInputFormLogic(), useTagOverrides(), BasicSongFields(), InputFormActions(), QueueSettings(), TransformationTagSelector() (+9 more)
+Cohesion: 0.13
+Nodes (17): InputForm(), useInputFormLogic(), useTagLibraryData(), useTagOverrides(), TagLibraryPage(), TagActions(), TagCard(), TagControls() (+9 more)
 
 ### Community 5 - "Hashtag & Hook Generation"
 Cohesion: 0.11
@@ -143,12 +148,12 @@ Cohesion: 0.15
 Nodes (21): buildTagLine(), buildTagPhrase(), pickRandom(), resolveTagLabel(), toTitleCase(), generateBroadcastBlock(), pickRandom(), generateCustomBlocks() (+13 more)
 
 ### Community 7 - "Tag Library"
-Cohesion: 0.06
-Nodes (26): TagBasicsTab(), TagDescriptionsTab(), TAG_EDITOR_TABS, TagEditorTabs(), TagHashtagsTab(), HOOK_TYPES, TagShortHooksTab(), TagTitlesTab() (+18 more)
+Cohesion: 0.08
+Nodes (18): TagBasicsTab(), TagDescriptionsTab(), TAG_EDITOR_TABS, TagEditorTabs(), TagHashtagsTab(), HOOK_TYPES, TagShortHooksTab(), TagTitlesTab() (+10 more)
 
 ### Community 8 - "Project Settings"
-Cohesion: 0.14
-Nodes (12): getProjectSettingsSectionSummary(), PROJECT_SETTING_SECTIONS, LinksRegistryEditor(), ProjectSettingsPage(), ProjectSettingsBlocks(), ProjectSettingsContent(), ProjectSettingsDescriptions(), ProjectSettingsGeneral() (+4 more)
+Cohesion: 0.21
+Nodes (7): LinksRegistryEditor(), ProjectSettingsGeneral(), ProjectSettingsLinks(), ProjectSettingsShortHooks(), ProjectTextField(), ShortHookCard(), TemplateGroupCard()
 
 ### Community 9 - "Project Dependencies"
 Cohesion: 0.09
@@ -306,6 +311,26 @@ Nodes (3): For git commit hook, For native CLAUDE.md integration, graphify refer
 Cohesion: 0.50
 Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphify reference: incremental update and cluster-only
 
+### Community 69 - "Community 69"
+Cohesion: 0.27
+Nodes (6): TABS, AddBulkRow(), BulkTextarea(), PhraseRow, PlaceholderField(), ToggleInputRow()
+
+### Community 70 - "Community 70"
+Cohesion: 0.18
+Nodes (9): GENERATION_SETTINGS_KEYS, GROUP_LABELS, ProjectSettingsTitles(), TitleGenerationCard(), TitlePrefixSuffixSection(), TitleTransformationSection(), HookTemplateEditor(), LabelInputRow() (+1 more)
+
+### Community 71 - "Community 71"
+Cohesion: 0.23
+Nodes (10): KNOWN_BLOCK_META, LongDescriptionSettings(), MOBILE_COLUMN_TABS, KNOWN_SHORTS_BLOCK_META, MOBILE_COLUMN_TABS, ShortsDescriptionSettings(), DESCRIPTION_SUBTABS, ProjectSettingsDescriptions() (+2 more)
+
+### Community 72 - "Community 72"
+Cohesion: 0.30
+Nodes (7): BlockActions(), ListItemRow(), detectItemType(), DISPLAY_MODE_OPTIONS, StructuredListEditor(), IconButton(), MoveControls()
+
+### Community 73 - "Community 73"
+Cohesion: 0.32
+Nodes (5): AdvancedDescriptionFields(), PHRASE_BLOCK_OVERRIDES, SongBlockOverrideFields(), isListBlock(), isTextBlock()
+
 ## Knowledge Gaps
 - **422 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+417 more)
   These have ≤1 connection - possible missing edges or undocumented components.
@@ -323,8 +348,8 @@ _Questions this graph is uniquely positioned to answer:_
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _427 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Block System UI` be split into smaller, more focused modules?**
-  _Cohesion score 0.052121212121212124 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.13446969696969696 - nodes in this community are weakly interconnected._
 - **Should `App Shell & State Hooks` be split into smaller, more focused modules?**
-  _Cohesion score 0.07272727272727272 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06398730830248546 - nodes in this community are weakly interconnected._
 - **Should `Architecture Documentation` be split into smaller, more focused modules?**
   _Cohesion score 0.05012531328320802 - nodes in this community are weakly interconnected._

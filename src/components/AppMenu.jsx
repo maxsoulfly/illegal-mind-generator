@@ -1,5 +1,3 @@
-import AppBackupControls from './AppBackupControls';
-
 export default function AppMenu({
   activePage,
   setActivePage,
@@ -75,7 +73,6 @@ export default function AppMenu({
           ))}
         </select>
       </div>
-      <AppBackupControls />
     </nav>
   );
 }

@@ -1112,9 +1112,15 @@ input[type="range"]::-moz-range-progress {
 }
 
 .app-backup-controls {
-  display    : flex;
-  gap        : var(--space-2);
-  align-items: center;
+  display       : flex;
+  flex-direction: column;
+  gap           : var(--space-2);
+  align-items   : flex-start;
+  margin-top    : var(--space-7);
+}
+
+.app-backup-controls .tag-summary {
+  margin: 0;
 }
 
 .app-backup-controls .button-secondary {

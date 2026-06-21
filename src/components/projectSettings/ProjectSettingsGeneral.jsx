@@ -1,5 +1,6 @@
 import ProjectTextField from '../ui/ProjectTextField';
 import IconButton from '../ui/IconButton';
+import AppBackupControls from '../AppBackupControls';
 
 export default function ProjectSettingsGeneral({
   projectId,
@@ -16,18 +17,20 @@ export default function ProjectSettingsGeneral({
       <h2 className="panel-title">General</h2>
 
       <div className="tag-editor-section">
-        <div className="form-group">
-          <div className="form-label">Project ID</div>
-          <div className="terminal-block">{projectId}</div>
-        </div>
+        <div className="form-row">
+          <div className="form-group">
+            <div className="form-label">Project ID</div>
+            <input className="form-input" value={projectId} disabled readOnly />
+          </div>
 
-        <ProjectTextField
-          label="Project Name"
-          value={projectName}
-          fieldName="name"
-          onChange={updateProjectOverride}
-          onReset={resetProjectOverride}
-        />
+          <ProjectTextField
+            label="Project Name"
+            value={projectName}
+            fieldName="name"
+            onChange={updateProjectOverride}
+            onReset={resetProjectOverride}
+          />
+        </div>
       </div>
 
       <div className="button-row">
@@ -39,6 +42,8 @@ export default function ProjectSettingsGeneral({
         Project editing, duplication, and project-level import/export will be
         added here later.
       </p>
+
+      <AppBackupControls />
     </section>
   );
 }
