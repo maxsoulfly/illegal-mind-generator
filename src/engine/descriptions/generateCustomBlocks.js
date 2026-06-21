@@ -40,6 +40,7 @@ function renderTextTemplate(text, projectConfig, formData, tagLine) {
   return replaceLinkPlaceholders(text, projectConfig.description.links)
     .replace(/\{artist\}/g, formData.artist || '')
     .replace(/\{song\}/g, formData.song || '')
+    .replace(/\{year\}/g, formData.originalYear || '')
     .replace(/\{tagLine\}/g, tagLine);
 }
 

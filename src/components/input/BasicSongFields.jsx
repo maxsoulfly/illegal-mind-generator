@@ -74,16 +74,29 @@ export default function BasicSongFields({
         </FormField>
       </div>
 
-      <div className="form-group">
-        <FormField label="Signal Number">
-          <input
-            className="form-input"
-            name="signalNumber"
-            placeholder="Signal Number"
-            value={formData.signalNumber}
-            onChange={handleChange}
-          />
-        </FormField>
+      <div className="form-row">
+        <div className="form-group">
+          <FormField label="Signal Number">
+            <input
+              className="form-input"
+              name="signalNumber"
+              placeholder="e.g. 042"
+              value={formData.signalNumber}
+              onChange={handleChange}
+            />
+          </FormField>
+        </div>
+        <div className="form-group">
+          <FormField label="Year">
+            <input
+              className="form-input"
+              name="originalYear"
+              placeholder="e.g. 1983"
+              value={formData.originalYear}
+              onChange={handleChange}
+            />
+          </FormField>
+        </div>
       </div>
 
       <div className="form-group">

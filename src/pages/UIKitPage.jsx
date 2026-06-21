@@ -595,6 +595,24 @@ export default function UIKitPage() {
             </Example>
           </Section>
 
+          <Section title="form-row" description="Side-by-side form fields. Wraps two or more .form-group divs in a flex row with equal width. Each child fills its slot; margin-bottom is cleared on the inner groups.">
+            <Example
+              name=".form-row > .form-group"
+              usage="Signal Number + Year in BasicSongFields. Use when two short fields belong together and share horizontal space."
+            >
+              <div className="form-row">
+                <div className="form-group">
+                  <label className="form-label">Signal Number</label>
+                  <input className="form-input" placeholder="e.g. 042" />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Year</label>
+                  <input className="form-input" placeholder="e.g. 1983" />
+                </div>
+              </div>
+            </Example>
+          </Section>
+
           <Section title="output-item" description="Rendered output block. White-space pre-wrap, monospace. Copy button sits below.">
             <Example name=".output-item + .output-text" usage="Wrap generated description text in .output-item. Use .output-text for the pre-wrap paragraph.">
               <div className="output-item">

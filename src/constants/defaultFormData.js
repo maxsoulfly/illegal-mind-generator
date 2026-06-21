@@ -6,6 +6,7 @@ export const defaultFormData = {
   project: DEFAULT_PROJECT_KEY,
   artist: '',
   song: '',
+  originalYear: '',
   signalNumber: '',
   videoType: 'Long',
   changesMade: '',

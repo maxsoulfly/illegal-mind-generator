@@ -215,6 +215,16 @@ svg {
   margin-bottom: var(--space-6);
 }
 
+.form-row {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.form-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
 .form-label {
   display       : block;
   margin-bottom : var(--space-1);
