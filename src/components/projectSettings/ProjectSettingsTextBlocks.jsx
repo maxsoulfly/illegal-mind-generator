@@ -22,8 +22,12 @@ export default function ProjectSettingsTextBlocks({
     baseProjectConfig?.description?.templates?.long?.customBlocks || {};
   const linkKeys = Object.keys(projectConfig.description?.links || {});
 
+  const overriddenDesc = projectSettingsOverrides?.description || {};
+  const overriddenLong =
+    projectSettingsOverrides?.description?.templates?.long || {};
   const overriddenCustomBlocks =
     projectSettingsOverrides?.description?.templates?.long?.customBlocks || {};
+  const blockLabelOverrides = overriddenDesc.blockLabelOverrides || {};
 
   function saveCustomBlock(blockKey, value) {
     updateProjectOverride(
@@ -36,9 +40,31 @@ export default function ProjectSettingsTextBlocks({
 
   function resetCustomBlock(blockKey) {
     const { [blockKey]: _removed, ...remaining } = overriddenCustomBlocks;
-    updateProjectOverride(
-      updateLongKey(projectSettingsOverrides, 'customBlocks', remaining),
-    );
+    const { [blockKey]: _label, ...remainingLabels } = blockLabelOverrides;
+    const templates_ = projectSettingsOverrides.description?.templates || {};
+    updateProjectOverride({
+      description: {
+        ...overriddenDesc,
+        blockLabelOverrides: remainingLabels,
+        templates: {
+          ...templates_,
+          long: { ...overriddenLong, customBlocks: remaining },
+        },
+      },
+    });
+  }
+
+  function renameBlock(blockKey, newLabel, blockData, hasBaseDefault) {
+    if (hasBaseDefault) {
+      updateProjectOverride({
+        description: {
+          ...overriddenDesc,
+          blockLabelOverrides: { ...blockLabelOverrides, [blockKey]: newLabel },
+        },
+      });
+    } else {
+      saveCustomBlock(blockKey, { ...blockData, name: newLabel });
+    }
   }
 
   const textBlockKeys = Object.keys(customBlocks).filter((key) =>
@@ -83,16 +109,24 @@ export default function ProjectSettingsTextBlocks({
         const known = KNOWN_CUSTOM_BLOCKS[blockKey];
         const blockData = customBlocks[blockKey];
         const hasBaseDefault = blockKey in baseCustomBlocks;
+        const label =
+          blockLabelOverrides[blockKey] ||
+          known?.label ||
+          (typeof blockData === 'object' && blockData?.name) ||
+          prettifyBlockKey(blockKey);
 
         return (
           <TextBlockEditor
             key={`${blockKey}-${resetKeys[blockKey] || 0}`}
-            label={known?.label || (typeof blockData === 'object' && blockData?.name) || prettifyBlockKey(blockKey)}
+            label={label}
             blockData={blockData}
             defaultScope={known?.defaultScope || 'project'}
             defaultTarget={known?.defaultTarget || 'long'}
             linkKeys={linkKeys}
-            hasOverride={hasBaseDefault && !!overriddenCustomBlocks[blockKey]}
+            hasOverride={
+              hasBaseDefault &&
+              (!!overriddenCustomBlocks[blockKey] || !!blockLabelOverrides[blockKey])
+            }
             onSave={(value) => saveCustomBlock(blockKey, value)}
             onReset={
               hasBaseDefault
@@ -105,6 +139,7 @@ export default function ProjectSettingsTextBlocks({
             onDelete={
               hasBaseDefault ? undefined : () => resetCustomBlock(blockKey)
             }
+            onRename={(newLabel) => renameBlock(blockKey, newLabel, blockData, hasBaseDefault)}
             open={openBlockKey === blockKey}
           />
         );

@@ -30,6 +30,7 @@ export default function StructuredListEditor({
   onSave,
   onReset,
   onDelete,
+  onRename,
   open,
 }) {
   const linkSuggestionsId = `link-suggestions-${label.replace(/\s+/g, '-')}`;
@@ -137,6 +138,7 @@ export default function StructuredListEditor({
       onDelete={onDelete ? handleDelete : undefined}
       isCore={isCore}
       onToggleCore={handleToggleCore}
+      onRename={onRename}
       open={open}
     >
       <div className="form-group">

@@ -135,9 +135,9 @@
     "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsHookBlocks.jsx": {
-    "mtime": 1781748729.9022377,
-    "ast_hash": "efbc01bf307001b6d7ef498782e1fd2c",
-    "semantic_hash": "efbc01bf307001b6d7ef498782e1fd2c"
+    "mtime": 1782369036.8775406,
+    "ast_hash": "644eef000370b8a0c45ba1e38e7a705f",
+    "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsLinks.jsx": {
     "mtime": 1781320820.0702486,
@@ -145,9 +145,9 @@
     "semantic_hash": "404d44f29d8cf1ab44a88cc9767dc491"
   },
   "src/components/projectSettings/ProjectSettingsLists.jsx": {
-    "mtime": 1781748492.010299,
-    "ast_hash": "9eb4304f20ade292e91d11de3ebcb8bb",
-    "semantic_hash": "9eb4304f20ade292e91d11de3ebcb8bb"
+    "mtime": 1782368972.9951272,
+    "ast_hash": "41607478dfea03f7eb7a662bf8cbb269",
+    "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsShortHooks.jsx": {
     "mtime": 1781209463.738593,
@@ -155,9 +155,9 @@
     "semantic_hash": "8fcd9a596c755903b843821e86b885a6"
   },
   "src/components/projectSettings/ProjectSettingsTextBlocks.jsx": {
-    "mtime": 1781748516.9119143,
-    "ast_hash": "2ef442a47d9ce50825826c472480d248",
-    "semantic_hash": "2ef442a47d9ce50825826c472480d248"
+    "mtime": 1782368996.8347988,
+    "ast_hash": "495b8ce9beb316c26172b5adb162074f",
+    "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsTitles.jsx": {
     "mtime": 1781213539.126002,
@@ -180,24 +180,24 @@
     "semantic_hash": "800039de682cb4c9dcff62a69e5abd79"
   },
   "src/components/projectSettings/blocks/BlockEditorCard.jsx": {
-    "mtime": 1781748321.1556394,
-    "ast_hash": "72b9a1d49c22f0c541a2acc80446e816",
-    "semantic_hash": "72b9a1d49c22f0c541a2acc80446e816"
+    "mtime": 1782368858.441244,
+    "ast_hash": "835e70f9bcc9a6d1f4421b98cb166d73",
+    "semantic_hash": ""
   },
   "src/components/projectSettings/blocks/TextBlockEditor.jsx": {
-    "mtime": 1781748453.8213713,
-    "ast_hash": "61622b8407d89c94f32528503edf3be9",
-    "semantic_hash": "61622b8407d89c94f32528503edf3be9"
+    "mtime": 1782368945.2693028,
+    "ast_hash": "7a84ee2d1c9a0276a5902f5f64deaa80",
+    "semantic_hash": ""
   },
   "src/components/projectSettings/descriptions/LongDescriptionSettings.jsx": {
-    "mtime": 1781748595.382008,
-    "ast_hash": "56eb7c9405e583e91092f3eb2fcc5432",
-    "semantic_hash": "56eb7c9405e583e91092f3eb2fcc5432"
+    "mtime": 1782369304.9299512,
+    "ast_hash": "bed3e071ea2612512ffdb0cf48aa9e0c",
+    "semantic_hash": ""
   },
   "src/components/projectSettings/descriptions/ShortsDescriptionSettings.jsx": {
-    "mtime": 1781748642.9778886,
-    "ast_hash": "fb3f1418d2456b3c9f14d9451f202c81",
-    "semantic_hash": "fb3f1418d2456b3c9f14d9451f202c81"
+    "mtime": 1782369330.8808227,
+    "ast_hash": "0ffd0d528224b61a90ef53e2242fab5f",
+    "semantic_hash": ""
   },
   "src/components/projectSettings/lists/AddListBlockForm.jsx": {
     "mtime": 1781744849.6445148,
@@ -215,9 +215,9 @@
     "semantic_hash": "91d4576b0b2565731a44421d69197de7"
   },
   "src/components/projectSettings/lists/StructuredListEditor.jsx": {
-    "mtime": 1781748432.451031,
-    "ast_hash": "009b4c84b66b3c846035c782da69ba27",
-    "semantic_hash": "009b4c84b66b3c846035c782da69ba27"
+    "mtime": 1782368933.7680948,
+    "ast_hash": "6090b38893f9b0b3a16ebbd91a20921d",
+    "semantic_hash": ""
   },
   "src/components/projectSettings/titles/TitleGenerationCard.jsx": {
     "mtime": 1781206803.5641415,
@@ -390,9 +390,9 @@
     "semantic_hash": "959d840dd2180fffdf39498b07c9412a"
   },
   "src/components/ui/BlockInfoCard.jsx": {
-    "mtime": 1781749091.0385096,
-    "ast_hash": "35e499dcb91cb858335ec0c0686b2ce1",
-    "semantic_hash": "35e499dcb91cb858335ec0c0686b2ce1"
+    "mtime": 1782367662.9854238,
+    "ast_hash": "cbe4593c4c3d885460eb7c5b96bcece0",
+    "semantic_hash": ""
   },
   "src/components/ui/BulkTextarea.jsx": {
     "mtime": 1781620820.3661573,
@@ -740,8 +740,8 @@
     "semantic_hash": "2f78598160bfb12ab775831e0787b02a"
   },
   "CLAUDE.md": {
-    "mtime": 1782013862.3346152,
-    "ast_hash": "9cbe6d6d7fd0de9eba080fd70b66b624",
+    "mtime": 1782369995.4119644,
+    "ast_hash": "c4c249df1dd3e5c42bc2b809d7a9e3ee",
     "semantic_hash": ""
   },
   "README.md": {
@@ -760,8 +760,8 @@
     "semantic_hash": "b1af7c6209125b2f64ed33b9e4e21ee7"
   },
   "docs/current-context.md": {
-    "mtime": 1782014895.9910994,
-    "ast_hash": "9311c96bc90c233364b1432042eb3977",
+    "mtime": 1782370067.46935,
+    "ast_hash": "d8a5634c1238c5bf593c39080a0ffaf9",
     "semantic_hash": ""
   },
   "docs/data-model.md": {

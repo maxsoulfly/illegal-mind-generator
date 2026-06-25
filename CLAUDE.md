@@ -113,6 +113,7 @@ src/
 - `IconButton` — shared shell for every small action button, icon or text (reset ↺, remove ×, lock 🔒/🔓, move ↑/↓, add +, or labeled buttons like "+ Add"/"Apply"/"Cancel"/"Duplicate Project" — `icon` is just rendered as children, no icon required). Takes `icon, title, onClick, disabled, stopPropagation, className`. `onClick` is optional (no-op if omitted — used by not-yet-wired placeholder buttons). Default `className` is `tag-reset-button`; pass `button-secondary` (or another) to reuse the click/disabled wiring with a different look.
 - `MoveControls` — up/down reorder button pair built on `IconButton`. Used by list items and description block reordering; pass `className` for context-specific layout (see `.desc-block-move-controls`).
 - `FormSelect` — the standard `form-select` dropdown (same look as `TodoStatusSelect`) wrapped with `stopPropagation` for use inside clickable card headers. Takes `value, onChange(value), options: [{value, label}]`.
+- `BlockEditorCard` — collapsible card shell for all three block type editors (Lists, Text Blocks, Hook Blocks). Props: `label`, `badge`, `scope`, `target`, `onScopeChange`, `onTargetChange`, `hasOverride`, `onReset`, `onDelete`, `onRename`, `open`, `children`. `onRename` enables an inline ✏ rename button in the header — clicking switches to an input; Enter/blur saves, Escape cancels.
 - `BlockInfoCard` — non-collapsible card used in Description layouts. Props: `label`, `onRemove`, `onAdd`, `onNavigate`. When `onNavigate` is set, the header becomes a clickable nav shortcut (`tag-card-toggle` style, `→` indicator) that jumps to the block's editor tab and auto-expands it — Hook blocks → Blocks → Hook Blocks, List blocks → Blocks → Lists, Text blocks → Blocks → Text Blocks. `onAdd` renders a `+` button (Available column); `onRemove` renders a `×` button (Active Layout column). Generated blocks (no editor) omit `onNavigate` and are non-interactive. Descriptions tab is layout-only; no inline editing of any block type.
 
 ---
@@ -140,6 +141,12 @@ Both editable via Project Settings → Titles → Generation card. `shortHookSuf
 - `NavLinkButton` in `GeneratedTitlePair` handles all four cases.
 
 **`tagVisibilityOverrides` is legacy.** Do not remove. Treat as compatibility-sensitive.
+
+**Block label overrides live in two separate keys** inside `projectSettingsOverrides.description`:
+- `blockLabelOverrides[blockKey]` — overrides display label for JSON-default List/Text blocks (from `KNOWN_CUSTOM_BLOCKS`)
+- `hookBlockLabelOverrides[blockKey]` — overrides display label for JSON-default Hook blocks (from `projects.json`)
+- User-created blocks store their label directly (`blockData.name` for List/Text, `customHookBlocks[i].label` for Hook) — no separate override key needed.
+- `LongDescriptionSettings` and `ShortsDescriptionSettings` use `getLayoutBlockLabel(blockKey)` which checks both override maps before falling back to config labels. If you add a new place that displays block labels, make sure it also checks these overrides.
 
 **Avoid premature database work.** Migration is postponed. Current priority is feature completeness.
 
@@ -216,7 +223,6 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 # Current Focus
 
-- **Block renaming** — inline name-edit field in `BlockEditorCard` header for all three Blocks sub-tabs (Lists, Text Blocks, Hook Blocks). JSON-default blocks: override label in `projectSettingsOverrides`. User-created: update stored `label` in `customHookBlocks` / `customBlocks`. Engine uses `block.label` for display only — renaming is UI-only, does not affect template keys or block keys.
 - **Fix blocks with no nav target** — these description layout cards have non-interactive `→` arrows:
   - **Renovation Block** (Maxx Dee Long Description) — not in `hookBlocks` config and not a `customBlock`; needs an editor or a hardcoded nav target
   - **Hook** (Shorts Description) — routes to Shorts Hooks section, not Blocks; `onNavigateToBlock` currently only handles the three Blocks sub-tabs
@@ -278,6 +284,19 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 - Ask for files instead of guessing structure
 - Provide Conventional Commit messages when asked
 - When uncertain: choose the simpler solution
+
+## Session Protocol
+
+**Before every planning session:**
+1. Read `docs/current-context.md` — current focus, recently completed, known issues, next tasks, key file pointers. Fastest way to get project state without reading code.
+2. Run `graphify query "<question>"` for any codebase question. Use the knowledge graph first — avoids redundant file browsing and surfaces cross-file relationships instantly.
+3. Only grep/read raw source files if docs and graphify don't answer the question.
+
+**After each significant step (feature, fix, or refactor):**
+1. Update `docs/current-context.md` — move completed items to Recently Completed, update In Progress and Next tasks, refresh Known Issues.
+2. Update `CLAUDE.md` — update Current Focus, Known Gotchas, and UI Primitives entries if the step changed any of those.
+3. Run `graphify update .` to keep the knowledge graph current (AST-only, no token cost).
+4. Commit all source + docs changes together.
 
 ## graphify
 

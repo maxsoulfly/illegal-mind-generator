@@ -54,6 +54,20 @@ export default function LongDescriptionSettings({
     hookBlocks.map((b) => [b.descriptionLayoutKey ?? b.key, b.key]),
   );
 
+  const hookBlockLabelOverrides = overriddenDesc.hookBlockLabelOverrides || {};
+  const blockLabelOverrides     = overriddenDesc.blockLabelOverrides     || {};
+
+  function getLayoutBlockLabel(blockKey) {
+    const configKey = layoutKeyToBlockKey[blockKey];
+    return (
+      (configKey && hookBlockLabelOverrides[configKey]) ||
+      hookBlockLabelMap[blockKey] ||
+      blockLabelOverrides[blockKey] ||
+      KNOWN_BLOCK_META[blockKey]?.label ||
+      getBlockLabel(blockKey, customBlocks[blockKey])
+    );
+  }
+
   const defaultLayout =
     baseProjectConfig?.description?.templates?.long?.layout ?? longTemplates.layout ?? [];
   const activeKeys =
@@ -148,14 +162,10 @@ export default function LongDescriptionSettings({
   }
 
   function renderAvailableBlock(blockKey) {
-    const label =
-      hookBlockLabelMap[blockKey] ??
-      KNOWN_BLOCK_META[blockKey]?.label ??
-      getBlockLabel(blockKey, customBlocks[blockKey]);
     return (
       <BlockInfoCard
         key={blockKey}
-        label={label}
+        label={getLayoutBlockLabel(blockKey)}
         onAdd={() => addToLayout(blockKey)}
         onNavigate={getNavigateHandler(blockKey)}
       />
@@ -163,10 +173,6 @@ export default function LongDescriptionSettings({
   }
 
   function renderActiveBlock(blockKey, index) {
-    const label =
-      hookBlockLabelMap[blockKey] ??
-      KNOWN_BLOCK_META[blockKey]?.label ??
-      getBlockLabel(blockKey, customBlocks[blockKey]);
     const isFirst = index === 0;
     const isLast  = index === activeKeys.length - 1;
 
@@ -180,7 +186,7 @@ export default function LongDescriptionSettings({
           onMoveDown={() => moveBlock(blockKey, 1)}
         />
         <BlockInfoCard
-          label={label}
+          label={getLayoutBlockLabel(blockKey)}
           onRemove={() => removeFromLayout(blockKey)}
           onNavigate={getNavigateHandler(blockKey)}
         />

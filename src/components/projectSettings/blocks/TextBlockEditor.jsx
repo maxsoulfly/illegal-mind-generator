@@ -16,6 +16,7 @@ export default function TextBlockEditor({
   onSave,
   onReset,
   onDelete,
+  onRename,
   open,
 }) {
   const [block, setBlock] = useState(() => ({
@@ -79,6 +80,7 @@ export default function TextBlockEditor({
       onDelete={onDelete ? handleDelete : undefined}
       isCore={isCore}
       onToggleCore={handleToggleCore}
+      onRename={onRename}
       open={open}
     >
       <div className="form-group">

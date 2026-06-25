@@ -6,12 +6,13 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 
 ## Current Focus
 
-**Block renaming** — no inline label-edit field exists yet in Project Settings → Blocks (Lists, Text Blocks, Hook Blocks sub-tabs). Users can't rename blocks from the UI. Applies to both JSON-default blocks (should store label override in `projectSettingsOverrides`) and user-created blocks (update `label` in `customHookBlocks` / `customBlocks`).
+**Fix blocks with no nav target** — three description layout cards have a `→` arrow that does nothing. See Known Issues section.
 
 ---
 
 ## Recently Completed
 
+- **Block renaming** — inline ✏ icon in `BlockEditorCard` header. Click to enter rename mode; Enter/blur saves, Escape cancels. Storage: `description.blockLabelOverrides[key]` for JSON-default List/Text blocks; `description.hookBlockLabelOverrides[key]` for JSON-default Hook blocks; direct `blockData.name` / `customHookBlocks[i].label` for user-created blocks. `hasOverride` and `onReset` updated to cover label overrides. `LongDescriptionSettings` and `ShortsDescriptionSettings` gained `getLayoutBlockLabel()` helper that checks all override paths so renamed labels appear in description layout cards immediately.
 - **Description layout parity** — Available and Active Layout columns are now equal width (`1fr 1fr`). Available blocks render as `BlockInfoCard` cards (same style as Active), with `→` nav arrow and `+` add button. `BlockInfoCard` gained `onAdd` prop. Both column labels moved into a shared `desc-layout-header` row above the grid so the first card in each column aligns at the same Y. New CSS: `.desc-layout-header`, `.desc-col-label`. Navigation logic extracted into `getNavigateHandler()` shared by both `renderAvailableBlock` and `renderActiveBlock` in Long/Shorts settings components.
 - **UIKit page** — living component catalog at `/uikit` nav route. 5 tabs covering all reusable primitives.
 - **Docs folder** — `architecture.md`, `data-model.md`, `graph-report.md`, `project-overview.md`, `roadmap.md` added.
@@ -38,21 +39,20 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 
 ## In Progress
 
-- **Block renaming** — no UI yet. Needs inline edit in `BlockEditorCard` header. JSON-default blocks: store label override in `projectSettingsOverrides`. User-created: update stored `label` field.
+- **Fix blocks with no nav target** — three description layout cards have a non-interactive `→` arrow. See Known Issues.
 
 ---
 
 ## Next Recommended Tasks
 
-1. **Add block renaming** — inline name-edit field in `BlockEditorCard` header. Applies to all three block type sub-tabs.
-2. **Fix blocks with no nav target** — three blocks in description layouts have non-interactive cards (arrow does nothing):
+1. **Fix blocks with no nav target** — three blocks in description layouts have non-interactive cards (arrow does nothing):
    - `renovationBlock` (Maxx Dee Long Desc) — not in `hookBlocks` config, not a custom block; needs an editor or hardcoded nav target
    - `hook` and `header` (Shorts Description) — are hook blocks but need a special nav case (currently `onNavigateToBlock` only handles the three Blocks sub-tabs, not Shorts Hooks)
-3. **Remove duplicated Technical Lines block in Maxx Dee** — appears as a `hookBlock` entry with no delete option. Check `projectSettingsOverrides` for Maxx Dee and remove the stale entry.
-4. **Generic / no-tags title mode** — bypass transformation tags, generate plain titles. New generation path in `generateTitles.js`.
-5. **Queue-hidden indicator in Todo rows** — show `[hidden]` badge on Todo items whose entry has `excludeFromRandomizer: true`.
-6. **Todo status badges in Saved Library** — show the entry's `todo.status` inline in `SavedLibraryItem`.
-7. **Storage cleanup** (low urgency, after a few stable sessions):
+2. **Remove duplicated Technical Lines block in Maxx Dee** — appears as a `hookBlock` entry with no delete option. Check `projectSettingsOverrides` for Maxx Dee and remove the stale entry.
+3. **Generic / no-tags title mode** — bypass transformation tags, generate plain titles. New generation path in `generateTitles.js`.
+4. **Queue-hidden indicator in Todo rows** — show `[hidden]` badge on Todo items whose entry has `excludeFromRandomizer: true`.
+5. **Todo status badges in Saved Library** — show the entry's `todo.status` inline in `SavedLibraryItem`.
+6. **Storage cleanup** (low urgency, after a few stable sessions):
    - Remove legacy key capture/restore from `appBackup.js`
    - Remove `storageMigration.js` and its `window.*` exposure in `App.jsx`
 
@@ -66,9 +66,6 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 
 ### Duplicate block (Maxx Dee)
 Technical · Lines appears twice in Maxx Dee's Project Settings → Blocks → Hook Blocks. Delete button is unavailable (likely `isCore` guard or wrong path). Root in `projectSettingsOverrides` for Maxx Dee — needs manual inspection and removal.
-
-### Description layout column asymmetry
-`.desc-layout` grid: `220px 1fr`. Available column is too narrow; Active is too wide. Visually inconsistent.
 
 ### Storage cleanup debt
 - `appBackup.js` still references old standalone localStorage keys in its `legacy` field export — no longer needed since the unified key has everything.
@@ -154,4 +151,4 @@ The per-song custom hashtag field in `AdvancedDescriptionFields.jsx` is still a 
 
 ## Session Summary
 
-The app is functionally complete for its core feature set. The generator, tag library, shorts queue, todo system, all nine project settings tabs, and the description block system (Lists, Text Blocks, Hook Blocks with scope/target/layout builder) are all working. The most recent session added a documentation layer (`docs/`) and a living UIKit page cataloging all reusable components. Active development focus is finishing the description layout visual polish (equal column widths) and adding block renaming. Three known nav gaps in the description layout builder remain unfixed (renovationBlock, hook, header blocks have non-interactive cards), and a duplicated Technical Lines block in Maxx Dee needs to be removed. Storage cleanup (dead `storageMigration.js`, legacy keys in `appBackup.js`) is deferred until a few more sessions confirm nothing regressed.
+The app is functionally complete for its core feature set. The generator, tag library, shorts queue, todo system, all nine project settings tabs, and the description block system (Lists, Text Blocks, Hook Blocks with scope/target/layout builder) are all working. The most recent sessions added a documentation layer (`docs/`), a living UIKit page, equal-width description layout columns, Available block cards with nav arrows, and inline block renaming across all three Blocks sub-tabs (with label overrides propagating to description layout cards). Three known nav gaps in the description layout builder remain unfixed (renovationBlock, hook, header blocks have non-interactive arrows), and a duplicated Technical Lines block in Maxx Dee needs to be removed. Storage cleanup (dead `storageMigration.js`, legacy keys in `appBackup.js`) is deferred until a few more sessions confirm nothing regressed.

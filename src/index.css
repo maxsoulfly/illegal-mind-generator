@@ -1223,6 +1223,18 @@ input[type="range"]::-moz-range-progress {
   min-width  : 0;
 }
 
+.tag-card-rename-input {
+  font-size    : var(--font-size-base);
+  font-weight  : 600;
+  color        : var(--color-text-accent);
+  background   : var(--color-bg-input);
+  border       : 1px solid var(--color-border-hover);
+  border-radius: var(--radius-sm);
+  padding      : 2px var(--space-2);
+  flex         : 1;
+  min-width    : 0;
+}
+
 .tag-card-header h3 {
   display    : flex;
   align-items: center;

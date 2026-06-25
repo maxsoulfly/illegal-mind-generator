@@ -52,6 +52,20 @@ export default function ShortsDescriptionSettings({
     hookBlocks.map((b) => [b.descriptionLayoutKey ?? b.key, b.key]),
   );
 
+  const hookBlockLabelOverrides = overriddenDesc.hookBlockLabelOverrides || {};
+  const blockLabelOverrides     = overriddenDesc.blockLabelOverrides     || {};
+
+  function getLayoutBlockLabel(key) {
+    const configKey = layoutKeyToBlockKey[key];
+    return (
+      (configKey && hookBlockLabelOverrides[configKey]) ||
+      hookBlockLabelMap[key] ||
+      blockLabelOverrides[key] ||
+      KNOWN_SHORTS_BLOCK_META[key]?.label ||
+      getBlockLabel(key, customBlocks[key])
+    );
+  }
+
   const count = overriddenShorts.count ?? shortsConfig.count ?? 3;
 
   const defaultLayout =
@@ -149,14 +163,10 @@ export default function ShortsDescriptionSettings({
   }
 
   function renderAvailableBlock(key) {
-    const label =
-      hookBlockLabelMap[key] ??
-      KNOWN_SHORTS_BLOCK_META[key]?.label ??
-      getBlockLabel(key, customBlocks[key]);
     return (
       <BlockInfoCard
         key={key}
-        label={label}
+        label={getLayoutBlockLabel(key)}
         onAdd={() => addToLayout(key)}
         onNavigate={getNavigateHandler(key)}
       />
@@ -164,10 +174,6 @@ export default function ShortsDescriptionSettings({
   }
 
   function renderActiveBlock(key, index) {
-    const label =
-      hookBlockLabelMap[key] ??
-      KNOWN_SHORTS_BLOCK_META[key]?.label ??
-      getBlockLabel(key, customBlocks[key]);
     const isFirst = index === 0;
     const isLast  = index === activeKeys.length - 1;
 
@@ -181,7 +187,7 @@ export default function ShortsDescriptionSettings({
           onMoveDown={() => moveBlock(key, 1)}
         />
         <BlockInfoCard
-          label={label}
+          label={getLayoutBlockLabel(key)}
           onRemove={() => removeFromLayout(key)}
           onNavigate={getNavigateHandler(key)}
         />

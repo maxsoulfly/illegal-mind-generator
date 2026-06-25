@@ -17,6 +17,7 @@ function HookBlockEditor({
   onUpdateTemplates,
   onReset,
   onDelete,
+  onRename,
   onScopeChange,
   onTargetChange,
   onMaxLinesChange,
@@ -37,6 +38,7 @@ function HookBlockEditor({
       hasOverride={hasOverride}
       onReset={onReset}
       onDelete={onDelete}
+      onRename={onRename}
       open={open}
     >
       <div className="tag-phrase-row hook-block-lines-row">
@@ -179,6 +181,8 @@ export default function ProjectSettingsHookBlocks({
       overriddenDesc.hookBlockCounts || {};
     const { [key]: _tgt, ...remainingTargets } =
       overriddenDesc.hookBlockTargets || {};
+    const { [key]: _lbl, ...remainingLabelOverrides } =
+      overriddenDesc.hookBlockLabelOverrides || {};
 
     if (path === 'long') {
       const { [templateKey]: _t, ...remainingLong } = overriddenLong;
@@ -188,6 +192,7 @@ export default function ProjectSettingsHookBlocks({
           hookBlockMaxLines: remainingMaxLines,
           hookBlockCounts: remainingCounts,
           hookBlockTargets: remainingTargets,
+          hookBlockLabelOverrides: remainingLabelOverrides,
           templates: { ...templates_, long: remainingLong },
         },
       });
@@ -199,6 +204,7 @@ export default function ProjectSettingsHookBlocks({
           hookBlockMaxLines: remainingMaxLines,
           hookBlockCounts: remainingCounts,
           hookBlockTargets: remainingTargets,
+          hookBlockLabelOverrides: remainingLabelOverrides,
         },
       });
     } else if (path === 'shorts') {
@@ -209,10 +215,34 @@ export default function ProjectSettingsHookBlocks({
           hookBlockMaxLines: remainingMaxLines,
           hookBlockCounts: remainingCounts,
           hookBlockTargets: remainingTargets,
+          hookBlockLabelOverrides: remainingLabelOverrides,
           templates: { ...templates_, shorts: remainingShorts },
         },
       });
     }
+  }
+
+  function renameJsonBlock(key, newLabel) {
+    updateProjectOverride({
+      description: {
+        ...overriddenDesc,
+        hookBlockLabelOverrides: {
+          ...(overriddenDesc.hookBlockLabelOverrides || {}),
+          [key]: newLabel,
+        },
+      },
+    });
+  }
+
+  function renameDynamicBlock(key, newLabel) {
+    updateProjectOverride({
+      description: {
+        ...overriddenDesc,
+        customHookBlocks: (overriddenDesc.customHookBlocks || []).map((b) =>
+          b.key === key ? { ...b, label: newLabel } : b,
+        ),
+      },
+    });
   }
 
   function getScope(key) {
@@ -339,19 +369,29 @@ export default function ProjectSettingsHookBlocks({
       {hookBlocks.map((block) => {
         const { key } = block;
         const isDynamic = dynamicHookBlockKeys.has(key);
+        const effectiveLabel =
+          overriddenDesc.hookBlockLabelOverrides?.[key] ?? block.label;
         return (
           <HookBlockEditor
             key={key}
-            label={block.label}
+            label={effectiveLabel}
             templates={getTemplates(block)}
             scope={getScope(key)}
             target={getTarget(block)}
-            hasOverride={!isDynamic && isOverridden(block)}
+            hasOverride={
+              !isDynamic &&
+              (isOverridden(block) || !!overriddenDesc.hookBlockLabelOverrides?.[key])
+            }
             maxLines={getMaxLines(block)}
             countValue={getCountValue(block)}
             onUpdateTemplates={(t) => updateTemplates(block, t)}
             onReset={!isDynamic ? () => resetBlock(block) : undefined}
             onDelete={isDynamic ? () => deleteHookBlock(key) : undefined}
+            onRename={
+              isDynamic
+                ? (newLabel) => renameDynamicBlock(key, newLabel)
+                : (newLabel) => renameJsonBlock(key, newLabel)
+            }
             onScopeChange={(val) => updateScope(key, val)}
             onTargetChange={(val) => updateTarget(key, val)}
             onMaxLinesChange={(val) => updateMaxLines(key, val)}
