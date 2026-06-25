@@ -14,6 +14,7 @@ export default function ProjectSettingsContent({
   updateProjectOverride,
   resetProjectOverride,
   hookTarget,
+  openShortHooksSearch,
   titlesTarget,
   blocksTarget,
   clearBlocksTarget,
@@ -84,6 +85,7 @@ export default function ProjectSettingsContent({
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
         openBlocksEditor={openBlocksEditor}
+        openShortHooksSearch={openShortHooksSearch}
       />
     );
   }

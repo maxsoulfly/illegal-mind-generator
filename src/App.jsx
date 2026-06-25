@@ -225,6 +225,7 @@ function App() {
           resetProjectOverride={resetProjectOverride}
           shortHooksTarget={shortHooksTarget}
           clearShortHooksTarget={clearShortHooksTarget}
+          openShortHooksSearch={openShortHooksSearch}
           titlesTarget={titlesTarget}
           clearTitlesTarget={clearTitlesTarget}
           blocksTarget={blocksTarget}

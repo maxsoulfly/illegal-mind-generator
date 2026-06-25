@@ -320,7 +320,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_appbackupcontrols",
-      "community": 12,
+      "community": 46,
       "norm_label": "appbackupcontrols.jsx"
     },
     {
@@ -330,7 +330,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "components_appbackupcontrols_appbackupcontrols",
-      "community": 12,
+      "community": 46,
       "norm_label": "appbackupcontrols()"
     },
     {
@@ -340,7 +340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_appmenu",
-      "community": 12,
+      "community": 46,
       "norm_label": "appmenu.jsx"
     },
     {
@@ -350,7 +350,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_appmenu_appmenu",
-      "community": 12,
+      "community": 46,
       "norm_label": "appmenu()"
     },
     {
@@ -390,7 +390,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "components_inputform_inputform",
-      "community": 1,
+      "community": 12,
       "norm_label": "inputform()"
     },
     {
@@ -490,7 +490,7 @@
       "source_location": "L184",
       "_origin": "ast",
       "id": "input_advanceddescriptionfields_advanceddescriptionfields",
-      "community": 0,
+      "community": 12,
       "norm_label": "advanceddescriptionfields()"
     },
     {
@@ -840,7 +840,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "projectsettings_projectsettingsblocks_projectsettingsblocks",
-      "community": 70,
+      "community": 0,
       "norm_label": "projectsettingsblocks()"
     },
     {
@@ -860,7 +860,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "projectsettings_projectsettingscontent_projectsettingscontent",
-      "community": 70,
+      "community": 1,
       "norm_label": "projectsettingscontent()"
     },
     {
@@ -890,7 +890,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "projectsettings_projectsettingsdescriptions_projectsettingsdescriptions",
-      "community": 70,
+      "community": 0,
       "norm_label": "projectsettingsdescriptions()"
     },
     {
@@ -900,7 +900,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "projectsettings_projectsettingsgeneral",
-      "community": 12,
+      "community": 46,
       "norm_label": "projectsettingsgeneral.jsx"
     },
     {
@@ -910,7 +910,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "projectsettings_projectsettingsgeneral_projectsettingsgeneral",
-      "community": 12,
+      "community": 46,
       "norm_label": "projectsettingsgeneral()"
     },
     {
@@ -1650,7 +1650,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tageditor",
-      "community": 7,
+      "community": 70,
       "norm_label": "tageditor.jsx"
     },
     {
@@ -1660,7 +1660,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "tags_tageditor_getinitialtab",
-      "community": 7,
+      "community": 70,
       "norm_label": "getinitialtab()"
     },
     {
@@ -1670,7 +1670,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "tags_tageditor_shouldopeneditor",
-      "community": 7,
+      "community": 70,
       "norm_label": "shouldopeneditor()"
     },
     {
@@ -1680,7 +1680,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "tags_tageditor_tageditor",
-      "community": 7,
+      "community": 70,
       "norm_label": "tageditor()"
     },
     {
@@ -1750,7 +1750,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagphraseeditor",
-      "community": 0,
+      "community": 70,
       "norm_label": "tagphraseeditor.jsx"
     },
     {
@@ -1760,7 +1760,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tags_tagphraseeditor_tagphraseeditor",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagphraseeditor()"
     },
     {
@@ -1850,7 +1850,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "editor_tagbasicstab",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagbasicstab.jsx"
     },
     {
@@ -1860,7 +1860,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "editor_tagbasicstab_tagbasicstab",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagbasicstab()"
     },
     {
@@ -1870,7 +1870,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "editor_tagdescriptionstab",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagdescriptionstab.jsx"
     },
     {
@@ -1880,7 +1880,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "editor_tagdescriptionstab_tagdescriptionstab",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagdescriptionstab()"
     },
     {
@@ -1890,7 +1890,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "editor_tageditortabs",
-      "community": 7,
+      "community": 70,
       "norm_label": "tageditortabs.jsx"
     },
     {
@@ -1900,7 +1900,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "editor_tageditortabs_tag_editor_tabs",
-      "community": 7,
+      "community": 70,
       "norm_label": "tag_editor_tabs"
     },
     {
@@ -1910,7 +1910,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "editor_tageditortabs_tageditortabs",
-      "community": 7,
+      "community": 70,
       "norm_label": "tageditortabs()"
     },
     {
@@ -1920,7 +1920,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "editor_taghashtagstab",
-      "community": 7,
+      "community": 70,
       "norm_label": "taghashtagstab.jsx"
     },
     {
@@ -1930,7 +1930,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "editor_taghashtagstab_taghashtagstab",
-      "community": 7,
+      "community": 70,
       "norm_label": "taghashtagstab()"
     },
     {
@@ -1940,7 +1940,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "editor_tagshorthookstab",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagshorthookstab.jsx"
     },
     {
@@ -1950,7 +1950,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "editor_tagshorthookstab_hook_types",
-      "community": 7,
+      "community": 70,
       "norm_label": "hook_types"
     },
     {
@@ -1960,7 +1960,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "editor_tagshorthookstab_formathooktitle",
-      "community": 7,
+      "community": 70,
       "norm_label": "formathooktitle()"
     },
     {
@@ -1970,7 +1970,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "editor_tagshorthookstab_getmatchingphrases",
-      "community": 7,
+      "community": 70,
       "norm_label": "getmatchingphrases()"
     },
     {
@@ -1980,7 +1980,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "editor_tagshorthookstab_tagshorthookstab",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagshorthookstab()"
     },
     {
@@ -1990,7 +1990,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "editor_tagtitlestab",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagtitlestab.jsx"
     },
     {
@@ -2000,7 +2000,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "editor_tagtitlestab_tagtitlestab",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagtitlestab()"
     },
     {
@@ -2120,7 +2120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_addbulkrow",
-      "community": 0,
+      "community": 70,
       "norm_label": "addbulkrow.jsx"
     },
     {
@@ -2130,7 +2130,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "ui_addbulkrow_addbulkrow",
-      "community": 0,
+      "community": 70,
       "norm_label": "addbulkrow()"
     },
     {
@@ -2160,7 +2160,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_bulktextarea",
-      "community": 0,
+      "community": 70,
       "norm_label": "bulktextarea.jsx"
     },
     {
@@ -2170,7 +2170,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "ui_bulktextarea_bulktextarea",
-      "community": 0,
+      "community": 70,
       "norm_label": "bulktextarea()"
     },
     {
@@ -2220,7 +2220,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_hooktemplateeditor",
-      "community": 0,
+      "community": 70,
       "norm_label": "hooktemplateeditor.jsx"
     },
     {
@@ -2230,7 +2230,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "ui_hooktemplateeditor_hooktemplateeditor",
-      "community": 0,
+      "community": 70,
       "norm_label": "hooktemplateeditor()"
     },
     {
@@ -2280,7 +2280,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_labelsliderrow",
-      "community": 0,
+      "community": 70,
       "norm_label": "labelsliderrow.jsx"
     },
     {
@@ -2290,7 +2290,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "ui_labelsliderrow_labelsliderrow",
-      "community": 0,
+      "community": 70,
       "norm_label": "labelsliderrow()"
     },
     {
@@ -2340,7 +2340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_phraserow",
-      "community": 0,
+      "community": 70,
       "norm_label": "phraserow.jsx"
     },
     {
@@ -2350,7 +2350,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "ui_phraserow_phraserow",
-      "community": 0,
+      "community": 70,
       "norm_label": "phraserow"
     },
     {
@@ -2360,7 +2360,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_placeholderfield",
-      "community": 0,
+      "community": 70,
       "norm_label": "placeholderfield.jsx"
     },
     {
@@ -2370,7 +2370,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "ui_placeholderfield_detecttrigger",
-      "community": 0,
+      "community": 70,
       "norm_label": "detecttrigger()"
     },
     {
@@ -2380,7 +2380,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "ui_placeholderfield_placeholderfield",
-      "community": 0,
+      "community": 70,
       "norm_label": "placeholderfield()"
     },
     {
@@ -2390,7 +2390,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_projecttextfield",
-      "community": 12,
+      "community": 46,
       "norm_label": "projecttextfield.jsx"
     },
     {
@@ -2400,7 +2400,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "ui_projecttextfield_projecttextfield",
-      "community": 12,
+      "community": 46,
       "norm_label": "projecttextfield()"
     },
     {
@@ -2450,7 +2450,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_templategroupcard",
-      "community": 0,
+      "community": 70,
       "norm_label": "templategroupcard.jsx"
     },
     {
@@ -2460,7 +2460,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "ui_templategroupcard_templategroupcard",
-      "community": 0,
+      "community": 70,
       "norm_label": "templategroupcard()"
     },
     {
@@ -2490,7 +2490,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_togglefield",
-      "community": 7,
+      "community": 70,
       "norm_label": "togglefield.jsx"
     },
     {
@@ -2500,7 +2500,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_togglefield_togglefield",
-      "community": 7,
+      "community": 70,
       "norm_label": "togglefield()"
     },
     {
@@ -2510,7 +2510,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_toggleinputrow",
-      "community": 0,
+      "community": 70,
       "norm_label": "toggleinputrow.jsx"
     },
     {
@@ -2520,7 +2520,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "ui_toggleinputrow_toggleinputrow",
-      "community": 0,
+      "community": 70,
       "norm_label": "toggleinputrow()"
     },
     {
@@ -2530,7 +2530,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "config_projectsettingssections",
-      "community": 70,
+      "community": 1,
       "norm_label": "projectsettingssections.js"
     },
     {
@@ -2540,7 +2540,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "config_projectsettingssections_project_setting_sections",
-      "community": 70,
+      "community": 1,
       "norm_label": "project_setting_sections"
     },
     {
@@ -2550,7 +2550,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "config_projectsettingssections_getprojectsettingssectionsummary",
-      "community": 70,
+      "community": 1,
       "norm_label": "getprojectsettingssectionsummary()"
     },
     {
@@ -3270,7 +3270,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useinputformlogic",
-      "community": 1,
+      "community": 12,
       "norm_label": "useinputformlogic.js"
     },
     {
@@ -3280,7 +3280,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "hooks_useinputformlogic_useinputformlogic",
-      "community": 1,
+      "community": 12,
       "norm_label": "useinputformlogic()"
     },
     {
@@ -3530,7 +3530,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "hooks_usetagoverrides_usetagoverrides",
-      "community": 1,
+      "community": 12,
       "norm_label": "usetagoverrides()"
     },
     {
@@ -3600,7 +3600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_projectsettingspage",
-      "community": 70,
+      "community": 1,
       "norm_label": "projectsettingspage.jsx"
     },
     {
@@ -3610,7 +3610,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "pages_projectsettingspage_projectsettingspage",
-      "community": 70,
+      "community": 1,
       "norm_label": "projectsettingspage()"
     },
     {
@@ -3680,7 +3680,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_uikitpage",
-      "community": 0,
+      "community": 70,
       "norm_label": "uikitpage.jsx"
     },
     {
@@ -3690,7 +3690,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "pages_uikitpage_section",
-      "community": 0,
+      "community": 70,
       "norm_label": "section()"
     },
     {
@@ -3700,7 +3700,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "pages_uikitpage_example",
-      "community": 0,
+      "community": 70,
       "norm_label": "example()"
     },
     {
@@ -3710,7 +3710,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "pages_uikitpage_tabs",
-      "community": 0,
+      "community": 70,
       "norm_label": "tabs"
     },
     {
@@ -3730,7 +3730,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_appbackup",
-      "community": 12,
+      "community": 46,
       "norm_label": "appbackup.js"
     },
     {
@@ -3740,7 +3740,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "utils_appbackup_legacy_keys",
-      "community": 12,
+      "community": 46,
       "norm_label": "legacy_keys"
     },
     {
@@ -3750,7 +3750,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "utils_appbackup_readlegacydata",
-      "community": 12,
+      "community": 46,
       "norm_label": "readlegacydata()"
     },
     {
@@ -3760,7 +3760,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "utils_appbackup_buildappbackup",
-      "community": 12,
+      "community": 46,
       "norm_label": "buildappbackup()"
     },
     {
@@ -3770,7 +3770,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "utils_appbackup_downloadappbackup",
-      "community": 12,
+      "community": 46,
       "norm_label": "downloadappbackup()"
     },
     {
@@ -3780,7 +3780,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "utils_appbackup_restoreappbackup",
-      "community": 12,
+      "community": 46,
       "norm_label": "restoreappbackup()"
     },
     {
@@ -3990,7 +3990,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_hookplaceholders",
-      "community": 7,
+      "community": 70,
       "norm_label": "hookplaceholders.js"
     },
     {
@@ -4000,7 +4000,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "utils_hookplaceholders_hook_placeholders",
-      "community": 7,
+      "community": 70,
       "norm_label": "hook_placeholders"
     },
     {
@@ -4130,7 +4130,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_tagregistry",
-      "community": 1,
+      "community": 12,
       "norm_label": "tagregistry.js"
     },
     {
@@ -4140,7 +4140,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_tagregistry_gettagregistry",
-      "community": 1,
+      "community": 12,
       "norm_label": "gettagregistry()"
     },
     {
@@ -4150,7 +4150,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "utils_tagregistry_getresolvedtagregistry",
-      "community": 1,
+      "community": 12,
       "norm_label": "getresolvedtagregistry()"
     },
     {
@@ -4160,7 +4160,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "utils_tagregistry_getvisibletags",
-      "community": 1,
+      "community": 12,
       "norm_label": "getvisibletags()"
     },
     {
@@ -4170,7 +4170,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "utils_tagregistry_gettagdata",
-      "community": 1,
+      "community": 12,
       "norm_label": "gettagdata()"
     },
     {
@@ -4180,7 +4180,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "utils_tagregistry_gettagcategories",
-      "community": 1,
+      "community": 12,
       "norm_label": "gettagcategories()"
     },
     {
@@ -4190,7 +4190,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "utils_tagregistry_gettagcategory",
-      "community": 1,
+      "community": 12,
       "norm_label": "gettagcategory()"
     },
     {
@@ -4202,6 +4202,616 @@
       "id": "vite_config",
       "community": 36,
       "norm_label": "vite.config.js"
+    },
+    {
+      "label": "SKILL.md",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill",
+      "community": 43,
+      "norm_label": "skill.md"
+    },
+    {
+      "label": "/graphify",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_graphify",
+      "community": 43,
+      "norm_label": "/graphify"
+    },
+    {
+      "label": "Usage",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_usage",
+      "community": 43,
+      "norm_label": "usage"
+    },
+    {
+      "label": "What graphify is for",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L45",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_what_graphify_is_for",
+      "community": 43,
+      "norm_label": "what graphify is for"
+    },
+    {
+      "label": "What You Must Do When Invoked",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L49",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "community": 43,
+      "norm_label": "what you must do when invoked"
+    },
+    {
+      "label": "Step 0 - GitHub repos and multi-path merge (only if a URL or several paths)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L61",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_step_0_github_repos_and_multi_path_merge_only_if_a_url_or_several_paths",
+      "community": 43,
+      "norm_label": "step 0 - github repos and multi-path merge (only if a url or several paths)"
+    },
+    {
+      "label": "Step 1 - Ensure graphify is installed",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L65",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_step_1_ensure_graphify_is_installed",
+      "community": 43,
+      "norm_label": "step 1 - ensure graphify is installed"
+    },
+    {
+      "label": "Step 2 - Detect files",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L129",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_step_2_detect_files",
+      "community": 43,
+      "norm_label": "step 2 - detect files"
+    },
+    {
+      "label": "Step 2.5 - Video and audio (only if video files detected)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L166",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_step_2_5_video_and_audio_only_if_video_files_detected",
+      "community": 43,
+      "norm_label": "step 2.5 - video and audio (only if video files detected)"
+    },
+    {
+      "label": "Step 3 - Extract entities and relationships",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L170",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_step_3_extract_entities_and_relationships",
+      "community": 43,
+      "norm_label": "step 3 - extract entities and relationships"
+    },
+    {
+      "label": "Part A - Structural extraction for code files",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L187",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_part_a_structural_extraction_for_code_files",
+      "community": 43,
+      "norm_label": "part a - structural extraction for code files"
+    },
+    {
+      "label": "Part B - Semantic extraction (parallel subagents)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L213",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_part_b_semantic_extraction_parallel_subagents",
+      "community": 43,
+      "norm_label": "part b - semantic extraction (parallel subagents)"
+    },
+    {
+      "label": "Part C - Merge AST + semantic into final extraction",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L373",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_part_c_merge_ast_semantic_into_final_extraction",
+      "community": 43,
+      "norm_label": "part c - merge ast + semantic into final extraction"
+    },
+    {
+      "label": "Step 4 - Build graph, cluster, analyze, generate outputs",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L407",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_step_4_build_graph_cluster_analyze_generate_outputs",
+      "community": 43,
+      "norm_label": "step 4 - build graph, cluster, analyze, generate outputs"
+    },
+    {
+      "label": "Step 5 - Label communities",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L470",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_step_5_label_communities",
+      "community": 43,
+      "norm_label": "step 5 - label communities"
+    },
+    {
+      "label": "Step 6 - Generate Obsidian vault (opt-in) + HTML",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L511",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_step_6_generate_obsidian_vault_opt_in_html",
+      "community": 43,
+      "norm_label": "step 6 - generate obsidian vault (opt-in) + html"
+    },
+    {
+      "label": "Steps 6b-8 - Wiki, Neo4j, FalkorDB, SVG, GraphML, MCP, benchmark (only on their flags)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L531",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_steps_6b_8_wiki_neo4j_falkordb_svg_graphml_mcp_benchmark_only_on_their_flags",
+      "community": 43,
+      "norm_label": "steps 6b-8 - wiki, neo4j, falkordb, svg, graphml, mcp, benchmark (only on their flags)"
+    },
+    {
+      "label": "Step 9 - Save manifest, update cost tracker, clean up, and report",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L537",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_step_9_save_manifest_update_cost_tracker_clean_up_and_report",
+      "community": 43,
+      "norm_label": "step 9 - save manifest, update cost tracker, clean up, and report"
+    },
+    {
+      "label": "Interpreter guard for subcommands",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L612",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_interpreter_guard_for_subcommands",
+      "community": 43,
+      "norm_label": "interpreter guard for subcommands"
+    },
+    {
+      "label": "For --update and --cluster-only",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L630",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_for_update_and_cluster_only",
+      "community": 43,
+      "norm_label": "for --update and --cluster-only"
+    },
+    {
+      "label": "For /graphify query",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L636",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_for_graphify_query",
+      "community": 43,
+      "norm_label": "for /graphify query"
+    },
+    {
+      "label": "For /graphify add and --watch",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L648",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_for_graphify_add_and_watch",
+      "community": 43,
+      "norm_label": "for /graphify add and --watch"
+    },
+    {
+      "label": "For the commit hook and native AGENTS.md integration",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L654",
+      "_origin": "ast",
+      "id": "graphify_skill_for_the_commit_hook_and_native_agents_md_integration",
+      "community": 43,
+      "norm_label": "for the commit hook and native agents.md integration"
+    },
+    {
+      "label": "Troubleshooting",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L660",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_troubleshooting",
+      "community": 43,
+      "norm_label": "troubleshooting"
+    },
+    {
+      "label": "PowerShell 5.1: Vertical scrolling stops working",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L662",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_powershell_5_1_vertical_scrolling_stops_working",
+      "community": 43,
+      "norm_label": "powershell 5.1: vertical scrolling stops working"
+    },
+    {
+      "label": "Honesty Rules",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L673",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_skill_md_graphify_skill_honesty_rules",
+      "community": 43,
+      "norm_label": "honesty rules"
+    },
+    {
+      "label": "add-watch.md",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/add-watch.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_add_watch_md_references_add_watch",
+      "community": 66,
+      "norm_label": "add-watch.md"
+    },
+    {
+      "label": "graphify reference: add a URL and watch a folder",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/add-watch.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_add_watch_md_references_add_watch_graphify_reference_add_a_url_and_watch_a_folder",
+      "community": 66,
+      "norm_label": "graphify reference: add a url and watch a folder"
+    },
+    {
+      "label": "For /graphify add",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/add-watch.md",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_add_watch_md_references_add_watch_for_graphify_add",
+      "community": 66,
+      "norm_label": "for /graphify add"
+    },
+    {
+      "label": "For --watch",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/add-watch.md",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_add_watch_md_references_add_watch_for_watch",
+      "community": 66,
+      "norm_label": "for --watch"
+    },
+    {
+      "label": "exports.md",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_exports_md_references_exports",
+      "community": 55,
+      "norm_label": "exports.md"
+    },
+    {
+      "label": "graphify reference: extra exports and benchmark",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "community": 55,
+      "norm_label": "graphify reference: extra exports and benchmark"
+    },
+    {
+      "label": "Step 6b - Wiki (only if --wiki flag)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_exports_md_references_exports_step_6b_wiki_only_if_wiki_flag",
+      "community": 55,
+      "norm_label": "step 6b - wiki (only if --wiki flag)"
+    },
+    {
+      "label": "Step 7 - Neo4j export (only if --neo4j or --neo4j-push flag)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_exports_md_references_exports_step_7_neo4j_export_only_if_neo4j_or_neo4j_push_flag",
+      "community": 55,
+      "norm_label": "step 7 - neo4j export (only if --neo4j or --neo4j-push flag)"
+    },
+    {
+      "label": "Step 7a - FalkorDB export (only if --falkordb or --falkordb-push flag)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_exports_md_references_exports_step_7a_falkordb_export_only_if_falkordb_or_falkordb_push_flag",
+      "community": 55,
+      "norm_label": "step 7a - falkordb export (only if --falkordb or --falkordb-push flag)"
+    },
+    {
+      "label": "Step 7b - SVG export (only if --svg flag)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L47",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_exports_md_references_exports_step_7b_svg_export_only_if_svg_flag",
+      "community": 55,
+      "norm_label": "step 7b - svg export (only if --svg flag)"
+    },
+    {
+      "label": "Step 7c - GraphML export (only if --graphml flag)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L53",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_exports_md_references_exports_step_7c_graphml_export_only_if_graphml_flag",
+      "community": 55,
+      "norm_label": "step 7c - graphml export (only if --graphml flag)"
+    },
+    {
+      "label": "Step 7d - MCP server (only if --mcp flag)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L59",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_exports_md_references_exports_step_7d_mcp_server_only_if_mcp_flag",
+      "community": 55,
+      "norm_label": "step 7d - mcp server (only if --mcp flag)"
+    },
+    {
+      "label": "Step 8 - Token reduction benchmark (only if total_words > 5000)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L79",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_exports_md_references_exports_step_8_token_reduction_benchmark_only_if_total_words_5000",
+      "community": 55,
+      "norm_label": "step 8 - token reduction benchmark (only if total_words > 5000)"
+    },
+    {
+      "label": "extraction-spec.md",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/extraction-spec.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_extraction_spec_md_references_extraction_spec",
+      "community": 79,
+      "norm_label": "extraction-spec.md"
+    },
+    {
+      "label": "graphify reference: extraction subagent prompt",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/extraction-spec.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_extraction_spec_md_references_extraction_spec_graphify_reference_extraction_subagent_prompt",
+      "community": 79,
+      "norm_label": "graphify reference: extraction subagent prompt"
+    },
+    {
+      "label": "github-and-merge.md",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/github-and-merge.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_github_and_merge_md_references_github_and_merge",
+      "community": 75,
+      "norm_label": "github-and-merge.md"
+    },
+    {
+      "label": "graphify reference: GitHub clone and cross-repo merge",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/github-and-merge.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_github_and_merge_md_references_github_and_merge_graphify_reference_github_clone_and_cross_repo_merge",
+      "community": 75,
+      "norm_label": "graphify reference: github clone and cross-repo merge"
+    },
+    {
+      "label": "Step 0 - Clone GitHub repo(s) (only if a GitHub URL was given)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/github-and-merge.md",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_github_and_merge_md_references_github_and_merge_step_0_clone_github_repo_s_only_if_a_github_url_was_given",
+      "community": 75,
+      "norm_label": "step 0 - clone github repo(s) (only if a github url was given)"
+    },
+    {
+      "label": "hooks.md",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/hooks.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_hooks_md_references_hooks",
+      "community": 68,
+      "norm_label": "hooks.md"
+    },
+    {
+      "label": "graphify reference: commit hook and native CLAUDE.md integration",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/hooks.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_hooks_md_references_hooks_graphify_reference_commit_hook_and_native_claude_md_integration",
+      "community": 68,
+      "norm_label": "graphify reference: commit hook and native claude.md integration"
+    },
+    {
+      "label": "For git commit hook",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/hooks.md",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_hooks_md_references_hooks_for_git_commit_hook",
+      "community": 68,
+      "norm_label": "for git commit hook"
+    },
+    {
+      "label": "For native CLAUDE.md integration",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/hooks.md",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_hooks_md_references_hooks_for_native_claude_md_integration",
+      "community": 68,
+      "norm_label": "for native claude.md integration"
+    },
+    {
+      "label": "query.md",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/query.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_query_md_references_query",
+      "community": 63,
+      "norm_label": "query.md"
+    },
+    {
+      "label": "graphify reference: query, path, explain",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/query.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_query_md_references_query_graphify_reference_query_path_explain",
+      "community": 63,
+      "norm_label": "graphify reference: query, path, explain"
+    },
+    {
+      "label": "Step 0 \u2014 Constrained query expansion (REQUIRED before traversal)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/query.md",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_query_md_references_query_step_0_constrained_query_expansion_required_before_traversal",
+      "community": 63,
+      "norm_label": "step 0 \u2014 constrained query expansion (required before traversal)"
+    },
+    {
+      "label": "Step 1 \u2014 Traversal",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/query.md",
+      "source_location": "L61",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_query_md_references_query_step_1_traversal",
+      "community": 63,
+      "norm_label": "step 1 \u2014 traversal"
+    },
+    {
+      "label": "For /graphify path",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/query.md",
+      "source_location": "L178",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_query_md_references_query_for_graphify_path",
+      "community": 63,
+      "norm_label": "for /graphify path"
+    },
+    {
+      "label": "For /graphify explain",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/query.md",
+      "source_location": "L246",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_query_md_references_query_for_graphify_explain",
+      "community": 63,
+      "norm_label": "for /graphify explain"
+    },
+    {
+      "label": "transcribe.md",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/transcribe.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_transcribe_md_references_transcribe",
+      "community": 76,
+      "norm_label": "transcribe.md"
+    },
+    {
+      "label": "graphify reference: transcribe video and audio",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/transcribe.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_transcribe_md_references_transcribe_graphify_reference_transcribe_video_and_audio",
+      "community": 76,
+      "norm_label": "graphify reference: transcribe video and audio"
+    },
+    {
+      "label": "Step 2.5 - Transcribe video / audio files (only if video files detected)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/transcribe.md",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_transcribe_md_references_transcribe_step_2_5_transcribe_video_audio_files_only_if_video_files_detected",
+      "community": 76,
+      "norm_label": "step 2.5 - transcribe video / audio files (only if video files detected)"
+    },
+    {
+      "label": "update.md",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/update.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_update_md_references_update",
+      "community": 69,
+      "norm_label": "update.md"
+    },
+    {
+      "label": "graphify reference: incremental update and cluster-only",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/update.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_update_md_references_update_graphify_reference_incremental_update_and_cluster_only",
+      "community": 69,
+      "norm_label": "graphify reference: incremental update and cluster-only"
+    },
+    {
+      "label": "For --update (incremental re-extraction)",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/update.md",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_update_md_references_update_for_update_incremental_re_extraction",
+      "community": 69,
+      "norm_label": "for --update (incremental re-extraction)"
+    },
+    {
+      "label": "For --cluster-only",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/references/update.md",
+      "source_location": "L181",
+      "_origin": "ast",
+      "id": "agents_skills_graphify_references_update_md_references_update_for_cluster_only",
+      "community": 69,
+      "norm_label": "for --cluster-only"
     },
     {
       "label": "CLAUDE.md",
@@ -4229,7 +4839,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "graphify_skill",
+      "id": "claude_skills_graphify_skill_md_graphify_skill",
       "community": 30,
       "norm_label": "skill.md"
     },
@@ -4239,7 +4849,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "graphify_skill_graphify",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_graphify",
       "community": 30,
       "norm_label": "/graphify"
     },
@@ -4249,7 +4859,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L10",
       "_origin": "ast",
-      "id": "graphify_skill_usage",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_usage",
       "community": 30,
       "norm_label": "usage"
     },
@@ -4259,7 +4869,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L45",
       "_origin": "ast",
-      "id": "graphify_skill_what_graphify_is_for",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_what_graphify_is_for",
       "community": 30,
       "norm_label": "what graphify is for"
     },
@@ -4269,7 +4879,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L49",
       "_origin": "ast",
-      "id": "graphify_skill_what_you_must_do_when_invoked",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
       "community": 30,
       "norm_label": "what you must do when invoked"
     },
@@ -4279,7 +4889,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L61",
       "_origin": "ast",
-      "id": "graphify_skill_step_0_github_repos_and_multi_path_merge_only_if_a_url_or_several_paths",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_step_0_github_repos_and_multi_path_merge_only_if_a_url_or_several_paths",
       "community": 30,
       "norm_label": "step 0 - github repos and multi-path merge (only if a url or several paths)"
     },
@@ -4289,7 +4899,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L65",
       "_origin": "ast",
-      "id": "graphify_skill_step_1_ensure_graphify_is_installed",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_step_1_ensure_graphify_is_installed",
       "community": 30,
       "norm_label": "step 1 - ensure graphify is installed"
     },
@@ -4299,7 +4909,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L129",
       "_origin": "ast",
-      "id": "graphify_skill_step_2_detect_files",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_step_2_detect_files",
       "community": 30,
       "norm_label": "step 2 - detect files"
     },
@@ -4309,7 +4919,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L166",
       "_origin": "ast",
-      "id": "graphify_skill_step_2_5_video_and_audio_only_if_video_files_detected",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_step_2_5_video_and_audio_only_if_video_files_detected",
       "community": 30,
       "norm_label": "step 2.5 - video and audio (only if video files detected)"
     },
@@ -4319,7 +4929,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L170",
       "_origin": "ast",
-      "id": "graphify_skill_step_3_extract_entities_and_relationships",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_step_3_extract_entities_and_relationships",
       "community": 30,
       "norm_label": "step 3 - extract entities and relationships"
     },
@@ -4329,7 +4939,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L187",
       "_origin": "ast",
-      "id": "graphify_skill_part_a_structural_extraction_for_code_files",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_part_a_structural_extraction_for_code_files",
       "community": 30,
       "norm_label": "part a - structural extraction for code files"
     },
@@ -4339,7 +4949,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L213",
       "_origin": "ast",
-      "id": "graphify_skill_part_b_semantic_extraction_parallel_subagents",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_part_b_semantic_extraction_parallel_subagents",
       "community": 30,
       "norm_label": "part b - semantic extraction (parallel subagents)"
     },
@@ -4349,7 +4959,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L373",
       "_origin": "ast",
-      "id": "graphify_skill_part_c_merge_ast_semantic_into_final_extraction",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_part_c_merge_ast_semantic_into_final_extraction",
       "community": 30,
       "norm_label": "part c - merge ast + semantic into final extraction"
     },
@@ -4359,7 +4969,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L407",
       "_origin": "ast",
-      "id": "graphify_skill_step_4_build_graph_cluster_analyze_generate_outputs",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_step_4_build_graph_cluster_analyze_generate_outputs",
       "community": 30,
       "norm_label": "step 4 - build graph, cluster, analyze, generate outputs"
     },
@@ -4369,7 +4979,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L470",
       "_origin": "ast",
-      "id": "graphify_skill_step_5_label_communities",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_step_5_label_communities",
       "community": 30,
       "norm_label": "step 5 - label communities"
     },
@@ -4379,7 +4989,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L511",
       "_origin": "ast",
-      "id": "graphify_skill_step_6_generate_obsidian_vault_opt_in_html",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_step_6_generate_obsidian_vault_opt_in_html",
       "community": 30,
       "norm_label": "step 6 - generate obsidian vault (opt-in) + html"
     },
@@ -4389,7 +4999,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L531",
       "_origin": "ast",
-      "id": "graphify_skill_steps_6b_8_wiki_neo4j_falkordb_svg_graphml_mcp_benchmark_only_on_their_flags",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_steps_6b_8_wiki_neo4j_falkordb_svg_graphml_mcp_benchmark_only_on_their_flags",
       "community": 30,
       "norm_label": "steps 6b-8 - wiki, neo4j, falkordb, svg, graphml, mcp, benchmark (only on their flags)"
     },
@@ -4399,7 +5009,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L537",
       "_origin": "ast",
-      "id": "graphify_skill_step_9_save_manifest_update_cost_tracker_clean_up_and_report",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_step_9_save_manifest_update_cost_tracker_clean_up_and_report",
       "community": 30,
       "norm_label": "step 9 - save manifest, update cost tracker, clean up, and report"
     },
@@ -4409,7 +5019,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L612",
       "_origin": "ast",
-      "id": "graphify_skill_interpreter_guard_for_subcommands",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_interpreter_guard_for_subcommands",
       "community": 30,
       "norm_label": "interpreter guard for subcommands"
     },
@@ -4419,7 +5029,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L630",
       "_origin": "ast",
-      "id": "graphify_skill_for_update_and_cluster_only",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_for_update_and_cluster_only",
       "community": 30,
       "norm_label": "for --update and --cluster-only"
     },
@@ -4429,7 +5039,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L636",
       "_origin": "ast",
-      "id": "graphify_skill_for_graphify_query",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_for_graphify_query",
       "community": 30,
       "norm_label": "for /graphify query"
     },
@@ -4439,7 +5049,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L648",
       "_origin": "ast",
-      "id": "graphify_skill_for_graphify_add_and_watch",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_for_graphify_add_and_watch",
       "community": 30,
       "norm_label": "for /graphify add and --watch"
     },
@@ -4459,7 +5069,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L660",
       "_origin": "ast",
-      "id": "graphify_skill_troubleshooting",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_troubleshooting",
       "community": 30,
       "norm_label": "troubleshooting"
     },
@@ -4469,7 +5079,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L662",
       "_origin": "ast",
-      "id": "graphify_skill_powershell_5_1_vertical_scrolling_stops_working",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_powershell_5_1_vertical_scrolling_stops_working",
       "community": 30,
       "norm_label": "powershell 5.1: vertical scrolling stops working"
     },
@@ -4479,7 +5089,7 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L673",
       "_origin": "ast",
-      "id": "graphify_skill_honesty_rules",
+      "id": "claude_skills_graphify_skill_md_graphify_skill_honesty_rules",
       "community": 30,
       "norm_label": "honesty rules"
     },
@@ -4489,8 +5099,8 @@
       "source_file": ".claude/skills/graphify/references/add-watch.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_add_watch",
-      "community": 62,
+      "id": "claude_skills_graphify_references_add_watch_md_references_add_watch",
+      "community": 71,
       "norm_label": "add-watch.md"
     },
     {
@@ -4499,8 +5109,8 @@
       "source_file": ".claude/skills/graphify/references/add-watch.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_add_watch_graphify_reference_add_a_url_and_watch_a_folder",
-      "community": 62,
+      "id": "claude_skills_graphify_references_add_watch_md_references_add_watch_graphify_reference_add_a_url_and_watch_a_folder",
+      "community": 71,
       "norm_label": "graphify reference: add a url and watch a folder"
     },
     {
@@ -4509,8 +5119,8 @@
       "source_file": ".claude/skills/graphify/references/add-watch.md",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "references_add_watch_for_graphify_add",
-      "community": 62,
+      "id": "claude_skills_graphify_references_add_watch_md_references_add_watch_for_graphify_add",
+      "community": 71,
       "norm_label": "for /graphify add"
     },
     {
@@ -4519,8 +5129,8 @@
       "source_file": ".claude/skills/graphify/references/add-watch.md",
       "source_location": "L39",
       "_origin": "ast",
-      "id": "references_add_watch_for_watch",
-      "community": 62,
+      "id": "claude_skills_graphify_references_add_watch_md_references_add_watch_for_watch",
+      "community": 71,
       "norm_label": "for --watch"
     },
     {
@@ -4529,8 +5139,8 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_exports",
-      "community": 46,
+      "id": "claude_skills_graphify_references_exports_md_references_exports",
+      "community": 62,
       "norm_label": "exports.md"
     },
     {
@@ -4539,8 +5149,8 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_exports_graphify_reference_extra_exports_and_benchmark",
-      "community": 46,
+      "id": "claude_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "community": 62,
       "norm_label": "graphify reference: extra exports and benchmark"
     },
     {
@@ -4549,8 +5159,8 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "references_exports_step_6b_wiki_only_if_wiki_flag",
-      "community": 46,
+      "id": "claude_skills_graphify_references_exports_md_references_exports_step_6b_wiki_only_if_wiki_flag",
+      "community": 62,
       "norm_label": "step 6b - wiki (only if --wiki flag)"
     },
     {
@@ -4559,8 +5169,8 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L15",
       "_origin": "ast",
-      "id": "references_exports_step_7_neo4j_export_only_if_neo4j_or_neo4j_push_flag",
-      "community": 46,
+      "id": "claude_skills_graphify_references_exports_md_references_exports_step_7_neo4j_export_only_if_neo4j_or_neo4j_push_flag",
+      "community": 62,
       "norm_label": "step 7 - neo4j export (only if --neo4j or --neo4j-push flag)"
     },
     {
@@ -4569,8 +5179,8 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L31",
       "_origin": "ast",
-      "id": "references_exports_step_7a_falkordb_export_only_if_falkordb_or_falkordb_push_flag",
-      "community": 46,
+      "id": "claude_skills_graphify_references_exports_md_references_exports_step_7a_falkordb_export_only_if_falkordb_or_falkordb_push_flag",
+      "community": 62,
       "norm_label": "step 7a - falkordb export (only if --falkordb or --falkordb-push flag)"
     },
     {
@@ -4579,8 +5189,8 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L47",
       "_origin": "ast",
-      "id": "references_exports_step_7b_svg_export_only_if_svg_flag",
-      "community": 46,
+      "id": "claude_skills_graphify_references_exports_md_references_exports_step_7b_svg_export_only_if_svg_flag",
+      "community": 62,
       "norm_label": "step 7b - svg export (only if --svg flag)"
     },
     {
@@ -4589,8 +5199,8 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L53",
       "_origin": "ast",
-      "id": "references_exports_step_7c_graphml_export_only_if_graphml_flag",
-      "community": 46,
+      "id": "claude_skills_graphify_references_exports_md_references_exports_step_7c_graphml_export_only_if_graphml_flag",
+      "community": 62,
       "norm_label": "step 7c - graphml export (only if --graphml flag)"
     },
     {
@@ -4599,8 +5209,8 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L59",
       "_origin": "ast",
-      "id": "references_exports_step_7d_mcp_server_only_if_mcp_flag",
-      "community": 46,
+      "id": "claude_skills_graphify_references_exports_md_references_exports_step_7d_mcp_server_only_if_mcp_flag",
+      "community": 62,
       "norm_label": "step 7d - mcp server (only if --mcp flag)"
     },
     {
@@ -4609,8 +5219,8 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L79",
       "_origin": "ast",
-      "id": "references_exports_step_8_token_reduction_benchmark_only_if_total_words_5000",
-      "community": 46,
+      "id": "claude_skills_graphify_references_exports_md_references_exports_step_8_token_reduction_benchmark_only_if_total_words_5000",
+      "community": 62,
       "norm_label": "step 8 - token reduction benchmark (only if total_words > 5000)"
     },
     {
@@ -4619,8 +5229,8 @@
       "source_file": ".claude/skills/graphify/references/extraction-spec.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_extraction_spec",
-      "community": 68,
+      "id": "claude_skills_graphify_references_extraction_spec_md_references_extraction_spec",
+      "community": 80,
       "norm_label": "extraction-spec.md"
     },
     {
@@ -4629,8 +5239,8 @@
       "source_file": ".claude/skills/graphify/references/extraction-spec.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_extraction_spec_graphify_reference_extraction_subagent_prompt",
-      "community": 68,
+      "id": "claude_skills_graphify_references_extraction_spec_md_references_extraction_spec_graphify_reference_extraction_subagent_prompt",
+      "community": 80,
       "norm_label": "graphify reference: extraction subagent prompt"
     },
     {
@@ -4639,8 +5249,8 @@
       "source_file": ".claude/skills/graphify/references/github-and-merge.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_github_and_merge",
-      "community": 65,
+      "id": "claude_skills_graphify_references_github_and_merge_md_references_github_and_merge",
+      "community": 77,
       "norm_label": "github-and-merge.md"
     },
     {
@@ -4649,8 +5259,8 @@
       "source_file": ".claude/skills/graphify/references/github-and-merge.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_github_and_merge_graphify_reference_github_clone_and_cross_repo_merge",
-      "community": 65,
+      "id": "claude_skills_graphify_references_github_and_merge_md_references_github_and_merge_graphify_reference_github_clone_and_cross_repo_merge",
+      "community": 77,
       "norm_label": "graphify reference: github clone and cross-repo merge"
     },
     {
@@ -4659,8 +5269,8 @@
       "source_file": ".claude/skills/graphify/references/github-and-merge.md",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "references_github_and_merge_step_0_clone_github_repo_s_only_if_a_github_url_was_given",
-      "community": 65,
+      "id": "claude_skills_graphify_references_github_and_merge_md_references_github_and_merge_step_0_clone_github_repo_s_only_if_a_github_url_was_given",
+      "community": 77,
       "norm_label": "step 0 - clone github repo(s) (only if a github url was given)"
     },
     {
@@ -4669,8 +5279,8 @@
       "source_file": ".claude/skills/graphify/references/hooks.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_hooks",
-      "community": 63,
+      "id": "claude_skills_graphify_references_hooks_md_references_hooks",
+      "community": 73,
       "norm_label": "hooks.md"
     },
     {
@@ -4679,8 +5289,8 @@
       "source_file": ".claude/skills/graphify/references/hooks.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_hooks_graphify_reference_commit_hook_and_native_claude_md_integration",
-      "community": 63,
+      "id": "claude_skills_graphify_references_hooks_md_references_hooks_graphify_reference_commit_hook_and_native_claude_md_integration",
+      "community": 73,
       "norm_label": "graphify reference: commit hook and native claude.md integration"
     },
     {
@@ -4689,8 +5299,8 @@
       "source_file": ".claude/skills/graphify/references/hooks.md",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "references_hooks_for_git_commit_hook",
-      "community": 63,
+      "id": "claude_skills_graphify_references_hooks_md_references_hooks_for_git_commit_hook",
+      "community": 73,
       "norm_label": "for git commit hook"
     },
     {
@@ -4699,8 +5309,8 @@
       "source_file": ".claude/skills/graphify/references/hooks.md",
       "source_location": "L21",
       "_origin": "ast",
-      "id": "references_hooks_for_native_claude_md_integration",
-      "community": 63,
+      "id": "claude_skills_graphify_references_hooks_md_references_hooks_for_native_claude_md_integration",
+      "community": 73,
       "norm_label": "for native claude.md integration"
     },
     {
@@ -4709,8 +5319,8 @@
       "source_file": ".claude/skills/graphify/references/query.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_query",
-      "community": 55,
+      "id": "claude_skills_graphify_references_query_md_references_query",
+      "community": 64,
       "norm_label": "query.md"
     },
     {
@@ -4719,8 +5329,8 @@
       "source_file": ".claude/skills/graphify/references/query.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_query_graphify_reference_query_path_explain",
-      "community": 55,
+      "id": "claude_skills_graphify_references_query_md_references_query_graphify_reference_query_path_explain",
+      "community": 64,
       "norm_label": "graphify reference: query, path, explain"
     },
     {
@@ -4729,8 +5339,8 @@
       "source_file": ".claude/skills/graphify/references/query.md",
       "source_location": "L23",
       "_origin": "ast",
-      "id": "references_query_step_0_constrained_query_expansion_required_before_traversal",
-      "community": 55,
+      "id": "claude_skills_graphify_references_query_md_references_query_step_0_constrained_query_expansion_required_before_traversal",
+      "community": 64,
       "norm_label": "step 0 \u2014 constrained query expansion (required before traversal)"
     },
     {
@@ -4739,8 +5349,8 @@
       "source_file": ".claude/skills/graphify/references/query.md",
       "source_location": "L61",
       "_origin": "ast",
-      "id": "references_query_step_1_traversal",
-      "community": 55,
+      "id": "claude_skills_graphify_references_query_md_references_query_step_1_traversal",
+      "community": 64,
       "norm_label": "step 1 \u2014 traversal"
     },
     {
@@ -4749,8 +5359,8 @@
       "source_file": ".claude/skills/graphify/references/query.md",
       "source_location": "L178",
       "_origin": "ast",
-      "id": "references_query_for_graphify_path",
-      "community": 55,
+      "id": "claude_skills_graphify_references_query_md_references_query_for_graphify_path",
+      "community": 64,
       "norm_label": "for /graphify path"
     },
     {
@@ -4759,8 +5369,8 @@
       "source_file": ".claude/skills/graphify/references/query.md",
       "source_location": "L246",
       "_origin": "ast",
-      "id": "references_query_for_graphify_explain",
-      "community": 55,
+      "id": "claude_skills_graphify_references_query_md_references_query_for_graphify_explain",
+      "community": 64,
       "norm_label": "for /graphify explain"
     },
     {
@@ -4769,8 +5379,8 @@
       "source_file": ".claude/skills/graphify/references/transcribe.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_transcribe",
-      "community": 66,
+      "id": "claude_skills_graphify_references_transcribe_md_references_transcribe",
+      "community": 78,
       "norm_label": "transcribe.md"
     },
     {
@@ -4779,8 +5389,8 @@
       "source_file": ".claude/skills/graphify/references/transcribe.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_transcribe_graphify_reference_transcribe_video_and_audio",
-      "community": 66,
+      "id": "claude_skills_graphify_references_transcribe_md_references_transcribe_graphify_reference_transcribe_video_and_audio",
+      "community": 78,
       "norm_label": "graphify reference: transcribe video and audio"
     },
     {
@@ -4789,8 +5399,8 @@
       "source_file": ".claude/skills/graphify/references/transcribe.md",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "references_transcribe_step_2_5_transcribe_video_audio_files_only_if_video_files_detected",
-      "community": 66,
+      "id": "claude_skills_graphify_references_transcribe_md_references_transcribe_step_2_5_transcribe_video_audio_files_only_if_video_files_detected",
+      "community": 78,
       "norm_label": "step 2.5 - transcribe video / audio files (only if video files detected)"
     },
     {
@@ -4799,8 +5409,8 @@
       "source_file": ".claude/skills/graphify/references/update.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_update",
-      "community": 64,
+      "id": "claude_skills_graphify_references_update_md_references_update",
+      "community": 74,
       "norm_label": "update.md"
     },
     {
@@ -4809,8 +5419,8 @@
       "source_file": ".claude/skills/graphify/references/update.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "references_update_graphify_reference_incremental_update_and_cluster_only",
-      "community": 64,
+      "id": "claude_skills_graphify_references_update_md_references_update_graphify_reference_incremental_update_and_cluster_only",
+      "community": 74,
       "norm_label": "graphify reference: incremental update and cluster-only"
     },
     {
@@ -4819,8 +5429,8 @@
       "source_file": ".claude/skills/graphify/references/update.md",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "references_update_for_update_incremental_re_extraction",
-      "community": 64,
+      "id": "claude_skills_graphify_references_update_md_references_update_for_update_incremental_re_extraction",
+      "community": 74,
       "norm_label": "for --update (incremental re-extraction)"
     },
     {
@@ -4829,9 +5439,269 @@
       "source_file": ".claude/skills/graphify/references/update.md",
       "source_location": "L181",
       "_origin": "ast",
-      "id": "references_update_for_cluster_only",
-      "community": 64,
+      "id": "claude_skills_graphify_references_update_md_references_update_for_cluster_only",
+      "community": 74,
       "norm_label": "for --cluster-only"
+    },
+    {
+      "label": "AGENTS.md",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents",
+      "community": 8,
+      "norm_label": "agents.md"
+    },
+    {
+      "label": "AGENTS.md",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_agents_md",
+      "community": 8,
+      "norm_label": "agents.md"
+    },
+    {
+      "label": "PRIORITY TODO (cleanup, not urgent)",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "agents_priority_todo_cleanup_not_urgent",
+      "community": 8,
+      "norm_label": "priority todo (cleanup, not urgent)"
+    },
+    {
+      "label": "Illegal Mind Generator",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "agents_illegal_mind_generator",
+      "community": 8,
+      "norm_label": "illegal mind generator"
+    },
+    {
+      "label": "Projects",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "agents_projects",
+      "community": 8,
+      "norm_label": "projects"
+    },
+    {
+      "label": "Tech Stack",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "agents_tech_stack",
+      "community": 8,
+      "norm_label": "tech stack"
+    },
+    {
+      "label": "Development Environment",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "agents_development_environment",
+      "community": 8,
+      "norm_label": "development environment"
+    },
+    {
+      "label": "Core Architecture",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "agents_core_architecture",
+      "community": 8,
+      "norm_label": "core architecture"
+    },
+    {
+      "label": "Major Systems",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L60",
+      "_origin": "ast",
+      "id": "agents_major_systems",
+      "community": 8,
+      "norm_label": "major systems"
+    },
+    {
+      "label": "Storage Architecture",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L73",
+      "_origin": "ast",
+      "id": "agents_storage_architecture",
+      "community": 8,
+      "norm_label": "storage architecture"
+    },
+    {
+      "label": "UI Primitives (`src/components/ui/`)",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L98",
+      "_origin": "ast",
+      "id": "agents_ui_primitives_src_components_ui",
+      "community": 8,
+      "norm_label": "ui primitives (`src/components/ui/`)"
+    },
+    {
+      "label": "Known Gotchas",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L121",
+      "_origin": "ast",
+      "id": "agents_known_gotchas",
+      "community": 8,
+      "norm_label": "known gotchas"
+    },
+    {
+      "label": "Block Type System",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L155",
+      "_origin": "ast",
+      "id": "agents_block_type_system",
+      "community": 8,
+      "norm_label": "block type system"
+    },
+    {
+      "label": "Block types",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L161",
+      "_origin": "ast",
+      "id": "agents_block_types",
+      "community": 8,
+      "norm_label": "block types"
+    },
+    {
+      "label": "Per-song block overrides (`formData.songBlockOverrides`)",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L176",
+      "_origin": "ast",
+      "id": "agents_per_song_block_overrides_formdata_songblockoverrides",
+      "community": 8,
+      "norm_label": "per-song block overrides (`formdata.songblockoverrides`)"
+    },
+    {
+      "label": "Block scope",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L192",
+      "_origin": "ast",
+      "id": "agents_block_scope",
+      "community": 8,
+      "norm_label": "block scope"
+    },
+    {
+      "label": "Hook Block song overrides and scope",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L208",
+      "_origin": "ast",
+      "id": "agents_hook_block_song_overrides_and_scope",
+      "community": 8,
+      "norm_label": "hook block song overrides and scope"
+    },
+    {
+      "label": "Block targets",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L214",
+      "_origin": "ast",
+      "id": "agents_block_targets",
+      "community": 8,
+      "norm_label": "block targets"
+    },
+    {
+      "label": "Current Focus",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L224",
+      "_origin": "ast",
+      "id": "agents_current_focus",
+      "community": 8,
+      "norm_label": "current focus"
+    },
+    {
+      "label": "Other Active Goals",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L234",
+      "_origin": "ast",
+      "id": "agents_other_active_goals",
+      "community": 8,
+      "norm_label": "other active goals"
+    },
+    {
+      "label": "Post-Upload Session Todos",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L247",
+      "_origin": "ast",
+      "id": "agents_post_upload_session_todos",
+      "community": 8,
+      "norm_label": "post-upload session todos"
+    },
+    {
+      "label": "Long-Term Roadmap",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L254",
+      "_origin": "ast",
+      "id": "agents_long_term_roadmap",
+      "community": 8,
+      "norm_label": "long-term roadmap"
+    },
+    {
+      "label": "Important Decisions",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L266",
+      "_origin": "ast",
+      "id": "agents_important_decisions",
+      "community": 8,
+      "norm_label": "important decisions"
+    },
+    {
+      "label": "Development Preferences",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L276",
+      "_origin": "ast",
+      "id": "agents_development_preferences",
+      "community": 8,
+      "norm_label": "development preferences"
+    },
+    {
+      "label": "Session Protocol",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L288",
+      "_origin": "ast",
+      "id": "agents_session_protocol",
+      "community": 8,
+      "norm_label": "session protocol"
+    },
+    {
+      "label": "graphify",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L301",
+      "_origin": "ast",
+      "id": "agents_graphify",
+      "community": 8,
+      "norm_label": "graphify"
     },
     {
       "label": "CLAUDE.md",
@@ -5027,7 +5897,7 @@
       "label": "Other Active Goals",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L234",
+      "source_location": "L230",
       "_origin": "ast",
       "id": "claude_other_active_goals",
       "community": 37,
@@ -5037,7 +5907,7 @@
       "label": "Post-Upload Session Todos",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L247",
+      "source_location": "L243",
       "_origin": "ast",
       "id": "claude_post_upload_session_todos",
       "community": 37,
@@ -5047,7 +5917,7 @@
       "label": "Long-Term Roadmap",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L254",
+      "source_location": "L250",
       "_origin": "ast",
       "id": "claude_long_term_roadmap",
       "community": 37,
@@ -5057,7 +5927,7 @@
       "label": "Important Decisions",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L266",
+      "source_location": "L262",
       "_origin": "ast",
       "id": "claude_important_decisions",
       "community": 37,
@@ -5067,7 +5937,7 @@
       "label": "Development Preferences",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L276",
+      "source_location": "L272",
       "_origin": "ast",
       "id": "claude_development_preferences",
       "community": 37,
@@ -5077,7 +5947,7 @@
       "label": "Session Protocol",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L288",
+      "source_location": "L284",
       "_origin": "ast",
       "id": "claude_session_protocol",
       "community": 37,
@@ -5087,7 +5957,7 @@
       "label": "graphify",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L301",
+      "source_location": "L297",
       "_origin": "ast",
       "id": "claude_graphify",
       "community": 37,
@@ -6257,7 +7127,7 @@
       "label": "In Progress",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L40",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "docs_current_context_in_progress",
       "community": 29,
@@ -6267,7 +7137,7 @@
       "label": "Next Recommended Tasks",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L46",
+      "source_location": "L47",
       "_origin": "ast",
       "id": "docs_current_context_next_recommended_tasks",
       "community": 29,
@@ -6277,27 +7147,17 @@
       "label": "Known Issues",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L61",
+      "source_location": "L59",
       "_origin": "ast",
       "id": "docs_current_context_known_issues",
       "community": 29,
       "norm_label": "known issues"
     },
     {
-      "label": "Blocks with no editor nav",
-      "file_type": "document",
-      "source_file": "docs/current-context.md",
-      "source_location": "L63",
-      "_origin": "ast",
-      "id": "docs_current_context_blocks_with_no_editor_nav",
-      "community": 29,
-      "norm_label": "blocks with no editor nav"
-    },
-    {
       "label": "Duplicate block (Maxx Dee)",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L67",
+      "source_location": "L61",
       "_origin": "ast",
       "id": "docs_current_context_duplicate_block_maxx_dee",
       "community": 29,
@@ -6307,7 +7167,7 @@
       "label": "Storage cleanup debt",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L70",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "docs_current_context_storage_cleanup_debt",
       "community": 29,
@@ -6317,7 +7177,7 @@
       "label": "`coverLabel` not editable from UI",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L75",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "docs_current_context_coverlabel_not_editable_from_ui",
       "community": 29,
@@ -6327,7 +7187,7 @@
       "label": "`customHashtags` is hardcoded",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L78",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "docs_current_context_customhashtags_is_hardcoded",
       "community": 29,
@@ -6337,7 +7197,7 @@
       "label": "Important Files",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L83",
+      "source_location": "L77",
       "_origin": "ast",
       "id": "docs_current_context_important_files",
       "community": 29,
@@ -6347,7 +7207,7 @@
       "label": "Architectural Notes",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L104",
+      "source_location": "L98",
       "_origin": "ast",
       "id": "docs_current_context_architectural_notes",
       "community": 29,
@@ -6357,7 +7217,7 @@
       "label": "AI Notes",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L124",
+      "source_location": "L118",
       "_origin": "ast",
       "id": "docs_current_context_ai_notes",
       "community": 29,
@@ -6367,7 +7227,7 @@
       "label": "Session Summary",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L152",
+      "source_location": "L146",
       "_origin": "ast",
       "id": "docs_current_context_session_summary",
       "community": 29,
@@ -6640,7 +7500,7 @@
       "source_location": "L451",
       "_origin": "ast",
       "id": "docs_data_model_shorts_queue",
-      "community": 39,
+      "community": 65,
       "norm_label": "shorts queue"
     },
     {
@@ -6650,7 +7510,7 @@
       "source_location": "L459",
       "_origin": "ast",
       "id": "docs_data_model_structure_459",
-      "community": 39,
+      "community": 65,
       "norm_label": "structure"
     },
     {
@@ -6660,7 +7520,7 @@
       "source_location": "L471",
       "_origin": "ast",
       "id": "docs_data_model_queue_constraints",
-      "community": 39,
+      "community": 65,
       "norm_label": "queue constraints"
     },
     {
@@ -6670,7 +7530,7 @@
       "source_location": "L479",
       "_origin": "ast",
       "id": "docs_data_model_example_479",
-      "community": 39,
+      "community": 65,
       "norm_label": "example"
     },
     {
@@ -7020,7 +7880,7 @@
       "source_location": "L1172",
       "_origin": "ast",
       "id": "docs_data_model_legacy_keys",
-      "community": 69,
+      "community": 4,
       "norm_label": "legacy keys"
     },
     {
@@ -7090,7 +7950,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "docs_graph_report_component_dependency_graph",
-      "community": 73,
+      "community": 2,
       "norm_label": "component dependency graph"
     },
     {
@@ -7100,7 +7960,7 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "docs_graph_report_ui_primitives_who_uses_what",
-      "community": 73,
+      "community": 2,
       "norm_label": "ui primitives \u2014 who uses what"
     },
     {
@@ -7110,7 +7970,7 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "docs_graph_report_customblocks_js_consumers",
-      "community": 73,
+      "community": 2,
       "norm_label": "customblocks.js consumers"
     },
     {
@@ -7240,7 +8100,7 @@
       "source_location": "L428",
       "_origin": "ast",
       "id": "docs_graph_report_architectural_bottlenecks",
-      "community": 8,
+      "community": 4,
       "norm_label": "architectural bottlenecks"
     },
     {
@@ -7250,7 +8110,7 @@
       "source_location": "L430",
       "_origin": "ast",
       "id": "docs_graph_report_1_app_jsx_is_the_single_coordination_point_for_all_state",
-      "community": 8,
+      "community": 4,
       "norm_label": "1. app.jsx is the single coordination point for all state"
     },
     {
@@ -7260,7 +8120,7 @@
       "source_location": "L449",
       "_origin": "ast",
       "id": "docs_graph_report_2_useappshellstate_is_a_megahook",
-      "community": 8,
+      "community": 4,
       "norm_label": "2. useappshellstate is a megahook"
     },
     {
@@ -7270,7 +8130,7 @@
       "source_location": "L467",
       "_origin": "ast",
       "id": "docs_graph_report_3_buildresolvedprojectconfig_runs_on_every_render",
-      "community": 8,
+      "community": 4,
       "norm_label": "3. buildresolvedprojectconfig runs on every render"
     },
     {
@@ -7280,7 +8140,7 @@
       "source_location": "L481",
       "_origin": "ast",
       "id": "docs_graph_report_4_generation_runs_synchronously_on_every_formdata_keystroke",
-      "community": 8,
+      "community": 4,
       "norm_label": "4. generation runs synchronously on every formdata keystroke"
     },
     {
@@ -7290,7 +8150,7 @@
       "source_location": "L501",
       "_origin": "ast",
       "id": "docs_graph_report_5_two_components_access_storage_directly_bypassing_the_hook_layer",
-      "community": 8,
+      "community": 4,
       "norm_label": "5. two components access storage directly (bypassing the hook layer)"
     },
     {
@@ -7300,7 +8160,7 @@
       "source_location": "L516",
       "_origin": "ast",
       "id": "docs_graph_report_6_usetagvisibilityoverrides_exists_but_is_not_directly_consumed",
-      "community": 8,
+      "community": 4,
       "norm_label": "6. usetagvisibilityoverrides exists but is not directly consumed"
     },
     {
@@ -7310,7 +8170,7 @@
       "source_location": "L524",
       "_origin": "ast",
       "id": "docs_graph_report_duplicate_responsibilities",
-      "community": 69,
+      "community": 4,
       "norm_label": "duplicate responsibilities"
     },
     {
@@ -7320,7 +8180,7 @@
       "source_location": "L526",
       "_origin": "ast",
       "id": "docs_graph_report_1_entry_cta_text_has_two_storage_paths",
-      "community": 69,
+      "community": 4,
       "norm_label": "1. entry cta text has two storage paths"
     },
     {
@@ -7330,7 +8190,7 @@
       "source_location": "L542",
       "_origin": "ast",
       "id": "docs_graph_report_2_tag_visibility_is_stored_twice",
-      "community": 69,
+      "community": 4,
       "norm_label": "2. tag visibility is stored twice"
     },
     {
@@ -7340,7 +8200,7 @@
       "source_location": "L558",
       "_origin": "ast",
       "id": "docs_graph_report_3_entry_story_log_note_fields_have_three_representations",
-      "community": 69,
+      "community": 4,
       "norm_label": "3. entry story/log note fields have three representations"
     },
     {
@@ -7350,7 +8210,7 @@
       "source_location": "L575",
       "_origin": "ast",
       "id": "docs_graph_report_4_storagemigration_js_is_dead_code_in_production",
-      "community": 69,
+      "community": 4,
       "norm_label": "4. storagemigration.js is dead code in production"
     },
     {
@@ -7360,7 +8220,7 @@
       "source_location": "L593",
       "_origin": "ast",
       "id": "docs_graph_report_5_two_separate_short_hooks_systems_that_share_the_same_config_keys",
-      "community": 69,
+      "community": 4,
       "norm_label": "5. two separate \"short hooks\" systems that share the same config keys"
     },
     {
@@ -8902,7 +9762,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 4,
       "norm_label": "illegal mind generator \u2014 claude.md instructions",
       "id": "claude_md_illegal_mind_generator"
     },
@@ -8928,7 +9788,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 69,
+      "community": 4,
       "norm_label": "storage unification (illegalmindgeneratordata)",
       "id": "claude_md_storage_unification"
     },
@@ -8954,7 +9814,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 4,
       "norm_label": "per-song block overrides (songblockoverrides)",
       "id": "claude_md_song_block_overrides"
     },
@@ -8967,7 +9827,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 4,
       "norm_label": "hook blocks (phrase-template arrays, random pick)",
       "id": "claude_md_hook_blocks"
     },
@@ -8980,7 +9840,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 4,
       "norm_label": "dynamic hook blocks (user-created, customhookblocks)",
       "id": "claude_md_dynamic_hook_blocks"
     },
@@ -8993,7 +9853,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 4,
       "norm_label": "buildresolvedprojectconfig (config merge layer)",
       "id": "claude_md_build_resolved_project_config"
     },
@@ -9006,7 +9866,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 4,
       "norm_label": "ui primitives (src/components/ui/)",
       "id": "claude_md_ui_primitives"
     },
@@ -9019,7 +9879,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 41,
+      "community": 4,
       "norm_label": "tag system (transformation tags, deeply connected)",
       "id": "claude_md_tag_system"
     },
@@ -9032,7 +9892,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 4,
       "norm_label": "placeholderfield (autocomplete input/textarea)",
       "id": "claude_md_placeholder_field"
     },
@@ -9045,7 +9905,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 4,
       "norm_label": "description layout builder (available + active columns)",
       "id": "claude_md_description_layout"
     },
@@ -9097,7 +9957,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 71,
+      "community": 4,
       "norm_label": "usegeneratedoutput hook",
       "id": "docs_architecture_use_generated_output"
     },
@@ -9188,7 +10048,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 71,
+      "community": 4,
       "norm_label": "customblocks.js (shared block utilities)",
       "id": "docs_architecture_custom_blocks_js"
     },
@@ -9201,7 +10061,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 71,
+      "community": 4,
       "norm_label": "generatedescriptions.js (long description engine)",
       "id": "docs_architecture_generate_descriptions"
     },
@@ -9227,7 +10087,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 71,
+      "community": 4,
       "norm_label": "generatecustomblocks.js (shared block rendering)",
       "id": "docs_architecture_generate_custom_blocks"
     },
@@ -9240,7 +10100,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 71,
+      "community": 4,
       "norm_label": "generatetitles.js (title engine)",
       "id": "docs_architecture_generate_titles"
     },
@@ -9253,7 +10113,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 71,
+      "community": 4,
       "norm_label": "generateshorthooks.js (hook engine)",
       "id": "docs_architecture_generate_short_hooks"
     },
@@ -9266,7 +10126,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 71,
+      "community": 4,
       "norm_label": "generatehashtags.js (hashtag engine)",
       "id": "docs_architecture_generate_hashtags"
     },
@@ -9370,7 +10230,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 4,
       "norm_label": "onblur save pattern (phrase editors)",
       "id": "docs_conventions_onblur_saves"
     },
@@ -9435,7 +10295,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 39,
+      "community": 65,
       "norm_label": "saved entry data structure",
       "id": "docs_data_model_saved_entry"
     },
@@ -9461,7 +10321,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 8,
+      "community": 4,
       "norm_label": "graph report (dependency topology document)",
       "id": "docs_graph_report_graph_report"
     },
@@ -9474,7 +10334,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 8,
+      "community": 4,
       "norm_label": "most central files analysis",
       "id": "docs_graph_report_central_files"
     },
@@ -9487,7 +10347,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 41,
+      "community": 4,
       "norm_label": "project overview document (onboarding guide)",
       "id": "docs_project_overview_project_overview"
     },
@@ -9500,7 +10360,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 41,
+      "community": 4,
       "norm_label": "tag system overview (controls titles, descriptions, hooks, hashtags)",
       "id": "docs_project_overview_tag_system_overview"
     },
@@ -9513,7 +10373,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 41,
+      "community": 4,
       "norm_label": "generator workflow (artist/song/tags \u2192 metadata output)",
       "id": "docs_project_overview_generator_workflow"
     },
@@ -12852,9 +13712,9 @@
       "source_file": "src/components/projectSettings/blocks/BlockEditorCard.jsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blocks_blockeditorcard",
-      "target": "ui_iconbutton",
-      "confidence_score": 1.0
+      "target": "ui_iconbutton"
     },
     {
       "relation": "imports",
@@ -12863,9 +13723,9 @@
       "source_file": "src/components/projectSettings/blocks/BlockEditorCard.jsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blocks_blockeditorcard",
-      "target": "ui_iconbutton_iconbutton",
-      "confidence_score": 1.0
+      "target": "ui_iconbutton_iconbutton"
     },
     {
       "relation": "imports_from",
@@ -19077,6 +19937,526 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_graphify",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L648",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_for_graphify_add_and_watch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L636",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_for_graphify_query",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L630",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_for_update_and_cluster_only",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L673",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_honesty_rules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L612",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_interpreter_guard_for_subcommands",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L660",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_troubleshooting",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_usage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_what_graphify_is_for",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L49",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L654",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "graphify_skill_for_the_commit_hook_and_native_agents_md_integration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_step_0_github_repos_and_multi_path_merge_only_if_a_url_or_several_paths",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L65",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_step_1_ensure_graphify_is_installed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L166",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_step_2_5_video_and_audio_only_if_video_files_detected",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L129",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_step_2_detect_files",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L170",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_step_3_extract_entities_and_relationships",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L407",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_step_4_build_graph_cluster_analyze_generate_outputs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L470",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_step_5_label_communities",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L511",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_step_6_generate_obsidian_vault_opt_in_html",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L537",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_step_9_save_manifest_update_cost_tracker_clean_up_and_report",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L531",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_steps_6b_8_wiki_neo4j_falkordb_svg_graphml_mcp_benchmark_only_on_their_flags",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L187",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_step_3_extract_entities_and_relationships",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_part_a_structural_extraction_for_code_files",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L213",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_step_3_extract_entities_and_relationships",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_part_b_semantic_extraction_parallel_subagents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L373",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_step_3_extract_entities_and_relationships",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_part_c_merge_ast_semantic_into_final_extraction",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L662",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md_graphify_skill_troubleshooting",
+      "target": "agents_skills_graphify_skill_md_graphify_skill_powershell_5_1_vertical_scrolling_stops_working",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/add-watch.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_add_watch_md_references_add_watch",
+      "target": "agents_skills_graphify_references_add_watch_md_references_add_watch_graphify_reference_add_a_url_and_watch_a_folder",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/add-watch.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_add_watch_md_references_add_watch_graphify_reference_add_a_url_and_watch_a_folder",
+      "target": "agents_skills_graphify_references_add_watch_md_references_add_watch_for_graphify_add",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/add-watch.md",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_add_watch_md_references_add_watch_graphify_reference_add_a_url_and_watch_a_folder",
+      "target": "agents_skills_graphify_references_add_watch_md_references_add_watch_for_watch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_exports_md_references_exports",
+      "target": "agents_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "target": "agents_skills_graphify_references_exports_md_references_exports_step_6b_wiki_only_if_wiki_flag",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "target": "agents_skills_graphify_references_exports_md_references_exports_step_7_neo4j_export_only_if_neo4j_or_neo4j_push_flag",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "target": "agents_skills_graphify_references_exports_md_references_exports_step_7a_falkordb_export_only_if_falkordb_or_falkordb_push_flag",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L47",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "target": "agents_skills_graphify_references_exports_md_references_exports_step_7b_svg_export_only_if_svg_flag",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "target": "agents_skills_graphify_references_exports_md_references_exports_step_7c_graphml_export_only_if_graphml_flag",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "target": "agents_skills_graphify_references_exports_md_references_exports_step_7d_mcp_server_only_if_mcp_flag",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/exports.md",
+      "source_location": "L79",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "target": "agents_skills_graphify_references_exports_md_references_exports_step_8_token_reduction_benchmark_only_if_total_words_5000",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/extraction-spec.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_extraction_spec_md_references_extraction_spec",
+      "target": "agents_skills_graphify_references_extraction_spec_md_references_extraction_spec_graphify_reference_extraction_subagent_prompt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/github-and-merge.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_github_and_merge_md_references_github_and_merge",
+      "target": "agents_skills_graphify_references_github_and_merge_md_references_github_and_merge_graphify_reference_github_clone_and_cross_repo_merge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/github-and-merge.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_github_and_merge_md_references_github_and_merge_graphify_reference_github_clone_and_cross_repo_merge",
+      "target": "agents_skills_graphify_references_github_and_merge_md_references_github_and_merge_step_0_clone_github_repo_s_only_if_a_github_url_was_given",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/hooks.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_hooks_md_references_hooks",
+      "target": "agents_skills_graphify_references_hooks_md_references_hooks_graphify_reference_commit_hook_and_native_claude_md_integration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/hooks.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_hooks_md_references_hooks_graphify_reference_commit_hook_and_native_claude_md_integration",
+      "target": "agents_skills_graphify_references_hooks_md_references_hooks_for_git_commit_hook",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/hooks.md",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_hooks_md_references_hooks_graphify_reference_commit_hook_and_native_claude_md_integration",
+      "target": "agents_skills_graphify_references_hooks_md_references_hooks_for_native_claude_md_integration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/query.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_query_md_references_query",
+      "target": "agents_skills_graphify_references_query_md_references_query_graphify_reference_query_path_explain",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/query.md",
+      "source_location": "L246",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_query_md_references_query_graphify_reference_query_path_explain",
+      "target": "agents_skills_graphify_references_query_md_references_query_for_graphify_explain",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/query.md",
+      "source_location": "L178",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_query_md_references_query_graphify_reference_query_path_explain",
+      "target": "agents_skills_graphify_references_query_md_references_query_for_graphify_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/query.md",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_query_md_references_query_graphify_reference_query_path_explain",
+      "target": "agents_skills_graphify_references_query_md_references_query_step_0_constrained_query_expansion_required_before_traversal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/query.md",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_query_md_references_query_graphify_reference_query_path_explain",
+      "target": "agents_skills_graphify_references_query_md_references_query_step_1_traversal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/transcribe.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_transcribe_md_references_transcribe",
+      "target": "agents_skills_graphify_references_transcribe_md_references_transcribe_graphify_reference_transcribe_video_and_audio",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/transcribe.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_transcribe_md_references_transcribe_graphify_reference_transcribe_video_and_audio",
+      "target": "agents_skills_graphify_references_transcribe_md_references_transcribe_step_2_5_transcribe_video_audio_files_only_if_video_files_detected",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/update.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_update_md_references_update",
+      "target": "agents_skills_graphify_references_update_md_references_update_graphify_reference_incremental_update_and_cluster_only",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/update.md",
+      "source_location": "L181",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_update_md_references_update_graphify_reference_incremental_update_and_cluster_only",
+      "target": "agents_skills_graphify_references_update_md_references_update_for_cluster_only",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/references/update.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_references_update_md_references_update_graphify_reference_incremental_update_and_cluster_only",
+      "target": "agents_skills_graphify_references_update_md_references_update_for_update_incremental_re_extraction",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": ".claude/CLAUDE.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -19090,9 +20470,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L6",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill",
-      "target": "graphify_skill_graphify"
+      "source": "claude_skills_graphify_skill_md_graphify_skill",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_graphify",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19100,9 +20480,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L648",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_graphify",
-      "target": "graphify_skill_for_graphify_add_and_watch"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_for_graphify_add_and_watch",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19110,19 +20490,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L636",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_graphify",
-      "target": "graphify_skill_for_graphify_query"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": ".claude/skills/graphify/SKILL.md",
-      "source_location": "L654",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_graphify",
-      "target": "graphify_skill_for_the_commit_hook_and_native_claude_md_integration"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_for_graphify_query",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19130,9 +20500,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L630",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_graphify",
-      "target": "graphify_skill_for_update_and_cluster_only"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_for_update_and_cluster_only",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19140,9 +20510,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L673",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_graphify",
-      "target": "graphify_skill_honesty_rules"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_honesty_rules",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19150,9 +20520,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L612",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_graphify",
-      "target": "graphify_skill_interpreter_guard_for_subcommands"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_interpreter_guard_for_subcommands",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19160,9 +20530,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L660",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_graphify",
-      "target": "graphify_skill_troubleshooting"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_troubleshooting",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19170,9 +20540,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L10",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_graphify",
-      "target": "graphify_skill_usage"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_usage",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19180,9 +20550,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L45",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_graphify",
-      "target": "graphify_skill_what_graphify_is_for"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_what_graphify_is_for",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19190,9 +20560,19 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L49",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_graphify",
-      "target": "graphify_skill_what_you_must_do_when_invoked"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/skills/graphify/SKILL.md",
+      "source_location": "L654",
+      "weight": 1.0,
+      "source": "claude_skills_graphify_skill_md_graphify_skill_graphify",
+      "target": "graphify_skill_for_the_commit_hook_and_native_claude_md_integration",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19200,9 +20580,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L61",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_what_you_must_do_when_invoked",
-      "target": "graphify_skill_step_0_github_repos_and_multi_path_merge_only_if_a_url_or_several_paths"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_step_0_github_repos_and_multi_path_merge_only_if_a_url_or_several_paths",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19210,9 +20590,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L65",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_what_you_must_do_when_invoked",
-      "target": "graphify_skill_step_1_ensure_graphify_is_installed"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_step_1_ensure_graphify_is_installed",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19220,9 +20600,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L166",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_what_you_must_do_when_invoked",
-      "target": "graphify_skill_step_2_5_video_and_audio_only_if_video_files_detected"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_step_2_5_video_and_audio_only_if_video_files_detected",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19230,9 +20610,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L129",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_what_you_must_do_when_invoked",
-      "target": "graphify_skill_step_2_detect_files"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_step_2_detect_files",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19240,9 +20620,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L170",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_what_you_must_do_when_invoked",
-      "target": "graphify_skill_step_3_extract_entities_and_relationships"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_step_3_extract_entities_and_relationships",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19250,9 +20630,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L407",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_what_you_must_do_when_invoked",
-      "target": "graphify_skill_step_4_build_graph_cluster_analyze_generate_outputs"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_step_4_build_graph_cluster_analyze_generate_outputs",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19260,9 +20640,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L470",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_what_you_must_do_when_invoked",
-      "target": "graphify_skill_step_5_label_communities"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_step_5_label_communities",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19270,9 +20650,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L511",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_what_you_must_do_when_invoked",
-      "target": "graphify_skill_step_6_generate_obsidian_vault_opt_in_html"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_step_6_generate_obsidian_vault_opt_in_html",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19280,9 +20660,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L537",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_what_you_must_do_when_invoked",
-      "target": "graphify_skill_step_9_save_manifest_update_cost_tracker_clean_up_and_report"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_step_9_save_manifest_update_cost_tracker_clean_up_and_report",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19290,9 +20670,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L531",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_what_you_must_do_when_invoked",
-      "target": "graphify_skill_steps_6b_8_wiki_neo4j_falkordb_svg_graphml_mcp_benchmark_only_on_their_flags"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_what_you_must_do_when_invoked",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_steps_6b_8_wiki_neo4j_falkordb_svg_graphml_mcp_benchmark_only_on_their_flags",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19300,9 +20680,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L187",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_step_3_extract_entities_and_relationships",
-      "target": "graphify_skill_part_a_structural_extraction_for_code_files"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_step_3_extract_entities_and_relationships",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_part_a_structural_extraction_for_code_files",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19310,9 +20690,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L213",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_step_3_extract_entities_and_relationships",
-      "target": "graphify_skill_part_b_semantic_extraction_parallel_subagents"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_step_3_extract_entities_and_relationships",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_part_b_semantic_extraction_parallel_subagents",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19320,9 +20700,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L373",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_step_3_extract_entities_and_relationships",
-      "target": "graphify_skill_part_c_merge_ast_semantic_into_final_extraction"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_step_3_extract_entities_and_relationships",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_part_c_merge_ast_semantic_into_final_extraction",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19330,9 +20710,9 @@
       "source_file": ".claude/skills/graphify/SKILL.md",
       "source_location": "L662",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "graphify_skill_troubleshooting",
-      "target": "graphify_skill_powershell_5_1_vertical_scrolling_stops_working"
+      "source": "claude_skills_graphify_skill_md_graphify_skill_troubleshooting",
+      "target": "claude_skills_graphify_skill_md_graphify_skill_powershell_5_1_vertical_scrolling_stops_working",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19340,9 +20720,9 @@
       "source_file": ".claude/skills/graphify/references/add-watch.md",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_add_watch",
-      "target": "references_add_watch_graphify_reference_add_a_url_and_watch_a_folder"
+      "source": "claude_skills_graphify_references_add_watch_md_references_add_watch",
+      "target": "claude_skills_graphify_references_add_watch_md_references_add_watch_graphify_reference_add_a_url_and_watch_a_folder",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19350,9 +20730,9 @@
       "source_file": ".claude/skills/graphify/references/add-watch.md",
       "source_location": "L5",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_add_watch_graphify_reference_add_a_url_and_watch_a_folder",
-      "target": "references_add_watch_for_graphify_add"
+      "source": "claude_skills_graphify_references_add_watch_md_references_add_watch_graphify_reference_add_a_url_and_watch_a_folder",
+      "target": "claude_skills_graphify_references_add_watch_md_references_add_watch_for_graphify_add",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19360,9 +20740,9 @@
       "source_file": ".claude/skills/graphify/references/add-watch.md",
       "source_location": "L39",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_add_watch_graphify_reference_add_a_url_and_watch_a_folder",
-      "target": "references_add_watch_for_watch"
+      "source": "claude_skills_graphify_references_add_watch_md_references_add_watch_graphify_reference_add_a_url_and_watch_a_folder",
+      "target": "claude_skills_graphify_references_add_watch_md_references_add_watch_for_watch",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19370,9 +20750,9 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_exports",
-      "target": "references_exports_graphify_reference_extra_exports_and_benchmark"
+      "source": "claude_skills_graphify_references_exports_md_references_exports",
+      "target": "claude_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19380,9 +20760,9 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L5",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_exports_graphify_reference_extra_exports_and_benchmark",
-      "target": "references_exports_step_6b_wiki_only_if_wiki_flag"
+      "source": "claude_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "target": "claude_skills_graphify_references_exports_md_references_exports_step_6b_wiki_only_if_wiki_flag",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19390,9 +20770,9 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L15",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_exports_graphify_reference_extra_exports_and_benchmark",
-      "target": "references_exports_step_7_neo4j_export_only_if_neo4j_or_neo4j_push_flag"
+      "source": "claude_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "target": "claude_skills_graphify_references_exports_md_references_exports_step_7_neo4j_export_only_if_neo4j_or_neo4j_push_flag",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19400,9 +20780,9 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L31",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_exports_graphify_reference_extra_exports_and_benchmark",
-      "target": "references_exports_step_7a_falkordb_export_only_if_falkordb_or_falkordb_push_flag"
+      "source": "claude_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "target": "claude_skills_graphify_references_exports_md_references_exports_step_7a_falkordb_export_only_if_falkordb_or_falkordb_push_flag",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19410,9 +20790,9 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L47",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_exports_graphify_reference_extra_exports_and_benchmark",
-      "target": "references_exports_step_7b_svg_export_only_if_svg_flag"
+      "source": "claude_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "target": "claude_skills_graphify_references_exports_md_references_exports_step_7b_svg_export_only_if_svg_flag",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19420,9 +20800,9 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L53",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_exports_graphify_reference_extra_exports_and_benchmark",
-      "target": "references_exports_step_7c_graphml_export_only_if_graphml_flag"
+      "source": "claude_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "target": "claude_skills_graphify_references_exports_md_references_exports_step_7c_graphml_export_only_if_graphml_flag",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19430,9 +20810,9 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L59",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_exports_graphify_reference_extra_exports_and_benchmark",
-      "target": "references_exports_step_7d_mcp_server_only_if_mcp_flag"
+      "source": "claude_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "target": "claude_skills_graphify_references_exports_md_references_exports_step_7d_mcp_server_only_if_mcp_flag",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19440,9 +20820,9 @@
       "source_file": ".claude/skills/graphify/references/exports.md",
       "source_location": "L79",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_exports_graphify_reference_extra_exports_and_benchmark",
-      "target": "references_exports_step_8_token_reduction_benchmark_only_if_total_words_5000"
+      "source": "claude_skills_graphify_references_exports_md_references_exports_graphify_reference_extra_exports_and_benchmark",
+      "target": "claude_skills_graphify_references_exports_md_references_exports_step_8_token_reduction_benchmark_only_if_total_words_5000",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19450,9 +20830,9 @@
       "source_file": ".claude/skills/graphify/references/extraction-spec.md",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_extraction_spec",
-      "target": "references_extraction_spec_graphify_reference_extraction_subagent_prompt"
+      "source": "claude_skills_graphify_references_extraction_spec_md_references_extraction_spec",
+      "target": "claude_skills_graphify_references_extraction_spec_md_references_extraction_spec_graphify_reference_extraction_subagent_prompt",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19460,9 +20840,9 @@
       "source_file": ".claude/skills/graphify/references/github-and-merge.md",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_github_and_merge",
-      "target": "references_github_and_merge_graphify_reference_github_clone_and_cross_repo_merge"
+      "source": "claude_skills_graphify_references_github_and_merge_md_references_github_and_merge",
+      "target": "claude_skills_graphify_references_github_and_merge_md_references_github_and_merge_graphify_reference_github_clone_and_cross_repo_merge",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19470,9 +20850,9 @@
       "source_file": ".claude/skills/graphify/references/github-and-merge.md",
       "source_location": "L5",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_github_and_merge_graphify_reference_github_clone_and_cross_repo_merge",
-      "target": "references_github_and_merge_step_0_clone_github_repo_s_only_if_a_github_url_was_given"
+      "source": "claude_skills_graphify_references_github_and_merge_md_references_github_and_merge_graphify_reference_github_clone_and_cross_repo_merge",
+      "target": "claude_skills_graphify_references_github_and_merge_md_references_github_and_merge_step_0_clone_github_repo_s_only_if_a_github_url_was_given",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19480,9 +20860,9 @@
       "source_file": ".claude/skills/graphify/references/hooks.md",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_hooks",
-      "target": "references_hooks_graphify_reference_commit_hook_and_native_claude_md_integration"
+      "source": "claude_skills_graphify_references_hooks_md_references_hooks",
+      "target": "claude_skills_graphify_references_hooks_md_references_hooks_graphify_reference_commit_hook_and_native_claude_md_integration",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19490,9 +20870,9 @@
       "source_file": ".claude/skills/graphify/references/hooks.md",
       "source_location": "L5",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_hooks_graphify_reference_commit_hook_and_native_claude_md_integration",
-      "target": "references_hooks_for_git_commit_hook"
+      "source": "claude_skills_graphify_references_hooks_md_references_hooks_graphify_reference_commit_hook_and_native_claude_md_integration",
+      "target": "claude_skills_graphify_references_hooks_md_references_hooks_for_git_commit_hook",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19500,9 +20880,9 @@
       "source_file": ".claude/skills/graphify/references/hooks.md",
       "source_location": "L21",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_hooks_graphify_reference_commit_hook_and_native_claude_md_integration",
-      "target": "references_hooks_for_native_claude_md_integration"
+      "source": "claude_skills_graphify_references_hooks_md_references_hooks_graphify_reference_commit_hook_and_native_claude_md_integration",
+      "target": "claude_skills_graphify_references_hooks_md_references_hooks_for_native_claude_md_integration",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19510,9 +20890,9 @@
       "source_file": ".claude/skills/graphify/references/query.md",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_query",
-      "target": "references_query_graphify_reference_query_path_explain"
+      "source": "claude_skills_graphify_references_query_md_references_query",
+      "target": "claude_skills_graphify_references_query_md_references_query_graphify_reference_query_path_explain",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19520,9 +20900,9 @@
       "source_file": ".claude/skills/graphify/references/query.md",
       "source_location": "L246",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_query_graphify_reference_query_path_explain",
-      "target": "references_query_for_graphify_explain"
+      "source": "claude_skills_graphify_references_query_md_references_query_graphify_reference_query_path_explain",
+      "target": "claude_skills_graphify_references_query_md_references_query_for_graphify_explain",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19530,9 +20910,9 @@
       "source_file": ".claude/skills/graphify/references/query.md",
       "source_location": "L178",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_query_graphify_reference_query_path_explain",
-      "target": "references_query_for_graphify_path"
+      "source": "claude_skills_graphify_references_query_md_references_query_graphify_reference_query_path_explain",
+      "target": "claude_skills_graphify_references_query_md_references_query_for_graphify_path",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19540,9 +20920,9 @@
       "source_file": ".claude/skills/graphify/references/query.md",
       "source_location": "L23",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_query_graphify_reference_query_path_explain",
-      "target": "references_query_step_0_constrained_query_expansion_required_before_traversal"
+      "source": "claude_skills_graphify_references_query_md_references_query_graphify_reference_query_path_explain",
+      "target": "claude_skills_graphify_references_query_md_references_query_step_0_constrained_query_expansion_required_before_traversal",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19550,9 +20930,9 @@
       "source_file": ".claude/skills/graphify/references/query.md",
       "source_location": "L61",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_query_graphify_reference_query_path_explain",
-      "target": "references_query_step_1_traversal"
+      "source": "claude_skills_graphify_references_query_md_references_query_graphify_reference_query_path_explain",
+      "target": "claude_skills_graphify_references_query_md_references_query_step_1_traversal",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19560,9 +20940,9 @@
       "source_file": ".claude/skills/graphify/references/transcribe.md",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_transcribe",
-      "target": "references_transcribe_graphify_reference_transcribe_video_and_audio"
+      "source": "claude_skills_graphify_references_transcribe_md_references_transcribe",
+      "target": "claude_skills_graphify_references_transcribe_md_references_transcribe_graphify_reference_transcribe_video_and_audio",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19570,9 +20950,9 @@
       "source_file": ".claude/skills/graphify/references/transcribe.md",
       "source_location": "L5",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_transcribe_graphify_reference_transcribe_video_and_audio",
-      "target": "references_transcribe_step_2_5_transcribe_video_audio_files_only_if_video_files_detected"
+      "source": "claude_skills_graphify_references_transcribe_md_references_transcribe_graphify_reference_transcribe_video_and_audio",
+      "target": "claude_skills_graphify_references_transcribe_md_references_transcribe_step_2_5_transcribe_video_audio_files_only_if_video_files_detected",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19580,9 +20960,9 @@
       "source_file": ".claude/skills/graphify/references/update.md",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_update",
-      "target": "references_update_graphify_reference_incremental_update_and_cluster_only"
+      "source": "claude_skills_graphify_references_update_md_references_update",
+      "target": "claude_skills_graphify_references_update_md_references_update_graphify_reference_incremental_update_and_cluster_only",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19590,9 +20970,9 @@
       "source_file": ".claude/skills/graphify/references/update.md",
       "source_location": "L181",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_update_graphify_reference_incremental_update_and_cluster_only",
-      "target": "references_update_for_cluster_only"
+      "source": "claude_skills_graphify_references_update_md_references_update_graphify_reference_incremental_update_and_cluster_only",
+      "target": "claude_skills_graphify_references_update_md_references_update_for_cluster_only",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19600,9 +20980,259 @@
       "source_file": ".claude/skills/graphify/references/update.md",
       "source_location": "L5",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "references_update_graphify_reference_incremental_update_and_cluster_only",
-      "target": "references_update_for_update_incremental_re_extraction"
+      "source": "claude_skills_graphify_references_update_md_references_update_graphify_reference_incremental_update_and_cluster_only",
+      "target": "claude_skills_graphify_references_update_md_references_update_for_update_incremental_re_extraction",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_agents_md",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L155",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_block_type_system",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_core_architecture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L224",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_current_focus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_development_environment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L276",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_development_preferences",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_illegal_mind_generator",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L266",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_important_decisions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L121",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_known_gotchas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L254",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_long_term_roadmap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L60",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_major_systems",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L247",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_post_upload_session_todos",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_priority_todo_cleanup_not_urgent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_projects",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L73",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_storage_architecture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_tech_stack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L98",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_ui_primitives_src_components_ui",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L192",
+      "weight": 1.0,
+      "source": "agents_block_type_system",
+      "target": "agents_block_scope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L214",
+      "weight": 1.0,
+      "source": "agents_block_type_system",
+      "target": "agents_block_targets",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L161",
+      "weight": 1.0,
+      "source": "agents_block_type_system",
+      "target": "agents_block_types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L208",
+      "weight": 1.0,
+      "source": "agents_block_type_system",
+      "target": "agents_hook_block_song_overrides_and_scope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L176",
+      "weight": 1.0,
+      "source": "agents_block_type_system",
+      "target": "agents_per_song_block_overrides_formdata_songblockoverrides",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L234",
+      "weight": 1.0,
+      "source": "agents_current_focus",
+      "target": "agents_other_active_goals",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L301",
+      "weight": 1.0,
+      "source": "agents_development_preferences",
+      "target": "agents_graphify",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L288",
+      "weight": 1.0,
+      "source": "agents_development_preferences",
+      "target": "agents_session_protocol",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -19850,9 +21480,9 @@
       "source_file": "CLAUDE.md",
       "source_location": "L288",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "claude_development_preferences",
-      "target": "claude_session_protocol",
-      "confidence_score": 1.0
+      "target": "claude_session_protocol"
     },
     {
       "relation": "contains",
@@ -21113,16 +22743,6 @@
       "weight": 1.0,
       "source": "docs_current_context_current_context",
       "target": "docs_current_context_storage_cleanup_debt"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/current-context.md",
-      "source_location": "L65",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "docs_current_context_known_issues",
-      "target": "docs_current_context_blocks_with_no_editor_nav"
     },
     {
       "relation": "contains",
@@ -24608,5 +26228,5 @@
       "source_file": "CLAUDE.md"
     }
   ],
-  "built_at_commit": "a18023cd196da29300f1dfd2ef6b1aeadd549ebc"
+  "built_at_commit": "ce39814456e1ec4d91aa987718e9c075d01829a0"
 }

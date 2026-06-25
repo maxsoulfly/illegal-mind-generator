@@ -14,6 +14,7 @@ export default function ProjectSettingsPage({
   resetProjectOverride,
   shortHooksTarget,
   clearShortHooksTarget,
+  openShortHooksSearch,
   titlesTarget,
   clearTitlesTarget,
   blocksTarget,
@@ -62,6 +63,7 @@ export default function ProjectSettingsPage({
           updateProjectOverride={updateProjectOverride}
           resetProjectOverride={resetProjectOverride}
           hookTarget={shortHooksTarget}
+          openShortHooksSearch={openShortHooksSearch}
           titlesTarget={titlesTarget}
           blocksTarget={blocksTarget}
           clearBlocksTarget={clearBlocksTarget}

@@ -223,10 +223,6 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 # Current Focus
 
-- **Fix blocks with no nav target** — these description layout cards have non-interactive `→` arrows:
-  - **Renovation Block** (Maxx Dee Long Description) — not in `hookBlocks` config and not a `customBlock`; needs an editor or a hardcoded nav target
-  - **Hook** (Shorts Description) — routes to Shorts Hooks section, not Blocks; `onNavigateToBlock` currently only handles the three Blocks sub-tabs
-  - **Header** (Illegal Mind Shorts Description) — same situation as Hook
 - **Remove duplicate Technical · Lines block** (Maxx Dee) — duplicated from Illegal Mind; appears as a `hookBlock` entry with no delete option (likely `isCore` guard or wrong path). Inspect `projectSettingsOverrides` for Maxx Dee and remove the stale entry.
 
 ---

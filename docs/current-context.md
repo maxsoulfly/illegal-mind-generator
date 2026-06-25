@@ -12,6 +12,7 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 
 ## Recently Completed
 
+- **Fix blocks with no nav target** — `renovationBlock` (Maxx Dee Long) converted to a Text block in `customBlocks` (`scope: 'song'`, `target: 'long'`) so it has a nav arrow → Text Blocks tab and a per-song override field in the Generator. Illegal Mind Shorts layout key changed `"header"` → `"coverLine"` to match the `shortsHeader` hookBlock's `descriptionLayoutKey` — now navigable and consistent with Maxx Dee. `hook` in both projects' Shorts layouts now navigates to Shorts Hooks: `openShortHooksSearch` threaded from `App.jsx` down through `ProjectSettingsPage` → `ProjectSettingsContent` → `ProjectSettingsDescriptions` → `ShortsDescriptionSettings` as `onNavigateToShortHooks`; `getNavigateHandler` handles `'hook'` key as a special case.
 - **Block renaming** — inline ✏ icon in `BlockEditorCard` header. Click to enter rename mode; Enter/blur saves, Escape cancels. Storage: `description.blockLabelOverrides[key]` for JSON-default List/Text blocks; `description.hookBlockLabelOverrides[key]` for JSON-default Hook blocks; direct `blockData.name` / `customHookBlocks[i].label` for user-created blocks. `hasOverride` and `onReset` updated to cover label overrides. `LongDescriptionSettings` and `ShortsDescriptionSettings` gained `getLayoutBlockLabel()` helper that checks all override paths so renamed labels appear in description layout cards immediately.
 - **Description layout parity** — Available and Active Layout columns are now equal width (`1fr 1fr`). Available blocks render as `BlockInfoCard` cards (same style as Active), with `→` nav arrow and `+` add button. `BlockInfoCard` gained `onAdd` prop. Both column labels moved into a shared `desc-layout-header` row above the grid so the first card in each column aligns at the same Y. New CSS: `.desc-layout-header`, `.desc-col-label`. Navigation logic extracted into `getNavigateHandler()` shared by both `renderAvailableBlock` and `renderActiveBlock` in Long/Shorts settings components.
 - **UIKit page** — living component catalog at `/uikit` nav route. 5 tabs covering all reusable primitives.
@@ -39,16 +40,13 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 
 ## In Progress
 
-- **Fix blocks with no nav target** — three description layout cards have a non-interactive `→` arrow. See Known Issues.
+- **Remove duplicated Technical Lines block in Maxx Dee** — appears in Hook Blocks with no delete option. See Known Issues.
 
 ---
 
 ## Next Recommended Tasks
 
-1. **Fix blocks with no nav target** — three blocks in description layouts have non-interactive cards (arrow does nothing):
-   - `renovationBlock` (Maxx Dee Long Desc) — not in `hookBlocks` config, not a custom block; needs an editor or hardcoded nav target
-   - `hook` and `header` (Shorts Description) — are hook blocks but need a special nav case (currently `onNavigateToBlock` only handles the three Blocks sub-tabs, not Shorts Hooks)
-2. **Remove duplicated Technical Lines block in Maxx Dee** — appears as a `hookBlock` entry with no delete option. Check `projectSettingsOverrides` for Maxx Dee and remove the stale entry.
+1. **Remove duplicated Technical Lines block in Maxx Dee** — appears as a `hookBlock` entry with no delete option. Check `projectSettingsOverrides` for Maxx Dee and remove the stale entry.
 3. **Generic / no-tags title mode** — bypass transformation tags, generate plain titles. New generation path in `generateTitles.js`.
 4. **Queue-hidden indicator in Todo rows** — show `[hidden]` badge on Todo items whose entry has `excludeFromRandomizer: true`.
 5. **Todo status badges in Saved Library** — show the entry's `todo.status` inline in `SavedLibraryItem`.
@@ -59,10 +57,6 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 ---
 
 ## Known Issues
-
-### Blocks with no editor nav
-- `renovationBlock` in Maxx Dee's Long Description layout — exists in the Active Layout but has no `onNavigate` because it's neither in `hookBlocks` config nor `customBlocks`. `KNOWN_BLOCK_META` in `LongDescriptionSettings.jsx` labels it but can't route to an editor.
-- `hook` and `header` in Shorts Description — these map to Shorts Hooks config, not the Blocks tab. `onNavigateToBlock` only handles `subTab: 'hooks'|'lists'|'text'`, which points to Project Settings → Blocks sub-tabs, not Project Settings → Shorts Hooks.
 
 ### Duplicate block (Maxx Dee)
 Technical · Lines appears twice in Maxx Dee's Project Settings → Blocks → Hook Blocks. Delete button is unavailable (likely `isCore` guard or wrong path). Root in `projectSettingsOverrides` for Maxx Dee — needs manual inspection and removal.
