@@ -113,7 +113,7 @@ src/
 - `IconButton` — shared shell for every small action button, icon or text (reset ↺, remove ×, lock 🔒/🔓, move ↑/↓, add +, or labeled buttons like "+ Add"/"Apply"/"Cancel"/"Duplicate Project" — `icon` is just rendered as children, no icon required). Takes `icon, title, onClick, disabled, stopPropagation, className`. `onClick` is optional (no-op if omitted — used by not-yet-wired placeholder buttons). Default `className` is `tag-reset-button`; pass `button-secondary` (or another) to reuse the click/disabled wiring with a different look.
 - `MoveControls` — up/down reorder button pair built on `IconButton`. Used by list items and description block reordering; pass `className` for context-specific layout (see `.desc-block-move-controls`).
 - `FormSelect` — the standard `form-select` dropdown (same look as `TodoStatusSelect`) wrapped with `stopPropagation` for use inside clickable card headers. Takes `value, onChange(value), options: [{value, label}]`.
-- `BlockInfoCard` — non-collapsible card used in Description layouts. Props: `label`, `onRemove`, `onNavigate`. When `onNavigate` is set, the header becomes a clickable nav shortcut (`tag-card-toggle` style, `→` indicator) that jumps to the block's editor tab and auto-expands it — Hook blocks → Blocks → Hook Blocks, List blocks → Blocks → Lists, Text blocks → Blocks → Text Blocks. Generated blocks (no editor) omit `onNavigate` and are non-interactive. Descriptions tab is layout-only; no inline editing of any block type.
+- `BlockInfoCard` — non-collapsible card used in Description layouts. Props: `label`, `onRemove`, `onAdd`, `onNavigate`. When `onNavigate` is set, the header becomes a clickable nav shortcut (`tag-card-toggle` style, `→` indicator) that jumps to the block's editor tab and auto-expands it — Hook blocks → Blocks → Hook Blocks, List blocks → Blocks → Lists, Text blocks → Blocks → Text Blocks. `onAdd` renders a `+` button (Available column); `onRemove` renders a `×` button (Active Layout column). Generated blocks (no editor) omit `onNavigate` and are non-interactive. Descriptions tab is layout-only; no inline editing of any block type.
 
 ---
 
@@ -216,7 +216,6 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 # Current Focus
 
-- **Description layout column parity** — Available and Active Layout columns in Project Settings → Descriptions should be equal width. Currently `.desc-layout` uses `220px 1fr`; goal is `1fr 1fr`. The only difference between columns: Available blocks have no move controls.
 - **Block renaming** — inline name-edit field in `BlockEditorCard` header for all three Blocks sub-tabs (Lists, Text Blocks, Hook Blocks). JSON-default blocks: override label in `projectSettingsOverrides`. User-created: update stored `label` in `customHookBlocks` / `customBlocks`. Engine uses `block.label` for display only — renaming is UI-only, does not affect template keys or block keys.
 - **Fix blocks with no nav target** — these description layout cards have non-interactive `→` arrows:
   - **Renovation Block** (Maxx Dee Long Description) — not in `hookBlocks` config and not a `customBlock`; needs an editor or a hardcoded nav target

@@ -136,6 +136,33 @@ export default function ShortsDescriptionSettings({
     updateLayout(sorted);
   }
 
+  function getNavigateHandler(key) {
+    if (!onNavigateToBlock) return undefined;
+    if (allHookBlockLayoutKeys.has(key)) {
+      return () => onNavigateToBlock({ subTab: 'hooks', blockKey: layoutKeyToBlockKey[key] });
+    } else if (isListBlock(customBlocks[key])) {
+      return () => onNavigateToBlock({ subTab: 'lists', blockKey: key });
+    } else if (isTextBlock(customBlocks[key])) {
+      return () => onNavigateToBlock({ subTab: 'text', blockKey: key });
+    }
+    return undefined;
+  }
+
+  function renderAvailableBlock(key) {
+    const label =
+      hookBlockLabelMap[key] ??
+      KNOWN_SHORTS_BLOCK_META[key]?.label ??
+      getBlockLabel(key, customBlocks[key]);
+    return (
+      <BlockInfoCard
+        key={key}
+        label={label}
+        onAdd={() => addToLayout(key)}
+        onNavigate={getNavigateHandler(key)}
+      />
+    );
+  }
+
   function renderActiveBlock(key, index) {
     const label =
       hookBlockLabelMap[key] ??
@@ -143,17 +170,6 @@ export default function ShortsDescriptionSettings({
       getBlockLabel(key, customBlocks[key]);
     const isFirst = index === 0;
     const isLast  = index === activeKeys.length - 1;
-
-    let onNavigate;
-    if (onNavigateToBlock) {
-      if (allHookBlockLayoutKeys.has(key)) {
-        onNavigate = () => onNavigateToBlock({ subTab: 'hooks', blockKey: layoutKeyToBlockKey[key] });
-      } else if (isListBlock(customBlocks[key])) {
-        onNavigate = () => onNavigateToBlock({ subTab: 'lists', blockKey: key });
-      } else if (isTextBlock(customBlocks[key])) {
-        onNavigate = () => onNavigateToBlock({ subTab: 'text', blockKey: key });
-      }
-    }
 
     return (
       <div key={key} className="desc-block-wrapper">
@@ -167,7 +183,7 @@ export default function ShortsDescriptionSettings({
         <BlockInfoCard
           label={label}
           onRemove={() => removeFromLayout(key)}
-          onNavigate={onNavigate}
+          onNavigate={getNavigateHandler(key)}
         />
       </div>
     );
@@ -192,42 +208,30 @@ export default function ShortsDescriptionSettings({
         className="desc-mobile-tabs"
       />
 
+      <div className="desc-layout-header">
+        <span className="desc-col-label">Available</span>
+        <div className="desc-active-header">
+          <span>Active Layout</span>
+          <IconButton
+            icon="↺ Reset Order"
+            title="Reset to default order"
+            onClick={resetOrder}
+          />
+        </div>
+      </div>
+
       <div className="desc-layout" data-mobile-tab={mobileTab}>
         <aside className="desc-layout-available">
-          <h3>Available</h3>
           {availableKeys.length === 0 ? (
             <p className="tag-summary">All blocks are in the layout.</p>
           ) : (
-            <ul className="desc-available-list">
-              {availableKeys.map((key) => {
-                const itemLabel =
-                  hookBlockLabelMap[key] ??
-                  KNOWN_SHORTS_BLOCK_META[key]?.label ??
-                  getBlockLabel(key, customBlocks[key]);
-                return (
-                  <li key={key} className="desc-available-item">
-                    <span>{itemLabel}</span>
-                    <IconButton
-                      icon="+"
-                      title="Add to layout"
-                      onClick={() => addToLayout(key)}
-                    />
-                  </li>
-                );
-              })}
-            </ul>
+            <div className="desc-available-list">
+              {availableKeys.map((key) => renderAvailableBlock(key))}
+            </div>
           )}
         </aside>
 
         <div className="desc-layout-active">
-          <div className="desc-active-header">
-            <span>Active Layout</span>
-            <IconButton
-              icon="↺ Reset Order"
-              title="Reset to default order"
-              onClick={resetOrder}
-            />
-          </div>
           {activeKeys.map((key, i) => renderActiveBlock(key, i))}
         </div>
       </div>

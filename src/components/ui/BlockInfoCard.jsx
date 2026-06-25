@@ -1,6 +1,6 @@
 import IconButton from './IconButton';
 
-export default function BlockInfoCard({ label, onRemove, onNavigate }) {
+export default function BlockInfoCard({ label, onRemove, onAdd, onNavigate }) {
   return (
     <article className="tag-card tag-card--collapsed">
       <header className="tag-card-header">
@@ -11,6 +11,9 @@ export default function BlockInfoCard({ label, onRemove, onNavigate }) {
           {label}
           {onNavigate && <span className="tag-card-nav-arrow"> →</span>}
         </h3>
+        {onAdd && (
+          <IconButton icon="+" title="Add to layout" onClick={onAdd} />
+        )}
         {onRemove && (
           <IconButton icon="×" title="Remove from layout" onClick={onRemove} />
         )}

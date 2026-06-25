@@ -6,14 +6,13 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 
 ## Current Focus
 
-**Description layout visual refresh** — the Available and Active Layout columns in Project Settings → Descriptions are asymmetric. Available is pinned at 220px; Active takes 1fr. Goal: equal-width columns, same card style. CSS is in `.desc-layout` / `.desc-layout-available` / `.desc-layout-active` in `index.css` around line 1525.
-
 **Block renaming** — no inline label-edit field exists yet in Project Settings → Blocks (Lists, Text Blocks, Hook Blocks sub-tabs). Users can't rename blocks from the UI. Applies to both JSON-default blocks (should store label override in `projectSettingsOverrides`) and user-created blocks (update `label` in `customHookBlocks` / `customBlocks`).
 
 ---
 
 ## Recently Completed
 
+- **Description layout parity** — Available and Active Layout columns are now equal width (`1fr 1fr`). Available blocks render as `BlockInfoCard` cards (same style as Active), with `→` nav arrow and `+` add button. `BlockInfoCard` gained `onAdd` prop. Both column labels moved into a shared `desc-layout-header` row above the grid so the first card in each column aligns at the same Y. New CSS: `.desc-layout-header`, `.desc-col-label`. Navigation logic extracted into `getNavigateHandler()` shared by both `renderAvailableBlock` and `renderActiveBlock` in Long/Shorts settings components.
 - **UIKit page** — living component catalog at `/uikit` nav route. 5 tabs covering all reusable primitives.
 - **Docs folder** — `architecture.md`, `data-model.md`, `graph-report.md`, `project-overview.md`, `roadmap.md` added.
 - **Description layout builder** — both Long and Shorts. Two-column: Available palette + Active Layout. Mobile stacks to sub-tabs. Block cards are `BlockInfoCard` with nav arrows pointing to editors.
@@ -39,23 +38,21 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 
 ## In Progress
 
-- **Description layout column width parity** — Available column is fixed 220px, Active column is 1fr. Should be equal width. `.desc-layout` grid needs updating.
 - **Block renaming** — no UI yet. Needs inline edit in `BlockEditorCard` header. JSON-default blocks: store label override in `projectSettingsOverrides`. User-created: update stored `label` field.
 
 ---
 
 ## Next Recommended Tasks
 
-1. **Fix description layout column widths** — change `.desc-layout` from `220px 1fr` to `1fr 1fr`. Verify both Long and Shorts settings pages look right.
-2. **Add block renaming** — inline name-edit field in `BlockEditorCard` header. Applies to all three block type sub-tabs.
-3. **Fix blocks with no nav target** — three blocks in description layouts have non-interactive cards (nav arrow does nothing):
+1. **Add block renaming** — inline name-edit field in `BlockEditorCard` header. Applies to all three block type sub-tabs.
+2. **Fix blocks with no nav target** — three blocks in description layouts have non-interactive cards (arrow does nothing):
    - `renovationBlock` (Maxx Dee Long Desc) — not in `hookBlocks` config, not a custom block; needs an editor or hardcoded nav target
    - `hook` and `header` (Shorts Description) — are hook blocks but need a special nav case (currently `onNavigateToBlock` only handles the three Blocks sub-tabs, not Shorts Hooks)
-4. **Remove duplicated Technical Lines block in Maxx Dee** — appears as a `hookBlock` entry with no delete option. Check `projectSettingsOverrides` for Maxx Dee and remove the stale entry.
-5. **Generic / no-tags title mode** — bypass transformation tags, generate plain titles. New generation path in `generateTitles.js`.
-6. **Queue-hidden indicator in Todo rows** — show `[hidden]` badge on Todo items whose entry has `excludeFromRandomizer: true`.
-7. **Todo status badges in Saved Library** — show the entry's `todo.status` inline in `SavedLibraryItem`.
-8. **Storage cleanup** (low urgency, after a few stable sessions):
+3. **Remove duplicated Technical Lines block in Maxx Dee** — appears as a `hookBlock` entry with no delete option. Check `projectSettingsOverrides` for Maxx Dee and remove the stale entry.
+4. **Generic / no-tags title mode** — bypass transformation tags, generate plain titles. New generation path in `generateTitles.js`.
+5. **Queue-hidden indicator in Todo rows** — show `[hidden]` badge on Todo items whose entry has `excludeFromRandomizer: true`.
+6. **Todo status badges in Saved Library** — show the entry's `todo.status` inline in `SavedLibraryItem`.
+7. **Storage cleanup** (low urgency, after a few stable sessions):
    - Remove legacy key capture/restore from `appBackup.js`
    - Remove `storageMigration.js` and its `window.*` exposure in `App.jsx`
 

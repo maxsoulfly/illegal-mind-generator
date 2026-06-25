@@ -133,6 +133,35 @@ export default function LongDescriptionSettings({
     updateLayout(sorted);
   }
 
+  function getNavigateHandler(blockKey) {
+    if (!onNavigateToBlock) return undefined;
+    const blockData =
+      blockKey === 'supportBlock' ? longTemplates.supportBlock : customBlocks[blockKey];
+    if (allHookBlockLayoutKeys.has(blockKey)) {
+      return () => onNavigateToBlock({ subTab: 'hooks', blockKey: layoutKeyToBlockKey[blockKey] });
+    } else if (isListBlock(blockData)) {
+      return () => onNavigateToBlock({ subTab: 'lists', blockKey });
+    } else if (isTextBlock(blockData)) {
+      return () => onNavigateToBlock({ subTab: 'text', blockKey });
+    }
+    return undefined;
+  }
+
+  function renderAvailableBlock(blockKey) {
+    const label =
+      hookBlockLabelMap[blockKey] ??
+      KNOWN_BLOCK_META[blockKey]?.label ??
+      getBlockLabel(blockKey, customBlocks[blockKey]);
+    return (
+      <BlockInfoCard
+        key={blockKey}
+        label={label}
+        onAdd={() => addToLayout(blockKey)}
+        onNavigate={getNavigateHandler(blockKey)}
+      />
+    );
+  }
+
   function renderActiveBlock(blockKey, index) {
     const label =
       hookBlockLabelMap[blockKey] ??
@@ -140,22 +169,6 @@ export default function LongDescriptionSettings({
       getBlockLabel(blockKey, customBlocks[blockKey]);
     const isFirst = index === 0;
     const isLast  = index === activeKeys.length - 1;
-
-    const blockData =
-      blockKey === 'supportBlock' ? longTemplates.supportBlock : customBlocks[blockKey];
-    const isListShaped = isListBlock(blockData);
-    const isTextShaped = isTextBlock(blockData);
-
-    let onNavigate;
-    if (onNavigateToBlock) {
-      if (allHookBlockLayoutKeys.has(blockKey)) {
-        onNavigate = () => onNavigateToBlock({ subTab: 'hooks', blockKey: layoutKeyToBlockKey[blockKey] });
-      } else if (isListShaped) {
-        onNavigate = () => onNavigateToBlock({ subTab: 'lists', blockKey });
-      } else if (isTextShaped) {
-        onNavigate = () => onNavigateToBlock({ subTab: 'text', blockKey });
-      }
-    }
 
     return (
       <div key={blockKey} className="desc-block-wrapper">
@@ -169,7 +182,7 @@ export default function LongDescriptionSettings({
         <BlockInfoCard
           label={label}
           onRemove={() => removeFromLayout(blockKey)}
-          onNavigate={onNavigate}
+          onNavigate={getNavigateHandler(blockKey)}
         />
       </div>
     );
@@ -184,42 +197,30 @@ export default function LongDescriptionSettings({
         className="desc-mobile-tabs"
       />
 
+      <div className="desc-layout-header">
+        <span className="desc-col-label">Available</span>
+        <div className="desc-active-header">
+          <span>Active Layout</span>
+          <IconButton
+            icon="↺ Reset Order"
+            title="Reset to default order"
+            onClick={resetOrder}
+          />
+        </div>
+      </div>
+
       <div className="desc-layout" data-mobile-tab={mobileTab}>
         <aside className="desc-layout-available">
-          <h3>Available</h3>
           {availableKeys.length === 0 ? (
             <p className="tag-summary">All blocks are in the layout.</p>
           ) : (
-            <ul className="desc-available-list">
-              {availableKeys.map((key) => {
-                const itemLabel =
-                  hookBlockLabelMap[key] ??
-                  KNOWN_BLOCK_META[key]?.label ??
-                  getBlockLabel(key, customBlocks[key]);
-                return (
-                  <li key={key} className="desc-available-item">
-                    <span>{itemLabel}</span>
-                    <IconButton
-                      icon="+"
-                      title="Add to layout"
-                      onClick={() => addToLayout(key)}
-                    />
-                  </li>
-                );
-              })}
-            </ul>
+            <div className="desc-available-list">
+              {availableKeys.map((key) => renderAvailableBlock(key))}
+            </div>
           )}
         </aside>
 
         <div className="desc-layout-active">
-          <div className="desc-active-header">
-            <span>Active Layout</span>
-            <IconButton
-              icon="↺ Reset Order"
-              title="Reset to default order"
-              onClick={resetOrder}
-            />
-          </div>
           {activeKeys.map((key, i) => renderActiveBlock(key, i))}
         </div>
       </div>
