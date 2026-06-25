@@ -8,6 +8,7 @@
       "Needs Video"
     ],
     "title": {
+      "count": 5,
       "longPrefix": "[SIGNAL {num}] // ",
       "longSuffix": " // Illegal Mind Rework",
       "shortsPrefix": "",
@@ -674,6 +675,7 @@
       "Needs Video"
     ],
     "title": {
+      "count": 5,
       "prefix": "",
       "longSuffix": "",
       "shortsPrefix": "",

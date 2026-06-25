@@ -8,6 +8,7 @@ const GROUP_LABELS = {
 };
 
 const GENERATION_SETTINGS_KEYS = [
+  'count',
   'prefix', 'longSuffix', 'shortsPrefix', 'shortsSuffix',
   'prefixEnabled', 'longSuffixEnabled', 'shortsPrefixEnabled', 'shortsSuffixEnabled',
   'connector', 'listSeparator', 'maxTransformationPhrases',

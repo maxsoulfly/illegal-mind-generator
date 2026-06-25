@@ -138,11 +138,12 @@ function buildTransformationTitles(formData, config, isShorts, artistFull, artis
   const connector = config.title?.connector || '&';
   const listSeparator = config.title?.listSeparator ?? ', ';
 
+  const titleCount = config.title?.count ?? 5;
   const results = [];
   const usedTexts = new Set();
   let attempts = 0;
 
-  while (results.length < 5 && attempts < 50) {
+  while (results.length < titleCount && attempts < titleCount * 10) {
     const transformation = pickTransformation(transformations, maxPhrases, connector, listSeparator);
     const { template, groupName } = shuffleArray(weightedTemplates)[0];
 
@@ -251,20 +252,26 @@ export function generateTitles(formData = {}, config = {}, shortHooks = []) {
   const useHooksForLongTitles =
     formData.useHooksForLongTitles ?? config.title?.useHooksForLongTitles ?? false;
 
-  const core = (!useHooksForLongTitles || isShorts)
-    ? transformationTitles
-    : shuffleArray([...transformationTitles, ...buildHookTitles(shortHooks, longPrefix, longSuffix)]).slice(0, 5);
+  const titleCount = config.title?.count ?? 5;
 
-  // Generic titles (no {transformation} required) always append after the core
-  // pool so existing output is unaffected when the generic list is empty.
   const genericTitles = buildGenericTitles(
     formData, config, isShorts,
     artistFull, artistShortFinal,
     longPrefix, longSuffix, shortsPrefix, shortsSuffix,
   );
 
-  if (genericTitles.length === 0) return core;
+  const hookTitles =
+    !useHooksForLongTitles || isShorts
+      ? []
+      : buildHookTitles(shortHooks, longPrefix, longSuffix);
 
-  const seen = new Set(core.map((t) => t.text));
-  return shuffleArray([...core, ...genericTitles.filter(({ text }) => !seen.has(text))]);
+  // Pool all sources, shuffle, deduplicate by text, then slice to titleCount.
+  const pool = shuffleArray([...transformationTitles, ...hookTitles, ...genericTitles]);
+  const seen = new Set();
+  const deduped = pool.filter(({ text }) => {
+    if (seen.has(text)) return false;
+    seen.add(text);
+    return true;
+  });
+  return deduped.slice(0, titleCount);
 }

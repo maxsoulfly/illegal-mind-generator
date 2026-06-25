@@ -1,5 +1,6 @@
 import TitlePrefixSuffixSection from './TitlePrefixSuffixSection';
 import TitleTransformationSection from './TitleTransformationSection';
+import LabelSliderRow from '../../ui/LabelSliderRow';
 
 // Card for title generation settings: hook mixing, prefix/suffix, transformation.
 // Follows the same visual structure as ShortHookCard (tag-card / tag-card-header).
@@ -19,6 +20,8 @@ export default function TitleGenerationCard({ titleConfig, onUpdate, onReset }) 
   const connector = t.connector ?? '&';
   const listSeparator = t.listSeparator ?? ', ';
   const maxPhrases = t.maxTransformationPhrases ?? 1;
+  const count = t.count ?? 5;
+
   return (
     <article className="tag-card">
       <header className="tag-card-header">
@@ -33,6 +36,14 @@ export default function TitleGenerationCard({ titleConfig, onUpdate, onReset }) 
           ↺
         </button>
       </header>
+
+      <LabelSliderRow
+        label="Titles to generate"
+        value={count}
+        min={1}
+        max={10}
+        onChange={(val) => onUpdate('count', val)}
+      />
 
       <TitlePrefixSuffixSection
         prefix={prefix}
