@@ -24,6 +24,12 @@
         "butIts": [
           "{song} but it's {transformation}",
           "{artist} but it's {transformation}"
+        ],
+
+        "generic": [
+          "{song} // Illegal Mind Rework",
+          "What if {artist} entered the SIGNAL?",
+          "{artist} — {song} reimagined"
         ]
       },
       "butItsExcludedTags": ["faithful", "original"],
@@ -683,6 +689,12 @@
         "butIts": [
           "{song} but it's {transformation}",
           "{artist} but it's {transformation}"
+        ],
+
+        "generic": [
+          "{artist} — {song} // Full Band Cover",
+          "{song} (Full Band Cover) // Maxx Dee",
+          "How does {song} sound rebuilt from scratch?"
         ]
       },
       "butItsExcludedTags": ["faithful", "original"],

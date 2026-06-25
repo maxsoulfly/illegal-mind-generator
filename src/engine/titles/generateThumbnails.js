@@ -78,8 +78,10 @@ function getRandomItem(items) {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-export function generateThumbnails(formData = {}, config = {}) {
+export function generateThumbnails(formData = {}, config = {}, count = 5) {
   const phrases = buildThumbnailVariations(formData, config);
+
+  if (phrases.length === 0) return [];
 
   const artistFull = (formData.artist || 'ARTIST').toUpperCase();
   const generatedArtistShort = buildGeneratedArtistShort(
@@ -102,7 +104,9 @@ export function generateThumbnails(formData = {}, config = {}) {
     throw new Error('Missing thumbnail patterns in config');
   }
 
-  return phrases.map((phrase) => {
+  // Cycle through the phrase pool if more thumbnails are needed than phrases available.
+  return Array.from({ length: count }, (_, i) => {
+    const phrase = phrases[i % phrases.length];
     const text = phrase.toUpperCase();
     const pattern = getRandomItem(patternPool);
 

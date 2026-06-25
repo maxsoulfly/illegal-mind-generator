@@ -170,6 +170,25 @@ function buildTransformationTitles(formData, config, isShorts, artistFull, artis
   return results;
 }
 
+function buildGenericTitles(formData, config, isShorts, artistFull, artistShortFinal, longPrefix, longSuffix, shortsPrefix, shortsSuffix) {
+  const genericTemplates = config.title?.templates?.generic || [];
+  if (genericTemplates.length === 0) return [];
+
+  return shuffleArray(genericTemplates).map((template) => {
+    const baseTitle = template
+      .replace('{num}',    formData.signalNumber || 'XX')
+      .replace('{artist}', isShorts ? artistShortFinal : artistFull)
+      .replace('{song}',   formData.song         || '[Song Name]')
+      .replace('{year}',   formData.originalYear || '');
+
+    const text = isShorts
+      ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
+      : `${longPrefix}${baseTitle}${longSuffix}`;
+
+    return { text, sourceHook: null, sourceTemplate: { template, groupName: 'generic' } };
+  });
+}
+
 // Builds hook-based titles by pulling from the short hook pool and applying
 // the long title prefix/suffix. Each entry carries sourceHook metadata so
 // the UI can show a navigation link back to where the hook came from.
@@ -232,12 +251,20 @@ export function generateTitles(formData = {}, config = {}, shortHooks = []) {
   const useHooksForLongTitles =
     formData.useHooksForLongTitles ?? config.title?.useHooksForLongTitles ?? false;
 
-  if (!useHooksForLongTitles || isShorts) {
-    return transformationTitles;
-  }
+  const core = (!useHooksForLongTitles || isShorts)
+    ? transformationTitles
+    : shuffleArray([...transformationTitles, ...buildHookTitles(shortHooks, longPrefix, longSuffix)]).slice(0, 5);
 
-  const hookTitles = buildHookTitles(shortHooks, longPrefix, longSuffix);
+  // Generic titles (no {transformation} required) always append after the core
+  // pool so existing output is unaffected when the generic list is empty.
+  const genericTitles = buildGenericTitles(
+    formData, config, isShorts,
+    artistFull, artistShortFinal,
+    longPrefix, longSuffix, shortsPrefix, shortsSuffix,
+  );
 
-  // Combine both pools, shuffle, and return the first 5.
-  return shuffleArray([...transformationTitles, ...hookTitles]).slice(0, 5);
+  if (genericTitles.length === 0) return core;
+
+  const seen = new Set(core.map((t) => t.text));
+  return shuffleArray([...core, ...genericTitles.filter(({ text }) => !seen.has(text))]);
 }

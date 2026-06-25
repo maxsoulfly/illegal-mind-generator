@@ -3,7 +3,8 @@ import TitleGenerationCard from './titles/TitleGenerationCard';
 
 const GROUP_LABELS = {
   standard: 'Standard',
-  butIts: "But It's",
+  butIts:   "But It's",
+  generic:  'Generic',
 };
 
 const GENERATION_SETTINGS_KEYS = [

@@ -20,7 +20,7 @@ export default function useGeneratedOutput(formData, resolvedProjectConfig) {
 
     const titles = generateTitles(formData, resolvedProjectConfig, shortHooks);
 
-    const thumbnails = generateThumbnails(formData, resolvedProjectConfig);
+    const thumbnails = generateThumbnails(formData, resolvedProjectConfig, titles.length);
 
     const { longDescription, shortDescriptions, fileId } = generateDescriptions(
       formData,
