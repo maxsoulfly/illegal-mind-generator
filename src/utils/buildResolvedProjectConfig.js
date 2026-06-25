@@ -64,16 +64,23 @@ export default function buildResolvedProjectConfig(
 
   // Append user-created hook blocks (stored in overrides) to the resolved
   // hookBlocks array so all downstream code sees them alongside JSON-defined ones.
+  // Filter out any stale customHookBlocks entry whose key already exists in the
+  // base JSON hookBlocks — prevents duplicates caused by stale localStorage data.
   const customHookBlocks = nextConfig.description?.customHookBlocks || [];
   if (customHookBlocks.length) {
+    const baseHookKeys = new Set(
+      (projectConfig.description?.hookBlocks || []).map((b) => b.key),
+    );
     nextConfig.description.hookBlocks = [
       ...(projectConfig.description?.hookBlocks || []),
-      ...customHookBlocks.map((b) => ({
-        key: b.key,
-        label: b.label,
-        path: 'long',
-        templateKey: b.key,
-      })),
+      ...customHookBlocks
+        .filter((b) => !baseHookKeys.has(b.key))
+        .map((b) => ({
+          key: b.key,
+          label: b.label,
+          path: 'long',
+          templateKey: b.key,
+        })),
     ];
   }
 

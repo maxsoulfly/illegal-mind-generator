@@ -1875,7 +1875,6 @@
         { "key": "storyBlock",       "label": "Story Block",         "path": "long",   "templateKey": "storyBlock",       "scope": true },
         { "key": "technicalLines",   "label": "Technical · Lines",   "path": "long",   "templateKey": "technicalLines",   "descriptionLayoutKey": "technicalBlock", "countMax": 5, "countDefault": 3 },
         { "key": "logBlock",         "label": "Log · Notes",         "path": "long",   "templateKey": "logNotes",         "scope": true },
-        { "key": "tagLineFallbacks", "label": "Log · Tag Fallbacks", "path": "long",   "templateKey": "tagLineFallbacks", "descriptionLayoutKey": "logBlock" },
         { "key": "tagLineTemplates", "label": "Log · Tag Templates", "path": "long",   "templateKey": "tagLineTemplates", "descriptionLayoutKey": "logBlock" },
         { "key": "shortsHeader",     "label": "Shorts · Cover Line", "path": "shorts", "templateKey": "header",           "descriptionLayoutKey": "coverLine" },
         { "key": "shortsPrimary",    "label": "Shorts · Primary",    "path": "shorts", "templateKey": "primary",          "descriptionLayoutKey": "primary" },
@@ -1893,7 +1892,6 @@
             "logBlock",
             "mixingCtaBlock",
             "customCtaBlock",
-            "coverSummaryBlock",
             "gearBlock",
             "supportBlock",
             "playlistBlock"

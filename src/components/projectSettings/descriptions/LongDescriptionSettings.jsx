@@ -23,7 +23,6 @@ const KNOWN_BLOCK_META = {
   gearBlock:         { label: 'Gear Used' },
   playlistBlock:     { label: 'Playlist' },
   renovationBlock:   { label: 'Renovation Block' },
-  coverSummaryBlock: { label: 'Cover Summary' },
 };
 
 export default function LongDescriptionSettings({
