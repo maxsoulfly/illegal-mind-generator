@@ -278,7 +278,7 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 - Work in grouped steps, keep changes focused
 - Prefer code examples over theory
 - Ask for files instead of guessing structure
-- Provide Conventional Commit messages when asked
+- Provide Conventional Commit messages when asked. Keep commit messages as short bullet points, not long prose paragraphs.
 - When uncertain: choose the simpler solution
 
 ## Session Protocol
