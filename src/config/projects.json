@@ -60,6 +60,7 @@
 
       "transformation": {
         "label": "Transformation",
+        "excludeForFaithful": true,
         "templates": [
           "What if {song} had a modern mix?",
           "{artist}, but heavier",
@@ -87,6 +88,7 @@
 
       "progress": {
         "label": "Progress",
+        "excludeForFaithful": true,
         "templates": [
           "Re-recording this after {years} years",
           "Past me vs current me",
@@ -485,20 +487,108 @@
     "description": {
       "copyFooter": "/// FILE {fileId}: {hashtags}",
       "hookBlocks": [
-        { "key": "introHook",        "label": "Intro · Hook",             "path": "long",   "templateKey": "introHook",        "descriptionLayoutKey": "introBlock" },
-        { "key": "storyBlock",       "label": "Story Block",              "path": "long",   "templateKey": "storyBlock",       "scope": true },
-        { "key": "broadcastHeader",  "label": "Broadcast · Header",       "path": "long",   "templateKey": "broadcastHeader",  "descriptionLayoutKey": "broadcastBlock" },
-        { "key": "operatorStatuses", "label": "Broadcast · Statuses",     "path": "top",    "templateKey": "operatorStatuses", "descriptionLayoutKey": "broadcastBlock" },
-        { "key": "statusLines",      "label": "Broadcast · Status Lines", "path": "long",   "templateKey": "statusLines",      "descriptionLayoutKey": "broadcastBlock", "countMax": 4, "countDefault": 2 },
-        { "key": "technicalLines",   "label": "Technical · Lines",        "path": "long",   "templateKey": "technicalLines",   "descriptionLayoutKey": "technicalBlock", "countMax": 5, "countDefault": 3 },
-        { "key": "logBlock",         "label": "Log · Notes",              "path": "long",   "templateKey": "logNotes",         "scope": true },
-        { "key": "tagLineFallbacks", "label": "Log · Tag Fallbacks",      "path": "long",   "templateKey": "tagLineFallbacks", "descriptionLayoutKey": "logBlock" },
-        { "key": "tagLineTemplates", "label": "Log · Tag Templates",      "path": "long",   "templateKey": "tagLineTemplates", "descriptionLayoutKey": "logBlock" },
-        { "key": "closingSignal",    "label": "Closing · Signal",         "path": "long",   "templateKey": "closingSignal",    "descriptionLayoutKey": "closingBlock" },
-        { "key": "philosophyLine",   "label": "Closing · Philosophy",     "path": "long",   "templateKey": "philosophyLine",   "descriptionLayoutKey": "closingBlock" },
-        { "key": "shortsHeader",     "label": "Shorts · Cover Line",      "path": "shorts", "templateKey": "header",           "descriptionLayoutKey": "coverLine" },
-        { "key": "shortsPrimary",    "label": "Shorts · Primary",         "path": "shorts", "templateKey": "primary",          "descriptionLayoutKey": "primary" },
-        { "key": "shortsSecondary",  "label": "Shorts · Secondary",       "path": "shorts", "templateKey": "secondary",        "descriptionLayoutKey": "secondary" }
+        {
+          "key": "introHook",
+          "label": "Intro · Hook",
+          "path": "long",
+          "templateKey": "introHook",
+          "descriptionLayoutKey": "introBlock"
+        },
+        {
+          "key": "storyBlock",
+          "label": "Story Block",
+          "path": "long",
+          "templateKey": "storyBlock",
+          "scope": true
+        },
+        {
+          "key": "broadcastHeader",
+          "label": "Broadcast · Header",
+          "path": "long",
+          "templateKey": "broadcastHeader",
+          "descriptionLayoutKey": "broadcastBlock"
+        },
+        {
+          "key": "operatorStatuses",
+          "label": "Broadcast · Statuses",
+          "path": "top",
+          "templateKey": "operatorStatuses",
+          "descriptionLayoutKey": "broadcastBlock"
+        },
+        {
+          "key": "statusLines",
+          "label": "Broadcast · Status Lines",
+          "path": "long",
+          "templateKey": "statusLines",
+          "descriptionLayoutKey": "broadcastBlock",
+          "countMax": 4,
+          "countDefault": 2
+        },
+        {
+          "key": "technicalLines",
+          "label": "Technical · Lines",
+          "path": "long",
+          "templateKey": "technicalLines",
+          "descriptionLayoutKey": "technicalBlock",
+          "countMax": 5,
+          "countDefault": 3
+        },
+        {
+          "key": "logBlock",
+          "label": "Log · Notes",
+          "path": "long",
+          "templateKey": "logNotes",
+          "scope": true
+        },
+        {
+          "key": "tagLineFallbacks",
+          "label": "Log · Tag Fallbacks",
+          "path": "long",
+          "templateKey": "tagLineFallbacks",
+          "descriptionLayoutKey": "logBlock"
+        },
+        {
+          "key": "tagLineTemplates",
+          "label": "Log · Tag Templates",
+          "path": "long",
+          "templateKey": "tagLineTemplates",
+          "descriptionLayoutKey": "logBlock"
+        },
+        {
+          "key": "closingSignal",
+          "label": "Closing · Signal",
+          "path": "long",
+          "templateKey": "closingSignal",
+          "descriptionLayoutKey": "closingBlock"
+        },
+        {
+          "key": "philosophyLine",
+          "label": "Closing · Philosophy",
+          "path": "long",
+          "templateKey": "philosophyLine",
+          "descriptionLayoutKey": "closingBlock"
+        },
+        {
+          "key": "shortsHeader",
+          "label": "Shorts · Cover Line",
+          "path": "shorts",
+          "templateKey": "header",
+          "descriptionLayoutKey": "coverLine"
+        },
+        {
+          "key": "shortsPrimary",
+          "label": "Shorts · Primary",
+          "path": "shorts",
+          "templateKey": "primary",
+          "descriptionLayoutKey": "primary"
+        },
+        {
+          "key": "shortsSecondary",
+          "label": "Shorts · Secondary",
+          "path": "shorts",
+          "templateKey": "secondary",
+          "descriptionLayoutKey": "secondary"
+        }
       ],
 
       "templates": {
@@ -725,6 +815,7 @@
 
       "transformation": {
         "label": "Transformation",
+        "excludeForFaithful": true,
         "templates": [
           "What if {song} had a modern mix?",
           "{artist}, but heavier",
@@ -1885,14 +1976,64 @@
     "description": {
       "copyFooter": "{hashtags}",
       "hookBlocks": [
-        { "key": "introHook",        "label": "Intro · Hook",        "path": "long",   "templateKey": "introHook",        "descriptionLayoutKey": "introBlock" },
-        { "key": "storyBlock",       "label": "Story Block",         "path": "long",   "templateKey": "storyBlock",       "scope": true },
-        { "key": "technicalLines",   "label": "Technical · Lines",   "path": "long",   "templateKey": "technicalLines",   "descriptionLayoutKey": "technicalBlock", "countMax": 5, "countDefault": 3 },
-        { "key": "logBlock",         "label": "Log · Notes",         "path": "long",   "templateKey": "logNotes",         "scope": true },
-        { "key": "tagLineTemplates", "label": "Log · Tag Templates", "path": "long",   "templateKey": "tagLineTemplates", "descriptionLayoutKey": "logBlock" },
-        { "key": "shortsHeader",     "label": "Shorts · Cover Line", "path": "shorts", "templateKey": "header",           "descriptionLayoutKey": "coverLine" },
-        { "key": "shortsPrimary",    "label": "Shorts · Primary",    "path": "shorts", "templateKey": "primary",          "descriptionLayoutKey": "primary" },
-        { "key": "shortsSecondary",  "label": "Shorts · Secondary",  "path": "shorts", "templateKey": "secondary",        "descriptionLayoutKey": "secondary" }
+        {
+          "key": "introHook",
+          "label": "Intro · Hook",
+          "path": "long",
+          "templateKey": "introHook",
+          "descriptionLayoutKey": "introBlock"
+        },
+        {
+          "key": "storyBlock",
+          "label": "Story Block",
+          "path": "long",
+          "templateKey": "storyBlock",
+          "scope": true
+        },
+        {
+          "key": "technicalLines",
+          "label": "Technical · Lines",
+          "path": "long",
+          "templateKey": "technicalLines",
+          "descriptionLayoutKey": "technicalBlock",
+          "countMax": 5,
+          "countDefault": 3
+        },
+        {
+          "key": "logBlock",
+          "label": "Log · Notes",
+          "path": "long",
+          "templateKey": "logNotes",
+          "scope": true
+        },
+        {
+          "key": "tagLineTemplates",
+          "label": "Log · Tag Templates",
+          "path": "long",
+          "templateKey": "tagLineTemplates",
+          "descriptionLayoutKey": "logBlock"
+        },
+        {
+          "key": "shortsHeader",
+          "label": "Shorts · Cover Line",
+          "path": "shorts",
+          "templateKey": "header",
+          "descriptionLayoutKey": "coverLine"
+        },
+        {
+          "key": "shortsPrimary",
+          "label": "Shorts · Primary",
+          "path": "shorts",
+          "templateKey": "primary",
+          "descriptionLayoutKey": "primary"
+        },
+        {
+          "key": "shortsSecondary",
+          "label": "Shorts · Secondary",
+          "path": "shorts",
+          "templateKey": "secondary",
+          "descriptionLayoutKey": "secondary"
+        }
       ],
       "operatorStatuses": [],
 

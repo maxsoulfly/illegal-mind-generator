@@ -83,24 +83,28 @@ export function generateShortHooks(formData, projectConfig) {
   const prefixEnabled = projectConfig.title?.shortsPrefixEnabled !== false;
   const suffixEnabled = projectConfig.title?.shortsSuffixEnabled !== false;
 
-  return Object.entries(hookTypes).map(([type, hookConfig]) => {
-    const baseHooks = (hookConfig.templates || []).map((template) =>
-      createBaseHook(template, type, formData),
-    );
+  const isFaithful = (formData.transformationTags || []).includes('faithful');
 
-    const tagHooks = getTagShortHooksForType(type, formData, projectConfig);
+  return Object.entries(hookTypes)
+    .filter(([, hookConfig]) => !(isFaithful && hookConfig.excludeForFaithful))
+    .map(([type, hookConfig]) => {
+      const baseHooks = (hookConfig.templates || []).map((template) =>
+        createBaseHook(template, type, formData),
+      );
 
-    const hooks = shuffleArray([...baseHooks, ...tagHooks])
-      .slice(0, 2)
-      .map((hook) => ({
-        ...hook,
-        text: `${prefixEnabled ? fillHookTemplate(prefix, formData) : ''}${hook.text}${suffixEnabled ? fillHookTemplate(suffix, formData) : ''}`,
-      }));
+      const tagHooks = getTagShortHooksForType(type, formData, projectConfig);
 
-    return {
-      type,
-      label: hookConfig.label || type,
-      hooks,
-    };
-  });
+      const hooks = shuffleArray([...baseHooks, ...tagHooks])
+        .slice(0, 2)
+        .map((hook) => ({
+          ...hook,
+          text: `${prefixEnabled ? fillHookTemplate(prefix, formData) : ''}${hook.text}${suffixEnabled ? fillHookTemplate(suffix, formData) : ''}`,
+        }));
+
+      return {
+        type,
+        label: hookConfig.label || type,
+        hooks,
+      };
+    });
 }
