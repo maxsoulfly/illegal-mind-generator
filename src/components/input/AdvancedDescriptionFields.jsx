@@ -7,6 +7,8 @@ import { isTextBlock, isListBlock, getBlockLabel } from '../../utils/customBlock
 
 function detectItemType(block) {
   if (block?.itemType === 'text' || block?.itemType === 'link') return block.itemType;
+  // Fallback for blocks created before itemType was an explicit field:
+  // infer from item shape rather than failing or defaulting to 'text'.
   return (block?.items ?? []).some((item) => 'link' in item) ? 'link' : 'text';
 }
 
@@ -115,6 +117,8 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
   return (
     <>
       {PHRASE_BLOCK_OVERRIDES.filter(({ key }) => {
+        // Default 'song' (not 'project') — storyBlock/logBlock were always
+        // song-scoped before phraseBlockScopes existed, so absent = show.
         const scope = projectConfig?.description?.templates?.long?.phraseBlockScopes?.[key] ?? 'song';
         return scope === 'song';
       }).map(({ key, label, rows, placeholder, placeholders }) => (
@@ -153,6 +157,8 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
                   />
                 )}
               </summary>
+              {/* Key swap forces remount when override is toggled so
+                  uncontrolled defaultValue inputs reset to the new items. */}
               <SongListBlockEditor
                 key={hasOverride ? `${key}-override` : `${key}-default`}
                 items={overrideItems}
@@ -188,7 +194,6 @@ export default function AdvancedDescriptionFields({
 }) {
   return (
     <div className="form-group">
-      {/* ADDITIONAL HASHTAGS */}
       <FormField label="Additional Hashtags">
         <input
           type="text"

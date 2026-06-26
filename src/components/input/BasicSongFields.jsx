@@ -67,6 +67,7 @@ export default function BasicSongFields({
             list="song-suggestions"
           />
           <datalist id="song-suggestions">
+            {/* Dedup: same song title appears across different artists in the library. */}
             {[...new Set(songSuggestions)].map((song) => (
               <option key={song} value={song} />
             ))}
