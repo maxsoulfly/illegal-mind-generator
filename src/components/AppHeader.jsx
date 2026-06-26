@@ -26,48 +26,16 @@ export default function AppHeader({
     <header className="app-header">
       <nav className="app-menu">
         <div className="app-menu-pages">
-          <button
-            type="button"
-            className={activePage === 'generator' ? 'active' : ''}
-            onClick={() => setActivePage('generator')}
-          >
-            Generator
-          </button>
-          <button
-            type="button"
-            className={activePage === 'tags' ? 'active' : ''}
-            onClick={() => setActivePage('tags')}
-          >
-            Tag Library
-          </button>
-          <button
-            type="button"
-            className={activePage === 'shortsQueue' ? 'active' : ''}
-            onClick={() => setActivePage('shortsQueue')}
-          >
-            Shorts Queue
-          </button>
-          <button
-            type="button"
-            className={activePage === 'todo' ? 'active' : ''}
-            onClick={() => setActivePage('todo')}
-          >
-            Todo
-          </button>
-          <button
-            type="button"
-            className={activePage === 'projectSettings' ? 'active' : ''}
-            onClick={() => setActivePage('projectSettings')}
-          >
-            Project Settings
-          </button>
-          <button
-            type="button"
-            className={activePage === 'uikit' ? 'active' : ''}
-            onClick={() => setActivePage('uikit')}
-          >
-            UIKit
-          </button>
+          {Object.entries(PAGE_LABELS).map(([id, label]) => (
+            <button
+              key={id}
+              type="button"
+              className={activePage === id ? 'active' : ''}
+              onClick={() => setActivePage(id)}
+            >
+              {label}
+            </button>
+          ))}
         </div>
 
         <div className="app-menu-project">
