@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react';
+
 const PAGE_LABELS = {
   generator:       'Generator',
   tags:            'Tag Library',
@@ -16,6 +18,20 @@ export default function AppHeader({
   projectConfig,
   actions,
 }) {
+  const sentinelRef = useRef(null);
+  const [isStuck, setIsStuck] = useState(false);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsStuck(!entry.isIntersecting),
+      { threshold: [1] },
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, []);
+
   const pageLabel = PAGE_LABELS[activePage] ?? activePage;
   const title =
     activePage === 'uikit'
@@ -23,7 +39,9 @@ export default function AppHeader({
       : `${pageLabel} — ${projectConfig.name}`;
 
   return (
-    <header className="app-header">
+    <>
+      <div ref={sentinelRef} />
+      <header className={`app-header${isStuck ? ' app-header--stuck' : ''}`}>
       <nav className="app-menu">
         <div className="app-menu-pages">
           {Object.entries(PAGE_LABELS).map(([id, label]) => (
@@ -59,5 +77,6 @@ export default function AppHeader({
         {actions && <div className="app-header-actions">{actions}</div>}
       </div>
     </header>
+    </>
   );
 }
