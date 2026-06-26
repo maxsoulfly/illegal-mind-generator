@@ -1,4 +1,4 @@
-import FormSelect from '../../ui/FormSelect';
+import LabelSelectRow from '../../ui/LabelSelectRow';
 import LabelInputRow from '../../ui/LabelInputRow';
 import LabelSliderRow from '../../ui/LabelSliderRow';
 
@@ -14,17 +14,16 @@ export default function PrimaryTagSection({ config = {}, onUpdate }) {
     <details className="tag-editor-section">
       <summary className="tag-category">{'{primaryTag}'}</summary>
 
-      <div className="tag-phrase-row">
-        <label className="form-label">Order</label>
-        <FormSelect
-          value={order}
-          onChange={(val) => onUpdate('order', val)}
-          options={[
-            { value: 'selection', label: 'First N' },
-            { value: 'random', label: 'Random N' },
-          ]}
-        />
-      </div>
+      <LabelSelectRow
+        label="Order"
+        value={order}
+        onChange={(val) => onUpdate('order', val)}
+        options={[
+          { value: 'selection', label: 'First N' },
+          { value: 'random', label: 'Random N' },
+        ]}
+        compact
+      />
 
       <LabelSliderRow
         label="Count"

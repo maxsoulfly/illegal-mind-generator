@@ -6,11 +6,17 @@ import AddBlockForm from './blocks/AddBlockForm';
 // Each entry: { key, label, path, templateKey, scope?, countMax?, countDefault?, descriptionLayoutKey? }
 // path: 'long' | 'top' (description root) | 'shorts'
 
+const OVERRIDE_TYPE_OPTIONS = [
+  { value: 'textarea', label: 'Textarea' },
+  { value: 'one-line', label: 'One-line' },
+];
+
 function HookBlockEditor({
   label,
   templates,
   scope,
   target,
+  overrideType,
   hasOverride,
   maxLines,
   countValue,
@@ -20,6 +26,7 @@ function HookBlockEditor({
   onRename,
   onScopeChange,
   onTargetChange,
+  onOverrideTypeChange,
   onMaxLinesChange,
   onCountChange,
   open,
@@ -42,7 +49,22 @@ function HookBlockEditor({
       open={open}
     >
       <div className="tag-phrase-row hook-block-lines-row">
-        <span className="form-label">Lines</span>
+        {scope === 'song' && (
+          <>
+            <span className="form-label">Override</span>
+            <select
+              className="form-select"
+              style={{ flex: '0 0 auto', width: 'auto' }}
+              value={overrideType}
+              onChange={(e) => onOverrideTypeChange(e.target.value)}
+            >
+              {OVERRIDE_TYPE_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>{o.label}</option>
+              ))}
+            </select>
+          </>
+        )}
+        {maxLines > 1 && <span className="form-label">Lines</span>}
         {maxLines > 1 ? (
           <input
             type="range"
@@ -55,9 +77,9 @@ function HookBlockEditor({
         ) : (
           <span className="hook-block-lines-empty" />
         )}
-        <span className="tag-status">
-          {maxLines > 1 ? countValue : '—'}
-        </span>
+        {maxLines > 1 && (
+          <span className="tag-status">{countValue}</span>
+        )}
         <label className="hook-block-max-label">
           max
           <input
@@ -140,7 +162,9 @@ export default function ProjectSettingsHookBlocks({
       (overriddenDesc.hookBlockCounts != null &&
         key in overriddenDesc.hookBlockCounts) ||
       (overriddenDesc.hookBlockTargets != null &&
-        key in overriddenDesc.hookBlockTargets)
+        key in overriddenDesc.hookBlockTargets) ||
+      (overriddenDesc.hookBlockOverrideTypes != null &&
+        key in overriddenDesc.hookBlockOverrideTypes)
     );
   }
 
@@ -183,6 +207,8 @@ export default function ProjectSettingsHookBlocks({
       overriddenDesc.hookBlockTargets || {};
     const { [key]: _lbl, ...remainingLabelOverrides } =
       overriddenDesc.hookBlockLabelOverrides || {};
+    const { [key]: _ot, ...remainingOverrideTypes } =
+      overriddenDesc.hookBlockOverrideTypes || {};
 
     if (path === 'long') {
       const { [templateKey]: _t, ...remainingLong } = overriddenLong;
@@ -193,6 +219,7 @@ export default function ProjectSettingsHookBlocks({
           hookBlockCounts: remainingCounts,
           hookBlockTargets: remainingTargets,
           hookBlockLabelOverrides: remainingLabelOverrides,
+          hookBlockOverrideTypes: remainingOverrideTypes,
           templates: { ...templates_, long: remainingLong },
         },
       });
@@ -205,6 +232,7 @@ export default function ProjectSettingsHookBlocks({
           hookBlockCounts: remainingCounts,
           hookBlockTargets: remainingTargets,
           hookBlockLabelOverrides: remainingLabelOverrides,
+          hookBlockOverrideTypes: remainingOverrideTypes,
         },
       });
     } else if (path === 'shorts') {
@@ -216,6 +244,7 @@ export default function ProjectSettingsHookBlocks({
           hookBlockCounts: remainingCounts,
           hookBlockTargets: remainingTargets,
           hookBlockLabelOverrides: remainingLabelOverrides,
+          hookBlockOverrideTypes: remainingOverrideTypes,
           templates: { ...templates_, shorts: remainingShorts },
         },
       });
@@ -241,6 +270,22 @@ export default function ProjectSettingsHookBlocks({
         customHookBlocks: (overriddenDesc.customHookBlocks || []).map((b) =>
           b.key === key ? { ...b, label: newLabel } : b,
         ),
+      },
+    });
+  }
+
+  function getOverrideType(key) {
+    return overriddenDesc.hookBlockOverrideTypes?.[key] ?? 'textarea';
+  }
+
+  function updateOverrideType(key, value) {
+    updateProjectOverride({
+      description: {
+        ...overriddenDesc,
+        hookBlockOverrideTypes: {
+          ...(overriddenDesc.hookBlockOverrideTypes || {}),
+          [key]: value,
+        },
       },
     });
   }
@@ -342,6 +387,7 @@ export default function ProjectSettingsHookBlocks({
     const { [key]: _mx, ...remainingMaxLines } = overriddenDesc.hookBlockMaxLines || {};
     const { [key]: _cv, ...remainingCounts } = overriddenDesc.hookBlockCounts || {};
     const { [key]: _tgt, ...remainingTargets } = overriddenDesc.hookBlockTargets || {};
+    const { [key]: _ot, ...remainingOverrideTypes } = overriddenDesc.hookBlockOverrideTypes || {};
     updateProjectOverride({
       description: {
         ...overriddenDesc,
@@ -351,6 +397,7 @@ export default function ProjectSettingsHookBlocks({
         hookBlockMaxLines: remainingMaxLines,
         hookBlockCounts: remainingCounts,
         hookBlockTargets: remainingTargets,
+        hookBlockOverrideTypes: remainingOverrideTypes,
         templates: {
           ...templates_,
           long: { ...remainingLongBase, phraseBlockScopes: remainingScopes },
@@ -378,6 +425,7 @@ export default function ProjectSettingsHookBlocks({
             templates={getTemplates(block)}
             scope={getScope(key)}
             target={getTarget(block)}
+            overrideType={getOverrideType(key)}
             hasOverride={
               !isDynamic &&
               (isOverridden(block) || !!overriddenDesc.hookBlockLabelOverrides?.[key])
@@ -394,6 +442,7 @@ export default function ProjectSettingsHookBlocks({
             }
             onScopeChange={(val) => updateScope(key, val)}
             onTargetChange={(val) => updateTarget(key, val)}
+            onOverrideTypeChange={(val) => updateOverrideType(key, val)}
             onMaxLinesChange={(val) => updateMaxLines(key, val)}
             onCountChange={(val) => updateCount(key, val)}
             open={openBlockKey === key}

@@ -1,4 +1,4 @@
-import { getEffectiveSongOverrides, renderTextTemplate } from './generateCustomBlocks';
+import { getEffectiveSongOverrides, renderTextTemplate, resolveHookOverride } from './generateCustomBlocks';
 
 function pickRandom(arr = []) {
   return arr[Math.floor(Math.random() * arr.length)] || '';
@@ -39,8 +39,9 @@ export function generateLogBlock(
         'Signal stabilized.';
 
   const songOverrides = getEffectiveSongOverrides(formData);
+  const logOverride = resolveHookOverride(songOverrides.logBlock);
   const logNote = renderTextTemplate(
-    songOverrides.logBlock?.trim() || defaultLogNote,
+    logOverride || defaultLogNote,
     projectConfig,
     formData,
     tagLine,

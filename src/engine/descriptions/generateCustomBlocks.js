@@ -42,6 +42,18 @@ export function renderStructuredBlock(block, links = {}) {
   return [title, items].filter(Boolean).join('\n');
 }
 
+// Resolves a song override that may be a string (textarea) or string[] (list).
+// Returns the resolved string, or null if no usable override is present.
+export function resolveHookOverride(override) {
+  if (Array.isArray(override)) {
+    const options = override.filter((s) => typeof s === 'string' && s.trim());
+    if (!options.length) return null;
+    return options[Math.floor(Math.random() * options.length)].trim();
+  }
+  if (typeof override === 'string' && override.trim()) return override.trim();
+  return null;
+}
+
 // Resolves {transformation}: picks a random project-level template (or per-song
 // override) and substitutes basic placeholders. Used as a value by
 // renderTextTemplate and fillHookTemplate — NOT called recursively.
@@ -55,7 +67,7 @@ export function resolveTransformation(formData, projectConfig, tagLine = '') {
   const primaryTag = pool.slice(0, count).join(separator) || '';
 
   const overrides = formData.songBlockOverrides || {};
-  const override = overrides.transformation?.trim();
+  const override = resolveHookOverride(overrides.transformation);
   const templates = projectConfig?.description?.templates?.long?.transformationBlock || [];
   const template = override || templates[Math.floor(Math.random() * templates.length)] || '';
 

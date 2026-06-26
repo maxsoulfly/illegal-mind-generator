@@ -1485,7 +1485,8 @@ input[type="range"]::-moz-range-progress {
   margin-bottom: 0;
 }
 
-.tag-phrase-row .form-input--compact {
+.tag-phrase-row .form-input--compact,
+.tag-phrase-row .form-select--compact {
   flex     : 0 1 50%;
   min-width: 0;
 }
@@ -1640,8 +1641,9 @@ input[type="range"]::-moz-range-progress {
   white-space: nowrap;
 }
 
-.hook-block-max-input {
-  width        : 3.5rem;
+.hook-block-max-input,
+.tag-phrase-row .hook-block-max-input {
+  width        : 2.5rem;
   margin-bottom: 0;
   padding      : var(--space-1) var(--space-2);
   text-align   : center;

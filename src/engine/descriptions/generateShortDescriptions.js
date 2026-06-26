@@ -1,4 +1,4 @@
-import { renderStructuredBlock, renderCustomBlock, getEffectiveSongOverrides, resolveHookBlockTemplates, renderTextTemplate } from './generateCustomBlocks';
+import { renderStructuredBlock, renderCustomBlock, getEffectiveSongOverrides, resolveHookBlockTemplates, renderTextTemplate, resolveHookOverride } from './generateCustomBlocks';
 import { isListBlock } from '../../utils/customBlocks';
 
 function pickRandom(arr = []) {
@@ -67,18 +67,17 @@ export function generateShortDescriptions(
       );
     }
 
-    const hookSongOverride = songOverrides[blockName]?.trim();
+    const hookSongOverride = resolveHookOverride(songOverrides[blockName]);
     if (hookSongOverride) return renderTextTemplate(hookSongOverride, projectConfig, formData, tagPhrase);
 
     const hookTemplates = resolveHookBlockTemplates(blockName, projectConfig);
     const options = hookTemplates ?? shortsConfig[blockName] ?? [];
     const template = pickRandom(options);
 
-    return template
+    // renderTextTemplate handles {artist}/{song}/{year}/{originalGenre}/{tagLine}/{transformation}/{links.*}.
+    // {num} and {coverLabel} are shorts-specific so are applied after.
+    return renderTextTemplate(template, projectConfig, formData, tagPhrase)
       .replace(/\{num\}/g, formData.signalNumber || '00')
-      .replace(/\{artist\}/g, formData.artist || '')
-      .replace(/\{song\}/g, formData.song || '')
-      .replace(/\{tagLine\}/g, tagPhrase)
       .replace(/\{coverLabel\}/g, coverLabel);
   }
 

@@ -2,7 +2,7 @@ import { generateShortDescriptions } from './generateShortDescriptions';
 import { generateBroadcastBlock } from './generateBroadcastBlock';
 import { generateTechnicalBlock } from './generateTechnicalBlock';
 import { generateLogBlock } from './generateLogBlock';
-import { generateCustomBlocks, getEffectiveSongOverrides, resolveHookBlockTemplates, renderTextTemplate } from './generateCustomBlocks';
+import { generateCustomBlocks, getEffectiveSongOverrides, resolveHookBlockTemplates, renderTextTemplate, resolveHookOverride } from './generateCustomBlocks';
 import { buildTagLine, buildTagPhrase } from './descriptionTagHelpers';
 
 function pickRandom(arr = []) {
@@ -28,7 +28,7 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const introTemplate = pickRandom(
     projectConfig?.description.templates?.long?.introHook,
   );
-  const introOverride = songOverrides.introBlock?.trim();
+  const introOverride = resolveHookOverride(songOverrides.introBlock);
   const introBlock = introOverride
     ? renderTextTemplate(introOverride, projectConfig, formData, tagPhrase)
     : introTemplate;
@@ -39,7 +39,7 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     projectConfig?.description.templates?.long?.storyBlock,
   );
 
-  const storyOverride = songOverrides.storyBlock?.trim();
+  const storyOverride = resolveHookOverride(songOverrides.storyBlock);
   const storyBlock = renderTextTemplate(storyOverride || storyTemplate, projectConfig, formData, tagPhrase);
 
   // --- Philosophy block ---
@@ -98,7 +98,7 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const longDescription = layout
     .map((blockName) => {
       if (blockName in blocks) return blocks[blockName];
-      const hookSongOverride = songOverrides[blockName]?.trim();
+      const hookSongOverride = resolveHookOverride(songOverrides[blockName]);
       if (hookSongOverride) return renderTextTemplate(hookSongOverride, projectConfig, formData, tagPhrase);
       const hookTemplates = resolveHookBlockTemplates(blockName, projectConfig);
       return hookTemplates?.length ? pickRandom(hookTemplates) : undefined;

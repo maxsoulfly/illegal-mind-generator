@@ -186,7 +186,11 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
 
       {songScopeHookBlocks.map((block) => {
         const overrideKey = block.descriptionLayoutKey ?? block.key;
+        const overrideType = projectConfig?.description?.hookBlockOverrideTypes?.[block.key] ?? 'textarea';
         const hasOverride = overrideKey in (formData.songBlockOverrides || {});
+        const storedValue = typeof formData.songBlockOverrides?.[overrideKey] === 'string'
+          ? formData.songBlockOverrides[overrideKey]
+          : '';
         return (
           <details key={block.key} className="tag-section">
             <summary>
@@ -201,9 +205,9 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
               )}
             </summary>
             <PlaceholderField
-              multiline
+              multiline={overrideType !== 'one-line'}
               rows={3}
-              defaultValue={formData.songBlockOverrides?.[overrideKey] || ''}
+              defaultValue={storedValue}
               onChange={(value) => updateOverride(overrideKey, value)}
               placeholders={textPlaceholders}
               placeholder="Override for this song only. Leave blank to use the project default."
