@@ -1,16 +1,16 @@
-# Graph Report - illegal-mind-generator  (2026-06-25)
+# Graph Report - illegal-mind-generator  (2026-06-26)
 
 ## Corpus Check
-- 171 files · ~87,384 words
+- 172 files · ~87,929 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1032 nodes · 1495 edges · 81 communities (62 shown, 19 thin omitted)
+- 1035 nodes · 1517 edges · 82 communities (63 shown, 19 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 15 edges (avg confidence: 0.9)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ce398144`
+- Built from commit: `dd5ea712`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -91,9 +91,10 @@
 - [[_COMMUNITY_Community 78|Community 78]]
 - [[_COMMUNITY_Community 79|Community 79]]
 - [[_COMMUNITY_Community 80|Community 80]]
+- [[_COMMUNITY_Community 81|Community 81]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `IconButton()` - 21 edges
+1. `IconButton()` - 22 edges
 2. `Illegal Mind Generator Architecture Document` - 19 edges
 3. `YouTube Content Generator - MVP / V1 Spec` - 17 edges
 4. `Illegal Mind Generator — Data Model` - 16 edges
@@ -107,13 +108,13 @@
 ## Surprising Connections (you probably didn't know these)
 - `Illegal Mind Generator Early Roadmap (v1.3 era)` --semantically_similar_to--> `Roadmap`  [INFERRED] [semantically similar]
   illegal_mind_generator_roadmap.md → docs/roadmap.md
+- `Per-Song Block Overrides (songBlockOverrides)` --shares_data_with--> `generateDescriptions.js (Long description engine)`  [INFERRED]
+  CLAUDE.md → docs/architecture.md
 - `Tag System Overview (controls titles, descriptions, hooks, hashtags)` --semantically_similar_to--> `Tag System (transformation tags, deeply connected)`  [INFERRED] [semantically similar]
   docs/project-overview.md → CLAUDE.md
 - `YouTube Content Generator MVP Spec` --semantically_similar_to--> `Illegal Mind Generator MVP / Early Project Overview`  [INFERRED] [semantically similar]
   illegal_mind_generator_mvp_spec.md → illegal-mind-generator-project-overview.md
-- `Tag System (transformation tags, deeply connected)` --references--> `Tag Registry`  [INFERRED]
-  CLAUDE.md → docs/data-model.md
-- `Per-Song Block Overrides (songBlockOverrides)` --shares_data_with--> `generateDescriptions.js (Long description engine)`  [INFERRED]
+- `Storage Unification (illegalMindGeneratorData)` --references--> `storage.js (single storage API)`  [INFERRED]
   CLAUDE.md → docs/architecture.md
 
 ## Import Cycles
@@ -124,39 +125,39 @@
 - **Config Merge Pipeline (projects.json + tagOverrides + projectOverrides → resolvedProjectConfig)** — docs_architecture_projects_json, docs_architecture_use_tag_overrides, docs_architecture_use_project_overrides, docs_architecture_build_resolved_project_config, docs_architecture_resolved_project_config [EXTRACTED 0.95]
 - **Block Type Ecosystem (List / Text / Hook blocks with scope, target, song overrides)** — docs_data_model_list_block, docs_data_model_text_block, docs_data_model_hook_block_type, claude_md_song_block_overrides, docs_architecture_custom_blocks_js [EXTRACTED 0.90]
 
-## Communities (81 total, 19 thin omitted)
+## Communities (82 total, 19 thin omitted)
 
 ### Community 0 - "Block System UI"
-Cohesion: 0.08
-Nodes (41): AddBlockForm(), AddTextBlockForm(), BlockActions(), BlockEditorCard(), TextBlockEditor(), KNOWN_BLOCK_META, LongDescriptionSettings(), MOBILE_COLUMN_TABS (+33 more)
+Cohesion: 0.07
+Nodes (45): AddBlockForm(), AddTextBlockForm(), BlockActions(), BlockEditorCard(), TextBlockEditor(), KNOWN_BLOCK_META, LongDescriptionSettings(), MOBILE_COLUMN_TABS (+37 more)
 
 ### Community 1 - "App Shell & State Hooks"
-Cohesion: 0.06
-Nodes (43): getProjectSettingsSectionSummary(), PROJECT_SETTING_SECTIONS, defaultFormData, defaultPanelVisibility, useAppShellState(), useGeneratedOutput(), getStoredProjectOverrides(), useProjectOverrides() (+35 more)
+Cohesion: 0.05
+Nodes (46): AppHeader(), PAGE_LABELS, InputForm(), getProjectSettingsSectionSummary(), PROJECT_SETTING_SECTIONS, defaultFormData, defaultPanelVisibility, useAppShellState() (+38 more)
 
 ### Community 2 - "Architecture Documentation"
-Cohesion: 0.10
-Nodes (19): Blast radius map, Component Dependency Graph, customBlocks.js consumers, customBlocks.js consumers, Generation Engine Dependencies, Hook dependency on each other, hookPlaceholders.js consumers, Illegal Mind Generator — Graph Report (+11 more)
+Cohesion: 0.12
+Nodes (15): Blast radius map, Component Dependency Graph, customBlocks.js consumers, Generation Engine Dependencies, Hook dependency on each other, Illegal Mind Generator — Graph Report, Most Central Files, Page → Component Relationships (+7 more)
 
 ### Community 3 - "Generator Output & Saved Entries"
-Cohesion: 0.09
-Nodes (24): CopyButton(), GeneratorResultsPanel(), DescriptionsPanel(), GeneratedTitlePair(), HashtagsPanel(), buildMixedShortHooks(), ShortHooksPanel(), shuffleArray() (+16 more)
+Cohesion: 0.06
+Nodes (34): CopyButton(), EntrySettings(), GeneratorResultsPanel(), AdvancedDescriptionFields(), PHRASE_BLOCK_OVERRIDES, BasicSongFields(), InputFormActions(), QueueSettings() (+26 more)
 
 ### Community 4 - "Generator Input & Tag Editor"
-Cohesion: 0.06
-Nodes (50): buildResolvedProjectConfig (config merge layer), Description Layout Builder (Available + Active columns), Dynamic Hook Blocks (user-created, customHookBlocks), Hook Blocks (phrase-template arrays, random pick), Illegal Mind Generator — CLAUDE.md Instructions, PlaceholderField (autocomplete input/textarea), Per-Song Block Overrides (songBlockOverrides), Storage Unification (illegalMindGeneratorData) (+42 more)
+Cohesion: 0.22
+Nodes (19): appBackup.js (export/import backup), App.jsx (root state coordinator), Illegal Mind Generator Architecture Document, customBlocks.js (shared block utilities), formData (generator form state), generateCustomBlocks.js (shared block rendering), generateDescriptions.js (Long description engine), generateHashtags.js (hashtag engine) (+11 more)
 
 ### Community 5 - "Hashtag & Hook Generation"
 Cohesion: 0.11
-Nodes (22): generateHashtags(), toHashtag(), createBaseHook(), createTagHook(), fillHookTemplate(), generateShortHooks(), resolveDecade(), resolvePrimaryTag() (+14 more)
+Nodes (23): generateHashtags(), toHashtag(), createBaseHook(), createTagHook(), fillHookTemplate(), generateShortHooks(), resolveDecade(), resolvePrimaryTag() (+15 more)
 
 ### Community 6 - "Description Generation Engine"
-Cohesion: 0.15
-Nodes (21): buildTagLine(), buildTagPhrase(), pickRandom(), resolveTagLabel(), toTitleCase(), generateBroadcastBlock(), pickRandom(), generateCustomBlocks() (+13 more)
+Cohesion: 0.14
+Nodes (22): buildTagLine(), buildTagPhrase(), pickRandom(), resolveTagLabel(), toTitleCase(), generateBroadcastBlock(), pickRandom(), generateCustomBlocks() (+14 more)
 
 ### Community 7 - "Tag Library"
-Cohesion: 0.12
-Nodes (13): useTagLibraryData(), TagLibraryPage(), TagActions(), TagCard(), TagControls(), TagDetails(), TagFilters(), TagHeader() (+5 more)
+Cohesion: 0.09
+Nodes (21): useInputFormLogic(), useTagLibraryData(), useTagOverrides(), TagLibraryPage(), TagActions(), TagCard(), TagControls(), TagDetails() (+13 more)
 
 ### Community 8 - "Project Settings"
 Cohesion: 0.08
@@ -175,8 +176,8 @@ Cohesion: 0.20
 Nodes (10): graphify Skill Definition, graphify Skill Trigger (slash command), Graphify Add URL and Watch Folder, Graphify Extra Exports and Benchmark, Graphify Extraction Subagent Prompt Spec, Graphify GitHub Clone and Cross-Repo Merge, Graphify Commit Hook and CLAUDE.md Integration, Graphify Query / Path / Explain Flow (+2 more)
 
 ### Community 12 - "App Navigation & Backup"
-Cohesion: 0.13
-Nodes (18): InputForm(), EntrySettings(), useInputFormLogic(), useTagOverrides(), AdvancedDescriptionFields(), BasicSongFields(), InputFormActions(), QueueSettings() (+10 more)
+Cohesion: 0.20
+Nodes (10): Storage Unification (illegalMindGeneratorData), Legacy Keys, 1. Entry CTA text has two storage paths, 2. Tag visibility is stored twice, 3. Entry story/log note fields have three representations, 4. storageMigration.js is dead code in production, 5. Two separate "short hooks" systems that share the same config keys, Most Central Files Analysis (+2 more)
 
 ### Community 13 - "UI Icon Assets"
 Cohesion: 0.29
@@ -199,8 +200,8 @@ Cohesion: 0.07
 Nodes (27): 1. Config Layer, 2. Generator Layer, 3. UI Layer, 4. Storage Layer, App Behavior, Architecture for MVP, Build Order, Description Style (+19 more)
 
 ### Community 29 - "Tag Library Architecture"
-Cohesion: 0.09
-Nodes (23): AI Notes, Architectural Notes, Block Renaming (Active Focus), `coverLabel` not editable from UI, Current Context, Current Focus, `customHashtags` is hardcoded, Description Layout Column Parity (Active Focus) (+15 more)
+Cohesion: 0.10
+Nodes (22): AI Notes, Architectural Notes, Block Renaming (Active Focus), `coverLabel` not editable from UI, Current Context, Current Focus, `customHashtags` is hardcoded, Description Layout Column Parity (Active Focus) (+14 more)
 
 ### Community 30 - "Todo Architecture"
 Cohesion: 0.08
@@ -215,16 +216,16 @@ Cohesion: 0.08
 Nodes (24): Config-Driven Refactor, Current Config Areas, Current Development Style, Current Known Limitations, Current Stack, Current Workflow, Done Features, Foundation (+16 more)
 
 ### Community 39 - "Community 39"
-Cohesion: 0.36
-Nodes (8): Block Type System (List / Text / Hook / Generated), Block key namespace, Block Types, Illegal Mind Generator Data Model Document, Hook Block, Hook Block Type (phrase array, random pick), List Block, Text Block
+Cohesion: 0.21
+Nodes (13): Block Type System (List / Text / Hook / Generated), Block key namespace, Block Types, Illegal Mind Generator Data Model Document, Example, Hook Block, Hook Block Type (phrase array, random pick), List Block (+5 more)
 
 ### Community 40 - "Community 40"
-Cohesion: 0.22
-Nodes (8): Entity Relationships, Example, Fields, Illegal Mind Generator — Data Model, Key relationships, Root Storage Object, Storage Overview, Table of Contents
+Cohesion: 0.15
+Nodes (12): Entity Relationships, Example, Example, Fields, Fields, Fields not persisted to saved entries, Generator Form State, Illegal Mind Generator — Data Model (+4 more)
 
 ### Community 41 - "Community 41"
-Cohesion: 0.29
-Nodes (7): shortHooks Fields, Tag Categories, Tag — Example (Illegal Mind, "heavier"), Tag — Example (Maxx Dee, "heavier" — with shortHooks), Tag — Example (with flags, "chorus"), Tag Fields, Tag Registry
+Cohesion: 0.18
+Nodes (11): Tag System (transformation tags, deeply connected), shortHooks Fields, Tag Categories, Tag — Example (Illegal Mind, "heavier"), Tag — Example (Maxx Dee, "heavier" — with shortHooks), Tag — Example (with flags, "chorus"), Tag Fields, Tag Registry (+3 more)
 
 ### Community 42 - "Community 42"
 Cohesion: 0.20
@@ -243,8 +244,8 @@ Cohesion: 0.22
 Nodes (9): Backup safety, Config vs. override, Data Conventions, Data ownership, Legacy field migration, Per-song overrides, Persisting new state, Single storage key (+1 more)
 
 ### Community 46 - "Community 46"
-Cohesion: 0.22
-Nodes (9): AppBackupControls(), AppMenu(), ProjectSettingsGeneral(), ProjectTextField(), buildAppBackup(), downloadAppBackup(), LEGACY_KEYS, readLegacyData() (+1 more)
+Cohesion: 0.39
+Nodes (6): AppBackupControls(), buildAppBackup(), downloadAppBackup(), LEGACY_KEYS, readLegacyData(), restoreAppBackup()
 
 ### Community 47 - "Community 47"
 Cohesion: 0.25
@@ -319,8 +320,8 @@ Cohesion: 0.33
 Nodes (5): For /graphify explain, For /graphify path, graphify reference: query, path, explain, Step 0 — Constrained query expansion (REQUIRED before traversal), Step 1 — Traversal
 
 ### Community 65 - "Community 65"
-Cohesion: 0.40
-Nodes (5): Example, Queue constraints, Saved Entry Data Structure, Shorts Queue, Structure
+Cohesion: 0.22
+Nodes (9): buildResolvedProjectConfig (config merge layer), Description Layout Builder (Available + Active columns), Dynamic Hook Blocks (user-created, customHookBlocks), Hook Blocks (phrase-template arrays, random pick), Illegal Mind Generator — CLAUDE.md Instructions, PlaceholderField (autocomplete input/textarea), Per-Song Block Overrides (songBlockOverrides), UI Primitives (src/components/ui/) (+1 more)
 
 ### Community 66 - "Community 66"
 Cohesion: 0.50
@@ -336,15 +337,15 @@ Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphif
 
 ### Community 70 - "Community 70"
 Cohesion: 0.06
-Nodes (33): TagBasicsTab(), TagDescriptionsTab(), TAG_EDITOR_TABS, TagEditorTabs(), TagHashtagsTab(), HOOK_TYPES, TagShortHooksTab(), TagTitlesTab() (+25 more)
+Nodes (31): TagBasicsTab(), TagDescriptionsTab(), TAG_EDITOR_TABS, TagEditorTabs(), TagHashtagsTab(), HOOK_TYPES, TagShortHooksTab(), TagTitlesTab() (+23 more)
 
 ### Community 71 - "Community 71"
 Cohesion: 0.50
 Nodes (3): For /graphify add, For --watch, graphify reference: add a URL and watch a folder
 
 ### Community 72 - "Community 72"
-Cohesion: 0.50
-Nodes (4): Example, Fields, Fields not persisted to saved entries, Generator Form State
+Cohesion: 0.25
+Nodes (8): useAppShellState hook, 1. App.jsx is the single coordination point for all state, 2. useAppShellState is a megahook, 3. buildResolvedProjectConfig runs on every render, 4. Generation runs synchronously on every formData keystroke, 5. Two components access storage directly (bypassing the hook layer), 6. useTagVisibilityOverrides exists but is not directly consumed, Architectural Bottlenecks
 
 ### Community 73 - "Community 73"
 Cohesion: 0.50
@@ -353,6 +354,10 @@ Nodes (3): For git commit hook, For native CLAUDE.md integration, graphify refer
 ### Community 74 - "Community 74"
 Cohesion: 0.50
 Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphify reference: incremental update and cluster-only
+
+### Community 81 - "Community 81"
+Cohesion: 0.50
+Nodes (4): customBlocks.js consumers, hookPlaceholders.js consumers, Shared Utilities — Import Frequency, storage.js consumers
 
 ## Knowledge Gaps
 - **483 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+478 more)
@@ -363,16 +368,16 @@ Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphif
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Conventions` connect `Community 50` to `Generator Input & Tag Editor`, `Community 39`, `Community 44`, `Community 45`, `Community 47`, `Community 48`, `Community 51`, `Community 52`, `Community 53`, `Community 56`, `Community 57`, `Tag Library Architecture`?**
-  _High betweenness centrality (0.032) - this node is a cross-community bridge._
-- **Why does `Illegal Mind Generator Data Model Document` connect `Community 39` to `Community 65`, `Generator Input & Tag Editor`, `Community 41`, `Community 50`, `Community 54`, `Community 58`, `Community 59`?**
+  _High betweenness centrality (0.031) - this node is a cross-community bridge._
+- **Why does `Illegal Mind Generator Data Model Document` connect `Community 39` to `Community 41`, `App Navigation & Backup`, `Community 50`, `Community 54`, `Community 58`, `Community 59`?**
   _High betweenness centrality (0.016) - this node is a cross-community bridge._
-- **Why does `Illegal Mind Generator Architecture Document` connect `Generator Input & Tag Editor` to `Community 50`?**
-  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+- **Why does `IconButton()` connect `Block System UI` to `App Shell & State Hooks`, `Generator Output & Saved Entries`, `Community 70`, `Tag Library`?**
+  _High betweenness centrality (0.015) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _488 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Block System UI` be split into smaller, more focused modules?**
-  _Cohesion score 0.07507914970601538 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06960385042576823 - nodes in this community are weakly interconnected._
 - **Should `App Shell & State Hooks` be split into smaller, more focused modules?**
-  _Cohesion score 0.0567287784679089 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05257312106627175 - nodes in this community are weakly interconnected._
 - **Should `Architecture Documentation` be split into smaller, more focused modules?**
-  _Cohesion score 0.1 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.125 - nodes in this community are weakly interconnected._

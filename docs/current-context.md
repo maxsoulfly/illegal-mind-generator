@@ -6,12 +6,19 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 
 ## Current Focus
 
-Deciding next feature — candidates: generic/no-tags title mode, queue-hidden indicator in Todo rows, Todo status badges in Saved Library.
+No active feature — picking next task. Candidates: queue-hidden indicator in Todo rows, Todo status badges in Saved Library, storage cleanup.
 
 ---
 
 ## Recently Completed
 
+- **Sticky AppHeader** — new `AppHeader.jsx` replaces deleted `AppMenu.jsx`. Contains nav (looped from `PAGE_LABELS`), project selector, and page title (`activePage` + `projectConfig.name`). Accepts `actions` prop for page-specific buttons (Regenerate on Generator page). `position: sticky; top: 0`. Removed `<h1 className="app-title">` from all 6 pages and `panel-header` wrappers where they only held the title. Mobile: `.app-header-title` stacks + Regenerate goes full-width.
+- **`descriptionLayout.js` utility** — `buildHookBlockMaps(hookBlocks)` and `makeLayoutLabelResolver(...)` extracted from `LongDescriptionSettings` and `ShortsDescriptionSettings`. Both files had identical derivations for `allHookBlockLayoutKeys`, `hookBlockLabelMap`, `layoutKeyToBlockKey`, and `getLayoutBlockLabel`. Now shared from `src/utils/descriptionLayout.js`.
+- **`detectItemType` extracted to `customBlocks.js`** — was duplicated in `AdvancedDescriptionFields.jsx` and `StructuredListEditor.jsx`. Now a shared export alongside `isListBlock`/`isTextBlock`.
+- **`TitleGenerationCard` reset button** — replaced raw `<button className="tag-reset-button">` with `IconButton`.
+- **Comments session** — documented non-obvious WHY in: `AdvancedDescriptionFields` (detectItemType fallback, phraseBlockScopes `?? 'song'` default, key-swap remount trick), `BasicSongFields` (song dedup asymmetry), `LongDescriptionSettings` (layoutIndex Infinity sentinel, findLastIndex insertion logic, supportBlock special case), `StructuredListEditor` (linkSuggestionsId scope, `_id` client key + strip-before-save), `LinksRegistryEditor` (isUserAdded/isOverridden states, --full class, onBlur skip-if-unchanged).
+- **Generic / no-tags title mode** — `buildGenericTitles()` in `generateTitles.js`. Templates configurable from Project Settings → Titles → Generation card. Merged into the title pool alongside transformation and hook titles.
+- **Title count slider** — `LabelSliderRow` in `TitleGenerationCard`, `count` field in title config, range 1–10.
 - **Block cleanup (Maxx Dee)** — removed phantom `coverSummaryBlock` from Long layout + `KNOWN_BLOCK_META`; removed unused `tagLineFallbacks` hookBlock entry; added deduplication in `buildResolvedProjectConfig` to suppress stale `customHookBlocks` entries that duplicate JSON-defined blocks.
 - **Fix blocks with no nav target** — `renovationBlock` (Maxx Dee Long) converted to a Text block in `customBlocks` (`scope: 'song'`, `target: 'long'`) so it has a nav arrow → Text Blocks tab and a per-song override field in the Generator. Illegal Mind Shorts layout key changed `"header"` → `"coverLine"` to match the `shortsHeader` hookBlock's `descriptionLayoutKey` — now navigable and consistent with Maxx Dee. `hook` in both projects' Shorts layouts now navigates to Shorts Hooks: `openShortHooksSearch` threaded from `App.jsx` down through `ProjectSettingsPage` → `ProjectSettingsContent` → `ProjectSettingsDescriptions` → `ShortsDescriptionSettings` as `onNavigateToShortHooks`; `getNavigateHandler` handles `'hook'` key as a special case.
 - **Block renaming** — inline ✏ icon in `BlockEditorCard` header. Click to enter rename mode; Enter/blur saves, Escape cancels. Storage: `description.blockLabelOverrides[key]` for JSON-default List/Text blocks; `description.hookBlockLabelOverrides[key]` for JSON-default Hook blocks; direct `blockData.name` / `customHookBlocks[i].label` for user-created blocks. `hasOverride` and `onReset` updated to cover label overrides. `LongDescriptionSettings` and `ShortsDescriptionSettings` gained `getLayoutBlockLabel()` helper that checks all override paths so renamed labels appear in description layout cards immediately.
@@ -47,10 +54,9 @@ Nothing active — picking next feature.
 
 ## Next Recommended Tasks
 
-1. **Generic / no-tags title mode** — bypass transformation tags, generate plain titles. New generation path in `generateTitles.js`.
-4. **Queue-hidden indicator in Todo rows** — show `[hidden]` badge on Todo items whose entry has `excludeFromRandomizer: true`.
-5. **Todo status badges in Saved Library** — show the entry's `todo.status` inline in `SavedLibraryItem`.
-6. **Storage cleanup** (low urgency, after a few stable sessions):
+1. **Queue-hidden indicator in Todo rows** — show `[hidden]` badge on Todo items whose entry has `excludeFromRandomizer: true`.
+2. **Todo status badges in Saved Library** — show the entry's `todo.status` inline in `SavedLibraryItem`.
+3. **Storage cleanup** (low urgency, after a few stable sessions):
    - Remove legacy key capture/restore from `appBackup.js`
    - Remove `storageMigration.js` and its `window.*` exposure in `App.jsx`
 
@@ -77,13 +83,15 @@ The per-song custom hashtag field in `AdvancedDescriptionFields.jsx` is still a 
 |------|---------------|
 | `src/config/projects.json` | Base config for both projects. All generation and block structure starts here. |
 | `src/utils/buildResolvedProjectConfig.js` | Merges `projects.json` + `tagOverrides` + `projectSettingsOverrides` → resolved config. Called on every render. |
-| `src/utils/customBlocks.js` | Shared utilities for all block types: `isListBlock`, `isTextBlock`, `getBlockLabel`, `generateBlockKey`, `SCOPE_OPTIONS`, `TARGET_OPTIONS`. All block editors import from here. |
+| `src/utils/customBlocks.js` | Shared utilities for all block types: `isListBlock`, `isTextBlock`, `detectItemType`, `getBlockLabel`, `generateBlockKey`, `SCOPE_OPTIONS`, `TARGET_OPTIONS`. All block editors import from here. |
+| `src/utils/descriptionLayout.js` | Shared helpers for both description layout builders: `buildHookBlockMaps(hookBlocks)` and `makeLayoutLabelResolver(...)`. Import here before adding anything to Long/Shorts description settings. |
 | `src/utils/storage.js` | Single storage API. All reads/writes go through `readAppStorage` / `updateAppStorage`. |
 | `src/utils/appBackup.js` | Export/import. The safety net for all storage work. Must stay reliable. |
 | `src/hooks/useProjectOverrides.js` | All project settings overrides (descriptions, blocks, titles, links, etc.) live here. |
 | `src/hooks/useAppShellState.js` | Top-level UI state: activePage, formData, panelVisibility, navigation targets (tagLibrarySearchTarget, etc.). |
+| `src/components/AppHeader.jsx` | Sticky app header: nav tabs (looped from `PAGE_LABELS`), project selector, page title, optional `actions` slot. Replaces deleted `AppMenu.jsx`. |
 | `src/components/projectSettings/descriptions/LongDescriptionSettings.jsx` | Description layout builder for Long descriptions. Block nav wiring lives here. |
-| `src/components/projectSettings/descriptions/ShortsDescriptionSettings.jsx` | Same for Shorts. Hook/Header nav gap is here. |
+| `src/components/projectSettings/descriptions/ShortsDescriptionSettings.jsx` | Same for Shorts. |
 | `src/components/projectSettings/ProjectSettingsHookBlocks.jsx` | Hook Blocks tab. Config-driven from `projectConfig.description.hookBlocks`. |
 | `src/components/projectSettings/blocks/BlockEditorCard.jsx` | Shared card chrome for all block type editors. |
 | `src/components/ui/BlockInfoCard.jsx` | Read-only card in description layout builder. `onNavigate` sets the `→` arrow. |
@@ -104,7 +112,7 @@ The per-song custom hashtag field in `AdvancedDescriptionFields.jsx` is still a 
 
 **Block collision detection.** `generateBlockKey` must check all `customBlocks` keys regardless of block type. List and Text blocks share one key namespace. Missing a key produces silent collisions.
 
-**Hook Blocks vs description layout keys.** A hook block's `key` is its config/storage key; `descriptionLayoutKey` is its key in the layout array (may differ, e.g. `introHook` → `introBlock`). Both are needed. `LongDescriptionSettings` derives `layoutKeyToBlockKey` to map back from layout to config key for nav.
+**Hook Blocks vs description layout keys.** A hook block's `key` is its config/storage key; `descriptionLayoutKey` is its key in the layout array (may differ, e.g. `introHook` → `introBlock`). Both are needed. `layoutKeyToBlockKey` (and the other hook block maps) are derived by `buildHookBlockMaps()` in `src/utils/descriptionLayout.js`, shared by both Long and Shorts settings.
 
 **Song-scoped block overrides.** Song-scoped Text/List/Hook blocks get override fields in the generator's Advanced panel. Overrides stored in `formData.songBlockOverrides[blockKey]`. Wins over project-default template at engine time via `getEffectiveSongOverrides`. Legacy fields (`customCta`, `customStory`, `customLogNote`) are seeded into `songBlockOverrides` on entry load in `useSavedEntries`.
 
@@ -123,9 +131,11 @@ The per-song custom hashtag field in `AdvancedDescriptionFields.jsx` is still a 
 - `PlaceholderField` — any input that should support `{placeholder}` autocomplete. Don't build a custom autocomplete.
 - `MoveControls` — up/down reorder. Don't hand-roll `IconButton` pairs for this.
 - `HookTemplateEditor` — searchable phrase list with add/bulk. Always use this inside `TemplateGroupCard`, not directly in feature components.
+- `AppHeader` — the sticky app header. Do not add `<h1 className="app-title">` in individual pages; titles live here, derived from `activePage` + `projectConfig.name`.
 
 **Do not duplicate:**
-- `customBlocks.js` — single source of truth for block utilities. All block type editors import from here.
+- `customBlocks.js` — single source of truth for block utilities (`isListBlock`, `isTextBlock`, `detectItemType`, `getBlockLabel`, etc.). All block editors import from here.
+- `descriptionLayout.js` — shared helpers for both description layout builders (`buildHookBlockMaps`, `makeLayoutLabelResolver`). Do not re-derive these maps inline.
 - `storage.js` — all reads/writes go through here. Don't call `localStorage` directly.
 - Description layout logic — `LongDescriptionSettings` and `ShortsDescriptionSettings` share the same structural pattern. Keep them in sync when changing either.
 
