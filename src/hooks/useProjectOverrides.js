@@ -63,9 +63,33 @@ export default function useProjectOverrides(projectId) {
     [projectId],
   );
 
+  const syncHookTypesToProject = useCallback(
+    (targetProjectId, hookTypes) => {
+      const nextStorage = updateAppStorage((currentStorage) => {
+        const targetOverrides =
+          currentStorage.projectOverrides?.[targetProjectId] || {};
+
+        return {
+          ...currentStorage,
+          projectOverrides: {
+            ...(currentStorage.projectOverrides || {}),
+            [targetProjectId]: {
+              ...targetOverrides,
+              shortHookTypes: { ...hookTypes },
+            },
+          },
+        };
+      });
+
+      setAllProjectSettingsOverrides(nextStorage.projectOverrides || {});
+    },
+    [],
+  );
+
   return {
     projectSettingsOverrides,
     updateProjectOverride,
     resetProjectOverride,
+    syncHookTypesToProject,
   };
 }

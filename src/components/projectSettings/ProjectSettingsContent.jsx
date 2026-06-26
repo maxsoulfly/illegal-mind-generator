@@ -19,6 +19,8 @@ export default function ProjectSettingsContent({
   blocksTarget,
   clearBlocksTarget,
   openBlocksEditor,
+  otherProjects,
+  syncHookTypesToProject,
 }) {
   if (activeSection === 'general') {
     return (
@@ -38,6 +40,9 @@ export default function ProjectSettingsContent({
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
+        baseHookTypes={baseProjectConfig?.shortHookTypes || {}}
+        otherProjects={otherProjects}
+        syncHookTypesToProject={syncHookTypesToProject}
         hookTarget={hookTarget}
       />
     );

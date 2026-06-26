@@ -2,14 +2,15 @@ import TemplateGroupCard from './TemplateGroupCard';
 
 // Edits persist immediately via onUpdateTemplates, which replaces the full
 // templates array for this hook type in the project override storage.
-// onReset removes the override entirely, restoring the base project config.
-export default function ShortHookCard({ hookType, hookConfig, onUpdateTemplates, onReset, onUpdateFlags, highlightText }) {
+// onReset restores JSON defaults; for user-created types pass onRemove instead.
+export default function ShortHookCard({ hookType, hookConfig, onUpdateTemplates, onReset, onRemove, onUpdateFlags, highlightText }) {
   return (
     <TemplateGroupCard
       label={hookConfig.label}
       templates={hookConfig.templates}
       onUpdateTemplates={onUpdateTemplates}
       onReset={onReset}
+      onRemove={onRemove}
       highlightText={highlightText}
       subtitle={hookType}
       countLabel="phrases"
@@ -24,7 +25,7 @@ export default function ShortHookCard({ hookType, hookConfig, onUpdateTemplates,
                 checked={!!hookConfig.excludeForFaithful}
                 onChange={(e) => onUpdateFlags({ excludeForFaithful: e.target.checked })}
               />
-              <span className="toggle-label">Exclude for Faithful</span>
+              Exclude for Faithful
             </label>
           </div>
           <div>
@@ -35,7 +36,7 @@ export default function ShortHookCard({ hookType, hookConfig, onUpdateTemplates,
                 checked={!!hookConfig.requiresGenre}
                 onChange={(e) => onUpdateFlags({ requiresGenre: e.target.checked })}
               />
-              <span className="toggle-label">Requires Genre</span>
+              Requires Genre
             </label>
           </div>
         </div>

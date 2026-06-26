@@ -15,6 +15,7 @@ export default function TemplateGroupCard({
   initialCollapsed = false,
   sliderConfig,
   children,
+  headerActions,
 }) {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
 
@@ -26,12 +27,15 @@ export default function TemplateGroupCard({
             <span className="tag-card-collapse-icon">{collapsed ? '▶' : '▼'}</span>
             {label}
           </h3>
-          <IconButton
-            icon="↺"
-            title="Reset to defaults"
-            stopPropagation
-            onClick={onReset}
-          />
+          {onReset && (
+            <IconButton
+              icon="↺"
+              title="Reset to defaults"
+              stopPropagation
+              onClick={onReset}
+            />
+          )}
+          {headerActions}
         </div>
         {onRemove && (
           <IconButton icon="×" title="Remove from layout" onClick={onRemove} />

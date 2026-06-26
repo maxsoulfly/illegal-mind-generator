@@ -3,6 +3,7 @@ export default function TagSyncControls({
   syncTargetProjectId,
   setSyncTargetProjectId,
   onSyncTags,
+  buttonLabel = 'Sync Tags',
 }) {
   return (
     <div className="tag-actions">
@@ -24,7 +25,7 @@ export default function TagSyncControls({
         onClick={onSyncTags}
         disabled={!syncTargetProjectId}
       >
-        Sync Tags
+        {buttonLabel}
       </button>
     </div>
   );

@@ -85,7 +85,12 @@ function App() {
     projectSettingsOverrides,
     updateProjectOverride,
     resetProjectOverride,
+    syncHookTypesToProject,
   } = useProjectOverrides(projectId);
+
+  const otherProjects = Object.entries(projects)
+    .filter(([id]) => id !== projectId)
+    .map(([id, proj]) => ({ id, name: proj.name }));
 
   // Runtime config = base config + user overrides.
   const resolvedProjectConfig = useMemo(() => {
@@ -239,6 +244,8 @@ function App() {
           openBlocksEditor={openBlocksEditor}
           activeSection={activeProjectSettingsSection}
           onSectionChange={setActiveProjectSettingsSection}
+          otherProjects={otherProjects}
+          syncHookTypesToProject={syncHookTypesToProject}
         />
       )}
 

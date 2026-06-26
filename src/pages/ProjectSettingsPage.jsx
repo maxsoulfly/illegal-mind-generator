@@ -22,6 +22,8 @@ export default function ProjectSettingsPage({
   openBlocksEditor,
   activeSection,
   onSectionChange,
+  otherProjects,
+  syncHookTypesToProject,
 }) {
   // Navigation targets override the active section; clears on any manual tab click.
   const resolvedSection = shortHooksTarget ? 'shortHooks' : titlesTarget ? 'titles' : blocksTarget ? 'blocks' : activeSection;
@@ -64,6 +66,8 @@ export default function ProjectSettingsPage({
           blocksTarget={blocksTarget}
           clearBlocksTarget={clearBlocksTarget}
           openBlocksEditor={openBlocksEditor}
+          otherProjects={otherProjects}
+          syncHookTypesToProject={syncHookTypesToProject}
         />
       </div>
     </section>
