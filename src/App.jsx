@@ -49,6 +49,7 @@ function App() {
     titlesTarget,
     openTitlesSearch,
     clearTitlesTarget,
+    openProjectSettings,
     blocksTarget,
     openBlocksEditor,
     clearBlocksTarget,
@@ -172,6 +173,7 @@ function App() {
           onOpenSourceTag={openTagLibrarySearch}
           onOpenSourceHook={openShortHooksSearch}
           onOpenSourceTemplate={openTitlesSearch}
+          onNavigateToSettings={openProjectSettings}
         />
       )}
       {/* Tag management and phrase editing */}

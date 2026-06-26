@@ -12,6 +12,7 @@ function GeneratorResultsPanel({
   onOpenSourceTag,
   onOpenSourceHook,
   onOpenSourceTemplate,
+  onNavigateToSettings,
   useHooksForLongTitles,
   onToggleHooksForLongTitles,
 }) {
@@ -46,6 +47,7 @@ function GeneratorResultsPanel({
           onOpenSourceTag={onOpenSourceTag}
           onOpenSourceHook={onOpenSourceHook}
           onOpenSourceTemplate={onOpenSourceTemplate}
+          onNavigateToSettings={onNavigateToSettings}
           useHooksForLongTitles={useHooksForLongTitles}
           onToggleHooksForLongTitles={onToggleHooksForLongTitles}
         />
@@ -57,6 +59,7 @@ function GeneratorResultsPanel({
           descriptions={generatedOutput.shortDescriptions}
           longDescription={generatedOutput.longDescription}
           renderCopyFooter={renderCopyFooter}
+          onNavigateToSettings={onNavigateToSettings}
         />
 
         <HashtagsPanel

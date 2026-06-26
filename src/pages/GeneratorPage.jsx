@@ -38,6 +38,7 @@ export default function GeneratorPage({
   onOpenSourceTag,
   onOpenSourceHook,
   onOpenSourceTemplate,
+  onNavigateToSettings,
 }) {
   const [inputFlash, setInputFlash] = useState(false);
 
@@ -128,6 +129,7 @@ export default function GeneratorPage({
           onOpenSourceTag={onOpenSourceTag}
           onOpenSourceHook={onOpenSourceHook}
           onOpenSourceTemplate={onOpenSourceTemplate}
+          onNavigateToSettings={onNavigateToSettings}
           useHooksForLongTitles={useHooksForLongTitles}
           onToggleHooksForLongTitles={handleToggleHooksForLongTitles}
         />

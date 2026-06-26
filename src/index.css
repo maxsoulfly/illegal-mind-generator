@@ -224,6 +224,24 @@ svg {
   letter-spacing: var(--letter-spacing-md);
 }
 
+button.panel-title--nav {
+  background  : none;
+  border      : none;
+  padding     : 0;
+  cursor      : pointer;
+  text-align  : left;
+}
+
+button.panel-title--nav::after {
+  content : ' →';
+  opacity : 0;
+  transition: opacity 0.15s;
+}
+
+button.panel-title--nav:hover::after {
+  opacity: 0.6;
+}
+
 .output-stack {
   display       : flex;
   flex-direction: column;

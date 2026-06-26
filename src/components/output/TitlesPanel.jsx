@@ -27,6 +27,7 @@ function TitlesPanel({
   onOpenSourceTag,
   onOpenSourceHook,
   onOpenSourceTemplate,
+  onNavigateToSettings,
   useHooksForLongTitles,
   onToggleHooksForLongTitles,
 }) {
@@ -36,7 +37,11 @@ function TitlesPanel({
   return (
     <div className={`panel ${panelVisibility.titles ? '' : 'panel-collapsed'}`}>
       <div className="panel-header">
-        <h2 className="panel-title">Titles</h2>
+        {onNavigateToSettings ? (
+          <button type="button" className="panel-title panel-title--nav" onClick={() => onNavigateToSettings('titles')}>Titles</button>
+        ) : (
+          <h2 className="panel-title">Titles</h2>
+        )}
 
         {/* Only show the hooks toggle for long video mode — Shorts already use hooks directly. */}
         {!isShorts && (

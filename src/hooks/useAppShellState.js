@@ -177,6 +177,11 @@ export default function useAppShellState() {
     setTitlesTarget(null);
   }, []);
 
+  const openProjectSettings = useCallback((section) => {
+    setActiveProjectSettingsSection(section);
+    setActivePage('projectSettings');
+  }, [setActiveProjectSettingsSection, setActivePage]);
+
   const openBlocksEditor = useCallback(({ subTab, blockKey }) => {
     setBlocksTarget({ subTab, blockKey });
   }, []);
@@ -228,6 +233,7 @@ export default function useAppShellState() {
     titlesTarget,
     openTitlesSearch,
     clearTitlesTarget,
+    openProjectSettings,
     blocksTarget,
     openBlocksEditor,
     clearBlocksTarget,

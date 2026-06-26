@@ -8,13 +8,18 @@ function DescriptionsPanel({
   descriptions,
   longDescription,
   renderCopyFooter,
+  onNavigateToSettings,
 }) {
   return (
     <div
       className={`panel ${panelVisibility.descriptions ? '' : 'panel-collapsed'}`}
     >
       <div className="panel-header">
-        <h2 className="panel-title">Descriptions</h2>
+        {onNavigateToSettings ? (
+          <button type="button" className="panel-title panel-title--nav" onClick={() => onNavigateToSettings('descriptions')}>Descriptions</button>
+        ) : (
+          <h2 className="panel-title">Descriptions</h2>
+        )}
         <ToggleButton
           isOpen={panelVisibility.descriptions}
           onClick={() => togglePanel('descriptions')}
