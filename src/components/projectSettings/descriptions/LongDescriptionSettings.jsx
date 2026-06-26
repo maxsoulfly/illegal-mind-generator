@@ -3,7 +3,8 @@ import BlockInfoCard from '../../ui/BlockInfoCard';
 import SubTabNav from '../../ui/SubTabNav';
 import MoveControls from '../../ui/MoveControls';
 import IconButton from '../../ui/IconButton';
-import { isListBlock, isTextBlock, getBlockLabel } from '../../../utils/customBlocks';
+import { isListBlock, isTextBlock } from '../../../utils/customBlocks';
+import { buildHookBlockMaps, makeLayoutLabelResolver } from '../../../utils/descriptionLayout';
 
 const MOBILE_COLUMN_TABS = [
   { id: 'layout', label: 'Layout' },
@@ -39,33 +40,17 @@ export default function LongDescriptionSettings({
   const overriddenDesc = projectSettingsOverrides.description || {};
   const hookBlocks = projectConfig.description?.hookBlocks || [];
 
-  // All hook block layout keys — for subtitle detection and available palette
-  const allHookBlockLayoutKeys = new Set(
-    hookBlocks.map((b) => b.descriptionLayoutKey ?? b.key),
-  );
-
-  const hookBlockLabelMap = Object.fromEntries(
-    hookBlocks.map((b) => [b.descriptionLayoutKey ?? b.key, b.label]),
-  );
-
-  // Maps description layout key → actual hook block key (for navigation).
-  const layoutKeyToBlockKey = Object.fromEntries(
-    hookBlocks.map((b) => [b.descriptionLayoutKey ?? b.key, b.key]),
-  );
-
+  const { allLayoutKeys: allHookBlockLayoutKeys, labelMap, layoutKeyToBlockKey } = buildHookBlockMaps(hookBlocks);
   const hookBlockLabelOverrides = overriddenDesc.hookBlockLabelOverrides || {};
   const blockLabelOverrides     = overriddenDesc.blockLabelOverrides     || {};
-
-  function getLayoutBlockLabel(blockKey) {
-    const configKey = layoutKeyToBlockKey[blockKey];
-    return (
-      (configKey && hookBlockLabelOverrides[configKey]) ||
-      hookBlockLabelMap[blockKey] ||
-      blockLabelOverrides[blockKey] ||
-      KNOWN_BLOCK_META[blockKey]?.label ||
-      getBlockLabel(blockKey, customBlocks[blockKey])
-    );
-  }
+  const getLayoutBlockLabel = makeLayoutLabelResolver({
+    labelMap,
+    layoutKeyToBlockKey,
+    hookBlockLabelOverrides,
+    blockLabelOverrides,
+    knownMeta: KNOWN_BLOCK_META,
+    customBlocks,
+  });
 
   const defaultLayout =
     baseProjectConfig?.description?.templates?.long?.layout ?? longTemplates.layout ?? [];
@@ -97,6 +82,7 @@ export default function LongDescriptionSettings({
     ...hookBlockAvailableKeys,
   ].filter((k) => !activeKeys.includes(k));
 
+  // Infinity so dynamic/user-created blocks (not in defaultLayout) sort to the end on Reset Order.
   function layoutIndex(key) {
     const idx = defaultLayout.indexOf(key);
     return idx === -1 ? Infinity : idx;
@@ -124,6 +110,8 @@ export default function LongDescriptionSettings({
     }
     const targetIndex = defaultLayout.indexOf(key);
     const next = [...activeKeys];
+    // Insert after the last active block whose defaultLayout position is before this one,
+    // so re-adding a block preserves the original ordering rather than always appending.
     const insertAt = next.findLastIndex((k) => layoutIndex(k) < targetIndex) + 1;
     next.splice(insertAt, 0, key);
     updateLayout(next);
@@ -148,6 +136,7 @@ export default function LongDescriptionSettings({
 
   function getNavigateHandler(blockKey) {
     if (!onNavigateToBlock) return undefined;
+    // supportBlock lives directly on longTemplates, not inside customBlocks.
     const blockData =
       blockKey === 'supportBlock' ? longTemplates.supportBlock : customBlocks[blockKey];
     if (allHookBlockLayoutKeys.has(blockKey)) {

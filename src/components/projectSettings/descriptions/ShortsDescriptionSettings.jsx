@@ -4,7 +4,8 @@ import LabelSliderRow from '../../ui/LabelSliderRow';
 import SubTabNav from '../../ui/SubTabNav';
 import MoveControls from '../../ui/MoveControls';
 import IconButton from '../../ui/IconButton';
-import { isListBlock, isTextBlock, getBlockLabel } from '../../../utils/customBlocks';
+import { isListBlock, isTextBlock } from '../../../utils/customBlocks';
+import { buildHookBlockMaps, makeLayoutLabelResolver } from '../../../utils/descriptionLayout';
 
 const MOBILE_COLUMN_TABS = [
   { id: 'layout', label: 'Layout' },
@@ -38,34 +39,17 @@ export default function ShortsDescriptionSettings({
 
   const hookBlocks = projectConfig.description?.hookBlocks || [];
 
-  // All hook block layout keys (for subtitle detection in the active layout)
-  const allHookBlockLayoutKeys = new Set(
-    hookBlocks.map((b) => b.descriptionLayoutKey ?? b.key),
-  );
-
-  // Label map derived from hookBlocks config
-  const hookBlockLabelMap = Object.fromEntries(
-    hookBlocks.map((b) => [b.descriptionLayoutKey ?? b.key, b.label]),
-  );
-
-  // Maps description layout key → actual hook block key (for navigation).
-  const layoutKeyToBlockKey = Object.fromEntries(
-    hookBlocks.map((b) => [b.descriptionLayoutKey ?? b.key, b.key]),
-  );
-
+  const { allLayoutKeys: allHookBlockLayoutKeys, labelMap, layoutKeyToBlockKey } = buildHookBlockMaps(hookBlocks);
   const hookBlockLabelOverrides = overriddenDesc.hookBlockLabelOverrides || {};
   const blockLabelOverrides     = overriddenDesc.blockLabelOverrides     || {};
-
-  function getLayoutBlockLabel(key) {
-    const configKey = layoutKeyToBlockKey[key];
-    return (
-      (configKey && hookBlockLabelOverrides[configKey]) ||
-      hookBlockLabelMap[key] ||
-      blockLabelOverrides[key] ||
-      KNOWN_SHORTS_BLOCK_META[key]?.label ||
-      getBlockLabel(key, customBlocks[key])
-    );
-  }
+  const getLayoutBlockLabel = makeLayoutLabelResolver({
+    labelMap,
+    layoutKeyToBlockKey,
+    hookBlockLabelOverrides,
+    blockLabelOverrides,
+    knownMeta: KNOWN_SHORTS_BLOCK_META,
+    customBlocks,
+  });
 
   const count = overriddenShorts.count ?? shortsConfig.count ?? 3;
 
