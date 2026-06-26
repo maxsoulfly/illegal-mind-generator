@@ -71,13 +71,14 @@ export function resolveTransformation(formData, projectConfig, tagLine = '') {
   const templates = projectConfig?.description?.templates?.long?.transformationBlock || [];
   const template = override || templates[Math.floor(Math.random() * templates.length)] || '';
 
-  return template
+  const resolved = template
     .replace(/\{primaryTag\}/g, primaryTag)
     .replace(/\{artist\}/g, formData.artist || '')
     .replace(/\{song\}/g, formData.song || '')
     .replace(/\{year\}/g, formData.originalYear || '')
     .replace(/\{originalGenre\}/g, pickOneGenre(formData.originalGenre))
     .replace(/\{tagLine\}/g, tagLine);
+  return resolved.charAt(0).toUpperCase() + resolved.slice(1);
 }
 
 export function renderTextTemplate(text, projectConfig, formData, tagLine) {

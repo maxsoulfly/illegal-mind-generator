@@ -36,12 +36,8 @@ export function generateShortDescriptions(
   function renderShortLine(blockName) {
     if (blockName === 'coverLine') {
       const headerTemplates = shortsConfig.header || [];
-      const template =
-        pickRandom(headerTemplates) || '{artist} - {song}';
-
-      return template
-        .replace(/\{artist\}/g, formData.artist || '')
-        .replace(/\{song\}/g, formData.song || '')
+      const template = pickRandom(headerTemplates) || '{artist} - {song}';
+      return renderTextTemplate(template, projectConfig, formData, tagPhrase)
         .replace(/\{coverLabel\}/g, coverLabel)
         .replace(/\{num\}/g, formData.signalNumber || '00');
     }
