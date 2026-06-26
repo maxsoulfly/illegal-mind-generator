@@ -33,7 +33,8 @@ function fillHookTemplate(template, formData) {
     .replaceAll('{year}', formData.originalYear || '')
     .replaceAll('{years}', formData.years || DEFAULT_YEARS)
     .replaceAll('{currentYear}', currentYear)
-    .replaceAll('{primaryTag}', primaryTag);
+    .replaceAll('{primaryTag}', primaryTag)
+    .replaceAll('{originalGenre}', formData.originalGenre || '');
 }
 
 function createBaseHook(template, type, formData) {

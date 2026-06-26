@@ -7,6 +7,7 @@ export const defaultFormData = {
   artist: '',
   song: '',
   originalYear: '',
+  originalGenre: '',
   signalNumber: '',
   videoType: 'Long',
   changesMade: '',

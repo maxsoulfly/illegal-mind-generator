@@ -122,7 +122,8 @@ function fillTemplate(template, values) {
     .replace('{num}', values.signalNumber || 'XX')
     .replace('{artist}', values.artist)
     .replace('{song}', values.song)
-    .replace('{transformation}', values.transformation);
+    .replace('{transformation}', values.transformation)
+    .replace('{originalGenre}', values.originalGenre || '');
 }
 
 // Builds the pool of transformation-based titles (same logic as before).
@@ -153,6 +154,7 @@ function buildTransformationTitles(formData, config, isShorts, artistFull, artis
       artist: useShort ? artistShortFinal : artistFull,
       song: formData.song || '[Song Name]',
       transformation,
+      originalGenre: formData.originalGenre || '',
     });
 
     const text = isShorts

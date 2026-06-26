@@ -101,6 +101,18 @@ export default function BasicSongFields({
       </div>
 
       <div className="form-group">
+        <FormField label="Original Genre">
+          <input
+            className="form-input"
+            name="originalGenre"
+            placeholder="e.g. Dance Pop, New Wave"
+            value={formData.originalGenre}
+            onChange={handleChange}
+          />
+        </FormField>
+      </div>
+
+      <div className="form-group">
         <FormField label="Video Type">
           <div className="radio-group">
             <label className="radio-option">
