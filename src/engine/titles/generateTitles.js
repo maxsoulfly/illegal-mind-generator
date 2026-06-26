@@ -142,6 +142,7 @@ function buildTransformationTitles(formData, config, isShorts, artistFull, artis
   const results = [];
   const usedTexts = new Set();
   let attempts = 0;
+  const useShort = isShorts || (formData.useCustomArtistShort && formData.artistShort);
 
   while (results.length < titleCount && attempts < titleCount * 10) {
     const transformation = pickTransformation(transformations, maxPhrases, connector, listSeparator);
@@ -149,7 +150,7 @@ function buildTransformationTitles(formData, config, isShorts, artistFull, artis
 
     const baseTitle = fillTemplate(template, {
       signalNumber: formData.signalNumber || 'XX',
-      artist: isShorts ? artistShortFinal : artistFull,
+      artist: useShort ? artistShortFinal : artistFull,
       song: formData.song || '[Song Name]',
       transformation,
     });
@@ -175,10 +176,11 @@ function buildGenericTitles(formData, config, isShorts, artistFull, artistShortF
   const genericTemplates = config.title?.templates?.generic || [];
   if (genericTemplates.length === 0) return [];
 
+  const useShort = isShorts || (formData.useCustomArtistShort && formData.artistShort);
   return shuffleArray(genericTemplates).map((template) => {
     const baseTitle = template
       .replace('{num}',    formData.signalNumber || 'XX')
-      .replace('{artist}', isShorts ? artistShortFinal : artistFull)
+      .replace('{artist}', useShort ? artistShortFinal : artistFull)
       .replace('{song}',   formData.song         || '[Song Name]')
       .replace('{year}',   formData.originalYear || '');
 

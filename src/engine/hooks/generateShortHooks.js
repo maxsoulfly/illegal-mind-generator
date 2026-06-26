@@ -21,8 +21,11 @@ function fillHookTemplate(template, formData) {
   const primaryTag = resolvePrimaryTag(formData.transformationTags);
   const currentYear = new Date().getFullYear();
 
+  const artist = (formData.useCustomArtistShort && formData.artistShort)
+    ? formData.artistShort
+    : formData.artist || 'This band';
   return template
-    .replaceAll('{artist}', formData.artist || 'This band')
+    .replaceAll('{artist}', artist)
     .replaceAll('{song}', formData.song || 'this song')
     .replaceAll('{signalNumber}', formData.signalNumber || '')
     .replaceAll('{num}', formData.signalNumber || 'XX')
