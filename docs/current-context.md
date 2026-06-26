@@ -6,12 +6,15 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 
 ## Current Focus
 
-No active feature — picking next task. Candidates: queue-hidden indicator in Todo rows, Todo status badges in Saved Library, storage cleanup.
+`originalGenre` Stage 2 is template authoring only (no code). Stage 3 (contrast hooks) is the next engine work when ready.
 
 ---
 
 ## Recently Completed
 
+- **`originalGenre` field — Stage 1 complete** — `originalGenre` added to `defaultFormData` and generator input (below Signal Number / Year). `{originalGenre}` placeholder wired into `fillHookTemplate` (`generateShortHooks.js`), `fillTemplate` + `buildGenericTitles` (`generateTitles.js`), `renderTextTemplate` (`generateCustomBlocks.js`). Added to `HOOK_PLACEHOLDERS`, `TextBlockEditor` placeholder list, and `AdvancedDescriptionFields` text placeholder list. Also backfilled `{year}` in both editor placeholder lists (was in engine but missing from autocomplete). Stage 2 = template authoring only (write faithful hooks like `"The best {originalGenre} song of {year}"`). Stage 3 = contrast hook engine (conditional group when `originalGenre` set + non-faithful tags).
+- **Save/load audit + fixes** — `originalYear`, `originalGenre`, `useCustomArtistShort`, `artistShort` were missing from both `handleSaveEntry` and `handleLoadEntry` in `useSavedEntries.js` — now all persisted per entry. `useInputFormLogic` auto-fill effect guarded: only fills `artistShort` when the field is empty, preserving loaded/custom values.
+- **Fix `useCustomArtistShort` in Long titles** — `buildTransformationTitles` and `buildGenericTitles` now use `artistShortFinal` when `useCustomArtistShort && artistShort` (not only in Shorts mode). `fillHookTemplate` also respects it so hook-sourced Long titles show the custom short.
 - **Sticky AppHeader** — new `AppHeader.jsx` replaces deleted `AppMenu.jsx`. Contains nav (looped from `PAGE_LABELS`), project selector, and page title (`activePage` + `projectConfig.name`). Accepts `actions` prop for page-specific buttons (Regenerate on Generator page). `position: sticky; top: 0`. Removed `<h1 className="app-title">` from all 6 pages and `panel-header` wrappers where they only held the title. Mobile: `.app-header-title` stacks + Regenerate goes full-width.
 - **`descriptionLayout.js` utility** — `buildHookBlockMaps(hookBlocks)` and `makeLayoutLabelResolver(...)` extracted from `LongDescriptionSettings` and `ShortsDescriptionSettings`. Both files had identical derivations for `allHookBlockLayoutKeys`, `hookBlockLabelMap`, `layoutKeyToBlockKey`, and `getLayoutBlockLabel`. Now shared from `src/utils/descriptionLayout.js`.
 - **`detectItemType` extracted to `customBlocks.js`** — was duplicated in `AdvancedDescriptionFields.jsx` and `StructuredListEditor.jsx`. Now a shared export alongside `isListBlock`/`isTextBlock`.
@@ -54,9 +57,10 @@ Nothing active — picking next feature.
 
 ## Next Recommended Tasks
 
-1. **Queue-hidden indicator in Todo rows** — show `[hidden]` badge on Todo items whose entry has `excludeFromRandomizer: true`.
-2. **Todo status badges in Saved Library** — show the entry's `todo.status` inline in `SavedLibraryItem`.
-3. **Storage cleanup** (low urgency, after a few stable sessions):
+1. **`originalGenre` Stage 3** — contrast hooks engine: a hook group that fires conditionally when `originalGenre` is set AND non-faithful transformation tags are active (e.g. `"{originalGenre} classic gets the {transformation} treatment"`). Needs new logic in `generateShortHooks.js`.
+2. **Queue-hidden indicator in Todo rows** — show `[hidden]` badge on Todo items whose entry has `excludeFromRandomizer: true`.
+3. **Todo status badges in Saved Library** — show the entry's `todo.status` inline in `SavedLibraryItem`.
+4. **Storage cleanup** (low urgency, after a few stable sessions):
    - Remove legacy key capture/restore from `appBackup.js`
    - Remove `storageMigration.js` and its `window.*` exposure in `App.jsx`
 

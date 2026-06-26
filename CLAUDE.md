@@ -123,6 +123,8 @@ src/
 
 **Storage is sensitive.** Changing storage casually can break saved entries, queues, todos, backup import/export.
 
+**`handleSaveEntry` / `handleLoadEntry` have explicit field lists.** Adding a new `formData` field does NOT automatically persist it per-entry — you must add it to both functions in `useSavedEntries.js`. Fields currently saved/loaded: `artist`, `song`, `signalNumber`, `originalYear`, `originalGenre`, `useCustomArtistShort`, `artistShort`, `transformationTags`, `customHashtags`, `customCta`, `songBlockOverrides`, `excludeFromRandomizer`, `todo`. `videoType` is intentionally omitted (session/UI state). `changesMade`/`extraVibeNote` are reserved but unused.
+
 **Laptop is source of truth.** Desktop sync testing is incomplete.
 
 **Tag system is deeply connected.** Tags affect titles, descriptions, hooks, hashtags, usage tracking.
@@ -224,12 +226,14 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 # Current Focus
 
-No active focus. Recent session: refactoring + comments pass, sticky `AppHeader`, shared description layout utilities.
+Recent session: `originalGenre` field (Stage 1), save/load audit, `useCustomArtistShort` Long-mode fix.
 
 ---
 
 ## Other Active Goals
 
+- **`originalGenre` Stage 2** — template authoring only, no code. Write faithful hooks using `{originalGenre}` + `{year}` in Project Settings → Blocks → Hook Blocks (e.g. `"The best {originalGenre} song of {year}"`).
+- **`originalGenre` Stage 3** — contrast hooks engine: conditional hook group fires when `originalGenre` is set AND non-faithful tags are active. New logic in `generateShortHooks.js`.
 - Queue-hidden indicator in Todo rows
 - Todo status badges in Saved Library
 - Saved Library Todo filtering
