@@ -184,7 +184,8 @@ function buildGenericTitles(formData, config, isShorts, artistFull, artistShortF
       .replace('{num}',    formData.signalNumber || 'XX')
       .replace('{artist}', useShort ? artistShortFinal : artistFull)
       .replace('{song}',   formData.song         || '[Song Name]')
-      .replace('{year}',   formData.originalYear || '');
+      .replace('{year}',   formData.originalYear  || '')
+      .replace('{originalGenre}', formData.originalGenre || '');
 
     const text = isShorts
       ? `${shortsPrefix}${baseTitle}${shortsSuffix}`

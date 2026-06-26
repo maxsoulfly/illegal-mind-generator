@@ -89,7 +89,7 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
       (isTextBlock(block) || isListBlock(block)),
   );
 
-  const textPlaceholders = ['{artist}', '{song}', '{tagLine}', ...linkKeys.map((key) => `{links.${key}}`)];
+  const textPlaceholders = ['{artist}', '{song}', '{year}', '{originalGenre}', '{tagLine}', ...linkKeys.map((key) => `{links.${key}}`)];
 
   function updateOverride(key, value) {
     setFormData((prev) => ({

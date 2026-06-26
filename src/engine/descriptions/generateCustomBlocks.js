@@ -41,6 +41,7 @@ function renderTextTemplate(text, projectConfig, formData, tagLine) {
     .replace(/\{artist\}/g, formData.artist || '')
     .replace(/\{song\}/g, formData.song || '')
     .replace(/\{year\}/g, formData.originalYear || '')
+    .replace(/\{originalGenre\}/g, formData.originalGenre || '')
     .replace(/\{tagLine\}/g, tagLine);
 }
 

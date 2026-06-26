@@ -54,6 +54,9 @@ export default function useInputFormLogic({
 
   useEffect(() => {
     if (!formData.useCustomArtistShort) return;
+    // Only auto-fill when the field is empty — preserves custom values on
+    // entry load and after manual edits.
+    if (formData.artistShort) return;
 
     const words = (formData.artist || '').trim().split(' ').filter(Boolean);
     let short = formData.artist || 'ARTIST';
@@ -66,7 +69,7 @@ export default function useInputFormLogic({
       ...prev,
       artistShort: short.toUpperCase(),
     }));
-  }, [formData.artist, formData.useCustomArtistShort, setFormData]);
+  }, [formData.artist, formData.useCustomArtistShort, formData.artistShort, setFormData]);
 
   useEffect(() => {
     const allowedTags = visibleTagNamesKey.split('|');

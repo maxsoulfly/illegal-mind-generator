@@ -56,6 +56,8 @@ export default function TextBlockEditor({
   const placeholders = [
     '{artist}',
     '{song}',
+    '{year}',
+    '{originalGenre}',
     '{tagLine}',
     ...linkKeys.map((key) => `{links.${key}}`),
   ];
