@@ -1,6 +1,7 @@
 import TitlePrefixSuffixSection from './TitlePrefixSuffixSection';
 import TitleTransformationSection from './TitleTransformationSection';
 import LabelSliderRow from '../../ui/LabelSliderRow';
+import IconButton from '../../ui/IconButton';
 
 // Card for title generation settings: hook mixing, prefix/suffix, transformation.
 // Follows the same visual structure as ShortHookCard (tag-card / tag-card-header).
@@ -27,14 +28,7 @@ export default function TitleGenerationCard({ titleConfig, onUpdate, onReset }) 
       <header className="tag-card-header">
         <h3>Generation</h3>
 
-        <button
-          type="button"
-          className="tag-reset-button"
-          title="Reset generation settings to defaults"
-          onClick={onReset}
-        >
-          ↺
-        </button>
+        <IconButton icon="↺" title="Reset generation settings to defaults" onClick={onReset} />
       </header>
 
       <LabelSliderRow
