@@ -14,6 +14,7 @@ export default function TemplateGroupCard({
   countLabel = 'templates',
   initialCollapsed = false,
   sliderConfig,
+  children,
 }) {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
 
@@ -50,6 +51,7 @@ export default function TemplateGroupCard({
           )}
           <span className="tag-status">{templates.length} {countLabel}</span>
           {subtitle && <p className="tag-category">{subtitle}</p>}
+          {children}
           <HookTemplateEditor
             templates={templates}
             onUpdateTemplates={onUpdateTemplates}

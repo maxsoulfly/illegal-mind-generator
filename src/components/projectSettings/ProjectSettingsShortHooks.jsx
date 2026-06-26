@@ -28,6 +28,15 @@ export default function ProjectSettingsShortHooks({
     updateProjectOverride({ shortHookTypes: remaining });
   }
 
+  function updateHookTypeFlags(hookType, hookConfig, flagUpdates) {
+    updateProjectOverride({
+      shortHookTypes: {
+        ...(projectSettingsOverrides.shortHookTypes || {}),
+        [hookType]: { ...hookConfig, ...flagUpdates },
+      },
+    });
+  }
+
   return (
     <section>
       <h2 className="panel-title">Shorts Hooks</h2>
@@ -42,6 +51,9 @@ export default function ProjectSettingsShortHooks({
               updateHookTypeTemplates(hookType, hookConfig, newTemplates)
             }
             onReset={() => resetHookType(hookType)}
+            onUpdateFlags={(flagUpdates) =>
+              updateHookTypeFlags(hookType, hookConfig, flagUpdates)
+            }
             highlightText={hookTarget?.hookType === hookType ? hookTarget.sourceText : null}
           />
         ))}
