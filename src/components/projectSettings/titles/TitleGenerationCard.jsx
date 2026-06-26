@@ -24,7 +24,7 @@ export default function TitleGenerationCard({ titleConfig, onUpdate, onReset }) 
   const count = t.count ?? 5;
 
   return (
-    <article className="tag-card">
+    <article className="tag-card tag-card--settings">
       <header className="tag-card-header">
         <h3>Generation</h3>
 

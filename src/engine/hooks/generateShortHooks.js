@@ -10,8 +10,12 @@ function resolveDecade(transformationTags = []) {
   return 'Classic';
 }
 
-function resolvePrimaryTag(transformationTags = []) {
-  return transformationTags[0] || 'cover';
+function resolvePrimaryTag(transformationTags = [], config = {}) {
+  const count = Math.max(1, config.count || 1);
+  const order = config.order || 'selection';
+  const separator = config.separator ?? ' & ';
+  const pool = order === 'random' ? shuffleArray([...transformationTags]) : [...transformationTags];
+  return pool.slice(0, count).join(separator) || 'cover';
 }
 
 function shuffleArray(array) {
@@ -24,9 +28,9 @@ function pickOneGenre(str) {
   return parts[Math.floor(Math.random() * parts.length)] || '';
 }
 
-function fillHookTemplate(template, formData, transformation = '') {
+function fillHookTemplate(template, formData, transformation = '', primaryTagConfig = {}) {
   const decade = resolveDecade(formData.transformationTags);
-  const primaryTag = resolvePrimaryTag(formData.transformationTags);
+  const primaryTag = resolvePrimaryTag(formData.transformationTags, primaryTagConfig);
   const currentYear = new Date().getFullYear();
 
   const artist = (formData.useCustomArtistShort && formData.artistShort)
@@ -46,9 +50,9 @@ function fillHookTemplate(template, formData, transformation = '') {
     .replaceAll('{transformation}', transformation);
 }
 
-function createBaseHook(template, type, formData, transformation) {
+function createBaseHook(template, type, formData, transformation, primaryTagConfig) {
   return {
-    text: fillHookTemplate(template, formData, transformation),
+    text: fillHookTemplate(template, formData, transformation, primaryTagConfig),
     sourceText: template,
     sourceType: 'base',
     sourceTag: '',
@@ -56,9 +60,9 @@ function createBaseHook(template, type, formData, transformation) {
   };
 }
 
-function createTagHook(template, type, tag, formData, transformation) {
+function createTagHook(template, type, tag, formData, transformation, primaryTagConfig) {
   return {
-    text: fillHookTemplate(template, formData, transformation),
+    text: fillHookTemplate(template, formData, transformation, primaryTagConfig),
     sourceText: template,
     sourceType: 'tag',
     sourceTag: tag,
@@ -66,14 +70,14 @@ function createTagHook(template, type, tag, formData, transformation) {
   };
 }
 
-function getTagShortHooksForType(type, formData, projectConfig, transformation) {
+function getTagShortHooksForType(type, formData, projectConfig, transformation, primaryTagConfig) {
   const selectedTags = formData.transformationTags || [];
 
   return selectedTags.flatMap((tag) => {
     const tagHooks = projectConfig.tags?.[tag]?.shortHooks?.[type] || [];
 
     return tagHooks.map((template) =>
-      createTagHook(template, type, tag, formData, transformation),
+      createTagHook(template, type, tag, formData, transformation, primaryTagConfig),
     );
   });
 }
@@ -89,7 +93,8 @@ export function generateShortHooks(formData, projectConfig) {
   const isFaithful = (formData.transformationTags || []).includes('faithful');
   const hasGenre = !!(formData.originalGenre?.trim());
 
-  // Resolved once — transformation is stable per generation call.
+  // Resolved once per generation call — stable values for all hook templates.
+  const primaryTagConfig = projectConfig.title?.primaryTag || {};
   const transformation = resolveTransformation(formData, projectConfig);
 
   return Object.entries(hookTypes)
@@ -100,16 +105,16 @@ export function generateShortHooks(formData, projectConfig) {
     })
     .map(([type, hookConfig]) => {
       const baseHooks = (hookConfig.templates || []).map((template) =>
-        createBaseHook(template, type, formData, transformation),
+        createBaseHook(template, type, formData, transformation, primaryTagConfig),
       );
 
-      const tagHooks = getTagShortHooksForType(type, formData, projectConfig, transformation);
+      const tagHooks = getTagShortHooksForType(type, formData, projectConfig, transformation, primaryTagConfig);
 
       const hooks = shuffleArray([...baseHooks, ...tagHooks])
         .slice(0, 2)
         .map((hook) => ({
           ...hook,
-          text: `${prefixEnabled ? fillHookTemplate(prefix, formData, transformation) : ''}${hook.text}${suffixEnabled ? fillHookTemplate(suffix, formData, transformation) : ''}`,
+          text: `${prefixEnabled ? fillHookTemplate(prefix, formData, transformation, primaryTagConfig) : ''}${hook.text}${suffixEnabled ? fillHookTemplate(suffix, formData, transformation, primaryTagConfig) : ''}`,
         }));
 
       return {

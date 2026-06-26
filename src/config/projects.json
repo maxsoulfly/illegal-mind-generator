@@ -14,6 +14,7 @@
       "shortsPrefix": "",
       "shortsSuffix": "",
       "shortHookSuffix": " // [SIGNAL {num}]",
+      "primaryTag": { "count": 1, "order": "selection", "separator": " & " },
 
       "templates": {
         "standard": [
@@ -798,6 +799,7 @@
       "shortsPrefix": "",
       "shortsSuffix": "",
       "shortHookSuffix": "",
+      "primaryTag": { "count": 1, "order": "selection", "separator": " & " },
       "templates": {
         "standard": [
           "{artist} - {song} // {transformation}",

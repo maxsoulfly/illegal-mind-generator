@@ -46,12 +46,19 @@ export function renderStructuredBlock(block, links = {}) {
 // override) and substitutes basic placeholders. Used as a value by
 // renderTextTemplate and fillHookTemplate — NOT called recursively.
 export function resolveTransformation(formData, projectConfig, tagLine = '') {
+  const ptConfig = projectConfig?.title?.primaryTag || {};
+  const count = Math.max(1, ptConfig.count || 1);
+  const order = ptConfig.order || 'selection';
+  const separator = ptConfig.separator ?? ' & ';
+  const tags = formData.transformationTags || [];
+  const pool = order === 'random' ? [...tags].sort(() => Math.random() - 0.5) : [...tags];
+  const primaryTag = pool.slice(0, count).join(separator) || '';
+
   const overrides = formData.songBlockOverrides || {};
   const override = overrides.transformation?.trim();
   const templates = projectConfig?.description?.templates?.long?.transformationBlock || [];
   const template = override || templates[Math.floor(Math.random() * templates.length)] || '';
 
-  const primaryTag = (formData.transformationTags || [])[0] || '';
   return template
     .replace(/\{primaryTag\}/g, primaryTag)
     .replace(/\{artist\}/g, formData.artist || '')

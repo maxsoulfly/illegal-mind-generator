@@ -165,10 +165,10 @@ svg {
 }
 
 .app-header {
-  position  : sticky;
-  top       : 0;
-  z-index   : 100;
-  background: var(--color-bg-page);
+  position      : sticky;
+  top           : 0;
+  z-index       : 100;
+  background    : var(--color-bg-page);
   padding-bottom: var(--space-6);
 }
 
@@ -232,11 +232,11 @@ svg {
 
 .form-row {
   display: flex;
-  gap: var(--space-4);
+  gap    : var(--space-4);
 }
 
 .form-row .form-group {
-  flex: 1;
+  flex         : 1;
   margin-bottom: 0;
 }
 
@@ -277,13 +277,11 @@ input[type="range"] {
   appearance        : none;
   flex              : 1;
   height            : 4px;
-  background        : linear-gradient(
-    to right,
-    var(--color-text-accent)  0%,
-    var(--color-text-accent)  var(--val, 0%),
-    var(--color-border-soft)  var(--val, 0%),
-    var(--color-border-soft)  100%
-  );
+  background        : linear-gradient(to right,
+      var(--color-text-accent) 0%,
+      var(--color-text-accent) var(--val, 0%),
+      var(--color-border-soft) var(--val, 0%),
+      var(--color-border-soft) 100%);
   border-radius: 2px;
   cursor       : pointer;
   outline      : none;
@@ -1217,6 +1215,10 @@ input[type="range"]::-moz-range-progress {
   min-width    : 0;
 }
 
+.tag-card--settings {
+  background: var(--color-bg-panel);
+}
+
 .tag-card:hover {
   border-color: var(--color-border-hover);
 }
@@ -1616,9 +1618,9 @@ input[type="range"]::-moz-range-progress {
 }
 
 .links-editor-badges .form-select {
-  width      : auto;
+  width        : auto;
   margin-bottom: 0;
-  flex       : 0 0 auto;
+  flex         : 0 0 auto;
 }
 
 .hook-block-lines-row input[type="range"] {
@@ -1664,10 +1666,10 @@ input[type="range"]::-moz-range-progress {
 }
 
 .move-controls .tag-reset-button {
-  padding   : 0;
-  width     : var(--space-7);
-  height    : var(--space-7);
-  min-height: 0;
+  padding    : 0;
+  width      : var(--space-7);
+  height     : var(--space-7);
+  min-height : 0;
   margin-left: 0;
 }
 
@@ -1738,11 +1740,11 @@ input[type="range"]::-moz-range-progress {
 }
 
 .list-block-add-row {
-  display     : flex;
-  flex-wrap   : wrap;
-  align-items : center;
-  gap         : var(--space-2);
-  margin-top  : var(--space-3);
+  display    : flex;
+  flex-wrap  : wrap;
+  align-items: center;
+  gap        : var(--space-2);
+  margin-top : var(--space-3);
 }
 
 .list-block-add-row .form-input {
@@ -1751,9 +1753,9 @@ input[type="range"]::-moz-range-progress {
 }
 
 .list-block-add-row .form-select {
-  width      : auto;
+  width        : auto;
   margin-bottom: 0;
-  flex       : 0 0 auto;
+  flex         : 0 0 auto;
 }
 
 .placeholder-field {
@@ -1761,19 +1763,19 @@ input[type="range"]::-moz-range-progress {
 }
 
 .placeholder-suggestions {
-  position      : absolute;
-  top           : 100%;
-  left          : 0;
-  right         : 0;
-  z-index       : 20;
-  margin-top    : var(--space-1);
-  max-height    : 12rem;
-  overflow-y    : auto;
-  background    : var(--color-bg-input);
-  border        : 1px solid var(--color-border-hover);
-  border-radius : var(--radius-md);
-  list-style    : none;
-  padding       : var(--space-1) 0;
+  position     : absolute;
+  top          : 100%;
+  left         : 0;
+  right        : 0;
+  z-index      : 20;
+  margin-top   : var(--space-1);
+  max-height   : 12rem;
+  overflow-y   : auto;
+  background   : var(--color-bg-input);
+  border       : 1px solid var(--color-border-hover);
+  border-radius: var(--radius-md);
+  list-style   : none;
+  padding      : var(--space-1) 0;
 }
 
 .placeholder-suggestion {
@@ -2151,10 +2153,10 @@ input[type="range"]::-moz-range-progress {
 }
 
 .uikit-intro {
-  margin        : 0 0 var(--space-7);
-  color         : var(--color-text-soft);
-  font-size     : var(--font-size-label);
-  line-height   : var(--line-height-base);
+  margin     : 0 0 var(--space-7);
+  color      : var(--color-text-soft);
+  font-size  : var(--font-size-label);
+  line-height: var(--line-height-base);
 }
 
 .uikit-section {
@@ -2172,9 +2174,9 @@ input[type="range"]::-moz-range-progress {
 }
 
 .uikit-section-desc {
-  margin    : var(--space-2) 0 var(--space-4);
-  color     : var(--color-text-muted);
-  font-size : 13px;
+  margin     : var(--space-2) 0 var(--space-4);
+  color      : var(--color-text-muted);
+  font-size  : 13px;
   line-height: var(--line-height-base);
 }
 
@@ -2207,8 +2209,8 @@ input[type="range"]::-moz-range-progress {
 }
 
 .uikit-example-props {
-  color    : var(--color-text-muted-3);
-  font-size: 12px;
+  color      : var(--color-text-muted-3);
+  font-size  : 12px;
   font-family: var(--font-mono);
 }
 
@@ -2220,8 +2222,8 @@ input[type="range"]::-moz-range-progress {
 }
 
 .uikit-example-usage {
-  margin    : var(--space-4) 0 0;
-  color     : var(--color-text-muted);
-  font-size : 12px;
+  margin     : var(--space-4) 0 0;
+  color      : var(--color-text-muted);
+  font-size  : 12px;
   line-height: var(--line-height-base);
 }
