@@ -75,7 +75,6 @@ export default function UIKitPage() {
 
   return (
     <div className="app-shell uikit-page">
-      <h1 className="app-title">UIKit</h1>
       <p className="uikit-intro">
         Living component catalog. Reuse these before creating anything new. Every
         pattern here exists in production — find it here first.

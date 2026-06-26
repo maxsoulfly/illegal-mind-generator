@@ -164,8 +164,23 @@ svg {
   width    : 100%;
 }
 
+.app-header {
+  position  : sticky;
+  top       : 0;
+  z-index   : 100;
+  background: var(--color-bg-page);
+  padding-bottom: var(--space-6);
+}
+
+.app-header-title {
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  gap            : var(--space-5);
+}
+
 .app-title {
-  margin        : var(--space-0) 0 var(--space-8);
+  margin        : var(--space-0);
   color         : var(--color-text-accent);
   font-size     : clamp(1.5rem, 2.6vw, 2.4rem);
   letter-spacing: var(--letter-spacing-lg);
@@ -2001,17 +2016,12 @@ input[type="range"]::-moz-range-progress {
     padding      : var(--space-5);
   }
 
-  .app-shell>.panel-header {
-    align-items   : stretch;
+  .app-header-title {
     flex-direction: column;
+    align-items   : stretch;
   }
 
-  .app-shell>.panel-header .regenerate-row {
-    justify-content: stretch;
-    margin-bottom  : 0;
-  }
-
-  .app-shell>.panel-header .button-primary {
+  .app-header-title .button-primary {
     width: 100%;
   }
 

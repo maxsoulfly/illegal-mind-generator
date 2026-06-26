@@ -20,10 +20,6 @@ export default function TodoPage({
 
   return (
     <section className="page-panel">
-      <div className="panel-header">
-        <h1 className="app-title">Todo — {projectConfig.name}</h1>
-      </div>
-      
       <TodoBulkAdd
         savedEntries={savedEntries}
         onAddEntries={onAddEntries}

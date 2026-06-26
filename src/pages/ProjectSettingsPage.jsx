@@ -35,10 +35,6 @@ export default function ProjectSettingsPage({
 
   return (
     <section className="page-panel">
-      <div className="panel-header">
-        <h1 className="app-title">Project Settings — {projectConfig.name}</h1>
-      </div>
-
       <div className="tag-filters">
         {PROJECT_SETTING_SECTIONS.map((section) => (
           <button

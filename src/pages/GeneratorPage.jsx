@@ -88,19 +88,6 @@ export default function GeneratorPage({
   };
   return (
     <>
-      <div className="panel-header">
-        <h1 className="app-title">Generator — {projectConfig.name}</h1>
-        <div className="regenerate-row">
-          <button
-            type="button"
-            className="button-primary"
-            onClick={handleRegenerate}
-          >
-            Regenerate
-          </button>
-        </div>
-      </div>
-
       <SavedLibrary
         savedEntries={savedEntries}
         onLoadEntry={handleLoadEntryFromLibrary}

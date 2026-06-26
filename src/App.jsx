@@ -10,7 +10,7 @@ import buildResolvedProjectConfig from './utils/buildResolvedProjectConfig';
 import useTagOverrides from './hooks/useTagOverrides';
 import useSavedEntries from './hooks/useSavedEntries';
 
-import AppMenu from './components/AppMenu';
+import AppHeader from './components/AppHeader';
 
 import TagLibraryPage from './pages/TagLibraryPage';
 import GeneratorPage from './pages/GeneratorPage';
@@ -128,14 +128,20 @@ function App() {
 
   return (
     <div className="app-shell">
-      {/* Global navigation and project selector */}
-      <AppMenu
+      <AppHeader
         activePage={activePage}
         setActivePage={setActivePage}
         projectId={projectId}
         setProjectId={handleProjectChange}
         projects={projects}
         projectConfig={resolvedProjectConfig}
+        actions={
+          activePage === 'generator' ? (
+            <button type="button" className="button-primary" onClick={handleRegenerate}>
+              Regenerate
+            </button>
+          ) : undefined
+        }
       />
       {/* Main generator workflow */}
       {activePage === 'generator' && (

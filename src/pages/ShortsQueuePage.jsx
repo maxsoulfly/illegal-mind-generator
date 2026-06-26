@@ -20,7 +20,6 @@ function ShortsQueuePage({
   return (
     <section className="page-panel">
       <div className="panel-header">
-        <h1 className="app-title">Shorts Queue — {projectConfig.name}</h1>
         <div className="regenerate-row">
           <button
             type="button"
