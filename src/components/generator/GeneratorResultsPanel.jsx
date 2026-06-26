@@ -44,6 +44,7 @@ function GeneratorResultsPanel({
           togglePanel={togglePanel}
           shortHooks={generatedOutput.shortHooks}
           videoType={formData.videoType}
+          titleCount={projectConfig.title?.count ?? 5}
           onOpenSourceTag={onOpenSourceTag}
           onOpenSourceHook={onOpenSourceHook}
           onOpenSourceTemplate={onOpenSourceTemplate}

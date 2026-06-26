@@ -1,13 +1,11 @@
 import ToggleButton from '../ui/ToggleButton';
 import ShortHookTitles from './ShortHookTitles';
 import GeneratedTitlePair from './GeneratedTitlePair';
-const SHORTS_TITLE_LIMIT = 5;
-
 function shuffleArray(array) {
   return [...array].sort(() => Math.random() - 0.5);
 }
 
-function buildMixedShortTitles(shortHooks = []) {
+function buildMixedShortTitles(shortHooks = [], limit = 5) {
   return shuffleArray(
     shortHooks.flatMap((group) =>
       group.hooks.map((hook) => ({
@@ -15,7 +13,7 @@ function buildMixedShortTitles(shortHooks = []) {
         hookTypeLabel: group.label,
       })),
     ),
-  ).slice(0, SHORTS_TITLE_LIMIT);
+  ).slice(0, limit);
 }
 function TitlesPanel({
   titles,
@@ -24,6 +22,7 @@ function TitlesPanel({
   togglePanel,
   shortHooks,
   videoType,
+  titleCount,
   onOpenSourceTag,
   onOpenSourceHook,
   onOpenSourceTemplate,
@@ -31,7 +30,7 @@ function TitlesPanel({
   useHooksForLongTitles,
   onToggleHooksForLongTitles,
 }) {
-  const mixedShortTitles = buildMixedShortTitles(shortHooks);
+  const mixedShortTitles = buildMixedShortTitles(shortHooks, titleCount ?? 5);
   const isShorts = videoType === 'Shorts';
 
   return (
