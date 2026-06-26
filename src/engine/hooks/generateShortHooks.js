@@ -16,6 +16,12 @@ function shuffleArray(array) {
   return [...array].sort(() => Math.random() - 0.5);
 }
 
+function pickOneGenre(str) {
+  if (!str) return '';
+  const parts = str.split(',').map((s) => s.trim()).filter(Boolean);
+  return parts[Math.floor(Math.random() * parts.length)] || '';
+}
+
 function fillHookTemplate(template, formData) {
   const decade = resolveDecade(formData.transformationTags);
   const primaryTag = resolvePrimaryTag(formData.transformationTags);
@@ -34,7 +40,7 @@ function fillHookTemplate(template, formData) {
     .replaceAll('{years}', formData.years || DEFAULT_YEARS)
     .replaceAll('{currentYear}', currentYear)
     .replaceAll('{primaryTag}', primaryTag)
-    .replaceAll('{originalGenre}', formData.originalGenre || '');
+    .replaceAll('{originalGenre}', pickOneGenre(formData.originalGenre));
 }
 
 function createBaseHook(template, type, formData) {

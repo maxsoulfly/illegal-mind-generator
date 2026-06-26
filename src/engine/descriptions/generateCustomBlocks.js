@@ -4,6 +4,12 @@ function replaceLinkPlaceholders(template, links = {}) {
   });
 }
 
+function pickOneGenre(str) {
+  if (!str) return '';
+  const parts = str.split(',').map((s) => s.trim()).filter(Boolean);
+  return parts[Math.floor(Math.random() * parts.length)] || '';
+}
+
 function pickRandomItem(items) {
   return [items[Math.floor(Math.random() * items.length)]];
 }
@@ -41,7 +47,7 @@ function renderTextTemplate(text, projectConfig, formData, tagLine) {
     .replace(/\{artist\}/g, formData.artist || '')
     .replace(/\{song\}/g, formData.song || '')
     .replace(/\{year\}/g, formData.originalYear || '')
-    .replace(/\{originalGenre\}/g, formData.originalGenre || '')
+    .replace(/\{originalGenre\}/g, pickOneGenre(formData.originalGenre))
     .replace(/\{tagLine\}/g, tagLine);
 }
 

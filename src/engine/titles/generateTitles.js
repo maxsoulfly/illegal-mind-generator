@@ -117,13 +117,19 @@ function getWeightedTemplates(formData = {}, config = {}) {
   });
 }
 
+function pickOneGenre(str) {
+  if (!str) return '';
+  const parts = str.split(',').map((s) => s.trim()).filter(Boolean);
+  return parts[Math.floor(Math.random() * parts.length)] || '';
+}
+
 function fillTemplate(template, values) {
   return template
     .replace('{num}', values.signalNumber || 'XX')
     .replace('{artist}', values.artist)
     .replace('{song}', values.song)
     .replace('{transformation}', values.transformation)
-    .replace('{originalGenre}', values.originalGenre || '');
+    .replace('{originalGenre}', pickOneGenre(values.originalGenre));
 }
 
 // Builds the pool of transformation-based titles (same logic as before).
@@ -185,7 +191,7 @@ function buildGenericTitles(formData, config, isShorts, artistFull, artistShortF
       .replace('{artist}', useShort ? artistShortFinal : artistFull)
       .replace('{song}',   formData.song         || '[Song Name]')
       .replace('{year}',   formData.originalYear  || '')
-      .replace('{originalGenre}', formData.originalGenre || '');
+      .replace('{originalGenre}', pickOneGenre(formData.originalGenre));
 
     const text = isShorts
       ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
