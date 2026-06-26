@@ -1,3 +1,5 @@
+import { resolveTransformation } from '../descriptions/generateCustomBlocks';
+
 const DEFAULT_YEARS = 'a few';
 
 function resolveDecade(transformationTags = []) {
@@ -22,7 +24,7 @@ function pickOneGenre(str) {
   return parts[Math.floor(Math.random() * parts.length)] || '';
 }
 
-function fillHookTemplate(template, formData) {
+function fillHookTemplate(template, formData, transformation = '') {
   const decade = resolveDecade(formData.transformationTags);
   const primaryTag = resolvePrimaryTag(formData.transformationTags);
   const currentYear = new Date().getFullYear();
@@ -40,12 +42,13 @@ function fillHookTemplate(template, formData) {
     .replaceAll('{years}', formData.years || DEFAULT_YEARS)
     .replaceAll('{currentYear}', currentYear)
     .replaceAll('{primaryTag}', primaryTag)
-    .replaceAll('{originalGenre}', pickOneGenre(formData.originalGenre));
+    .replaceAll('{originalGenre}', pickOneGenre(formData.originalGenre))
+    .replaceAll('{transformation}', transformation);
 }
 
-function createBaseHook(template, type, formData) {
+function createBaseHook(template, type, formData, transformation) {
   return {
-    text: fillHookTemplate(template, formData),
+    text: fillHookTemplate(template, formData, transformation),
     sourceText: template,
     sourceType: 'base',
     sourceTag: '',
@@ -53,9 +56,9 @@ function createBaseHook(template, type, formData) {
   };
 }
 
-function createTagHook(template, type, tag, formData) {
+function createTagHook(template, type, tag, formData, transformation) {
   return {
-    text: fillHookTemplate(template, formData),
+    text: fillHookTemplate(template, formData, transformation),
     sourceText: template,
     sourceType: 'tag',
     sourceTag: tag,
@@ -63,14 +66,14 @@ function createTagHook(template, type, tag, formData) {
   };
 }
 
-function getTagShortHooksForType(type, formData, projectConfig) {
+function getTagShortHooksForType(type, formData, projectConfig, transformation) {
   const selectedTags = formData.transformationTags || [];
 
   return selectedTags.flatMap((tag) => {
     const tagHooks = projectConfig.tags?.[tag]?.shortHooks?.[type] || [];
 
     return tagHooks.map((template) =>
-      createTagHook(template, type, tag, formData),
+      createTagHook(template, type, tag, formData, transformation),
     );
   });
 }
@@ -86,6 +89,9 @@ export function generateShortHooks(formData, projectConfig) {
   const isFaithful = (formData.transformationTags || []).includes('faithful');
   const hasGenre = !!(formData.originalGenre?.trim());
 
+  // Resolved once — transformation is stable per generation call.
+  const transformation = resolveTransformation(formData, projectConfig);
+
   return Object.entries(hookTypes)
     .filter(([, hookConfig]) => {
       if (isFaithful && hookConfig.excludeForFaithful) return false;
@@ -94,16 +100,16 @@ export function generateShortHooks(formData, projectConfig) {
     })
     .map(([type, hookConfig]) => {
       const baseHooks = (hookConfig.templates || []).map((template) =>
-        createBaseHook(template, type, formData),
+        createBaseHook(template, type, formData, transformation),
       );
 
-      const tagHooks = getTagShortHooksForType(type, formData, projectConfig);
+      const tagHooks = getTagShortHooksForType(type, formData, projectConfig, transformation);
 
       const hooks = shuffleArray([...baseHooks, ...tagHooks])
         .slice(0, 2)
         .map((hook) => ({
           ...hook,
-          text: `${prefixEnabled ? fillHookTemplate(prefix, formData) : ''}${hook.text}${suffixEnabled ? fillHookTemplate(suffix, formData) : ''}`,
+          text: `${prefixEnabled ? fillHookTemplate(prefix, formData, transformation) : ''}${hook.text}${suffixEnabled ? fillHookTemplate(suffix, formData, transformation) : ''}`,
         }));
 
       return {

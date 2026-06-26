@@ -42,13 +42,34 @@ export function renderStructuredBlock(block, links = {}) {
   return [title, items].filter(Boolean).join('\n');
 }
 
-export function renderTextTemplate(text, projectConfig, formData, tagLine) {
-  return replaceLinkPlaceholders(text, projectConfig.description.links)
+// Resolves {transformation}: picks a random project-level template (or per-song
+// override) and substitutes basic placeholders. Used as a value by
+// renderTextTemplate and fillHookTemplate — NOT called recursively.
+export function resolveTransformation(formData, projectConfig, tagLine = '') {
+  const overrides = formData.songBlockOverrides || {};
+  const override = overrides.transformation?.trim();
+  const templates = projectConfig?.description?.templates?.long?.transformationBlock || [];
+  const template = override || templates[Math.floor(Math.random() * templates.length)] || '';
+
+  const primaryTag = (formData.transformationTags || [])[0] || '';
+  return template
+    .replace(/\{primaryTag\}/g, primaryTag)
     .replace(/\{artist\}/g, formData.artist || '')
     .replace(/\{song\}/g, formData.song || '')
     .replace(/\{year\}/g, formData.originalYear || '')
     .replace(/\{originalGenre\}/g, pickOneGenre(formData.originalGenre))
     .replace(/\{tagLine\}/g, tagLine);
+}
+
+export function renderTextTemplate(text, projectConfig, formData, tagLine) {
+  const transformation = resolveTransformation(formData, projectConfig, tagLine);
+  return replaceLinkPlaceholders(text, projectConfig.description.links)
+    .replace(/\{artist\}/g, formData.artist || '')
+    .replace(/\{song\}/g, formData.song || '')
+    .replace(/\{year\}/g, formData.originalYear || '')
+    .replace(/\{originalGenre\}/g, pickOneGenre(formData.originalGenre))
+    .replace(/\{tagLine\}/g, tagLine)
+    .replace(/\{transformation\}/g, transformation);
 }
 
 // Merges the generic per-song block overrides with the legacy customCta

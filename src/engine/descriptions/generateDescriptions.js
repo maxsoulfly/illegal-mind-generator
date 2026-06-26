@@ -21,13 +21,19 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     selectedTags,
   );
 
+  // --- Song overrides (needed by intro, story, log, and dynamic hook blocks) ---
+  const songOverrides = getEffectiveSongOverrides(formData);
+
   // --- Intro block ---
-  const introBlock = pickRandom(
+  const introTemplate = pickRandom(
     projectConfig?.description.templates?.long?.introHook,
   );
+  const introOverride = songOverrides.introBlock?.trim();
+  const introBlock = introOverride
+    ? renderTextTemplate(introOverride, projectConfig, formData, tagPhrase)
+    : introTemplate;
 
   // --- Story block ---
-  const songOverrides = getEffectiveSongOverrides(formData);
 
   const storyTemplate = pickRandom(
     projectConfig?.description.templates?.long?.storyBlock,

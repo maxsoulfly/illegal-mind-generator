@@ -599,6 +599,14 @@
           "path": "shorts",
           "templateKey": "secondary",
           "descriptionLayoutKey": "secondary"
+        },
+        {
+          "key": "transformation",
+          "label": "Transformation",
+          "path": "long",
+          "templateKey": "transformationBlock",
+          "countMax": 1,
+          "countDefault": 1
         }
       ],
 
@@ -662,6 +670,14 @@
           "logBlock": [
             "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: {logNote}"
           ],
+          "transformationBlock": [
+            "{primaryTag} reconstruction",
+            "{originalGenre} pulled into {primaryTag} territory",
+            "{primaryTag} signal"
+          ],
+          "phraseBlockScopes": {
+            "transformation": "song"
+          },
           "reconstructedSignal": [],
           "statusLines": [
             "Atmospheric density: Critical.",
@@ -2056,6 +2072,14 @@
           "path": "shorts",
           "templateKey": "secondary",
           "descriptionLayoutKey": "secondary"
+        },
+        {
+          "key": "transformation",
+          "label": "Transformation",
+          "path": "long",
+          "templateKey": "transformationBlock",
+          "countMax": 1,
+          "countDefault": 1
         }
       ],
       "operatorStatuses": [],
@@ -2133,6 +2157,14 @@
             "This cover of \"{song}\" by {artist} was recorded as a full-band home studio version. {tagLine}."
           ],
           "logBlock": ["Production Note:\n {logNote}"],
+          "transformationBlock": [
+            "{primaryTag} take",
+            "modern {primaryTag} version",
+            "{primaryTag} reimagining"
+          ],
+          "phraseBlockScopes": {
+            "transformation": "song"
+          },
           "statusLines": [],
           "technicalLines": [
             "Mix: refined.",

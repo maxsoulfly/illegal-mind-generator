@@ -94,7 +94,7 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
   const songScopeHookBlocks = (projectConfig?.description?.hookBlocks || [])
     .filter((b) => !hardcodedPhraseKeys.has(b.key) && phraseBlockScopes[b.key] === 'song');
 
-  const textPlaceholders = ['{artist}', '{song}', '{year}', '{originalGenre}', '{tagLine}', ...linkKeys.map((key) => `{links.${key}}`)];
+  const textPlaceholders = ['{artist}', '{song}', '{year}', '{originalGenre}', '{tagLine}', '{transformation}', ...linkKeys.map((key) => `{links.${key}}`)];
 
   function updateOverride(key, value) {
     setFormData((prev) => ({
@@ -185,7 +185,8 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
       })}
 
       {songScopeHookBlocks.map((block) => {
-        const hasOverride = block.key in (formData.songBlockOverrides || {});
+        const overrideKey = block.descriptionLayoutKey ?? block.key;
+        const hasOverride = overrideKey in (formData.songBlockOverrides || {});
         return (
           <details key={block.key} className="tag-section">
             <summary>
@@ -195,15 +196,15 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
                   icon="↺"
                   title="Reset to project default"
                   stopPropagation
-                  onClick={() => clearOverride(block.key)}
+                  onClick={() => clearOverride(overrideKey)}
                 />
               )}
             </summary>
             <PlaceholderField
               multiline
               rows={3}
-              defaultValue={formData.songBlockOverrides?.[block.key] || ''}
-              onChange={(value) => updateOverride(block.key, value)}
+              defaultValue={formData.songBlockOverrides?.[overrideKey] || ''}
+              onChange={(value) => updateOverride(overrideKey, value)}
               placeholders={textPlaceholders}
               placeholder="Override for this song only. Leave blank to use the project default."
             />

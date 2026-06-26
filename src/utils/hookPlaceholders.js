@@ -12,4 +12,5 @@ export const HOOK_PLACEHOLDERS = [
   '{currentYear}',
   '{primaryTag}',
   '{originalGenre}',
+  '{transformation}',
 ];

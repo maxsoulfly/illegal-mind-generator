@@ -39,6 +39,10 @@ function mergeProjectOverrides(projectConfig, projectSettingsOverrides = {}) {
             ...(projectConfig.description?.templates?.long?.customBlocks || {}),
             ...(projectSettingsOverrides.description?.templates?.long?.customBlocks || {}),
           },
+          phraseBlockScopes: {
+            ...(projectConfig.description?.templates?.long?.phraseBlockScopes || {}),
+            ...(projectSettingsOverrides.description?.templates?.long?.phraseBlockScopes || {}),
+          },
         },
         shorts: {
           ...(projectConfig.description?.templates?.shorts || {}),
