@@ -84,9 +84,14 @@ export function generateShortHooks(formData, projectConfig) {
   const suffixEnabled = projectConfig.title?.shortsSuffixEnabled !== false;
 
   const isFaithful = (formData.transformationTags || []).includes('faithful');
+  const hasGenre = !!(formData.originalGenre?.trim());
 
   return Object.entries(hookTypes)
-    .filter(([, hookConfig]) => !(isFaithful && hookConfig.excludeForFaithful))
+    .filter(([, hookConfig]) => {
+      if (isFaithful && hookConfig.excludeForFaithful) return false;
+      if (hookConfig.requiresGenre && !hasGenre) return false;
+      return true;
+    })
     .map(([type, hookConfig]) => {
       const baseHooks = (hookConfig.templates || []).map((template) =>
         createBaseHook(template, type, formData),

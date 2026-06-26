@@ -57,10 +57,7 @@ Nothing active — picking next feature.
 
 ## Next Recommended Tasks
 
-1. **`originalGenre` Stage 3** — contrast hooks engine: a hook group that fires conditionally when `originalGenre` is set AND non-faithful transformation tags are active (e.g. `"{originalGenre} classic gets the {transformation} treatment"`). Needs new logic in `generateShortHooks.js`.
-2. **Queue-hidden indicator in Todo rows** — show `[hidden]` badge on Todo items whose entry has `excludeFromRandomizer: true`.
-3. **Todo status badges in Saved Library** — show the entry's `todo.status` inline in `SavedLibraryItem`.
-4. **Storage cleanup** (low urgency, after a few stable sessions):
+1. **Storage cleanup** (low urgency, after a few stable sessions):
    - Remove legacy key capture/restore from `appBackup.js`
    - Remove `storageMigration.js` and its `window.*` exposure in `App.jsx`
 

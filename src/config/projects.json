@@ -94,6 +94,17 @@
           "Past me vs current me",
           "Studio upgrade test: {song}"
         ]
+      },
+
+      "contrast": {
+        "label": "Contrast",
+        "excludeForFaithful": true,
+        "requiresGenre": true,
+        "templates": [
+          "A {originalGenre} classic, but {primaryTag}",
+          "What if this {originalGenre} track went {primaryTag}?",
+          "{originalGenre} energy, {primaryTag} execution"
+        ]
       }
     },
 
@@ -843,10 +854,22 @@
 
       "progress": {
         "label": "Progress",
+        "excludeForFaithful": true,
         "templates": [
           "Re-recording this after {years} years",
           "Past me vs current me",
           "Studio upgrade test: {song}"
+        ]
+      },
+
+      "contrast": {
+        "label": "Contrast",
+        "excludeForFaithful": true,
+        "requiresGenre": true,
+        "templates": [
+          "A {originalGenre} classic, but {primaryTag}",
+          "What if this {originalGenre} track went {primaryTag}?",
+          "{originalGenre} energy, {primaryTag} execution"
         ]
       }
     },
