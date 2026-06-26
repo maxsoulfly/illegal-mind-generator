@@ -50,13 +50,13 @@
     "semantic_hash": "a2a83474ce105b284b203676a596b431"
   },
   "src/components/input/AdvancedDescriptionFields.jsx": {
-    "mtime": 1782460400.9101124,
-    "ast_hash": "9b6d5668be1c4cb7256b0924acee31af",
+    "mtime": 1782463710.53008,
+    "ast_hash": "e7312042802c80ce807332743c269697",
     "semantic_hash": ""
   },
   "src/components/input/BasicSongFields.jsx": {
-    "mtime": 1782453892.461899,
-    "ast_hash": "87fdff093f5a7f4809c17e97cbb97e4e",
+    "mtime": 1782463547.7284348,
+    "ast_hash": "536d9b9ad4ffd0e4edd027315fbe34cc",
     "semantic_hash": ""
   },
   "src/components/input/InputFormActions.jsx": {
@@ -180,8 +180,8 @@
     "semantic_hash": ""
   },
   "src/components/projectSettings/blocks/TextBlockEditor.jsx": {
-    "mtime": 1782368945.2693028,
-    "ast_hash": "7a84ee2d1c9a0276a5902f5f64deaa80",
+    "mtime": 1782463703.6987057,
+    "ast_hash": "286bbe52cee1ea2bf6822abdb8c590e7",
     "semantic_hash": ""
   },
   "src/components/projectSettings/descriptions/LongDescriptionSettings.jsx": {
@@ -490,8 +490,8 @@
     "semantic_hash": ""
   },
   "src/constants/defaultFormData.js": {
-    "mtime": 1782013577.9212925,
-    "ast_hash": "ecb769e48d3a912c43a3f9f63349fcf0",
+    "mtime": 1782463511.5104918,
+    "ast_hash": "ee93cd730c299944e63fca5672072a5b",
     "semantic_hash": ""
   },
   "src/engine/descriptions/descriptionTagHelpers.js": {
@@ -505,8 +505,8 @@
     "semantic_hash": "e13aa5017478f48ed8bf64925922ffcf"
   },
   "src/engine/descriptions/generateCustomBlocks.js": {
-    "mtime": 1782013721.4752262,
-    "ast_hash": "a109303588b8592012b2ab7dab1774e1",
+    "mtime": 1782463653.2994354,
+    "ast_hash": "43c1e0d2d64d21541e74cd20e61d1cbf",
     "semantic_hash": ""
   },
   "src/engine/descriptions/generateDescriptions.js": {
@@ -535,9 +535,9 @@
     "semantic_hash": "0178def44d5823829e91c4f44192ca33"
   },
   "src/engine/hooks/generateShortHooks.js": {
-    "mtime": 1781107196.1891973,
-    "ast_hash": "22a180d51e677ecbea23c8a6089b8112",
-    "semantic_hash": "22a180d51e677ecbea23c8a6089b8112"
+    "mtime": 1782463526.9654086,
+    "ast_hash": "7d14ddaa323418a7a8b1422acf1d7cc0",
+    "semantic_hash": ""
   },
   "src/engine/prompts/generateHybridPrompt.js": {
     "mtime": 1777387017.5316744,
@@ -550,8 +550,8 @@
     "semantic_hash": ""
   },
   "src/engine/titles/generateTitles.js": {
-    "mtime": 1782380628.2811258,
-    "ast_hash": "629c8924ee6969f5ddeeb81b0bb70d11",
+    "mtime": 1782463648.4863048,
+    "ast_hash": "7c946a9edd2291d52f191a3628003b0c",
     "semantic_hash": ""
   },
   "src/hooks/useAppShellState.js": {
@@ -565,9 +565,9 @@
     "semantic_hash": ""
   },
   "src/hooks/useInputFormLogic.js": {
-    "mtime": 1779028492.5245166,
-    "ast_hash": "3fa11d4efe186721718c59e807afb504",
-    "semantic_hash": "3fa11d4efe186721718c59e807afb504"
+    "mtime": 1782464345.3100486,
+    "ast_hash": "7d2283838e2c5f20ef5927c65b0dd2a7",
+    "semantic_hash": ""
   },
   "src/hooks/useProjectOverrides.js": {
     "mtime": 1781072934.9714317,
@@ -575,9 +575,9 @@
     "semantic_hash": "623361920905f663393073ac0571873f"
   },
   "src/hooks/useSavedEntries.js": {
-    "mtime": 1781916921.4717386,
-    "ast_hash": "5f5af6ad7218a20231e7c4dd248589cf",
-    "semantic_hash": "5f5af6ad7218a20231e7c4dd248589cf"
+    "mtime": 1782464331.42633,
+    "ast_hash": "fa25970f4e642dc36030be94e5d682de",
+    "semantic_hash": ""
   },
   "src/hooks/useShortsQueue.js": {
     "mtime": 1781590157.3222113,
@@ -660,9 +660,9 @@
     "semantic_hash": ""
   },
   "src/utils/hookPlaceholders.js": {
-    "mtime": 1781620129.5730238,
-    "ast_hash": "46a65e1e47bace82efc5a9eb971bde82",
-    "semantic_hash": "46a65e1e47bace82efc5a9eb971bde82"
+    "mtime": 1782463521.5758405,
+    "ast_hash": "38b44f4bf94018f830961298452c42d3",
+    "semantic_hash": ""
   },
   "src/utils/storage.js": {
     "mtime": 1781592810.1415172,
@@ -735,8 +735,8 @@
     "semantic_hash": "2f78598160bfb12ab775831e0787b02a"
   },
   "CLAUDE.md": {
-    "mtime": 1782461811.5713837,
-    "ast_hash": "b3deecaec732900c0267963b4ca15ccd",
+    "mtime": 1782464932.7304811,
+    "ast_hash": "e8035799efac64e42fe06e2092c83021",
     "semantic_hash": ""
   },
   "README.md": {
@@ -755,8 +755,8 @@
     "semantic_hash": "b1af7c6209125b2f64ed33b9e4e21ee7"
   },
   "docs/current-context.md": {
-    "mtime": 1782461872.5555253,
-    "ast_hash": "c44a88407082b823a9b1aca543439697",
+    "mtime": 1782464889.7766008,
+    "ast_hash": "c23fa9c47acee702190686529ac74644",
     "semantic_hash": ""
   },
   "docs/data-model.md": {
