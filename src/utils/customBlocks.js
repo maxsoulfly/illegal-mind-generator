@@ -31,6 +31,13 @@ export function isTextBlock(value) {
   return Boolean(value) && typeof value === 'object' && typeof value.text === 'string';
 }
 
+// Fallback for blocks created before itemType was an explicit field:
+// infer from item shape rather than failing or defaulting to 'text'.
+export function detectItemType(block) {
+  if (block?.itemType === 'text' || block?.itemType === 'link') return block.itemType;
+  return (block?.items ?? []).some((item) => 'link' in item) ? 'link' : 'text';
+}
+
 export function prettifyBlockKey(key) {
   return key
     .replace(/Block$/, '')

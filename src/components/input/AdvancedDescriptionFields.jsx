@@ -3,14 +3,8 @@ import { useState } from 'react';
 import FormField from '../ui/FormField';
 import IconButton from '../ui/IconButton';
 import PlaceholderField from '../ui/PlaceholderField';
-import { isTextBlock, isListBlock, getBlockLabel } from '../../utils/customBlocks';
+import { isTextBlock, isListBlock, getBlockLabel, detectItemType } from '../../utils/customBlocks';
 
-function detectItemType(block) {
-  if (block?.itemType === 'text' || block?.itemType === 'link') return block.itemType;
-  // Fallback for blocks created before itemType was an explicit field:
-  // infer from item shape rather than failing or defaulting to 'text'.
-  return (block?.items ?? []).some((item) => 'link' in item) ? 'link' : 'text';
-}
 
 function SongListBlockEditor({ items: initialItems, itemType, onChange }) {
   const [items, setItems] = useState(() => initialItems);

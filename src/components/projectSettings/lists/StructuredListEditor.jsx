@@ -4,21 +4,13 @@ import FormSelect from '../../ui/FormSelect';
 import IconButton from '../../ui/IconButton';
 import ListItemRow from './ListItemRow';
 import BlockEditorCard from '../blocks/BlockEditorCard';
+import { detectItemType } from '../../../utils/customBlocks';
 
 const DISPLAY_MODE_OPTIONS = [
   { value: 'all', label: 'Show all items' },
   { value: 'random', label: 'Pick one randomly' },
 ];
 
-function detectItemType(blockData) {
-  if (blockData?.itemType === 'text' || blockData?.itemType === 'link') {
-    return blockData.itemType;
-  }
-
-  return (blockData?.items ?? []).some((item) => 'link' in item)
-    ? 'link'
-    : 'text';
-}
 
 export default function StructuredListEditor({
   label,
@@ -33,6 +25,7 @@ export default function StructuredListEditor({
   onRename,
   open,
 }) {
+  // Scoped per block label so multiple open editors don't share the same datalist.
   const linkSuggestionsId = `link-suggestions-${label.replace(/\s+/g, '-')}`;
   const [block, setBlock] = useState(() => ({
     title: blockData?.title ?? '',
@@ -40,7 +33,7 @@ export default function StructuredListEditor({
     target: blockData?.target ?? defaultTarget,
     isCore: blockData?.isCore ?? false,
     displayMode: blockData?.displayMode ?? 'all',
-    items: (blockData?.items ?? []).map((item, i) => ({ ...item, _id: i })),
+    items: (blockData?.items ?? []).map((item, i) => ({ ...item, _id: i })), // _id is a client-only React key, stripped before save
   }));
   const { title, scope, target, isCore, displayMode, items } = block;
 
@@ -55,7 +48,7 @@ export default function StructuredListEditor({
       title: next.title,
       items: next.items.map((item) => {
         const persisted = { ...item };
-        delete persisted._id;
+        delete persisted._id; // strip the client-only key before writing to storage
         return persisted;
       }),
       scope: next.scope,

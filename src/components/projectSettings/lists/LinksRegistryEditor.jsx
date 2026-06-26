@@ -57,6 +57,7 @@ export default function LinksRegistryEditor({
       />
       <div className="links-registry">
         {filteredLinks.map(([key, url]) => {
+          // base-only → no button; base+override → ↺ reset; override-only → × remove
           const isUserAdded = !(key in configLinks);
           const isOverridden = !isUserAdded && key in overrideLinks;
 
@@ -64,10 +65,10 @@ export default function LinksRegistryEditor({
             <div key={key} className="links-registry-row">
               <span className="links-registry-key">{key}</span>
               <input
-                className={`form-input${isOverridden || isUserAdded ? '' : ' links-registry-url--full'}`}
+                className={`form-input${isOverridden || isUserAdded ? '' : ' links-registry-url--full'}`} /* --full stretches to fill the empty action-button column */
                 defaultValue={url}
                 onBlur={(e) => {
-                  if (e.target.value !== url) saveLink(key, e.target.value);
+                  if (e.target.value !== url) saveLink(key, e.target.value); // skip save if value unchanged
                 }}
               />
               {(isOverridden || isUserAdded) && (
