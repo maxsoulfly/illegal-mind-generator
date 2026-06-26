@@ -2,7 +2,7 @@ import { generateShortDescriptions } from './generateShortDescriptions';
 import { generateBroadcastBlock } from './generateBroadcastBlock';
 import { generateTechnicalBlock } from './generateTechnicalBlock';
 import { generateLogBlock } from './generateLogBlock';
-import { generateCustomBlocks, getEffectiveSongOverrides, resolveHookBlockTemplates } from './generateCustomBlocks';
+import { generateCustomBlocks, getEffectiveSongOverrides, resolveHookBlockTemplates, renderTextTemplate } from './generateCustomBlocks';
 import { buildTagLine, buildTagPhrase } from './descriptionTagHelpers';
 
 function pickRandom(arr = []) {
@@ -34,10 +34,7 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   );
 
   const storyOverride = songOverrides.storyBlock?.trim();
-  const storyBlock = (storyOverride || storyTemplate)
-    .replace(/\{artist\}/g, formData.artist || '')
-    .replace(/\{song\}/g, formData.song || '')
-    .replace(/\{tagLine\}/g, tagPhrase);
+  const storyBlock = renderTextTemplate(storyOverride || storyTemplate, projectConfig, formData, tagPhrase);
 
   // --- Philosophy block ---
   const philosophyTemplate = pickRandom(
@@ -95,6 +92,8 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const longDescription = layout
     .map((blockName) => {
       if (blockName in blocks) return blocks[blockName];
+      const hookSongOverride = songOverrides[blockName]?.trim();
+      if (hookSongOverride) return renderTextTemplate(hookSongOverride, projectConfig, formData, tagPhrase);
       const hookTemplates = resolveHookBlockTemplates(blockName, projectConfig);
       return hookTemplates?.length ? pickRandom(hookTemplates) : undefined;
     })

@@ -42,7 +42,7 @@ export function renderStructuredBlock(block, links = {}) {
   return [title, items].filter(Boolean).join('\n');
 }
 
-function renderTextTemplate(text, projectConfig, formData, tagLine) {
+export function renderTextTemplate(text, projectConfig, formData, tagLine) {
   return replaceLinkPlaceholders(text, projectConfig.description.links)
     .replace(/\{artist\}/g, formData.artist || '')
     .replace(/\{song\}/g, formData.song || '')

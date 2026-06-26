@@ -6,7 +6,7 @@ import PlaceholderField from '../ui/PlaceholderField';
 import { isTextBlock, isListBlock, getBlockLabel, detectItemType } from '../../utils/customBlocks';
 
 
-function SongListBlockEditor({ items: initialItems, itemType, onChange }) {
+function SongListBlockEditor({ items: initialItems, itemType, onChange, placeholders = [] }) {
   const [items, setItems] = useState(() => initialItems);
   const valueField = itemType === 'link' ? 'link' : 'text';
 
@@ -38,11 +38,11 @@ function SongListBlockEditor({ items: initialItems, itemType, onChange }) {
             onBlur={(e) => handleBlur(i, 'label', e.target.value)}
             placeholder="Label"
           />
-          <input
-            className="form-input"
+          <PlaceholderField
             defaultValue={item[valueField] ?? ''}
-            onBlur={(e) => handleBlur(i, valueField, e.target.value)}
+            onBlur={(value) => handleBlur(i, valueField, value)}
             placeholder={itemType === 'link' ? 'URL' : 'Text'}
+            placeholders={placeholders}
           />
           <IconButton icon="×" title="Remove item" onClick={() => handleRemove(i)} />
         </div>
@@ -69,7 +69,7 @@ const PHRASE_BLOCK_OVERRIDES = [
     label: 'Log Note',
     rows: 3,
     placeholder: 'Write a custom operator/log note...',
-    placeholders: [],
+    placeholders: ['{artist}', '{song}', '{tagLine}'],
   },
 ];
 
@@ -88,6 +88,11 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
       block.scope === 'song' &&
       (isTextBlock(block) || isListBlock(block)),
   );
+
+  const hardcodedPhraseKeys = new Set(PHRASE_BLOCK_OVERRIDES.map((b) => b.key));
+  const phraseBlockScopes = projectConfig?.description?.templates?.long?.phraseBlockScopes || {};
+  const songScopeHookBlocks = (projectConfig?.description?.hookBlocks || [])
+    .filter((b) => !hardcodedPhraseKeys.has(b.key) && phraseBlockScopes[b.key] === 'song');
 
   const textPlaceholders = ['{artist}', '{song}', '{year}', '{originalGenre}', '{tagLine}', ...linkKeys.map((key) => `{links.${key}}`)];
 
@@ -158,6 +163,7 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
                 items={overrideItems}
                 itemType={detectItemType(block)}
                 onChange={(items) => updateOverride(key, { items })}
+                placeholders={textPlaceholders}
               />
             </details>
           );
@@ -171,6 +177,33 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
               rows={3}
               defaultValue={formData.songBlockOverrides?.[key] || ''}
               onChange={(value) => updateOverride(key, value)}
+              placeholders={textPlaceholders}
+              placeholder="Override for this song only. Leave blank to use the project default."
+            />
+          </details>
+        );
+      })}
+
+      {songScopeHookBlocks.map((block) => {
+        const hasOverride = block.key in (formData.songBlockOverrides || {});
+        return (
+          <details key={block.key} className="tag-section">
+            <summary>
+              {block.label}
+              {hasOverride && (
+                <IconButton
+                  icon="↺"
+                  title="Reset to project default"
+                  stopPropagation
+                  onClick={() => clearOverride(block.key)}
+                />
+              )}
+            </summary>
+            <PlaceholderField
+              multiline
+              rows={3}
+              defaultValue={formData.songBlockOverrides?.[block.key] || ''}
+              onChange={(value) => updateOverride(block.key, value)}
               placeholders={textPlaceholders}
               placeholder="Override for this song only. Leave blank to use the project default."
             />

@@ -1,4 +1,4 @@
-import { renderStructuredBlock, renderCustomBlock, getEffectiveSongOverrides, resolveHookBlockTemplates } from './generateCustomBlocks';
+import { renderStructuredBlock, renderCustomBlock, getEffectiveSongOverrides, resolveHookBlockTemplates, renderTextTemplate } from './generateCustomBlocks';
 import { isListBlock } from '../../utils/customBlocks';
 
 function pickRandom(arr = []) {
@@ -66,6 +66,9 @@ export function generateShortDescriptions(
         songOverrides[blockName]?.trim(),
       );
     }
+
+    const hookSongOverride = songOverrides[blockName]?.trim();
+    if (hookSongOverride) return renderTextTemplate(hookSongOverride, projectConfig, formData, tagPhrase);
 
     const hookTemplates = resolveHookBlockTemplates(blockName, projectConfig);
     const options = hookTemplates ?? shortsConfig[blockName] ?? [];
