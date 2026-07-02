@@ -8,6 +8,7 @@ export default function ProjectSettingsGeneral({
   projectSettingsOverrides,
   updateProjectOverride,
   resetProjectOverride,
+  onOpenUIKit,
 }) {
   const projectName =
     projectSettingsOverrides?.name ?? projectConfig.name ?? '';
@@ -16,34 +17,46 @@ export default function ProjectSettingsGeneral({
     <section>
       <h2 className="panel-title">General</h2>
 
-      <div className="tag-editor-section">
-        <div className="form-row">
-          <div className="form-group">
-            <div className="form-label">Project ID</div>
-            <input className="form-input" value={projectId} disabled readOnly />
+      <div className="tag-library tag-library--3col">
+        <article className="tag-card tag-card--settings">
+          <header className="tag-card-header">
+            <h3>Project Info</h3>
+          </header>
+          <div className="form-row">
+            <div className="form-group">
+              <div className="form-label">Project ID</div>
+              <input className="form-input" value={projectId} disabled readOnly />
+            </div>
+
+            <ProjectTextField
+              label="Project Name"
+              value={projectName}
+              fieldName="name"
+              onChange={updateProjectOverride}
+              onReset={resetProjectOverride}
+            />
           </div>
+        </article>
 
-          <ProjectTextField
-            label="Project Name"
-            value={projectName}
-            fieldName="name"
-            onChange={updateProjectOverride}
-            onReset={resetProjectOverride}
-          />
-        </div>
+        <article className="tag-card tag-card--settings">
+          <header className="tag-card-header">
+            <h3>Actions</h3>
+          </header>
+          <div className="button-row">
+            <IconButton icon="Duplicate Project" className="button-secondary" />
+            <IconButton icon="Export Project Config" className="button-secondary" />
+            <IconButton icon="Open UIKit →" className="button-secondary" onClick={onOpenUIKit} />
+          </div>
+          <p className="tag-summary">
+            Project editing, duplication, and project-level import/export will be
+            added here later.
+          </p>
+        </article>
+
+        <article className="tag-card tag-card--settings">
+          <AppBackupControls />
+        </article>
       </div>
-
-      <div className="button-row">
-        <IconButton icon="Duplicate Project" className="button-secondary" />
-        <IconButton icon="Export Project Config" className="button-secondary" />
-      </div>
-
-      <p className="tag-summary">
-        Project editing, duplication, and project-level import/export will be
-        added here later.
-      </p>
-
-      <AppBackupControls />
     </section>
   );
 }

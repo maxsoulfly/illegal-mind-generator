@@ -21,6 +21,7 @@ export default function ProjectSettingsContent({
   openBlocksEditor,
   otherProjects,
   syncHookTypesToProject,
+  onOpenUIKit,
 }) {
   if (activeSection === 'general') {
     return (
@@ -30,6 +31,7 @@ export default function ProjectSettingsContent({
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
         resetProjectOverride={resetProjectOverride}
+        onOpenUIKit={onOpenUIKit}
       />
     );
   }

@@ -248,6 +248,7 @@ function App() {
           onSectionChange={setActiveProjectSettingsSection}
           otherProjects={otherProjects}
           syncHookTypesToProject={syncHookTypesToProject}
+          onOpenUIKit={() => setActivePage('uikit')}
         />
       )}
 

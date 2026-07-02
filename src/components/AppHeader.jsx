@@ -6,7 +6,6 @@ const PAGE_LABELS = {
   shortsQueue:     'Shorts Queue',
   todo:            'Todo',
   projectSettings: 'Project Settings',
-  uikit:           'UIKit',
 };
 
 export default function AppHeader({
@@ -32,7 +31,7 @@ export default function AppHeader({
     return () => observer.disconnect();
   }, []);
 
-  const pageLabel = PAGE_LABELS[activePage] ?? activePage;
+  const pageLabel = activePage === 'uikit' ? 'UIKit' : PAGE_LABELS[activePage] ?? activePage;
   const title =
     activePage === 'uikit'
       ? pageLabel
