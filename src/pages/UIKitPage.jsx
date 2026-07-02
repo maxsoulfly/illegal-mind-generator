@@ -18,6 +18,8 @@ import BulkTextarea from '../components/ui/BulkTextarea';
 import TagStatusChip from '../components/tags/TagStatusChip';
 import ToggleButton from '../components/ui/ToggleButton';
 import SavedEntryRow from '../components/ui/SavedEntryRow';
+import CopyButton from '../components/CopyButton';
+import FormField from '../components/ui/FormField';
 
 // ─── Section wrapper ──────────────────────────────────────────────────────────
 
@@ -437,12 +439,13 @@ export default function UIKitPage() {
             </Example>
           </Section>
 
-          <Section title="copy-button" description="Compact copy-to-clipboard button. Gains .copied class temporarily after a successful copy.">
-            <Example name=".copy-button" usage="Output panels: copy title, copy description, copy hashtags.">
-              <div style={{ display: 'flex', gap: 8 }}>
-                <button className="copy-button">Copy</button>
-                <button className="copy-button copied">Copied!</button>
-              </div>
+          <Section title="CopyButton" description="Copies text to clipboard and shows 'Copied ✔️' for 500ms. Gains .copied class temporarily.">
+            <Example
+              name="CopyButton"
+              props="text"
+              usage="Output panels: copy title, copy description, copy hashtags, copy tags."
+            >
+              <CopyButton text="Sample text to copy" />
             </Example>
           </Section>
 
@@ -571,18 +574,29 @@ export default function UIKitPage() {
             </Example>
           </Section>
 
-          <Section title="form-group" description="Standard form field group with label above input. Use form-label + form-input/form-select/form-textarea.">
+          <Section title="FormField" description="Wraps the form-group → form-label + input pattern shown below. Use this instead of hand-rolling the div/label markup.">
+            <Example
+              name="FormField"
+              props="label children"
+              usage="Generator input fields, Tag Library basics tab, Todo fields. Wraps whatever input you pass as children."
+            >
+              <FormField label="Artist">
+                <input className="form-input" placeholder="e.g. Metallica" />
+              </FormField>
+              <FormField label="Notes">
+                <textarea className="form-textarea" rows={3} placeholder="Song story notes..." />
+              </FormField>
+            </Example>
+          </Section>
+
+          <Section title="form-group (raw)" description="The CSS shape FormField wraps. Use FormField instead of writing this by hand — shown here only as reference for the underlying classes.">
             <Example
               name=".form-group → .form-label + .form-input"
-              usage="Generator input fields. Song name, artist name, signal number."
+              usage="Reference only. See FormField above for the component to actually use."
             >
               <div className="form-group">
                 <label className="form-label">Artist</label>
                 <input className="form-input" placeholder="e.g. Metallica" />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Notes</label>
-                <textarea className="form-textarea" rows={3} placeholder="Song story notes..." />
               </div>
             </Example>
           </Section>

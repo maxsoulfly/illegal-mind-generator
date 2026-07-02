@@ -630,8 +630,8 @@
     "semantic_hash": ""
   },
   "src/pages/UIKitPage.jsx": {
-    "mtime": 1782983369.3698907,
-    "ast_hash": "e705db589ba81ca42f4cc00e0dd7afbc",
+    "mtime": 1782984632.390937,
+    "ast_hash": "06e6ea15d43d623445c3e3e0dc581bd2",
     "semantic_hash": ""
   },
   "src/utils/appBackup.js": {
@@ -735,8 +735,8 @@
     "semantic_hash": "2f78598160bfb12ab775831e0787b02a"
   },
   "CLAUDE.md": {
-    "mtime": 1782983438.6334753,
-    "ast_hash": "6126f3a47c74d27890734b28a773ac83",
+    "mtime": 1782984728.1429913,
+    "ast_hash": "a1709f955929111e28c1288d7ad24c9d",
     "semantic_hash": ""
   },
   "README.md": {
@@ -755,8 +755,8 @@
     "semantic_hash": "b1af7c6209125b2f64ed33b9e4e21ee7"
   },
   "docs/current-context.md": {
-    "mtime": 1782983450.5532553,
-    "ast_hash": "a550f631aa19e44c4bb4de8771affd5c",
+    "mtime": 1782984737.0071716,
+    "ast_hash": "a94e70b2f8a2b603cdb071615d912b71",
     "semantic_hash": ""
   },
   "docs/data-model.md": {

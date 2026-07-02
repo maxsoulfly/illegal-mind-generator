@@ -1600,7 +1600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagactions",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagactions.jsx"
     },
     {
@@ -1610,7 +1610,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagactions_tagactions",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagactions()"
     },
     {
@@ -1620,7 +1620,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagcard",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagcard.jsx"
     },
     {
@@ -1630,7 +1630,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "tags_tagcard_tagcard",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagcard()"
     },
     {
@@ -1640,7 +1640,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagcontrols",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagcontrols.jsx"
     },
     {
@@ -1650,7 +1650,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "tags_tagcontrols_tagcontrols",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagcontrols()"
     },
     {
@@ -1660,7 +1660,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagdetails",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagdetails.jsx"
     },
     {
@@ -1670,7 +1670,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "tags_tagdetails_tagdetails",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagdetails()"
     },
     {
@@ -1720,7 +1720,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagfilters",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagfilters.jsx"
     },
     {
@@ -1730,7 +1730,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagfilters_tagfilters",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagfilters()"
     },
     {
@@ -1740,7 +1740,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagheader",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagheader.jsx"
     },
     {
@@ -1750,7 +1750,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "tags_tagheader_tagheader",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagheader()"
     },
     {
@@ -1760,7 +1760,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagmapstatus",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagmapstatus.jsx"
     },
     {
@@ -1770,7 +1770,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "tags_tagmapstatus_tagmapstatus",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagmapstatus()"
     },
     {
@@ -1820,7 +1820,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagstatuschip",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagstatuschip.jsx"
     },
     {
@@ -1830,7 +1830,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagstatuschip_tagstatuschip",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagstatuschip()"
     },
     {
@@ -1860,7 +1860,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagusedsonglist",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagusedsonglist.jsx"
     },
     {
@@ -1870,7 +1870,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "tags_tagusedsonglist_tagusedsonglist",
-      "community": 7,
+      "community": 70,
       "norm_label": "tagusedsonglist()"
     },
     {
@@ -3590,7 +3590,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_usetaglibrarydata",
-      "community": 7,
+      "community": 70,
       "norm_label": "usetaglibrarydata.js"
     },
     {
@@ -3600,7 +3600,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "hooks_usetaglibrarydata_usetaglibrarydata",
-      "community": 7,
+      "community": 70,
       "norm_label": "usetaglibrarydata()"
     },
     {
@@ -3770,7 +3770,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_taglibrarypage",
-      "community": 7,
+      "community": 70,
       "norm_label": "taglibrarypage.jsx"
     },
     {
@@ -3780,7 +3780,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "pages_taglibrarypage_taglibrarypage",
-      "community": 7,
+      "community": 70,
       "norm_label": "taglibrarypage()"
     },
     {
@@ -3817,7 +3817,7 @@
       "label": "Section()",
       "file_type": "code",
       "source_file": "src/pages/UIKitPage.jsx",
-      "source_location": "L24",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "pages_uikitpage_section",
       "community": 81,
@@ -3827,7 +3827,7 @@
       "label": "Example()",
       "file_type": "code",
       "source_file": "src/pages/UIKitPage.jsx",
-      "source_location": "L36",
+      "source_location": "L38",
       "_origin": "ast",
       "id": "pages_uikitpage_example",
       "community": 81,
@@ -3837,7 +3837,7 @@
       "label": "TABS",
       "file_type": "code",
       "source_file": "src/pages/UIKitPage.jsx",
-      "source_location": "L51",
+      "source_location": "L53",
       "_origin": "ast",
       "id": "pages_uikitpage_tabs",
       "community": 81,
@@ -3847,7 +3847,7 @@
       "label": "UIKitPage()",
       "file_type": "code",
       "source_file": "src/pages/UIKitPage.jsx",
-      "source_location": "L60",
+      "source_location": "L62",
       "_origin": "ast",
       "id": "pages_uikitpage_uikitpage",
       "community": 1,
@@ -3950,7 +3950,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_buildtagexplorerdata",
-      "community": 7,
+      "community": 70,
       "norm_label": "buildtagexplorerdata.js"
     },
     {
@@ -3960,7 +3960,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_buildtagexplorerdata_buildtagexplorerdata",
-      "community": 7,
+      "community": 70,
       "norm_label": "buildtagexplorerdata()"
     },
     {
@@ -5987,7 +5987,7 @@
       "label": "Known Gotchas",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L123",
+      "source_location": "L125",
       "_origin": "ast",
       "id": "claude_known_gotchas",
       "community": 37,
@@ -5997,7 +5997,7 @@
       "label": "Block Type System",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L159",
+      "source_location": "L161",
       "_origin": "ast",
       "id": "claude_block_type_system",
       "community": 37,
@@ -6007,7 +6007,7 @@
       "label": "Block types",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L165",
+      "source_location": "L167",
       "_origin": "ast",
       "id": "claude_block_types",
       "community": 37,
@@ -6017,7 +6017,7 @@
       "label": "Per-song block overrides (`formData.songBlockOverrides`)",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L180",
+      "source_location": "L182",
       "_origin": "ast",
       "id": "claude_per_song_block_overrides_formdata_songblockoverrides",
       "community": 37,
@@ -6027,7 +6027,7 @@
       "label": "Block scope",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L196",
+      "source_location": "L198",
       "_origin": "ast",
       "id": "claude_block_scope",
       "community": 37,
@@ -6037,7 +6037,7 @@
       "label": "Hook Block song overrides and scope",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L212",
+      "source_location": "L214",
       "_origin": "ast",
       "id": "claude_hook_block_song_overrides_and_scope",
       "community": 37,
@@ -6047,7 +6047,7 @@
       "label": "Block targets",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L218",
+      "source_location": "L220",
       "_origin": "ast",
       "id": "claude_block_targets",
       "community": 37,
@@ -6057,7 +6057,7 @@
       "label": "Current Focus",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L228",
+      "source_location": "L230",
       "_origin": "ast",
       "id": "claude_current_focus",
       "community": 37,
@@ -6067,7 +6067,7 @@
       "label": "Other Active Goals",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L234",
+      "source_location": "L236",
       "_origin": "ast",
       "id": "claude_other_active_goals",
       "community": 37,
@@ -6077,7 +6077,7 @@
       "label": "Post-Upload Session Todos",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L246",
+      "source_location": "L248",
       "_origin": "ast",
       "id": "claude_post_upload_session_todos",
       "community": 37,
@@ -6087,7 +6087,7 @@
       "label": "Long-Term Roadmap",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L253",
+      "source_location": "L255",
       "_origin": "ast",
       "id": "claude_long_term_roadmap",
       "community": 37,
@@ -6097,7 +6097,7 @@
       "label": "Important Decisions",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L265",
+      "source_location": "L267",
       "_origin": "ast",
       "id": "claude_important_decisions",
       "community": 37,
@@ -6107,7 +6107,7 @@
       "label": "Development Preferences",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L275",
+      "source_location": "L277",
       "_origin": "ast",
       "id": "claude_development_preferences",
       "community": 37,
@@ -6117,7 +6117,7 @@
       "label": "Session Protocol",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L288",
+      "source_location": "L290",
       "_origin": "ast",
       "id": "claude_session_protocol",
       "community": 37,
@@ -6127,7 +6127,7 @@
       "label": "graphify",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L301",
+      "source_location": "L303",
       "_origin": "ast",
       "id": "claude_graphify",
       "community": 37,
@@ -7297,7 +7297,7 @@
       "label": "In Progress",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L62",
+      "source_location": "L63",
       "_origin": "ast",
       "id": "docs_current_context_in_progress",
       "community": 29,
@@ -7307,7 +7307,7 @@
       "label": "Next Recommended Tasks",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L68",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "docs_current_context_next_recommended_tasks",
       "community": 29,
@@ -7317,7 +7317,7 @@
       "label": "Known Issues",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L77",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "docs_current_context_known_issues",
       "community": 29,
@@ -7327,7 +7327,7 @@
       "label": "Storage cleanup debt",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L79",
+      "source_location": "L80",
       "_origin": "ast",
       "id": "docs_current_context_storage_cleanup_debt",
       "community": 29,
@@ -7337,7 +7337,7 @@
       "label": "`coverLabel` not editable from UI",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L84",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "docs_current_context_coverlabel_not_editable_from_ui",
       "community": 29,
@@ -7347,7 +7347,7 @@
       "label": "`customHashtags` is hardcoded",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L87",
+      "source_location": "L88",
       "_origin": "ast",
       "id": "docs_current_context_customhashtags_is_hardcoded",
       "community": 29,
@@ -7357,7 +7357,7 @@
       "label": "Important Files",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L92",
+      "source_location": "L93",
       "_origin": "ast",
       "id": "docs_current_context_important_files",
       "community": 29,
@@ -7367,7 +7367,7 @@
       "label": "Architectural Notes",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L115",
+      "source_location": "L116",
       "_origin": "ast",
       "id": "docs_current_context_architectural_notes",
       "community": 29,
@@ -7377,7 +7377,7 @@
       "label": "AI Notes",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L135",
+      "source_location": "L136",
       "_origin": "ast",
       "id": "docs_current_context_ai_notes",
       "community": 29,
@@ -7387,7 +7387,7 @@
       "label": "Session Summary",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L165",
+      "source_location": "L166",
       "_origin": "ast",
       "id": "docs_current_context_session_summary",
       "community": 29,
@@ -7660,7 +7660,7 @@
       "source_location": "L451",
       "_origin": "ast",
       "id": "docs_data_model_shorts_queue",
-      "community": 72,
+      "community": 39,
       "norm_label": "shorts queue"
     },
     {
@@ -7670,7 +7670,7 @@
       "source_location": "L459",
       "_origin": "ast",
       "id": "docs_data_model_structure_459",
-      "community": 72,
+      "community": 39,
       "norm_label": "structure"
     },
     {
@@ -7680,7 +7680,7 @@
       "source_location": "L471",
       "_origin": "ast",
       "id": "docs_data_model_queue_constraints",
-      "community": 72,
+      "community": 39,
       "norm_label": "queue constraints"
     },
     {
@@ -7690,7 +7690,7 @@
       "source_location": "L479",
       "_origin": "ast",
       "id": "docs_data_model_example_479",
-      "community": 72,
+      "community": 39,
       "norm_label": "example"
     },
     {
@@ -7990,7 +7990,7 @@
       "source_location": "L1116",
       "_origin": "ast",
       "id": "docs_data_model_backup_file_format",
-      "community": 4,
+      "community": 88,
       "norm_label": "backup file format"
     },
     {
@@ -8000,7 +8000,7 @@
       "source_location": "L1124",
       "_origin": "ast",
       "id": "docs_data_model_fields_1124",
-      "community": 4,
+      "community": 88,
       "norm_label": "fields"
     },
     {
@@ -8010,7 +8010,7 @@
       "source_location": "L1133",
       "_origin": "ast",
       "id": "docs_data_model_legacy_object_keys",
-      "community": 4,
+      "community": 88,
       "norm_label": "`legacy` object keys"
     },
     {
@@ -8020,7 +8020,7 @@
       "source_location": "L1144",
       "_origin": "ast",
       "id": "docs_data_model_restore_behavior",
-      "community": 4,
+      "community": 88,
       "norm_label": "restore behavior"
     },
     {
@@ -8030,7 +8030,7 @@
       "source_location": "L1150",
       "_origin": "ast",
       "id": "docs_data_model_example_backup_structure",
-      "community": 4,
+      "community": 88,
       "norm_label": "example backup structure"
     },
     {
@@ -8040,7 +8040,7 @@
       "source_location": "L1172",
       "_origin": "ast",
       "id": "docs_data_model_legacy_keys",
-      "community": 4,
+      "community": 85,
       "norm_label": "legacy keys"
     },
     {
@@ -8110,7 +8110,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "docs_graph_report_component_dependency_graph",
-      "community": 2,
+      "community": 89,
       "norm_label": "component dependency graph"
     },
     {
@@ -8120,7 +8120,7 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "docs_graph_report_ui_primitives_who_uses_what",
-      "community": 2,
+      "community": 89,
       "norm_label": "ui primitives \u2014 who uses what"
     },
     {
@@ -8130,7 +8130,7 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "docs_graph_report_customblocks_js_consumers",
-      "community": 2,
+      "community": 89,
       "norm_label": "customblocks.js consumers"
     },
     {
@@ -8260,7 +8260,7 @@
       "source_location": "L428",
       "_origin": "ast",
       "id": "docs_graph_report_architectural_bottlenecks",
-      "community": 4,
+      "community": 72,
       "norm_label": "architectural bottlenecks"
     },
     {
@@ -8270,7 +8270,7 @@
       "source_location": "L430",
       "_origin": "ast",
       "id": "docs_graph_report_1_app_jsx_is_the_single_coordination_point_for_all_state",
-      "community": 4,
+      "community": 72,
       "norm_label": "1. app.jsx is the single coordination point for all state"
     },
     {
@@ -8280,7 +8280,7 @@
       "source_location": "L449",
       "_origin": "ast",
       "id": "docs_graph_report_2_useappshellstate_is_a_megahook",
-      "community": 4,
+      "community": 72,
       "norm_label": "2. useappshellstate is a megahook"
     },
     {
@@ -8290,7 +8290,7 @@
       "source_location": "L467",
       "_origin": "ast",
       "id": "docs_graph_report_3_buildresolvedprojectconfig_runs_on_every_render",
-      "community": 4,
+      "community": 72,
       "norm_label": "3. buildresolvedprojectconfig runs on every render"
     },
     {
@@ -8300,7 +8300,7 @@
       "source_location": "L481",
       "_origin": "ast",
       "id": "docs_graph_report_4_generation_runs_synchronously_on_every_formdata_keystroke",
-      "community": 4,
+      "community": 72,
       "norm_label": "4. generation runs synchronously on every formdata keystroke"
     },
     {
@@ -8310,7 +8310,7 @@
       "source_location": "L501",
       "_origin": "ast",
       "id": "docs_graph_report_5_two_components_access_storage_directly_bypassing_the_hook_layer",
-      "community": 4,
+      "community": 72,
       "norm_label": "5. two components access storage directly (bypassing the hook layer)"
     },
     {
@@ -8320,7 +8320,7 @@
       "source_location": "L516",
       "_origin": "ast",
       "id": "docs_graph_report_6_usetagvisibilityoverrides_exists_but_is_not_directly_consumed",
-      "community": 4,
+      "community": 72,
       "norm_label": "6. usetagvisibilityoverrides exists but is not directly consumed"
     },
     {
@@ -8330,7 +8330,7 @@
       "source_location": "L524",
       "_origin": "ast",
       "id": "docs_graph_report_duplicate_responsibilities",
-      "community": 4,
+      "community": 85,
       "norm_label": "duplicate responsibilities"
     },
     {
@@ -8340,7 +8340,7 @@
       "source_location": "L526",
       "_origin": "ast",
       "id": "docs_graph_report_1_entry_cta_text_has_two_storage_paths",
-      "community": 4,
+      "community": 85,
       "norm_label": "1. entry cta text has two storage paths"
     },
     {
@@ -8350,7 +8350,7 @@
       "source_location": "L542",
       "_origin": "ast",
       "id": "docs_graph_report_2_tag_visibility_is_stored_twice",
-      "community": 4,
+      "community": 85,
       "norm_label": "2. tag visibility is stored twice"
     },
     {
@@ -8360,7 +8360,7 @@
       "source_location": "L558",
       "_origin": "ast",
       "id": "docs_graph_report_3_entry_story_log_note_fields_have_three_representations",
-      "community": 4,
+      "community": 85,
       "norm_label": "3. entry story/log note fields have three representations"
     },
     {
@@ -8370,7 +8370,7 @@
       "source_location": "L575",
       "_origin": "ast",
       "id": "docs_graph_report_4_storagemigration_js_is_dead_code_in_production",
-      "community": 4,
+      "community": 85,
       "norm_label": "4. storagemigration.js is dead code in production"
     },
     {
@@ -8380,7 +8380,7 @@
       "source_location": "L593",
       "_origin": "ast",
       "id": "docs_graph_report_5_two_separate_short_hooks_systems_that_share_the_same_config_keys",
-      "community": 4,
+      "community": 85,
       "norm_label": "5. two separate \"short hooks\" systems that share the same config keys"
     },
     {
@@ -9922,7 +9922,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 7,
       "norm_label": "illegal mind generator \u2014 claude.md instructions",
       "id": "claude_md_illegal_mind_generator"
     },
@@ -9948,7 +9948,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 85,
       "norm_label": "storage unification (illegalmindgeneratordata)",
       "id": "claude_md_storage_unification"
     },
@@ -9974,7 +9974,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 7,
       "norm_label": "per-song block overrides (songblockoverrides)",
       "id": "claude_md_song_block_overrides"
     },
@@ -9987,7 +9987,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 7,
       "norm_label": "hook blocks (phrase-template arrays, random pick)",
       "id": "claude_md_hook_blocks"
     },
@@ -10000,7 +10000,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 7,
       "norm_label": "dynamic hook blocks (user-created, customhookblocks)",
       "id": "claude_md_dynamic_hook_blocks"
     },
@@ -10013,7 +10013,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 7,
       "norm_label": "buildresolvedprojectconfig (config merge layer)",
       "id": "claude_md_build_resolved_project_config"
     },
@@ -10026,7 +10026,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 7,
       "norm_label": "ui primitives (src/components/ui/)",
       "id": "claude_md_ui_primitives"
     },
@@ -10052,7 +10052,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 7,
       "norm_label": "placeholderfield (autocomplete input/textarea)",
       "id": "claude_md_placeholder_field"
     },
@@ -10065,7 +10065,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 7,
       "norm_label": "description layout builder (available + active columns)",
       "id": "claude_md_description_layout"
     },
@@ -10117,7 +10117,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 86,
       "norm_label": "usegeneratedoutput hook",
       "id": "docs_architecture_use_generated_output"
     },
@@ -10208,7 +10208,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 86,
       "norm_label": "customblocks.js (shared block utilities)",
       "id": "docs_architecture_custom_blocks_js"
     },
@@ -10221,7 +10221,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 86,
       "norm_label": "generatedescriptions.js (long description engine)",
       "id": "docs_architecture_generate_descriptions"
     },
@@ -10247,7 +10247,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 86,
       "norm_label": "generatecustomblocks.js (shared block rendering)",
       "id": "docs_architecture_generate_custom_blocks"
     },
@@ -10260,7 +10260,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 86,
       "norm_label": "generatetitles.js (title engine)",
       "id": "docs_architecture_generate_titles"
     },
@@ -10273,7 +10273,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 86,
       "norm_label": "generateshorthooks.js (hook engine)",
       "id": "docs_architecture_generate_short_hooks"
     },
@@ -10286,7 +10286,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 86,
       "norm_label": "generatehashtags.js (hashtag engine)",
       "id": "docs_architecture_generate_hashtags"
     },
@@ -10390,7 +10390,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 7,
       "norm_label": "onblur save pattern (phrase editors)",
       "id": "docs_conventions_onblur_saves"
     },
@@ -10455,7 +10455,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 72,
+      "community": 39,
       "norm_label": "saved entry data structure",
       "id": "docs_data_model_saved_entry"
     },
@@ -10481,7 +10481,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 72,
       "norm_label": "graph report (dependency topology document)",
       "id": "docs_graph_report_graph_report"
     },
@@ -10494,7 +10494,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 72,
       "norm_label": "most central files analysis",
       "id": "docs_graph_report_central_files"
     },
@@ -11559,6 +11559,17 @@
       "target": "components_copybutton"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/UIKitPage.jsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "pages_uikitpage",
+      "target": "components_copybutton",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -11612,6 +11623,17 @@
       "confidence_score": 1.0,
       "source": "output_youtubetagspanel",
       "target": "components_copybutton_copybutton"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/UIKitPage.jsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "pages_uikitpage",
+      "target": "components_copybutton_copybutton",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -13181,9 +13203,9 @@
       "source_file": "src/components/projectSettings/ProjectSettingsGeneral.jsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "projectsettings_projectsettingsgeneral",
-      "target": "ui_templategroupcard",
-      "confidence_score": 1.0
+      "target": "ui_templategroupcard"
     },
     {
       "relation": "imports",
@@ -13192,9 +13214,9 @@
       "source_file": "src/components/projectSettings/ProjectSettingsGeneral.jsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "projectsettings_projectsettingsgeneral",
-      "target": "ui_templategroupcard_templategroupcard",
-      "confidence_score": 1.0
+      "target": "ui_templategroupcard_templategroupcard"
     },
     {
       "relation": "imports_from",
@@ -15301,9 +15323,9 @@
       "source_file": "src/components/savedLibrary/SavedLibraryItem.jsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "savedlibrary_savedlibraryitem",
-      "target": "ui_savedentryrow",
-      "confidence_score": 1.0
+      "target": "ui_savedentryrow"
     },
     {
       "relation": "imports",
@@ -15312,9 +15334,9 @@
       "source_file": "src/components/savedLibrary/SavedLibraryItem.jsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "savedlibrary_savedlibraryitem",
-      "target": "ui_savedentryrow_savedentryrow",
-      "confidence_score": 1.0
+      "target": "ui_savedentryrow_savedentryrow"
     },
     {
       "relation": "contains",
@@ -15473,9 +15495,9 @@
       "source_file": "src/components/shortsQueue/ShortsQueueItem.jsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "shortsqueue_shortsqueueitem",
-      "target": "ui_savedentryrow",
-      "confidence_score": 1.0
+      "target": "ui_savedentryrow"
     },
     {
       "relation": "imports",
@@ -15484,9 +15506,9 @@
       "source_file": "src/components/shortsQueue/ShortsQueueItem.jsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "shortsqueue_shortsqueueitem",
-      "target": "ui_savedentryrow_savedentryrow",
-      "confidence_score": 1.0
+      "target": "ui_savedentryrow_savedentryrow"
     },
     {
       "relation": "imports",
@@ -16555,9 +16577,9 @@
       "source_file": "src/components/todo/TodoItem.jsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "todo_todoitem",
-      "target": "ui_savedentryrow",
-      "confidence_score": 1.0
+      "target": "ui_savedentryrow"
     },
     {
       "relation": "imports",
@@ -16566,9 +16588,9 @@
       "source_file": "src/components/todo/TodoItem.jsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "todo_todoitem",
-      "target": "ui_savedentryrow_savedentryrow",
-      "confidence_score": 1.0
+      "target": "ui_savedentryrow_savedentryrow"
     },
     {
       "relation": "imports_from",
@@ -16928,6 +16950,17 @@
       "target": "ui_bulktextarea_bulktextarea"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/UIKitPage.jsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "pages_uikitpage",
+      "target": "ui_formfield",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/ui/FormField.jsx",
@@ -16947,6 +16980,17 @@
       "confidence_score": 1.0,
       "source": "ui_projecttextfield",
       "target": "ui_formfield"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/UIKitPage.jsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "pages_uikitpage",
+      "target": "ui_formfield_formfield",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -17438,9 +17482,9 @@
       "source_file": "src/pages/UIKitPage.jsx",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_uikitpage",
-      "target": "ui_savedentryrow",
-      "confidence_score": 1.0
+      "target": "ui_savedentryrow"
     },
     {
       "relation": "contains",
@@ -17448,9 +17492,9 @@
       "source_file": "src/components/ui/SavedEntryRow.jsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_savedentryrow",
-      "target": "ui_savedentryrow_savedentryrow",
-      "confidence_score": 1.0
+      "target": "ui_savedentryrow_savedentryrow"
     },
     {
       "relation": "imports",
@@ -17459,9 +17503,9 @@
       "source_file": "src/pages/UIKitPage.jsx",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_uikitpage",
-      "target": "ui_savedentryrow_savedentryrow",
-      "confidence_score": 1.0
+      "target": "ui_savedentryrow_savedentryrow"
     },
     {
       "relation": "contains",
@@ -27190,5 +27234,5 @@
       "source_file": "CLAUDE.md"
     }
   ],
-  "built_at_commit": "6d91f8ecbb5b4010a45e6029bfc61efe2fdadec0"
+  "built_at_commit": "2adf47536946a61a30fc02f2156273590bb7e322"
 }
