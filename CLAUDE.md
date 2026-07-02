@@ -226,13 +226,12 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 # Current Focus
 
-`originalGenre` Stage 3 (contrast hooks engine) is done — both projects have a `contrast` Shorts Hook type (`excludeForFaithful: true`, `requiresGenre: true`) using `{originalGenre}` + `{primaryTag}`, gated in `generateShortHooks.js`. Stage 2 (faithful `{originalGenre}` + `{year}` templates) is confirmed **not** started — verified 2026-07-02 by scanning both projects' live `projectOverrides` plus `projects.json` defaults; no template anywhere combines both placeholders in a faithful-style phrase.
+`originalGenre` is now fully done through Stage 3. Stage 2 (2026-07-02): added a new `original` Shorts Hook type to both projects — `requiresGenre: true`, no `excludeForFaithful`, templates `"The best {originalGenre} song of {year}"` / `"{originalGenre} perfection since {year}"` / `"Still the greatest {originalGenre} track from {year}"`. Stage 3 (shipped earlier in `63ce426`): a `contrast` Shorts Hook type (`excludeForFaithful: true`, `requiresGenre: true`) using `{originalGenre}` + `{primaryTag}`, gated in `generateShortHooks.js`.
 
 ---
 
 ## Other Active Goals
 
-- **`originalGenre` Stage 2** — template authoring only, no code. Write faithful hooks using `{originalGenre}` + `{year}` in Project Settings → Shorts Hooks or Blocks → Hook Blocks (e.g. `"The best {originalGenre} song of {year}"`). Not started.
 - Maxx Dee's `transformation` Shorts Hook type has `requiresGenre: true` but none of its 3 templates reference `{originalGenre}` — likely an accidental checkbox toggle. Needs a decision: remove the flag or add genre wording.
 - Queue-hidden indicator in Todo rows
 - Todo status badges in Saved Library

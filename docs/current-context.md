@@ -6,12 +6,13 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 
 ## Current Focus
 
-`originalGenre` Stage 3 (contrast hooks engine) is done. Stage 2 (faithful `{originalGenre}` + `{year}` hook templates) is confirmed not started — verified 2026-07-02 by scanning both projects' live `projectOverrides` plus `projects.json` defaults; no template anywhere combines both placeholders in a faithful-style phrase.
+`originalGenre` is now done through Stage 3. Picking next feature.
 
 ---
 
 ## Recently Completed
 
+- **`originalGenre` Stage 2 — faithful hooks** (2026-07-02) — new `original` Shorts Hook type added to both projects' `projectOverrides.shortHookTypes` (`requiresGenre: true`, no `excludeForFaithful`), templates: `"The best {originalGenre} song of {year}"`, `"{originalGenre} perfection since {year}"`, `"Still the greatest {originalGenre} track from {year}"`. Content-only, no engine changes — uses the existing `requiresGenre` filter in `generateShortHooks.js`.
 - **`originalGenre` Stage 3 — contrast hooks engine** — `requiresGenre`/`excludeForFaithful` flags added to `generateShortHooks.js` hook-type filtering; a `contrast` Shorts Hook type added to both projects (`excludeForFaithful: true`, `requiresGenre: true`, templates using `{originalGenre}` + `{primaryTag}`, e.g. `"A {originalGenre} classic, but {primaryTag}"`). Fires only for non-faithful tags when a genre is set. (Commit `63ce426`, previously undocumented here.)
 - **Hook Blocks scope sub-option + short desc placeholder fixes** — `resolveHookOverride` (`generateCustomBlocks.js`) handles string-or-array song overrides for all description engines. `ProjectSettingsHookBlocks` gained an Override Type dropdown (Textarea/One-line) per song-scoped hook block. `generateShortDescriptions` catch-all now uses `renderTextTemplate`, fixing `{transformation}`/`{originalGenre}`/`{year}`/`{links.*}` not substituting in Shorts descriptions. New `LabelSelectRow` UI primitive.
 - **`{transformation}` capitalization + coverLine placeholder fix** — `resolveTransformation` capitalizes the first letter; Shorts `coverLine` now uses `renderTextTemplate` so all placeholders resolve.
@@ -64,9 +65,8 @@ Nothing active — picking next feature.
 
 ## Next Recommended Tasks
 
-1. **`originalGenre` Stage 2** — write faithful hook templates combining `{originalGenre}` + `{year}` (e.g. `"The best {originalGenre} song of {year}"`) in Project Settings → Shorts Hooks or Blocks → Hook Blocks. Not started yet.
-2. **Stray `requiresGenre` flag** — Maxx Dee's `transformation` Shorts Hook type has `requiresGenre: true` but no template uses `{originalGenre}`. Decide: strip the flag or add genre wording.
-3. **Storage cleanup** (low urgency, after a few stable sessions):
+1. **Stray `requiresGenre` flag** — Maxx Dee's `transformation` Shorts Hook type has `requiresGenre: true` but no template uses `{originalGenre}`. Decide: strip the flag or add genre wording.
+2. **Storage cleanup** (low urgency, after a few stable sessions):
    - Remove legacy key capture/restore from `appBackup.js`
    - Remove `storageMigration.js` and its `window.*` exposure in `App.jsx`
 
