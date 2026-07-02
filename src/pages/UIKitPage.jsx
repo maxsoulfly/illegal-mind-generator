@@ -72,7 +72,6 @@ export default function UIKitPage() {
   const [bulkVal, setBulkVal] = useState('');
   const [phrases, setPhrases] = useState(['Phrase one', 'Phrase two']);
   const [templateExpanded, setTemplateExpanded] = useState(false);
-  const [cardExpanded, setCardExpanded] = useState(false);
 
   return (
     <div className="app-shell uikit-page">
@@ -704,34 +703,6 @@ Broadcast from the ruins of a former concert hall...</p>
             </Example>
           </Section>
 
-          <Section title="tag-card pattern (manual)" description="The collapsible card shell used by TagCard and TemplateGroupCard. Copy this pattern when building a new collapsible card — or extend TemplateGroupCard if it fits.">
-            <Example
-              name="article.tag-card + .tag-card-header + .tag-card-toggle"
-              usage="Any collapsible section in Tag Library or Project Settings. Use TemplateGroupCard to avoid hand-rolling this."
-            >
-              <article className={`tag-card${cardExpanded ? '' : ' tag-card--collapsed'}`}>
-                <header className="tag-card-header">
-                  <div className="tag-card-label-row">
-                    <h3
-                      className="tag-card-toggle"
-                      onClick={() => setCardExpanded((v) => !v)}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <span className="tag-card-collapse-icon">{cardExpanded ? '▼' : '▶'}</span>
-                      Card Label
-                    </h3>
-                    <IconButton icon="↺" title="Reset" onClick={() => {}} stopPropagation />
-                  </div>
-                </header>
-                {cardExpanded && (
-                  <div style={{ padding: '8px 0' }}>
-                    <span className="tag-status">3 items</span>
-                    <p style={{ color: 'var(--color-text-soft)', marginTop: 8 }}>Card body content here.</p>
-                  </div>
-                )}
-              </article>
-            </Example>
-          </Section>
         </>
       )}
     </div>
