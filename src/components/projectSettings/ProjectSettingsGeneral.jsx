@@ -23,9 +23,15 @@ export default function ProjectSettingsGeneral({
           <div className="form-row">
             <div className="form-group">
               <div className="form-label">Project ID</div>
-              <input className="form-input" value={projectId} disabled readOnly />
+              <input
+                className="form-input"
+                value={projectId}
+                disabled
+                readOnly
+              />
             </div>
-
+          </div>
+          <div className="form-row">
             <ProjectTextField
               label="Project Name"
               value={projectName}
@@ -39,12 +45,19 @@ export default function ProjectSettingsGeneral({
         <TemplateGroupCard label="Actions">
           <div className="button-row">
             <IconButton icon="Duplicate Project" className="button-secondary" />
-            <IconButton icon="Export Project Config" className="button-secondary" />
-            <IconButton icon="Open UIKit →" className="button-secondary" onClick={onOpenUIKit} />
+            <IconButton
+              icon="Export Project Config"
+              className="button-secondary"
+            />
+            <IconButton
+              icon="Open UIKit →"
+              className="button-secondary"
+              onClick={onOpenUIKit}
+            />
           </div>
           <p className="tag-summary">
-            Project editing, duplication, and project-level import/export will be
-            added here later.
+            Project editing, duplication, and project-level import/export will
+            be added here later.
           </p>
         </TemplateGroupCard>
 
