@@ -21,6 +21,7 @@ import SavedEntryRow from '../components/ui/SavedEntryRow';
 import CopyButton from '../components/CopyButton';
 import FormField from '../components/ui/FormField';
 import OutputItem from '../components/ui/OutputItem';
+import CollapsiblePanel from '../components/ui/CollapsiblePanel';
 
 // ─── Section wrapper ──────────────────────────────────────────────────────────
 
@@ -75,6 +76,7 @@ export default function UIKitPage() {
   const [bulkVal, setBulkVal] = useState('');
   const [phrases, setPhrases] = useState(['Phrase one', 'Phrase two']);
   const [templateExpanded, setTemplateExpanded] = useState(false);
+  const [panelDemoVisible, setPanelDemoVisible] = useState(true);
 
   return (
     <div className="app-shell uikit-page">
@@ -123,16 +125,36 @@ export default function UIKitPage() {
 
           <Section
             title="panel"
-            description="Bordered, shadowed panel. Standard container for all major content blocks."
+            description="Bordered, shadowed panel. Standard container for all major content blocks that don't collapse or have a nav title — see CollapsiblePanel below for that case."
           >
             <Example
               name=".panel + .panel-title"
-              usage="Use for any grouping of related controls. panel-title is the h2/h3 inside."
+              usage="Bare wrapper — use for any grouping of related controls with no collapse/toggle behavior (ProjectSettingsPage, GeneratorPage, SavedLibrary). panel-title is the h2/h3 inside."
             >
               <div className="panel" style={{ marginTop: 0 }}>
                 <h2 className="panel-title">Panel Title</h2>
                 <p style={{ color: 'var(--color-text-soft)', margin: 0 }}>Panel content goes here.</p>
               </div>
+            </Example>
+          </Section>
+
+          <Section
+            title="CollapsiblePanel"
+            description="Panel + panel-header + ToggleButton shell, with an optional clickable nav-title and an extra header slot. Used by every Generator output panel."
+          >
+            <Example
+              name="CollapsiblePanel"
+              props="label visible onToggle onNavigate? headerExtra? children"
+              usage="HashtagsPanel, YouTubeTagsPanel, TitlesPanel, ShortHooksPanel, DescriptionsPanel all use this instead of hand-rolling panel/panel-header/ToggleButton. onNavigate swaps the h2 for a clickable panel-title--nav button (Titles/Descriptions link to Project Settings). headerExtra renders between the title and the ToggleButton (Titles' Hooks ON/OFF toggle)."
+            >
+              <CollapsiblePanel
+                label="Sample Output"
+                visible={panelDemoVisible}
+                onToggle={() => setPanelDemoVisible((v) => !v)}
+                onNavigate={() => {}}
+              >
+                <p style={{ color: 'var(--color-text-soft)', margin: 0 }}>Panel body — only rendered while visible.</p>
+              </CollapsiblePanel>
             </Example>
           </Section>
 

@@ -1,5 +1,5 @@
-import ToggleButton from '../ui/ToggleButton';
 import ShortHookTitles from './ShortHookTitles';
+import CollapsiblePanel from '../ui/CollapsiblePanel';
 
 const SHORT_HOOK_TITLE_LIMIT = 5;
 
@@ -29,27 +29,17 @@ function ShortHooksPanel({
   const mixedShortHooks = buildMixedShortHooks(shortHooks);
 
   return (
-    <div
-      className={`panel ${panelVisibility.shortHooks ? '' : 'panel-collapsed'}`}
+    <CollapsiblePanel
+      label="Short Hooks"
+      visible={panelVisibility.shortHooks}
+      onToggle={() => togglePanel('shortHooks')}
     >
-      <div className="panel-header">
-        <h2 className="panel-title">Short Hooks</h2>
-        <ToggleButton
-          isOpen={panelVisibility.shortHooks}
-          onClick={() => togglePanel('shortHooks')}
-          label="Short Hooks"
-          compact
-        />
-      </div>
-
-      {panelVisibility.shortHooks && (
-        <ShortHookTitles
-          title="Best Shorts Title Candidates"
-          hooks={mixedShortHooks}
-          onOpenSourceTag={onOpenSourceTag}
-        />
-      )}
-    </div>
+      <ShortHookTitles
+        title="Best Shorts Title Candidates"
+        hooks={mixedShortHooks}
+        onOpenSourceTag={onOpenSourceTag}
+      />
+    </CollapsiblePanel>
   );
 }
 

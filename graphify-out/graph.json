@@ -400,7 +400,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "components_inputform_inputform",
-      "community": 65,
+      "community": 1,
       "norm_label": "inputform()"
     },
     {
@@ -850,7 +850,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "projectsettings_projectsettingscontent",
-      "community": 0,
+      "community": 82,
       "norm_label": "projectsettingscontent.jsx"
     },
     {
@@ -860,7 +860,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "projectsettings_projectsettingscontent_projectsettingscontent",
-      "community": 84,
+      "community": 82,
       "norm_label": "projectsettingscontent()"
     },
     {
@@ -890,7 +890,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "projectsettings_projectsettingsdescriptions_projectsettingsdescriptions",
-      "community": 0,
+      "community": 82,
       "norm_label": "projectsettingsdescriptions()"
     },
     {
@@ -910,7 +910,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "projectsettings_projectsettingsgeneral_projectsettingsgeneral",
-      "community": 0,
+      "community": 82,
       "norm_label": "projectsettingsgeneral()"
     },
     {
@@ -960,7 +960,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "projectsettings_projectsettingslinks",
-      "community": 0,
+      "community": 82,
       "norm_label": "projectsettingslinks.jsx"
     },
     {
@@ -970,7 +970,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "projectsettings_projectsettingslinks_projectsettingslinks",
-      "community": 0,
+      "community": 82,
       "norm_label": "projectsettingslinks()"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "projectsettings_projectsettingstitles_projectsettingstitles",
-      "community": 0,
+      "community": 82,
       "norm_label": "projectsettingstitles()"
     },
     {
@@ -1330,7 +1330,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lists_linksregistryeditor",
-      "community": 0,
+      "community": 82,
       "norm_label": "linksregistryeditor.jsx"
     },
     {
@@ -1340,7 +1340,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "lists_linksregistryeditor_linksregistryeditor",
-      "community": 0,
+      "community": 82,
       "norm_label": "linksregistryeditor()"
     },
     {
@@ -1460,7 +1460,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "savedlibrary_savedlibrary",
-      "community": 12,
+      "community": 1,
       "norm_label": "savedlibrary.jsx"
     },
     {
@@ -1470,7 +1470,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "savedlibrary_savedlibrary_readrawunifiedui",
-      "community": 12,
+      "community": 1,
       "norm_label": "readrawunifiedui()"
     },
     {
@@ -1480,7 +1480,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "savedlibrary_savedlibrary_savedlibrary",
-      "community": 12,
+      "community": 1,
       "norm_label": "savedlibrary()"
     },
     {
@@ -1490,7 +1490,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "savedlibrary_savedlibraryitem",
-      "community": 58,
+      "community": 1,
       "norm_label": "savedlibraryitem.jsx"
     },
     {
@@ -1500,7 +1500,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "savedlibrary_savedlibraryitem_savedlibraryitem",
-      "community": 58,
+      "community": 1,
       "norm_label": "savedlibraryitem()"
     },
     {
@@ -1540,7 +1540,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "shortsqueue_shortsqueueemptystate",
-      "community": 58,
+      "community": 1,
       "norm_label": "shortsqueueemptystate.jsx"
     },
     {
@@ -1550,7 +1550,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "shortsqueue_shortsqueueemptystate_shortsqueueemptystate",
-      "community": 58,
+      "community": 1,
       "norm_label": "shortsqueueemptystate()"
     },
     {
@@ -1560,7 +1560,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "shortsqueue_shortsqueueitem",
-      "community": 58,
+      "community": 1,
       "norm_label": "shortsqueueitem.jsx"
     },
     {
@@ -1570,7 +1570,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "shortsqueue_shortsqueueitem_shortsqueueitem",
-      "community": 58,
+      "community": 1,
       "norm_label": "shortsqueueitem()"
     },
     {
@@ -1600,7 +1600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagactions",
-      "community": 46,
+      "community": 82,
       "norm_label": "tagactions.jsx"
     },
     {
@@ -1610,7 +1610,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagactions_tagactions",
-      "community": 46,
+      "community": 82,
       "norm_label": "tagactions()"
     },
     {
@@ -1640,7 +1640,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagcontrols",
-      "community": 46,
+      "community": 82,
       "norm_label": "tagcontrols.jsx"
     },
     {
@@ -1650,7 +1650,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "tags_tagcontrols_tagcontrols",
-      "community": 46,
+      "community": 82,
       "norm_label": "tagcontrols()"
     },
     {
@@ -1720,7 +1720,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagfilters",
-      "community": 46,
+      "community": 82,
       "norm_label": "tagfilters.jsx"
     },
     {
@@ -1730,7 +1730,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagfilters_tagfilters",
-      "community": 46,
+      "community": 82,
       "norm_label": "tagfilters()"
     },
     {
@@ -1880,7 +1880,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "editor_tagbasicstab",
-      "community": 70,
+      "community": 3,
       "norm_label": "tagbasicstab.jsx"
     },
     {
@@ -1890,7 +1890,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "editor_tagbasicstab_tagbasicstab",
-      "community": 70,
+      "community": 3,
       "norm_label": "tagbasicstab()"
     },
     {
@@ -2204,6 +2204,26 @@
       "norm_label": "bulktextarea()"
     },
     {
+      "label": "CollapsiblePanel.jsx",
+      "file_type": "code",
+      "source_file": "src/components/ui/CollapsiblePanel.jsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "ui_collapsiblepanel",
+      "community": 3,
+      "norm_label": "collapsiblepanel.jsx"
+    },
+    {
+      "label": "CollapsiblePanel()",
+      "file_type": "code",
+      "source_file": "src/components/ui/CollapsiblePanel.jsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "ui_collapsiblepanel_collapsiblepanel",
+      "community": 3,
+      "norm_label": "collapsiblepanel()"
+    },
+    {
       "label": "FormField.jsx",
       "file_type": "code",
       "source_file": "src/components/ui/FormField.jsx",
@@ -2260,7 +2280,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "ui_hooktemplateeditor_hooktemplateeditor",
-      "community": 0,
+      "community": 82,
       "norm_label": "hooktemplateeditor()"
     },
     {
@@ -2480,7 +2500,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_savedentryrow",
-      "community": 58,
+      "community": 1,
       "norm_label": "savedentryrow.jsx"
     },
     {
@@ -2490,7 +2510,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "ui_savedentryrow_savedentryrow",
-      "community": 58,
+      "community": 1,
       "norm_label": "savedentryrow()"
     },
     {
@@ -2580,7 +2600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_togglefield",
-      "community": 70,
+      "community": 3,
       "norm_label": "togglefield.jsx"
     },
     {
@@ -2590,7 +2610,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_togglefield_togglefield",
-      "community": 70,
+      "community": 3,
       "norm_label": "togglefield()"
     },
     {
@@ -2620,7 +2640,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "config_projectsettingssections",
-      "community": 84,
+      "community": 82,
       "norm_label": "projectsettingssections.js"
     },
     {
@@ -2630,7 +2650,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "config_projectsettingssections_project_setting_sections",
-      "community": 84,
+      "community": 82,
       "norm_label": "project_setting_sections"
     },
     {
@@ -2640,7 +2660,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "config_projectsettingssections_getprojectsettingssectionsummary",
-      "community": 84,
+      "community": 82,
       "norm_label": "getprojectsettingssectionsummary()"
     },
     {
@@ -2650,7 +2670,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "constants_defaultformdata",
-      "community": 90,
+      "community": 1,
       "norm_label": "defaultformdata.js"
     },
     {
@@ -2660,7 +2680,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "constants_defaultformdata_defaultformdata",
-      "community": 90,
+      "community": 1,
       "norm_label": "defaultformdata"
     },
     {
@@ -3360,7 +3380,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useappshellstate",
-      "community": 90,
+      "community": 1,
       "norm_label": "useappshellstate.js"
     },
     {
@@ -3370,7 +3390,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "hooks_useappshellstate_defaultpanelvisibility",
-      "community": 90,
+      "community": 1,
       "norm_label": "defaultpanelvisibility"
     },
     {
@@ -3380,7 +3400,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "hooks_useappshellstate_safeparse",
-      "community": 90,
+      "community": 1,
       "norm_label": "safeparse()"
     },
     {
@@ -3420,7 +3440,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useinputformlogic",
-      "community": 65,
+      "community": 1,
       "norm_label": "useinputformlogic.js"
     },
     {
@@ -3430,7 +3450,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "hooks_useinputformlogic_useinputformlogic",
-      "community": 65,
+      "community": 1,
       "norm_label": "useinputformlogic()"
     },
     {
@@ -3440,7 +3460,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useprojectoverrides",
-      "community": 12,
+      "community": 1,
       "norm_label": "useprojectoverrides.js"
     },
     {
@@ -3450,7 +3470,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "hooks_useprojectoverrides_getstoredprojectoverrides",
-      "community": 12,
+      "community": 1,
       "norm_label": "getstoredprojectoverrides()"
     },
     {
@@ -3520,7 +3540,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useshortsqueue",
-      "community": 81,
+      "community": 1,
       "norm_label": "useshortsqueue.js"
     },
     {
@@ -3530,7 +3550,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "hooks_useshortsqueue_getstoredqueues",
-      "community": 12,
+      "community": 1,
       "norm_label": "getstoredqueues()"
     },
     {
@@ -3540,7 +3560,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "hooks_useshortsqueue_savestoredqueues",
-      "community": 81,
+      "community": 1,
       "norm_label": "savestoredqueues()"
     },
     {
@@ -3550,7 +3570,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "hooks_useshortsqueue_getcoverid",
-      "community": 81,
+      "community": 1,
       "norm_label": "getcoverid()"
     },
     {
@@ -3560,7 +3580,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "hooks_useshortsqueue_getrandomentry",
-      "community": 81,
+      "community": 1,
       "norm_label": "getrandomentry()"
     },
     {
@@ -3570,7 +3590,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "hooks_useshortsqueue_istooclose",
-      "community": 81,
+      "community": 1,
       "norm_label": "istooclose()"
     },
     {
@@ -3580,7 +3600,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "hooks_useshortsqueue_buildqueue",
-      "community": 81,
+      "community": 1,
       "norm_label": "buildqueue()"
     },
     {
@@ -3590,7 +3610,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "hooks_useshortsqueue_getvalidreplacement",
-      "community": 81,
+      "community": 1,
       "norm_label": "getvalidreplacement()"
     },
     {
@@ -3600,7 +3620,7 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "hooks_useshortsqueue_useshortsqueue",
-      "community": 58,
+      "community": 1,
       "norm_label": "useshortsqueue()"
     },
     {
@@ -3630,7 +3650,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_usetagoverrides",
-      "community": 65,
+      "community": 1,
       "norm_label": "usetagoverrides.js"
     },
     {
@@ -3640,7 +3660,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "hooks_usetagoverrides_mergeuniquearray",
-      "community": 65,
+      "community": 1,
       "norm_label": "mergeuniquearray()"
     },
     {
@@ -3650,7 +3670,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "hooks_usetagoverrides_mergedescription",
-      "community": 65,
+      "community": 1,
       "norm_label": "mergedescription()"
     },
     {
@@ -3660,7 +3680,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "hooks_usetagoverrides_mergeshorthooks",
-      "community": 65,
+      "community": 1,
       "norm_label": "mergeshorthooks()"
     },
     {
@@ -3670,7 +3690,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "hooks_usetagoverrides_mergetagdata",
-      "community": 65,
+      "community": 1,
       "norm_label": "mergetagdata()"
     },
     {
@@ -3680,7 +3700,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "hooks_usetagoverrides_usetagoverrides",
-      "community": 65,
+      "community": 1,
       "norm_label": "usetagoverrides()"
     },
     {
@@ -3690,7 +3710,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_usetagvisibilityoverrides",
-      "community": 12,
+      "community": 1,
       "norm_label": "usetagvisibilityoverrides.js"
     },
     {
@@ -3700,7 +3720,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "hooks_usetagvisibilityoverrides_usetagvisibilityoverrides",
-      "community": 12,
+      "community": 1,
       "norm_label": "usetagvisibilityoverrides()"
     },
     {
@@ -3720,7 +3740,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_generatorpage",
-      "community": 12,
+      "community": 1,
       "norm_label": "generatorpage.jsx"
     },
     {
@@ -3730,7 +3750,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "pages_generatorpage_readrawunifiedui",
-      "community": 12,
+      "community": 1,
       "norm_label": "readrawunifiedui()"
     },
     {
@@ -3740,7 +3760,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "pages_generatorpage_generatorpage",
-      "community": 12,
+      "community": 1,
       "norm_label": "generatorpage()"
     },
     {
@@ -3750,7 +3770,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_projectsettingspage",
-      "community": 84,
+      "community": 82,
       "norm_label": "projectsettingspage.jsx"
     },
     {
@@ -3760,7 +3780,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "pages_projectsettingspage_projectsettingspage",
-      "community": 84,
+      "community": 82,
       "norm_label": "projectsettingspage()"
     },
     {
@@ -3770,7 +3790,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_shortsqueuepage",
-      "community": 58,
+      "community": 1,
       "norm_label": "shortsqueuepage.jsx"
     },
     {
@@ -3780,7 +3800,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "pages_shortsqueuepage_shortsqueuepage",
-      "community": 58,
+      "community": 1,
       "norm_label": "shortsqueuepage()"
     },
     {
@@ -3837,7 +3857,7 @@
       "label": "Section()",
       "file_type": "code",
       "source_file": "src/pages/UIKitPage.jsx",
-      "source_location": "L27",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "pages_uikitpage_section",
       "community": 3,
@@ -3847,7 +3867,7 @@
       "label": "Example()",
       "file_type": "code",
       "source_file": "src/pages/UIKitPage.jsx",
-      "source_location": "L39",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "pages_uikitpage_example",
       "community": 3,
@@ -3857,7 +3877,7 @@
       "label": "TABS",
       "file_type": "code",
       "source_file": "src/pages/UIKitPage.jsx",
-      "source_location": "L54",
+      "source_location": "L55",
       "_origin": "ast",
       "id": "pages_uikitpage_tabs",
       "community": 3,
@@ -3867,7 +3887,7 @@
       "label": "UIKitPage()",
       "file_type": "code",
       "source_file": "src/pages/UIKitPage.jsx",
-      "source_location": "L63",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "pages_uikitpage_uikitpage",
       "community": 1,
@@ -4200,7 +4220,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_storage",
-      "community": 12,
+      "community": 1,
       "norm_label": "storage.js"
     },
     {
@@ -4210,7 +4230,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "utils_storage_defaultstorage",
-      "community": 12,
+      "community": 1,
       "norm_label": "defaultstorage"
     },
     {
@@ -4220,7 +4240,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "utils_storage_loadappstorage",
-      "community": 12,
+      "community": 1,
       "norm_label": "loadappstorage()"
     },
     {
@@ -4230,7 +4250,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "utils_storage_saveappstorage",
-      "community": 12,
+      "community": 1,
       "norm_label": "saveappstorage()"
     },
     {
@@ -4240,7 +4260,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "utils_storage_updateappstorage",
-      "community": 12,
+      "community": 1,
       "norm_label": "updateappstorage()"
     },
     {
@@ -4250,7 +4270,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_storagemigration",
-      "community": 83,
+      "community": 1,
       "norm_label": "storagemigration.js"
     },
     {
@@ -4260,7 +4280,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "utils_storagemigration_project_ids",
-      "community": 83,
+      "community": 1,
       "norm_label": "project_ids"
     },
     {
@@ -4270,7 +4290,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "utils_storagemigration_safeparse",
-      "community": 83,
+      "community": 1,
       "norm_label": "safeparse()"
     },
     {
@@ -4280,7 +4300,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "utils_storagemigration_pickprojectsonly",
-      "community": 83,
+      "community": 1,
       "norm_label": "pickprojectsonly()"
     },
     {
@@ -4290,7 +4310,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "utils_storagemigration_cleanpanelvisibility",
-      "community": 83,
+      "community": 1,
       "norm_label": "cleanpanelvisibility()"
     },
     {
@@ -4300,7 +4320,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "utils_storagemigration_previewunifiedstoragemigration",
-      "community": 83,
+      "community": 1,
       "norm_label": "previewunifiedstoragemigration()"
     },
     {
@@ -4310,7 +4330,7 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "utils_storagemigration_writeunifiedstoragemigration",
-      "community": 83,
+      "community": 1,
       "norm_label": "writeunifiedstoragemigration()"
     },
     {
@@ -4350,7 +4370,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "utils_tagregistry_getvisibletags",
-      "community": 65,
+      "community": 1,
       "norm_label": "getvisibletags()"
     },
     {
@@ -6007,7 +6027,7 @@
       "label": "Known Gotchas",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L126",
+      "source_location": "L127",
       "_origin": "ast",
       "id": "claude_known_gotchas",
       "community": 37,
@@ -6017,7 +6037,7 @@
       "label": "Block Type System",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L162",
+      "source_location": "L163",
       "_origin": "ast",
       "id": "claude_block_type_system",
       "community": 37,
@@ -6027,7 +6047,7 @@
       "label": "Block types",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L168",
+      "source_location": "L169",
       "_origin": "ast",
       "id": "claude_block_types",
       "community": 37,
@@ -6037,7 +6057,7 @@
       "label": "Per-song block overrides (`formData.songBlockOverrides`)",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L183",
+      "source_location": "L184",
       "_origin": "ast",
       "id": "claude_per_song_block_overrides_formdata_songblockoverrides",
       "community": 37,
@@ -6047,7 +6067,7 @@
       "label": "Block scope",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L199",
+      "source_location": "L200",
       "_origin": "ast",
       "id": "claude_block_scope",
       "community": 37,
@@ -6057,7 +6077,7 @@
       "label": "Hook Block song overrides and scope",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L215",
+      "source_location": "L216",
       "_origin": "ast",
       "id": "claude_hook_block_song_overrides_and_scope",
       "community": 37,
@@ -6067,7 +6087,7 @@
       "label": "Block targets",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L221",
+      "source_location": "L222",
       "_origin": "ast",
       "id": "claude_block_targets",
       "community": 37,
@@ -6077,7 +6097,7 @@
       "label": "Current Focus",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L231",
+      "source_location": "L232",
       "_origin": "ast",
       "id": "claude_current_focus",
       "community": 37,
@@ -6087,7 +6107,7 @@
       "label": "Other Active Goals",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L237",
+      "source_location": "L238",
       "_origin": "ast",
       "id": "claude_other_active_goals",
       "community": 37,
@@ -6097,7 +6117,7 @@
       "label": "Post-Upload Session Todos",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L249",
+      "source_location": "L250",
       "_origin": "ast",
       "id": "claude_post_upload_session_todos",
       "community": 37,
@@ -6107,7 +6127,7 @@
       "label": "Long-Term Roadmap",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L256",
+      "source_location": "L257",
       "_origin": "ast",
       "id": "claude_long_term_roadmap",
       "community": 37,
@@ -6117,7 +6137,7 @@
       "label": "Important Decisions",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L268",
+      "source_location": "L269",
       "_origin": "ast",
       "id": "claude_important_decisions",
       "community": 37,
@@ -6127,7 +6147,7 @@
       "label": "Development Preferences",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L278",
+      "source_location": "L279",
       "_origin": "ast",
       "id": "claude_development_preferences",
       "community": 37,
@@ -6137,7 +6157,7 @@
       "label": "Session Protocol",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L291",
+      "source_location": "L292",
       "_origin": "ast",
       "id": "claude_session_protocol",
       "community": 37,
@@ -6147,7 +6167,7 @@
       "label": "graphify",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L304",
+      "source_location": "L305",
       "_origin": "ast",
       "id": "claude_graphify",
       "community": 37,
@@ -7317,7 +7337,7 @@
       "label": "In Progress",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L64",
+      "source_location": "L65",
       "_origin": "ast",
       "id": "docs_current_context_in_progress",
       "community": 29,
@@ -7327,7 +7347,7 @@
       "label": "Next Recommended Tasks",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L70",
+      "source_location": "L71",
       "_origin": "ast",
       "id": "docs_current_context_next_recommended_tasks",
       "community": 29,
@@ -7337,7 +7357,7 @@
       "label": "Known Issues",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L79",
+      "source_location": "L80",
       "_origin": "ast",
       "id": "docs_current_context_known_issues",
       "community": 29,
@@ -7347,7 +7367,7 @@
       "label": "Storage cleanup debt",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L81",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "docs_current_context_storage_cleanup_debt",
       "community": 29,
@@ -7357,7 +7377,7 @@
       "label": "`coverLabel` not editable from UI",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L86",
+      "source_location": "L87",
       "_origin": "ast",
       "id": "docs_current_context_coverlabel_not_editable_from_ui",
       "community": 29,
@@ -7367,7 +7387,7 @@
       "label": "`customHashtags` is hardcoded",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L89",
+      "source_location": "L90",
       "_origin": "ast",
       "id": "docs_current_context_customhashtags_is_hardcoded",
       "community": 29,
@@ -7377,7 +7397,7 @@
       "label": "Important Files",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L94",
+      "source_location": "L95",
       "_origin": "ast",
       "id": "docs_current_context_important_files",
       "community": 29,
@@ -7387,7 +7407,7 @@
       "label": "Architectural Notes",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L117",
+      "source_location": "L118",
       "_origin": "ast",
       "id": "docs_current_context_architectural_notes",
       "community": 29,
@@ -7397,7 +7417,7 @@
       "label": "AI Notes",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L137",
+      "source_location": "L138",
       "_origin": "ast",
       "id": "docs_current_context_ai_notes",
       "community": 29,
@@ -7407,7 +7427,7 @@
       "label": "Session Summary",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L167",
+      "source_location": "L168",
       "_origin": "ast",
       "id": "docs_current_context_session_summary",
       "community": 29,
@@ -11596,9 +11616,9 @@
       "source_file": "src/components/ui/OutputItem.jsx",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_outputitem",
-      "target": "components_copybutton",
-      "confidence_score": 1.0
+      "target": "components_copybutton"
     },
     {
       "relation": "imports",
@@ -11673,9 +11693,9 @@
       "source_file": "src/components/ui/OutputItem.jsx",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_outputitem",
-      "target": "components_copybutton_copybutton",
-      "confidence_score": 1.0
+      "target": "components_copybutton_copybutton"
     },
     {
       "relation": "contains",
@@ -12399,7 +12419,7 @@
       "source_location": "L2",
       "weight": 1.0,
       "source": "output_descriptionspanel",
-      "target": "ui_outputitem",
+      "target": "ui_collapsiblepanel",
       "confidence_score": 1.0
     },
     {
@@ -12410,8 +12430,30 @@
       "source_location": "L2",
       "weight": 1.0,
       "source": "output_descriptionspanel",
-      "target": "ui_outputitem_outputitem",
+      "target": "ui_collapsiblepanel_collapsiblepanel",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/DescriptionsPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "output_descriptionspanel",
+      "target": "ui_outputitem"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/DescriptionsPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "output_descriptionspanel",
+      "target": "ui_outputitem_outputitem"
     },
     {
       "relation": "imports_from",
@@ -12517,7 +12559,7 @@
       "source_location": "L2",
       "weight": 1.0,
       "source": "output_hashtagspanel",
-      "target": "ui_outputitem",
+      "target": "ui_collapsiblepanel",
       "confidence_score": 1.0
     },
     {
@@ -12528,8 +12570,30 @@
       "source_location": "L2",
       "weight": 1.0,
       "source": "output_hashtagspanel",
-      "target": "ui_outputitem_outputitem",
+      "target": "ui_collapsiblepanel_collapsiblepanel",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/HashtagsPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "output_hashtagspanel",
+      "target": "ui_outputitem"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/HashtagsPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "output_hashtagspanel",
+      "target": "ui_outputitem_outputitem"
     },
     {
       "relation": "imports_from",
@@ -12725,6 +12789,28 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/output/ShortHooksPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "output_shorthookspanel",
+      "target": "ui_collapsiblepanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/ShortHooksPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "output_shorthookspanel",
+      "target": "ui_collapsiblepanel_collapsiblepanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/ShortHooksPanel.jsx",
       "source_location": "L1",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -12799,6 +12885,28 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/output/TitlesPanel.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "output_titlespanel",
+      "target": "ui_collapsiblepanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/TitlesPanel.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "output_titlespanel",
+      "target": "ui_collapsiblepanel_collapsiblepanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/TitlesPanel.jsx",
       "source_location": "L1",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -12856,7 +12964,7 @@
       "source_location": "L2",
       "weight": 1.0,
       "source": "output_youtubetagspanel",
-      "target": "ui_outputitem",
+      "target": "ui_collapsiblepanel",
       "confidence_score": 1.0
     },
     {
@@ -12867,8 +12975,30 @@
       "source_location": "L2",
       "weight": 1.0,
       "source": "output_youtubetagspanel",
-      "target": "ui_outputitem_outputitem",
+      "target": "ui_collapsiblepanel_collapsiblepanel",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/YouTubeTagsPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "output_youtubetagspanel",
+      "target": "ui_outputitem"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/YouTubeTagsPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "output_youtubetagspanel",
+      "target": "ui_outputitem_outputitem"
     },
     {
       "relation": "imports_from",
@@ -17062,6 +17192,60 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/UIKitPage.jsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "pages_uikitpage",
+      "target": "ui_collapsiblepanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ui/CollapsiblePanel.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "ui_collapsiblepanel",
+      "target": "ui_collapsiblepanel_collapsiblepanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ui/CollapsiblePanel.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "ui_collapsiblepanel",
+      "target": "ui_togglebutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ui/CollapsiblePanel.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "ui_collapsiblepanel",
+      "target": "ui_togglebutton_togglebutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/UIKitPage.jsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "pages_uikitpage",
+      "target": "ui_collapsiblepanel_collapsiblepanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/UIKitPage.jsx",
       "source_location": "L22",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -17462,9 +17646,9 @@
       "source_file": "src/pages/UIKitPage.jsx",
       "source_location": "L23",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_uikitpage",
-      "target": "ui_outputitem",
-      "confidence_score": 1.0
+      "target": "ui_outputitem"
     },
     {
       "relation": "contains",
@@ -17472,9 +17656,9 @@
       "source_file": "src/components/ui/OutputItem.jsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_outputitem",
-      "target": "ui_outputitem_outputitem",
-      "confidence_score": 1.0
+      "target": "ui_outputitem_outputitem"
     },
     {
       "relation": "imports",
@@ -17483,9 +17667,9 @@
       "source_file": "src/pages/UIKitPage.jsx",
       "source_location": "L23",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_uikitpage",
-      "target": "ui_outputitem_outputitem",
-      "confidence_score": 1.0
+      "target": "ui_outputitem_outputitem"
     },
     {
       "relation": "imports_from",
@@ -27374,5 +27558,5 @@
       "source_file": "CLAUDE.md"
     }
   ],
-  "built_at_commit": "7c74692eb6c3feb96b30b1c80c7f3eefbcab3f77"
+  "built_at_commit": "da6bed59108e0212e96e8d8ec378982267089910"
 }

@@ -75,8 +75,8 @@
     "semantic_hash": "436e1a072b7e584cb118260fdf56db70"
   },
   "src/components/output/DescriptionsPanel.jsx": {
-    "mtime": 1782984971.2748168,
-    "ast_hash": "5377b71d09458760f05e90d9affc99f0",
+    "mtime": 1782985325.8211787,
+    "ast_hash": "7a917953b437c0b45774f4bee90a0c9f",
     "semantic_hash": ""
   },
   "src/components/output/GeneratedTitlePair.jsx": {
@@ -85,8 +85,8 @@
     "semantic_hash": "1c1b880d5f9540ce69bcf06b31433430"
   },
   "src/components/output/HashtagsPanel.jsx": {
-    "mtime": 1782984941.5870824,
-    "ast_hash": "414d895e0c61c6a89c93e3b6f5e72b15",
+    "mtime": 1782985234.807901,
+    "ast_hash": "d744ed3ef195702b2194bf7d7072cf00",
     "semantic_hash": ""
   },
   "src/components/output/ShortHookTitles.jsx": {
@@ -95,18 +95,18 @@
     "semantic_hash": "6aa02d8d9ccc349caf735745ac67be36"
   },
   "src/components/output/ShortHooksPanel.jsx": {
-    "mtime": 1781218995.6210487,
-    "ast_hash": "73e14c42d230c1c04bbc89912e6eca05",
-    "semantic_hash": "73e14c42d230c1c04bbc89912e6eca05"
+    "mtime": 1782985267.9297354,
+    "ast_hash": "e794acd13d571c569d922efb7c53daa1",
+    "semantic_hash": ""
   },
   "src/components/output/TitlesPanel.jsx": {
-    "mtime": 1782485707.1147375,
-    "ast_hash": "d70a3432068a606cdc049dcf52f9bb45",
+    "mtime": 1782985303.3722963,
+    "ast_hash": "2e8ad635934835c5884ae07464daebed",
     "semantic_hash": ""
   },
   "src/components/output/YouTubeTagsPanel.jsx": {
-    "mtime": 1782984952.4517727,
-    "ast_hash": "94b9f519ad9ac0102559a3b1560c4155",
+    "mtime": 1782985251.43339,
+    "ast_hash": "d0ed8aba40c908ce0de954195ad0de4c",
     "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsBlocks.jsx": {
@@ -630,8 +630,8 @@
     "semantic_hash": ""
   },
   "src/pages/UIKitPage.jsx": {
-    "mtime": 1782985028.995748,
-    "ast_hash": "3c4087b263c28c8a34f4c54dad3ead9d",
+    "mtime": 1782985448.8883927,
+    "ast_hash": "6388128a4090979d3c2a3313dee7b07f",
     "semantic_hash": ""
   },
   "src/utils/appBackup.js": {
@@ -735,8 +735,8 @@
     "semantic_hash": "2f78598160bfb12ab775831e0787b02a"
   },
   "CLAUDE.md": {
-    "mtime": 1782985096.0293498,
-    "ast_hash": "8fd139bc60bde94674355a0870936b36",
+    "mtime": 1782985490.6864028,
+    "ast_hash": "e30e80dc65f9941a2ea855a3b229de5d",
     "semantic_hash": ""
   },
   "README.md": {
@@ -755,8 +755,8 @@
     "semantic_hash": "b1af7c6209125b2f64ed33b9e4e21ee7"
   },
   "docs/current-context.md": {
-    "mtime": 1782985106.7210753,
-    "ast_hash": "cf569a474403e57d17b5cb7a9b583c70",
+    "mtime": 1782985510.3499317,
+    "ast_hash": "6eae5fac955f4fed98590623c65e14db",
     "semantic_hash": ""
   },
   "docs/data-model.md": {
@@ -907,6 +907,11 @@
   "src/components/ui/OutputItem.jsx": {
     "mtime": 1782984931.2045534,
     "ast_hash": "8cf26797b2cc893a9f9b095be457be47",
+    "semantic_hash": ""
+  },
+  "src/components/ui/CollapsiblePanel.jsx": {
+    "mtime": 1782985225.674608,
+    "ast_hash": "3e42dab74fe3e05021414512e66e621a",
     "semantic_hash": ""
   }
 }
