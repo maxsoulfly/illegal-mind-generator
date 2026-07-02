@@ -97,7 +97,7 @@ src/
 
 # UI Primitives (`src/components/ui/`)
 
-- `TemplateGroupCard` — generic card: label + templates + reset + count + optional subtitle. Base for ShortHookCard and description cards.
+- `TemplateGroupCard` — generic collapsible card: label + reset + optional subtitle/slider + `children`. The template list (count line + `HookTemplateEditor`) only renders when `onUpdateTemplates` is passed — omit it to use the card as a plain content shell (see `ProjectSettingsGeneral`'s Project Info/Actions/Backup cards). Base for `ShortHookCard` and description cards.
 - `ShortHookCard` — adapter over TemplateGroupCard for hook-specific data shape (`hookConfig` object + `hookType`). **TODO:** evaluate collapsing adapter once hook data shape is refactored.
 - **TODO:** extract `CardHeader` component (h3 + reset button + optional remove button + count badge) — then refactor TemplateGroupCard and ShortHookCard to use it.
 - `HookTemplateEditor` — searchable template list with add/bulk/highlight+scroll support. `noWrapper` prop skips the `<details>` collapse wrapper (used by Hook Blocks tab where the parent card already collapses).

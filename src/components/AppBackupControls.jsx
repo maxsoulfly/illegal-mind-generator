@@ -29,7 +29,6 @@ export default function AppBackupControls() {
 
   return (
     <div className="app-backup-controls">
-      <h3>Backup</h3>
       <p className="tag-summary">
         Export all app data — saved entries, tags, queues, and settings — as a
         single JSON file. Import to restore from a backup.

@@ -53,14 +53,18 @@ export default function TemplateGroupCard({
               onChange={sliderConfig.onChange}
             />
           )}
-          <span className="tag-status">{templates.length} {countLabel}</span>
+          {onUpdateTemplates && (
+            <span className="tag-status">{templates.length} {countLabel}</span>
+          )}
           {subtitle && <p className="tag-category">{subtitle}</p>}
           {children}
-          <HookTemplateEditor
-            templates={templates}
-            onUpdateTemplates={onUpdateTemplates}
-            highlightText={highlightText}
-          />
+          {onUpdateTemplates && (
+            <HookTemplateEditor
+              templates={templates}
+              onUpdateTemplates={onUpdateTemplates}
+              highlightText={highlightText}
+            />
+          )}
         </>
       )}
     </article>

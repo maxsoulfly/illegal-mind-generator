@@ -1,5 +1,6 @@
 import ProjectTextField from '../ui/ProjectTextField';
 import IconButton from '../ui/IconButton';
+import TemplateGroupCard from '../ui/TemplateGroupCard';
 import AppBackupControls from '../AppBackupControls';
 
 export default function ProjectSettingsGeneral({
@@ -18,10 +19,7 @@ export default function ProjectSettingsGeneral({
       <h2 className="panel-title">General</h2>
 
       <div className="tag-library tag-library--3col">
-        <article className="tag-card tag-card--settings">
-          <header className="tag-card-header">
-            <h3>Project Info</h3>
-          </header>
+        <TemplateGroupCard label="Project Info">
           <div className="form-row">
             <div className="form-group">
               <div className="form-label">Project ID</div>
@@ -36,12 +34,9 @@ export default function ProjectSettingsGeneral({
               onReset={resetProjectOverride}
             />
           </div>
-        </article>
+        </TemplateGroupCard>
 
-        <article className="tag-card tag-card--settings">
-          <header className="tag-card-header">
-            <h3>Actions</h3>
-          </header>
+        <TemplateGroupCard label="Actions">
           <div className="button-row">
             <IconButton icon="Duplicate Project" className="button-secondary" />
             <IconButton icon="Export Project Config" className="button-secondary" />
@@ -51,11 +46,11 @@ export default function ProjectSettingsGeneral({
             Project editing, duplication, and project-level import/export will be
             added here later.
           </p>
-        </article>
+        </TemplateGroupCard>
 
-        <article className="tag-card tag-card--settings">
+        <TemplateGroupCard label="Backup">
           <AppBackupControls />
-        </article>
+        </TemplateGroupCard>
       </div>
     </section>
   );
