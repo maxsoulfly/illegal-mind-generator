@@ -232,7 +232,6 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 ## Other Active Goals
 
-- Maxx Dee's `transformation` Shorts Hook type has `requiresGenre: true` but none of its 3 templates reference `{originalGenre}` — likely an accidental checkbox toggle. Needs a decision: remove the flag or add genre wording.
 - Queue-hidden indicator in Todo rows
 - Todo status badges in Saved Library
 - Saved Library Todo filtering
