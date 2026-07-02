@@ -25,8 +25,8 @@
     "semantic_hash": ""
   },
   "src/components/AppBackupControls.jsx": {
-    "mtime": 1782014475.9430816,
-    "ast_hash": "59a49c863e87d74b1d07ef2253eb7eb0",
+    "mtime": 1782982249.0373237,
+    "ast_hash": "afb7b321f519f162967e16c2c256aa63",
     "semantic_hash": ""
   },
   "src/components/CopyButton.jsx": {
@@ -125,8 +125,8 @@
     "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsGeneral.jsx": {
-    "mtime": 1782972656.8539855,
-    "ast_hash": "e538bb1e93eb0fbd192ffce4c72fc419",
+    "mtime": 1782983369.365384,
+    "ast_hash": "bb0079d000e0c51db50b96a686c21880",
     "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsHookBlocks.jsx": {
@@ -235,9 +235,9 @@
     "semantic_hash": "1e21a440476bd0d0c9157565d07fbed1"
   },
   "src/components/savedLibrary/SavedLibraryItem.jsx": {
-    "mtime": 1781613587.7980223,
-    "ast_hash": "7182603a15ab16e8129336125afa03ae",
-    "semantic_hash": "7182603a15ab16e8129336125afa03ae"
+    "mtime": 1782983369.3659003,
+    "ast_hash": "046f282f386a69579b4d7854d993397b",
+    "semantic_hash": ""
   },
   "src/components/shared/BulkSongEntry.jsx": {
     "mtime": 1781013302.244514,
@@ -250,9 +250,9 @@
     "semantic_hash": "0f178af672dea77b5931198f657104df"
   },
   "src/components/shortsQueue/ShortsQueueItem.jsx": {
-    "mtime": 1781613531.133572,
-    "ast_hash": "a3bd71495335dd3799ef93b1f3131892",
-    "semantic_hash": "a3bd71495335dd3799ef93b1f3131892"
+    "mtime": 1782983369.3668993,
+    "ast_hash": "2db34b7d1792f7ec5a915b5634a65d15",
+    "semantic_hash": ""
   },
   "src/components/tags/DescriptionMap.jsx": {
     "mtime": 1777678219.0127738,
@@ -365,9 +365,9 @@
     "semantic_hash": "93c746fbfa83a1d2d5fccafa9fa46f37"
   },
   "src/components/todo/TodoItem.jsx": {
-    "mtime": 1780395531.4469151,
-    "ast_hash": "e919f1e1252ecf4dd1d3027d2739c309",
-    "semantic_hash": "e919f1e1252ecf4dd1d3027d2739c309"
+    "mtime": 1782983369.3688343,
+    "ast_hash": "6ce452ff9cff40d71afb3b4e606741e9",
+    "semantic_hash": ""
   },
   "src/components/todo/TodoStatusSection.jsx": {
     "mtime": 1780395424.8542492,
@@ -460,8 +460,8 @@
     "semantic_hash": "90108733fbf70ae69bbb28ccf985663d"
   },
   "src/components/ui/TemplateGroupCard.jsx": {
-    "mtime": 1782469306.6556187,
-    "ast_hash": "484329ba05df4510fc87a5571f3baafb",
+    "mtime": 1782982225.651472,
+    "ast_hash": "bdd2599dc8918488ad07e09cc1746a47",
     "semantic_hash": ""
   },
   "src/components/ui/ToggleButton.jsx": {
@@ -630,8 +630,8 @@
     "semantic_hash": ""
   },
   "src/pages/UIKitPage.jsx": {
-    "mtime": 1782461371.7826595,
-    "ast_hash": "cd18122dd5ce5318fe22702139543341",
+    "mtime": 1782983369.3698907,
+    "ast_hash": "e705db589ba81ca42f4cc00e0dd7afbc",
     "semantic_hash": ""
   },
   "src/utils/appBackup.js": {
@@ -735,8 +735,8 @@
     "semantic_hash": "2f78598160bfb12ab775831e0787b02a"
   },
   "CLAUDE.md": {
-    "mtime": 1782980711.6986134,
-    "ast_hash": "a89330cbce5691ea9439b7da60215425",
+    "mtime": 1782983438.6334753,
+    "ast_hash": "6126f3a47c74d27890734b28a773ac83",
     "semantic_hash": ""
   },
   "README.md": {
@@ -755,8 +755,8 @@
     "semantic_hash": "b1af7c6209125b2f64ed33b9e4e21ee7"
   },
   "docs/current-context.md": {
-    "mtime": 1782980765.6224058,
-    "ast_hash": "a603ea33e1262e157b63420d50dd3043",
+    "mtime": 1782983450.5532553,
+    "ast_hash": "a550f631aa19e44c4bb4de8771affd5c",
     "semantic_hash": ""
   },
   "docs/data-model.md": {
@@ -897,6 +897,11 @@
   "src/components/ui/LabelSelectRow.jsx": {
     "mtime": 1782479006.157971,
     "ast_hash": "704e0e80dc90753dfb654bde704869fa",
+    "semantic_hash": ""
+  },
+  "src/components/ui/SavedEntryRow.jsx": {
+    "mtime": 1782983252.232756,
+    "ast_hash": "ab9d2817432ea4e9d39e0cedd6371d75",
     "semantic_hash": ""
   }
 }

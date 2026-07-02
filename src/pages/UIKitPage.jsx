@@ -17,6 +17,7 @@ import PhraseRow from '../components/ui/PhraseRow';
 import BulkTextarea from '../components/ui/BulkTextarea';
 import TagStatusChip from '../components/tags/TagStatusChip';
 import ToggleButton from '../components/ui/ToggleButton';
+import SavedEntryRow from '../components/ui/SavedEntryRow';
 
 // ─── Section wrapper ──────────────────────────────────────────────────────────
 
@@ -546,35 +547,28 @@ export default function UIKitPage() {
       {/* ── DATA DISPLAYS ── */}
       {activeTab === 'data' && (
         <>
-          <Section title="saved-entry-row pattern" description="Flex row for saved library, todo, and shorts queue items. Use terminal-block + saved-entry-row together.">
+          <Section title="SavedEntryRow" description="Shared row shape for SavedLibrary, ShortsQueue, and Todo list items. middle and actions slots let each caller add its own extra content/controls.">
             <Example
-              name=".saved-entry-row.terminal-block"
-              usage="All list item rows across SavedLibrary, ShortsQueue, and Todo pages. The signal number, clickable title, tags span, and action buttons follow the same layout."
+              name="SavedEntryRow"
+              props="signal artist song onTitleClick tags? hidden? loading? middle? actions? actionsClassName?"
+              usage="All list item rows across SavedLibrary, ShortsQueue, and Todo pages. Don't hand-roll the saved-entry-row/saved-entry-main markup — use this."
             >
-              <div className="saved-entry-row terminal-block">
-                <div className="saved-entry-main">
-                  <span className="saved-entry-signal">01.</span>
-                  <button type="button" className="queue-entry-link saved-entry-text">
-                    <strong>Metallica</strong> — Nothing Else Matters
-                  </button>
-                  <span className="saved-entry-tags">[Heavier, Darker]</span>
-                </div>
-                <div className="saved-entry-actions">
-                  <IconButton icon="×" className="button-secondary" onClick={() => {}} />
-                </div>
-              </div>
-              <div className="saved-entry-row terminal-block">
-                <div className="saved-entry-main">
-                  <span className="saved-entry-signal">02.</span>
-                  <button type="button" className="queue-entry-link saved-entry-text">
-                    <strong>Radiohead</strong> — Creep
-                  </button>
-                  <span className="saved-entry-hidden">[hidden]</span>
-                </div>
-                <div className="saved-entry-actions">
-                  <IconButton icon="×" className="button-secondary" onClick={() => {}} />
-                </div>
-              </div>
+              <SavedEntryRow
+                signal="01"
+                artist="Metallica"
+                song="Nothing Else Matters"
+                onTitleClick={() => {}}
+                tags={['Heavier', 'Darker']}
+                actions={<IconButton icon="×" className="button-secondary" onClick={() => {}} />}
+              />
+              <SavedEntryRow
+                signal="02"
+                artist="Radiohead"
+                song="Creep"
+                onTitleClick={() => {}}
+                hidden
+                actions={<IconButton icon="×" className="button-secondary" onClick={() => {}} />}
+              />
             </Example>
           </Section>
 

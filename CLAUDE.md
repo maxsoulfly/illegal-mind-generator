@@ -112,6 +112,7 @@ src/
 - `BulkTextarea` — textarea + Apply/Cancel. Input is a `PlaceholderField` (`multiline`, `onChange` live mode); optional `placeholders` prop enables the autocomplete (wired in `HookTemplateEditor`/`TagPhraseEditor`).
 - `IconButton` — shared shell for every small action button, icon or text (reset ↺, remove ×, lock 🔒/🔓, move ↑/↓, add +, or labeled buttons like "+ Add"/"Apply"/"Cancel"/"Duplicate Project" — `icon` is just rendered as children, no icon required). Takes `icon, title, onClick, disabled, stopPropagation, className`. `onClick` is optional (no-op if omitted — used by not-yet-wired placeholder buttons). Default `className` is `tag-reset-button`; pass `button-secondary` (or another) to reuse the click/disabled wiring with a different look.
 - `MoveControls` — up/down reorder button pair built on `IconButton`. Used by list items and description block reordering; pass `className` for context-specific layout (see `.desc-block-move-controls`).
+- `SavedEntryRow` — shared row shape (`saved-entry-row terminal-block` → signal number + artist/song title button + tags) used by `SavedLibraryItem`, `ShortsQueueItem`, `TodoItem`. `middle` slot for extra content between the main row and actions (Todo's note preview); `actions`/`actionsClassName` for the differing per-page controls. Don't hand-roll this markup — extend the props if a new caller needs something different.
 - `FormSelect` — the standard `form-select` dropdown (same look as `TodoStatusSelect`) wrapped with `stopPropagation` for use inside clickable card headers. Takes `value, onChange(value), options: [{value, label}]`.
 - `BlockEditorCard` — collapsible card shell for all three block type editors (Lists, Text Blocks, Hook Blocks). Props: `label`, `badge`, `scope`, `target`, `onScopeChange`, `onTargetChange`, `hasOverride`, `onReset`, `onDelete`, `onRename`, `open`, `children`. `onRename` enables an inline ✏ rename button in the header — clicking switches to an input; Enter/blur saves, Escape cancels.
 - `BlockInfoCard` — non-collapsible card used in Description layouts. Props: `label`, `onRemove`, `onAdd`, `onNavigate`. When `onNavigate` is set, the header becomes a clickable nav shortcut (`tag-card-toggle` style, `→` indicator) that jumps to the block's editor tab and auto-expands it — Hook blocks → Blocks → Hook Blocks, List blocks → Blocks → Lists, Text blocks → Blocks → Text Blocks. `onAdd` renders a `+` button (Available column); `onRemove` renders a `×` button (Active Layout column). Generated blocks (no editor) omit `onNavigate` and are non-interactive. Descriptions tab is layout-only; no inline editing of any block type.
@@ -265,7 +266,7 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 - **Local-first** — no backend by design
 - **Config-driven** — behavior from config, not hardcoded logic
-- **Reuse before creating** — check existing components before adding new ones
+- **Reuse before creating** — before writing ANY new UI markup, CSS class, or component, check `/uikit` (UIKitPage) and the "UI Primitives" section above first. Prefer a small conditional tweak to an existing component over new markup or a new class. This applies every time, not just when reminded.
 - **Simple architecture** — single developer, no enterprise patterns, no unnecessary abstraction
 - **onBlur saves** — phrase/template edits save on blur, not on keystroke (future DB compatibility)
 
@@ -274,6 +275,7 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 # Development Preferences
 
 - **Step-by-step, one change at a time.** Present each step, implement it, then stop and wait for the user to review and approve before moving to the next. Never chain multiple steps autonomously.
+- **Before writing any new UI element, check `/uikit` first.** Card, row, wrapper, CSS class — check the UIKitPage catalog and CLAUDE.md's UI Primitives list before writing new markup. Extend an existing component if it can fit; don't hand-roll a shape that duplicates one.
 - Hands-on, file by file, small chunks
 - Show the change, explain it, let the user review before moving on
 - Do NOT batch into autonomous pass unless user says so
