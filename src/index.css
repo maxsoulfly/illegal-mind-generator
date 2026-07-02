@@ -1523,27 +1523,6 @@ input[type="range"]::-moz-range-progress {
   border-color: var(--color-border-hover);
 }
 
-.tag-editor-tabs {
-  display      : flex;
-  gap          : var(--space-2);
-  flex-wrap    : wrap;
-  margin-bottom: var(--space-4);
-}
-
-.tag-editor-tabs button {
-  padding      : var(--space-1) var(--space-3);
-  border       : 1px solid var(--color-border-main);
-  border-radius: var(--radius-pill);
-  background   : var(--color-bg-button-secondary);
-  color        : var(--color-text-muted);
-  cursor       : pointer;
-}
-
-.tag-editor-tabs button.active {
-  border-color: var(--color-border-hover);
-  color       : var(--color-text-accent);
-}
-
 /* Tag filter chips */
 .tag-filters {
   grid-column: 1 / -1;
@@ -1572,6 +1551,8 @@ input[type="range"]::-moz-range-progress {
   display      : flex;
   gap          : var(--space-5);
   margin-bottom: var(--space-4);
+  overflow-x   : auto;
+  flex-wrap    : nowrap;
 }
 
 .subtab-nav button {
@@ -1584,6 +1565,8 @@ input[type="range"]::-moz-range-progress {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor        : pointer;
+  white-space   : nowrap;
+  flex-shrink   : 0;
 }
 
 .subtab-nav button.active {

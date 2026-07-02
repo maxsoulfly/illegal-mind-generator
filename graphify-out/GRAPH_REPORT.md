@@ -1,16 +1,16 @@
 # Graph Report - illegal-mind-generator  (2026-07-02)
 
 ## Corpus Check
-- 179 files · ~92,305 words
+- 179 files · ~92,435 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1060 nodes · 1626 edges · 85 communities (66 shown, 19 thin omitted)
+- 1060 nodes · 1628 edges · 84 communities (65 shown, 19 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 15 edges (avg confidence: 0.9)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `cc03f64b`
+- Built from commit: `a4148fa4`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -89,7 +89,6 @@
 - [[_COMMUNITY_Community 78|Community 78]]
 - [[_COMMUNITY_Community 79|Community 79]]
 - [[_COMMUNITY_Community 80|Community 80]]
-- [[_COMMUNITY_Community 82|Community 82]]
 - [[_COMMUNITY_Community 85|Community 85]]
 - [[_COMMUNITY_Community 86|Community 86]]
 - [[_COMMUNITY_Community 87|Community 87]]
@@ -128,15 +127,15 @@
 - **Config Merge Pipeline (projects.json + tagOverrides + projectOverrides → resolvedProjectConfig)** — docs_architecture_projects_json, docs_architecture_use_tag_overrides, docs_architecture_use_project_overrides, docs_architecture_build_resolved_project_config, docs_architecture_resolved_project_config [EXTRACTED 0.95]
 - **Block Type Ecosystem (List / Text / Hook blocks with scope, target, song overrides)** — docs_data_model_list_block, docs_data_model_text_block, docs_data_model_hook_block_type, claude_md_song_block_overrides, docs_architecture_custom_blocks_js [EXTRACTED 0.90]
 
-## Communities (85 total, 19 thin omitted)
+## Communities (84 total, 19 thin omitted)
 
 ### Community 0 - "Block System UI"
-Cohesion: 0.08
-Nodes (43): AddBlockForm(), AddTextBlockForm(), BlockActions(), BlockEditorCard(), TextBlockEditor(), KNOWN_BLOCK_META, LongDescriptionSettings(), MOBILE_COLUMN_TABS (+35 more)
+Cohesion: 0.07
+Nodes (46): AddBlockForm(), AddTextBlockForm(), BlockActions(), BlockEditorCard(), TextBlockEditor(), KNOWN_BLOCK_META, LongDescriptionSettings(), MOBILE_COLUMN_TABS (+38 more)
 
 ### Community 1 - "App Shell & State Hooks"
-Cohesion: 0.06
-Nodes (43): AppHeader(), PAGE_LABELS, defaultFormData, GeneratorResultsPanel(), defaultPanelVisibility, useAppShellState(), useGeneratedOutput(), getStoredProjectOverrides() (+35 more)
+Cohesion: 0.05
+Nodes (47): AppHeader(), PAGE_LABELS, getProjectSettingsSectionSummary(), PROJECT_SETTING_SECTIONS, defaultFormData, GeneratorResultsPanel(), defaultPanelVisibility, useAppShellState() (+39 more)
 
 ### Community 2 - "Architecture Documentation"
 Cohesion: 0.12
@@ -179,8 +178,8 @@ Cohesion: 0.20
 Nodes (10): graphify Skill Definition, graphify Skill Trigger (slash command), Graphify Add URL and Watch Folder, Graphify Extra Exports and Benchmark, Graphify Extraction Subagent Prompt Spec, Graphify GitHub Clone and Cross-Repo Merge, Graphify Commit Hook and CLAUDE.md Integration, Graphify Query / Path / Explain Flow (+2 more)
 
 ### Community 12 - "Community 12"
-Cohesion: 0.11
-Nodes (20): InputForm(), TagBasicsTab(), EntrySettings(), useInputFormLogic(), useTagOverrides(), AdvancedDescriptionFields(), BasicSongFields(), InputFormActions() (+12 more)
+Cohesion: 0.08
+Nodes (28): AppBackupControls(), InputForm(), TagBasicsTab(), EntrySettings(), useInputFormLogic(), useTagOverrides(), AdvancedDescriptionFields(), BasicSongFields() (+20 more)
 
 ### Community 13 - "UI Icon Assets"
 Cohesion: 0.29
@@ -247,8 +246,8 @@ Cohesion: 0.22
 Nodes (9): Backup safety, Config vs. override, Data Conventions, Data ownership, Legacy field migration, Per-song overrides, Persisting new state, Single storage key (+1 more)
 
 ### Community 46 - "Community 46"
-Cohesion: 0.12
-Nodes (13): useTagLibraryData(), TagLibraryPage(), TagActions(), TagCard(), TagControls(), TagDetails(), TagFilters(), TagHeader() (+5 more)
+Cohesion: 0.10
+Nodes (15): useTagLibraryData(), TagLibraryPage(), ProjectSettingsShortHooks(), TagActions(), TagCard(), TagControls(), TagDetails(), TagFilters() (+7 more)
 
 ### Community 47 - "Community 47"
 Cohesion: 0.25
@@ -331,8 +330,8 @@ Cohesion: 0.50
 Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphify reference: incremental update and cluster-only
 
 ### Community 70 - "Community 70"
-Cohesion: 0.11
-Nodes (16): TagDescriptionsTab(), TAG_EDITOR_TABS, TagEditorTabs(), TagHashtagsTab(), HOOK_TYPES, TagShortHooksTab(), TagTitlesTab(), shouldOpenEditor() (+8 more)
+Cohesion: 0.06
+Nodes (30): TagDescriptionsTab(), TAG_EDITOR_TABS, TagEditorTabs(), TagHashtagsTab(), HOOK_TYPES, TagShortHooksTab(), TagTitlesTab(), PrimaryTagSection() (+22 more)
 
 ### Community 71 - "Community 71"
 Cohesion: 0.50
@@ -349,10 +348,6 @@ Nodes (3): For git commit hook, For native CLAUDE.md integration, graphify refer
 ### Community 74 - "Community 74"
 Cohesion: 0.50
 Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphify reference: incremental update and cluster-only
-
-### Community 82 - "Community 82"
-Cohesion: 0.07
-Nodes (31): AppBackupControls(), getProjectSettingsSectionSummary(), PROJECT_SETTING_SECTIONS, PrimaryTagSection(), LinksRegistryEditor(), ProjectSettingsPage(), ProjectSettingsContent(), ProjectSettingsDescriptions() (+23 more)
 
 ### Community 85 - "Community 85"
 Cohesion: 0.25
@@ -391,8 +386,8 @@ _Questions this graph is uniquely positioned to answer:_
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _490 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Block System UI` be split into smaller, more focused modules?**
-  _Cohesion score 0.07800511508951406 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07063063063063063 - nodes in this community are weakly interconnected._
 - **Should `App Shell & State Hooks` be split into smaller, more focused modules?**
-  _Cohesion score 0.05714285714285714 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05157894736842105 - nodes in this community are weakly interconnected._
 - **Should `Architecture Documentation` be split into smaller, more focused modules?**
   _Cohesion score 0.11764705882352941 - nodes in this community are weakly interconnected._

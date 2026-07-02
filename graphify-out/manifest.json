@@ -330,9 +330,9 @@
     "semantic_hash": "f7656d186505a6fe7efee9c49dec60f7"
   },
   "src/components/tags/editor/TagEditorTabs.jsx": {
-    "mtime": 1781000436.3237016,
-    "ast_hash": "8ff6ea583b7a5c6cfdb258ca22908484",
-    "semantic_hash": "8ff6ea583b7a5c6cfdb258ca22908484"
+    "mtime": 1783007718.5727127,
+    "ast_hash": "7b56ebf871fd5a0770ec08b0aa92ba89",
+    "semantic_hash": ""
   },
   "src/components/tags/editor/TagHashtagsTab.jsx": {
     "mtime": 1781003303.7115266,
@@ -730,8 +730,8 @@
     "semantic_hash": "2f78598160bfb12ab775831e0787b02a"
   },
   "CLAUDE.md": {
-    "mtime": 1783007031.164413,
-    "ast_hash": "4b7fc7e99808c62af6ce2ce1ce601b19",
+    "mtime": 1783007835.1834812,
+    "ast_hash": "86d696301ae1a16b0aa0e3329cab79b0",
     "semantic_hash": ""
   },
   "README.md": {
@@ -750,8 +750,8 @@
     "semantic_hash": "b1af7c6209125b2f64ed33b9e4e21ee7"
   },
   "docs/current-context.md": {
-    "mtime": 1783007073.0602367,
-    "ast_hash": "3f6862b1d7c0fd4ef580a322d060fcb6",
+    "mtime": 1783007877.0738287,
+    "ast_hash": "133d332978dc20bacd59f33f124c1939",
     "semantic_hash": ""
   },
   "docs/data-model.md": {

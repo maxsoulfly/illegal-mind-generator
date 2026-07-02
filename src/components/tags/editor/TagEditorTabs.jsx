@@ -1,3 +1,5 @@
+import SubTabNav from '../../ui/SubTabNav';
+
 const TAG_EDITOR_TABS = [
   { id: 'basics', label: 'Basics' },
   { id: 'titles', label: 'Titles' },
@@ -8,17 +10,6 @@ const TAG_EDITOR_TABS = [
 
 export default function TagEditorTabs({ activeTab, onChangeTab }) {
   return (
-    <div className="tag-editor-tabs">
-      {TAG_EDITOR_TABS.map((tab) => (
-        <button
-          key={tab.id}
-          type="button"
-          className={activeTab === tab.id ? 'active' : ''}
-          onClick={() => onChangeTab(tab.id)}
-        >
-          {tab.label}
-        </button>
-      ))}
-    </div>
+    <SubTabNav tabs={TAG_EDITOR_TABS} activeTab={activeTab} onTabChange={onChangeTab} />
   );
 }
