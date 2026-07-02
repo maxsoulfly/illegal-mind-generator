@@ -20,6 +20,7 @@ import ToggleButton from '../components/ui/ToggleButton';
 import SavedEntryRow from '../components/ui/SavedEntryRow';
 import CopyButton from '../components/CopyButton';
 import FormField from '../components/ui/FormField';
+import OutputItem from '../components/ui/OutputItem';
 
 // ─── Section wrapper ──────────────────────────────────────────────────────────
 
@@ -619,15 +620,16 @@ export default function UIKitPage() {
             </Example>
           </Section>
 
-          <Section title="output-item" description="Rendered output block. White-space pre-wrap, monospace. Copy button sits below.">
-            <Example name=".output-item + .output-text" usage="Wrap generated description text in .output-item. Use .output-text for the pre-wrap paragraph.">
-              <div className="output-item">
-                <p className="output-text">SIGNAL 47 · NOTHING ELSE MATTERS
+          <Section title="OutputItem" description="Generated output block: text + CopyButton. Used by Hashtags, YouTube Tags, and Descriptions panels.">
+            <Example
+              name="OutputItem"
+              props="text textClassName? textStyle? copyText?"
+              usage="Default (textClassName='output-text') gives pre-wrap monospace styling for single-line output like hashtags/tags. Pass textClassName={undefined} + textStyle={{whiteSpace:'pre-line'}} for multi-paragraph output like Descriptions — see DescriptionsPanel.jsx. copyText lets the copied text differ from the displayed text (Descriptions appends a footer)."
+            >
+              <OutputItem text={`SIGNAL 47 · NOTHING ELSE MATTERS
 [STATUS: ACTIVE · TRANSFORMATION: DARKER · HEAVIER]
 
-Broadcast from the ruins of a former concert hall...</p>
-                <button className="copy-button">Copy</button>
-              </div>
+Broadcast from the ruins of a former concert hall...`} />
             </Example>
           </Section>
 

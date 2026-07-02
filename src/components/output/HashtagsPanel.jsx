@@ -1,5 +1,5 @@
-import CopyButton from '../CopyButton';
 import ToggleButton from '../ui/ToggleButton';
+import OutputItem from '../ui/OutputItem';
 
 function HashtagsPanel({ hashtags, panelVisibility, togglePanel }) {
   return (
@@ -15,12 +15,7 @@ function HashtagsPanel({ hashtags, panelVisibility, togglePanel }) {
           compact
         />
       </div>
-      {panelVisibility.hashtags && (
-        <div className="output-item terminal-block">
-          <p className="output-text">{hashtags}</p>
-          <CopyButton text={hashtags} />
-        </div>
-      )}
+      {panelVisibility.hashtags && <OutputItem text={hashtags} />}
     </div>
   );
 }

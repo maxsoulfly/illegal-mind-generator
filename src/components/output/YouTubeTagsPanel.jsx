@@ -1,5 +1,5 @@
-import CopyButton from '../CopyButton';
 import ToggleButton from '../ui/ToggleButton';
+import OutputItem from '../ui/OutputItem';
 
 function YouTubeTagsPanel({ youtubeTags, panelVisibility, togglePanel }) {
   return (
@@ -16,12 +16,7 @@ function YouTubeTagsPanel({ youtubeTags, panelVisibility, togglePanel }) {
         />
       </div>
 
-      {panelVisibility.youtubeTags && (
-        <div className="output-item terminal-block">
-          <p className="output-text">{youtubeTags}</p>
-          <CopyButton text={youtubeTags} />
-        </div>
-      )}
+      {panelVisibility.youtubeTags && <OutputItem text={youtubeTags} />}
     </div>
   );
 }

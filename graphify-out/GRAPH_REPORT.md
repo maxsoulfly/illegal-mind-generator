@@ -1,16 +1,16 @@
 # Graph Report - illegal-mind-generator  (2026-07-02)
 
 ## Corpus Check
-- 175 files · ~90,511 words
+- 176 files · ~90,693 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1048 nodes · 1573 edges · 90 communities (70 shown, 20 thin omitted)
+- 1050 nodes · 1584 edges · 91 communities (71 shown, 20 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 15 edges (avg confidence: 0.9)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2adf4753`
+- Built from commit: `7c74692e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -100,6 +100,7 @@
 - [[_COMMUNITY_Community 87|Community 87]]
 - [[_COMMUNITY_Community 88|Community 88]]
 - [[_COMMUNITY_Community 89|Community 89]]
+- [[_COMMUNITY_Community 90|Community 90]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `IconButton()` - 23 edges
@@ -133,23 +134,23 @@
 - **Config Merge Pipeline (projects.json + tagOverrides + projectOverrides → resolvedProjectConfig)** — docs_architecture_projects_json, docs_architecture_use_tag_overrides, docs_architecture_use_project_overrides, docs_architecture_build_resolved_project_config, docs_architecture_resolved_project_config [EXTRACTED 0.95]
 - **Block Type Ecosystem (List / Text / Hook blocks with scope, target, song overrides)** — docs_data_model_list_block, docs_data_model_text_block, docs_data_model_hook_block_type, claude_md_song_block_overrides, docs_architecture_custom_blocks_js [EXTRACTED 0.90]
 
-## Communities (90 total, 20 thin omitted)
+## Communities (91 total, 20 thin omitted)
 
 ### Community 0 - "Block System UI"
-Cohesion: 0.24
-Nodes (11): BlockActions(), AddListBlockForm(), TYPE_OPTIONS, ListItemRow(), DISPLAY_MODE_OPTIONS, FormSelect(), IconButton(), MoveControls() (+3 more)
+Cohesion: 0.07
+Nodes (48): AddBlockForm(), AddTextBlockForm(), BlockActions(), BlockEditorCard(), KNOWN_BLOCK_META, LongDescriptionSettings(), MOBILE_COLUMN_TABS, KNOWN_SHORTS_BLOCK_META (+40 more)
 
 ### Community 1 - "App Shell & State Hooks"
-Cohesion: 0.05
-Nodes (46): AppHeader(), PAGE_LABELS, getProjectSettingsSectionSummary(), PROJECT_SETTING_SECTIONS, defaultFormData, defaultPanelVisibility, useAppShellState(), useGeneratedOutput() (+38 more)
+Cohesion: 0.18
+Nodes (10): AppHeader(), PAGE_LABELS, useAppShellState(), useGeneratedOutput(), useProjectOverrides(), useSavedEntries(), UIKitPage(), App() (+2 more)
 
 ### Community 2 - "Architecture Documentation"
 Cohesion: 0.12
 Nodes (16): Blast radius map, customBlocks.js consumers, Generation Engine Dependencies, Hook dependency on each other, hookPlaceholders.js consumers, Illegal Mind Generator — Graph Report, Most Central Files, Page → Component Relationships (+8 more)
 
 ### Community 3 - "Generator Output & Saved Entries"
-Cohesion: 0.09
-Nodes (24): CopyButton(), GeneratorResultsPanel(), DescriptionsPanel(), GeneratedTitlePair(), HashtagsPanel(), buildMixedShortHooks(), ShortHooksPanel(), shuffleArray() (+16 more)
+Cohesion: 0.06
+Nodes (35): CopyButton(), EntrySettings(), GeneratorResultsPanel(), AdvancedDescriptionFields(), BasicSongFields(), InputFormActions(), QueueSettings(), TransformationTagSelector() (+27 more)
 
 ### Community 4 - "Generator Input & Tag Editor"
 Cohesion: 0.31
@@ -185,7 +186,7 @@ Nodes (10): graphify Skill Definition, graphify Skill Trigger (slash command), G
 
 ### Community 12 - "App Navigation & Backup"
 Cohesion: 0.23
-Nodes (13): AddBlockForm(), AddTextBlockForm(), PHRASE_BLOCK_OVERRIDES, SongBlockOverrideFields(), StructuredListEditor(), detectItemType(), getBlockLabel(), isListBlock() (+5 more)
+Nodes (8): getStoredProjectOverrides(), getStoredQueues(), GeneratorPage(), SavedLibrary(), defaultStorage, loadAppStorage(), saveAppStorage(), updateAppStorage()
 
 ### Community 13 - "UI Icon Assets"
 Cohesion: 0.29
@@ -252,8 +253,8 @@ Cohesion: 0.22
 Nodes (9): Backup safety, Config vs. override, Data Conventions, Data ownership, Legacy field migration, Per-song overrides, Persisting new state, Single storage key (+1 more)
 
 ### Community 46 - "Community 46"
-Cohesion: 0.12
-Nodes (19): InputForm(), EntrySettings(), useInputFormLogic(), useTagOverrides(), AdvancedDescriptionFields(), BasicSongFields(), InputFormActions(), QueueSettings() (+11 more)
+Cohesion: 0.11
+Nodes (17): useTagLibraryData(), TagLibraryPage(), TagActions(), TagCard(), TagControls(), TagDetails(), TagFilters(), TagHeader() (+9 more)
 
 ### Community 47 - "Community 47"
 Cohesion: 0.25
@@ -300,8 +301,8 @@ Cohesion: 0.40
 Nodes (5): Component placement rules, Documentation placement, File Organization, Folder responsibilities, Utility placement
 
 ### Community 58 - "Community 58"
-Cohesion: 0.26
-Nodes (11): KNOWN_BLOCK_META, LongDescriptionSettings(), MOBILE_COLUMN_TABS, KNOWN_SHORTS_BLOCK_META, MOBILE_COLUMN_TABS, ShortsDescriptionSettings(), DESCRIPTION_SUBTABS, BlockInfoCard() (+3 more)
+Cohesion: 0.27
+Nodes (6): useShortsQueue(), ShortsQueuePage(), SavedLibraryItem(), ShortsQueueEmptyState(), ShortsQueueItem(), SavedEntryRow()
 
 ### Community 59 - "Community 59"
 Cohesion: 0.40
@@ -328,8 +329,8 @@ Cohesion: 0.33
 Nodes (5): For /graphify explain, For /graphify path, graphify reference: query, path, explain, Step 0 — Constrained query expansion (REQUIRED before traversal), Step 1 — Traversal
 
 ### Community 65 - "Community 65"
-Cohesion: 0.39
-Nodes (6): AppBackupControls(), buildAppBackup(), downloadAppBackup(), LEGACY_KEYS, readLegacyData(), restoreAppBackup()
+Cohesion: 0.36
+Nodes (8): InputForm(), useInputFormLogic(), mergeDescription(), mergeShortHooks(), mergeTagData(), mergeUniqueArray(), useTagOverrides(), getVisibleTags()
 
 ### Community 66 - "Community 66"
 Cohesion: 0.50
@@ -344,8 +345,8 @@ Cohesion: 0.50
 Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphify reference: incremental update and cluster-only
 
 ### Community 70 - "Community 70"
-Cohesion: 0.06
-Nodes (25): TagBasicsTab(), TagDescriptionsTab(), TAG_EDITOR_TABS, TagEditorTabs(), TagHashtagsTab(), HOOK_TYPES, TagShortHooksTab(), TagTitlesTab() (+17 more)
+Cohesion: 0.09
+Nodes (18): TextBlockEditor(), TagBasicsTab(), TagDescriptionsTab(), TAG_EDITOR_TABS, TagEditorTabs(), TagHashtagsTab(), HOOK_TYPES, TagShortHooksTab() (+10 more)
 
 ### Community 71 - "Community 71"
 Cohesion: 0.50
@@ -364,16 +365,20 @@ Cohesion: 0.50
 Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphify reference: incremental update and cluster-only
 
 ### Community 81 - "Community 81"
-Cohesion: 0.27
-Nodes (6): TABS, AddBulkRow(), BulkTextarea(), PhraseRow, PlaceholderField(), ToggleInputRow()
+Cohesion: 0.52
+Nodes (6): buildQueue(), getCoverId(), getRandomEntry(), getValidReplacement(), isTooClose(), saveStoredQueues()
 
 ### Community 82 - "Community 82"
-Cohesion: 0.16
-Nodes (10): PrimaryTagSection(), ProjectSettingsShortHooks(), TagSyncControls(), TitlePrefixSuffixSection(), TitleTransformationSection(), LabelInputRow(), LabelSelectRow(), LabelSliderRow() (+2 more)
+Cohesion: 0.09
+Nodes (21): AppBackupControls(), PrimaryTagSection(), ProjectSettingsShortHooks(), GENERATION_SETTINGS_KEYS, GROUP_LABELS, TagSyncControls(), TitleGenerationCard(), TitlePrefixSuffixSection() (+13 more)
 
 ### Community 83 - "Community 83"
-Cohesion: 0.11
-Nodes (15): LinksRegistryEditor(), BLOCKS_SUBTABS, ProjectSettingsBlocks(), ProjectSettingsDescriptions(), ProjectSettingsGeneral(), OVERRIDE_TYPE_OPTIONS, ProjectSettingsHookBlocks(), ProjectSettingsLinks() (+7 more)
+Cohesion: 0.48
+Nodes (6): cleanPanelVisibility(), pickProjectsOnly(), previewUnifiedStorageMigration(), PROJECT_IDS, safeParse(), writeUnifiedStorageMigration()
+
+### Community 84 - "Community 84"
+Cohesion: 0.47
+Nodes (4): getProjectSettingsSectionSummary(), PROJECT_SETTING_SECTIONS, ProjectSettingsPage(), ProjectSettingsContent()
 
 ### Community 85 - "Community 85"
 Cohesion: 0.25
@@ -404,16 +409,16 @@ Nodes (3): Component Dependency Graph, customBlocks.js consumers, UI Primitives 
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Conventions` connect `Community 50` to `Generator Input & Tag Editor`, `Community 39`, `Community 44`, `Community 45`, `Community 47`, `Community 48`, `Community 51`, `Community 52`, `Community 53`, `Community 56`, `Community 57`, `Tag Library Architecture`?**
-  _High betweenness centrality (0.025) - this node is a cross-community bridge._
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
 - **Why does `Illegal Mind Generator — Data Model` connect `Community 40` to `Community 39`, `Community 41`, `Community 42`, `Community 49`, `Community 85`, `Community 54`, `Community 87`, `Community 88`, `Community 59`, `Community 60`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+  _High betweenness centrality (0.021) - this node is a cross-community bridge._
 - **Why does `Illegal Mind Generator Data Model Document` connect `Community 39` to `Community 41`, `Community 50`, `Community 85`, `Community 54`, `Community 88`, `Community 59`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _489 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `App Shell & State Hooks` be split into smaller, more focused modules?**
-  _Cohesion score 0.05261261261261261 - nodes in this community are weakly interconnected._
+- **Should `Block System UI` be split into smaller, more focused modules?**
+  _Cohesion score 0.06954954954954955 - nodes in this community are weakly interconnected._
 - **Should `Architecture Documentation` be split into smaller, more focused modules?**
   _Cohesion score 0.11764705882352941 - nodes in this community are weakly interconnected._
 - **Should `Generator Output & Saved Entries` be split into smaller, more focused modules?**
-  _Cohesion score 0.09191583610188261 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06409130816505706 - nodes in this community are weakly interconnected._

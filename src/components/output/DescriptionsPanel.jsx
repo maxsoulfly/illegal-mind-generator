@@ -1,5 +1,5 @@
-import CopyButton from '../CopyButton';
 import ToggleButton from '../ui/ToggleButton';
+import OutputItem from '../ui/OutputItem';
 
 function DescriptionsPanel({
   panelVisibility,
@@ -32,27 +32,24 @@ function DescriptionsPanel({
         <div>
           {/* LONG */}
           {videoType === 'Long' && (
-            <div className="output-item terminal-block">
-              <p style={{ whiteSpace: 'pre-line' }}>{longDescription}</p>
-              <CopyButton
-                text={[longDescription, renderCopyFooter()]
-                  .filter(Boolean)
-                  .join('\n\n')}
-              />
-            </div>
+            <OutputItem
+              text={longDescription}
+              textClassName={undefined}
+              textStyle={{ whiteSpace: 'pre-line' }}
+              copyText={[longDescription, renderCopyFooter()].filter(Boolean).join('\n\n')}
+            />
           )}
 
           {/* SHORTS */}
           {videoType === 'Shorts' &&
             descriptions.map((description, index) => (
-              <div key={index} className="output-item terminal-block">
-                <p style={{ whiteSpace: 'pre-line' }}>{description}</p>
-                <CopyButton
-                  text={[description, renderCopyFooter()]
-                    .filter(Boolean)
-                    .join('\n\n')}
-                />
-              </div>
+              <OutputItem
+                key={index}
+                text={description}
+                textClassName={undefined}
+                textStyle={{ whiteSpace: 'pre-line' }}
+                copyText={[description, renderCopyFooter()].filter(Boolean).join('\n\n')}
+              />
             ))}
         </div>
       )}
