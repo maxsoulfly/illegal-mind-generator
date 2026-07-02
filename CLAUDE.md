@@ -97,10 +97,10 @@ src/
 
 # UI Primitives (`src/components/ui/`)
 
-- `TemplateGroupCard` — generic collapsible card: label + reset + optional subtitle/slider + `children`. The template list (count line + `HookTemplateEditor`) only renders when `onUpdateTemplates` is passed — omit it to use the card as a plain content shell (see `ProjectSettingsGeneral`'s Project Info/Actions/Backup cards). Base for `ShortHookCard` and description cards.
+- `TemplateGroupCard` — generic collapsible card: label + reset + optional subtitle/slider + `children`. The template list (count line + `HookTemplateEditor`) only renders when `onUpdateTemplates` is passed — omit it to use the card as a plain content shell (see `ProjectSettingsGeneral`'s Project Info/Actions/Backup cards). Optional `placeholders` prop passes through to `HookTemplateEditor` (see below); omit it to keep the default `HOOK_PLACEHOLDERS` autocomplete. Base for `ShortHookCard` and description cards.
 - `ShortHookCard` — adapter over TemplateGroupCard for hook-specific data shape (`hookConfig` object + `hookType`). **TODO:** evaluate collapsing adapter once hook data shape is refactored.
 - **TODO:** extract `CardHeader` component (h3 + reset button + optional remove button + count badge) — then refactor TemplateGroupCard and ShortHookCard to use it.
-- `HookTemplateEditor` — searchable template list with add/bulk/highlight+scroll support. `noWrapper` prop skips the `<details>` collapse wrapper (used by Hook Blocks tab where the parent card already collapses).
+- `HookTemplateEditor` — searchable template list with add/bulk/highlight+scroll support. `noWrapper` prop skips the `<details>` collapse wrapper (used by Hook Blocks tab where the parent card already collapses). Optional `placeholders` prop (default `HOOK_PLACEHOLDERS`) controls the `{placeholder}` autocomplete — pass `[]` to disable it entirely (literal-text fields like Thumbnail words/fallbacks) or a smaller list like `THUMBNAIL_TAG_PLACEHOLDER` (`src/utils/hookPlaceholders.js`) for fields that only support one substitution.
 - `SubTabNav` — lightweight tab nav (underline active, no pill borders). Takes `tabs: [{id, label}]`.
 - `NavLinkButton` — clickable text for source navigation. `muted` prop for base hooks.
 - `PhraseRow` — forwardRef row, onBlur save, `highlighted` prop for scroll target. Optional `placeholders` prop enables the `{placeholder}` autocomplete on its field (see `PlaceholderField`); used by `HookTemplateEditor` (project-level hooks) and `TagShortHooksTab`/`TagPhraseEditor` (per-tag hooks) via the shared `HOOK_PLACEHOLDERS` in `src/utils/hookPlaceholders.js`. `TagPhraseEditor`'s title/hashtag phrase editors don't pass any yet. CSS: flex lives on `.placeholder-field` wrapper (not `.form-input` directly) so the input fills its flex slot responsively.
@@ -232,6 +232,8 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 # Current Focus
 
 `originalGenre` is now fully done through Stage 3. Stage 2 (2026-07-02): added a new `original` Shorts Hook type to both projects — `requiresGenre: true`, no `excludeForFaithful`, templates `"The best {originalGenre} song of {year}"` / `"{originalGenre} perfection since {year}"` / `"Still the greatest {originalGenre} track from {year}"`. Stage 3 (shipped earlier in `63ce426`): a `contrast` Shorts Hook type (`excludeForFaithful: true`, `requiresGenre: true`) using `{originalGenre}` + `{primaryTag}`, gated in `generateShortHooks.js`.
+
+**Project Settings → Thumbnail Templates built** (2026-07-02) — the tab was registered in `projectSettingsSections.js` but fell through to "Coming Soon". New `ProjectSettingsThumbnails.jsx` edits `thumbnail.words`/`.fallbacks`/`.genericTagTemplates`/`.patterns.long`/`.patterns.shorts` — the exact keys `generateThumbnails.js` reads, already correctly merged by `buildResolvedProjectConfig.js`. No click-to-source nav on the Generator's "Thumb:" output line yet (`generateThumbnails.js` doesn't track which word/pattern produced a given thumbnail) — flagged as a possible follow-up, not built.
 
 ---
 

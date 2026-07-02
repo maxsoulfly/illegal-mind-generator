@@ -4,6 +4,7 @@ import ProjectSettingsBlocks from './ProjectSettingsBlocks';
 import ProjectSettingsShortHooks from './ProjectSettingsShortHooks';
 import ProjectSettingsTitles from './ProjectSettingsTitles';
 import ProjectSettingsDescriptions from './ProjectSettingsDescriptions';
+import ProjectSettingsThumbnails from './ProjectSettingsThumbnails';
 
 export default function ProjectSettingsContent({
   activeSection,
@@ -93,6 +94,16 @@ export default function ProjectSettingsContent({
         updateProjectOverride={updateProjectOverride}
         openBlocksEditor={openBlocksEditor}
         openShortHooksSearch={openShortHooksSearch}
+      />
+    );
+  }
+
+  if (activeSection === 'thumbnails') {
+    return (
+      <ProjectSettingsThumbnails
+        projectConfig={projectConfig}
+        projectSettingsOverrides={projectSettingsOverrides}
+        updateProjectOverride={updateProjectOverride}
       />
     );
   }

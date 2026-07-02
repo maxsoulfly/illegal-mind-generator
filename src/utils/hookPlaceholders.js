@@ -14,3 +14,7 @@ export const HOOK_PLACEHOLDERS = [
   '{originalGenre}',
   '{transformation}',
 ];
+
+// Matches the {tag} substitution generateThumbnails.js's buildGenericTagThumbnailPhrases
+// applies. Thumbnail words/fallbacks support no placeholders at all (literal text only).
+export const THUMBNAIL_TAG_PLACEHOLDER = ['{tag}'];

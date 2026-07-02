@@ -16,6 +16,7 @@ export default function TemplateGroupCard({
   sliderConfig,
   children,
   headerActions,
+  placeholders,
 }) {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
 
@@ -63,6 +64,7 @@ export default function TemplateGroupCard({
               templates={templates}
               onUpdateTemplates={onUpdateTemplates}
               highlightText={highlightText}
+              placeholders={placeholders}
             />
           )}
         </>

@@ -320,7 +320,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_appbackupcontrols",
-      "community": 82,
+      "community": 12,
       "norm_label": "appbackupcontrols.jsx"
     },
     {
@@ -330,7 +330,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "components_appbackupcontrols_appbackupcontrols",
-      "community": 82,
+      "community": 12,
       "norm_label": "appbackupcontrols()"
     },
     {
@@ -390,7 +390,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_inputform",
-      "community": 3,
+      "community": 12,
       "norm_label": "inputform.jsx"
     },
     {
@@ -410,7 +410,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "entry_entrysettings",
-      "community": 3,
+      "community": 12,
       "norm_label": "entrysettings.jsx"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "entry_entrysettings_entrysettings",
-      "community": 3,
+      "community": 12,
       "norm_label": "entrysettings()"
     },
     {
@@ -490,7 +490,7 @@
       "source_location": "L222",
       "_origin": "ast",
       "id": "input_advanceddescriptionfields_advanceddescriptionfields",
-      "community": 3,
+      "community": 0,
       "norm_label": "advanceddescriptionfields()"
     },
     {
@@ -500,7 +500,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "input_basicsongfields",
-      "community": 3,
+      "community": 12,
       "norm_label": "basicsongfields.jsx"
     },
     {
@@ -510,7 +510,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "input_basicsongfields_basicsongfields",
-      "community": 3,
+      "community": 12,
       "norm_label": "basicsongfields()"
     },
     {
@@ -520,7 +520,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "input_inputformactions",
-      "community": 3,
+      "community": 12,
       "norm_label": "inputformactions.jsx"
     },
     {
@@ -530,7 +530,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "input_inputformactions_inputformactions",
-      "community": 3,
+      "community": 12,
       "norm_label": "inputformactions()"
     },
     {
@@ -540,7 +540,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "input_queuesettings",
-      "community": 3,
+      "community": 12,
       "norm_label": "queuesettings.jsx"
     },
     {
@@ -550,7 +550,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "input_queuesettings_queuesettings",
-      "community": 3,
+      "community": 12,
       "norm_label": "queuesettings()"
     },
     {
@@ -560,7 +560,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "input_transformationtagselector",
-      "community": 3,
+      "community": 12,
       "norm_label": "transformationtagselector.jsx"
     },
     {
@@ -570,7 +570,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "input_transformationtagselector_transformationtagselector",
-      "community": 3,
+      "community": 12,
       "norm_label": "transformationtagselector()"
     },
     {
@@ -857,7 +857,7 @@
       "label": "ProjectSettingsContent()",
       "file_type": "code",
       "source_file": "src/components/projectSettings/ProjectSettingsContent.jsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "projectsettings_projectsettingscontent_projectsettingscontent",
       "community": 82,
@@ -900,7 +900,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "projectsettings_projectsettingsgeneral",
-      "community": 82,
+      "community": 12,
       "norm_label": "projectsettingsgeneral.jsx"
     },
     {
@@ -910,7 +910,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "projectsettings_projectsettingsgeneral_projectsettingsgeneral",
-      "community": 82,
+      "community": 12,
       "norm_label": "projectsettingsgeneral()"
     },
     {
@@ -1042,6 +1042,26 @@
       "id": "projectsettings_projectsettingstextblocks_projectsettingstextblocks",
       "community": 0,
       "norm_label": "projectsettingstextblocks()"
+    },
+    {
+      "label": "ProjectSettingsThumbnails.jsx",
+      "file_type": "code",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "projectsettings_projectsettingsthumbnails",
+      "community": 70,
+      "norm_label": "projectsettingsthumbnails.jsx"
+    },
+    {
+      "label": "ProjectSettingsThumbnails()",
+      "file_type": "code",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "projectsettings_projectsettingsthumbnails_projectsettingsthumbnails",
+      "community": 82,
+      "norm_label": "projectsettingsthumbnails()"
     },
     {
       "label": "ProjectSettingsTitles.jsx",
@@ -1880,7 +1900,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "editor_tagbasicstab",
-      "community": 3,
+      "community": 12,
       "norm_label": "tagbasicstab.jsx"
     },
     {
@@ -1890,7 +1910,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "editor_tagbasicstab_tagbasicstab",
-      "community": 3,
+      "community": 12,
       "norm_label": "tagbasicstab()"
     },
     {
@@ -2060,7 +2080,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "todo_todofields",
-      "community": 3,
+      "community": 12,
       "norm_label": "todofields.jsx"
     },
     {
@@ -2070,7 +2090,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "todo_todofields_todofields",
-      "community": 3,
+      "community": 12,
       "norm_label": "todofields()"
     },
     {
@@ -2080,7 +2100,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "todo_todoitem",
-      "community": 3,
+      "community": 12,
       "norm_label": "todoitem.jsx"
     },
     {
@@ -2130,7 +2150,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "todo_todostatusselect",
-      "community": 3,
+      "community": 12,
       "norm_label": "todostatusselect.jsx"
     },
     {
@@ -2140,7 +2160,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "todo_todostatusselect_todostatusselect",
-      "community": 3,
+      "community": 12,
       "norm_label": "todostatusselect()"
     },
     {
@@ -2230,7 +2250,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_formfield",
-      "community": 3,
+      "community": 12,
       "norm_label": "formfield.jsx"
     },
     {
@@ -2240,7 +2260,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_formfield_formfield",
-      "community": 3,
+      "community": 12,
       "norm_label": "formfield()"
     },
     {
@@ -2280,7 +2300,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "ui_hooktemplateeditor_hooktemplateeditor",
-      "community": 82,
+      "community": 70,
       "norm_label": "hooktemplateeditor()"
     },
     {
@@ -2480,7 +2500,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_projecttextfield",
-      "community": 82,
+      "community": 12,
       "norm_label": "projecttextfield.jsx"
     },
     {
@@ -2490,7 +2510,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "ui_projecttextfield_projecttextfield",
-      "community": 82,
+      "community": 12,
       "norm_label": "projecttextfield()"
     },
     {
@@ -2560,7 +2580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_templategroupcard",
-      "community": 82,
+      "community": 70,
       "norm_label": "templategroupcard.jsx"
     },
     {
@@ -2570,7 +2590,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "ui_templategroupcard_templategroupcard",
-      "community": 82,
+      "community": 70,
       "norm_label": "templategroupcard()"
     },
     {
@@ -2600,7 +2620,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_togglefield",
-      "community": 3,
+      "community": 12,
       "norm_label": "togglefield.jsx"
     },
     {
@@ -2610,7 +2630,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_togglefield_togglefield",
-      "community": 3,
+      "community": 12,
       "norm_label": "togglefield()"
     },
     {
@@ -3020,7 +3040,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hashtags_generatehashtags",
-      "community": 5,
+      "community": 6,
       "norm_label": "generatehashtags.js"
     },
     {
@@ -3030,7 +3050,7 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "hashtags_generatehashtags_tohashtag",
-      "community": 5,
+      "community": 6,
       "norm_label": "tohashtag()"
     },
     {
@@ -3040,7 +3060,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "hashtags_generatehashtags_cleanyoutubetag",
-      "community": 5,
+      "community": 6,
       "norm_label": "cleanyoutubetag()"
     },
     {
@@ -3050,7 +3070,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "hashtags_generatehashtags_generatehashtags",
-      "community": 5,
+      "community": 6,
       "norm_label": "generatehashtags()"
     },
     {
@@ -3060,7 +3080,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_generateshorthooks",
-      "community": 5,
+      "community": 6,
       "norm_label": "generateshorthooks.js"
     },
     {
@@ -3070,7 +3090,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_resolvedecade",
-      "community": 5,
+      "community": 6,
       "norm_label": "resolvedecade()"
     },
     {
@@ -3080,7 +3100,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_resolveprimarytag",
-      "community": 5,
+      "community": 6,
       "norm_label": "resolveprimarytag()"
     },
     {
@@ -3090,7 +3110,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_shufflearray",
-      "community": 5,
+      "community": 6,
       "norm_label": "shufflearray()"
     },
     {
@@ -3100,7 +3120,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_pickonegenre",
-      "community": 5,
+      "community": 6,
       "norm_label": "pickonegenre()"
     },
     {
@@ -3110,7 +3130,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_fillhooktemplate",
-      "community": 5,
+      "community": 6,
       "norm_label": "fillhooktemplate()"
     },
     {
@@ -3120,7 +3140,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_createbasehook",
-      "community": 5,
+      "community": 6,
       "norm_label": "createbasehook()"
     },
     {
@@ -3130,7 +3150,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_createtaghook",
-      "community": 5,
+      "community": 6,
       "norm_label": "createtaghook()"
     },
     {
@@ -3140,7 +3160,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_gettagshorthooksfortype",
-      "community": 5,
+      "community": 6,
       "norm_label": "gettagshorthooksfortype()"
     },
     {
@@ -3150,7 +3170,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_generateshorthooks",
-      "community": 5,
+      "community": 6,
       "norm_label": "generateshorthooks()"
     },
     {
@@ -3180,7 +3200,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "titles_generatethumbnails",
-      "community": 5,
+      "community": 6,
       "norm_label": "generatethumbnails.js"
     },
     {
@@ -3190,7 +3210,7 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "titles_generatethumbnails_buildgenerictagthumbnailphrases",
-      "community": 5,
+      "community": 6,
       "norm_label": "buildgenerictagthumbnailphrases()"
     },
     {
@@ -3200,7 +3220,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "titles_generatethumbnails_shufflearray",
-      "community": 5,
+      "community": 6,
       "norm_label": "shufflearray()"
     },
     {
@@ -3210,7 +3230,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "titles_generatethumbnails_buildthumbnailvariations",
-      "community": 5,
+      "community": 6,
       "norm_label": "buildthumbnailvariations()"
     },
     {
@@ -3220,7 +3240,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "titles_generatethumbnails_buildgeneratedartistshort",
-      "community": 5,
+      "community": 6,
       "norm_label": "buildgeneratedartistshort()"
     },
     {
@@ -3230,7 +3250,7 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "titles_generatethumbnails_getrandomitem",
-      "community": 5,
+      "community": 6,
       "norm_label": "getrandomitem()"
     },
     {
@@ -3240,7 +3260,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "titles_generatethumbnails_generatethumbnails",
-      "community": 5,
+      "community": 6,
       "norm_label": "generatethumbnails()"
     },
     {
@@ -3420,7 +3440,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_usegeneratedoutput",
-      "community": 5,
+      "community": 6,
       "norm_label": "usegeneratedoutput.js"
     },
     {
@@ -3900,7 +3920,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_appbackup",
-      "community": 82,
+      "community": 12,
       "norm_label": "appbackup.js"
     },
     {
@@ -3910,7 +3930,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "utils_appbackup_legacy_keys",
-      "community": 82,
+      "community": 12,
       "norm_label": "legacy_keys"
     },
     {
@@ -3920,7 +3940,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "utils_appbackup_readlegacydata",
-      "community": 82,
+      "community": 12,
       "norm_label": "readlegacydata()"
     },
     {
@@ -3930,7 +3950,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "utils_appbackup_buildappbackup",
-      "community": 82,
+      "community": 12,
       "norm_label": "buildappbackup()"
     },
     {
@@ -3940,7 +3960,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "utils_appbackup_downloadappbackup",
-      "community": 82,
+      "community": 12,
       "norm_label": "downloadappbackup()"
     },
     {
@@ -3950,7 +3970,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "utils_appbackup_restoreappbackup",
-      "community": 82,
+      "community": 12,
       "norm_label": "restoreappbackup()"
     },
     {
@@ -4212,6 +4232,16 @@
       "id": "utils_hookplaceholders_hook_placeholders",
       "community": 70,
       "norm_label": "hook_placeholders"
+    },
+    {
+      "label": "THUMBNAIL_TAG_PLACEHOLDER",
+      "file_type": "code",
+      "source_file": "src/utils/hookPlaceholders.js",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "utils_hookplaceholders_thumbnail_tag_placeholder",
+      "community": 70,
+      "norm_label": "thumbnail_tag_placeholder"
     },
     {
       "label": "storage.js",
@@ -6107,7 +6137,7 @@
       "label": "Other Active Goals",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L238",
+      "source_location": "L240",
       "_origin": "ast",
       "id": "claude_other_active_goals",
       "community": 37,
@@ -6117,7 +6147,7 @@
       "label": "Post-Upload Session Todos",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L250",
+      "source_location": "L252",
       "_origin": "ast",
       "id": "claude_post_upload_session_todos",
       "community": 37,
@@ -6127,7 +6157,7 @@
       "label": "Long-Term Roadmap",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L257",
+      "source_location": "L259",
       "_origin": "ast",
       "id": "claude_long_term_roadmap",
       "community": 37,
@@ -6137,7 +6167,7 @@
       "label": "Important Decisions",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L269",
+      "source_location": "L271",
       "_origin": "ast",
       "id": "claude_important_decisions",
       "community": 37,
@@ -6147,7 +6177,7 @@
       "label": "Development Preferences",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L279",
+      "source_location": "L281",
       "_origin": "ast",
       "id": "claude_development_preferences",
       "community": 37,
@@ -6157,7 +6187,7 @@
       "label": "Session Protocol",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L292",
+      "source_location": "L294",
       "_origin": "ast",
       "id": "claude_session_protocol",
       "community": 37,
@@ -6167,7 +6197,7 @@
       "label": "graphify",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L305",
+      "source_location": "L307",
       "_origin": "ast",
       "id": "claude_graphify",
       "community": 37,
@@ -7337,7 +7367,7 @@
       "label": "In Progress",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L65",
+      "source_location": "L66",
       "_origin": "ast",
       "id": "docs_current_context_in_progress",
       "community": 29,
@@ -7347,7 +7377,7 @@
       "label": "Next Recommended Tasks",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L71",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "docs_current_context_next_recommended_tasks",
       "community": 29,
@@ -7357,7 +7387,7 @@
       "label": "Known Issues",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L80",
+      "source_location": "L81",
       "_origin": "ast",
       "id": "docs_current_context_known_issues",
       "community": 29,
@@ -7367,7 +7397,7 @@
       "label": "Storage cleanup debt",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L82",
+      "source_location": "L83",
       "_origin": "ast",
       "id": "docs_current_context_storage_cleanup_debt",
       "community": 29,
@@ -7377,7 +7407,7 @@
       "label": "`coverLabel` not editable from UI",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L87",
+      "source_location": "L88",
       "_origin": "ast",
       "id": "docs_current_context_coverlabel_not_editable_from_ui",
       "community": 29,
@@ -7387,7 +7417,7 @@
       "label": "`customHashtags` is hardcoded",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L90",
+      "source_location": "L91",
       "_origin": "ast",
       "id": "docs_current_context_customhashtags_is_hardcoded",
       "community": 29,
@@ -7397,7 +7427,7 @@
       "label": "Important Files",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L95",
+      "source_location": "L96",
       "_origin": "ast",
       "id": "docs_current_context_important_files",
       "community": 29,
@@ -7407,7 +7437,7 @@
       "label": "Architectural Notes",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L118",
+      "source_location": "L119",
       "_origin": "ast",
       "id": "docs_current_context_architectural_notes",
       "community": 29,
@@ -7417,7 +7447,7 @@
       "label": "AI Notes",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L138",
+      "source_location": "L139",
       "_origin": "ast",
       "id": "docs_current_context_ai_notes",
       "community": 29,
@@ -7427,7 +7457,7 @@
       "label": "Session Summary",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L168",
+      "source_location": "L169",
       "_origin": "ast",
       "id": "docs_current_context_session_summary",
       "community": 29,
@@ -12418,9 +12448,9 @@
       "source_file": "src/components/output/DescriptionsPanel.jsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "output_descriptionspanel",
-      "target": "ui_collapsiblepanel",
-      "confidence_score": 1.0
+      "target": "ui_collapsiblepanel"
     },
     {
       "relation": "imports",
@@ -12429,9 +12459,9 @@
       "source_file": "src/components/output/DescriptionsPanel.jsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "output_descriptionspanel",
-      "target": "ui_collapsiblepanel_collapsiblepanel",
-      "confidence_score": 1.0
+      "target": "ui_collapsiblepanel_collapsiblepanel"
     },
     {
       "relation": "imports_from",
@@ -12558,9 +12588,9 @@
       "source_file": "src/components/output/HashtagsPanel.jsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "output_hashtagspanel",
-      "target": "ui_collapsiblepanel",
-      "confidence_score": 1.0
+      "target": "ui_collapsiblepanel"
     },
     {
       "relation": "imports",
@@ -12569,9 +12599,9 @@
       "source_file": "src/components/output/HashtagsPanel.jsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "output_hashtagspanel",
-      "target": "ui_collapsiblepanel_collapsiblepanel",
-      "confidence_score": 1.0
+      "target": "ui_collapsiblepanel_collapsiblepanel"
     },
     {
       "relation": "imports_from",
@@ -12791,9 +12821,9 @@
       "source_file": "src/components/output/ShortHooksPanel.jsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "output_shorthookspanel",
-      "target": "ui_collapsiblepanel",
-      "confidence_score": 1.0
+      "target": "ui_collapsiblepanel"
     },
     {
       "relation": "imports",
@@ -12802,9 +12832,9 @@
       "source_file": "src/components/output/ShortHooksPanel.jsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "output_shorthookspanel",
-      "target": "ui_collapsiblepanel_collapsiblepanel",
-      "confidence_score": 1.0
+      "target": "ui_collapsiblepanel_collapsiblepanel"
     },
     {
       "relation": "imports_from",
@@ -12887,9 +12917,9 @@
       "source_file": "src/components/output/TitlesPanel.jsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "output_titlespanel",
-      "target": "ui_collapsiblepanel",
-      "confidence_score": 1.0
+      "target": "ui_collapsiblepanel"
     },
     {
       "relation": "imports",
@@ -12898,9 +12928,9 @@
       "source_file": "src/components/output/TitlesPanel.jsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "output_titlespanel",
-      "target": "ui_collapsiblepanel_collapsiblepanel",
-      "confidence_score": 1.0
+      "target": "ui_collapsiblepanel_collapsiblepanel"
     },
     {
       "relation": "imports_from",
@@ -12963,9 +12993,9 @@
       "source_file": "src/components/output/YouTubeTagsPanel.jsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "output_youtubetagspanel",
-      "target": "ui_collapsiblepanel",
-      "confidence_score": 1.0
+      "target": "ui_collapsiblepanel"
     },
     {
       "relation": "imports",
@@ -12974,9 +13004,9 @@
       "source_file": "src/components/output/YouTubeTagsPanel.jsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "output_youtubetagspanel",
-      "target": "ui_collapsiblepanel_collapsiblepanel",
-      "confidence_score": 1.0
+      "target": "ui_collapsiblepanel_collapsiblepanel"
     },
     {
       "relation": "imports_from",
@@ -13260,6 +13290,28 @@
       "confidence_score": 1.0,
       "source": "projectsettings_projectsettingscontent",
       "target": "projectsettings_projectsettingsshorthooks_projectsettingsshorthooks"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsContent.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "projectsettings_projectsettingscontent",
+      "target": "projectsettings_projectsettingsthumbnails",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsContent.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "projectsettings_projectsettingscontent",
+      "target": "projectsettings_projectsettingsthumbnails_projectsettingsthumbnails",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -13942,6 +13994,104 @@
       "confidence_score": 1.0,
       "source": "projectsettings_projectsettingstextblocks",
       "target": "utils_customblocks_updatelongkey"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "projectsettings_projectsettingsthumbnails",
+      "target": "projectsettings_projectsettingsthumbnails_projectsettingsthumbnails",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "projectsettings_projectsettingsthumbnails",
+      "target": "ui_hooktemplateeditor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "projectsettings_projectsettingsthumbnails",
+      "target": "ui_hooktemplateeditor_hooktemplateeditor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "projectsettings_projectsettingsthumbnails",
+      "target": "ui_iconbutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "projectsettings_projectsettingsthumbnails",
+      "target": "ui_iconbutton_iconbutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "projectsettings_projectsettingsthumbnails",
+      "target": "ui_templategroupcard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "projectsettings_projectsettingsthumbnails",
+      "target": "ui_templategroupcard_templategroupcard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "projectsettings_projectsettingsthumbnails",
+      "target": "utils_hookplaceholders",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "projectsettings_projectsettingsthumbnails",
+      "target": "utils_hookplaceholders_thumbnail_tag_placeholder",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -17194,9 +17344,9 @@
       "source_file": "src/pages/UIKitPage.jsx",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_uikitpage",
-      "target": "ui_collapsiblepanel",
-      "confidence_score": 1.0
+      "target": "ui_collapsiblepanel"
     },
     {
       "relation": "contains",
@@ -17204,9 +17354,9 @@
       "source_file": "src/components/ui/CollapsiblePanel.jsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_collapsiblepanel",
-      "target": "ui_collapsiblepanel_collapsiblepanel",
-      "confidence_score": 1.0
+      "target": "ui_collapsiblepanel_collapsiblepanel"
     },
     {
       "relation": "imports_from",
@@ -17215,9 +17365,9 @@
       "source_file": "src/components/ui/CollapsiblePanel.jsx",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_collapsiblepanel",
-      "target": "ui_togglebutton",
-      "confidence_score": 1.0
+      "target": "ui_togglebutton"
     },
     {
       "relation": "imports",
@@ -17226,9 +17376,9 @@
       "source_file": "src/components/ui/CollapsiblePanel.jsx",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_collapsiblepanel",
-      "target": "ui_togglebutton_togglebutton",
-      "confidence_score": 1.0
+      "target": "ui_togglebutton_togglebutton"
     },
     {
       "relation": "imports",
@@ -17237,9 +17387,9 @@
       "source_file": "src/pages/UIKitPage.jsx",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_uikitpage",
-      "target": "ui_collapsiblepanel_collapsiblepanel",
-      "confidence_score": 1.0
+      "target": "ui_collapsiblepanel_collapsiblepanel"
     },
     {
       "relation": "imports_from",
@@ -20992,6 +21142,16 @@
       "confidence_score": 1.0,
       "source": "utils_hookplaceholders",
       "target": "utils_hookplaceholders_hook_placeholders"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/hookPlaceholders.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "utils_hookplaceholders",
+      "target": "utils_hookplaceholders_thumbnail_tag_placeholder",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -27558,5 +27718,5 @@
       "source_file": "CLAUDE.md"
     }
   ],
-  "built_at_commit": "da6bed59108e0212e96e8d8ec378982267089910"
+  "built_at_commit": "f5fedfe7b3c5e060d97a2c406326e4ff8ec4780a"
 }
