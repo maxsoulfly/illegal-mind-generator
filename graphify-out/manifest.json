@@ -20,8 +20,8 @@
     "semantic_hash": "75d0b59abcfb0bc640cc19629d2fd0c9"
   },
   "src/App.jsx": {
-    "mtime": 1782461292.15301,
-    "ast_hash": "a698da237c08b4d05e70978675b0bf2a",
+    "mtime": 1782972627.9488072,
+    "ast_hash": "30eba1d24cfbc6d1406f60856af2c032",
     "semantic_hash": ""
   },
   "src/components/AppBackupControls.jsx": {
@@ -45,13 +45,13 @@
     "semantic_hash": "fcebd5e9d60a2bfa5470a116de977ad6"
   },
   "src/components/generator/GeneratorResultsPanel.jsx": {
-    "mtime": 1781219561.02812,
-    "ast_hash": "a2a83474ce105b284b203676a596b431",
-    "semantic_hash": "a2a83474ce105b284b203676a596b431"
+    "mtime": 1782485714.5863454,
+    "ast_hash": "645483a53ba53b2e803b6e47c3b80726",
+    "semantic_hash": ""
   },
   "src/components/input/AdvancedDescriptionFields.jsx": {
-    "mtime": 1782463710.53008,
-    "ast_hash": "e7312042802c80ce807332743c269697",
+    "mtime": 1782479312.025848,
+    "ast_hash": "c2229e91e92e5f52dba2d7bcc6084074",
     "semantic_hash": ""
   },
   "src/components/input/BasicSongFields.jsx": {
@@ -75,9 +75,9 @@
     "semantic_hash": "436e1a072b7e584cb118260fdf56db70"
   },
   "src/components/output/DescriptionsPanel.jsx": {
-    "mtime": 1781219561.0292878,
-    "ast_hash": "a0eb3939d72cf4b33a48d317fbe6f1ff",
-    "semantic_hash": "a0eb3939d72cf4b33a48d317fbe6f1ff"
+    "mtime": 1782482905.6165574,
+    "ast_hash": "15ab182c84227985018d2cddd4583a3f",
+    "semantic_hash": ""
   },
   "src/components/output/GeneratedTitlePair.jsx": {
     "mtime": 1781214161.009083,
@@ -100,9 +100,9 @@
     "semantic_hash": "73e14c42d230c1c04bbc89912e6eca05"
   },
   "src/components/output/TitlesPanel.jsx": {
-    "mtime": 1781926703.069859,
-    "ast_hash": "ae3ff8b7936b3800abbece058c368421",
-    "semantic_hash": "ae3ff8b7936b3800abbece058c368421"
+    "mtime": 1782485707.1147375,
+    "ast_hash": "d70a3432068a606cdc049dcf52f9bb45",
+    "semantic_hash": ""
   },
   "src/components/output/YouTubeTagsPanel.jsx": {
     "mtime": 1779747230.4517734,
@@ -115,8 +115,8 @@
     "semantic_hash": "9d937b85138a1449c4b2491c01cef878"
   },
   "src/components/projectSettings/ProjectSettingsContent.jsx": {
-    "mtime": 1782371574.6508243,
-    "ast_hash": "46a052d63af6775ab0e3496adf94abe1",
+    "mtime": 1782972647.0415695,
+    "ast_hash": "871d4760d62486d3155fa89d15b8d356",
     "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsDescriptions.jsx": {
@@ -125,13 +125,13 @@
     "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsGeneral.jsx": {
-    "mtime": 1782014825.8368492,
-    "ast_hash": "b2d93dea7c8fc1da095e966ee4aa217b",
+    "mtime": 1782972656.8539855,
+    "ast_hash": "e538bb1e93eb0fbd192ffce4c72fc419",
     "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsHookBlocks.jsx": {
-    "mtime": 1782369036.8775406,
-    "ast_hash": "644eef000370b8a0c45ba1e38e7a705f",
+    "mtime": 1782479432.7028944,
+    "ast_hash": "25804ae67e7f8d0f47045cb6fd51dd78",
     "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsLinks.jsx": {
@@ -145,9 +145,9 @@
     "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsShortHooks.jsx": {
-    "mtime": 1781209463.738593,
-    "ast_hash": "8fcd9a596c755903b843821e86b885a6",
-    "semantic_hash": "8fcd9a596c755903b843821e86b885a6"
+    "mtime": 1782478095.949465,
+    "ast_hash": "ec325b0c1f1d7dbd1ee18502cc9a042d",
+    "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsTextBlocks.jsx": {
     "mtime": 1782368996.8347988,
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "src/components/projectSettings/titles/TitleGenerationCard.jsx": {
-    "mtime": 1782460618.1895466,
-    "ast_hash": "48a84c1aa9bdbe10c36b8ce25a3fae9d",
+    "mtime": 1782478102.5813084,
+    "ast_hash": "68099f38eca4086458dab25d98a55ccd",
     "semantic_hash": ""
   },
   "src/components/projectSettings/titles/TitlePrefixSuffixSection.jsx": {
@@ -315,9 +315,9 @@
     "semantic_hash": "25d0759f9472d013357bb13bedb169d5"
   },
   "src/components/tags/TagSyncControls.jsx": {
-    "mtime": 1780627150.7910538,
-    "ast_hash": "e386778bffdcbef0d5b31c0e33cd9eb5",
-    "semantic_hash": "e386778bffdcbef0d5b31c0e33cd9eb5"
+    "mtime": 1782469860.5406148,
+    "ast_hash": "6eabba0df69617dd92b6b0cf3fa0ef26",
+    "semantic_hash": ""
   },
   "src/components/tags/TagUsedSongList.jsx": {
     "mtime": 1779767186.0702672,
@@ -450,9 +450,9 @@
     "semantic_hash": "c8554b88bec87f3607bfeac9b2852688"
   },
   "src/components/ui/ShortHookCard.jsx": {
-    "mtime": 1781224443.2451577,
-    "ast_hash": "a7540641caaa26e80b8cd578a5fe35a9",
-    "semantic_hash": "a7540641caaa26e80b8cd578a5fe35a9"
+    "mtime": 1782470399.7458081,
+    "ast_hash": "3a9ca2d403e656c7222f2101d4e1de8f",
+    "semantic_hash": ""
   },
   "src/components/ui/SubTabNav.jsx": {
     "mtime": 1781225046.652454,
@@ -460,9 +460,9 @@
     "semantic_hash": "90108733fbf70ae69bbb28ccf985663d"
   },
   "src/components/ui/TemplateGroupCard.jsx": {
-    "mtime": 1781610391.5287657,
-    "ast_hash": "00ec79e5736ce4c0fbb86460c3a72c4b",
-    "semantic_hash": "00ec79e5736ce4c0fbb86460c3a72c4b"
+    "mtime": 1782469306.6556187,
+    "ast_hash": "484329ba05df4510fc87a5571f3baafb",
+    "semantic_hash": ""
   },
   "src/components/ui/ToggleButton.jsx": {
     "mtime": 1779747836.6182468,
@@ -485,8 +485,8 @@
     "semantic_hash": "2d6938802248172fbe3ffc5543946b18"
   },
   "src/config/projects.json": {
-    "mtime": 1782380244.6303377,
-    "ast_hash": "e5d0c74fb9dfd634b366bc249b008754",
+    "mtime": 1782477196.2266471,
+    "ast_hash": "bd286a6ca98d9d566a348827cfcefba6",
     "semantic_hash": ""
   },
   "src/constants/defaultFormData.js": {
@@ -505,24 +505,24 @@
     "semantic_hash": "e13aa5017478f48ed8bf64925922ffcf"
   },
   "src/engine/descriptions/generateCustomBlocks.js": {
-    "mtime": 1782463653.2994354,
-    "ast_hash": "43c1e0d2d64d21541e74cd20e61d1cbf",
+    "mtime": 1782480126.4108493,
+    "ast_hash": "e49a0d07377c30022c69a629865b3f77",
     "semantic_hash": ""
   },
   "src/engine/descriptions/generateDescriptions.js": {
-    "mtime": 1781994027.2438066,
-    "ast_hash": "47f70b429a9853ae650b816a22ac111b",
-    "semantic_hash": "47f70b429a9853ae650b816a22ac111b"
+    "mtime": 1782478398.2690277,
+    "ast_hash": "368004250b786ed1f8bda73627690614",
+    "semantic_hash": ""
   },
   "src/engine/descriptions/generateLogBlock.js": {
-    "mtime": 1781719415.8822024,
-    "ast_hash": "46f74fe328e60e3b5a75631575720e81",
-    "semantic_hash": "46f74fe328e60e3b5a75631575720e81"
+    "mtime": 1782478419.5647407,
+    "ast_hash": "502bf489563978a31a25ef4bdf1c95e4",
+    "semantic_hash": ""
   },
   "src/engine/descriptions/generateShortDescriptions.js": {
-    "mtime": 1781746363.219191,
-    "ast_hash": "02d445d45eb0f982db952204fe13ef8f",
-    "semantic_hash": "02d445d45eb0f982db952204fe13ef8f"
+    "mtime": 1782479972.8444142,
+    "ast_hash": "fb8e3d3989d6b3e97ab8f1000cf95828",
+    "semantic_hash": ""
   },
   "src/engine/descriptions/generateTechnicalBlock.js": {
     "mtime": 1781737169.7136393,
@@ -535,8 +535,8 @@
     "semantic_hash": "0178def44d5823829e91c4f44192ca33"
   },
   "src/engine/hooks/generateShortHooks.js": {
-    "mtime": 1782463526.9654086,
-    "ast_hash": "7d14ddaa323418a7a8b1422acf1d7cc0",
+    "mtime": 1782477228.9745724,
+    "ast_hash": "727c80dd193ca55bab4818782a2fc122",
     "semantic_hash": ""
   },
   "src/engine/prompts/generateHybridPrompt.js": {
@@ -550,14 +550,14 @@
     "semantic_hash": ""
   },
   "src/engine/titles/generateTitles.js": {
-    "mtime": 1782463648.4863048,
-    "ast_hash": "7c946a9edd2291d52f191a3628003b0c",
+    "mtime": 1782466223.7192192,
+    "ast_hash": "7f8f34dd0205dc8bf9cbc1100396156f",
     "semantic_hash": ""
   },
   "src/hooks/useAppShellState.js": {
-    "mtime": 1781748140.3945322,
-    "ast_hash": "0c40175c1a450cad6b5ddb7ba1005dd0",
-    "semantic_hash": "0c40175c1a450cad6b5ddb7ba1005dd0"
+    "mtime": 1782482826.4253037,
+    "ast_hash": "f1e0ff1291bd79bd5cb9604d377ee7b9",
+    "semantic_hash": ""
   },
   "src/hooks/useGeneratedOutput.js": {
     "mtime": 1782379993.4989226,
@@ -570,9 +570,9 @@
     "semantic_hash": ""
   },
   "src/hooks/useProjectOverrides.js": {
-    "mtime": 1781072934.9714317,
-    "ast_hash": "623361920905f663393073ac0571873f",
-    "semantic_hash": "623361920905f663393073ac0571873f"
+    "mtime": 1782469574.6656966,
+    "ast_hash": "79eea7caf8dc04faf46532e25195935a",
+    "semantic_hash": ""
   },
   "src/hooks/useSavedEntries.js": {
     "mtime": 1782464331.42633,
@@ -605,13 +605,13 @@
     "semantic_hash": "e13723e2574429d9a6d849727e3ff695"
   },
   "src/pages/GeneratorPage.jsx": {
-    "mtime": 1782461298.08384,
-    "ast_hash": "fad2c775ec3ab73c10b8e095efb8e1d9",
+    "mtime": 1782482869.6624408,
+    "ast_hash": "016608ae271b8f760ef760b30744014a",
     "semantic_hash": ""
   },
   "src/pages/ProjectSettingsPage.jsx": {
-    "mtime": 1782461344.5650136,
-    "ast_hash": "6abdc2bae75fc3e80ccd3b41c7c8c2bd",
+    "mtime": 1782972639.2442906,
+    "ast_hash": "72ee9576a4276cbe6e3ad26d85b2a554",
     "semantic_hash": ""
   },
   "src/pages/ShortsQueuePage.jsx": {
@@ -640,8 +640,8 @@
     "semantic_hash": "8b231b969b829348ec34d32543415f39"
   },
   "src/utils/buildResolvedProjectConfig.js": {
-    "mtime": 1782376027.1787193,
-    "ast_hash": "c00643900109e7d5913483e65ad44ff4",
+    "mtime": 1782476427.7894216,
+    "ast_hash": "0cf9c033458d4618fee4e53094c2add9",
     "semantic_hash": ""
   },
   "src/utils/buildTagExplorerData.js": {
@@ -660,8 +660,8 @@
     "semantic_hash": ""
   },
   "src/utils/hookPlaceholders.js": {
-    "mtime": 1782463521.5758405,
-    "ast_hash": "38b44f4bf94018f830961298452c42d3",
+    "mtime": 1782476556.7964983,
+    "ast_hash": "82fc82370a066adf20c4e20b505b9b19",
     "semantic_hash": ""
   },
   "src/utils/storage.js": {
@@ -735,8 +735,8 @@
     "semantic_hash": "2f78598160bfb12ab775831e0787b02a"
   },
   "CLAUDE.md": {
-    "mtime": 1782464932.7304811,
-    "ast_hash": "e8035799efac64e42fe06e2092c83021",
+    "mtime": 1782980711.6986134,
+    "ast_hash": "a89330cbce5691ea9439b7da60215425",
     "semantic_hash": ""
   },
   "README.md": {
@@ -755,8 +755,8 @@
     "semantic_hash": "b1af7c6209125b2f64ed33b9e4e21ee7"
   },
   "docs/current-context.md": {
-    "mtime": 1782464889.7766008,
-    "ast_hash": "c23fa9c47acee702190686529ac74644",
+    "mtime": 1782980765.6224058,
+    "ast_hash": "a603ea33e1262e157b63420d50dd3043",
     "semantic_hash": ""
   },
   "docs/data-model.md": {
@@ -880,13 +880,23 @@
     "semantic_hash": ""
   },
   "src/components/AppHeader.jsx": {
-    "mtime": 1782461587.5150428,
-    "ast_hash": "b854e61c30f5971c4003224db68c0cd4",
+    "mtime": 1782972621.572528,
+    "ast_hash": "e89adfa46d78906cbd3f9b126ae98abe",
     "semantic_hash": ""
   },
   "src/utils/descriptionLayout.js": {
     "mtime": 1782460044.7687273,
     "ast_hash": "86f8283284ca07e188935105bc4d3660",
+    "semantic_hash": ""
+  },
+  "src/components/projectSettings/hooks/PrimaryTagSection.jsx": {
+    "mtime": 1782479029.3013058,
+    "ast_hash": "b65c70c629e2910cfd802d57fce42d76",
+    "semantic_hash": ""
+  },
+  "src/components/ui/LabelSelectRow.jsx": {
+    "mtime": 1782479006.157971,
+    "ast_hash": "704e0e80dc90753dfb654bde704869fa",
     "semantic_hash": ""
   }
 }

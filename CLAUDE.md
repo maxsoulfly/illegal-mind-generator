@@ -115,7 +115,7 @@ src/
 - `FormSelect` — the standard `form-select` dropdown (same look as `TodoStatusSelect`) wrapped with `stopPropagation` for use inside clickable card headers. Takes `value, onChange(value), options: [{value, label}]`.
 - `BlockEditorCard` — collapsible card shell for all three block type editors (Lists, Text Blocks, Hook Blocks). Props: `label`, `badge`, `scope`, `target`, `onScopeChange`, `onTargetChange`, `hasOverride`, `onReset`, `onDelete`, `onRename`, `open`, `children`. `onRename` enables an inline ✏ rename button in the header — clicking switches to an input; Enter/blur saves, Escape cancels.
 - `BlockInfoCard` — non-collapsible card used in Description layouts. Props: `label`, `onRemove`, `onAdd`, `onNavigate`. When `onNavigate` is set, the header becomes a clickable nav shortcut (`tag-card-toggle` style, `→` indicator) that jumps to the block's editor tab and auto-expands it — Hook blocks → Blocks → Hook Blocks, List blocks → Blocks → Lists, Text blocks → Blocks → Text Blocks. `onAdd` renders a `+` button (Available column); `onRemove` renders a `×` button (Active Layout column). Generated blocks (no editor) omit `onNavigate` and are non-interactive. Descriptions tab is layout-only; no inline editing of any block type.
-- `AppHeader` (`src/components/AppHeader.jsx`) — sticky app-level header. Contains nav tabs (looped from `PAGE_LABELS`), project selector, page `<h1>` (derived from `activePage` + `projectConfig.name`), and optional `actions` slot for page-specific buttons (currently only the Regenerate button on Generator page). Replaces the deleted `AppMenu.jsx`. Do not add page titles (`<h1 className="app-title">`) in individual pages — they belong here.
+- `AppHeader` (`src/components/AppHeader.jsx`) — sticky app-level header. Contains nav tabs (looped from `PAGE_LABELS`), project selector, page `<h1>` (derived from `activePage` + `projectConfig.name`), and optional `actions` slot for page-specific buttons (currently only the Regenerate button on Generator page). Replaces the deleted `AppMenu.jsx`. Do not add page titles (`<h1 className="app-title">`) in individual pages — they belong here. `uikit` is intentionally excluded from `PAGE_LABELS` (not a top nav tab) — reachable only via the "Open UIKit" button in `ProjectSettingsGeneral`'s Actions card, wired through `onOpenUIKit`.
 
 ---
 
@@ -226,14 +226,14 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 # Current Focus
 
-Recent session: `originalGenre` field (Stage 1), save/load audit, `useCustomArtistShort` Long-mode fix.
+`originalGenre` Stage 3 (contrast hooks engine) is done — both projects have a `contrast` Shorts Hook type (`excludeForFaithful: true`, `requiresGenre: true`) using `{originalGenre}` + `{primaryTag}`, gated in `generateShortHooks.js`. Stage 2 (faithful `{originalGenre}` + `{year}` templates) is confirmed **not** started — verified 2026-07-02 by scanning both projects' live `projectOverrides` plus `projects.json` defaults; no template anywhere combines both placeholders in a faithful-style phrase.
 
 ---
 
 ## Other Active Goals
 
-- **`originalGenre` Stage 2** — template authoring only, no code. Write faithful hooks using `{originalGenre}` + `{year}` in Project Settings → Blocks → Hook Blocks (e.g. `"The best {originalGenre} song of {year}"`).
-- **`originalGenre` Stage 3** — contrast hooks engine: conditional hook group fires when `originalGenre` is set AND non-faithful tags are active. New logic in `generateShortHooks.js`.
+- **`originalGenre` Stage 2** — template authoring only, no code. Write faithful hooks using `{originalGenre}` + `{year}` in Project Settings → Shorts Hooks or Blocks → Hook Blocks (e.g. `"The best {originalGenre} song of {year}"`). Not started.
+- Maxx Dee's `transformation` Shorts Hook type has `requiresGenre: true` but none of its 3 templates reference `{originalGenre}` — likely an accidental checkbox toggle. Needs a decision: remove the flag or add genre wording.
 - Queue-hidden indicator in Todo rows
 - Todo status badges in Saved Library
 - Saved Library Todo filtering

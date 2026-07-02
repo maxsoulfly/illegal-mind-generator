@@ -6,13 +6,20 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 
 ## Current Focus
 
-`originalGenre` Stage 2 is template authoring only (no code). Stage 3 (contrast hooks) is the next engine work when ready.
+`originalGenre` Stage 3 (contrast hooks engine) is done. Stage 2 (faithful `{originalGenre}` + `{year}` hook templates) is confirmed not started — verified 2026-07-02 by scanning both projects' live `projectOverrides` plus `projects.json` defaults; no template anywhere combines both placeholders in a faithful-style phrase.
 
 ---
 
 ## Recently Completed
 
-- **`originalGenre` field — Stage 1 complete** — `originalGenre` added to `defaultFormData` and generator input (below Signal Number / Year). `{originalGenre}` placeholder wired into `fillHookTemplate` (`generateShortHooks.js`), `fillTemplate` + `buildGenericTitles` (`generateTitles.js`), `renderTextTemplate` (`generateCustomBlocks.js`). Added to `HOOK_PLACEHOLDERS`, `TextBlockEditor` placeholder list, and `AdvancedDescriptionFields` text placeholder list. Also backfilled `{year}` in both editor placeholder lists (was in engine but missing from autocomplete). Stage 2 = template authoring only (write faithful hooks like `"The best {originalGenre} song of {year}"`). Stage 3 = contrast hook engine (conditional group when `originalGenre` set + non-faithful tags).
+- **`originalGenre` Stage 3 — contrast hooks engine** — `requiresGenre`/`excludeForFaithful` flags added to `generateShortHooks.js` hook-type filtering; a `contrast` Shorts Hook type added to both projects (`excludeForFaithful: true`, `requiresGenre: true`, templates using `{originalGenre}` + `{primaryTag}`, e.g. `"A {originalGenre} classic, but {primaryTag}"`). Fires only for non-faithful tags when a genre is set. (Commit `63ce426`, previously undocumented here.)
+- **Hook Blocks scope sub-option + short desc placeholder fixes** — `resolveHookOverride` (`generateCustomBlocks.js`) handles string-or-array song overrides for all description engines. `ProjectSettingsHookBlocks` gained an Override Type dropdown (Textarea/One-line) per song-scoped hook block. `generateShortDescriptions` catch-all now uses `renderTextTemplate`, fixing `{transformation}`/`{originalGenre}`/`{year}`/`{links.*}` not substituting in Shorts descriptions. New `LabelSelectRow` UI primitive.
+- **`{transformation}` capitalization + coverLine placeholder fix** — `resolveTransformation` capitalizes the first letter; Shorts `coverLine` now uses `renderTextTemplate` so all placeholders resolve.
+- **Sticky header transparency** — `AppHeader` fades from transparent to the page background once scrolled past the top, via an `IntersectionObserver` sentinel.
+- **Titles/Descriptions panel headers navigate to Project Settings** — clicking either panel title in the Generator jumps to the matching Project Settings section, via `onNavigateToSettings`/`openProjectSettings`.
+- **Shorts title count respects the slider** — removed a hardcoded 5-title limit in `TitlesPanel`; `projectConfig.title?.count` now flows through.
+- **Project Settings → General redesigned as 3 cards** — Project Info / Actions / Backup, using the existing `tag-library tag-library--3col` + `tag-card tag-card--settings` pattern (no new components). Actions card gained an "Open UIKit" button; `uikit` removed from the top `AppHeader` nav tabs, now reachable only from here via `onOpenUIKit`.
+- **`originalGenre` field — Stage 1 complete** — `originalGenre` added to `defaultFormData` and generator input (below Signal Number / Year). `{originalGenre}` placeholder wired into `fillHookTemplate` (`generateShortHooks.js`), `fillTemplate` + `buildGenericTitles` (`generateTitles.js`), `renderTextTemplate` (`generateCustomBlocks.js`). Added to `HOOK_PLACEHOLDERS`, `TextBlockEditor` placeholder list, and `AdvancedDescriptionFields` text placeholder list. Also backfilled `{year}` in both editor placeholder lists (was in engine but missing from autocomplete).
 - **Save/load audit + fixes** — `originalYear`, `originalGenre`, `useCustomArtistShort`, `artistShort` were missing from both `handleSaveEntry` and `handleLoadEntry` in `useSavedEntries.js` — now all persisted per entry. `useInputFormLogic` auto-fill effect guarded: only fills `artistShort` when the field is empty, preserving loaded/custom values.
 - **Fix `useCustomArtistShort` in Long titles** — `buildTransformationTitles` and `buildGenericTitles` now use `artistShortFinal` when `useCustomArtistShort && artistShort` (not only in Shorts mode). `fillHookTemplate` also respects it so hook-sourced Long titles show the custom short.
 - **Sticky AppHeader** — new `AppHeader.jsx` replaces deleted `AppMenu.jsx`. Contains nav (looped from `PAGE_LABELS`), project selector, and page title (`activePage` + `projectConfig.name`). Accepts `actions` prop for page-specific buttons (Regenerate on Generator page). `position: sticky; top: 0`. Removed `<h1 className="app-title">` from all 6 pages and `panel-header` wrappers where they only held the title. Mobile: `.app-header-title` stacks + Regenerate goes full-width.
@@ -57,7 +64,9 @@ Nothing active — picking next feature.
 
 ## Next Recommended Tasks
 
-1. **Storage cleanup** (low urgency, after a few stable sessions):
+1. **`originalGenre` Stage 2** — write faithful hook templates combining `{originalGenre}` + `{year}` (e.g. `"The best {originalGenre} song of {year}"`) in Project Settings → Shorts Hooks or Blocks → Hook Blocks. Not started yet.
+2. **Stray `requiresGenre` flag** — Maxx Dee's `transformation` Shorts Hook type has `requiresGenre: true` but no template uses `{originalGenre}`. Decide: strip the flag or add genre wording.
+3. **Storage cleanup** (low urgency, after a few stable sessions):
    - Remove legacy key capture/restore from `appBackup.js`
    - Remove `storageMigration.js` and its `window.*` exposure in `App.jsx`
 
