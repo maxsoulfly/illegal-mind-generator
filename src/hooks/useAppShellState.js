@@ -9,6 +9,7 @@ import { loadAppStorage, updateAppStorage } from '../utils/storage';
 
 const defaultPanelVisibility = {
   titles: true,
+  thumbnails: true,
   descriptions: true,
   hashtags: true,
   hybridPrompt: true,
@@ -77,6 +78,7 @@ export default function useAppShellState() {
   const [tagLibrarySearchTarget, setTagLibrarySearchTarget] = useState(null);
   const [shortHooksTarget, setShortHooksTarget] = useState(null);
   const [titlesTarget, setTitlesTarget] = useState(null);
+  const [thumbnailsTarget, setThumbnailsTarget] = useState(null);
   const [blocksTarget, setBlocksTarget] = useState(null);
 
   const [activeProjectSettingsSection, setActiveProjectSettingsSection] = useState(() => {
@@ -177,6 +179,16 @@ export default function useAppShellState() {
     setTitlesTarget(null);
   }, []);
 
+  const openThumbnailsSearch = (target) => {
+    if (!target) return;
+    setThumbnailsTarget(target);
+    setActivePage('projectSettings');
+  };
+
+  const clearThumbnailsTarget = useCallback(() => {
+    setThumbnailsTarget(null);
+  }, []);
+
   const openProjectSettings = useCallback((section) => {
     setActiveProjectSettingsSection(section);
     setActivePage('projectSettings');
@@ -233,6 +245,9 @@ export default function useAppShellState() {
     titlesTarget,
     openTitlesSearch,
     clearTitlesTarget,
+    thumbnailsTarget,
+    openThumbnailsSearch,
+    clearThumbnailsTarget,
     openProjectSettings,
     blocksTarget,
     openBlocksEditor,

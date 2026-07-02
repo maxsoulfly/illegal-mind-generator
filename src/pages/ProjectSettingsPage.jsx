@@ -17,6 +17,8 @@ export default function ProjectSettingsPage({
   openShortHooksSearch,
   titlesTarget,
   clearTitlesTarget,
+  thumbnailsTarget,
+  clearThumbnailsTarget,
   blocksTarget,
   clearBlocksTarget,
   openBlocksEditor,
@@ -27,12 +29,21 @@ export default function ProjectSettingsPage({
   onOpenUIKit,
 }) {
   // Navigation targets override the active section; clears on any manual tab click.
-  const resolvedSection = shortHooksTarget ? 'shortHooks' : titlesTarget ? 'titles' : blocksTarget ? 'blocks' : activeSection;
+  const resolvedSection = shortHooksTarget
+    ? 'shortHooks'
+    : titlesTarget
+      ? 'titles'
+      : thumbnailsTarget
+        ? 'thumbnails'
+        : blocksTarget
+          ? 'blocks'
+          : activeSection;
 
   function handleSectionChange(sectionId) {
     onSectionChange(sectionId);
     if (shortHooksTarget) clearShortHooksTarget();
     if (titlesTarget) clearTitlesTarget();
+    if (thumbnailsTarget) clearThumbnailsTarget();
     if (blocksTarget) clearBlocksTarget();
   }
 
@@ -64,6 +75,7 @@ export default function ProjectSettingsPage({
           hookTarget={shortHooksTarget}
           openShortHooksSearch={openShortHooksSearch}
           titlesTarget={titlesTarget}
+          thumbnailsTarget={thumbnailsTarget}
           blocksTarget={blocksTarget}
           clearBlocksTarget={clearBlocksTarget}
           openBlocksEditor={openBlocksEditor}

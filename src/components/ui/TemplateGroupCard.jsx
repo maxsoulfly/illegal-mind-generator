@@ -20,12 +20,16 @@ export default function TemplateGroupCard({
 }) {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
 
+  // If a nav target highlights a row in this card, it needs to actually be
+  // mounted/visible to scroll to — ignore manual collapse while that's true.
+  const isCollapsed = collapsed && !highlightText;
+
   return (
-    <article className={`tag-card${collapsed ? ' tag-card--collapsed' : ''}`}>
+    <article className={`tag-card${isCollapsed ? ' tag-card--collapsed' : ''}`}>
       <header className="tag-card-header">
         <div className="tag-card-label-row">
           <h3 className="tag-card-toggle" onClick={() => setCollapsed((c) => !c)}>
-            <span className="tag-card-collapse-icon">{collapsed ? '▶' : '▼'}</span>
+            <span className="tag-card-collapse-icon">{isCollapsed ? '▶' : '▼'}</span>
             {label}
           </h3>
           {onReset && (
@@ -43,7 +47,7 @@ export default function TemplateGroupCard({
         )}
       </header>
 
-      {!collapsed && (
+      {!isCollapsed && (
         <>
           {sliderConfig && (
             <LabelSliderRow

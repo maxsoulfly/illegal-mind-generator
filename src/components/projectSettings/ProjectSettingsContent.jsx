@@ -17,6 +17,7 @@ export default function ProjectSettingsContent({
   hookTarget,
   openShortHooksSearch,
   titlesTarget,
+  thumbnailsTarget,
   blocksTarget,
   clearBlocksTarget,
   openBlocksEditor,
@@ -104,6 +105,7 @@ export default function ProjectSettingsContent({
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
+        thumbnailsTarget={thumbnailsTarget}
       />
     );
   }

@@ -20,8 +20,8 @@
     "semantic_hash": "75d0b59abcfb0bc640cc19629d2fd0c9"
   },
   "src/App.jsx": {
-    "mtime": 1782972627.9488072,
-    "ast_hash": "30eba1d24cfbc6d1406f60856af2c032",
+    "mtime": 1783004664.1997313,
+    "ast_hash": "e39eb6ed14fade65e575dbf75e666fd8",
     "semantic_hash": ""
   },
   "src/components/AppBackupControls.jsx": {
@@ -45,8 +45,8 @@
     "semantic_hash": "fcebd5e9d60a2bfa5470a116de977ad6"
   },
   "src/components/generator/GeneratorResultsPanel.jsx": {
-    "mtime": 1782485714.5863454,
-    "ast_hash": "645483a53ba53b2e803b6e47c3b80726",
+    "mtime": 1783006387.8018174,
+    "ast_hash": "45e8436c49e43e0d3166de4206e25e3c",
     "semantic_hash": ""
   },
   "src/components/input/AdvancedDescriptionFields.jsx": {
@@ -79,11 +79,6 @@
     "ast_hash": "7a917953b437c0b45774f4bee90a0c9f",
     "semantic_hash": ""
   },
-  "src/components/output/GeneratedTitlePair.jsx": {
-    "mtime": 1781214161.009083,
-    "ast_hash": "1c1b880d5f9540ce69bcf06b31433430",
-    "semantic_hash": "1c1b880d5f9540ce69bcf06b31433430"
-  },
   "src/components/output/HashtagsPanel.jsx": {
     "mtime": 1782985234.807901,
     "ast_hash": "d744ed3ef195702b2194bf7d7072cf00",
@@ -100,8 +95,8 @@
     "semantic_hash": ""
   },
   "src/components/output/TitlesPanel.jsx": {
-    "mtime": 1782985303.3722963,
-    "ast_hash": "2e8ad635934835c5884ae07464daebed",
+    "mtime": 1783006263.2861793,
+    "ast_hash": "e819fb0fdd3e2450a207568aef7f84a4",
     "semantic_hash": ""
   },
   "src/components/output/YouTubeTagsPanel.jsx": {
@@ -115,8 +110,8 @@
     "semantic_hash": "9d937b85138a1449c4b2491c01cef878"
   },
   "src/components/projectSettings/ProjectSettingsContent.jsx": {
-    "mtime": 1783002997.0417595,
-    "ast_hash": "abc49fea6376f0865f1043f3bd5b87b4",
+    "mtime": 1783004717.2025855,
+    "ast_hash": "48e6d2d91fdc960d2557112f2b3bdb8d",
     "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsDescriptions.jsx": {
@@ -280,9 +275,9 @@
     "semantic_hash": "f8effbdb14b486d6286a9410dfb17d36"
   },
   "src/components/tags/TagEditor.jsx": {
-    "mtime": 1781922100.5946307,
-    "ast_hash": "7ce0c14f5a0b1d17410117ae3923c628",
-    "semantic_hash": "7ce0c14f5a0b1d17410117ae3923c628"
+    "mtime": 1783005887.5142028,
+    "ast_hash": "6d391b9fe693a566cbd29a019135c192",
+    "semantic_hash": ""
   },
   "src/components/tags/TagFilters.jsx": {
     "mtime": 1780627265.468246,
@@ -350,9 +345,9 @@
     "semantic_hash": "88dae3e9f8bbeaf2bbabc529c22c10f1"
   },
   "src/components/tags/editor/TagTitlesTab.jsx": {
-    "mtime": 1781002815.4131203,
-    "ast_hash": "96674d7e32af57b086485a29ac73901d",
-    "semantic_hash": "96674d7e32af57b086485a29ac73901d"
+    "mtime": 1783005898.0154607,
+    "ast_hash": "f1e2b453308ed39c13490a8ef94d3164",
+    "semantic_hash": ""
   },
   "src/components/todo/TodoBulkAdd.jsx": {
     "mtime": 1780396833.3229847,
@@ -460,8 +455,8 @@
     "semantic_hash": "90108733fbf70ae69bbb28ccf985663d"
   },
   "src/components/ui/TemplateGroupCard.jsx": {
-    "mtime": 1782986630.5244217,
-    "ast_hash": "9ac5cc8b2a88665d097708f8d132e755",
+    "mtime": 1783004864.3460436,
+    "ast_hash": "49027fa1f0a8efdf6ba5ed9f9ba27180",
     "semantic_hash": ""
   },
   "src/components/ui/ToggleButton.jsx": {
@@ -485,8 +480,8 @@
     "semantic_hash": "2d6938802248172fbe3ffc5543946b18"
   },
   "src/config/projects.json": {
-    "mtime": 1782477196.2266471,
-    "ast_hash": "bd286a6ca98d9d566a348827cfcefba6",
+    "mtime": 1783006632.517889,
+    "ast_hash": "30d179cfc772343a9f431119cd842341",
     "semantic_hash": ""
   },
   "src/constants/defaultFormData.js": {
@@ -545,8 +540,8 @@
     "semantic_hash": "aaea4d6aff25440947c29deda2626390"
   },
   "src/engine/titles/generateThumbnails.js": {
-    "mtime": 1782379984.9140935,
-    "ast_hash": "e2f3e12408fbb705ab3828697b7b57a3",
+    "mtime": 1783004664.2038562,
+    "ast_hash": "4f7290aeb76feed50a1df2951f245910",
     "semantic_hash": ""
   },
   "src/engine/titles/generateTitles.js": {
@@ -555,13 +550,13 @@
     "semantic_hash": ""
   },
   "src/hooks/useAppShellState.js": {
-    "mtime": 1782482826.4253037,
-    "ast_hash": "f1e0ff1291bd79bd5cb9604d377ee7b9",
+    "mtime": 1783004664.2049422,
+    "ast_hash": "ff0d146b703a45083a9130c77a9284c6",
     "semantic_hash": ""
   },
   "src/hooks/useGeneratedOutput.js": {
-    "mtime": 1782379993.4989226,
-    "ast_hash": "29c8eaa8b3816aca6423a313fee501e7",
+    "mtime": 1783006738.7975945,
+    "ast_hash": "8814293b6a03ff0055f972d31a70081d",
     "semantic_hash": ""
   },
   "src/hooks/useInputFormLogic.js": {
@@ -605,13 +600,13 @@
     "semantic_hash": "e13723e2574429d9a6d849727e3ff695"
   },
   "src/pages/GeneratorPage.jsx": {
-    "mtime": 1782482869.6624408,
-    "ast_hash": "016608ae271b8f760ef760b30744014a",
+    "mtime": 1783004664.2054896,
+    "ast_hash": "13efbae9db9e9407cde3ae6e7340a394",
     "semantic_hash": ""
   },
   "src/pages/ProjectSettingsPage.jsx": {
-    "mtime": 1782972639.2442906,
-    "ast_hash": "72ee9576a4276cbe6e3ad26d85b2a554",
+    "mtime": 1783004694.6592543,
+    "ast_hash": "a1da301f5b3abb07aea39360d88fa370",
     "semantic_hash": ""
   },
   "src/pages/ShortsQueuePage.jsx": {
@@ -735,8 +730,8 @@
     "semantic_hash": "2f78598160bfb12ab775831e0787b02a"
   },
   "CLAUDE.md": {
-    "mtime": 1783003263.8403435,
-    "ast_hash": "ec70e25af151acb5f740014b2fe9b5f4",
+    "mtime": 1783007031.164413,
+    "ast_hash": "4b7fc7e99808c62af6ce2ce1ce601b19",
     "semantic_hash": ""
   },
   "README.md": {
@@ -755,8 +750,8 @@
     "semantic_hash": "b1af7c6209125b2f64ed33b9e4e21ee7"
   },
   "docs/current-context.md": {
-    "mtime": 1783003275.205837,
-    "ast_hash": "4faa20bc52b7ec9599bf5af05ebba946",
+    "mtime": 1783007073.0602367,
+    "ast_hash": "3f6862b1d7c0fd4ef580a322d060fcb6",
     "semantic_hash": ""
   },
   "docs/data-model.md": {
@@ -915,8 +910,18 @@
     "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsThumbnails.jsx": {
-    "mtime": 1782986712.6622486,
-    "ast_hash": "7db779ed13f5d7f5aaf8cf555dea0439",
+    "mtime": 1783006795.9292343,
+    "ast_hash": "4bdd1e01527bd6878a7ea7eaf86c9995",
+    "semantic_hash": ""
+  },
+  "src/components/output/GeneratedTitle.jsx": {
+    "mtime": 1783006239.753653,
+    "ast_hash": "2ca886ccafd06ed233bd94bcb51e6d26",
+    "semantic_hash": ""
+  },
+  "src/components/output/ThumbnailsPanel.jsx": {
+    "mtime": 1783006374.5941718,
+    "ast_hash": "32657964bb040be8b2a1ab504014c845",
     "semantic_hash": ""
   }
 }

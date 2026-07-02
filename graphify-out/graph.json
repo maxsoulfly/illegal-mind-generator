@@ -320,7 +320,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_appbackupcontrols",
-      "community": 12,
+      "community": 82,
       "norm_label": "appbackupcontrols.jsx"
     },
     {
@@ -330,7 +330,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "components_appbackupcontrols_appbackupcontrols",
-      "community": 12,
+      "community": 82,
       "norm_label": "appbackupcontrols()"
     },
     {
@@ -400,7 +400,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "components_inputform_inputform",
-      "community": 1,
+      "community": 12,
       "norm_label": "inputform()"
     },
     {
@@ -437,10 +437,10 @@
       "label": "GeneratorResultsPanel()",
       "file_type": "code",
       "source_file": "src/components/generator/GeneratorResultsPanel.jsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "_origin": "ast",
       "id": "generator_generatorresultspanel_generatorresultspanel",
-      "community": 3,
+      "community": 1,
       "norm_label": "generatorresultspanel()"
     },
     {
@@ -490,7 +490,7 @@
       "source_location": "L222",
       "_origin": "ast",
       "id": "input_advanceddescriptionfields_advanceddescriptionfields",
-      "community": 0,
+      "community": 12,
       "norm_label": "advanceddescriptionfields()"
     },
     {
@@ -594,34 +594,34 @@
       "norm_label": "descriptionspanel()"
     },
     {
-      "label": "GeneratedTitlePair.jsx",
+      "label": "GeneratedTitle.jsx",
       "file_type": "code",
-      "source_file": "src/components/output/GeneratedTitlePair.jsx",
+      "source_file": "src/components/output/GeneratedTitle.jsx",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "output_generatedtitlepair",
+      "id": "output_generatedtitle",
       "community": 3,
-      "norm_label": "generatedtitlepair.jsx"
+      "norm_label": "generatedtitle.jsx"
     },
     {
       "label": "TitleNavLink()",
       "file_type": "code",
-      "source_file": "src/components/output/GeneratedTitlePair.jsx",
+      "source_file": "src/components/output/GeneratedTitle.jsx",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "output_generatedtitlepair_titlenavlink",
+      "id": "output_generatedtitle_titlenavlink",
       "community": 3,
       "norm_label": "titlenavlink()"
     },
     {
-      "label": "GeneratedTitlePair()",
+      "label": "GeneratedTitle()",
       "file_type": "code",
-      "source_file": "src/components/output/GeneratedTitlePair.jsx",
-      "source_location": "L48",
+      "source_file": "src/components/output/GeneratedTitle.jsx",
+      "source_location": "L71",
       "_origin": "ast",
-      "id": "output_generatedtitlepair_generatedtitlepair",
+      "id": "output_generatedtitle_generatedtitle",
       "community": 3,
-      "norm_label": "generatedtitlepair()"
+      "norm_label": "generatedtitle()"
     },
     {
       "label": "HashtagsPanel.jsx",
@@ -752,6 +752,46 @@
       "id": "output_shorthookspanel_shorthookspanel",
       "community": 3,
       "norm_label": "shorthookspanel()"
+    },
+    {
+      "label": "ThumbnailsPanel.jsx",
+      "file_type": "code",
+      "source_file": "src/components/output/ThumbnailsPanel.jsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "output_thumbnailspanel",
+      "community": 3,
+      "norm_label": "thumbnailspanel.jsx"
+    },
+    {
+      "label": "CARD_LABELS",
+      "file_type": "code",
+      "source_file": "src/components/output/ThumbnailsPanel.jsx",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "output_thumbnailspanel_card_labels",
+      "community": 3,
+      "norm_label": "card_labels"
+    },
+    {
+      "label": "ThumbnailNavLink()",
+      "file_type": "code",
+      "source_file": "src/components/output/ThumbnailsPanel.jsx",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "output_thumbnailspanel_thumbnailnavlink",
+      "community": 3,
+      "norm_label": "thumbnailnavlink()"
+    },
+    {
+      "label": "ThumbnailsPanel()",
+      "file_type": "code",
+      "source_file": "src/components/output/ThumbnailsPanel.jsx",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "output_thumbnailspanel_thumbnailspanel",
+      "community": 3,
+      "norm_label": "thumbnailspanel()"
     },
     {
       "label": "TitlesPanel.jsx",
@@ -900,7 +940,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "projectsettings_projectsettingsgeneral",
-      "community": 12,
+      "community": 82,
       "norm_label": "projectsettingsgeneral.jsx"
     },
     {
@@ -910,7 +950,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "projectsettings_projectsettingsgeneral_projectsettingsgeneral",
-      "community": 12,
+      "community": 82,
       "norm_label": "projectsettingsgeneral()"
     },
     {
@@ -1050,14 +1090,14 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "projectsettings_projectsettingsthumbnails",
-      "community": 70,
+      "community": 82,
       "norm_label": "projectsettingsthumbnails.jsx"
     },
     {
       "label": "ProjectSettingsThumbnails()",
       "file_type": "code",
       "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "projectsettings_projectsettingsthumbnails_projectsettingsthumbnails",
       "community": 82,
@@ -1190,7 +1230,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "blocks_textblockeditor",
-      "community": 70,
+      "community": 0,
       "norm_label": "textblockeditor.jsx"
     },
     {
@@ -1200,7 +1240,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "blocks_textblockeditor_textof",
-      "community": 70,
+      "community": 0,
       "norm_label": "textof()"
     },
     {
@@ -1210,7 +1250,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "blocks_textblockeditor_textblockeditor",
-      "community": 70,
+      "community": 0,
       "norm_label": "textblockeditor()"
     },
     {
@@ -1620,7 +1660,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagactions",
-      "community": 82,
+      "community": 46,
       "norm_label": "tagactions.jsx"
     },
     {
@@ -1630,7 +1670,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagactions_tagactions",
-      "community": 82,
+      "community": 46,
       "norm_label": "tagactions()"
     },
     {
@@ -1660,7 +1700,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagcontrols",
-      "community": 82,
+      "community": 46,
       "norm_label": "tagcontrols.jsx"
     },
     {
@@ -1670,7 +1710,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "tags_tagcontrols_tagcontrols",
-      "community": 82,
+      "community": 46,
       "norm_label": "tagcontrols()"
     },
     {
@@ -1717,7 +1757,7 @@
       "label": "shouldOpenEditor()",
       "file_type": "code",
       "source_file": "src/components/tags/TagEditor.jsx",
-      "source_location": "L20",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "tags_tageditor_shouldopeneditor",
       "community": 70,
@@ -1727,7 +1767,7 @@
       "label": "TagEditor()",
       "file_type": "code",
       "source_file": "src/components/tags/TagEditor.jsx",
-      "source_location": "L23",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "tags_tageditor_tageditor",
       "community": 70,
@@ -1740,7 +1780,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagfilters",
-      "community": 82,
+      "community": 46,
       "norm_label": "tagfilters.jsx"
     },
     {
@@ -1750,7 +1790,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagfilters_tagfilters",
-      "community": 82,
+      "community": 46,
       "norm_label": "tagfilters()"
     },
     {
@@ -1860,7 +1900,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagsynccontrols",
-      "community": 82,
+      "community": 46,
       "norm_label": "tagsynccontrols.jsx"
     },
     {
@@ -1870,7 +1910,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tags_tagsynccontrols_tagsynccontrols",
-      "community": 82,
+      "community": 46,
       "norm_label": "tagsynccontrols()"
     },
     {
@@ -2300,7 +2340,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "ui_hooktemplateeditor_hooktemplateeditor",
-      "community": 70,
+      "community": 82,
       "norm_label": "hooktemplateeditor()"
     },
     {
@@ -2500,7 +2540,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_projecttextfield",
-      "community": 12,
+      "community": 82,
       "norm_label": "projecttextfield.jsx"
     },
     {
@@ -2510,7 +2550,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "ui_projecttextfield_projecttextfield",
-      "community": 12,
+      "community": 82,
       "norm_label": "projecttextfield()"
     },
     {
@@ -2580,7 +2620,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_templategroupcard",
-      "community": 70,
+      "community": 82,
       "norm_label": "templategroupcard.jsx"
     },
     {
@@ -2590,7 +2630,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "ui_templategroupcard_templategroupcard",
-      "community": 70,
+      "community": 82,
       "norm_label": "templategroupcard()"
     },
     {
@@ -3040,7 +3080,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hashtags_generatehashtags",
-      "community": 6,
+      "community": 5,
       "norm_label": "generatehashtags.js"
     },
     {
@@ -3050,7 +3090,7 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "hashtags_generatehashtags_tohashtag",
-      "community": 6,
+      "community": 5,
       "norm_label": "tohashtag()"
     },
     {
@@ -3060,7 +3100,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "hashtags_generatehashtags_cleanyoutubetag",
-      "community": 6,
+      "community": 5,
       "norm_label": "cleanyoutubetag()"
     },
     {
@@ -3070,7 +3110,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "hashtags_generatehashtags_generatehashtags",
-      "community": 6,
+      "community": 5,
       "norm_label": "generatehashtags()"
     },
     {
@@ -3080,7 +3120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_generateshorthooks",
-      "community": 6,
+      "community": 5,
       "norm_label": "generateshorthooks.js"
     },
     {
@@ -3090,7 +3130,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_resolvedecade",
-      "community": 6,
+      "community": 5,
       "norm_label": "resolvedecade()"
     },
     {
@@ -3100,7 +3140,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_resolveprimarytag",
-      "community": 6,
+      "community": 5,
       "norm_label": "resolveprimarytag()"
     },
     {
@@ -3110,7 +3150,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_shufflearray",
-      "community": 6,
+      "community": 5,
       "norm_label": "shufflearray()"
     },
     {
@@ -3120,7 +3160,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_pickonegenre",
-      "community": 6,
+      "community": 5,
       "norm_label": "pickonegenre()"
     },
     {
@@ -3130,7 +3170,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_fillhooktemplate",
-      "community": 6,
+      "community": 5,
       "norm_label": "fillhooktemplate()"
     },
     {
@@ -3140,7 +3180,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_createbasehook",
-      "community": 6,
+      "community": 5,
       "norm_label": "createbasehook()"
     },
     {
@@ -3150,7 +3190,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_createtaghook",
-      "community": 6,
+      "community": 5,
       "norm_label": "createtaghook()"
     },
     {
@@ -3160,7 +3200,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_gettagshorthooksfortype",
-      "community": 6,
+      "community": 5,
       "norm_label": "gettagshorthooksfortype()"
     },
     {
@@ -3170,7 +3210,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "hooks_generateshorthooks_generateshorthooks",
-      "community": 6,
+      "community": 5,
       "norm_label": "generateshorthooks()"
     },
     {
@@ -3200,7 +3240,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "titles_generatethumbnails",
-      "community": 6,
+      "community": 5,
       "norm_label": "generatethumbnails.js"
     },
     {
@@ -3210,57 +3250,67 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "titles_generatethumbnails_buildgenerictagthumbnailphrases",
-      "community": 6,
+      "community": 5,
       "norm_label": "buildgenerictagthumbnailphrases()"
     },
     {
       "label": "shuffleArray()",
       "file_type": "code",
       "source_file": "src/engine/titles/generateThumbnails.js",
-      "source_location": "L14",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "titles_generatethumbnails_shufflearray",
-      "community": 6,
+      "community": 5,
       "norm_label": "shufflearray()"
+    },
+    {
+      "label": "dedupeByPhrase()",
+      "file_type": "code",
+      "source_file": "src/engine/titles/generateThumbnails.js",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "titles_generatethumbnails_dedupebyphrase",
+      "community": 5,
+      "norm_label": "dedupebyphrase()"
     },
     {
       "label": "buildThumbnailVariations()",
       "file_type": "code",
       "source_file": "src/engine/titles/generateThumbnails.js",
-      "source_location": "L25",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "titles_generatethumbnails_buildthumbnailvariations",
-      "community": 6,
+      "community": 5,
       "norm_label": "buildthumbnailvariations()"
     },
     {
       "label": "buildGeneratedArtistShort()",
       "file_type": "code",
       "source_file": "src/engine/titles/generateThumbnails.js",
-      "source_location": "L67",
+      "source_location": "L97",
       "_origin": "ast",
       "id": "titles_generatethumbnails_buildgeneratedartistshort",
-      "community": 6,
+      "community": 5,
       "norm_label": "buildgeneratedartistshort()"
     },
     {
       "label": "getRandomItem()",
       "file_type": "code",
       "source_file": "src/engine/titles/generateThumbnails.js",
-      "source_location": "L77",
+      "source_location": "L107",
       "_origin": "ast",
       "id": "titles_generatethumbnails_getrandomitem",
-      "community": 6,
+      "community": 5,
       "norm_label": "getrandomitem()"
     },
     {
       "label": "generateThumbnails()",
       "file_type": "code",
       "source_file": "src/engine/titles/generateThumbnails.js",
-      "source_location": "L81",
+      "source_location": "L111",
       "_origin": "ast",
       "id": "titles_generatethumbnails_generatethumbnails",
-      "community": 6,
+      "community": 5,
       "norm_label": "generatethumbnails()"
     },
     {
@@ -3417,7 +3467,7 @@
       "label": "safeParse()",
       "file_type": "code",
       "source_file": "src/hooks/useAppShellState.js",
-      "source_location": "L19",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "hooks_useappshellstate_safeparse",
       "community": 1,
@@ -3427,7 +3477,7 @@
       "label": "useAppShellState()",
       "file_type": "code",
       "source_file": "src/hooks/useAppShellState.js",
-      "source_location": "L27",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "hooks_useappshellstate_useappshellstate",
       "community": 1,
@@ -3440,7 +3490,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_usegeneratedoutput",
-      "community": 6,
+      "community": 5,
       "norm_label": "usegeneratedoutput.js"
     },
     {
@@ -3460,7 +3510,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useinputformlogic",
-      "community": 1,
+      "community": 12,
       "norm_label": "useinputformlogic.js"
     },
     {
@@ -3470,7 +3520,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "hooks_useinputformlogic_useinputformlogic",
-      "community": 1,
+      "community": 12,
       "norm_label": "useinputformlogic()"
     },
     {
@@ -3720,7 +3770,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "hooks_usetagoverrides_usetagoverrides",
-      "community": 1,
+      "community": 12,
       "norm_label": "usetagoverrides()"
     },
     {
@@ -3920,7 +3970,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_appbackup",
-      "community": 12,
+      "community": 82,
       "norm_label": "appbackup.js"
     },
     {
@@ -3930,7 +3980,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "utils_appbackup_legacy_keys",
-      "community": 12,
+      "community": 82,
       "norm_label": "legacy_keys"
     },
     {
@@ -3940,7 +3990,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "utils_appbackup_readlegacydata",
-      "community": 12,
+      "community": 82,
       "norm_label": "readlegacydata()"
     },
     {
@@ -3950,7 +4000,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "utils_appbackup_buildappbackup",
-      "community": 12,
+      "community": 82,
       "norm_label": "buildappbackup()"
     },
     {
@@ -3960,7 +4010,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "utils_appbackup_downloadappbackup",
-      "community": 12,
+      "community": 82,
       "norm_label": "downloadappbackup()"
     },
     {
@@ -3970,7 +4020,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "utils_appbackup_restoreappbackup",
-      "community": 12,
+      "community": 82,
       "norm_label": "restoreappbackup()"
     },
     {
@@ -4370,7 +4420,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_tagregistry",
-      "community": 46,
+      "community": 12,
       "norm_label": "tagregistry.js"
     },
     {
@@ -4380,7 +4430,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_tagregistry_gettagregistry",
-      "community": 46,
+      "community": 12,
       "norm_label": "gettagregistry()"
     },
     {
@@ -4390,7 +4440,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "utils_tagregistry_getresolvedtagregistry",
-      "community": 46,
+      "community": 12,
       "norm_label": "getresolvedtagregistry()"
     },
     {
@@ -4400,7 +4450,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "utils_tagregistry_getvisibletags",
-      "community": 1,
+      "community": 12,
       "norm_label": "getvisibletags()"
     },
     {
@@ -4410,7 +4460,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "utils_tagregistry_gettagdata",
-      "community": 46,
+      "community": 12,
       "norm_label": "gettagdata()"
     },
     {
@@ -4420,7 +4470,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "utils_tagregistry_gettagcategories",
-      "community": 46,
+      "community": 12,
       "norm_label": "gettagcategories()"
     },
     {
@@ -4430,7 +4480,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "utils_tagregistry_gettagcategory",
-      "community": 46,
+      "community": 12,
       "norm_label": "gettagcategory()"
     },
     {
@@ -6137,7 +6187,7 @@
       "label": "Other Active Goals",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L240",
+      "source_location": "L242",
       "_origin": "ast",
       "id": "claude_other_active_goals",
       "community": 37,
@@ -6147,7 +6197,7 @@
       "label": "Post-Upload Session Todos",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L252",
+      "source_location": "L254",
       "_origin": "ast",
       "id": "claude_post_upload_session_todos",
       "community": 37,
@@ -6157,7 +6207,7 @@
       "label": "Long-Term Roadmap",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L259",
+      "source_location": "L261",
       "_origin": "ast",
       "id": "claude_long_term_roadmap",
       "community": 37,
@@ -6167,7 +6217,7 @@
       "label": "Important Decisions",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L271",
+      "source_location": "L273",
       "_origin": "ast",
       "id": "claude_important_decisions",
       "community": 37,
@@ -6177,7 +6227,7 @@
       "label": "Development Preferences",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L281",
+      "source_location": "L283",
       "_origin": "ast",
       "id": "claude_development_preferences",
       "community": 37,
@@ -6187,7 +6237,7 @@
       "label": "Session Protocol",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L294",
+      "source_location": "L296",
       "_origin": "ast",
       "id": "claude_session_protocol",
       "community": 37,
@@ -6197,7 +6247,7 @@
       "label": "graphify",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L307",
+      "source_location": "L309",
       "_origin": "ast",
       "id": "claude_graphify",
       "community": 37,
@@ -7367,7 +7417,7 @@
       "label": "In Progress",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L66",
+      "source_location": "L67",
       "_origin": "ast",
       "id": "docs_current_context_in_progress",
       "community": 29,
@@ -7377,7 +7427,7 @@
       "label": "Next Recommended Tasks",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L72",
+      "source_location": "L73",
       "_origin": "ast",
       "id": "docs_current_context_next_recommended_tasks",
       "community": 29,
@@ -7387,7 +7437,7 @@
       "label": "Known Issues",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L81",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "docs_current_context_known_issues",
       "community": 29,
@@ -7397,7 +7447,7 @@
       "label": "Storage cleanup debt",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L83",
+      "source_location": "L84",
       "_origin": "ast",
       "id": "docs_current_context_storage_cleanup_debt",
       "community": 29,
@@ -7407,7 +7457,7 @@
       "label": "`coverLabel` not editable from UI",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L88",
+      "source_location": "L89",
       "_origin": "ast",
       "id": "docs_current_context_coverlabel_not_editable_from_ui",
       "community": 29,
@@ -7417,7 +7467,7 @@
       "label": "`customHashtags` is hardcoded",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L91",
+      "source_location": "L92",
       "_origin": "ast",
       "id": "docs_current_context_customhashtags_is_hardcoded",
       "community": 29,
@@ -7427,7 +7477,7 @@
       "label": "Important Files",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L96",
+      "source_location": "L97",
       "_origin": "ast",
       "id": "docs_current_context_important_files",
       "community": 29,
@@ -7437,7 +7487,7 @@
       "label": "Architectural Notes",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L119",
+      "source_location": "L120",
       "_origin": "ast",
       "id": "docs_current_context_architectural_notes",
       "community": 29,
@@ -7447,7 +7497,7 @@
       "label": "AI Notes",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L139",
+      "source_location": "L140",
       "_origin": "ast",
       "id": "docs_current_context_ai_notes",
       "community": 29,
@@ -7457,7 +7507,7 @@
       "label": "Session Summary",
       "file_type": "document",
       "source_file": "docs/current-context.md",
-      "source_location": "L169",
+      "source_location": "L170",
       "_origin": "ast",
       "id": "docs_current_context_session_summary",
       "community": 29,
@@ -11588,12 +11638,12 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/output/GeneratedTitlePair.jsx",
+      "source_file": "src/components/output/GeneratedTitle.jsx",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "output_generatedtitlepair",
-      "target": "components_copybutton"
+      "source": "output_generatedtitle",
+      "target": "components_copybutton",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -11616,6 +11666,17 @@
       "confidence_score": 1.0,
       "source": "output_shorthooktitles",
       "target": "components_copybutton"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/ThumbnailsPanel.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "output_thumbnailspanel",
+      "target": "components_copybutton",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -11665,12 +11726,12 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/output/GeneratedTitlePair.jsx",
+      "source_file": "src/components/output/GeneratedTitle.jsx",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "output_generatedtitlepair",
-      "target": "components_copybutton_copybutton"
+      "source": "output_generatedtitle",
+      "target": "components_copybutton_copybutton",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -11693,6 +11754,17 @@
       "confidence_score": 1.0,
       "source": "output_shorthooktitles",
       "target": "components_copybutton_copybutton"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/ThumbnailsPanel.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "output_thumbnailspanel",
+      "target": "components_copybutton_copybutton",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -12075,6 +12147,28 @@
       "confidence_score": 1.0,
       "source": "generator_generatorresultspanel",
       "target": "output_hashtagspanel_hashtagspanel"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/generator/GeneratorResultsPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "generator_generatorresultspanel",
+      "target": "output_thumbnailspanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/generator/GeneratorResultsPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "generator_generatorresultspanel",
+      "target": "output_thumbnailspanel_thumbnailspanel",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -12510,66 +12604,66 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/output/GeneratedTitlePair.jsx",
-      "source_location": "L48",
+      "source_file": "src/components/output/GeneratedTitle.jsx",
+      "source_location": "L71",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "output_generatedtitlepair",
-      "target": "output_generatedtitlepair_generatedtitlepair"
+      "source": "output_generatedtitle",
+      "target": "output_generatedtitle_generatedtitle",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/output/GeneratedTitlePair.jsx",
+      "source_file": "src/components/output/GeneratedTitle.jsx",
       "source_location": "L4",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "output_generatedtitlepair",
-      "target": "output_generatedtitlepair_titlenavlink"
+      "source": "output_generatedtitle",
+      "target": "output_generatedtitle_titlenavlink",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/output/GeneratedTitlePair.jsx",
+      "source_file": "src/components/output/GeneratedTitle.jsx",
       "source_location": "L2",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "output_generatedtitlepair",
-      "target": "ui_navlinkbutton"
+      "source": "output_generatedtitle",
+      "target": "ui_navlinkbutton",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/output/GeneratedTitlePair.jsx",
+      "source_file": "src/components/output/GeneratedTitle.jsx",
       "source_location": "L2",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "output_generatedtitlepair",
-      "target": "ui_navlinkbutton_navlinkbutton"
+      "source": "output_generatedtitle",
+      "target": "ui_navlinkbutton_navlinkbutton",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/output/TitlesPanel.jsx",
-      "source_location": "L3",
+      "source_location": "L2",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "output_titlespanel",
-      "target": "output_generatedtitlepair"
+      "target": "output_generatedtitle",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/output/TitlesPanel.jsx",
-      "source_location": "L3",
+      "source_location": "L2",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "output_titlespanel",
-      "target": "output_generatedtitlepair_generatedtitlepair"
+      "target": "output_generatedtitle_generatedtitle",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -12879,6 +12973,80 @@
       "confidence_score": 1.0,
       "source": "output_shorthookspanel_shorthookspanel",
       "target": "output_shorthookspanel_buildmixedshorthooks"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/ThumbnailsPanel.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "output_thumbnailspanel",
+      "target": "output_thumbnailspanel_card_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/ThumbnailsPanel.jsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "output_thumbnailspanel",
+      "target": "output_thumbnailspanel_thumbnailnavlink",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/ThumbnailsPanel.jsx",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "output_thumbnailspanel",
+      "target": "output_thumbnailspanel_thumbnailspanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/ThumbnailsPanel.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "output_thumbnailspanel",
+      "target": "ui_collapsiblepanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/ThumbnailsPanel.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "output_thumbnailspanel",
+      "target": "ui_collapsiblepanel_collapsiblepanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/ThumbnailsPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "output_thumbnailspanel",
+      "target": "ui_navlinkbutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/output/ThumbnailsPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "output_thumbnailspanel",
+      "target": "ui_navlinkbutton_navlinkbutton",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -13298,9 +13466,9 @@
       "source_file": "src/components/projectSettings/ProjectSettingsContent.jsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "projectsettings_projectsettingscontent",
-      "target": "projectsettings_projectsettingsthumbnails",
-      "confidence_score": 1.0
+      "target": "projectsettings_projectsettingsthumbnails"
     },
     {
       "relation": "imports",
@@ -13309,9 +13477,9 @@
       "source_file": "src/components/projectSettings/ProjectSettingsContent.jsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "projectsettings_projectsettingscontent",
-      "target": "projectsettings_projectsettingsthumbnails_projectsettingsthumbnails",
-      "confidence_score": 1.0
+      "target": "projectsettings_projectsettingsthumbnails_projectsettingsthumbnails"
     },
     {
       "relation": "imports_from",
@@ -14001,9 +14169,9 @@
       "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "projectsettings_projectsettingsthumbnails",
-      "target": "projectsettings_projectsettingsthumbnails_projectsettingsthumbnails",
-      "confidence_score": 1.0
+      "target": "projectsettings_projectsettingsthumbnails_projectsettingsthumbnails"
     },
     {
       "relation": "imports_from",
@@ -14012,9 +14180,9 @@
       "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "projectsettings_projectsettingsthumbnails",
-      "target": "ui_hooktemplateeditor",
-      "confidence_score": 1.0
+      "target": "ui_hooktemplateeditor"
     },
     {
       "relation": "imports",
@@ -14023,9 +14191,9 @@
       "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "projectsettings_projectsettingsthumbnails",
-      "target": "ui_hooktemplateeditor_hooktemplateeditor",
-      "confidence_score": 1.0
+      "target": "ui_hooktemplateeditor_hooktemplateeditor"
     },
     {
       "relation": "imports_from",
@@ -14034,9 +14202,9 @@
       "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "projectsettings_projectsettingsthumbnails",
-      "target": "ui_iconbutton",
-      "confidence_score": 1.0
+      "target": "ui_iconbutton"
     },
     {
       "relation": "imports",
@@ -14045,31 +14213,9 @@
       "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "projectsettings_projectsettingsthumbnails",
-      "target": "ui_iconbutton_iconbutton",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
-      "source_location": "L1",
-      "weight": 1.0,
-      "source": "projectsettings_projectsettingsthumbnails",
-      "target": "ui_templategroupcard",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
-      "source_location": "L1",
-      "weight": 1.0,
-      "source": "projectsettings_projectsettingsthumbnails",
-      "target": "ui_templategroupcard_templategroupcard",
-      "confidence_score": 1.0
+      "target": "ui_iconbutton_iconbutton"
     },
     {
       "relation": "imports_from",
@@ -14079,7 +14225,7 @@
       "source_location": "L4",
       "weight": 1.0,
       "source": "projectsettings_projectsettingsthumbnails",
-      "target": "utils_hookplaceholders",
+      "target": "ui_labelsliderrow",
       "confidence_score": 1.0
     },
     {
@@ -14090,8 +14236,52 @@
       "source_location": "L4",
       "weight": 1.0,
       "source": "projectsettings_projectsettingsthumbnails",
-      "target": "utils_hookplaceholders_thumbnail_tag_placeholder",
+      "target": "ui_labelsliderrow_labelsliderrow",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "projectsettings_projectsettingsthumbnails",
+      "target": "ui_templategroupcard"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "projectsettings_projectsettingsthumbnails",
+      "target": "ui_templategroupcard_templategroupcard"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "projectsettings_projectsettingsthumbnails",
+      "target": "utils_hookplaceholders"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/projectSettings/ProjectSettingsThumbnails.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "projectsettings_projectsettingsthumbnails",
+      "target": "utils_hookplaceholders_thumbnail_tag_placeholder"
     },
     {
       "relation": "contains",
@@ -19518,6 +19708,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/engine/titles/generateThumbnails.js",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "titles_generatethumbnails",
+      "target": "titles_generatethumbnails_dedupebyphrase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/engine/titles/generateThumbnails.js",
       "source_location": "L81",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -19554,6 +19754,17 @@
       "confidence_score": 1.0,
       "source": "titles_generatethumbnails_buildthumbnailvariations",
       "target": "titles_generatethumbnails_shufflearray"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/engine/titles/generateThumbnails.js",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "titles_generatethumbnails_buildthumbnailvariations",
+      "target": "titles_generatethumbnails_dedupebyphrase",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -21149,9 +21360,9 @@
       "source_file": "src/utils/hookPlaceholders.js",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "utils_hookplaceholders",
-      "target": "utils_hookplaceholders_thumbnail_tag_placeholder",
-      "confidence_score": 1.0
+      "target": "utils_hookplaceholders_thumbnail_tag_placeholder"
     },
     {
       "relation": "contains",
@@ -27718,5 +27929,5 @@
       "source_file": "CLAUDE.md"
     }
   ],
-  "built_at_commit": "f5fedfe7b3c5e060d97a2c406326e4ff8ec4780a"
+  "built_at_commit": "cc03f64bad22e93aefd7bb26f17c5239f469fa74"
 }

@@ -14,6 +14,10 @@ function getInitialTab(tag, sourceTarget) {
     return 'shortHooks';
   }
 
+  if (sourceTarget.field === 'thumbnail' || sourceTarget.field === 'title') {
+    return 'titles';
+  }
+
   return 'basics';
 }
 
@@ -52,7 +56,7 @@ export default function TagEditor({
       )}
 
       {activeTab === 'titles' && (
-        <TagTitlesTab tag={tag} onUpdateTag={onUpdateTag} />
+        <TagTitlesTab tag={tag} onUpdateTag={onUpdateTag} sourceTarget={sourceTarget} />
       )}
 
       {activeTab === 'descriptions' && (

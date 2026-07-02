@@ -1,14 +1,31 @@
 import CopyButton from '../CopyButton';
 import NavLinkButton from '../ui/NavLinkButton';
 
-function TitleNavLink({ titleText, sourceHook, sourceTemplate, onOpenSourceTag, onOpenSourceHook, onOpenSourceTemplate }) {
-  const label = <><strong className="saved-entry-signal">Title:</strong> {titleText}</>;
+function TitleNavLink({
+  titleText,
+  sourceHook,
+  sourceTemplate,
+  onOpenSourceTag,
+  onOpenSourceHook,
+  onOpenSourceTemplate,
+}) {
+  const label = (
+    <>
+      <strong className="saved-entry-signal">Title:</strong> {titleText}
+    </>
+  );
 
   if (sourceHook?.sourceType === 'tag') {
     return (
       <NavLinkButton
         title={`${sourceHook.sourceTag} (${sourceHook.hookType}): "${sourceHook.sourceText}"`}
-        onClick={() => onOpenSourceTag?.({ tagName: sourceHook.sourceTag, hookType: sourceHook.hookType, hookText: sourceHook.sourceText })}
+        onClick={() =>
+          onOpenSourceTag?.({
+            tagName: sourceHook.sourceTag,
+            hookType: sourceHook.hookType,
+            hookText: sourceHook.sourceText,
+          })
+        }
       >
         {label}
       </NavLinkButton>
@@ -19,7 +36,12 @@ function TitleNavLink({ titleText, sourceHook, sourceTemplate, onOpenSourceTag, 
     return (
       <NavLinkButton
         title={`Project preset (${sourceHook.hookType}): "${sourceHook.sourceText}"`}
-        onClick={() => onOpenSourceHook?.({ hookType: sourceHook.hookType, sourceText: sourceHook.sourceText })}
+        onClick={() =>
+          onOpenSourceHook?.({
+            hookType: sourceHook.hookType,
+            sourceText: sourceHook.sourceText,
+          })
+        }
       >
         {label}
       </NavLinkButton>
@@ -31,21 +53,27 @@ function TitleNavLink({ titleText, sourceHook, sourceTemplate, onOpenSourceTag, 
       <NavLinkButton
         muted
         title={`Template: ${sourceTemplate.template} (${sourceTemplate.groupName})`}
-        onClick={() => onOpenSourceTemplate?.({ groupName: sourceTemplate.groupName, template: sourceTemplate.template })}
+        onClick={() =>
+          onOpenSourceTemplate?.({
+            groupName: sourceTemplate.groupName,
+            template: sourceTemplate.template,
+          })
+        }
       >
         {label}
       </NavLinkButton>
     );
   }
 
-  return (
-    <p className="generated-pair-text">
-      <strong className="saved-entry-signal">Title:</strong> {titleText}
-    </p>
-  );
+  return <p className="generated-pair-text"> {titleText} </p>;
 }
 
-function GeneratedTitlePair({ title, thumbnail, onOpenSourceTag, onOpenSourceHook, onOpenSourceTemplate }) {
+function GeneratedTitle({
+  title,
+  onOpenSourceTag,
+  onOpenSourceHook,
+  onOpenSourceTemplate,
+}) {
   const titleText = title.text;
   const sourceHook = title.sourceHook;
   const sourceTemplate = title.sourceTemplate;
@@ -63,16 +91,8 @@ function GeneratedTitlePair({ title, thumbnail, onOpenSourceTag, onOpenSourceHoo
         />
         <CopyButton text={titleText} />
       </div>
-
-      <div className="generated-pair-row">
-        <p className="generated-pair-text">
-          <strong className="saved-entry-signal">Thumb:</strong>{' '}
-          {thumbnail}
-        </p>
-        <CopyButton text={thumbnail} />
-      </div>
     </div>
   );
 }
 
-export default GeneratedTitlePair;
+export default GeneratedTitle;

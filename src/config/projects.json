@@ -467,6 +467,7 @@
     ],
 
     "thumbnail": {
+      "count": 5,
       "words": [
         "HEAVIER",
         "DARKER",
@@ -1967,6 +1968,7 @@
     },
 
     "thumbnail": {
+      "count": 5,
       "words": ["COVER", "FULL BAND", "NEW MIX", "REBUILT", "LIVE ENERGY"],
       "fallbacks": [
         "FULL BAND COVER",

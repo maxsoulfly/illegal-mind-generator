@@ -8,7 +8,10 @@ function buildGenericTagThumbnailPhrases(tag, config = {}) {
 
   const templates = config?.thumbnail?.genericTagTemplates || ['{tag}'];
 
-  return templates.map((tpl) => tpl.replace(/\{tag\}/g, normalizedTag));
+  return templates.map((template) => ({
+    phrase: template.replace(/\{tag\}/g, normalizedTag),
+    source: { type: 'genericTagTemplates', template },
+  }));
 }
 
 function shuffleArray(items) {
@@ -22,11 +25,27 @@ function shuffleArray(items) {
   return copy;
 }
 
+// Dedupes a list of { phrase, source } entries by phrase text, keeping the first source seen.
+function dedupeByPhrase(entries) {
+  const seen = new Set();
+
+  return entries.filter(({ phrase }) => {
+    if (seen.has(phrase)) return false;
+    seen.add(phrase);
+    return true;
+  });
+}
+
 function buildThumbnailVariations(formData = {}, config = {}) {
   const selectedTags = formData?.transformationTags || [];
 
   if (selectedTags.length === 0) {
-    return shuffleArray(config.thumbnail.words || []).slice(0, 5);
+    const words = (config.thumbnail.words || []).map((phrase) => ({
+      phrase,
+      source: { type: 'words', phrase },
+    }));
+
+    return shuffleArray(words).slice(0, 5);
   }
 
   const tagRegistry = config.tags || {};
@@ -35,29 +54,40 @@ function buildThumbnailVariations(formData = {}, config = {}) {
     const specificPhrases = tagRegistry[tag]?.thumbnail || [];
 
     if (specificPhrases.length > 0) {
-      return specificPhrases;
+      return specificPhrases.map((phrase) => ({
+        phrase,
+        source: { type: 'tag', tagName: tag, phrase },
+      }));
     }
 
     return buildGenericTagThumbnailPhrases(tag, config);
   });
 
-  const uniqueMapped = [...new Set(mappedPool)];
-  const uniqueFallbacks = [...new Set(config.thumbnail.fallbacks || [])];
+  const uniqueMapped = dedupeByPhrase(mappedPool);
+  const uniqueFallbacks = dedupeByPhrase(
+    (config.thumbnail.fallbacks || []).map((phrase) => ({
+      phrase,
+      source: { type: 'fallbacks', phrase },
+    })),
+  );
 
   const shuffledMapped = shuffleArray(uniqueMapped);
   const shuffledFallbacks = shuffleArray(uniqueFallbacks);
 
   const variations = [];
+  const usedPhrases = new Set();
 
-  shuffledMapped.forEach((phrase) => {
-    if (!variations.includes(phrase) && variations.length < 5) {
-      variations.push(phrase);
+  shuffledMapped.forEach((entry) => {
+    if (!usedPhrases.has(entry.phrase) && variations.length < 5) {
+      usedPhrases.add(entry.phrase);
+      variations.push(entry);
     }
   });
 
-  shuffledFallbacks.forEach((phrase) => {
-    if (!variations.includes(phrase) && variations.length < 5) {
-      variations.push(phrase);
+  shuffledFallbacks.forEach((entry) => {
+    if (!usedPhrases.has(entry.phrase) && variations.length < 5) {
+      usedPhrases.add(entry.phrase);
+      variations.push(entry);
     }
   });
 
@@ -79,9 +109,9 @@ function getRandomItem(items) {
 }
 
 export function generateThumbnails(formData = {}, config = {}, count = 5) {
-  const phrases = buildThumbnailVariations(formData, config);
+  const phraseEntries = buildThumbnailVariations(formData, config);
 
-  if (phrases.length === 0) return [];
+  if (phraseEntries.length === 0) return [];
 
   const artistFull = (formData.artist || 'ARTIST').toUpperCase();
   const generatedArtistShort = buildGeneratedArtistShort(
@@ -106,18 +136,14 @@ export function generateThumbnails(formData = {}, config = {}, count = 5) {
 
   // Cycle through the phrase pool if more thumbnails are needed than phrases available.
   return Array.from({ length: count }, (_, i) => {
-    const phrase = phrases[i % phrases.length];
+    const { phrase, source } = phraseEntries[i % phraseEntries.length];
     const text = phrase.toUpperCase();
     const pattern = getRandomItem(patternPool);
 
-    if (pattern === 'artistFull') {
-      return `${artistFull} // ${text}`;
-    }
+    let prefix = song;
+    if (pattern === 'artistFull') prefix = artistFull;
+    else if (pattern === 'artistShort') prefix = artistShortFinal;
 
-    if (pattern === 'artistShort') {
-      return `${artistShortFinal} // ${text}`;
-    }
-
-    return `${song} // ${text}`;
+    return { text: `${prefix} // ${text}`, source };
   });
 }

@@ -49,6 +49,9 @@ function App() {
     titlesTarget,
     openTitlesSearch,
     clearTitlesTarget,
+    thumbnailsTarget,
+    openThumbnailsSearch,
+    clearThumbnailsTarget,
     openProjectSettings,
     blocksTarget,
     openBlocksEditor,
@@ -173,6 +176,7 @@ function App() {
           onOpenSourceTag={openTagLibrarySearch}
           onOpenSourceHook={openShortHooksSearch}
           onOpenSourceTemplate={openTitlesSearch}
+          onOpenSourceThumbnail={openThumbnailsSearch}
           onNavigateToSettings={openProjectSettings}
         />
       )}
@@ -241,6 +245,8 @@ function App() {
           openShortHooksSearch={openShortHooksSearch}
           titlesTarget={titlesTarget}
           clearTitlesTarget={clearTitlesTarget}
+          thumbnailsTarget={thumbnailsTarget}
+          clearThumbnailsTarget={clearThumbnailsTarget}
           blocksTarget={blocksTarget}
           clearBlocksTarget={clearBlocksTarget}
           openBlocksEditor={openBlocksEditor}

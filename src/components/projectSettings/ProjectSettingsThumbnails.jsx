@@ -1,6 +1,7 @@
 import TemplateGroupCard from '../ui/TemplateGroupCard';
 import HookTemplateEditor from '../ui/HookTemplateEditor';
 import IconButton from '../ui/IconButton';
+import LabelSliderRow from '../ui/LabelSliderRow';
 import { THUMBNAIL_TAG_PLACEHOLDER } from '../../utils/hookPlaceholders';
 
 // Stores overrides at projectSettingsOverrides.thumbnail.{words,fallbacks,genericTagTemplates,patterns.{long,shorts}},
@@ -9,6 +10,7 @@ export default function ProjectSettingsThumbnails({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,
+  thumbnailsTarget = null,
 }) {
   const thumbnailConfig = projectConfig.thumbnail || {};
   const thumbnailOverrides = projectSettingsOverrides.thumbnail || {};
@@ -55,12 +57,26 @@ export default function ProjectSettingsThumbnails({
 
       <div className="tag-library tag-library--3col">
         <TemplateGroupCard
+          label="Generation"
+          onReset={() => resetArray('count')}
+        >
+          <LabelSliderRow
+            label="Thumbnails to generate"
+            value={thumbnailConfig.count ?? 5}
+            min={1}
+            max={10}
+            onChange={(v) => updateArray('count', v)}
+          />
+        </TemplateGroupCard>
+
+        <TemplateGroupCard
           label="Words"
           subtitle="Used when no transformation tags are selected."
           templates={thumbnailConfig.words || []}
           onUpdateTemplates={(v) => updateArray('words', v)}
           onReset={() => resetArray('words')}
           placeholders={[]}
+          highlightText={thumbnailsTarget?.card === 'words' ? thumbnailsTarget.template : null}
         />
 
         <TemplateGroupCard
@@ -70,6 +86,7 @@ export default function ProjectSettingsThumbnails({
           onUpdateTemplates={(v) => updateArray('fallbacks', v)}
           onReset={() => resetArray('fallbacks')}
           placeholders={[]}
+          highlightText={thumbnailsTarget?.card === 'fallbacks' ? thumbnailsTarget.template : null}
         />
 
         <TemplateGroupCard
@@ -79,6 +96,7 @@ export default function ProjectSettingsThumbnails({
           onUpdateTemplates={(v) => updateArray('genericTagTemplates', v)}
           onReset={() => resetArray('genericTagTemplates')}
           placeholders={THUMBNAIL_TAG_PLACEHOLDER}
+          highlightText={thumbnailsTarget?.card === 'genericTagTemplates' ? thumbnailsTarget.template : null}
         />
 
         <TemplateGroupCard

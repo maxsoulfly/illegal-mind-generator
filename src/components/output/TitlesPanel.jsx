@@ -1,5 +1,5 @@
 import ShortHookTitles from './ShortHookTitles';
-import GeneratedTitlePair from './GeneratedTitlePair';
+import GeneratedTitle from './GeneratedTitle';
 import CollapsiblePanel from '../ui/CollapsiblePanel';
 function shuffleArray(array) {
   return [...array].sort(() => Math.random() - 0.5);
@@ -17,7 +17,6 @@ function buildMixedShortTitles(shortHooks = [], limit = 5) {
 }
 function TitlesPanel({
   titles,
-  thumbnails,
   panelVisibility,
   togglePanel,
   shortHooks,
@@ -61,20 +60,15 @@ function TitlesPanel({
             onOpenSourceHook={onOpenSourceHook}
           />
         ) : (
-          titles.map((title, index) => {
-            const thumbnail = thumbnails[index] ?? '';
-
-            return (
-              <GeneratedTitlePair
-                key={index}
-                title={title}
-                thumbnail={thumbnail}
-                onOpenSourceTag={onOpenSourceTag}
-                onOpenSourceHook={onOpenSourceHook}
-                onOpenSourceTemplate={onOpenSourceTemplate}
-              />
-            );
-          })
+          titles.map((title, index) => (
+            <GeneratedTitle
+              key={index}
+              title={title}
+              onOpenSourceTag={onOpenSourceTag}
+              onOpenSourceHook={onOpenSourceHook}
+              onOpenSourceTemplate={onOpenSourceTemplate}
+            />
+          ))
         )}
       </div>
     </CollapsiblePanel>

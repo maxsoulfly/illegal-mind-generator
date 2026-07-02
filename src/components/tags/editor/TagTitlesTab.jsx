@@ -2,7 +2,7 @@
 
 import TagPhraseEditor from '../TagPhraseEditor';
 
-export default function TagTitlesTab({ tag, onUpdateTag }) {
+export default function TagTitlesTab({ tag, onUpdateTag, sourceTarget }) {
   return (
     <>
       <TagPhraseEditor
@@ -11,6 +11,8 @@ export default function TagTitlesTab({ tag, onUpdateTag }) {
         field="title"
         phrases={tag.maps.title}
         onUpdateTag={onUpdateTag}
+        autoOpen={sourceTarget?.field === 'title'}
+        highlightText={sourceTarget?.field === 'title' ? sourceTarget.phraseText : null}
       />
 
       <TagPhraseEditor
@@ -19,6 +21,8 @@ export default function TagTitlesTab({ tag, onUpdateTag }) {
         field="thumbnail"
         phrases={tag.maps.thumbnail}
         onUpdateTag={onUpdateTag}
+        autoOpen={sourceTarget?.field === 'thumbnail'}
+        highlightText={sourceTarget?.field === 'thumbnail' ? sourceTarget.phraseText : null}
       />
     </>
   );

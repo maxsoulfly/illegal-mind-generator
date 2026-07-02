@@ -1,4 +1,5 @@
 import TitlesPanel from '../output/TitlesPanel';
+import ThumbnailsPanel from '../output/ThumbnailsPanel';
 import DescriptionsPanel from '../output/DescriptionsPanel';
 import HashtagsPanel from '../output/HashtagsPanel';
 import YouTubeTagsPanel from '../output/YouTubeTagsPanel';
@@ -12,6 +13,7 @@ function GeneratorResultsPanel({
   onOpenSourceTag,
   onOpenSourceHook,
   onOpenSourceTemplate,
+  onOpenSourceThumbnail,
   onNavigateToSettings,
   useHooksForLongTitles,
   onToggleHooksForLongTitles,
@@ -39,7 +41,6 @@ function GeneratorResultsPanel({
       <div className="output-stack">
         <TitlesPanel
           titles={generatedOutput.titles}
-          thumbnails={generatedOutput.thumbnails}
           panelVisibility={panelVisibility}
           togglePanel={togglePanel}
           shortHooks={generatedOutput.shortHooks}
@@ -51,6 +52,15 @@ function GeneratorResultsPanel({
           onNavigateToSettings={onNavigateToSettings}
           useHooksForLongTitles={useHooksForLongTitles}
           onToggleHooksForLongTitles={onToggleHooksForLongTitles}
+        />
+
+        <ThumbnailsPanel
+          thumbnails={generatedOutput.thumbnails}
+          panelVisibility={panelVisibility}
+          togglePanel={togglePanel}
+          onOpenSourceThumbnail={onOpenSourceThumbnail}
+          onOpenSourceTag={onOpenSourceTag}
+          onNavigateToSettings={onNavigateToSettings}
         />
 
         <DescriptionsPanel
