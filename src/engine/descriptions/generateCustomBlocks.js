@@ -1,15 +1,9 @@
-import { resolveTagCategoryPlaceholders } from './descriptionTagHelpers';
+import { fillPlaceholders, pickViableTemplate } from '../placeholders';
 
 function replaceLinkPlaceholders(template, links = {}) {
   return template.replace(/\{links\.(.*?)\}/g, (_, key) => {
     return links?.[key] ?? '';
   });
-}
-
-function pickOneGenre(str) {
-  if (!str) return '';
-  const parts = str.split(',').map((s) => s.trim()).filter(Boolean);
-  return parts[Math.floor(Math.random() * parts.length)] || '';
 }
 
 function pickRandomItem(items) {
@@ -63,45 +57,8 @@ export function resolveHookOverride(override) {
   return null;
 }
 
-// Resolves {transformation}: picks a random project-level template (or per-song
-// override) and substitutes basic placeholders. Used as a value by
-// renderTextTemplate and fillHookTemplate — NOT called recursively.
-export function resolveTransformation(formData, projectConfig, tagLine = '') {
-  const ptConfig = projectConfig?.title?.primaryTag || {};
-  const count = Math.max(1, ptConfig.count || 1);
-  const order = ptConfig.order || 'selection';
-  const separator = ptConfig.separator ?? ' & ';
-  const tags = formData.transformationTags || [];
-  const pool = order === 'random' ? [...tags].sort(() => Math.random() - 0.5) : [...tags];
-  const primaryTag = pool.slice(0, count).join(separator) || '';
-
-  const overrides = formData.songBlockOverrides || {};
-  const override = resolveHookOverride(overrides.transformation);
-  const templates = projectConfig?.description?.templates?.long?.transformationBlock || [];
-  const template = override || templates[Math.floor(Math.random() * templates.length)] || '';
-
-  const resolved = template
-    .replace(/\{primaryTag\}/g, primaryTag)
-    .replace(/\{artist\}/g, formData.artist || '')
-    .replace(/\{song\}/g, formData.song || '')
-    .replace(/\{year\}/g, formData.originalYear || '')
-    .replace(/\{originalGenre\}/g, pickOneGenre(formData.originalGenre))
-    .replace(/\{tagLine\}/g, tagLine);
-  const withTagCategories = resolveTagCategoryPlaceholders(resolved, formData.transformationTags, projectConfig);
-  return withTagCategories.charAt(0).toUpperCase() + withTagCategories.slice(1);
-}
-
 export function renderTextTemplate(text, projectConfig, formData, tagLine) {
-  const transformation = resolveTransformation(formData, projectConfig, tagLine);
-  const filled = replaceLinkPlaceholders(text, projectConfig.description.links)
-    .replace(/\{artist\}/g, formData.artist || '')
-    .replace(/\{song\}/g, formData.song || '')
-    .replace(/\{year\}/g, formData.originalYear || '')
-    .replace(/\{originalGenre\}/g, pickOneGenre(formData.originalGenre))
-    .replace(/\{tagLine\}/g, tagLine)
-    .replace(/\{transformation\}/g, transformation);
-
-  return resolveTagCategoryPlaceholders(filled, formData.transformationTags, projectConfig);
+  return fillPlaceholders(text, { formData, projectConfig, tagLine }).text;
 }
 
 // Merges the generic per-song block overrides with the legacy customCta
@@ -180,25 +137,34 @@ export function resolveHookBlockTemplates(layoutKey, projectConfig) {
 
 // Resolves a hook block identified by its layout key to its final rendered
 // output: 1+ randomly-picked lines (count comes from hookBlockCounts, capped
-// by hookBlockMaxLines/countMax), joined with newlines. Returns null if the
+// by hookBlockMaxLines/countMax), fully placeholder-filled and joined with
+// newlines. Candidates whose placeholders would render empty (e.g. {tags.genre}
+// with no genre-category tag selected) are excluded before picking — falls back
+// to the full pool only if every candidate would be empty. Returns null if the
 // key doesn't match any hook block entry, so callers can fall back.
-export function resolveHookBlockOutput(layoutKey, projectConfig) {
-  const hookBlocks = projectConfig.description?.hookBlocks || [];
+export function resolveHookBlockOutput(layoutKey, ctx) {
+  const hookBlocks = ctx.projectConfig.description?.hookBlocks || [];
   const block = hookBlocks.find(
     (b) => (b.descriptionLayoutKey ?? b.key) === layoutKey,
   );
   if (!block) return null;
 
-  const templates = resolveHookBlockTemplates(layoutKey, projectConfig);
+  const templates = resolveHookBlockTemplates(layoutKey, ctx.projectConfig);
   if (!templates?.length) return null;
 
   const maxLines =
-    projectConfig.description?.hookBlockMaxLines?.[block.key] ?? block.countMax ?? 1;
+    ctx.projectConfig.description?.hookBlockMaxLines?.[block.key] ?? block.countMax ?? 1;
   const configuredCount =
-    projectConfig.description?.hookBlockCounts?.[block.key] ?? block.countDefault ?? 1;
+    ctx.projectConfig.description?.hookBlockCounts?.[block.key] ?? block.countDefault ?? 1;
   const count = Math.max(1, Math.min(configuredCount, maxLines, templates.length));
 
-  return pickRandomLines(templates, count).join('\n');
+  const resolved = templates.map((template) => ({ template, ...fillPlaceholders(template, ctx) }));
+  const viable = resolved.filter((r) => !r.hasEmpty);
+  const pool = viable.length > 0 ? viable : resolved;
+
+  return pickRandomLines(pool, Math.min(count, pool.length))
+    .map((r) => r.text)
+    .join('\n');
 }
 
 export function generateCustomBlocks(formData, projectConfig, tagLine) {
@@ -226,3 +192,5 @@ export function generateCustomBlocks(formData, projectConfig, tagLine) {
     supportBlock,
   };
 }
+
+export { pickViableTemplate };

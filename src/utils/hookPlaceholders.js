@@ -1,4 +1,6 @@
-// Matches the {tags.<category>} substitution resolveTagCategoryPlaceholders
+import { REGISTRY_TOKENS } from '../engine/placeholders';
+
+// Matches the {tags.<category>} substitution resolveTagCategoryValue
 // (descriptionTagHelpers.js) applies — shared by hooks, titles, and text
 // blocks, so keep this list in sync with TAG_CATEGORY_ALIASES there.
 export const TAG_CATEGORY_PLACEHOLDERS = [
@@ -12,21 +14,20 @@ export const TAG_CATEGORY_PLACEHOLDERS = [
   '{tags.tempo}',
 ];
 
-// Matches the placeholders generateShortHooks.js's fillHookTemplate replaces.
-// Used by both the project-level hook editor (HookTemplateEditor) and the
-// per-tag hook editor (TagShortHooksTab) so they stay in sync.
+// {num} and {transformation} aren't in the shared REGISTRY (src/engine/placeholders.js)
+// by design — {num}'s fallback text differs per caller (hooks/titles use 'XX',
+// descriptions use '00'), and {transformation} fills its own nested template
+// rather than being a single-value resolver. Still real, working placeholders,
+// so listed here explicitly alongside the auto-synced REGISTRY_TOKENS.
+const SPECIAL_TOKENS = ['num', 'transformation'];
+
+// The placeholders every hook/text-block template can use. Everything except
+// TAG_CATEGORY_PLACEHOLDERS and SPECIAL_TOKENS is derived from
+// src/engine/placeholders.js's REGISTRY — add a resolver there and it shows up
+// here (and in every editor that imports HOOK_PLACEHOLDERS) automatically.
 export const HOOK_PLACEHOLDERS = [
-  '{artist}',
-  '{song}',
-  '{signalNumber}',
-  '{num}',
-  '{decade}',
-  '{year}',
-  '{years}',
-  '{currentYear}',
-  '{primaryTag}',
-  '{originalGenre}',
-  '{transformation}',
+  ...REGISTRY_TOKENS.map((token) => `{${token}}`),
+  ...SPECIAL_TOKENS.map((token) => `{${token}}`),
   ...TAG_CATEGORY_PLACEHOLDERS,
 ];
 

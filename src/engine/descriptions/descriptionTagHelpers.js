@@ -16,9 +16,9 @@ function pickRandom(arr = []) {
 
 // {tags.lang} reads friendlier than {tags.language} but must resolve
 // against the real "language" category key on tags.
-const TAG_CATEGORY_ALIASES = { lang: 'language' };
+export const TAG_CATEGORY_ALIASES = { lang: 'language' };
 
-function resolveTagCategoryValue(placeholderKey, transformationTags = [], projectConfig) {
+export function resolveTagCategoryValue(placeholderKey, transformationTags = [], projectConfig) {
   const category = TAG_CATEGORY_ALIASES[placeholderKey] || placeholderKey;
   const matches = transformationTags.filter(
     (tag) => projectConfig?.tags?.[tag]?.category === category,

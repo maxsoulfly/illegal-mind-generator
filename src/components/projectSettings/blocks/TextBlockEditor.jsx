@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PlaceholderField from '../../ui/PlaceholderField';
 import BlockEditorCard from './BlockEditorCard';
-import { TAG_CATEGORY_PLACEHOLDERS } from '../../../utils/hookPlaceholders';
+import { HOOK_PLACEHOLDERS } from '../../../utils/hookPlaceholders';
 
 function textOf(blockData) {
   return typeof blockData === 'string' ? blockData : blockData?.text ?? '';
@@ -55,12 +55,7 @@ export default function TextBlockEditor({
   }
 
   const placeholders = [
-    '{artist}',
-    '{song}',
-    '{year}',
-    '{originalGenre}',
-    '{tagLine}',
-    ...TAG_CATEGORY_PLACEHOLDERS,
+    ...HOOK_PLACEHOLDERS,
     ...linkKeys.map((key) => `{links.${key}}`),
   ];
 

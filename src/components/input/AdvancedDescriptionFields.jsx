@@ -4,7 +4,7 @@ import FormField from '../ui/FormField';
 import IconButton from '../ui/IconButton';
 import PlaceholderField from '../ui/PlaceholderField';
 import { isTextBlock, isListBlock, getBlockLabel, detectItemType } from '../../utils/customBlocks';
-import { TAG_CATEGORY_PLACEHOLDERS } from '../../utils/hookPlaceholders';
+import { HOOK_PLACEHOLDERS } from '../../utils/hookPlaceholders';
 
 
 function SongListBlockEditor({ items: initialItems, itemType, onChange, placeholders = [] }) {
@@ -95,7 +95,7 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
   const songScopeHookBlocks = (projectConfig?.description?.hookBlocks || [])
     .filter((b) => !hardcodedPhraseKeys.has(b.key) && phraseBlockScopes[b.key] === 'song');
 
-  const textPlaceholders = ['{artist}', '{song}', '{year}', '{originalGenre}', '{tagLine}', '{transformation}', ...TAG_CATEGORY_PLACEHOLDERS, ...linkKeys.map((key) => `{links.${key}}`)];
+  const textPlaceholders = [...HOOK_PLACEHOLDERS, ...linkKeys.map((key) => `{links.${key}}`)];
 
   function updateOverride(key, value) {
     setFormData((prev) => ({

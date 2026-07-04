@@ -1,4 +1,4 @@
-import { resolveTagCategoryPlaceholders } from '../descriptions/descriptionTagHelpers';
+import { fillPlaceholders } from '../placeholders';
 
 // Picks up to maxPhrases unique phrases and joins them list-style:
 // 1 phrase  → "Heavier"
@@ -119,27 +119,59 @@ function getWeightedTemplates(formData = {}, config = {}) {
   });
 }
 
-function pickOneGenre(str) {
-  if (!str) return '';
-  const parts = str.split(',').map((s) => s.trim()).filter(Boolean);
-  return parts[Math.floor(Math.random() * parts.length)] || '';
-}
-
 // Titles built from lowercase placeholder values (originalGenre, tag
 // categories) shouldn't produce a lowercase-leading title.
 function capitalizeFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function fillTemplate(template, values, projectConfig) {
-  const filled = template
-    .replace('{num}', values.signalNumber || 'XX')
-    .replace('{artist}', values.artist)
-    .replace('{song}', values.song)
-    .replace('{transformation}', values.transformation)
-    .replace('{originalGenre}', pickOneGenre(values.originalGenre));
+// Runs the pick-a-template-and-fill loop. allowEmpty=false skips any template
+// whose placeholders would render with an empty value (e.g. {originalGenre}
+// with none set) — used as a safety-net retry when strict filtering leaves
+// zero results, so title generation never comes up with nothing to show.
+function attemptTransformationTitles({
+  formData, config, isShorts, artistFull, artistShortFinal,
+  longPrefix, longSuffix, shortsPrefix, shortsSuffix,
+  transformations, weightedTemplates, maxPhrases, connector, listSeparator,
+  titleCount, useShort, allowEmpty,
+}) {
+  const results = [];
+  const usedTexts = new Set();
+  let attempts = 0;
 
-  return resolveTagCategoryPlaceholders(filled, values.transformationTags, projectConfig);
+  while (results.length < titleCount && attempts < titleCount * 10) {
+    const transformation = pickTransformation(transformations, maxPhrases, connector, listSeparator);
+    const { template, groupName } = shuffleArray(weightedTemplates)[0];
+
+    const ctx = {
+      formData,
+      projectConfig: config,
+      overrides: {
+        artist: useShort ? artistShortFinal : artistFull,
+        song: formData.song || '[Song Name]',
+        num: formData.signalNumber || 'XX',
+        transformation,
+      },
+    };
+
+    const { text: filled, hasEmpty } = fillPlaceholders(template, ctx);
+    attempts += 1;
+    if (hasEmpty && !allowEmpty) continue;
+
+    const baseTitle = capitalizeFirst(filled);
+    const text = isShorts
+      ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
+      : `${longPrefix}${baseTitle}${longSuffix}`;
+
+    if (!usedTexts.has(text)) {
+      usedTexts.add(text);
+      // sourceTemplate tracks which template and group produced this title
+      // so the UI can navigate back to Project Settings → Titles.
+      results.push({ text, sourceHook: null, sourceTemplate: { template, groupName } });
+    }
+  }
+
+  return results;
 }
 
 // Builds the pool of transformation-based titles (same logic as before).
@@ -154,41 +186,18 @@ function buildTransformationTitles(formData, config, isShorts, artistFull, artis
   const maxPhrases = config.title?.maxTransformationPhrases || 1;
   const connector = config.title?.connector || '&';
   const listSeparator = config.title?.listSeparator ?? ', ';
-
   const titleCount = config.title?.count ?? 5;
-  const results = [];
-  const usedTexts = new Set();
-  let attempts = 0;
   const useShort = isShorts || (formData.useCustomArtistShort && formData.artistShort);
 
-  while (results.length < titleCount && attempts < titleCount * 10) {
-    const transformation = pickTransformation(transformations, maxPhrases, connector, listSeparator);
-    const { template, groupName } = shuffleArray(weightedTemplates)[0];
+  const args = {
+    formData, config, isShorts, artistFull, artistShortFinal,
+    longPrefix, longSuffix, shortsPrefix, shortsSuffix,
+    transformations, weightedTemplates, maxPhrases, connector, listSeparator,
+    titleCount, useShort,
+  };
 
-    const baseTitle = capitalizeFirst(fillTemplate(template, {
-      signalNumber: formData.signalNumber || 'XX',
-      artist: useShort ? artistShortFinal : artistFull,
-      song: formData.song || '[Song Name]',
-      transformation,
-      originalGenre: formData.originalGenre || '',
-      transformationTags: formData.transformationTags,
-    }, config));
-
-    const text = isShorts
-      ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
-      : `${longPrefix}${baseTitle}${longSuffix}`;
-
-    if (!usedTexts.has(text)) {
-      usedTexts.add(text);
-      // sourceTemplate tracks which template and group produced this title
-      // so the UI can navigate back to Project Settings → Titles.
-      results.push({ text, sourceHook: null, sourceTemplate: { template, groupName } });
-    }
-
-    attempts += 1;
-  }
-
-  return results;
+  const results = attemptTransformationTitles({ ...args, allowEmpty: false });
+  return results.length > 0 ? results : attemptTransformationTitles({ ...args, allowEmpty: true });
 }
 
 function buildGenericTitles(formData, config, isShorts, artistFull, artistShortFinal, longPrefix, longSuffix, shortsPrefix, shortsSuffix) {
@@ -196,21 +205,27 @@ function buildGenericTitles(formData, config, isShorts, artistFull, artistShortF
   if (genericTemplates.length === 0) return [];
 
   const useShort = isShorts || (formData.useCustomArtistShort && formData.artistShort);
-  return shuffleArray(genericTemplates).map((template) => {
-    const filled = template
-      .replace('{num}',    formData.signalNumber || 'XX')
-      .replace('{artist}', useShort ? artistShortFinal : artistFull)
-      .replace('{song}',   formData.song         || '[Song Name]')
-      .replace('{year}',   formData.originalYear  || '')
-      .replace('{originalGenre}', pickOneGenre(formData.originalGenre));
+  const ctx = {
+    formData,
+    projectConfig: config,
+    overrides: {
+      artist: useShort ? artistShortFinal : artistFull,
+      song: formData.song || '[Song Name]',
+      num: formData.signalNumber || 'XX',
+    },
+  };
 
-    const baseTitle = capitalizeFirst(resolveTagCategoryPlaceholders(filled, formData.transformationTags, config));
+  const resolved = genericTemplates.map((template) => ({ template, ...fillPlaceholders(template, ctx) }));
+  const viable = resolved.filter((r) => !r.hasEmpty);
+  const pool = viable.length > 0 ? viable : resolved;
 
-    const text = isShorts
+  return shuffleArray(pool).map(({ template, text }) => {
+    const baseTitle = capitalizeFirst(text);
+    const finalText = isShorts
       ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
       : `${longPrefix}${baseTitle}${longSuffix}`;
 
-    return { text, sourceHook: null, sourceTemplate: { template, groupName: 'generic' } };
+    return { text: finalText, sourceHook: null, sourceTemplate: { template, groupName: 'generic' } };
   });
 }
 

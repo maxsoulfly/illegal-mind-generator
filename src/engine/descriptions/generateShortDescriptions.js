@@ -1,4 +1,4 @@
-import { renderStructuredBlock, renderCustomBlock, getEffectiveSongOverrides, resolveHookBlockOutput, renderTextTemplate, resolveHookOverride } from './generateCustomBlocks';
+import { renderStructuredBlock, renderCustomBlock, getEffectiveSongOverrides, resolveHookBlockOutput, renderTextTemplate, resolveHookOverride, pickViableTemplate } from './generateCustomBlocks';
 import { isListBlock } from '../../utils/customBlocks';
 
 function pickRandom(arr = []) {
@@ -14,6 +14,7 @@ export function generateShortDescriptions(
   const shortsConfig = projectConfig.description.templates.shorts;
   const count = shortsConfig.count || 3;
   const coverLabel = shortsConfig.coverLabel || '';
+  const ctx = { formData, projectConfig, tagLine: tagPhrase };
 
   const shortsLayout = shortsConfig.layout || [
     'coverLine',
@@ -36,8 +37,9 @@ export function generateShortDescriptions(
   function renderShortLine(blockName) {
     if (blockName === 'coverLine') {
       const headerTemplates = shortsConfig.header || [];
-      const template = pickRandom(headerTemplates) || '{artist} - {song}';
-      return renderTextTemplate(template, projectConfig, formData, tagPhrase)
+      const picked = pickViableTemplate(headerTemplates, ctx);
+      const text = picked?.text ?? renderTextTemplate('{artist} - {song}', projectConfig, formData, tagPhrase);
+      return text
         .replace(/\{coverLabel\}/g, coverLabel)
         .replace(/\{num\}/g, formData.signalNumber || '00');
     }
@@ -66,11 +68,15 @@ export function generateShortDescriptions(
     const hookSongOverride = resolveHookOverride(songOverrides[blockName]);
     if (hookSongOverride) return renderTextTemplate(hookSongOverride, projectConfig, formData, tagPhrase);
 
-    const template = resolveHookBlockOutput(blockName, projectConfig) ?? pickRandom(shortsConfig[blockName] ?? []);
+    // resolveHookBlockOutput already resolves+fills placeholders (filtering out
+    // empty-value candidates first); the legacy shortsConfig fallback needs its
+    // own fill pass. {num}/{coverLabel} are shorts-specific, applied after either way.
+    const text =
+      resolveHookBlockOutput(blockName, ctx) ??
+      pickViableTemplate(shortsConfig[blockName] ?? [], ctx)?.text ??
+      '';
 
-    // renderTextTemplate handles {artist}/{song}/{year}/{originalGenre}/{tagLine}/{transformation}/{links.*}.
-    // {num} and {coverLabel} are shorts-specific so are applied after.
-    return renderTextTemplate(template, projectConfig, formData, tagPhrase)
+    return text
       .replace(/\{num\}/g, formData.signalNumber || '00')
       .replace(/\{coverLabel\}/g, coverLabel);
   }

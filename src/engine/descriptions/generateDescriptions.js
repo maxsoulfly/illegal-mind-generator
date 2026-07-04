@@ -2,17 +2,14 @@ import { generateShortDescriptions } from './generateShortDescriptions';
 import { generateBroadcastBlock } from './generateBroadcastBlock';
 import { generateTechnicalBlock } from './generateTechnicalBlock';
 import { generateLogBlock } from './generateLogBlock';
-import { generateCustomBlocks, getEffectiveSongOverrides, resolveHookBlockOutput, renderTextTemplate, resolveHookOverride } from './generateCustomBlocks';
+import { generateCustomBlocks, getEffectiveSongOverrides, resolveHookBlockOutput, renderTextTemplate, resolveHookOverride, pickViableTemplate } from './generateCustomBlocks';
 import { buildTagLine, buildTagPhrase } from './descriptionTagHelpers';
-
-function pickRandom(arr = []) {
-  return arr[Math.floor(Math.random() * arr.length)] || '';
-}
 
 export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const tagLine = buildTagLine(formData, projectConfig);
   const tagPhrase = buildTagPhrase(formData, projectConfig);
   const selectedTags = formData.transformationTags || [];
+  const ctx = { formData, projectConfig, tagLine: tagPhrase };
 
   // --- Broadcast block ---
   const { broadcastBlock, fileId } = generateBroadcastBlock(
@@ -25,36 +22,23 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const songOverrides = getEffectiveSongOverrides(formData);
 
   // --- Intro block ---
-  const introTemplate = pickRandom(
-    projectConfig?.description.templates?.long?.introHook,
-  );
   const introOverride = resolveHookOverride(songOverrides.introBlock);
   const introBlock = introOverride
     ? renderTextTemplate(introOverride, projectConfig, formData, tagPhrase)
-    : introTemplate;
+    : pickViableTemplate(projectConfig?.description.templates?.long?.introHook || [], ctx)?.text ?? '';
 
   // --- Story block ---
-
-  const storyTemplate = pickRandom(
-    projectConfig?.description.templates?.long?.storyBlock,
-  );
-
   const storyOverride = resolveHookOverride(songOverrides.storyBlock);
-  const storyBlock = renderTextTemplate(storyOverride || storyTemplate, projectConfig, formData, tagPhrase);
+  const storyBlock = storyOverride
+    ? renderTextTemplate(storyOverride, projectConfig, formData, tagPhrase)
+    : pickViableTemplate(projectConfig?.description.templates?.long?.storyBlock || [], ctx)?.text ?? '';
 
   // --- Philosophy block ---
-  const philosophyTemplate = pickRandom(
-    projectConfig?.description.templates?.long?.philosophyLine,
-  );
-
-  const philosophyBlock = philosophyTemplate;
+  const philosophyBlock = pickViableTemplate(projectConfig?.description.templates?.long?.philosophyLine || [], ctx)?.text ?? '';
 
   // --- Closing block ---
-  const closingTemplate = pickRandom(
-    projectConfig?.description.templates?.long?.closingSignal,
-  );
-
-  const closingBlock = closingTemplate.replace(
+  const closingPicked = pickViableTemplate(projectConfig?.description.templates?.long?.closingSignal || [], ctx);
+  const closingBlock = (closingPicked?.text ?? '').replace(
     /\{num\}/g,
     formData.signalNumber || '00',
   );
@@ -64,7 +48,7 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     .join('\n');
 
   // --- Technical block ---
-  const technicalBlock = generateTechnicalBlock(selectedTags, projectConfig);
+  const technicalBlock = generateTechnicalBlock(selectedTags, projectConfig, formData);
 
   // --- Log block ---
   const logBlock = generateLogBlock(
@@ -100,7 +84,7 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
       if (blockName in blocks) return blocks[blockName];
       const hookSongOverride = resolveHookOverride(songOverrides[blockName]);
       if (hookSongOverride) return renderTextTemplate(hookSongOverride, projectConfig, formData, tagPhrase);
-      return resolveHookBlockOutput(blockName, projectConfig) ?? undefined;
+      return resolveHookBlockOutput(blockName, ctx) ?? undefined;
     })
     .filter(Boolean)
     .join('\n\n');
