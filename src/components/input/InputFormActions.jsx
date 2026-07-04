@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import LabelSelectRow from '../ui/LabelSelectRow';
 
 export default function InputFormActions({
   onSaveEntry,
@@ -9,26 +8,25 @@ export default function InputFormActions({
 }) {
   const [targetProjectId, setTargetProjectId] = useState(projectId);
 
-  const projectOptions = Object.entries(projects).map(([id, project]) => ({
-    value: id,
-    label: project.name,
-  }));
-
   return (
     <div>
-      <LabelSelectRow
-        label="Save to"
-        value={targetProjectId}
-        onChange={setTargetProjectId}
-        options={projectOptions}
-        compact
-      />
+      <div className="tag-actions">
+        <select
+          className="form-select"
+          value={targetProjectId}
+          onChange={(e) => setTargetProjectId(e.target.value)}
+        >
+          {Object.entries(projects).map(([id, project]) => (
+            <option key={id} value={id}>{project.name}</option>
+          ))}
+        </select>
 
-      <div className="button-row">
         <button className="button-secondary" type="button" onClick={() => onSaveEntry(targetProjectId)}>
           Save
         </button>
+      </div>
 
+      <div className="button-row">
         <button className="button-secondary" onClick={onClear}>
           Clear Form
         </button>
