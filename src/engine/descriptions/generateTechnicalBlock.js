@@ -1,3 +1,5 @@
+import { pickRandomLines } from './generateCustomBlocks';
+
 function pickRandom(arr = []) {
   return arr[Math.floor(Math.random() * arr.length)] || '';
 }
@@ -21,16 +23,16 @@ export function generateTechnicalBlock(selectedTags, projectConfig) {
     (tag) => getDescriptionTag(tag).technical || [],
   );
 
-  const remaining = [...allTagLines, ...baseLines]
-    .filter((line) => !perTagLines.includes(line))
-    .sort(() => 0.5 - Math.random());
+  const remainingPool = [...allTagLines, ...baseLines].filter(
+    (line) => !perTagLines.includes(line),
+  );
 
   const technicalLineCount =
     projectConfig?.description?.hookBlockCounts?.technicalLines ??
     projectConfig?.description?.technicalLineCount ??
     3;
 
-  const finalLines = [...perTagLines, ...remaining].slice(0, technicalLineCount);
+  const remaining = pickRandomLines(remainingPool, technicalLineCount - perTagLines.length);
 
-  return finalLines.join('\n');
+  return [...perTagLines, ...remaining].join('\n');
 }

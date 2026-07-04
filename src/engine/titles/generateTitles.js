@@ -1,3 +1,5 @@
+import { resolveTagCategoryPlaceholders } from '../descriptions/descriptionTagHelpers';
+
 // Picks up to maxPhrases unique phrases and joins them list-style:
 // 1 phrase  → "Heavier"
 // 2 phrases → "Heavier & Darker"
@@ -123,13 +125,21 @@ function pickOneGenre(str) {
   return parts[Math.floor(Math.random() * parts.length)] || '';
 }
 
-function fillTemplate(template, values) {
-  return template
+// Titles built from lowercase placeholder values (originalGenre, tag
+// categories) shouldn't produce a lowercase-leading title.
+function capitalizeFirst(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function fillTemplate(template, values, projectConfig) {
+  const filled = template
     .replace('{num}', values.signalNumber || 'XX')
     .replace('{artist}', values.artist)
     .replace('{song}', values.song)
     .replace('{transformation}', values.transformation)
     .replace('{originalGenre}', pickOneGenre(values.originalGenre));
+
+  return resolveTagCategoryPlaceholders(filled, values.transformationTags, projectConfig);
 }
 
 // Builds the pool of transformation-based titles (same logic as before).
@@ -155,13 +165,14 @@ function buildTransformationTitles(formData, config, isShorts, artistFull, artis
     const transformation = pickTransformation(transformations, maxPhrases, connector, listSeparator);
     const { template, groupName } = shuffleArray(weightedTemplates)[0];
 
-    const baseTitle = fillTemplate(template, {
+    const baseTitle = capitalizeFirst(fillTemplate(template, {
       signalNumber: formData.signalNumber || 'XX',
       artist: useShort ? artistShortFinal : artistFull,
       song: formData.song || '[Song Name]',
       transformation,
       originalGenre: formData.originalGenre || '',
-    });
+      transformationTags: formData.transformationTags,
+    }, config));
 
     const text = isShorts
       ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
@@ -186,12 +197,14 @@ function buildGenericTitles(formData, config, isShorts, artistFull, artistShortF
 
   const useShort = isShorts || (formData.useCustomArtistShort && formData.artistShort);
   return shuffleArray(genericTemplates).map((template) => {
-    const baseTitle = template
+    const filled = template
       .replace('{num}',    formData.signalNumber || 'XX')
       .replace('{artist}', useShort ? artistShortFinal : artistFull)
       .replace('{song}',   formData.song         || '[Song Name]')
       .replace('{year}',   formData.originalYear  || '')
       .replace('{originalGenre}', pickOneGenre(formData.originalGenre));
+
+    const baseTitle = capitalizeFirst(resolveTagCategoryPlaceholders(filled, formData.transformationTags, config));
 
     const text = isShorts
       ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
@@ -212,7 +225,7 @@ function buildHookTitles(shortHooks, longPrefix, longSuffix) {
   return shuffleArray(hookPool)
     .slice(0, 5)
     .map((hook) => ({
-      text: `${longPrefix}${hook.text}${longSuffix}`,
+      text: `${longPrefix}${capitalizeFirst(hook.text)}${longSuffix}`,
       sourceHook: {
         sourceType: hook.sourceType,
         sourceTag: hook.sourceTag,

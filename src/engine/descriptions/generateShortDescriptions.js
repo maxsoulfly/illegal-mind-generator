@@ -1,4 +1,4 @@
-import { renderStructuredBlock, renderCustomBlock, getEffectiveSongOverrides, resolveHookBlockTemplates, renderTextTemplate, resolveHookOverride } from './generateCustomBlocks';
+import { renderStructuredBlock, renderCustomBlock, getEffectiveSongOverrides, resolveHookBlockOutput, renderTextTemplate, resolveHookOverride } from './generateCustomBlocks';
 import { isListBlock } from '../../utils/customBlocks';
 
 function pickRandom(arr = []) {
@@ -66,9 +66,7 @@ export function generateShortDescriptions(
     const hookSongOverride = resolveHookOverride(songOverrides[blockName]);
     if (hookSongOverride) return renderTextTemplate(hookSongOverride, projectConfig, formData, tagPhrase);
 
-    const hookTemplates = resolveHookBlockTemplates(blockName, projectConfig);
-    const options = hookTemplates ?? shortsConfig[blockName] ?? [];
-    const template = pickRandom(options);
+    const template = resolveHookBlockOutput(blockName, projectConfig) ?? pickRandom(shortsConfig[blockName] ?? []);
 
     // renderTextTemplate handles {artist}/{song}/{year}/{originalGenre}/{tagLine}/{transformation}/{links.*}.
     // {num} and {coverLabel} are shorts-specific so are applied after.

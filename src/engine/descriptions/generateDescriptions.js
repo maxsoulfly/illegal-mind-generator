@@ -2,7 +2,7 @@ import { generateShortDescriptions } from './generateShortDescriptions';
 import { generateBroadcastBlock } from './generateBroadcastBlock';
 import { generateTechnicalBlock } from './generateTechnicalBlock';
 import { generateLogBlock } from './generateLogBlock';
-import { generateCustomBlocks, getEffectiveSongOverrides, resolveHookBlockTemplates, renderTextTemplate, resolveHookOverride } from './generateCustomBlocks';
+import { generateCustomBlocks, getEffectiveSongOverrides, resolveHookBlockOutput, renderTextTemplate, resolveHookOverride } from './generateCustomBlocks';
 import { buildTagLine, buildTagPhrase } from './descriptionTagHelpers';
 
 function pickRandom(arr = []) {
@@ -100,8 +100,7 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
       if (blockName in blocks) return blocks[blockName];
       const hookSongOverride = resolveHookOverride(songOverrides[blockName]);
       if (hookSongOverride) return renderTextTemplate(hookSongOverride, projectConfig, formData, tagPhrase);
-      const hookTemplates = resolveHookBlockTemplates(blockName, projectConfig);
-      return hookTemplates?.length ? pickRandom(hookTemplates) : undefined;
+      return resolveHookBlockOutput(blockName, projectConfig) ?? undefined;
     })
     .filter(Boolean)
     .join('\n\n');

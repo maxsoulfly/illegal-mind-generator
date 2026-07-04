@@ -1,3 +1,5 @@
+import { pickRandomLines } from './generateCustomBlocks';
+
 function pickRandom(arr = []) {
   return arr[Math.floor(Math.random() * arr.length)] || '';
 }
@@ -34,11 +36,7 @@ export function generateBroadcastBlock(formData, projectConfig, selectedTags) {
     projectConfig?.description?.statusLineCount ??
     2;
 
-  const selectedStatus = [...combinedStatus]
-    .sort(() => 0.5 - Math.random())
-    .slice(0, statusLineCount);
-
-  const statusBlock = selectedStatus.join('\n');
+  const statusBlock = pickRandomLines(combinedStatus, statusLineCount).join('\n');
 
   const broadcastTemplate = pickRandom(
     projectConfig?.description.templates?.long?.broadcastHeader,

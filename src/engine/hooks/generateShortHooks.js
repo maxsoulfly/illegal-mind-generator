@@ -1,4 +1,5 @@
 import { resolveTransformation } from '../descriptions/generateCustomBlocks';
+import { resolveTagCategoryPlaceholders } from '../descriptions/descriptionTagHelpers';
 
 const DEFAULT_YEARS = 'a few';
 
@@ -28,7 +29,7 @@ function pickOneGenre(str) {
   return parts[Math.floor(Math.random() * parts.length)] || '';
 }
 
-function fillHookTemplate(template, formData, transformation = '', primaryTagConfig = {}) {
+function fillHookTemplate(template, formData, transformation = '', primaryTagConfig = {}, projectConfig = {}) {
   const decade = resolveDecade(formData.transformationTags);
   const primaryTag = resolvePrimaryTag(formData.transformationTags, primaryTagConfig);
   const currentYear = new Date().getFullYear();
@@ -36,7 +37,7 @@ function fillHookTemplate(template, formData, transformation = '', primaryTagCon
   const artist = (formData.useCustomArtistShort && formData.artistShort)
     ? formData.artistShort
     : formData.artist || 'This band';
-  return template
+  const filled = template
     .replaceAll('{artist}', artist)
     .replaceAll('{song}', formData.song || 'this song')
     .replaceAll('{signalNumber}', formData.signalNumber || '')
@@ -48,11 +49,13 @@ function fillHookTemplate(template, formData, transformation = '', primaryTagCon
     .replaceAll('{primaryTag}', primaryTag)
     .replaceAll('{originalGenre}', pickOneGenre(formData.originalGenre))
     .replaceAll('{transformation}', transformation);
+
+  return resolveTagCategoryPlaceholders(filled, formData.transformationTags, projectConfig);
 }
 
-function createBaseHook(template, type, formData, transformation, primaryTagConfig) {
+function createBaseHook(template, type, formData, transformation, primaryTagConfig, projectConfig) {
   return {
-    text: fillHookTemplate(template, formData, transformation, primaryTagConfig),
+    text: fillHookTemplate(template, formData, transformation, primaryTagConfig, projectConfig),
     sourceText: template,
     sourceType: 'base',
     sourceTag: '',
@@ -60,9 +63,9 @@ function createBaseHook(template, type, formData, transformation, primaryTagConf
   };
 }
 
-function createTagHook(template, type, tag, formData, transformation, primaryTagConfig) {
+function createTagHook(template, type, tag, formData, transformation, primaryTagConfig, projectConfig) {
   return {
-    text: fillHookTemplate(template, formData, transformation, primaryTagConfig),
+    text: fillHookTemplate(template, formData, transformation, primaryTagConfig, projectConfig),
     sourceText: template,
     sourceType: 'tag',
     sourceTag: tag,
@@ -77,7 +80,7 @@ function getTagShortHooksForType(type, formData, projectConfig, transformation, 
     const tagHooks = projectConfig.tags?.[tag]?.shortHooks?.[type] || [];
 
     return tagHooks.map((template) =>
-      createTagHook(template, type, tag, formData, transformation, primaryTagConfig),
+      createTagHook(template, type, tag, formData, transformation, primaryTagConfig, projectConfig),
     );
   });
 }
@@ -105,7 +108,7 @@ export function generateShortHooks(formData, projectConfig) {
     })
     .map(([type, hookConfig]) => {
       const baseHooks = (hookConfig.templates || []).map((template) =>
-        createBaseHook(template, type, formData, transformation, primaryTagConfig),
+        createBaseHook(template, type, formData, transformation, primaryTagConfig, projectConfig),
       );
 
       const tagHooks = getTagShortHooksForType(type, formData, projectConfig, transformation, primaryTagConfig);
@@ -114,7 +117,7 @@ export function generateShortHooks(formData, projectConfig) {
         .slice(0, 2)
         .map((hook) => ({
           ...hook,
-          text: `${prefixEnabled ? fillHookTemplate(prefix, formData, transformation, primaryTagConfig) : ''}${hook.text}${suffixEnabled ? fillHookTemplate(suffix, formData, transformation, primaryTagConfig) : ''}`,
+          text: `${prefixEnabled ? fillHookTemplate(prefix, formData, transformation, primaryTagConfig, projectConfig) : ''}${hook.text}${suffixEnabled ? fillHookTemplate(suffix, formData, transformation, primaryTagConfig, projectConfig) : ''}`,
         }));
 
       return {

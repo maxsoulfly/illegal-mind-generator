@@ -1,3 +1,5 @@
+import { resolveTagCategoryPlaceholders } from './descriptionTagHelpers';
+
 function replaceLinkPlaceholders(template, links = {}) {
   return template.replace(/\{links\.(.*?)\}/g, (_, key) => {
     return links?.[key] ?? '';
@@ -12,6 +14,13 @@ function pickOneGenre(str) {
 
 function pickRandomItem(items) {
   return [items[Math.floor(Math.random() * items.length)]];
+}
+
+// Picks up to `count` random, non-repeating lines from a pool (order not
+// preserved). Shared by every hook block that can output more than one line
+// per generation, so "randomly chosen" means the same thing everywhere.
+export function pickRandomLines(pool = [], count = 1) {
+  return [...pool].sort(() => 0.5 - Math.random()).slice(0, Math.max(0, count));
 }
 
 export function renderStructuredBlock(block, links = {}) {
@@ -78,18 +87,21 @@ export function resolveTransformation(formData, projectConfig, tagLine = '') {
     .replace(/\{year\}/g, formData.originalYear || '')
     .replace(/\{originalGenre\}/g, pickOneGenre(formData.originalGenre))
     .replace(/\{tagLine\}/g, tagLine);
-  return resolved.charAt(0).toUpperCase() + resolved.slice(1);
+  const withTagCategories = resolveTagCategoryPlaceholders(resolved, formData.transformationTags, projectConfig);
+  return withTagCategories.charAt(0).toUpperCase() + withTagCategories.slice(1);
 }
 
 export function renderTextTemplate(text, projectConfig, formData, tagLine) {
   const transformation = resolveTransformation(formData, projectConfig, tagLine);
-  return replaceLinkPlaceholders(text, projectConfig.description.links)
+  const filled = replaceLinkPlaceholders(text, projectConfig.description.links)
     .replace(/\{artist\}/g, formData.artist || '')
     .replace(/\{song\}/g, formData.song || '')
     .replace(/\{year\}/g, formData.originalYear || '')
     .replace(/\{originalGenre\}/g, pickOneGenre(formData.originalGenre))
     .replace(/\{tagLine\}/g, tagLine)
     .replace(/\{transformation\}/g, transformation);
+
+  return resolveTagCategoryPlaceholders(filled, formData.transformationTags, projectConfig);
 }
 
 // Merges the generic per-song block overrides with the legacy customCta
@@ -164,6 +176,29 @@ export function resolveHookBlockTemplates(layoutKey, projectConfig) {
   if (path === 'top') return desc[templateKey] || [];
   if (path === 'shorts') return shorts[templateKey] || [];
   return [];
+}
+
+// Resolves a hook block identified by its layout key to its final rendered
+// output: 1+ randomly-picked lines (count comes from hookBlockCounts, capped
+// by hookBlockMaxLines/countMax), joined with newlines. Returns null if the
+// key doesn't match any hook block entry, so callers can fall back.
+export function resolveHookBlockOutput(layoutKey, projectConfig) {
+  const hookBlocks = projectConfig.description?.hookBlocks || [];
+  const block = hookBlocks.find(
+    (b) => (b.descriptionLayoutKey ?? b.key) === layoutKey,
+  );
+  if (!block) return null;
+
+  const templates = resolveHookBlockTemplates(layoutKey, projectConfig);
+  if (!templates?.length) return null;
+
+  const maxLines =
+    projectConfig.description?.hookBlockMaxLines?.[block.key] ?? block.countMax ?? 1;
+  const configuredCount =
+    projectConfig.description?.hookBlockCounts?.[block.key] ?? block.countDefault ?? 1;
+  const count = Math.max(1, Math.min(configuredCount, maxLines, templates.length));
+
+  return pickRandomLines(templates, count).join('\n');
 }
 
 export function generateCustomBlocks(formData, projectConfig, tagLine) {

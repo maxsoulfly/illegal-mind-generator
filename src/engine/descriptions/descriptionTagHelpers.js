@@ -14,6 +14,29 @@ function pickRandom(arr = []) {
   return arr[Math.floor(Math.random() * arr.length)] || '';
 }
 
+// {tags.lang} reads friendlier than {tags.language} but must resolve
+// against the real "language" category key on tags.
+const TAG_CATEGORY_ALIASES = { lang: 'language' };
+
+function resolveTagCategoryValue(placeholderKey, transformationTags = [], projectConfig) {
+  const category = TAG_CATEGORY_ALIASES[placeholderKey] || placeholderKey;
+  const matches = transformationTags.filter(
+    (tag) => projectConfig?.tags?.[tag]?.category === category,
+  );
+  if (matches.length === 0) return '';
+  return resolveTagLabel(pickRandom(matches), projectConfig);
+}
+
+// Substitutes {tags.<category>} tokens (e.g. {tags.mood}, {tags.lang}) with
+// the label of a randomly-picked selected tag from that category, or '' if
+// none of the selected tags belong to it. Shared by hook, title, and
+// description-block template filling so the token behaves identically everywhere.
+export function resolveTagCategoryPlaceholders(template, transformationTags, projectConfig) {
+  return template.replace(/\{tags\.(\w+)\}/g, (_, placeholderKey) =>
+    resolveTagCategoryValue(placeholderKey, transformationTags, projectConfig),
+  );
+}
+
 export function buildTagLine(formData, projectConfig) {
   const longTemplates = projectConfig?.description.templates?.long || {};
 

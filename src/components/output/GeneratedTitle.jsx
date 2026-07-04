@@ -9,11 +9,7 @@ function TitleNavLink({
   onOpenSourceHook,
   onOpenSourceTemplate,
 }) {
-  const label = (
-    <>
-      <strong className="saved-entry-signal">Title:</strong> {titleText}
-    </>
-  );
+  const label = titleText;
 
   if (sourceHook?.sourceType === 'tag') {
     return (
