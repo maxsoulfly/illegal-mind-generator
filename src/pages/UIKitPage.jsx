@@ -281,11 +281,11 @@ export default function UIKitPage() {
             </Example>
           </Section>
 
-          <Section title="ToggleField" description="Uncontrolled checkbox + label. Uses defaultChecked, not checked. Clicking the label toggles the checkbox.">
+          <Section title="ToggleField" description="Controlled checkbox + label. Clicking the label toggles the checkbox.">
             <Example
               name="ToggleField"
               props="label checked onChange"
-              usage="Settings toggles that don't need external state sync. If you need controlled behavior use ToggleInputRow instead."
+              usage="Any settings toggle backed by external state (e.g. formData) that can change out from under the component, such as loading a different saved entry. For a checkbox + label + text input in one row, use ToggleInputRow instead."
             >
               <ToggleField
                 label="Show hidden tags"

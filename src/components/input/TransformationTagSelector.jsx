@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import ToggleButton from '../ui/ToggleButton';
+
 export default function TransformationTagSelector({
   visibleTags,
   tagUsage,
@@ -7,6 +9,7 @@ export default function TransformationTagSelector({
   onTagToggle,
   defaultVisibleTagLimit = 6,
 }) {
+  const [isOpen, setIsOpen] = useState(true);
   const [search, setSearch] = useState('');
 
   const selectedTagNames = formData.transformationTags || [];
@@ -53,37 +56,43 @@ export default function TransformationTagSelector({
   };
 
   return (
-    <div className="form-group">
-      <details className="tag-section tag-selector-details" open>
-        <summary>Transformation Tags</summary>
+    <div className="form-group tag-section">
+      <ToggleButton
+        isOpen={isOpen}
+        onClick={() => setIsOpen((prev) => !prev)}
+        label="Transformation Tags"
+      />
 
-        <input
-          className="form-input"
-          type="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search tags..."
-        />
+      {isOpen && (
+        <div className="advanced-panel-content tag-selector-details">
+          <input
+            className="form-input"
+            type="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search tags..."
+          />
 
-        {selectedTags.length > 0 && (
+          {selectedTags.length > 0 && (
+            <div className="tag-selector-group">
+              <p className="tag-selector-label">Selected</p>
+              <div className="tag-list">{selectedTags.map(renderTagButton)}</div>
+            </div>
+          )}
+
           <div className="tag-selector-group">
-            <p className="tag-selector-label">Selected</p>
-            <div className="tag-list">{selectedTags.map(renderTagButton)}</div>
-          </div>
-        )}
+            <p className="tag-selector-label">
+              {normalizedSearch
+                ? `Matching Tags (${visibleAvailableTags.length})`
+                : `Available Tags (${visibleAvailableTags.length} of ${availableTags.length})`}
+            </p>
 
-        <div className="tag-selector-group">
-          <p className="tag-selector-label">
-            {normalizedSearch
-              ? `Matching Tags (${visibleAvailableTags.length})`
-              : `Available Tags (${visibleAvailableTags.length} of ${availableTags.length})`}
-          </p>
-
-          <div className="tag-list">
-            {visibleAvailableTags.map(renderTagButton)}
+            <div className="tag-list">
+              {visibleAvailableTags.map(renderTagButton)}
+            </div>
           </div>
         </div>
-      </details>
+      )}
     </div>
   );
 }

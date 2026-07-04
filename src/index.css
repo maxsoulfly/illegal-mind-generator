@@ -263,6 +263,17 @@ button.panel-title--nav:hover::after {
   margin-bottom: 0;
 }
 
+/* Artist / "use custom short" toggle / conditional Artist Short field read
+   as one logical cluster, so give them a tighter internal rhythm than the
+   default --space-6 used between unrelated fields. */
+.basic-song-fields__artist-group .toggle-row {
+  margin-bottom: var(--space-2);
+}
+
+.basic-song-fields__artist-group .form-group {
+  margin-bottom: var(--space-2);
+}
+
 .form-label {
   display       : block;
   margin-bottom : var(--space-1);

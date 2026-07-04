@@ -4,7 +4,7 @@ export default function ToggleField({ label, checked, onChange }) {
       <input
         className="toggle-checkbox"
         type="checkbox"
-        defaultChecked={Boolean(checked)}
+        checked={Boolean(checked)}
         onChange={(e) => onChange(e.target.checked)}
       />
 
