@@ -77,13 +77,22 @@ const DYNAMIC_PATTERNS = [
 // {transformation} fills its own nested template (transformationBlock), so it's
 // resolved separately rather than living in REGISTRY — this keeps the inner
 // template's own token resolution from being able to recurse into itself.
+// The transformationBlock pool goes through the same filter-before-pick as
+// every other candidate pool, so a template like "{tags.genre} reimagining"
+// is skipped (not shown with a gap) when no genre-category tag is selected.
 function resolveTransformationToken(ctx) {
+  const innerCtx = { ...ctx, _resolvingTransformation: true };
   const overrides = ctx.formData.songBlockOverrides || {};
   const override = resolveOverrideText(overrides.transformation);
-  const templates = ctx.projectConfig?.description?.templates?.long?.transformationBlock || [];
-  const template = override || templates[Math.floor(Math.random() * templates.length)] || '';
 
-  const { text } = fillPlaceholders(template, { ...ctx, _resolvingTransformation: true });
+  let text;
+  if (override) {
+    text = fillPlaceholders(override, innerCtx).text;
+  } else {
+    const templates = ctx.projectConfig?.description?.templates?.long?.transformationBlock || [];
+    text = pickViableTemplate(templates, innerCtx)?.text ?? '';
+  }
+
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
