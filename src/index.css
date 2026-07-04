@@ -441,7 +441,7 @@ input[type="range"]::-moz-range-progress {
   align-items    : center;
   justify-content: center;
   padding        : var(--space-3) var(--space-6);
-  border-radius  : var(--radius-md);
+  border-radius  : var(--radius-terminal);
   border         : 1px solid var(--color-border-button);
   cursor         : pointer;
   transition     : var(--transition-fast);
@@ -594,7 +594,7 @@ input[type="range"]::-moz-range-progress {
   min-width    : 0;
   padding      : var(--space-2) var(--space-4);
   border       : 1px solid transparent;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-terminal);
   background   : var(--color-bg-tag);
   color        : var(--color-text-muted);
   cursor       : pointer;
@@ -936,7 +936,7 @@ input[type="range"]::-moz-range-progress {
   gap           : var(--space-2);
   padding       : var(--space-2) var(--space-3);
   border        : 1px solid var(--color-border-main);
-  border-radius : var(--radius-md);
+  border-radius : var(--radius-terminal);
   background    : var(--color-bg-input);
   color         : var(--color-text-muted);
   cursor        : pointer;
@@ -993,12 +993,13 @@ input[type="range"]::-moz-range-progress {
   margin        : var(--space-0) var(--space-0);
   padding       : var(--space-3) var(--space-5);
   border        : 1px solid var(--color-border-button-soft);
-  border-radius : var(--radius-md);
+  border-radius : var(--radius-terminal);
   background    : var(--color-bg-button-secondary);
   color         : var(--color-text-accent);
   cursor        : pointer;
   text-align    : left;
   text-transform: uppercase;
+  font-size     : var(--font-size-toggle);
   letter-spacing: var(--letter-spacing-sm);
   transition    : var(--transition-fast);
 }
@@ -1115,7 +1116,7 @@ input[type="range"]::-moz-range-progress {
   width        : fit-content;
   margin       : 0 0 var(--space-3);
   padding      : var(--space-1) var(--space-3);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-terminal);
   font-size    : var(--font-size-toggle);
   opacity      : .85;
 }
@@ -1170,7 +1171,7 @@ input[type="range"]::-moz-range-progress {
 }
 
 .app-menu-pages button {
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-terminal);
 }
 
 
@@ -1180,7 +1181,7 @@ input[type="range"]::-moz-range-progress {
   color        : var(--color-text-main);
   font-family  : var(--font-mono);
   padding      : 0.5rem 0.9rem;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-terminal);
   cursor       : pointer;
   flex         : 0 1 auto;
 }
@@ -1226,7 +1227,7 @@ input[type="range"]::-moz-range-progress {
 }
 
 .app-backup-controls .button-secondary {
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-terminal);
   min-width    : 120px;
 }
 
@@ -1633,7 +1634,7 @@ input[type="range"]::-moz-range-progress {
 
 .tag-filters button {
   padding      : var(--space-2) var(--space-4);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-terminal);
   border       : 1px solid var(--color-border-main);
   background   : var(--color-bg-input);
   color        : var(--color-text-muted);

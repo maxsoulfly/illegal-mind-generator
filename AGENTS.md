@@ -238,6 +238,8 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 # Current Focus
 
+**CRT design refinement: buttons & pills (2026-07-05), `src/index.css` only.** Follow-up to the CRT pass below — `.toggle-button` now uses `--font-size-toggle` (12px) instead of inheriting the default `1rem` (was reading oversized), and nav tabs/tag filter chips/radio options/transformation tag chips/primary+secondary buttons/`.toggle-button` all switched from `--radius-pill`/`--radius-md` to `--radius-terminal` to match the sharpened panels/cards. See `docs/current-context.md` for the full selector list.
+
 **Fallout terminal CRT atmosphere pass shipped (2026-07-05), `src/index.css` only.** Adds the terminal identity around the prior day's sans-serif/lighter-border refresh rather than reverting it: (1) `body::before`/`::after` fixed overlay — scanlines (`repeating-linear-gradient` + `mix-blend-mode: overlay`), vignette (inset `box-shadow`), subtle `crt-flicker` animation disabled under `prefers-reduced-motion: reduce`; (2) monospace reintroduced on headers/nav/labels only (`.app-title`, `.panel-title`, `.form-label`, `.tag-category`, `.tag-card-header h3`, `.tag-selector-label`, `.subtab-nav button`, `.app-menu-pages button`) — inputs/buttons/selects stay sans-serif; (3) new `--radius-terminal: 2px` token sharpens `.panel`/`.tag-card`/`.terminal-block`/`.advanced-panel-content`/`.desc-generation-settings` to rectangular while buttons/chips/inputs/nav pills stay rounded; (4) corner-bracket accents + intensified amber glow on `.button-primary`/`.tag-chip.active`/active nav tab/`.tag-used`. All via shared primitives, so it applies app-wide with no per-page edits. See `docs/current-context.md` for full detail.
 
 **Generator Input form visual refresh shipped (2026-07-05).** Fixed "bulky/90s programmer UI" feel: removed redundant double `.form-group` nesting, replaced hand-rolled checkboxes with `ToggleField` (now controlled — `checked`, not `defaultChecked`), unified Todo/Transformation Tags disclosure onto `ToggleButton` (was native `<details>`), and three global CSS changes — `.form-label` de-emphasized (12px normal-case, new `--font-size-field-label` token), monospace font removed from all UI chrome (buttons/inputs/selects now `--font-ui`; output areas keep their own explicit mono font), and inputs/tag-chips moved to a lighter bottom-border/background-driven style instead of a full 1px box border everywhere. Color palette unchanged. See `docs/current-context.md` for full detail.
@@ -319,8 +321,10 @@ Previously: tag-category placeholders (`{tags.*}`), title polish (no `"Title:"` 
 1. Update `docs/current-context.md` — move completed items to Recently Completed, update In Progress and Next tasks, refresh Known Issues.
 2. Update `CLAUDE.md` — update Current Focus, Known Gotchas, and UI Primitives entries if the step changed any of those.
 3. Mirror the same edit into `AGENTS.md`. It's a manually-maintained copy of this file for non-Claude tools (Codex, etc.) that read `AGENTS.md` by convention instead of `CLAUDE.md` — there is no symlink or hook keeping them in sync (attempted a symlink, blocked by lack of admin/Developer Mode on this machine; a hard link was tried and confirmed unreliable — editors replace-on-save, which silently breaks it). Whatever changes in this file's Current Focus / Known Gotchas / UI Primitives / PRIORITY TODO sections must be copied into `AGENTS.md` too (only the top `# CLAUDE.md` vs `# AGENTS.md` header line differs between the two files).
-4. Run `graphify update .` to keep the knowledge graph current (AST-only, no token cost).
-5. Commit all source + docs changes together.
+4. Commit source + docs changes together.
+
+**At the end of a work session or feature (not after every individual step):**
+1. Run `graphify update .` to keep the knowledge graph current. Batch this — running it after every small step is unnecessary overhead (each doc-touching update dispatches a subagent), so do it once when a feature/session wraps up, not per-commit.
 
 ## graphify
 
