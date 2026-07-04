@@ -1229,6 +1229,10 @@ input[type="range"]::-moz-range-progress {
   gap        : var(--space-2);
 }
 
+.input-form-actions {
+  margin-top: var(--space-6);
+}
+
 .tag-card {
   background   : var(--color-bg-input);
   border       : 1px solid var(--color-border-soft);

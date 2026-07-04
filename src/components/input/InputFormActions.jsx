@@ -9,7 +9,7 @@ export default function InputFormActions({
   const [targetProjectId, setTargetProjectId] = useState(projectId);
 
   return (
-    <div>
+    <div className="input-form-actions">
       <div className="tag-actions">
         <select
           className="form-select"
