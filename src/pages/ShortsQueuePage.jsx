@@ -48,15 +48,18 @@ function ShortsQueuePage({
 
       {hasQueue && (
         <div className="saved-library-list shorts-queue-list">
-          {queue.map((entry, index) => (
-            <ShortsQueueItem
-              key={`${entry.artist}-${entry.song}-${index}`}
-              entry={entry}
-              index={index}
-              onLoadEntry={onLoadEntry}
-              onUploaded={() => markUploaded(index)}
-            />
-          ))}
+          {queue.map(
+            (entry, index) =>
+              entry && (
+                <ShortsQueueItem
+                  key={`${entry.artist}-${entry.song}-${index}`}
+                  entry={entry}
+                  index={index}
+                  onLoadEntry={onLoadEntry}
+                  onUploaded={() => markUploaded(index)}
+                />
+              ),
+          )}
         </div>
       )}
     </section>
