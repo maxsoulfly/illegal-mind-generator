@@ -52,11 +52,17 @@
   --color-shadow-panel-inset    : rgba(255, 180, 90, 0.05);
   --color-shadow-panel-drop     : rgba(0, 0, 0, 0.35);
   --color-shadow-tag            : rgba(201, 90, 58, 0.25);
+
+  /* CRT atmosphere */
+  --color-crt-scanline: rgba(0, 0, 0, 0.35);
+  --color-crt-vignette: rgba(0, 0, 0, 0.55);
+
   /* radii */
   --radius-sm                   : 6px;
   --radius-md                   : 8px;
   --radius-lg                   : 10px;
   --radius-pill                 : 999px;
+  --radius-terminal             : 2px;
 
   /* spacing */
   --space-0: 0;
@@ -129,6 +135,43 @@ body {
   color: var(--color-text-main);
 }
 
+/* ===== CRT terminal atmosphere ===== */
+body::before {
+  content       : '';
+  position      : fixed;
+  inset         : 0;
+  pointer-events: none;
+  z-index       : 9999;
+  background    : repeating-linear-gradient(to bottom,
+      transparent 0px,
+      transparent 2px,
+      var(--color-crt-scanline) 3px);
+  mix-blend-mode: overlay;
+  opacity       : 0.5;
+  animation     : crt-flicker 6s infinite steps(1);
+}
+
+body::after {
+  content       : '';
+  position      : fixed;
+  inset         : 0;
+  pointer-events: none;
+  z-index       : 9998;
+  box-shadow    : inset 0 0 140px var(--color-crt-vignette);
+}
+
+@keyframes crt-flicker {
+  0%, 96%, 100% { opacity: 0.5; }
+  97%           { opacity: 0.35; }
+  98%           { opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
+}
+
 button,
 label,
 summary,
@@ -188,6 +231,7 @@ svg {
 .app-title {
   margin        : var(--space-0);
   color         : var(--color-text-accent);
+  font-family   : var(--font-mono);
   font-size     : clamp(1.5rem, 2.6vw, 2.4rem);
   letter-spacing: var(--letter-spacing-lg);
   line-height   : 1.1;
@@ -205,10 +249,11 @@ svg {
 
 /* ===== Panels ===== */
 .panel {
+  position     : relative;
   background   : var(--color-bg-panel);
   margin-top   : var(--space-6);
   border       : 1px solid var(--color-border-main);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-terminal);
   padding      : var(--space-7);
   box-shadow   :
     0 0 0 1px var(--color-shadow-panel-inset) inset,
@@ -220,6 +265,7 @@ svg {
   margin-top    : var(--space-0);
   margin-bottom : var(--space-6);
   color         : var(--color-text-accent-soft);
+  font-family   : var(--font-mono);
   font-size     : var(--font-size-panel-title);
   text-transform: uppercase;
   letter-spacing: var(--letter-spacing-md);
@@ -279,6 +325,7 @@ button.panel-title--nav:hover::after {
   display       : block;
   margin-bottom : var(--space-1);
   color         : var(--color-text-muted);
+  font-family   : var(--font-mono);
   font-size     : var(--font-size-field-label);
   letter-spacing: normal;
   text-transform: none;
@@ -407,7 +454,8 @@ input[type="range"]::-moz-range-progress {
   background: linear-gradient(180deg,
       var(--color-accent-gradient-top) 0%,
       var(--color-accent-gradient-bottom) 100%);
-  color: var(--color-text-inverse);
+  color     : var(--color-text-inverse);
+  box-shadow: 0 0 10px var(--color-shadow-accent);
 }
 
 .button-primary:hover {
@@ -430,7 +478,7 @@ input[type="range"]::-moz-range-progress {
   padding      : var(--space-2) var(--space-3);
   background   : var(--color-bg-page-deep);
   border       : 1px solid var(--color-border-soft);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-terminal);
   color        : var(--color-text-soft);
   line-height  : var(--line-height-base);
   min-width    : 0;
@@ -530,6 +578,7 @@ input[type="range"]::-moz-range-progress {
 .tag-selector-label {
   margin        : 0 0 var(--space-2);
   color         : var(--color-text-muted);
+  font-family   : var(--font-mono);
   font-size     : var(--font-size-toggle);
   text-transform: uppercase;
   letter-spacing: var(--letter-spacing-sm);
@@ -563,6 +612,7 @@ input[type="range"]::-moz-range-progress {
       var(--color-accent-gradient-bottom) 100%);
   border-color: transparent;
   color       : var(--color-text-inverse);
+  box-shadow  : 0 0 8px var(--color-shadow-accent);
 }
 
 
@@ -830,6 +880,7 @@ input[type="range"]::-moz-range-progress {
 
 .tag-category {
   margin-top    : 2px;
+  font-family   : var(--font-mono);
   font-size     : 0.72rem;
   color         : var(--color-text-muted-2);
   text-transform: uppercase;
@@ -963,7 +1014,7 @@ input[type="range"]::-moz-range-progress {
   padding: var(--space-5);
 
   border       : 1px solid var(--color-border-soft);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-terminal);
 
   background: var(--color-advanced-panel-content);
 }
@@ -1127,6 +1178,7 @@ input[type="range"]::-moz-range-progress {
   border       : 1px solid var(--color-border-main);
   background   : var(--color-bg-panel);
   color        : var(--color-text-main);
+  font-family  : var(--font-mono);
   padding      : 0.5rem 0.9rem;
   border-radius: var(--radius-pill);
   cursor       : pointer;
@@ -1136,6 +1188,7 @@ input[type="range"]::-moz-range-progress {
 .app-menu button.active {
   background: var(--color-text-accent);
   color     : var(--color-bg-page);
+  box-shadow: 0 0 10px var(--color-shadow-accent);
 }
 
 .app-menu-project {
@@ -1247,12 +1300,39 @@ input[type="range"]::-moz-range-progress {
 }
 
 .tag-card {
+  position     : relative;
   background   : var(--color-bg-input);
   border       : 1px solid var(--color-border-soft);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-terminal);
   padding      : var(--space-6);
   box-shadow   : 0 0 0 1px var(--color-shadow-panel-inset) inset;
   min-width    : 0;
+}
+
+/* Terminal HUD corner-bracket accent, shared by panels and cards */
+.panel::before,
+.panel::after,
+.tag-card::before,
+.tag-card::after {
+  content       : '';
+  position      : absolute;
+  top           : -1px;
+  width         : 10px;
+  height        : 10px;
+  border-top    : 2px solid var(--color-border-hover);
+  pointer-events: none;
+}
+
+.panel::before,
+.tag-card::before {
+  left       : -1px;
+  border-left: 2px solid var(--color-border-hover);
+}
+
+.panel::after,
+.tag-card::after {
+  right       : -1px;
+  border-right: 2px solid var(--color-border-hover);
 }
 
 .tag-card--settings {
@@ -1296,6 +1376,7 @@ input[type="range"]::-moz-range-progress {
   display    : flex;
   align-items: center;
   gap        : var(--space-2);
+  font-family: var(--font-mono);
 }
 
 .tag-card-toggle {
@@ -1444,6 +1525,7 @@ input[type="range"]::-moz-range-progress {
 
 .tag-used {
   border-color: var(--color-accent-strong);
+  box-shadow  : 0 0 0 1px var(--color-shadow-panel-inset) inset, 0 0 8px var(--color-shadow-accent);
 }
 
 .tag-unused {
@@ -1578,6 +1660,7 @@ input[type="range"]::-moz-range-progress {
   border-bottom : 2px solid transparent;
   padding       : var(--space-1) 0;
   color         : var(--color-text-muted);
+  font-family   : var(--font-mono);
   font-size     : var(--font-size-sm);
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1885,7 +1968,7 @@ input[type="range"]::-moz-range-progress {
 .desc-generation-settings {
   background   : var(--color-bg-input);
   border       : 1px solid var(--color-border-main);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-terminal);
   padding      : var(--space-3) var(--space-4);
   margin-bottom: var(--space-4);
 }
@@ -2058,7 +2141,7 @@ input[type="range"]::-moz-range-progress {
   }
 
   .panel {
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-terminal);
     padding      : var(--space-5);
   }
 
