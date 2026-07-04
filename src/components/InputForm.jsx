@@ -12,6 +12,7 @@ import TodoFields from './todo/TodoFields';
 
 function InputForm({
   projectId,
+  projects,
   formData,
   setFormData,
   onClear,
@@ -96,9 +97,11 @@ function InputForm({
       )}
 
       <InputFormActions
+        key={projectId}
         onSaveEntry={onSaveEntry}
         onClear={onClear}
-        projectName={projectConfig.name}
+        projectId={projectId}
+        projects={projects}
       />
     </div>
   );

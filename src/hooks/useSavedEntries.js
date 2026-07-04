@@ -74,8 +74,9 @@ function useSavedEntries(
     }));
   }, [savedEntriesByProject]);
 
-  // Save entry
-  const handleSaveEntry = () => {
+  // Save entry — targetProjectId lets the Generator save into a project other
+  // than the one currently being viewed/edited (defaults to the active one).
+  const handleSaveEntry = (targetProjectId = selectedProjectId) => {
     const entry = {
       id: buildEntryId(formData.artist, formData.song),
       artist: formData.artist.trim(),
@@ -100,11 +101,11 @@ function useSavedEntries(
     if (!entry.artist || !entry.song) return;
 
     setSavedEntriesByProject((prev) => {
-      const currentProjectEntries = prev[selectedProjectId] || [];
+      const currentProjectEntries = prev[targetProjectId] || [];
 
       return {
         ...prev,
-        [selectedProjectId]: [
+        [targetProjectId]: [
           entry,
           ...currentProjectEntries.filter((item) => item.id !== entry.id),
         ],

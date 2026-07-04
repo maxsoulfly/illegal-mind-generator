@@ -156,6 +156,7 @@ function App() {
       {activePage === 'generator' && (
         <GeneratorPage
           projectId={projectId}
+          projects={projects}
           formData={formData}
           setFormData={setFormData}
           projectConfig={resolvedProjectConfig}

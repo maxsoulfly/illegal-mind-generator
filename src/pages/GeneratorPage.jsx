@@ -20,6 +20,7 @@ export default function GeneratorPage({
   formData,
   setFormData,
   projectId,
+  projects,
   projectConfig,
   generatedOutput,
   savedEntries,
@@ -105,6 +106,7 @@ export default function GeneratorPage({
         <div className={`panel ${inputFlash ? 'panel-flash-success' : ''}`}>
           <InputForm
             projectId={projectId}
+            projects={projects}
             formData={formData}
             setFormData={setFormData}
             onClear={handleClearForm}
