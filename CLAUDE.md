@@ -134,6 +134,10 @@ src/
 
 **Tag system is deeply connected.** Tags affect titles, descriptions, hooks, hashtags, usage tracking.
 
+**`{tags.<category>}` placeholders resolve from tag `category`, not tag key.** `{tags.era}`/`{genre}`/`{intent}`/`{mood}`/`{lang}`/`{energy}`/`{production}`/`{tempo}` each map to a tag `category` value (only `lang` is aliased — it maps to the `language` category; all others match the category name exactly). If multiple selected tags share a category, one is picked at random; if none match, resolves to `''`, not the literal placeholder text. Add a new category alias in `TAG_CATEGORY_ALIASES` (`descriptionTagHelpers.js`) and the matching token in `TAG_CATEGORY_PLACEHOLDERS` (`hookPlaceholders.js`) together — they must stay in sync.
+
+**Hook block "Lines" count only works through `resolveHookBlockOutput`.** Every generic hook block (including custom ones) resolves its multi-line output through `pickRandomLines`/`resolveHookBlockOutput` in `generateCustomBlocks.js`, which reads `hookBlockCounts`/`hookBlockMaxLines` for that block's key. `statusLines` and `technicalLines` have their own dedicated functions (`generateBroadcastBlock.js`/`generateTechnicalBlock.js`) because they merge per-tag lines with project-level lines before picking — they reuse `pickRandomLines` for the final random selection, but not `resolveHookBlockOutput`. A new hardcoded multi-line block that needs tag-specific merging should follow that same pattern (own function + `pickRandomLines`), not `resolveHookBlockOutput` (which assumes a flat template array from `hookBlocks` config).
+
 **Title engine key names.** `projects.json` for Illegal Mind uses `longPrefix` (legacy) instead of `prefix`. Engine reads `config.title?.prefix || config.title?.longPrefix`. Do not consolidate — legacy key must stay.
 
 **Short Hooks vs Shorts Titles.** Two separate systems:
@@ -231,6 +235,8 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 # Current Focus
 
+**Tag-category placeholders, title polish, and random hook-block lines shipped (2026-07-04).** New `{tags.era}`/`{genre}`/`{intent}`/`{mood}`/`{lang}`/`{energy}`/`{production}`/`{tempo}` placeholders resolve from a randomly-picked selected tag matching that `category` field — shared resolver `resolveTagCategoryPlaceholders()` in `descriptionTagHelpers.js`, wired into `generateShortHooks.js`, `generateCustomBlocks.js`, and `generateTitles.js`. Generated titles no longer show a `"Title:"` label and always capitalize their first letter (`capitalizeFirst()` in `generateTitles.js`). Hook blocks now generically honor their configured "Lines" count via new `pickRandomLines()`/`resolveHookBlockOutput()` in `generateCustomBlocks.js` — previously only `statusLines`/`technicalLines` (hardcoded) picked more than one random line; every other block, including custom ones, always output exactly one regardless of its Lines slider. See `docs/current-context.md` for full detail.
+
 `originalGenre` is now fully done through Stage 3. Stage 2 (2026-07-02): added a new `original` Shorts Hook type to both projects — `requiresGenre: true`, no `excludeForFaithful`, templates `"The best {originalGenre} song of {year}"` / `"{originalGenre} perfection since {year}"` / `"Still the greatest {originalGenre} track from {year}"`. Stage 3 (shipped earlier in `63ce426`): a `contrast` Shorts Hook type (`excludeForFaithful: true`, `requiresGenre: true`) using `{originalGenre}` + `{primaryTag}`, gated in `generateShortHooks.js`.
 
 **Project Settings → Thumbnail Templates built** (2026-07-02) — the tab was registered in `projectSettingsSections.js` but fell through to "Coming Soon". New `ProjectSettingsThumbnails.jsx` edits `thumbnail.count`/`.words`/`.fallbacks`/`.genericTagTemplates`/`.patterns.long`/`.patterns.shorts` — the exact keys `generateThumbnails.js` reads, already correctly merged by `buildResolvedProjectConfig.js`.
@@ -303,8 +309,9 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 **After each significant step (feature, fix, or refactor):**
 1. Update `docs/current-context.md` — move completed items to Recently Completed, update In Progress and Next tasks, refresh Known Issues.
 2. Update `CLAUDE.md` — update Current Focus, Known Gotchas, and UI Primitives entries if the step changed any of those.
-3. Run `graphify update .` to keep the knowledge graph current (AST-only, no token cost).
-4. Commit all source + docs changes together.
+3. Mirror the same edit into `AGENTS.md`. It's a manually-maintained copy of this file for non-Claude tools (Codex, etc.) that read `AGENTS.md` by convention instead of `CLAUDE.md` — there is no symlink or hook keeping them in sync (attempted a symlink, blocked by lack of admin/Developer Mode on this machine; a hard link was tried and confirmed unreliable — editors replace-on-save, which silently breaks it). Whatever changes in this file's Current Focus / Known Gotchas / UI Primitives / PRIORITY TODO sections must be copied into `AGENTS.md` too (only the top `# CLAUDE.md` vs `# AGENTS.md` header line differs between the two files).
+4. Run `graphify update .` to keep the knowledge graph current (AST-only, no token cost).
+5. Commit all source + docs changes together.
 
 ## graphify
 

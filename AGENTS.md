@@ -97,11 +97,11 @@ src/
 
 # UI Primitives (`src/components/ui/`)
 
-- `TemplateGroupCard` — generic card: label + templates + reset + count + optional subtitle. Base for ShortHookCard and description cards.
+- `TemplateGroupCard` — generic collapsible card: label + reset + optional subtitle/slider + `children`. The template list (count line + `HookTemplateEditor`) only renders when `onUpdateTemplates` is passed — omit it to use the card as a plain content shell (see `ProjectSettingsGeneral`'s Project Info/Actions/Backup cards). Optional `placeholders` prop passes through to `HookTemplateEditor` (see below); omit it to keep the default `HOOK_PLACEHOLDERS` autocomplete. Base for `ShortHookCard` and description cards.
 - `ShortHookCard` — adapter over TemplateGroupCard for hook-specific data shape (`hookConfig` object + `hookType`). **TODO:** evaluate collapsing adapter once hook data shape is refactored.
 - **TODO:** extract `CardHeader` component (h3 + reset button + optional remove button + count badge) — then refactor TemplateGroupCard and ShortHookCard to use it.
-- `HookTemplateEditor` — searchable template list with add/bulk/highlight+scroll support. `noWrapper` prop skips the `<details>` collapse wrapper (used by Hook Blocks tab where the parent card already collapses).
-- `SubTabNav` — lightweight tab nav (underline active, no pill borders). Takes `tabs: [{id, label}]`.
+- `HookTemplateEditor` — searchable template list with add/bulk/highlight+scroll support. `noWrapper` prop skips the `<details>` collapse wrapper (used by Hook Blocks tab where the parent card already collapses). Optional `placeholders` prop (default `HOOK_PLACEHOLDERS`) controls the `{placeholder}` autocomplete — pass `[]` to disable it entirely (literal-text fields like Thumbnail words/fallbacks) or a smaller list like `THUMBNAIL_TAG_PLACEHOLDER` (`src/utils/hookPlaceholders.js`) for fields that only support one substitution.
+- `SubTabNav` — lightweight tab nav (underline active, no pill borders). Takes `tabs: [{id, label}]`. Scrolls horizontally instead of wrapping when tabs don't fit the container (`overflow-x: auto`, `flex-wrap: nowrap`) — this matters in narrow contexts like a `tag-library` grid cell, not just small viewports. Used by `TagEditorTabs.jsx` (Tag Library's Basics/Titles/Descriptions/Short Hooks/Hashtags tabs) as well as Description Long/Shorts and Blocks sub-tabs.
 - `NavLinkButton` — clickable text for source navigation. `muted` prop for base hooks.
 - `PhraseRow` — forwardRef row, onBlur save, `highlighted` prop for scroll target. Optional `placeholders` prop enables the `{placeholder}` autocomplete on its field (see `PlaceholderField`); used by `HookTemplateEditor` (project-level hooks) and `TagShortHooksTab`/`TagPhraseEditor` (per-tag hooks) via the shared `HOOK_PLACEHOLDERS` in `src/utils/hookPlaceholders.js`. `TagPhraseEditor`'s title/hashtag phrase editors don't pass any yet. CSS: flex lives on `.placeholder-field` wrapper (not `.form-input` directly) so the input fills its flex slot responsively.
 - `PlaceholderField` — input or textarea (`multiline` prop) with a `{placeholder}` autocomplete dropdown: typing `{` starts tracking a query, filters the passed-in `placeholders` array (braces included, e.g. `'{artist}'`), arrow keys + Enter to select, Escape/click-away to dismiss, inserts at cursor. Two save modes — `onBlur` (commit only on blur; `PhraseRow`/`TextBlockEditor`) or `onChange` (live, every keystroke and every insert; `ToggleInputRow`'s prefix/suffix fields, which are fully-controlled). Resyncs on external `defaultValue` change (e.g. reset) without needing a remount. Each caller supplies its own contextually-correct placeholder list — Text Blocks: `artist`/`song`/`year`/`tagLine`/`links.*` (matches `generateCustomBlocks.js`'s `renderTextTemplate`); Hooks: `HOOK_PLACEHOLDERS` from `src/utils/hookPlaceholders.js` (matches `generateShortHooks.js`'s `fillHookTemplate`); Title prefix/suffix: `{num}` only (matches `generateTitles.js`). Keep these in sync if the underlying engine substitutions change.
@@ -112,9 +112,15 @@ src/
 - `BulkTextarea` — textarea + Apply/Cancel. Input is a `PlaceholderField` (`multiline`, `onChange` live mode); optional `placeholders` prop enables the autocomplete (wired in `HookTemplateEditor`/`TagPhraseEditor`).
 - `IconButton` — shared shell for every small action button, icon or text (reset ↺, remove ×, lock 🔒/🔓, move ↑/↓, add +, or labeled buttons like "+ Add"/"Apply"/"Cancel"/"Duplicate Project" — `icon` is just rendered as children, no icon required). Takes `icon, title, onClick, disabled, stopPropagation, className`. `onClick` is optional (no-op if omitted — used by not-yet-wired placeholder buttons). Default `className` is `tag-reset-button`; pass `button-secondary` (or another) to reuse the click/disabled wiring with a different look.
 - `MoveControls` — up/down reorder button pair built on `IconButton`. Used by list items and description block reordering; pass `className` for context-specific layout (see `.desc-block-move-controls`).
+- `SavedEntryRow` — shared row shape (`saved-entry-row terminal-block` → signal number + artist/song title button + tags) used by `SavedLibraryItem`, `ShortsQueueItem`, `TodoItem`. `middle` slot for extra content between the main row and actions (Todo's note preview); `actions`/`actionsClassName` for the differing per-page controls. Don't hand-roll this markup — extend the props if a new caller needs something different.
+- `OutputItem` (`src/components/ui/OutputItem.jsx`) — generated output block: text + `CopyButton`, used by `HashtagsPanel`, `YouTubeTagsPanel`, `DescriptionsPanel`. Default `textClassName='output-text'` gives pre-wrap monospace styling (single-line output like hashtags/tags). `DescriptionsPanel` passes `textClassName={undefined}` + `textStyle={{whiteSpace:'pre-line'}}` — deliberately different styling for multi-paragraph descriptions, not an oversight, don't "fix" it to match the default. `copyText` lets the copied text differ from displayed text (Descriptions appends a footer via `renderCopyFooter()`).
+- `CollapsiblePanel` (`src/components/ui/CollapsiblePanel.jsx`) — the `panel`/`panel-collapsed` + `panel-header` + `ToggleButton` shell shared by every Generator output panel (`HashtagsPanel`, `YouTubeTagsPanel`, `TitlesPanel`, `ThumbnailsPanel`, `ShortHooksPanel`, `DescriptionsPanel`). Takes `label, visible, onToggle, onNavigate?, headerExtra?, children`. `onNavigate` swaps the plain `<h2 className="panel-title">` for a clickable `panel-title--nav` button (Titles/Descriptions/Thumbnails link back to Project Settings). `headerExtra` renders between the title and the `ToggleButton` (Titles' "Hooks: ON/OFF" toggle). Plain `.panel` (no header/toggle — `ProjectSettingsPage`, `GeneratorPage`, `GeneratorResultsPanel`, `SavedLibrary`) is a separate, still-valid bare-wrapper usage — not every `.panel` needs to become a `CollapsiblePanel`.
 - `FormSelect` — the standard `form-select` dropdown (same look as `TodoStatusSelect`) wrapped with `stopPropagation` for use inside clickable card headers. Takes `value, onChange(value), options: [{value, label}]`.
+- `FormField` (`src/components/ui/FormField.jsx`) — `{ label, children }` wrapper around the `form-group`/`form-label` pattern. Used in `InputForm`, `BasicSongFields`, `AdvancedDescriptionFields`, `TagBasicsTab`, `TagPhraseEditor`, `ProjectTextField`, `TodoFields`. Don't hand-roll `<div className="form-group"><label className="form-label">`.
+- `CopyButton` (`src/components/CopyButton.jsx`) — clipboard copy with a temporary "Copied ✔️" state (500ms). Takes `text`. Used in every output panel (Descriptions, Hashtags, YouTube Tags, titles/hooks).
 - `BlockEditorCard` — collapsible card shell for all three block type editors (Lists, Text Blocks, Hook Blocks). Props: `label`, `badge`, `scope`, `target`, `onScopeChange`, `onTargetChange`, `hasOverride`, `onReset`, `onDelete`, `onRename`, `open`, `children`. `onRename` enables an inline ✏ rename button in the header — clicking switches to an input; Enter/blur saves, Escape cancels.
 - `BlockInfoCard` — non-collapsible card used in Description layouts. Props: `label`, `onRemove`, `onAdd`, `onNavigate`. When `onNavigate` is set, the header becomes a clickable nav shortcut (`tag-card-toggle` style, `→` indicator) that jumps to the block's editor tab and auto-expands it — Hook blocks → Blocks → Hook Blocks, List blocks → Blocks → Lists, Text blocks → Blocks → Text Blocks. `onAdd` renders a `+` button (Available column); `onRemove` renders a `×` button (Active Layout column). Generated blocks (no editor) omit `onNavigate` and are non-interactive. Descriptions tab is layout-only; no inline editing of any block type.
+- `AppHeader` (`src/components/AppHeader.jsx`) — sticky app-level header. Contains nav tabs (looped from `PAGE_LABELS`), project selector, page `<h1>` (derived from `activePage` + `projectConfig.name`), and optional `actions` slot for page-specific buttons (currently only the Regenerate button on Generator page). Replaces the deleted `AppMenu.jsx`. Do not add page titles (`<h1 className="app-title">`) in individual pages — they belong here. `uikit` is intentionally excluded from `PAGE_LABELS` (not a top nav tab) — reachable only via the "Open UIKit" button in `ProjectSettingsGeneral`'s Actions card, wired through `onOpenUIKit`.
 
 ---
 
@@ -122,9 +128,15 @@ src/
 
 **Storage is sensitive.** Changing storage casually can break saved entries, queues, todos, backup import/export.
 
+**`handleSaveEntry` / `handleLoadEntry` have explicit field lists.** Adding a new `formData` field does NOT automatically persist it per-entry — you must add it to both functions in `useSavedEntries.js`. Fields currently saved/loaded: `artist`, `song`, `signalNumber`, `originalYear`, `originalGenre`, `useCustomArtistShort`, `artistShort`, `transformationTags`, `customHashtags`, `customCta`, `songBlockOverrides`, `excludeFromRandomizer`, `todo`. `videoType` is intentionally omitted (session/UI state). `changesMade`/`extraVibeNote` are reserved but unused.
+
 **Laptop is source of truth.** Desktop sync testing is incomplete.
 
 **Tag system is deeply connected.** Tags affect titles, descriptions, hooks, hashtags, usage tracking.
+
+**`{tags.<category>}` placeholders resolve from tag `category`, not tag key.** `{tags.era}`/`{genre}`/`{intent}`/`{mood}`/`{lang}`/`{energy}`/`{production}`/`{tempo}` each map to a tag `category` value (only `lang` is aliased — it maps to the `language` category; all others match the category name exactly). If multiple selected tags share a category, one is picked at random; if none match, resolves to `''`, not the literal placeholder text. Add a new category alias in `TAG_CATEGORY_ALIASES` (`descriptionTagHelpers.js`) and the matching token in `TAG_CATEGORY_PLACEHOLDERS` (`hookPlaceholders.js`) together — they must stay in sync.
+
+**Hook block "Lines" count only works through `resolveHookBlockOutput`.** Every generic hook block (including custom ones) resolves its multi-line output through `pickRandomLines`/`resolveHookBlockOutput` in `generateCustomBlocks.js`, which reads `hookBlockCounts`/`hookBlockMaxLines` for that block's key. `statusLines` and `technicalLines` have their own dedicated functions (`generateBroadcastBlock.js`/`generateTechnicalBlock.js`) because they merge per-tag lines with project-level lines before picking — they reuse `pickRandomLines` for the final random selection, but not `resolveHookBlockOutput`. A new hardcoded multi-line block that needs tag-specific merging should follow that same pattern (own function + `pickRandomLines`), not `resolveHookBlockOutput` (which assumes a flat template array from `hookBlocks` config).
 
 **Title engine key names.** `projects.json` for Illegal Mind uses `longPrefix` (legacy) instead of `prefix`. Engine reads `config.title?.prefix || config.title?.longPrefix`. Do not consolidate — legacy key must stay.
 
@@ -138,7 +150,7 @@ Both editable via Project Settings → Titles → Generation card. `shortHookSuf
 - `sourceHook` → `{ sourceType: 'tag'|'base', sourceTag, hookType, sourceText }`
 - `sourceTemplate` → `{ template, groupName }`
 - Both null for plain text titles.
-- `NavLinkButton` in `GeneratedTitlePair` handles all four cases.
+- `NavLinkButton` in `GeneratedTitle` (`src/components/output/GeneratedTitle.jsx`, renamed from `GeneratedTitlePair` when thumbnails were split into their own panel) handles all four cases.
 
 **`tagVisibilityOverrides` is legacy.** Do not remove. Treat as compatibility-sensitive.
 
@@ -223,17 +235,18 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 # Current Focus
 
-- **Fix blocks with no nav target** — these description layout cards have non-interactive `→` arrows:
-  - **Renovation Block** (Maxx Dee Long Description) — not in `hookBlocks` config and not a `customBlock`; needs an editor or a hardcoded nav target
-  - **Hook** (Shorts Description) — routes to Shorts Hooks section, not Blocks; `onNavigateToBlock` currently only handles the three Blocks sub-tabs
-  - **Header** (Illegal Mind Shorts Description) — same situation as Hook
-- **Remove duplicate Technical · Lines block** (Maxx Dee) — duplicated from Illegal Mind; appears as a `hookBlock` entry with no delete option (likely `isCore` guard or wrong path). Inspect `projectSettingsOverrides` for Maxx Dee and remove the stale entry.
+**Tag-category placeholders, title polish, and random hook-block lines shipped (2026-07-04).** New `{tags.era}`/`{genre}`/`{intent}`/`{mood}`/`{lang}`/`{energy}`/`{production}`/`{tempo}` placeholders resolve from a randomly-picked selected tag matching that `category` field — shared resolver `resolveTagCategoryPlaceholders()` in `descriptionTagHelpers.js`, wired into `generateShortHooks.js`, `generateCustomBlocks.js`, and `generateTitles.js`. Generated titles no longer show a `"Title:"` label and always capitalize their first letter (`capitalizeFirst()` in `generateTitles.js`). Hook blocks now generically honor their configured "Lines" count via new `pickRandomLines()`/`resolveHookBlockOutput()` in `generateCustomBlocks.js` — previously only `statusLines`/`technicalLines` (hardcoded) picked more than one random line; every other block, including custom ones, always output exactly one regardless of its Lines slider. See `docs/current-context.md` for full detail.
+
+`originalGenre` is now fully done through Stage 3. Stage 2 (2026-07-02): added a new `original` Shorts Hook type to both projects — `requiresGenre: true`, no `excludeForFaithful`, templates `"The best {originalGenre} song of {year}"` / `"{originalGenre} perfection since {year}"` / `"Still the greatest {originalGenre} track from {year}"`. Stage 3 (shipped earlier in `63ce426`): a `contrast` Shorts Hook type (`excludeForFaithful: true`, `requiresGenre: true`) using `{originalGenre}` + `{primaryTag}`, gated in `generateShortHooks.js`.
+
+**Project Settings → Thumbnail Templates built** (2026-07-02) — the tab was registered in `projectSettingsSections.js` but fell through to "Coming Soon". New `ProjectSettingsThumbnails.jsx` edits `thumbnail.count`/`.words`/`.fallbacks`/`.genericTagTemplates`/`.patterns.long`/`.patterns.shorts` — the exact keys `generateThumbnails.js` reads, already correctly merged by `buildResolvedProjectConfig.js`.
+
+**Thumbnails split into their own Generator panel with source nav** (2026-07-02) — thumbnails no longer render embedded in Titles (`GeneratedTitlePair.jsx` renamed to `GeneratedTitle.jsx`, title-only now); new `ThumbnailsPanel.jsx` shows them independently, visible for both Long and Shorts (the engine already generated Shorts-flavored thumbnails, just discarded before). `generateThumbnails.js` now returns `{ text, source }` instead of plain strings — `source.type` is `'words'|'fallbacks'|'genericTagTemplates'|'tag'`, carrying whichever raw phrase/template produced it. Clicking a thumbnail navigates to its source: Project Settings → Thumbnail Templates (via new `thumbnailsTarget`/`openThumbnailsSearch`, mirroring `titlesTarget`) for the first three, or Tag Library → that tag → Titles tab (via existing `onOpenSourceTag`/`openTagLibrarySearch`, now also wired through `TagEditor.jsx`/`TagTitlesTab.jsx` for `field: 'thumbnail'`/`'title'`) for tag-sourced phrases. `TemplateGroupCard` auto-expands when `highlightText` is set (via a derived `isCollapsed = collapsed && !highlightText`, not a `setState`-in-effect, which the project's `react-hooks/set-state-in-effect` lint rule forbids) — fixes a latent gap that also applied to the existing Shorts Hooks nav. Thumbnail count now has its own "Generation" slider (`thumbnail.count`, 1–10) instead of being tied to `titles.length`.
 
 ---
 
 ## Other Active Goals
 
-- Generic / no-tags title mode (bypass transformation tags)
 - Queue-hidden indicator in Todo rows
 - Todo status badges in Saved Library
 - Saved Library Todo filtering
@@ -267,7 +280,7 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 - **Local-first** — no backend by design
 - **Config-driven** — behavior from config, not hardcoded logic
-- **Reuse before creating** — check existing components before adding new ones
+- **Reuse before creating** — before writing ANY new UI markup, CSS class, or component, check `/uikit` (UIKitPage) and the "UI Primitives" section above first. Prefer a small conditional tweak to an existing component over new markup or a new class. This applies every time, not just when reminded.
 - **Simple architecture** — single developer, no enterprise patterns, no unnecessary abstraction
 - **onBlur saves** — phrase/template edits save on blur, not on keystroke (future DB compatibility)
 
@@ -276,13 +289,14 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 # Development Preferences
 
 - **Step-by-step, one change at a time.** Present each step, implement it, then stop and wait for the user to review and approve before moving to the next. Never chain multiple steps autonomously.
+- **Before writing any new UI element, check `/uikit` first.** Card, row, wrapper, CSS class — check the UIKitPage catalog and CLAUDE.md's UI Primitives list before writing new markup. Extend an existing component if it can fit; don't hand-roll a shape that duplicates one.
 - Hands-on, file by file, small chunks
 - Show the change, explain it, let the user review before moving on
 - Do NOT batch into autonomous pass unless user says so
 - Work in grouped steps, keep changes focused
 - Prefer code examples over theory
 - Ask for files instead of guessing structure
-- Provide Conventional Commit messages when asked
+- Provide Conventional Commit messages when asked. Keep commit messages as short bullet points, not long prose paragraphs.
 - When uncertain: choose the simpler solution
 
 ## Session Protocol
@@ -294,9 +308,10 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 **After each significant step (feature, fix, or refactor):**
 1. Update `docs/current-context.md` — move completed items to Recently Completed, update In Progress and Next tasks, refresh Known Issues.
-2. Update `AGENTS.md` — update Current Focus, Known Gotchas, and UI Primitives entries if the step changed any of those.
-3. Run `graphify update .` to keep the knowledge graph current (AST-only, no token cost).
-4. Commit all source + docs changes together.
+2. Update `CLAUDE.md` — update Current Focus, Known Gotchas, and UI Primitives entries if the step changed any of those.
+3. Mirror the same edit into `AGENTS.md`. It's a manually-maintained copy of this file for non-Claude tools (Codex, etc.) that read `AGENTS.md` by convention instead of `CLAUDE.md` — there is no symlink or hook keeping them in sync (attempted a symlink, blocked by lack of admin/Developer Mode on this machine; a hard link was tried and confirmed unreliable — editors replace-on-save, which silently breaks it). Whatever changes in this file's Current Focus / Known Gotchas / UI Primitives / PRIORITY TODO sections must be copied into `AGENTS.md` too (only the top `# CLAUDE.md` vs `# AGENTS.md` header line differs between the two files).
+4. Run `graphify update .` to keep the knowledge graph current (AST-only, no token cost).
+5. Commit all source + docs changes together.
 
 ## graphify
 
