@@ -137,16 +137,17 @@ export function fillPlaceholders(template, rawCtx) {
 
 // Resolves every candidate template against ctx, filters out any whose
 // placeholders would render with an empty value, then picks randomly among
-// what's left. Falls back to the full (unfiltered) pool if every candidate
-// would be empty, so generation never comes up with nothing to show.
+// what's left. Returns null if every candidate would be empty — callers treat
+// that as "nothing to show" rather than displaying a half-filled line.
 export function pickViableTemplate(templates, ctx) {
   if (!templates?.length) return null;
 
   const resolved = templates.map((template) => ({ template, ...fillPlaceholders(template, ctx) }));
   const viable = resolved.filter((r) => !r.hasEmpty);
-  const pool = viable.length > 0 ? viable : resolved;
 
-  return pool[Math.floor(Math.random() * pool.length)];
+  if (viable.length === 0) return null;
+
+  return viable[Math.floor(Math.random() * viable.length)];
 }
 
 // Standalone entry point for callers (generateShortHooks.js) that need to

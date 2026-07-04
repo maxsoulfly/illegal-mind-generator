@@ -139,9 +139,9 @@ export function resolveHookBlockTemplates(layoutKey, projectConfig) {
 // output: 1+ randomly-picked lines (count comes from hookBlockCounts, capped
 // by hookBlockMaxLines/countMax), fully placeholder-filled and joined with
 // newlines. Candidates whose placeholders would render empty (e.g. {tags.genre}
-// with no genre-category tag selected) are excluded before picking — falls back
-// to the full pool only if every candidate would be empty. Returns null if the
-// key doesn't match any hook block entry, so callers can fall back.
+// with no genre-category tag selected) are excluded before picking. Returns
+// null if the key doesn't match any hook block entry, or if every candidate
+// would be empty — either way, callers treat null as "nothing to show".
 export function resolveHookBlockOutput(layoutKey, ctx) {
   const hookBlocks = ctx.projectConfig.description?.hookBlocks || [];
   const block = hookBlocks.find(
@@ -160,9 +160,9 @@ export function resolveHookBlockOutput(layoutKey, ctx) {
 
   const resolved = templates.map((template) => ({ template, ...fillPlaceholders(template, ctx) }));
   const viable = resolved.filter((r) => !r.hasEmpty);
-  const pool = viable.length > 0 ? viable : resolved;
+  if (viable.length === 0) return null;
 
-  return pickRandomLines(pool, Math.min(count, pool.length))
+  return pickRandomLines(viable, Math.min(count, viable.length))
     .map((r) => r.text)
     .join('\n');
 }

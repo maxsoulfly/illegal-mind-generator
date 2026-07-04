@@ -79,9 +79,9 @@ export function generateShortHooks(formData, projectConfig) {
 
       const tagHooks = getTagShortHooksForType(type, formData, projectConfig, ctx);
 
-      const allHooks = [...baseHooks, ...tagHooks];
-      const viableHooks = allHooks.filter((hook) => !hook.hasEmpty);
-      const hookPool = viableHooks.length > 0 ? viableHooks : allHooks;
+      // Hooks whose placeholders would render empty (e.g. {tags.genre} with no
+      // genre-category tag selected) are dropped rather than shown half-filled.
+      const hookPool = [...baseHooks, ...tagHooks].filter((hook) => !hook.hasEmpty);
 
       const hooks = shuffleArray(hookPool)
         .slice(0, 2)

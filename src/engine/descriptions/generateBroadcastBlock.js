@@ -35,8 +35,7 @@ export function generateBroadcastBlock(formData, projectConfig, selectedTags) {
 
   const resolvedStatus = combinedStatus.map((line) => ({ line, ...fillPlaceholders(line, ctx) }));
   const viableStatus = resolvedStatus.filter((r) => !r.hasEmpty);
-  const statusPool = viableStatus.length > 0 ? viableStatus : resolvedStatus;
-  const statusBlock = pickRandomLines(statusPool, Math.min(statusLineCount, statusPool.length))
+  const statusBlock = pickRandomLines(viableStatus, Math.min(statusLineCount, viableStatus.length))
     .map((r) => r.text)
     .join('\n');
 

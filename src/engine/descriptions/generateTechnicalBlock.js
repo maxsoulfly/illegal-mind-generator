@@ -13,8 +13,8 @@ export function generateTechnicalBlock(selectedTags, projectConfig, formData = {
   const getDescriptionTag = (tag) => tagRegistry[tag]?.description || {};
 
   // Step 1: pick one raw line per tag (kept raw so Step 2's pool-exclusion
-  // check below still compares like-for-like; filled separately for output —
-  // no alternative pool to filter against here, so just fill, don't skip-empty).
+  // check below still compares like-for-like; filled+filtered separately for
+  // output — a tag whose picked line resolves empty contributes no line).
   const perTagLinesRaw = selectedTags
     .map((tag) => {
       const options = getDescriptionTag(tag).technical || [];
@@ -22,7 +22,10 @@ export function generateTechnicalBlock(selectedTags, projectConfig, formData = {
     })
     .filter(Boolean);
 
-  const perTagLines = perTagLinesRaw.map((line) => fillPlaceholders(line, ctx).text);
+  const perTagLines = perTagLinesRaw
+    .map((line) => fillPlaceholders(line, ctx))
+    .filter((r) => !r.hasEmpty)
+    .map((r) => r.text);
 
   // Step 2: fill remaining slots from all tag lines, then base defaults
   const allTagLines = selectedTags.flatMap(
@@ -40,9 +43,8 @@ export function generateTechnicalBlock(selectedTags, projectConfig, formData = {
 
   const resolvedRemaining = remainingPool.map((line) => ({ line, ...fillPlaceholders(line, ctx) }));
   const viableRemaining = resolvedRemaining.filter((r) => !r.hasEmpty);
-  const remainingPoolViable = viableRemaining.length > 0 ? viableRemaining : resolvedRemaining;
 
-  const remaining = pickRandomLines(remainingPoolViable, technicalLineCount - perTagLines.length)
+  const remaining = pickRandomLines(viableRemaining, technicalLineCount - perTagLines.length)
     .map((r) => r.text);
 
   return [...perTagLines, ...remaining].join('\n');

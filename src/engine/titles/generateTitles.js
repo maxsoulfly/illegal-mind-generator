@@ -125,15 +125,15 @@ function capitalizeFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Runs the pick-a-template-and-fill loop. allowEmpty=false skips any template
-// whose placeholders would render with an empty value (e.g. {originalGenre}
-// with none set) — used as a safety-net retry when strict filtering leaves
-// zero results, so title generation never comes up with nothing to show.
+// Runs the pick-a-template-and-fill loop, skipping any template whose
+// placeholders would render with an empty value (e.g. {originalGenre} with
+// none set) — such a template is dropped rather than shown half-filled, even
+// if that means fewer than titleCount results.
 function attemptTransformationTitles({
   formData, config, isShorts, artistFull, artistShortFinal,
   longPrefix, longSuffix, shortsPrefix, shortsSuffix,
   transformations, weightedTemplates, maxPhrases, connector, listSeparator,
-  titleCount, useShort, allowEmpty,
+  titleCount, useShort,
 }) {
   const results = [];
   const usedTexts = new Set();
@@ -156,7 +156,7 @@ function attemptTransformationTitles({
 
     const { text: filled, hasEmpty } = fillPlaceholders(template, ctx);
     attempts += 1;
-    if (hasEmpty && !allowEmpty) continue;
+    if (hasEmpty) continue;
 
     const baseTitle = capitalizeFirst(filled);
     const text = isShorts
@@ -189,15 +189,12 @@ function buildTransformationTitles(formData, config, isShorts, artistFull, artis
   const titleCount = config.title?.count ?? 5;
   const useShort = isShorts || (formData.useCustomArtistShort && formData.artistShort);
 
-  const args = {
+  return attemptTransformationTitles({
     formData, config, isShorts, artistFull, artistShortFinal,
     longPrefix, longSuffix, shortsPrefix, shortsSuffix,
     transformations, weightedTemplates, maxPhrases, connector, listSeparator,
     titleCount, useShort,
-  };
-
-  const results = attemptTransformationTitles({ ...args, allowEmpty: false });
-  return results.length > 0 ? results : attemptTransformationTitles({ ...args, allowEmpty: true });
+  });
 }
 
 function buildGenericTitles(formData, config, isShorts, artistFull, artistShortFinal, longPrefix, longSuffix, shortsPrefix, shortsSuffix) {
@@ -217,9 +214,8 @@ function buildGenericTitles(formData, config, isShorts, artistFull, artistShortF
 
   const resolved = genericTemplates.map((template) => ({ template, ...fillPlaceholders(template, ctx) }));
   const viable = resolved.filter((r) => !r.hasEmpty);
-  const pool = viable.length > 0 ? viable : resolved;
 
-  return shuffleArray(pool).map(({ template, text }) => {
+  return shuffleArray(viable).map(({ template, text }) => {
     const baseTitle = capitalizeFirst(text);
     const finalText = isShorts
       ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
