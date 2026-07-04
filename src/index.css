@@ -98,6 +98,7 @@
   --font-ui              : Arial, Helvetica, sans-serif;
   --font-mono            : Consolas, Monaco, 'Courier New', monospace;
   --font-size-label      : 14px;
+  --font-size-field-label: 12px;
   --font-size-toggle     : 12px;
   --font-size-panel-title: 18px;
   --letter-spacing-sm    : 0.4px;
@@ -139,7 +140,7 @@ button,
 input,
 select,
 textarea {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size  : 1rem;
 }
 
@@ -278,9 +279,9 @@ button.panel-title--nav:hover::after {
   display       : block;
   margin-bottom : var(--space-1);
   color         : var(--color-text-muted);
-  font-size     : var(--font-size-label);
-  letter-spacing: var(--letter-spacing-sm);
-  text-transform: uppercase;
+  font-size     : var(--font-size-field-label);
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 .form-input,
@@ -290,8 +291,9 @@ button.panel-title--nav:hover::after {
 
   padding      : var(--space-4) var(--space-5);
   background   : var(--color-bg-input);
-  border       : 1px solid var(--color-border-main);
-  border-radius: var(--radius-md);
+  border       : 1px solid transparent;
+  border-bottom: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-sm);
   color        : var(--color-text-main);
   outline      : none;
 }
@@ -542,7 +544,7 @@ input[type="range"]::-moz-range-progress {
 .tag-chip {
   min-width    : 0;
   padding      : var(--space-2) var(--space-4);
-  border       : 1px solid var(--color-border-button-soft);
+  border       : 1px solid transparent;
   border-radius: var(--radius-pill);
   background   : var(--color-bg-tag);
   color        : var(--color-text-muted);
@@ -551,15 +553,15 @@ input[type="range"]::-moz-range-progress {
 }
 
 .tag-chip:hover {
-  border-color: var(--color-border-hover);
-  color       : var(--color-text-accent);
+  background: var(--color-bg-button-secondary);
+  color     : var(--color-text-accent);
 }
 
 .tag-chip.active {
   background: linear-gradient(180deg,
       var(--color-accent-gradient-top) 0%,
       var(--color-accent-gradient-bottom) 100%);
-  border-color: var(--color-border-hover);
+  border-color: transparent;
   color       : var(--color-text-inverse);
 }
 
