@@ -16,6 +16,7 @@ export default function ProjectSettingsLists({
   projectSettingsOverrides,
   updateProjectOverride,
   openBlockKey,
+  highlightItem,
 }) {
   const longTemplates = projectConfig.description?.templates?.long || {};
   const customBlocks = longTemplates.customBlocks || {};
@@ -155,6 +156,7 @@ export default function ProjectSettingsLists({
             }
             onRename={(newLabel) => renameBlock(blockKey, newLabel, blockData, hasBaseDefault)}
             open={openBlockKey === blockKey}
+            highlightItem={openBlockKey === blockKey ? highlightItem : null}
           />
         );
       })}

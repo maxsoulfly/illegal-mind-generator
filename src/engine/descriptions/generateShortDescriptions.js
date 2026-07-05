@@ -45,7 +45,9 @@ export function generateShortDescriptions(
       const blockKey = layoutKeyToBlockKey['coverLine'];
       return {
         text: filledText,
-        source: picked && blockKey ? { type: 'block', blockKey, blockType: 'hook' } : undefined,
+        source: picked && blockKey
+          ? { type: 'block', blockKey, blockType: 'hook', template: picked.template }
+          : undefined,
       };
     }
 
@@ -55,12 +57,14 @@ export function generateShortDescriptions(
     }
 
     if (isListBlock(customBlocks[blockName])) {
-      const rendered = renderStructuredBlock(customBlocks[blockName], projectConfig.description.links);
+      const { text: rendered, pickedItem } = renderStructuredBlock(customBlocks[blockName], projectConfig.description.links);
       // Pad list blocks with blank lines so they stand apart from the
       // single-newline-joined surrounding lines.
       return {
         text: rendered ? `\n${rendered}\n` : '',
-        source: rendered ? { type: 'block', blockKey: blockName, blockType: 'list' } : undefined,
+        source: rendered
+          ? { type: 'block', blockKey: blockName, blockType: 'list', pickedItem }
+          : undefined,
       };
     }
 
@@ -88,9 +92,9 @@ export function generateShortDescriptions(
     // resolveHookBlockOutput already resolves+fills placeholders (filtering out
     // empty-value candidates first); the legacy shortsConfig fallback needs its
     // own fill pass. {num}/{coverLabel} are shorts-specific, applied after either way.
-    const hookBlockText = resolveHookBlockOutput(blockName, ctx);
+    const hookBlockResult = resolveHookBlockOutput(blockName, ctx);
     const text =
-      hookBlockText ??
+      hookBlockResult?.text ??
       pickViableTemplate(shortsConfig[blockName] ?? [], ctx)?.text ??
       '';
 
@@ -104,7 +108,9 @@ export function generateShortDescriptions(
     const blockKey = layoutKeyToBlockKey[blockName] ?? blockName;
     return {
       text: filledText,
-      source: hookBlockText ? { type: 'block', blockKey, blockType: 'hook' } : undefined,
+      source: hookBlockResult
+        ? { type: 'block', blockKey, blockType: 'hook', template: hookBlockResult.template }
+        : undefined,
     };
   }
 

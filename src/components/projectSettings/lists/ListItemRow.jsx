@@ -1,9 +1,14 @@
+import { forwardRef } from 'react';
+
 import MoveControls from '../../ui/MoveControls';
 import IconButton from '../../ui/IconButton';
 
 // One row in a StructuredListEditor: move up/down, label input, value input
 // (text or link, with optional datalist suggestions), remove button.
-export default function ListItemRow({
+// forwardRef + `highlighted` mirror PhraseRow's pattern, so a random-pick
+// list block's winning item (source-navigated from a generated description)
+// can be scrolled to and visually emphasized the same way phrase rows are.
+const ListItemRow = forwardRef(function ListItemRow({
   item,
   index,
   itemCount,
@@ -13,9 +18,10 @@ export default function ListItemRow({
   onMove,
   onBlurField,
   onRemove,
-}) {
+  highlighted,
+}, ref) {
   return (
-    <div className="links-editor-row">
+    <div ref={ref} className={`links-editor-row${highlighted ? ' links-editor-row--highlight' : ''}`}>
       <MoveControls
         disabledUp={index === 0}
         disabledDown={index === itemCount - 1}
@@ -38,4 +44,6 @@ export default function ListItemRow({
       <IconButton icon="×" title="Remove item" onClick={() => onRemove(index)} />
     </div>
   );
-}
+});
+
+export default ListItemRow;

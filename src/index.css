@@ -1847,6 +1847,11 @@ input[type="range"]::-moz-range-progress {
   margin-bottom: 0;
 }
 
+.links-editor-row--highlight .form-input {
+  box-shadow  : 0 0 0 3px var(--color-shadow-focus);
+  border-color: var(--color-border-hover);
+}
+
 .move-controls {
   display       : flex;
   flex-direction: column;

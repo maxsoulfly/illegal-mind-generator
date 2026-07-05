@@ -16,10 +16,12 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
   const highlightRowRef = useRef(null);
 
   // When a hook button in the generator navigates here, auto-open the
-  // details panel and scroll the matching template row into view.
+  // details panel, prefill the search box so long template lists collapse
+  // down to just the matching row, and scroll it into view.
   useEffect(() => {
     if (!highlightText) return;
     if (detailsRef.current) detailsRef.current.open = true;
+    setSearchText(highlightText);
     if (highlightRowRef.current) {
       highlightRowRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }

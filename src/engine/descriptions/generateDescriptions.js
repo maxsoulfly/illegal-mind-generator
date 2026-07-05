@@ -84,7 +84,7 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
       if (blockName in blocks) return blocks[blockName];
       const hookSongOverride = resolveHookOverride(songOverrides[blockName]);
       if (hookSongOverride) return renderTextTemplate(hookSongOverride, projectConfig, formData, tagPhrase);
-      return resolveHookBlockOutput(blockName, ctx) ?? undefined;
+      return resolveHookBlockOutput(blockName, ctx)?.text ?? undefined;
     })
     .filter(Boolean)
     .join('\n\n');

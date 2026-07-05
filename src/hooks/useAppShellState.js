@@ -194,8 +194,8 @@ export default function useAppShellState() {
     setActivePage('projectSettings');
   }, [setActiveProjectSettingsSection, setActivePage]);
 
-  const openBlocksEditor = useCallback(({ subTab, blockKey }) => {
-    setBlocksTarget({ subTab, blockKey });
+  const openBlocksEditor = useCallback(({ subTab, blockKey, highlightText }) => {
+    setBlocksTarget({ subTab, blockKey, highlightText });
     setActivePage('projectSettings');
   }, [setActivePage]);
 

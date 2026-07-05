@@ -1,10 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import FormSelect from '../../ui/FormSelect';
 import IconButton from '../../ui/IconButton';
 import ListItemRow from './ListItemRow';
 import BlockEditorCard from '../blocks/BlockEditorCard';
 import { detectItemType } from '../../../utils/customBlocks';
+
+// Structural match against the raw item object a random-pick list block
+// resolved to at generation time — items have no stable id (the _id below is
+// a client-only React key), so content equality is the only reliable match.
+function isSameItem(item, target) {
+  if (!target) return false;
+  return item.label === (target.label ?? '') && (item.text === target.text || item.link === target.link);
+}
 
 const DISPLAY_MODE_OPTIONS = [
   { value: 'all', label: 'Show all items' },
@@ -24,9 +32,16 @@ export default function StructuredListEditor({
   onDelete,
   onRename,
   open,
+  highlightItem,
 }) {
   // Scoped per block label so multiple open editors don't share the same datalist.
   const linkSuggestionsId = `link-suggestions-${label.replace(/\s+/g, '-')}`;
+  const highlightRowRef = useRef(null);
+
+  useEffect(() => {
+    if (!highlightItem) return;
+    highlightRowRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [highlightItem]);
   const [block, setBlock] = useState(() => ({
     title: blockData?.title ?? '',
     scope: blockData?.scope ?? defaultScope,
@@ -159,20 +174,25 @@ export default function StructuredListEditor({
           <span className="form-label">{valueLabel}</span>
           <span />
         </div>
-        {items.map((item, i) => (
-          <ListItemRow
-            key={item._id}
-            item={item}
-            index={i}
-            itemCount={items.length}
-            itemType={itemType}
-            valueLabel={valueLabel}
-            linkSuggestionsId={linkSuggestionsId}
-            onMove={handleMove}
-            onBlurField={handleItemBlur}
-            onRemove={handleRemove}
-          />
-        ))}
+        {items.map((item, i) => {
+          const isHighlighted = isSameItem(item, highlightItem);
+          return (
+            <ListItemRow
+              key={item._id}
+              ref={isHighlighted ? highlightRowRef : null}
+              highlighted={isHighlighted}
+              item={item}
+              index={i}
+              itemCount={items.length}
+              itemType={itemType}
+              valueLabel={valueLabel}
+              linkSuggestionsId={linkSuggestionsId}
+              onMove={handleMove}
+              onBlurField={handleItemBlur}
+              onRemove={handleRemove}
+            />
+          );
+        })}
         {itemType === 'link' && (
           <datalist id={linkSuggestionsId}>
             {linkKeys.map((key) => (

@@ -10,6 +10,12 @@ function DescriptionLineLink({ segment, onOpenSourceTag, onOpenSourceHook, onOpe
   const { text, source } = segment;
 
   if (source?.type === 'block') {
+    // For hook blocks, `template` is the winning template's raw text (string
+    // match in HookTemplateEditor). For list blocks, `pickedItem` is the raw
+    // item object (structural match in ListItemRow) — only set when the list
+    // uses displayMode:'random', since 'all' mode has no single winner.
+    const highlightText = source.blockType === 'hook' ? source.template : source.pickedItem;
+
     return (
       <span
         className="description-line-link"
@@ -17,6 +23,7 @@ function DescriptionLineLink({ segment, onOpenSourceTag, onOpenSourceHook, onOpe
           onOpenBlocksEditor?.({
             subTab: source.blockType === 'hook' ? 'hooks' : source.blockType,
             blockKey: source.blockKey,
+            highlightText,
           })
         }
       >

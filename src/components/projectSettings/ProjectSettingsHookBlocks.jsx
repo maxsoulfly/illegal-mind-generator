@@ -30,6 +30,7 @@ function HookBlockEditor({
   onMaxLinesChange,
   onCountChange,
   open,
+  highlightText,
 }) {
   const pct =
     maxLines > 1 ? `${((countValue - 1) / (maxLines - 1)) * 100}%` : '0%';
@@ -99,6 +100,7 @@ function HookBlockEditor({
       <HookTemplateEditor
         templates={templates}
         onUpdateTemplates={onUpdateTemplates}
+        highlightText={highlightText}
         noWrapper
       />
     </BlockEditorCard>
@@ -110,6 +112,7 @@ export default function ProjectSettingsHookBlocks({
   projectSettingsOverrides = {},
   updateProjectOverride,
   openBlockKey,
+  highlightText,
 }) {
   const overriddenDesc = projectSettingsOverrides.description || {};
   const overriddenLong =
@@ -446,6 +449,7 @@ export default function ProjectSettingsHookBlocks({
             onMaxLinesChange={(val) => updateMaxLines(key, val)}
             onCountChange={(val) => updateCount(key, val)}
             open={openBlockKey === key}
+            highlightText={openBlockKey === key ? highlightText : null}
           />
         );
       })}

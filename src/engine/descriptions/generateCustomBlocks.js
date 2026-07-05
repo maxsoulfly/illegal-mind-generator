@@ -17,14 +17,16 @@ export function pickRandomLines(pool = [], count = 1) {
   return [...pool].sort(() => 0.5 - Math.random()).slice(0, Math.max(0, count));
 }
 
+// Returns { text, pickedItem }. pickedItem is only set when displayMode is
+// 'random' and an item was actually chosen — 'all' mode has no single winner
+// to point a source-navigation feature at, so callers should treat a missing
+// pickedItem as "nothing specific to highlight."
 export function renderStructuredBlock(block, links = {}) {
-  if (!block || !block.items) return '';
+  if (!block || !block.items) return { text: '', pickedItem: undefined };
 
   const title = block.title || '';
-  const sourceItems =
-    block.displayMode === 'random' && block.items.length > 0
-      ? pickRandomItem(block.items)
-      : block.items;
+  const isRandom = block.displayMode === 'random' && block.items.length > 0;
+  const sourceItems = isRandom ? pickRandomItem(block.items) : block.items;
 
   const items = sourceItems
     .map((item) => {
@@ -42,7 +44,9 @@ export function renderStructuredBlock(block, links = {}) {
     .filter(Boolean)
     .join('\n');
 
-  return [title, items].filter(Boolean).join('\n');
+  const text = [title, items].filter(Boolean).join('\n');
+
+  return { text, pickedItem: isRandom ? sourceItems[0] : undefined };
 }
 
 // Resolves a song override that may be a string (textarea) or string[] (list).
@@ -91,7 +95,7 @@ export function renderCustomBlock(block, projectConfig, formData, tagLine, songO
     return renderStructuredBlock(
       { ...block, items: songOverride.items },
       projectConfig.description.links,
-    );
+    ).text;
   }
 
   if (songOverride && typeof songOverride === 'string' && songOverride.trim()) {
@@ -105,7 +109,7 @@ export function renderCustomBlock(block, projectConfig, formData, tagLine, songO
   if (typeof block !== 'object' || !block) return '';
 
   if (Array.isArray(block.items)) {
-    return renderStructuredBlock(block, projectConfig.description.links);
+    return renderStructuredBlock(block, projectConfig.description.links).text;
   }
 
   if (typeof block.text === 'string') {
@@ -142,6 +146,9 @@ export function resolveHookBlockTemplates(layoutKey, projectConfig) {
 // with no genre-category tag selected) are excluded before picking. Returns
 // null if the key doesn't match any hook block entry, or if every candidate
 // would be empty — either way, callers treat null as "nothing to show".
+// `template` on the returned object is the winning template's raw text (only
+// meaningful when exactly one line was picked — with multiple lines there's
+// no single "the" winner, so it's left undefined for callers to skip).
 export function resolveHookBlockOutput(layoutKey, ctx) {
   const hookBlocks = ctx.projectConfig.description?.hookBlocks || [];
   const block = hookBlocks.find(
@@ -162,9 +169,12 @@ export function resolveHookBlockOutput(layoutKey, ctx) {
   const viable = resolved.filter((r) => !r.hasEmpty);
   if (viable.length === 0) return null;
 
-  return pickRandomLines(viable, Math.min(count, viable.length))
-    .map((r) => r.text)
-    .join('\n');
+  const picked = pickRandomLines(viable, Math.min(count, viable.length));
+
+  return {
+    text: picked.map((r) => r.text).join('\n'),
+    template: picked.length === 1 ? picked[0].template : undefined,
+  };
 }
 
 export function generateCustomBlocks(formData, projectConfig, tagLine) {
@@ -185,7 +195,7 @@ export function generateCustomBlocks(formData, projectConfig, tagLine) {
   const supportBlock = renderStructuredBlock(
     supportBlockConfig,
     projectConfig.description.links,
-  );
+  ).text;
 
   return {
     renderedCustomBlocks,

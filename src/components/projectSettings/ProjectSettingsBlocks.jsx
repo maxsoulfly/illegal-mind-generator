@@ -46,6 +46,7 @@ export default function ProjectSettingsBlocks({
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}
           openBlockKey={blocksTarget?.subTab === 'lists' ? blocksTarget.blockKey : null}
+          highlightItem={blocksTarget?.subTab === 'lists' ? blocksTarget.highlightText : null}
         />
       )}
 
@@ -66,6 +67,7 @@ export default function ProjectSettingsBlocks({
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}
           openBlockKey={blocksTarget?.subTab === 'hooks' ? blocksTarget.blockKey : null}
+          highlightText={blocksTarget?.subTab === 'hooks' ? blocksTarget.highlightText : null}
         />
       )}
     </>
