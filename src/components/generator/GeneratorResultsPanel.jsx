@@ -14,6 +14,7 @@ function GeneratorResultsPanel({
   onOpenSourceHook,
   onOpenSourceTemplate,
   onOpenSourceThumbnail,
+  onOpenBlocksEditor,
   onNavigateToSettings,
   useHooksForLongTitles,
   onToggleHooksForLongTitles,
@@ -68,9 +69,13 @@ function GeneratorResultsPanel({
           togglePanel={togglePanel}
           videoType={formData.videoType}
           descriptions={generatedOutput.shortDescriptions}
+          descriptionSegments={generatedOutput.shortDescriptionSegments}
           longDescription={generatedOutput.longDescription}
           renderCopyFooter={renderCopyFooter}
           onNavigateToSettings={onNavigateToSettings}
+          onOpenSourceTag={onOpenSourceTag}
+          onOpenSourceHook={onOpenSourceHook}
+          onOpenBlocksEditor={onOpenBlocksEditor}
         />
 
         <HashtagsPanel

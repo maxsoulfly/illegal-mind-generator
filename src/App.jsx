@@ -178,6 +178,7 @@ function App() {
           onOpenSourceHook={openShortHooksSearch}
           onOpenSourceTemplate={openTitlesSearch}
           onOpenSourceThumbnail={openThumbnailsSearch}
+          onOpenBlocksEditor={openBlocksEditor}
           onNavigateToSettings={openProjectSettings}
         />
       )}

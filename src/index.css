@@ -1165,6 +1165,18 @@ input[type="range"]::-moz-range-progress {
   /* color          : var(--color-text-accent-soft); */
 }
 
+/* Description line segments: unlike .generated-pair-link, no permanent color
+   change — reads as plain prose until hovered, then gets a CRT-style glow. */
+.description-line-link {
+  cursor: pointer;
+}
+
+.description-line-link:hover {
+  text-shadow          : 0 0 6px var(--color-shadow-accent);
+  text-decoration      : underline;
+  text-decoration-color: var(--color-border-hover);
+}
+
 /* Top-level page navigation */
 /* ===== App menu ===== */
 .app-menu {
