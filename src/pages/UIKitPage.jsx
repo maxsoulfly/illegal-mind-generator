@@ -494,7 +494,7 @@ export default function UIKitPage() {
       {/* ── TAGS & CHIPS ── */}
       {activeTab === 'tags' && (
         <>
-          <Section title="tag-chip" description="Pill-style toggle for transformation tag selection. Active state has amber gradient fill.">
+          <Section title="tag-chip" description="Sharp-cornered mono/uppercase toggle for transformation tag selection. Active state has amber gradient fill.">
             <Example
               name=".tag-chip / .tag-chip.active"
               usage="Tag selector in the Generator form. Each chip represents one transformation tag."

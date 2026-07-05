@@ -24,9 +24,7 @@ export default function InputFormActions({
         <button className="button-secondary" type="button" onClick={() => onSaveEntry(targetProjectId)}>
           Save
         </button>
-      </div>
 
-      <div className="button-row">
         <button className="button-secondary" onClick={onClear}>
           Clear Form
         </button>

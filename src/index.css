@@ -354,6 +354,7 @@ button.panel-title--nav:hover::after {
   margin-bottom : 0;
   border-radius : var(--radius-terminal);
   font-family   : var(--font-mono);
+  font-size     : var(--font-size-toggle);
   text-transform: uppercase;
   letter-spacing: var(--letter-spacing-sm);
 }
@@ -453,6 +454,7 @@ input[type="range"]::-moz-range-progress {
   text-align     : center;
   line-height    : 1.25;
   font-family    : var(--font-mono);
+  font-size      : var(--font-size-toggle);
   text-transform : uppercase;
   letter-spacing : var(--letter-spacing-sm);
 }
@@ -710,7 +712,7 @@ input[type="range"]::-moz-range-progress {
   display      : inline-flex;
   align-items  : center;
   gap          : var(--space-2);
-  margin       : -2px 0 var(--space-4);
+  margin       : -2px 0 var(--space-4) var(--space-2);
   padding      : var(--space-0);
   background   : var(--color-bg-transparent);
   border       : 0;
@@ -1316,6 +1318,10 @@ input[type="range"]::-moz-range-progress {
   margin-top: var(--space-6);
 }
 
+.input-form-actions .tag-actions {
+  flex-wrap: wrap;
+}
+
 .tag-card {
   position     : relative;
   background   : var(--color-bg-input);
@@ -1492,12 +1498,15 @@ input[type="range"]::-moz-range-progress {
   align-items: center;
 
   border       : 1px solid var(--color-border-soft);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-terminal);
 
   padding: var(--space-1) var(--space-3);
 
-  font-size  : 0.75rem;
-  white-space: nowrap;
+  font-family   : var(--font-mono);
+  font-size     : var(--font-size-toggle);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-sm);
+  white-space   : nowrap;
 }
 
 .tag-summary {
@@ -1531,7 +1540,7 @@ input[type="range"]::-moz-range-progress {
 }
 
 .tag-editor-section[open]>summary::before {
-  content: '\2212 ';
+  content: '− ';
 }
 
 .tag-editor-nested-section {
@@ -1615,6 +1624,7 @@ input[type="range"]::-moz-range-progress {
 .tag-edit-fields .form-input {
   margin-top   : var(--space-2);
   margin-bottom: 0;
+  font-size    : 0.9rem;
 }
 
 .tag-edit-fields .form-select {
@@ -1639,6 +1649,7 @@ input[type="range"]::-moz-range-progress {
 .tag-phrase-row .form-input {
   width        : 100%;
   margin-bottom: 0;
+  font-size    : 0.9rem;
 }
 
 .tag-phrase-row .form-input--compact,
@@ -1699,7 +1710,7 @@ input[type="range"]::-moz-range-progress {
   padding       : var(--space-1) 0;
   color         : var(--color-text-muted);
   font-family   : var(--font-mono);
-  font-size     : var(--font-size-sm);
+  font-size     : var(--font-size-toggle);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor        : pointer;
@@ -2060,7 +2071,7 @@ input[type="range"]::-moz-range-progress {
 }
 
 .tag-section[open]>summary::before {
-  content: '\2212 ';
+  content: '− ';
 }
 
 .tag-section summary:hover {
