@@ -29,7 +29,7 @@ export default function TemplateGroupCard({
       <header className="tag-card-header">
         <div className="tag-card-label-row">
           <h3 className="tag-card-toggle" onClick={() => setCollapsed((c) => !c)}>
-            <span className="tag-card-collapse-icon">{isCollapsed ? '▶' : '▼'}</span>
+            <span className="tag-card-collapse-icon">{isCollapsed ? '+' : '−'}</span>
             {label}
           </h3>
           {onReset && (

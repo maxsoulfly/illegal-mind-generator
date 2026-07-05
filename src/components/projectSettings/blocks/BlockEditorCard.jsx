@@ -65,7 +65,7 @@ export default function BlockEditorCard({
               onClick={() => setCollapsed((c) => !c)}
             >
               <span className="tag-card-collapse-icon">
-                {collapsed ? '▶' : '▼'}
+                {collapsed ? '+' : '−'}
               </span>
               {label}
             </h3>

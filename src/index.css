@@ -351,7 +351,11 @@ button.panel-title--nav:hover::after {
 }
 
 .form-select {
-  margin-bottom: 0;
+  margin-bottom : 0;
+  border-radius : var(--radius-terminal);
+  font-family   : var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-sm);
 }
 
 /* ─── Range Slider ─────────────────────────── */
@@ -448,6 +452,9 @@ input[type="range"]::-moz-range-progress {
   max-width      : 100%;
   text-align     : center;
   line-height    : 1.25;
+  font-family    : var(--font-mono);
+  text-transform : uppercase;
+  letter-spacing : var(--letter-spacing-sm);
 }
 
 .button-primary {
@@ -537,6 +544,10 @@ input[type="range"]::-moz-range-progress {
   cursor         : pointer;
   transition     : var(--transition-fast);
   transition     : all 0.2s ease;
+  font-family    : var(--font-mono);
+  font-size      : var(--font-size-toggle);
+  text-transform : uppercase;
+  letter-spacing : var(--letter-spacing-sm);
 }
 
 .copy-button:hover {
@@ -591,14 +602,18 @@ input[type="range"]::-moz-range-progress {
 }
 
 .tag-chip {
-  min-width    : 0;
-  padding      : var(--space-2) var(--space-4);
-  border       : 1px solid transparent;
-  border-radius: var(--radius-terminal);
-  background   : var(--color-bg-tag);
-  color        : var(--color-text-muted);
-  cursor       : pointer;
-  transition   : var(--transition-fast);
+  min-width     : 0;
+  padding       : var(--space-2) var(--space-4);
+  border        : 1px solid transparent;
+  border-radius : var(--radius-terminal);
+  background    : var(--color-bg-tag);
+  color         : var(--color-text-muted);
+  cursor        : pointer;
+  transition    : var(--transition-fast);
+  font-family   : var(--font-mono);
+  font-size     : var(--font-size-toggle);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-sm);
 }
 
 .tag-chip:hover {
@@ -999,6 +1014,7 @@ input[type="range"]::-moz-range-progress {
   cursor        : pointer;
   text-align    : left;
   text-transform: uppercase;
+  font-family   : var(--font-mono);
   font-size     : var(--font-size-toggle);
   letter-spacing: var(--letter-spacing-sm);
   transition    : var(--transition-fast);
@@ -1498,10 +1514,24 @@ input[type="range"]::-moz-range-progress {
 .tag-editor-section summary {
   cursor        : pointer;
   color         : var(--color-text-accent);
+  font-family   : var(--font-mono);
   font-size     : 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   margin-bottom : var(--space-3);
+  list-style    : none;
+}
+
+.tag-editor-section summary::-webkit-details-marker {
+  display: none;
+}
+
+.tag-editor-section summary::before {
+  content: '+ ';
+}
+
+.tag-editor-section[open]>summary::before {
+  content: '\2212 ';
 }
 
 .tag-editor-nested-section {
@@ -1540,9 +1570,12 @@ input[type="range"]::-moz-range-progress {
 }
 
 .tag-status {
-  font-size  : 0.75rem;
-  color      : var(--color-text-muted);
-  margin-left: var(--space-2);
+  font-size     : 0.75rem;
+  color         : var(--color-text-muted);
+  margin-left   : var(--space-2);
+  font-family   : var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-sm);
 }
 
 .tag-hidden {
@@ -1633,13 +1666,17 @@ input[type="range"]::-moz-range-progress {
 }
 
 .tag-filters button {
-  padding      : var(--space-2) var(--space-4);
-  border-radius: var(--radius-terminal);
-  border       : 1px solid var(--color-border-main);
-  background   : var(--color-bg-input);
-  color        : var(--color-text-muted);
-  cursor       : pointer;
-  white-space  : nowrap;
+  padding       : var(--space-2) var(--space-4);
+  border-radius : var(--radius-terminal);
+  border        : 1px solid var(--color-border-main);
+  background    : var(--color-bg-input);
+  color         : var(--color-text-muted);
+  cursor        : pointer;
+  white-space   : nowrap;
+  font-family   : var(--font-mono);
+  font-size     : var(--font-size-toggle);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-sm);
 }
 
 .tag-filters button.active {
@@ -2002,11 +2039,28 @@ input[type="range"]::-moz-range-progress {
 }
 
 .tag-section summary {
-  cursor       : pointer;
-  color        : var(--color-text-soft);
-  font-size    : 0.9rem;
-  transition   : var(--transition-fast);
-  margin-bottom: var(--space-2);
+  cursor        : pointer;
+  color         : var(--color-text-soft);
+  font-family   : var(--font-mono);
+  font-size     : var(--font-size-toggle);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-sm);
+  transition    : var(--transition-fast);
+  margin-bottom : var(--space-2);
+  list-style    : none;
+}
+
+.tag-section summary::-webkit-details-marker {
+  display: none;
+}
+
+.tag-section summary::before {
+  content: '+ ';
+  color  : var(--color-text-accent);
+}
+
+.tag-section[open]>summary::before {
+  content: '\2212 ';
 }
 
 .tag-section summary:hover {
