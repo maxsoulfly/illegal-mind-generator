@@ -90,7 +90,7 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     .join('\n\n');
 
   // --- Shorts ---
-  const shortDescriptions = generateShortDescriptions(
+  const { shortDescriptions, shortDescriptionSegments } = generateShortDescriptions(
     formData,
     projectConfig,
     shortHooks,
@@ -99,6 +99,7 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
 
   return {
     shortDescriptions,
+    shortDescriptionSegments,
     longDescription,
     fileId,
   };
