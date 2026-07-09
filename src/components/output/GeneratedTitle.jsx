@@ -69,8 +69,9 @@ function GeneratedTitle({
   onOpenSourceTag,
   onOpenSourceHook,
   onOpenSourceTemplate,
+  uppercase,
 }) {
-  const titleText = title.text;
+  const titleText = uppercase ? title.text.toUpperCase() : title.text;
   const sourceHook = title.sourceHook;
   const sourceTemplate = title.sourceTemplate;
 

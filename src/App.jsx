@@ -34,6 +34,8 @@ function App() {
     setFormData,
     panelVisibility,
     setPanelVisibility,
+    titleUppercase,
+    setTitleUppercase,
     activePage,
     setActivePage,
     projectId,
@@ -170,6 +172,8 @@ function App() {
           handleImportEntries={handleImportEntries}
           panelVisibility={panelVisibility}
           setPanelVisibility={setPanelVisibility}
+          titleUppercase={titleUppercase}
+          onToggleTitleUppercase={setTitleUppercase}
           togglePanel={togglePanel}
           tagUsage={tagUsage}
           handleRegenerate={handleRegenerate}

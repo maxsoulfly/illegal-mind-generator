@@ -18,6 +18,8 @@ function GeneratorResultsPanel({
   onNavigateToSettings,
   useHooksForLongTitles,
   onToggleHooksForLongTitles,
+  titleUppercase,
+  onToggleTitleUppercase,
 }) {
   const togglePanel = (key) => {
     setPanelVisibility((prev) => ({
@@ -53,6 +55,8 @@ function GeneratorResultsPanel({
           onNavigateToSettings={onNavigateToSettings}
           useHooksForLongTitles={useHooksForLongTitles}
           onToggleHooksForLongTitles={onToggleHooksForLongTitles}
+          titleUppercase={titleUppercase}
+          onToggleTitleUppercase={onToggleTitleUppercase}
         />
 
         <ThumbnailsPanel

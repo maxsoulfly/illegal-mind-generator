@@ -30,13 +30,14 @@ function isBaseHook(hook) {
   return typeof hook !== 'string' && hook.sourceType === 'base';
 }
 
-function ShortHookTitles({ title, hooks, onOpenSourceTag, onOpenSourceHook }) {
+function ShortHookTitles({ title, hooks, onOpenSourceTag, onOpenSourceHook, uppercase }) {
   return (
     <div className="generated-pair terminal-block">
       <h3 className="saved-entry-signal">{title}</h3>
 
       {hooks.map((hook, index) => {
-        const hookText = getHookText(hook);
+        const rawHookText = getHookText(hook);
+        const hookText = uppercase ? rawHookText.toUpperCase() : rawHookText;
         const tagHook = isTagHook(hook);
         const baseHook = isBaseHook(hook);
 
@@ -45,7 +46,7 @@ function ShortHookTitles({ title, hooks, onOpenSourceTag, onOpenSourceHook }) {
             {tagHook ? (
               <NavLinkButton
                 title={getHookTooltip(hook)}
-                onClick={() => onOpenSourceTag?.({ tagName: hook.sourceTag, hookType: hook.hookType, hookText: hook.sourceText || hookText })}
+                onClick={() => onOpenSourceTag?.({ tagName: hook.sourceTag, hookType: hook.hookType, hookText: hook.sourceText || rawHookText })}
               >
                 {hookText}
               </NavLinkButton>
@@ -53,7 +54,7 @@ function ShortHookTitles({ title, hooks, onOpenSourceTag, onOpenSourceHook }) {
               <NavLinkButton
                 muted
                 title={getHookTooltip(hook)}
-                onClick={() => onOpenSourceHook?.({ hookType: hook.hookType, sourceText: hook.sourceText || hookText })}
+                onClick={() => onOpenSourceHook?.({ hookType: hook.hookType, sourceText: hook.sourceText || rawHookText })}
               >
                 {hookText}
               </NavLinkButton>

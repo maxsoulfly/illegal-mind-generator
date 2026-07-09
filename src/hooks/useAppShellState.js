@@ -56,6 +56,12 @@ export default function useAppShellState() {
     };
   });
 
+  // Titles panel display preference: render generated titles in uppercase.
+  const [titleUppercase, setTitleUppercase] = useState(() => {
+    const storage = loadAppStorage();
+    return storage.ui.titleUppercase ?? false;
+  });
+
   // Current page shown in the app menu.
   const [activePage, setActivePage] = useState(() => {
     const storage = loadAppStorage();
@@ -107,6 +113,17 @@ export default function useAppShellState() {
       },
     }));
   }, [panelVisibility]);
+
+  // Persist title uppercase display preference.
+  useEffect(() => {
+    updateAppStorage((storage) => ({
+      ...storage,
+      ui: {
+        ...storage.ui,
+        titleUppercase,
+      },
+    }));
+  }, [titleUppercase]);
 
   // Persist active page selection.
   useEffect(() => {
@@ -231,6 +248,8 @@ export default function useAppShellState() {
     setFormData,
     panelVisibility,
     setPanelVisibility,
+    titleUppercase,
+    setTitleUppercase,
     activePage,
     setActivePage,
     projectId,

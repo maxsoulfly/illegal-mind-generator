@@ -1,6 +1,7 @@
 import ShortHookTitles from './ShortHookTitles';
 import GeneratedTitle from './GeneratedTitle';
 import CollapsiblePanel from '../ui/CollapsiblePanel';
+import ToggleField from '../ui/ToggleField';
 function shuffleArray(array) {
   return [...array].sort(() => Math.random() - 0.5);
 }
@@ -28,6 +29,8 @@ function TitlesPanel({
   onNavigateToSettings,
   useHooksForLongTitles,
   onToggleHooksForLongTitles,
+  titleUppercase,
+  onToggleTitleUppercase,
 }) {
   const mixedShortTitles = buildMixedShortTitles(shortHooks, titleCount ?? 5);
   const isShorts = videoType === 'Shorts';
@@ -38,26 +41,32 @@ function TitlesPanel({
       visible={panelVisibility.titles}
       onToggle={() => togglePanel('titles')}
       onNavigate={onNavigateToSettings ? () => onNavigateToSettings('titles') : undefined}
-      headerExtra={
-        /* Only show the hooks toggle for long video mode — Shorts already use hooks directly. */
-        !isShorts && (
-          <button
-            type="button"
-            className="button-secondary"
-            title="Mix shorts hooks into long title candidates"
-            onClick={onToggleHooksForLongTitles}
-          >
-            {useHooksForLongTitles ? 'Hooks: ON' : 'Hooks: OFF'}
-          </button>
-        )
-      }
     >
+      <div className="titles-options-row">
+        {/* Only show the hooks toggle for long video mode — Shorts already use hooks directly. */}
+        {!isShorts && (
+          <ToggleField
+            label="Hooks"
+            title="Mix shorts hooks into long title candidates"
+            checked={useHooksForLongTitles}
+            onChange={onToggleHooksForLongTitles}
+          />
+        )}
+
+        <ToggleField
+          label="Uppercase"
+          checked={titleUppercase}
+          onChange={onToggleTitleUppercase}
+        />
+      </div>
+
       <div>
         {isShorts ? (
           <ShortHookTitles
             hooks={mixedShortTitles}
             onOpenSourceTag={onOpenSourceTag}
             onOpenSourceHook={onOpenSourceHook}
+            uppercase={titleUppercase}
           />
         ) : (
           titles.map((title, index) => (
@@ -67,6 +76,7 @@ function TitlesPanel({
               onOpenSourceTag={onOpenSourceTag}
               onOpenSourceHook={onOpenSourceHook}
               onOpenSourceTemplate={onOpenSourceTemplate}
+              uppercase={titleUppercase}
             />
           ))
         )}

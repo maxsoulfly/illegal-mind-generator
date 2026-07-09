@@ -719,6 +719,17 @@ input[type="range"]::-moz-range-progress {
   border-radius: var(--space-0);
 }
 
+.titles-options-row {
+  display    : flex;
+  align-items: center;
+  gap        : var(--space-4);
+  margin     : 0 0 var(--space-4);
+}
+
+.titles-options-row .toggle-row {
+  margin: 0;
+}
+
 .filter-row {
   display    : flex;
   align-items: center;

@@ -1,6 +1,6 @@
-export default function ToggleField({ label, checked, onChange }) {
+export default function ToggleField({ label, checked, onChange, title }) {
   return (
-    <label className="toggle-row">
+    <label className="toggle-row" title={title}>
       <input
         className="toggle-checkbox"
         type="checkbox"

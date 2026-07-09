@@ -26,6 +26,8 @@ export default function GeneratorPage({
   savedEntries,
   panelVisibility,
   togglePanel,
+  titleUppercase,
+  onToggleTitleUppercase,
   tagUsage,
   handleRegenerate,
   handleSaveEntry,
@@ -138,6 +140,8 @@ export default function GeneratorPage({
           onNavigateToSettings={onNavigateToSettings}
           useHooksForLongTitles={useHooksForLongTitles}
           onToggleHooksForLongTitles={handleToggleHooksForLongTitles}
+          titleUppercase={titleUppercase}
+          onToggleTitleUppercase={onToggleTitleUppercase}
         />
       </div>
     </>
