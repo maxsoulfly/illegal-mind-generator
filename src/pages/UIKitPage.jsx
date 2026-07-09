@@ -145,7 +145,7 @@ export default function UIKitPage() {
             <Example
               name="CollapsiblePanel"
               props="label visible onToggle onNavigate? headerExtra? children"
-              usage="HashtagsPanel, YouTubeTagsPanel, TitlesPanel, ShortHooksPanel, DescriptionsPanel all use this instead of hand-rolling panel/panel-header/ToggleButton. onNavigate swaps the h2 for a clickable panel-title--nav button (Titles/Descriptions link to Project Settings). headerExtra renders between the title and the ToggleButton (Titles' Hooks ON/OFF toggle)."
+              usage="HashtagsPanel, YouTubeTagsPanel, TitlesPanel, ShortHooksPanel, DescriptionsPanel all use this instead of hand-rolling panel/panel-header/ToggleButton. onNavigate swaps the h2 for a clickable panel-title--nav button (Titles/Descriptions link to Project Settings). headerExtra renders between the title and the ToggleButton — currently unused (Titles' Hooks toggle now lives in a body-level options row instead)."
             >
               <CollapsiblePanel
                 label="Sample Output"
