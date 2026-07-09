@@ -83,10 +83,14 @@ export function generateShortHooks(formData, projectConfig) {
       // genre-category tag selected) are dropped rather than shown half-filled.
       const hookPool = [...baseHooks, ...tagHooks].filter((hook) => !hook.hasEmpty);
 
+      // rawText keeps the unwrapped hook text around — this same array is also
+      // reused by generateTitles.js to mix hooks into Long titles, which needs
+      // the Long prefix/suffix instead of the Shorts one baked into `text`.
       const hooks = shuffleArray(hookPool)
         .slice(0, 2)
         .map((hook) => ({
           ...hook,
+          rawText: hook.text,
           text: `${prefixEnabled ? fillPlaceholders(prefix, ctx).text : ''}${hook.text}${suffixEnabled ? fillPlaceholders(suffix, ctx).text : ''}`,
         }));
 

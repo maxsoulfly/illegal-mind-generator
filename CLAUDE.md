@@ -153,6 +153,8 @@ src/
 
 Both editable via Project Settings → Titles → Generation card. `shortHookSuffix` in `projects.json` is legacy fallback — do not remove.
 
+**`generateShortHooks.js`'s hook objects carry both `text` (Shorts-wrapped) and `rawText` (unwrapped).** `text` has the Shorts prefix/suffix baked in — that's what the Shorts Hooks panel, Shorts-mode titles (`ShortHookTitles.jsx`), and the Shorts description "hook" block all correctly want. But this same hook array is reused by `generateTitles.js`'s `buildHookTitles` (the "mix hooks into Long titles" feature) — it must use `hook.rawText` and wrap it with the *Long* prefix/suffix instead, or the Shorts suffix ends up trapped inside the Long-wrapped title (double-wrapped). Any new consumer of this hook pool needs to pick the right field depending on which prefix/suffix scheme it's rendering for — don't default to `.text` without checking which context you're in.
+
 **Title object shape.** Generated titles are objects: `{ text, sourceHook, sourceTemplate }`.
 - `sourceHook` → `{ sourceType: 'tag'|'base', sourceTag, hookType, sourceText }`
 - `sourceTemplate` → `{ template, groupName }`
@@ -241,6 +243,8 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 ---
 
 # Current Focus
+
+**Fix: Hooks toggle duplicated the Shorts suffix into Long titles (2026-07-09).** Reported as titles like `[SIGNAL 11] // Does I Won't Lie Down still hold up? // [SIGNAL 11]` when the Titles panel's Hooks checkbox mixed shorts hooks into Long titles — a trailing `[SIGNAL 11]` leaking in from the Shorts side. Root cause: `generateShortHooks.js` bakes the Shorts prefix/suffix directly into each hook's `.text` field (needed for the Shorts Hooks panel, Shorts-mode titles, and the Shorts description "hook" block, which all want that wrapped text) — but `generateTitles.js`'s `buildHookTitles` reused that same already-wrapped `.text` and wrapped it *again* with the Long prefix/suffix, trapping the Shorts suffix inside. Fix: `generateShortHooks.js` now also keeps the unwrapped text in a new `rawText` field; `buildHookTitles` uses `hook.rawText` instead. See Known Gotchas below. Verified: hook-derived Long titles now read cleanly (e.g. `[SIGNAL XX] // Most underrated Face to Face song? // Illegal Mind Rework`), Shorts mode unaffected, no console errors.
 
 **Fix: tag `shortHooks`/`description` silently dropped by base+override resolution (2026-07-09).** Reported as "Sync Tags doesn't sync hooks between projects" — a shared tag (e.g. "Hardcore Punk") showed 0 phrases in every Short Hooks category after syncing. Traced through `syncProjectTags`/`mergeTagData`/`mergeShortHooks` (`useTagOverrides.js`) first — confirmed that sync logic already merges `shortHooks` correctly (union per hook-type). The actual bug was downstream, in the two places that combine a tag's base `projects.json` config with its stored override: `buildResolvedProjectConfig.js` (feeds `generateShortHooks.js` — a real generation-quality bug, not just cosmetic) and `buildTagExplorerData.js` (feeds the Tag Editor's `tag.maps`, exactly what the screenshot showed as "(0)"). Both did a flat `{...baseTag, ...override}` spread for `shortHooks` — see Known Gotchas below for the full mechanism and fix. Verified via headless-browser test against the real Tag Editor and the actual Sync Tags button: Maxx Dee's "Hardcore Punk" now shows its real counts (4/4/6/4/4/4) before *and* after syncing from Illegal Mind Covers (which has no base data for that tag) — sync no longer wipes it.
 

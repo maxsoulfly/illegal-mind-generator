@@ -236,7 +236,7 @@ function buildHookTitles(shortHooks, longPrefix, longSuffix) {
   return shuffleArray(hookPool)
     .slice(0, 5)
     .map((hook) => ({
-      text: `${longPrefix}${capitalizeFirst(hook.text)}${longSuffix}`,
+      text: `${longPrefix}${capitalizeFirst(hook.rawText)}${longSuffix}`,
       sourceHook: {
         sourceType: hook.sourceType,
         sourceTag: hook.sourceTag,
