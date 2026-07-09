@@ -98,6 +98,10 @@ export default function buildResolvedProjectConfig(
         ...(baseTag.description || {}),
         ...(override.description || {}),
       },
+      shortHooks: {
+        ...(baseTag.shortHooks || {}),
+        ...(override.shortHooks || {}),
+      },
     };
   });
 

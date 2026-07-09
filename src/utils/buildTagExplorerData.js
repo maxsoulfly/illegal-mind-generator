@@ -22,6 +22,17 @@ export function buildTagExplorerData(
     const registryTag = {
       ...baseTag,
       ...tagOverride,
+      description:
+        baseTag.description || tagOverride.description
+          ? {
+              ...(baseTag.description || {}),
+              ...(tagOverride.description || {}),
+            }
+          : undefined,
+      shortHooks: {
+        ...(baseTag.shortHooks || {}),
+        ...(tagOverride.shortHooks || {}),
+      },
     };
 
     const usedBySongs = savedEntries.filter((entry) =>
