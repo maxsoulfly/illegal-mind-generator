@@ -115,3 +115,96 @@ export function generateBlockKey(name, existingKeys) {
 
   return key;
 }
+
+// One-time, self-healing repair for customBlocks keys that collide with a
+// hook block's key/descriptionLayoutKey — a bug class generateBlockKey now
+// prevents going forward (see its existingKeys callers), but pre-existing
+// colliding data needs actual repair, not just prevention. A collision is
+// silent and severe: generateDescriptions.js's `blocks` map spreads
+// renderedCustomBlocks last, so a colliding customBlocks entry silently
+// overwrites the hook block's computed value in the `blocks` map — the hook
+// block's own templates never actually get used, with no error anywhere.
+//
+// Project-scoped colliding blocks are renamed automatically (key + any
+// blockLabelOverrides entry, rewritten together so nothing points at the old
+// key). The `layout` array is deliberately left untouched: since a colliding
+// customBlocks key can never win a spot of its own in `layout` (the
+// dynamicBlockKeys filter in LongDescriptionSettings.jsx excludes any
+// customBlocks key already present in defaultLayout, which every hook-block
+// layout key is), any occurrence of the old key in a saved `layout` array
+// unambiguously belongs to the *hook block's* slot, not the renamed
+// customBlocks entry — remapping it would incorrectly steal the hook block's
+// layout position. The renamed block simply becomes available (not yet
+// active) in the Descriptions layout builder, same as any newly created one.
+//
+// Song-scoped colliding blocks are left alone and returned in `skipped` — a
+// safe rename here can't also migrate whatever per-song override data might
+// exist across formData/savedEntries, which this function has no access to
+// (that needs a human to resolve).
+//
+// Returns null if there's nothing to fix. Otherwise returns
+// { patch, renamed, skipped } — `patch` is a ready-to-use argument for
+// updateProjectOverride (already includes the rest of `description`
+// untouched), `renamed`/`skipped` are { oldKey, newKey? }[] for logging/UI.
+export function resolveCustomBlockCollisions(projectSettingsOverrides, hookBlocks) {
+  const desc = projectSettingsOverrides?.description || {};
+  const longTemplates = desc.templates?.long || {};
+  const customBlocks = longTemplates.customBlocks || {};
+
+  const layoutKeySet = new Set([
+    ...hookBlocks.map((b) => b.key),
+    ...hookBlocks.map((b) => b.descriptionLayoutKey ?? b.key),
+  ]);
+
+  const collidingKeys = Object.keys(customBlocks).filter((key) => layoutKeySet.has(key));
+  if (collidingKeys.length === 0) return null;
+
+  const isSongScoped = (key) => {
+    const block = customBlocks[key];
+    return (typeof block === 'object' && block?.scope) === 'song';
+  };
+  const toRename = collidingKeys.filter((key) => !isSongScoped(key));
+  const skipped = collidingKeys.filter(isSongScoped).map((oldKey) => ({ oldKey }));
+
+  if (toRename.length === 0) return { patch: null, renamed: [], skipped };
+
+  const existingKeys = new Set([...Object.keys(customBlocks), ...layoutKeySet]);
+  const nextCustomBlocks = { ...customBlocks };
+  const nextBlockLabelOverrides = { ...(desc.blockLabelOverrides || {}) };
+  const renamed = [];
+
+  for (const oldKey of toRename) {
+    let suffix = 2;
+    let newKey = `${oldKey}${suffix}`;
+    while (existingKeys.has(newKey)) {
+      suffix += 1;
+      newKey = `${oldKey}${suffix}`;
+    }
+    existingKeys.add(newKey);
+    renamed.push({ oldKey, newKey });
+
+    nextCustomBlocks[newKey] = nextCustomBlocks[oldKey];
+    delete nextCustomBlocks[oldKey];
+
+    if (oldKey in nextBlockLabelOverrides) {
+      nextBlockLabelOverrides[newKey] = nextBlockLabelOverrides[oldKey];
+      delete nextBlockLabelOverrides[oldKey];
+    }
+  }
+
+  const patch = {
+    description: {
+      ...desc,
+      blockLabelOverrides: nextBlockLabelOverrides,
+      templates: {
+        ...desc.templates,
+        long: {
+          ...longTemplates,
+          customBlocks: nextCustomBlocks,
+        },
+      },
+    },
+  };
+
+  return { patch, renamed, skipped };
+}

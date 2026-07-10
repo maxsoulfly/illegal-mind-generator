@@ -554,15 +554,21 @@
           "defaultScope": "song"
         },
         {
+          "key": "logFormat",
+          "label": "Log · Format",
+          "path": "long",
+          "templateKey": "logBlock"
+        },
+        {
           "key": "tagLineFallbacks",
-          "label": "Log · Tag Fallbacks",
+          "label": "Tag Line · Fallbacks",
           "path": "long",
           "templateKey": "tagLineFallbacks",
           "descriptionLayoutKey": "logBlock"
         },
         {
           "key": "tagLineTemplates",
-          "label": "Log · Tag Templates",
+          "label": "Tag Line · Templates",
           "path": "long",
           "templateKey": "tagLineTemplates",
           "descriptionLayoutKey": "logBlock"
@@ -2050,8 +2056,14 @@
           "defaultScope": "song"
         },
         {
+          "key": "logFormat",
+          "label": "Log · Format",
+          "path": "long",
+          "templateKey": "logBlock"
+        },
+        {
           "key": "tagLineTemplates",
-          "label": "Log · Tag Templates",
+          "label": "Tag Line · Templates",
           "path": "long",
           "templateKey": "tagLineTemplates",
           "descriptionLayoutKey": "logBlock"
