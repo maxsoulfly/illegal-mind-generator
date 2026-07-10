@@ -178,6 +178,7 @@ function App() {
           tagUsage={tagUsage}
           handleRegenerate={handleRegenerate}
           projectOverrides={tagOverrides}
+          projectSettingsOverrides={projectSettingsOverrides}
           onOpenSourceTag={openTagLibrarySearch}
           onOpenSourceHook={openShortHooksSearch}
           onOpenSourceTemplate={openTitlesSearch}

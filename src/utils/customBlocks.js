@@ -9,6 +9,17 @@ export const TARGET_OPTIONS = [
   { value: 'both',   label: 'Long + Shorts' },
 ];
 
+// Single source of truth for the three block types: their Blocks-tab subTab id
+// (matches ProjectSettingsBlocks.jsx's SubTabNav ids) and display label.
+// blockType keys ('list'/'text'/'hook') match generateShortDescriptions.js's
+// source.blockType — anything deriving a subTab id or label from a blockType
+// should read this instead of re-declaring its own mapping.
+export const BLOCK_TYPE_SUBTABS = {
+  list: { subTab: 'lists', label: 'Lists' },
+  text: { subTab: 'text',  label: 'Text Blocks' },
+  hook: { subTab: 'hooks', label: 'Hook Blocks' },
+};
+
 // Metadata for built-in customBlocks keys. Anything not listed here is a
 // user-created block — its label falls back to blockData.name or a
 // prettified version of its key.

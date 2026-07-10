@@ -1,5 +1,15 @@
 import { getBlockLabel } from './customBlocks';
 
+// Shared Shorts layout-slot fallback labels, used by ShortsDescriptionSettings's
+// layout editor (keyed by layout slot, e.g. 'coverLine' — see makeLayoutLabelResolver).
+export const KNOWN_SHORTS_BLOCK_META = {
+  coverLine: { label: 'Cover Line' },
+  header:    { label: 'Header' },
+  primary:   { label: 'Primary' },
+  secondary: { label: 'Secondary' },
+  hook:      { label: 'Hook' },
+};
+
 // Derives the three lookup maps shared by both description layout builders.
 // Called once per render in LongDescriptionSettings and ShortsDescriptionSettings.
 export function buildHookBlockMaps(hookBlocks) {
@@ -32,4 +42,23 @@ export function makeLayoutLabelResolver({
       getBlockLabel(key, customBlocks[key])
     );
   };
+}
+
+// Same override precedence as makeLayoutLabelResolver, but keyed directly by
+// customBlocks/hookBlocks config key (not a layout slot key) — for consumers
+// that already have a resolved blockKey, e.g. DescriptionsPanel's `source.blockKey`
+// (generateShortDescriptions.js resolves layout key → blockKey before attaching source).
+export function makeBlockKeyLabelResolver({
+  hookBlocks,
+  hookBlockLabelOverrides,
+  blockLabelOverrides,
+  customBlocks,
+}) {
+  const hookBlockLabelByKey = Object.fromEntries(hookBlocks.map((b) => [b.key, b.label]));
+
+  return (blockKey) =>
+    hookBlockLabelOverrides[blockKey] ||
+    hookBlockLabelByKey[blockKey] ||
+    blockLabelOverrides[blockKey] ||
+    getBlockLabel(blockKey, customBlocks[blockKey]);
 }

@@ -38,6 +38,7 @@ export default function GeneratorPage({
   handleImportEntries,
   setPanelVisibility,
   projectOverrides,
+  projectSettingsOverrides,
   onOpenSourceTag,
   onOpenSourceHook,
   onOpenSourceTemplate,
@@ -128,6 +129,7 @@ export default function GeneratorPage({
         </div>
         <GeneratorResultsPanel
           projectConfig={projectConfig}
+          projectSettingsOverrides={projectSettingsOverrides}
           generatedOutput={generatedOutput}
           formData={formData}
           panelVisibility={panelVisibility}

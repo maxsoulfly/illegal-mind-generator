@@ -5,20 +5,12 @@ import SubTabNav from '../../ui/SubTabNav';
 import MoveControls from '../../ui/MoveControls';
 import IconButton from '../../ui/IconButton';
 import { isListBlock, isTextBlock } from '../../../utils/customBlocks';
-import { buildHookBlockMaps, makeLayoutLabelResolver } from '../../../utils/descriptionLayout';
+import { buildHookBlockMaps, makeLayoutLabelResolver, KNOWN_SHORTS_BLOCK_META } from '../../../utils/descriptionLayout';
 
 const MOBILE_COLUMN_TABS = [
   { id: 'layout', label: 'Layout' },
   { id: 'available', label: 'Available' },
 ];
-
-const KNOWN_SHORTS_BLOCK_META = {
-  coverLine: { label: 'Cover Line' },
-  header:    { label: 'Header' },
-  primary:   { label: 'Primary' },
-  secondary: { label: 'Secondary' },
-  hook:      { label: 'Hook' },
-};
 
 export default function ShortsDescriptionSettings({
   baseProjectConfig,

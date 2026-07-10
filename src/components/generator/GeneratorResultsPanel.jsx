@@ -6,6 +6,7 @@ import YouTubeTagsPanel from '../output/YouTubeTagsPanel';
 
 function GeneratorResultsPanel({
   projectConfig,
+  projectSettingsOverrides,
   generatedOutput,
   formData,
   panelVisibility,
@@ -80,6 +81,8 @@ function GeneratorResultsPanel({
           onOpenSourceTag={onOpenSourceTag}
           onOpenSourceHook={onOpenSourceHook}
           onOpenBlocksEditor={onOpenBlocksEditor}
+          projectConfig={projectConfig}
+          projectSettingsOverrides={projectSettingsOverrides}
         />
 
         <HashtagsPanel

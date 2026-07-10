@@ -2,12 +2,12 @@ import SubTabNav from '../ui/SubTabNav';
 import ProjectSettingsLists from './ProjectSettingsLists';
 import ProjectSettingsTextBlocks from './ProjectSettingsTextBlocks';
 import ProjectSettingsHookBlocks from './ProjectSettingsHookBlocks';
+import { BLOCK_TYPE_SUBTABS } from '../../utils/customBlocks';
 
-const BLOCKS_SUBTABS = [
-  { id: 'lists', label: 'Lists' },
-  { id: 'text', label: 'Text Blocks' },
-  { id: 'hooks', label: 'Hook Blocks' },
-];
+const BLOCKS_SUBTABS = Object.values(BLOCK_TYPE_SUBTABS).map(({ subTab, label }) => ({
+  id: subTab,
+  label,
+}));
 
 export default function ProjectSettingsBlocks({
   baseProjectConfig,
