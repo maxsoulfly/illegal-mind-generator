@@ -26,7 +26,7 @@ export default function useGeneratedOutput(formData, resolvedProjectConfig) {
       resolvedProjectConfig.thumbnail?.count ?? 5,
     );
 
-    const { longDescription, shortDescriptions, shortDescriptionSegments, fileId } = generateDescriptions(
+    const { longDescription, longDescriptionSegments, shortDescriptions, shortDescriptionSegments, fileId } = generateDescriptions(
       formData,
       resolvedProjectConfig,
       shortHooks,
@@ -38,6 +38,7 @@ export default function useGeneratedOutput(formData, resolvedProjectConfig) {
       titles,
       thumbnails,
       longDescription,
+      longDescriptionSegments,
       shortDescriptions,
       shortDescriptionSegments,
       hashtags: hashtagOutput.hashtags,

@@ -4,6 +4,7 @@ import { generateTechnicalBlock } from './generateTechnicalBlock';
 import { generateLogBlock } from './generateLogBlock';
 import { generateCustomBlocks, getEffectiveSongOverrides, resolveHookBlockOutput, renderTextTemplate, resolveHookOverride, pickViableTemplate } from './generateCustomBlocks';
 import { buildTagLine, buildTagPhrase } from './descriptionTagHelpers';
+import { buildHookBlockMaps, resolveBlockSource } from '../../utils/descriptionLayout';
 
 export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const tagLine = buildTagLine(formData, projectConfig);
@@ -79,15 +80,31 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     ...renderedCustomBlocks,
   };
 
-  const longDescription = layout
+  // Source attribution for click-to-navigate + hover tooltips (DescriptionsPanel).
+  // Block-level granularity — matches what LongDescriptionSettings.jsx's nav
+  // arrows already point at, not per-line within a merged block like broadcastBlock.
+  const customBlocks = projectConfig.description?.templates?.long?.customBlocks || {};
+  const hookBlockMaps = buildHookBlockMaps(projectConfig.description?.hookBlocks || []);
+  const supportBlockConfig = projectConfig.description?.templates?.long?.supportBlock;
+
+  const longDescriptionSegments = layout
     .map((blockName) => {
-      if (blockName in blocks) return blocks[blockName];
-      const hookSongOverride = resolveHookOverride(songOverrides[blockName]);
-      if (hookSongOverride) return renderTextTemplate(hookSongOverride, projectConfig, formData, tagPhrase);
-      return resolveHookBlockOutput(blockName, ctx)?.text ?? undefined;
+      let text;
+      if (blockName in blocks) {
+        text = blocks[blockName];
+      } else {
+        const hookSongOverride = resolveHookOverride(songOverrides[blockName]);
+        text = hookSongOverride
+          ? renderTextTemplate(hookSongOverride, projectConfig, formData, tagPhrase)
+          : resolveHookBlockOutput(blockName, ctx)?.text;
+      }
+      if (!text) return null;
+      const source = resolveBlockSource(blockName, { hookBlockMaps, customBlocks, supportBlockConfig });
+      return { text, source };
     })
-    .filter(Boolean)
-    .join('\n\n');
+    .filter(Boolean);
+
+  const longDescription = longDescriptionSegments.map((segment) => segment.text).join('\n\n');
 
   // --- Shorts ---
   const { shortDescriptions, shortDescriptionSegments } = generateShortDescriptions(
@@ -101,6 +118,7 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     shortDescriptions,
     shortDescriptionSegments,
     longDescription,
+    longDescriptionSegments,
     fileId,
   };
 }

@@ -4,8 +4,8 @@ import LabelSliderRow from '../../ui/LabelSliderRow';
 import SubTabNav from '../../ui/SubTabNav';
 import MoveControls from '../../ui/MoveControls';
 import IconButton from '../../ui/IconButton';
-import { isListBlock, isTextBlock } from '../../../utils/customBlocks';
-import { buildHookBlockMaps, makeLayoutLabelResolver, KNOWN_SHORTS_BLOCK_META } from '../../../utils/descriptionLayout';
+import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../../utils/customBlocks';
+import { buildHookBlockMaps, makeLayoutLabelResolver, resolveBlockSource, KNOWN_SHORTS_BLOCK_META } from '../../../utils/descriptionLayout';
 
 const MOBILE_COLUMN_TABS = [
   { id: 'layout', label: 'Layout' },
@@ -132,14 +132,14 @@ export default function ShortsDescriptionSettings({
       return () => onNavigateToShortHooks({});
     }
     if (!onNavigateToBlock) return undefined;
-    if (allHookBlockLayoutKeys.has(key)) {
-      return () => onNavigateToBlock({ subTab: 'hooks', blockKey: layoutKeyToBlockKey[key] });
-    } else if (isListBlock(customBlocks[key])) {
-      return () => onNavigateToBlock({ subTab: 'lists', blockKey: key });
-    } else if (isTextBlock(customBlocks[key])) {
-      return () => onNavigateToBlock({ subTab: 'text', blockKey: key });
-    }
-    return undefined;
+    const source = resolveBlockSource(key, {
+      hookBlockMaps: { allLayoutKeys: allHookBlockLayoutKeys, layoutKeyToBlockKey },
+      customBlocks,
+      supportBlockConfig: undefined,
+    });
+    if (!source) return undefined;
+    const subTab = BLOCK_TYPE_SUBTABS[source.blockType]?.subTab;
+    return () => onNavigateToBlock({ subTab, blockKey: source.blockKey });
   }
 
   function renderAvailableBlock(key) {

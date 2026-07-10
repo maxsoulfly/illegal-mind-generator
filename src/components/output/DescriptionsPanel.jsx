@@ -8,14 +8,22 @@ import { BLOCK_TYPE_SUBTABS } from '../../utils/customBlocks';
 // Mirrors GeneratedTitle/ThumbnailsPanel's inline nav-link pattern: branch on
 // the segment's source shape, fall back to plain (non-interactive) text when
 // there's nothing to navigate to.
-function DescriptionLineLink({ segment, onOpenSourceTag, onOpenSourceHook, onOpenBlocksEditor, getBlockKeyLabel }) {
+function DescriptionLineLink({
+  segment,
+  onOpenSourceTag,
+  onOpenSourceHook,
+  onOpenBlocksEditor,
+  getBlockKeyLabel,
+  className = 'description-line-link',
+}) {
   const { text, source } = segment;
 
   if (source?.type === 'block') {
     // For hook blocks, `template` is the winning template's raw text (string
     // match in HookTemplateEditor). For list blocks, `pickedItem` is the raw
     // item object (structural match in ListItemRow) — only set when the list
-    // uses displayMode:'random', since 'all' mode has no single winner.
+    // uses displayMode:'random', since 'all' mode has no single winner. Long
+    // description segments never set either (block-level granularity only).
     const highlightText = source.blockType === 'hook' ? source.template : source.pickedItem;
     const label = getBlockKeyLabel(source.blockKey);
     const subTabInfo = BLOCK_TYPE_SUBTABS[source.blockType];
@@ -23,7 +31,7 @@ function DescriptionLineLink({ segment, onOpenSourceTag, onOpenSourceHook, onOpe
 
     return (
       <span
-        className="description-line-link"
+        className={className}
         title={`Blocks → ${subTabInfo?.label || 'Blocks'} → ${label}${detail}`}
         onClick={() =>
           onOpenBlocksEditor?.({
@@ -41,7 +49,7 @@ function DescriptionLineLink({ segment, onOpenSourceTag, onOpenSourceHook, onOpe
   if (source?.sourceType === 'tag') {
     return (
       <span
-        className="description-line-link"
+        className={className}
         title={`${source.sourceTag} (${source.hookType}): "${source.sourceText}"`}
         onClick={() =>
           onOpenSourceTag?.({
@@ -59,7 +67,7 @@ function DescriptionLineLink({ segment, onOpenSourceTag, onOpenSourceHook, onOpe
   if (source?.sourceType === 'base') {
     return (
       <span
-        className="description-line-link"
+        className={className}
         title={`Project preset (${source.hookType}): "${source.sourceText}"`}
         onClick={() => onOpenSourceHook?.({ hookType: source.hookType, sourceText: source.sourceText })}
       >
@@ -78,6 +86,7 @@ function DescriptionsPanel({
   descriptions,
   descriptionSegments,
   longDescription,
+  longDescriptionSegments,
   renderCopyFooter,
   onNavigateToSettings,
   onOpenSourceTag,
@@ -108,11 +117,24 @@ function DescriptionsPanel({
         {/* LONG */}
         {videoType === 'Long' && (
           <OutputItem
-            text={longDescription}
             textClassName={undefined}
             textStyle={{ whiteSpace: 'pre-line' }}
             copyText={[longDescription, renderCopyFooter()].filter(Boolean).join('\n\n')}
-          />
+          >
+            {longDescriptionSegments?.length
+              ? longDescriptionSegments.map((segment, index) => (
+                  <DescriptionLineLink
+                    key={index}
+                    segment={segment}
+                    onOpenSourceTag={onOpenSourceTag}
+                    onOpenSourceHook={onOpenSourceHook}
+                    onOpenBlocksEditor={onOpenBlocksEditor}
+                    getBlockKeyLabel={getBlockKeyLabel}
+                    className="description-block-link"
+                  />
+                ))
+              : longDescription}
+          </OutputItem>
         )}
 
         {/* SHORTS */}

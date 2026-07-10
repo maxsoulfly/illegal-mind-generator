@@ -1,4 +1,4 @@
-import { getBlockLabel } from './customBlocks';
+import { getBlockLabel, isListBlock, isTextBlock } from './customBlocks';
 
 // Shared Shorts layout-slot fallback labels, used by ShortsDescriptionSettings's
 // layout editor (keyed by layout slot, e.g. 'coverLine' — see makeLayoutLabelResolver).
@@ -61,4 +61,31 @@ export function makeBlockKeyLabelResolver({
     hookBlockLabelByKey[blockKey] ||
     blockLabelOverrides[blockKey] ||
     getBlockLabel(blockKey, customBlocks[blockKey]);
+}
+
+// Resolves a layout-slot key to its block source descriptor: which editor
+// (Hook Blocks/Lists/Text Blocks) it lives in and its config key. Mirrors
+// LongDescriptionSettings.jsx/ShortsDescriptionSettings.jsx's getNavigateHandler
+// branching exactly — both the nav-arrow click handlers and generateDescriptions.js's
+// per-block `source` attribution (for DescriptionsPanel's hover tooltips) go through
+// this single function so they can't drift apart. Returns undefined when a block
+// key matches no hook block, list block, or text block (nothing to point at).
+export function resolveBlockSource(blockKey, { hookBlockMaps, customBlocks, supportBlockConfig }) {
+  const { allLayoutKeys, layoutKeyToBlockKey } = hookBlockMaps;
+
+  if (allLayoutKeys.has(blockKey)) {
+    return { type: 'block', blockKey: layoutKeyToBlockKey[blockKey], blockType: 'hook' };
+  }
+
+  // supportBlock lives directly on templates.long, not inside customBlocks.
+  const blockData = blockKey === 'supportBlock' ? supportBlockConfig : customBlocks[blockKey];
+
+  if (isListBlock(blockData)) {
+    return { type: 'block', blockKey, blockType: 'list' };
+  }
+  if (isTextBlock(blockData)) {
+    return { type: 'block', blockKey, blockType: 'text' };
+  }
+
+  return undefined;
 }

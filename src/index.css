@@ -1188,6 +1188,27 @@ input[type="range"]::-moz-range-progress {
   text-decoration-color: var(--color-border-hover);
 }
 
+/* Long description block segments: full paragraphs, not inline hook fragments,
+   so a bordered box reads better than .description-line-link's text-only glow. */
+.description-block-link {
+  display      : block;
+  padding      : var(--space-2) var(--space-3);
+  margin-bottom: var(--space-2);
+  border       : 1px solid transparent;
+  border-radius: var(--radius-terminal);
+  cursor       : pointer;
+  transition   : var(--transition-fast);
+}
+
+.description-block-link:last-child {
+  margin-bottom: 0;
+}
+
+.description-block-link:hover {
+  border-color: var(--color-border-hover);
+  box-shadow  : 0 0 10px var(--color-shadow-accent);
+}
+
 /* Top-level page navigation */
 /* ===== App menu ===== */
 .app-menu {

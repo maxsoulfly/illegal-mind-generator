@@ -3,8 +3,8 @@ import BlockInfoCard from '../../ui/BlockInfoCard';
 import SubTabNav from '../../ui/SubTabNav';
 import MoveControls from '../../ui/MoveControls';
 import IconButton from '../../ui/IconButton';
-import { isListBlock, isTextBlock } from '../../../utils/customBlocks';
-import { buildHookBlockMaps, makeLayoutLabelResolver } from '../../../utils/descriptionLayout';
+import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../../utils/customBlocks';
+import { buildHookBlockMaps, makeLayoutLabelResolver, resolveBlockSource } from '../../../utils/descriptionLayout';
 
 const MOBILE_COLUMN_TABS = [
   { id: 'layout', label: 'Layout' },
@@ -136,17 +136,14 @@ export default function LongDescriptionSettings({
 
   function getNavigateHandler(blockKey) {
     if (!onNavigateToBlock) return undefined;
-    // supportBlock lives directly on longTemplates, not inside customBlocks.
-    const blockData =
-      blockKey === 'supportBlock' ? longTemplates.supportBlock : customBlocks[blockKey];
-    if (allHookBlockLayoutKeys.has(blockKey)) {
-      return () => onNavigateToBlock({ subTab: 'hooks', blockKey: layoutKeyToBlockKey[blockKey] });
-    } else if (isListBlock(blockData)) {
-      return () => onNavigateToBlock({ subTab: 'lists', blockKey });
-    } else if (isTextBlock(blockData)) {
-      return () => onNavigateToBlock({ subTab: 'text', blockKey });
-    }
-    return undefined;
+    const source = resolveBlockSource(blockKey, {
+      hookBlockMaps: { allLayoutKeys: allHookBlockLayoutKeys, layoutKeyToBlockKey },
+      customBlocks,
+      supportBlockConfig: longTemplates.supportBlock,
+    });
+    if (!source) return undefined;
+    const subTab = BLOCK_TYPE_SUBTABS[source.blockType]?.subTab;
+    return () => onNavigateToBlock({ subTab, blockKey: source.blockKey });
   }
 
   function renderAvailableBlock(blockKey) {

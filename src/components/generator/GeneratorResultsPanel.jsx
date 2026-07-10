@@ -76,6 +76,7 @@ function GeneratorResultsPanel({
           descriptions={generatedOutput.shortDescriptions}
           descriptionSegments={generatedOutput.shortDescriptionSegments}
           longDescription={generatedOutput.longDescription}
+          longDescriptionSegments={generatedOutput.longDescriptionSegments}
           renderCopyFooter={renderCopyFooter}
           onNavigateToSettings={onNavigateToSettings}
           onOpenSourceTag={onOpenSourceTag}
