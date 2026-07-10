@@ -6,7 +6,7 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 
 ## Current Focus
 
-Exposed a genuinely hardcoded log-wrapper template as an editable Hook Block, and fixed a mislabeled block group (2026-07-10) — see below. Picking next feature.
+Exposed a genuinely hardcoded log-wrapper template as an editable Hook Block, and fixed a mislabeled block group (2026-07-10) — see below. Next up: **Block Group** (4th block type) — see In Progress.
 
 ---
 
@@ -100,7 +100,11 @@ Exposed a genuinely hardcoded log-wrapper template as an editable Hook Block, an
 
 ## In Progress
 
-Nothing active — picking next feature.
+**Block Group — 4th block type.** Plan written and approved, not yet implemented. Full plan: `C:\Users\Max\.claude\plans\you-write-too-much-spicy-crayon.md`.
+
+Why: `broadcastBlock`/`closingBlock`/`logBlock` are each secretly a merge of 2+ hookBlocks config entries via bespoke JS (`generateBroadcastBlock.js`/`generateLogBlock.js`/an inline merge), with only one contributing entry visible in the Descriptions layout builder — users can't recreate this pattern from the UI. Building Group as a real 4th type (List/Text/Hook Block/Group): a creatable shell you assign existing blocks into as children (tight `\n` join, reorderable), which then becomes the single addable/removable card in the Descriptions layout. A block assigned to a group is exclusive to it (no longer independently placeable at the top level). Tag-scoped content (the per-tag "Modification:" log line, per-tag status lines) becomes a fixed non-editable "Generated" child type — visible/orderable, still edited in Tag Library.
+
+Phased rollout in the plan: **Phase 1** generic mechanism, validated on Closing Block (simplest, no tag content). **Phase 2** adds the Generated child type, migrates Log Notes. **Phase 3** migrates Broadcast Block (needs `fileId`/`operatorStatus` registry-ified first, same treatment `{logNote}` already got). Risk flagged in the plan: Log Notes' existing per-song override must stay scoped to the "Log Format" child, not promoted to a whole-group override, or existing saved overrides change behavior.
 
 ---
 

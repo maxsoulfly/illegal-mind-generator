@@ -39,10 +39,25 @@ function resolveOverrideText(override) {
   return null;
 }
 
+// {logNote} fills the log wrapper template's note slot — song override first
+// (formData.songBlockOverrides.logBlock, falling back to the legacy
+// formData.customLogNote field), else a random pick from the logNotes pool.
+// Registered here (rather than generateLogBlock.js hand-injecting it via
+// ctx.overrides) so any caller resolving templates.long.logBlock gets a
+// filled {logNote}, not just that one call site.
+function resolveLogNoteToken(ctx) {
+  const overrides = ctx.formData.songBlockOverrides || {};
+  const override = resolveOverrideText(overrides.logBlock) ?? resolveOverrideText(ctx.formData.customLogNote);
+  if (override) return override;
+
+  const logNotes = ctx.projectConfig?.description?.templates?.long?.logNotes || [];
+  return pickViableTemplate(logNotes, ctx)?.text ?? '';
+}
+
 // The generic placeholder set every engine (hooks, titles, descriptions) fills
-// identically. Tokens NOT listed here (num, coverLabel, fileId, operatorStatus,
-// logNote, ...) are domain-specific and stay handled by their own engine file —
-// leave them unresolved here so fillPlaceholders() doesn't shadow that behavior.
+// identically. Tokens NOT listed here (num, coverLabel, fileId, operatorStatus, ...)
+// are domain-specific and stay handled by their own engine file — leave them
+// unresolved here so fillPlaceholders() doesn't shadow that behavior.
 const REGISTRY = {
   artist: (ctx) => ctx.formData.artist || '',
   song: (ctx) => ctx.formData.song || '',
@@ -54,6 +69,7 @@ const REGISTRY = {
   primaryTag: (ctx) => ctx.primaryTag,
   originalGenre: (ctx) => pickOneGenre(ctx.formData.originalGenre),
   tagLine: (ctx) => ctx.tagLine || '',
+  logNote: (ctx) => resolveLogNoteToken(ctx),
 };
 
 // Every general-purpose token this system resolves — the single source of

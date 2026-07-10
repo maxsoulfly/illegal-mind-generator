@@ -1,6 +1,10 @@
 import { pickViableTemplate } from '../placeholders';
-import { getEffectiveSongOverrides, renderTextTemplate, resolveHookOverride } from './generateCustomBlocks';
 
+// {logNote} (the song override / logNotes pool pick) is resolved generically
+// by the placeholders registry now — this file only still needs its own
+// function for the tag-specific merge (selected tags' own description.log
+// lines joined with the project-level wrapper), the same pattern as
+// generateBroadcastBlock.js/generateTechnicalBlock.js.
 export function generateLogBlock(
   selectedTags,
   projectConfig,
@@ -15,23 +19,8 @@ export function generateLogBlock(
   const logLines = selectedTags.flatMap((tag) => getDescriptionTag(tag).log || []);
   const tagLogBlock = pickViableTemplate(logLines, ctx)?.text ?? '';
 
-  const logNotes = projectConfig?.description.templates?.long?.logNotes || [];
-  const defaultLogNote =
-    pickViableTemplate(logNotes, ctx)?.text ??
-    projectConfig?.description.templates?.long?.defaultLogNote ??
-    'Signal stabilized.';
-
-  const songOverrides = getEffectiveSongOverrides(formData);
-  const logOverride = resolveHookOverride(songOverrides.logBlock);
-  const logNote = logOverride
-    ? renderTextTemplate(logOverride, projectConfig, formData, tagLine)
-    : defaultLogNote;
-
-  const logTemplatePicked = pickViableTemplate(
-    projectConfig?.description.templates?.long?.logBlock || [],
-    { ...ctx, overrides: { logNote } },
-  );
-  const baseLogBlock = logTemplatePicked?.text ?? '';
+  const baseLogBlock =
+    pickViableTemplate(projectConfig?.description.templates?.long?.logBlock || [], ctx)?.text ?? '';
 
   return [baseLogBlock, tagLogBlock].filter(Boolean).join('\n');
 }

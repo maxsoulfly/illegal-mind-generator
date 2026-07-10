@@ -557,7 +557,8 @@
           "key": "logFormat",
           "label": "Log · Format",
           "path": "long",
-          "templateKey": "logBlock"
+          "templateKey": "logBlock",
+          "descriptionLayoutKey": "logBlock"
         },
         {
           "key": "tagLineFallbacks",
@@ -645,7 +646,6 @@
             "reconstructed into a {tags} state",
             "pushed toward a {tags} direction"
           ],
-          "defaultLogNote": "Signal stabilized under Illegal Mind control.",
           "logNotes": [
             "Signal stabilized under Illegal Mind control.",
             "Signal integrity maintained under manual override.",
@@ -2059,7 +2059,8 @@
           "key": "logFormat",
           "label": "Log · Format",
           "path": "long",
-          "templateKey": "logBlock"
+          "templateKey": "logBlock",
+          "descriptionLayoutKey": "logBlock"
         },
         {
           "key": "tagLineTemplates",
