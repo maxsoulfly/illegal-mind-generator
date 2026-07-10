@@ -512,7 +512,7 @@
           "label": "Story Block",
           "path": "long",
           "templateKey": "storyBlock",
-          "scope": true
+          "defaultScope": "song"
         },
         {
           "key": "broadcastHeader",
@@ -551,7 +551,7 @@
           "label": "Log · Notes",
           "path": "long",
           "templateKey": "logNotes",
-          "scope": true
+          "defaultScope": "song"
         },
         {
           "key": "tagLineFallbacks",
@@ -2031,7 +2031,7 @@
           "label": "Story Block",
           "path": "long",
           "templateKey": "storyBlock",
-          "scope": true
+          "defaultScope": "song"
         },
         {
           "key": "technicalLines",
@@ -2047,7 +2047,7 @@
           "label": "Log · Notes",
           "path": "long",
           "templateKey": "logNotes",
-          "scope": true
+          "defaultScope": "song"
         },
         {
           "key": "tagLineTemplates",

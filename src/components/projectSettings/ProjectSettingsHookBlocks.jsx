@@ -293,8 +293,12 @@ export default function ProjectSettingsHookBlocks({
     });
   }
 
-  function getScope(key) {
-    return overriddenLong.phraseBlockScopes?.[key] ?? 'project';
+  // defaultScope is per-block config (projects.json), not a hardcoded key
+  // check — storyBlock/logBlock set it to 'song' there since that's their
+  // historical default; every other hook block implicitly defaults to
+  // 'project'. Must match AdvancedDescriptionFields.jsx's precedence exactly.
+  function getScope(key, defaultScope) {
+    return overriddenLong.phraseBlockScopes?.[key] ?? defaultScope ?? 'project';
   }
 
   function updateScope(key, scope) {
@@ -409,8 +413,11 @@ export default function ProjectSettingsHookBlocks({
     });
   }
 
+  // Must include the layout-key namespace (descriptionLayoutKey) too, not
+  // just hook blocks' own storage keys — see ProjectSettingsTextBlocks.jsx.
   const existingKeys = [
     ...hookBlocks.map((b) => b.key),
+    ...hookBlocks.map((b) => b.descriptionLayoutKey ?? b.key),
     ...Object.keys(customBlocks),
   ];
 
@@ -426,7 +433,7 @@ export default function ProjectSettingsHookBlocks({
             key={key}
             label={effectiveLabel}
             templates={getTemplates(block)}
-            scope={getScope(key)}
+            scope={getScope(key, block.defaultScope)}
             target={getTarget(block)}
             overrideType={getOverrideType(key)}
             hasOverride={

@@ -23,6 +23,14 @@ export default function ProjectSettingsLists({
   const baseCustomBlocks =
     baseProjectConfig?.description?.templates?.long?.customBlocks || {};
   const linkKeys = Object.keys(projectConfig.description?.links || {});
+  const hookBlocks = projectConfig.description?.hookBlocks || [];
+  // See ProjectSettingsTextBlocks.jsx for why the hook-block layout-key
+  // namespace must be included here too.
+  const existingBlockKeys = [
+    ...Object.keys(customBlocks),
+    ...hookBlocks.map((b) => b.key),
+    ...hookBlocks.map((b) => b.descriptionLayoutKey ?? b.key),
+  ];
 
   const overriddenDesc = projectSettingsOverrides?.description || {};
   const overriddenCustomBlocks =
@@ -177,7 +185,7 @@ export default function ProjectSettingsLists({
       )}
 
       <AddListBlockForm
-        existingKeys={Object.keys(customBlocks)}
+        existingKeys={existingBlockKeys}
         onAdd={saveCustomBlock}
       />
     </>

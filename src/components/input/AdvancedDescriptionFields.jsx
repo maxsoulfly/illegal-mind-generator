@@ -53,27 +53,6 @@ function SongListBlockEditor({ items: initialItems, itemType, onChange, placehol
   );
 }
 
-// Built-in engine blocks that support per-song text overrides.
-// These are phrase-template blocks (not in customBlocks) so they're listed
-// explicitly here. The engine reads from songBlockOverrides for these keys
-// and falls back to the project-level template.
-const PHRASE_BLOCK_OVERRIDES = [
-  {
-    key: 'storyBlock',
-    label: 'Story',
-    rows: 5,
-    placeholder: 'Write a custom story paragraph... Supports {artist}, {song}, {tagLine}.',
-    placeholders: ['{artist}', '{song}', '{tagLine}'],
-  },
-  {
-    key: 'logBlock',
-    label: 'Log Note',
-    rows: 3,
-    placeholder: 'Write a custom operator/log note...',
-    placeholders: ['{artist}', '{song}', '{tagLine}'],
-  },
-];
-
 // Song-scoped blocks get a per-song override field here.
 // Text blocks: a textarea override (plain string).
 // List blocks: a mini list editor initialized from project defaults.
@@ -95,10 +74,13 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig, songOve
       (isTextBlock(block) || isListBlock(block)),
   );
 
-  const hardcodedPhraseKeys = new Set(PHRASE_BLOCK_OVERRIDES.map((b) => b.key));
+  // defaultScope (projects.json, per hook block) replaces any hardcoded
+  // key-name check — storyBlock/logBlock declare "defaultScope": "song" there
+  // since that's their historical default; everything else implicitly
+  // defaults to 'project'. Must match ProjectSettingsHookBlocks.jsx's getScope.
   const phraseBlockScopes = projectConfig?.description?.templates?.long?.phraseBlockScopes || {};
   const songScopeHookBlocks = (projectConfig?.description?.hookBlocks || [])
-    .filter((b) => !hardcodedPhraseKeys.has(b.key) && phraseBlockScopes[b.key] === 'song');
+    .filter((b) => (phraseBlockScopes[b.key] ?? b.defaultScope ?? 'project') === 'song');
 
   const textPlaceholders = [...HOOK_PLACEHOLDERS, ...linkKeys.map((key) => `{links.${key}}`)];
 
@@ -144,25 +126,6 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig, songOve
 
   return (
     <>
-      {PHRASE_BLOCK_OVERRIDES.filter(({ key }) => {
-        // Default 'song' (not 'project') — storyBlock/logBlock were always
-        // song-scoped before phraseBlockScopes existed, so absent = show.
-        const scope = projectConfig?.description?.templates?.long?.phraseBlockScopes?.[key] ?? 'song';
-        return scope === 'song';
-      }).map(({ key, label, rows, placeholder, placeholders }) => (
-        <details key={key} id={`song-override-${key}`} className={fieldClassName(key)}>
-          <summary>{label}</summary>
-          <PlaceholderField
-            multiline
-            rows={rows}
-            defaultValue={formData.songBlockOverrides?.[key] || ''}
-            onChange={(value) => updateOverride(key, value)}
-            placeholders={placeholders}
-            placeholder={placeholder}
-          />
-        </details>
-      ))}
-
       {songBlocks.map(([key, block]) => {
         const label = getBlockLabel(key, block);
 

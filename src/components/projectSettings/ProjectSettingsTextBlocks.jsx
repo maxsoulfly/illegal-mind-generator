@@ -18,6 +18,17 @@ export default function ProjectSettingsTextBlocks({
 }) {
   const longTemplates = projectConfig.description?.templates?.long || {};
   const customBlocks = longTemplates.customBlocks || {};
+  const hookBlocks = projectConfig.description?.hookBlocks || [];
+  // A new block's key must avoid every existing block's storage key AND every
+  // hook block's layout key (descriptionLayoutKey) — a List/Text block whose
+  // key happens to match a hook block's layout key gets silently orphaned
+  // from the Descriptions layout builder (resolveBlockSource/label resolvers
+  // check the hook-layout-key namespace first). See descriptionLayout.js.
+  const existingBlockKeys = [
+    ...Object.keys(customBlocks),
+    ...hookBlocks.map((b) => b.key),
+    ...hookBlocks.map((b) => b.descriptionLayoutKey ?? b.key),
+  ];
   const baseCustomBlocks =
     baseProjectConfig?.description?.templates?.long?.customBlocks || {};
   const linkKeys = Object.keys(projectConfig.description?.links || {});
@@ -146,7 +157,7 @@ export default function ProjectSettingsTextBlocks({
       })}
 
       <AddTextBlockForm
-        existingKeys={Object.keys(customBlocks)}
+        existingKeys={existingBlockKeys}
         onAdd={saveCustomBlock}
       />
     </>
