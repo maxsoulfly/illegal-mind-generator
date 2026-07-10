@@ -23,6 +23,8 @@ function InputForm({
   panelVisibility,
   togglePanel,
   projectOverrides,
+  songOverrideTarget,
+  clearSongOverrideTarget,
 }) {
   const {
     visibleTags,
@@ -91,6 +93,8 @@ function InputForm({
               formData={formData}
               setFormData={setFormData}
               projectConfig={projectConfig}
+              songOverrideTarget={songOverrideTarget}
+              clearSongOverrideTarget={clearSongOverrideTarget}
             />
           </div>
         </div>

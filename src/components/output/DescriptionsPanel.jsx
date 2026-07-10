@@ -13,6 +13,7 @@ function DescriptionLineLink({
   onOpenSourceTag,
   onOpenSourceHook,
   onOpenBlocksEditor,
+  onOpenSongOverride,
   getBlockKeyLabel,
   className = 'description-line-link',
 }) {
@@ -40,6 +41,24 @@ function DescriptionLineLink({
             highlightText,
           })
         }
+      >
+        {text}
+      </span>
+    );
+  }
+
+  if (source?.type === 'override') {
+    // A song-level override currently wins over the project's Hook/List/Text
+    // Blocks pool for this block — clicking scrolls to and highlights the
+    // actual override field in this song's Advanced Options panel (same page),
+    // not Project Settings, since that's where the visible text really came from.
+    const label = getBlockKeyLabel(source.blockKey);
+
+    return (
+      <span
+        className={className}
+        title={`Song override for ${label}`}
+        onClick={() => onOpenSongOverride?.({ blockKey: source.blockKey })}
       >
         {text}
       </span>
@@ -92,6 +111,7 @@ function DescriptionsPanel({
   onOpenSourceTag,
   onOpenSourceHook,
   onOpenBlocksEditor,
+  onOpenSongOverride,
   projectConfig,
   projectSettingsOverrides,
 }) {
@@ -129,6 +149,7 @@ function DescriptionsPanel({
                     onOpenSourceTag={onOpenSourceTag}
                     onOpenSourceHook={onOpenSourceHook}
                     onOpenBlocksEditor={onOpenBlocksEditor}
+                    onOpenSongOverride={onOpenSongOverride}
                     getBlockKeyLabel={getBlockKeyLabel}
                     className="description-block-link"
                   />
@@ -158,6 +179,7 @@ function DescriptionsPanel({
                           onOpenSourceTag={onOpenSourceTag}
                           onOpenSourceHook={onOpenSourceHook}
                           onOpenBlocksEditor={onOpenBlocksEditor}
+                          onOpenSongOverride={onOpenSongOverride}
                           getBlockKeyLabel={getBlockKeyLabel}
                         />
                       </Fragment>

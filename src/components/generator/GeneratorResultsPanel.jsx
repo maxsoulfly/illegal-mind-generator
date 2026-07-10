@@ -16,6 +16,7 @@ function GeneratorResultsPanel({
   onOpenSourceTemplate,
   onOpenSourceThumbnail,
   onOpenBlocksEditor,
+  onOpenSongOverride,
   onNavigateToSettings,
   useHooksForLongTitles,
   onToggleHooksForLongTitles,
@@ -82,6 +83,7 @@ function GeneratorResultsPanel({
           onOpenSourceTag={onOpenSourceTag}
           onOpenSourceHook={onOpenSourceHook}
           onOpenBlocksEditor={onOpenBlocksEditor}
+          onOpenSongOverride={onOpenSongOverride}
           projectConfig={projectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
         />

@@ -61,6 +61,17 @@ export function resolveHookOverride(override) {
   return null;
 }
 
+// True when a non-empty song override exists for this block key — mirrors the
+// exact truthiness renderCustomBlock/resolveHookOverride already use to decide
+// whether to use the override or fall back to the project-level pool. Used by
+// resolveBlockSource (descriptionLayout.js) so a description segment's source
+// isn't misattributed to the project pool when a song override actually won.
+export function isSongOverrideActive(songOverrides, blockKey) {
+  const override = songOverrides[blockKey];
+  if (Array.isArray(override?.items)) return override.items.length > 0;
+  return Boolean(resolveHookOverride(override));
+}
+
 export function renderTextTemplate(text, projectConfig, formData, tagLine) {
   return fillPlaceholders(text, { formData, projectConfig, tagLine }).text;
 }

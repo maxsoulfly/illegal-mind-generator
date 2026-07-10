@@ -2,7 +2,7 @@ import { generateShortDescriptions } from './generateShortDescriptions';
 import { generateBroadcastBlock } from './generateBroadcastBlock';
 import { generateTechnicalBlock } from './generateTechnicalBlock';
 import { generateLogBlock } from './generateLogBlock';
-import { generateCustomBlocks, getEffectiveSongOverrides, resolveHookBlockOutput, renderTextTemplate, resolveHookOverride, pickViableTemplate } from './generateCustomBlocks';
+import { generateCustomBlocks, getEffectiveSongOverrides, resolveHookBlockOutput, renderTextTemplate, resolveHookOverride, pickViableTemplate, isSongOverrideActive } from './generateCustomBlocks';
 import { buildTagLine, buildTagPhrase } from './descriptionTagHelpers';
 import { buildHookBlockMaps, resolveBlockSource } from '../../utils/descriptionLayout';
 
@@ -99,7 +99,11 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
           : resolveHookBlockOutput(blockName, ctx)?.text;
       }
       if (!text) return null;
-      const source = resolveBlockSource(blockName, { hookBlockMaps, customBlocks, supportBlockConfig });
+      // logBlock's override only fills the {logNote} placeholder inside a
+      // still-pool-picked template — it's a partial substitution, not a full
+      // replacement, so the Hook Blocks pool stays the accurate source for it.
+      const overridden = blockName !== 'logBlock' && isSongOverrideActive(songOverrides, blockName);
+      const source = resolveBlockSource(blockName, { hookBlockMaps, customBlocks, supportBlockConfig, overridden });
       return { text, source };
     })
     .filter(Boolean);

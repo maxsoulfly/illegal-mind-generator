@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import FormField from '../ui/FormField';
 import IconButton from '../ui/IconButton';
@@ -78,7 +78,12 @@ const PHRASE_BLOCK_OVERRIDES = [
 // Text blocks: a textarea override (plain string).
 // List blocks: a mini list editor initialized from project defaults.
 // Extend this loop (not a new mechanism) when Block Group gains song scope.
-function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
+//
+// songOverrideTarget/clearSongOverrideTarget (from useAppShellState's
+// openSongOverride) drive click-to-scroll from DescriptionsPanel: clicking a
+// song-overridden description block expands Advanced Options (already handled
+// by openSongOverride) and jumps here to the specific field that produced it.
+function SongBlockOverrideFields({ formData, setFormData, projectConfig, songOverrideTarget, clearSongOverrideTarget }) {
   const customBlocks = projectConfig?.description?.templates?.long?.customBlocks || {};
   const linkKeys = Object.keys(projectConfig?.description?.links || {});
 
@@ -97,6 +102,27 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
 
   const textPlaceholders = [...HOOK_PLACEHOLDERS, ...linkKeys.map((key) => `{links.${key}}`)];
 
+  // Auto-open + scroll to the targeted field. Runs after the fields below have
+  // rendered their `id`s, so a plain DOM lookup is simpler than juggling a ref
+  // per loop iteration across three separate .map() calls.
+  useEffect(() => {
+    if (!songOverrideTarget?.blockKey) return;
+    const el = document.getElementById(`song-override-${songOverrideTarget.blockKey}`);
+    if (!el) return;
+    el.open = true;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [songOverrideTarget]);
+
+  function isTargeted(key) {
+    return songOverrideTarget?.blockKey === key;
+  }
+
+  function fieldClassName(key) {
+    return isTargeted(key) ? 'tag-section tag-section--highlight' : 'tag-section';
+  }
+
+  // Highlight is "consumed" once the user actually edits or resets the field
+  // they were sent to — it's served its purpose (helping them find it).
   function updateOverride(key, value) {
     setFormData((prev) => ({
       ...prev,
@@ -105,6 +131,7 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
         [key]: value,
       },
     }));
+    if (isTargeted(key)) clearSongOverrideTarget?.();
   }
 
   function clearOverride(key) {
@@ -112,6 +139,7 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
       const { [key]: _removed, ...rest } = prev.songBlockOverrides || {};
       return { ...prev, songBlockOverrides: rest };
     });
+    if (isTargeted(key)) clearSongOverrideTarget?.();
   }
 
   return (
@@ -122,7 +150,7 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
         const scope = projectConfig?.description?.templates?.long?.phraseBlockScopes?.[key] ?? 'song';
         return scope === 'song';
       }).map(({ key, label, rows, placeholder, placeholders }) => (
-        <details key={key} className="tag-section">
+        <details key={key} id={`song-override-${key}`} className={fieldClassName(key)}>
           <summary>{label}</summary>
           <PlaceholderField
             multiline
@@ -145,7 +173,7 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
             : (block.items ?? []);
 
           return (
-            <details key={key} className="tag-section">
+            <details key={key} id={`song-override-${key}`} className={fieldClassName(key)}>
               <summary>
                 {label}
                 {hasOverride && (
@@ -171,7 +199,7 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
         }
 
         return (
-          <details key={key} className="tag-section">
+          <details key={key} id={`song-override-${key}`} className={fieldClassName(key)}>
             <summary>{label}</summary>
             <PlaceholderField
               multiline
@@ -193,7 +221,7 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig }) {
           ? formData.songBlockOverrides[overrideKey]
           : '';
         return (
-          <details key={block.key} className="tag-section">
+          <details key={block.key} id={`song-override-${overrideKey}`} className={fieldClassName(overrideKey)}>
             <summary>
               {block.label}
               {hasOverride && (
@@ -224,6 +252,8 @@ export default function AdvancedDescriptionFields({
   formData,
   setFormData,
   projectConfig,
+  songOverrideTarget,
+  clearSongOverrideTarget,
 }) {
   return (
     <div className="form-group">
@@ -246,6 +276,8 @@ export default function AdvancedDescriptionFields({
         formData={formData}
         setFormData={setFormData}
         projectConfig={projectConfig}
+        songOverrideTarget={songOverrideTarget}
+        clearSongOverrideTarget={clearSongOverrideTarget}
       />
     </div>
   );

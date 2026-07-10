@@ -1,4 +1,4 @@
-import { renderStructuredBlock, renderCustomBlock, getEffectiveSongOverrides, resolveHookBlockOutput, renderTextTemplate, resolveHookOverride, pickViableTemplate } from './generateCustomBlocks';
+import { renderStructuredBlock, renderCustomBlock, getEffectiveSongOverrides, resolveHookBlockOutput, renderTextTemplate, resolveHookOverride, pickViableTemplate, isSongOverrideActive } from './generateCustomBlocks';
 import { isListBlock } from '../../utils/customBlocks';
 import { buildHookBlockMaps } from '../../utils/descriptionLayout';
 
@@ -76,17 +76,26 @@ export function generateShortDescriptions(
         tagPhrase,
         songOverrides[blockName]?.trim(),
       );
+      const overridden = isSongOverrideActive(songOverrides, blockName);
       return {
         text,
-        source: text ? { type: 'block', blockKey: blockName, blockType: 'text' } : undefined,
+        source: !text
+          ? undefined
+          : overridden
+            ? { type: 'override', blockKey: blockName }
+            : { type: 'block', blockKey: blockName, blockType: 'text' },
       };
     }
 
+    // This branch only runs when a song override is active for a generic hook
+    // block (see the resolveHookBlockOutput fallback below for the non-overridden
+    // case) — the pool's own templates were never in play, so the source is the
+    // override itself, not the Hook Blocks pool.
     const hookSongOverride = resolveHookOverride(songOverrides[blockName]);
     if (hookSongOverride) {
       const text = renderTextTemplate(hookSongOverride, projectConfig, formData, tagPhrase);
       const blockKey = layoutKeyToBlockKey[blockName] ?? blockName;
-      return { text, source: text ? { type: 'block', blockKey, blockType: 'hook' } : undefined };
+      return { text, source: text ? { type: 'override', blockKey } : undefined };
     }
 
     // resolveHookBlockOutput already resolves+fills placeholders (filtering out

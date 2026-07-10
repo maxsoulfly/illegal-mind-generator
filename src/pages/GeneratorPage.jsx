@@ -45,6 +45,9 @@ export default function GeneratorPage({
   onOpenSourceThumbnail,
   onOpenBlocksEditor,
   onNavigateToSettings,
+  songOverrideTarget,
+  openSongOverride,
+  clearSongOverrideTarget,
 }) {
   const [inputFlash, setInputFlash] = useState(false);
 
@@ -125,6 +128,8 @@ export default function GeneratorPage({
             panelVisibility={panelVisibility}
             togglePanel={togglePanel}
             projectOverrides={projectOverrides}
+            songOverrideTarget={songOverrideTarget}
+            clearSongOverrideTarget={clearSongOverrideTarget}
           />
         </div>
         <GeneratorResultsPanel
@@ -140,6 +145,7 @@ export default function GeneratorPage({
           onOpenSourceThumbnail={onOpenSourceThumbnail}
           onOpenBlocksEditor={onOpenBlocksEditor}
           onNavigateToSettings={onNavigateToSettings}
+          onOpenSongOverride={openSongOverride}
           useHooksForLongTitles={useHooksForLongTitles}
           onToggleHooksForLongTitles={handleToggleHooksForLongTitles}
           titleUppercase={titleUppercase}

@@ -58,6 +58,9 @@ function App() {
     blocksTarget,
     openBlocksEditor,
     clearBlocksTarget,
+    songOverrideTarget,
+    openSongOverride,
+    clearSongOverrideTarget,
     activeProjectSettingsSection,
     setActiveProjectSettingsSection,
   } = useAppShellState();
@@ -185,6 +188,9 @@ function App() {
           onOpenSourceThumbnail={openThumbnailsSearch}
           onOpenBlocksEditor={openBlocksEditor}
           onNavigateToSettings={openProjectSettings}
+          songOverrideTarget={songOverrideTarget}
+          openSongOverride={openSongOverride}
+          clearSongOverrideTarget={clearSongOverrideTarget}
         />
       )}
       {/* Tag management and phrase editing */}

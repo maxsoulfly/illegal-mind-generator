@@ -86,6 +86,7 @@ export default function useAppShellState() {
   const [titlesTarget, setTitlesTarget] = useState(null);
   const [thumbnailsTarget, setThumbnailsTarget] = useState(null);
   const [blocksTarget, setBlocksTarget] = useState(null);
+  const [songOverrideTarget, setSongOverrideTarget] = useState(null);
 
   const [activeProjectSettingsSection, setActiveProjectSettingsSection] = useState(() => {
     const storage = loadAppStorage();
@@ -220,6 +221,19 @@ export default function useAppShellState() {
     setBlocksTarget(null);
   }, []);
 
+  // Same-page target (Generator's own Advanced Options panel, not Project
+  // Settings) — clicking a song-overridden description block scrolls to and
+  // highlights the field you'd actually edit to change it.
+  const openSongOverride = useCallback(({ blockKey }) => {
+    if (!blockKey) return;
+    setSongOverrideTarget({ blockKey });
+    setPanelVisibility((prev) => (prev.advanced ? prev : { ...prev, advanced: true }));
+  }, []);
+
+  const clearSongOverrideTarget = useCallback(() => {
+    setSongOverrideTarget(null);
+  }, []);
+
   const openTagLibrarySearch = (target) => {
     if (!target) return;
 
@@ -272,6 +286,9 @@ export default function useAppShellState() {
     blocksTarget,
     openBlocksEditor,
     clearBlocksTarget,
+    songOverrideTarget,
+    openSongOverride,
+    clearSongOverrideTarget,
     activeProjectSettingsSection,
     setActiveProjectSettingsSection,
   };
