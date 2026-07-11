@@ -1,4 +1,6 @@
 import { fillPlaceholders, pickViableTemplate } from '../placeholders';
+import { resolvePooledOutput } from '../pooling';
+import { findHookBlockByKey, resolveHookBlockTemplates } from '../hookBlockLookup';
 
 function replaceLinkPlaceholders(template, links = {}) {
   return template.replace(/\{links\.(.*?)\}/g, (_, key) => {
@@ -8,13 +10,6 @@ function replaceLinkPlaceholders(template, links = {}) {
 
 function pickRandomItem(items) {
   return [items[Math.floor(Math.random() * items.length)]];
-}
-
-// Picks up to `count` random, non-repeating lines from a pool (order not
-// preserved). Shared by every hook block that can output more than one line
-// per generation, so "randomly chosen" means the same thing everywhere.
-export function pickRandomLines(pool = [], count = 1) {
-  return [...pool].sort(() => 0.5 - Math.random()).slice(0, Math.max(0, count));
 }
 
 // Returns { text, pickedItem }. pickedItem is only set when displayMode is
@@ -130,38 +125,6 @@ export function renderCustomBlock(block, projectConfig, formData, tagLine, songO
   return '';
 }
 
-// Multiple hookBlocks entries can share one descriptionLayoutKey (e.g.
-// closingSignal/philosophyLine both point at 'closingBlock'). Prefer the
-// entry whose own `key` equals the requested key (the "self-named" one) —
-// this is what lets a Block Group child reference a specific sibling by its
-// own key even though that sibling also has a shared descriptionLayoutKey.
-// Groups with no self-named entry fall back to the first descriptionLayoutKey
-// match, same as before (mirrors buildHookBlockMaps's identical precedent).
-function findHookBlockByKey(hookBlocks, layoutKey) {
-  return (
-    hookBlocks.find((b) => b.key === layoutKey) ??
-    hookBlocks.find((b) => (b.descriptionLayoutKey ?? b.key) === layoutKey)
-  );
-}
-
-// Returns the templates array for a hook block identified by its layout key,
-// or null if the key doesn't match any hook block entry.
-export function resolveHookBlockTemplates(layoutKey, projectConfig) {
-  const hookBlocks = projectConfig.description?.hookBlocks || [];
-  const block = findHookBlockByKey(hookBlocks, layoutKey);
-  if (!block) return null;
-
-  const { path, templateKey } = block;
-  const long = projectConfig.description?.templates?.long || {};
-  const shorts = projectConfig.description?.templates?.shorts || {};
-  const desc = projectConfig.description || {};
-
-  if (path === 'long') return long[templateKey] || [];
-  if (path === 'top') return desc[templateKey] || [];
-  if (path === 'shorts') return shorts[templateKey] || [];
-  return [];
-}
-
 // Resolves a hook block identified by its layout key to its final rendered
 // output: 1+ randomly-picked lines (count comes from hookBlockCounts, capped
 // by hookBlockMaxLines/countMax), fully placeholder-filled and joined with
@@ -186,16 +149,7 @@ export function resolveHookBlockOutput(layoutKey, ctx) {
     ctx.projectConfig.description?.hookBlockCounts?.[block.key] ?? block.countDefault ?? 1;
   const count = Math.max(1, Math.min(configuredCount, maxLines, templates.length));
 
-  const resolved = templates.map((template) => ({ template, ...fillPlaceholders(template, ctx) }));
-  const viable = resolved.filter((r) => !r.hasEmpty);
-  if (viable.length === 0) return null;
-
-  const picked = pickRandomLines(viable, Math.min(count, viable.length));
-
-  return {
-    text: picked.map((r) => r.text).join('\n'),
-    template: picked.length === 1 ? picked[0].template : undefined,
-  };
+  return resolvePooledOutput(templates, ctx, fillPlaceholders, { count });
 }
 
 export function generateCustomBlocks(formData, projectConfig, tagLine) {

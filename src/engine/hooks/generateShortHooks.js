@@ -1,8 +1,5 @@
 import { fillPlaceholders, resolveTransformation } from '../placeholders';
-
-function shuffleArray(array) {
-  return [...array].sort(() => Math.random() - 0.5);
-}
+import { pickRandomLines } from '../pooling';
 
 function createBaseHook(template, type, ctx) {
   const { text, hasEmpty } = fillPlaceholders(template, ctx);
@@ -86,8 +83,7 @@ export function generateShortHooks(formData, projectConfig) {
       // rawText keeps the unwrapped hook text around — this same array is also
       // reused by generateTitles.js to mix hooks into Long titles, which needs
       // the Long prefix/suffix instead of the Shorts one baked into `text`.
-      const hooks = shuffleArray(hookPool)
-        .slice(0, 2)
+      const hooks = pickRandomLines(hookPool, 2)
         .map((hook) => ({
           ...hook,
           rawText: hook.text,

@@ -1,5 +1,5 @@
 import { fillPlaceholders, pickViableTemplate } from '../placeholders';
-import { pickRandomLines } from './generateCustomBlocks';
+import { resolvePooledOutput } from '../pooling';
 
 export function generateBroadcastBlock(formData, projectConfig, selectedTags) {
   const tagRegistry = projectConfig?.tags || {};
@@ -33,11 +33,7 @@ export function generateBroadcastBlock(formData, projectConfig, selectedTags) {
     projectConfig?.description?.statusLineCount ??
     2;
 
-  const resolvedStatus = combinedStatus.map((line) => ({ line, ...fillPlaceholders(line, ctx) }));
-  const viableStatus = resolvedStatus.filter((r) => !r.hasEmpty);
-  const statusBlock = pickRandomLines(viableStatus, Math.min(statusLineCount, viableStatus.length))
-    .map((r) => r.text)
-    .join('\n');
+  const statusBlock = resolvePooledOutput(combinedStatus, ctx, fillPlaceholders, { count: statusLineCount })?.text ?? '';
 
   const broadcastPicked = pickViableTemplate(
     projectConfig?.description.templates?.long?.broadcastHeader || [],

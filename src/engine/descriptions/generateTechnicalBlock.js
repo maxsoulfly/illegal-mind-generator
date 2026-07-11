@@ -1,5 +1,5 @@
 import { fillPlaceholders } from '../placeholders';
-import { pickRandomLines } from './generateCustomBlocks';
+import { resolvePooledOutput } from '../pooling';
 
 function pickRandom(arr = []) {
   return arr[Math.floor(Math.random() * arr.length)] || '';
@@ -41,11 +41,10 @@ export function generateTechnicalBlock(selectedTags, projectConfig, formData = {
     projectConfig?.description?.technicalLineCount ??
     3;
 
-  const resolvedRemaining = remainingPool.map((line) => ({ line, ...fillPlaceholders(line, ctx) }));
-  const viableRemaining = resolvedRemaining.filter((r) => !r.hasEmpty);
+  const remainingText =
+    resolvePooledOutput(remainingPool, ctx, fillPlaceholders, {
+      count: technicalLineCount - perTagLines.length,
+    })?.text ?? '';
 
-  const remaining = pickRandomLines(viableRemaining, technicalLineCount - perTagLines.length)
-    .map((r) => r.text);
-
-  return [...perTagLines, ...remaining].join('\n');
+  return [perTagLines.join('\n'), remainingText].filter(Boolean).join('\n');
 }
