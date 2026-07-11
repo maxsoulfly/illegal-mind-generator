@@ -107,6 +107,7 @@ function SavedLibrary({
             <div className="library-controls">
               <input
                 className="form-input"
+                type="search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search saved songs..."

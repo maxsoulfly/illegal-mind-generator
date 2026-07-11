@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import BlockEditorCard from './blocks/BlockEditorCard';
 import AddBlockForm from './blocks/AddBlockForm';
 import BlockInfoCard from '../ui/BlockInfoCard';
@@ -12,6 +14,31 @@ import { makeBlockKeyLabelResolver } from '../../utils/descriptionLayout';
 // it stops appearing independently in the Descriptions layout builder (see
 // LongDescriptionSettings.jsx/ShortsDescriptionSettings.jsx's groupChildKeys
 // filter) but stays fully editable wherever it normally lives.
+function AddChildList({ candidateKeys, getBlockKeyLabel, onAdd }) {
+  const [searchText, setSearchText] = useState('');
+  const visibleKeys = candidateKeys.filter((key) =>
+    getBlockKeyLabel(key).toLowerCase().includes(searchText.toLowerCase()),
+  );
+
+  return (
+    <>
+      <p className="desc-col-label">Add child</p>
+      <input
+        className="form-input"
+        type="search"
+        placeholder="Search..."
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+      />
+      <div className="desc-available-list">
+        {visibleKeys.map((key) => (
+          <BlockInfoCard key={key} label={getBlockKeyLabel(key)} onAdd={() => onAdd(key)} />
+        ))}
+      </div>
+    </>
+  );
+}
+
 export default function ProjectSettingsBlockGroups({
   projectConfig,
   projectSettingsOverrides = {},
@@ -162,18 +189,11 @@ export default function ProjectSettingsBlockGroups({
             </div>
 
             {candidateKeys.length > 0 && (
-              <>
-                <p className="desc-col-label">Add child</p>
-                <div className="desc-available-list">
-                  {candidateKeys.map((key) => (
-                    <BlockInfoCard
-                      key={key}
-                      label={getBlockKeyLabel(key)}
-                      onAdd={() => addChild(group, key)}
-                    />
-                  ))}
-                </div>
-              </>
+              <AddChildList
+                candidateKeys={candidateKeys}
+                getBlockKeyLabel={getBlockKeyLabel}
+                onAdd={(key) => addChild(group, key)}
+              />
             )}
           </BlockEditorCard>
         );

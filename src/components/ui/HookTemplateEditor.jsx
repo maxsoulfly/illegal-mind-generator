@@ -49,6 +49,7 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
     <>
       <input
         className="form-input"
+        type="search"
         placeholder="Search..."
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}

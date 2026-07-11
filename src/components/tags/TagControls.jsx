@@ -44,7 +44,7 @@ export default function TagControls({
 
       <div className="tag-search-row">
         <input
-          type="text"
+          type="search"
           className="form-input"
           placeholder="Search tags..."
           value={search}

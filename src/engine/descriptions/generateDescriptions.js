@@ -96,10 +96,7 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     .map((blockName) => {
       const text = resolveLayoutKey(blockName, ctx, blocks, songOverrides);
       if (!text) return null;
-      // logBlock's override only fills the {logNote} placeholder inside a
-      // still-pool-picked template — it's a partial substitution, not a full
-      // replacement, so the Hook Blocks pool stays the accurate source for it.
-      const overridden = blockName !== 'logBlock' && isSongOverrideActive(songOverrides, blockName);
+      const overridden = isSongOverrideActive(songOverrides, blockName);
       const source = resolveBlockSource(blockName, { hookBlockMaps, customBlocks, supportBlockConfig, blockGroupMaps, overridden });
       return { text, source };
     })

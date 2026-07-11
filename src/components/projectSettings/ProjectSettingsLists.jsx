@@ -116,6 +116,7 @@ export default function ProjectSettingsLists({
       {customBlockKeys.length + (supportBlockData ? 1 : 0) > 5 && (
         <input
           className="form-input links-registry-search"
+          type="search"
           placeholder="Search lists…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}

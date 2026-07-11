@@ -51,6 +51,7 @@ export default function LinksRegistryEditor({
     <section className="tag-editor-section">
       <input
         className="form-input links-registry-search"
+        type="search"
         placeholder="Search keys or URLs…"
         value={search}
         onChange={(e) => setSearch(e.target.value)}

@@ -104,6 +104,7 @@ export default function ProjectSettingsTextBlocks({
       {textBlockKeys.length > 5 && (
         <input
           className="form-input links-registry-search"
+          type="search"
           placeholder="Search text blocks…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}

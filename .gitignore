@@ -32,3 +32,6 @@ graphify-out/20*/
 *.njsproj
 *.sln
 *.sw?
+
+# Local to-do / checklist
+_checklist.md
