@@ -139,6 +139,9 @@ Shorts Description uses a `coverLabel` block that is only configurable by hand-e
 ### `customHashtags` is hardcoded
 The per-song custom hashtag field in `AdvancedDescriptionFields.jsx` is still a raw `formData.customHashtags` field, not part of the block override system. It predates the block system and needs separate design work.
 
+### Long description block-level click-nav can't distinguish a block's contributing pieces
+Raised 2026-07-12 after the Log Notes/Custom Placeholders work: the Log Notes segment in a generated Long description is really two independently-resolved pieces joined together (the "Log · Format" wrapper Hook Block + the `{custom.tagLogLine}` placeholder's pooled tag text) — see Custom Placeholders in Recently Completed. Clicking the segment today routes to one place at block-level granularity (a pre-existing limitation, not new — see the Long description tooltip work's "Known limitation" note further down this file), so the tag-sourced "Modification: ..."-style line has no click-through to either its config (Blocks → Placeholders) or its real text source (the contributing tag's Descriptions tab in Tag Library). Shorts descriptions already have real per-line source tracking (`shortDescriptionSegments`); Long does not. Not scoped or planned yet — would need real design (research the existing Shorts per-line mechanism as precedent) before touching code.
+
 ---
 
 ## Important Files
