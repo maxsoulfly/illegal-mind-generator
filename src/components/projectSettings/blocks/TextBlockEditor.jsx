@@ -19,6 +19,7 @@ export default function TextBlockEditor({
   onDelete,
   onRename,
   open,
+  placeholders: basePlaceholders = HOOK_PLACEHOLDERS,
 }) {
   const [block, setBlock] = useState(() => ({
     text: textOf(blockData),
@@ -55,7 +56,7 @@ export default function TextBlockEditor({
   }
 
   const placeholders = [
-    ...HOOK_PLACEHOLDERS,
+    ...basePlaceholders,
     ...linkKeys.map((key) => `{links.${key}}`),
   ];
 

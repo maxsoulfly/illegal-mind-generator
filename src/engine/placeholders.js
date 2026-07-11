@@ -50,7 +50,13 @@ function resolveOverrideText(override) {
 function resolveLogNoteToken(ctx) {
   const overrides = ctx.formData.songBlockOverrides || {};
   const override = resolveOverrideText(overrides.logBlock) ?? resolveOverrideText(ctx.formData.customLogNote);
-  if (override) return override;
+  if (override) {
+    // Guard against {logNote} appearing inside its own override text, which
+    // would otherwise recurse back into this same resolver forever — same
+    // precedent as resolveTransformationToken's _resolvingTransformation.
+    if (ctx._resolvingLogNote) return override;
+    return fillPlaceholders(override, { ...ctx, _resolvingLogNote: true }).text;
+  }
 
   const logNotes = ctx.projectConfig?.description?.templates?.long?.logNotes || [];
   return pickViableTemplate(logNotes, ctx)?.text ?? '';

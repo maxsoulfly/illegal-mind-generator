@@ -8,6 +8,7 @@ import {
   prettifyBlockKey,
   updateLongKey,
 } from '../../utils/customBlocks';
+import { buildHookPlaceholders } from '../../utils/hookPlaceholders';
 
 export default function ProjectSettingsTextBlocks({
   baseProjectConfig,
@@ -32,6 +33,7 @@ export default function ProjectSettingsTextBlocks({
   const baseCustomBlocks =
     baseProjectConfig?.description?.templates?.long?.customBlocks || {};
   const linkKeys = Object.keys(projectConfig.description?.links || {});
+  const placeholders = buildHookPlaceholders(projectConfig);
 
   const overriddenDesc = projectSettingsOverrides?.description || {};
   const overriddenLong =
@@ -135,6 +137,7 @@ export default function ProjectSettingsTextBlocks({
             defaultScope={known?.defaultScope || 'project'}
             defaultTarget={known?.defaultTarget || 'long'}
             linkKeys={linkKeys}
+            placeholders={placeholders}
             hasOverride={
               hasBaseDefault &&
               (!!overriddenCustomBlocks[blockKey] || !!blockLabelOverrides[blockKey])

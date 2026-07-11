@@ -16,22 +16,30 @@ function pickRandomItem(items) {
 // 'random' and an item was actually chosen — 'all' mode has no single winner
 // to point a source-navigation feature at, so callers should treat a missing
 // pickedItem as "nothing specific to highlight."
-export function renderStructuredBlock(block, links = {}) {
+// `ctx` ({ formData, projectConfig, tagLine }) fills every item's own
+// placeholders via fillPlaceholders — item.link keeps its separate
+// replaceLinkPlaceholders pass first (link-specific {links.*} substitution),
+// item.text/item.label go through the general resolver like every other
+// piece of template text in this file.
+export function renderStructuredBlock(block, ctx, links = {}) {
   if (!block || !block.items) return { text: '', pickedItem: undefined };
 
-  const title = block.title || '';
+  const title = block.title ? fillPlaceholders(block.title, ctx).text : '';
   const isRandom = block.displayMode === 'random' && block.items.length > 0;
   const sourceItems = isRandom ? pickRandomItem(block.items) : block.items;
 
   const items = sourceItems
     .map((item) => {
+      const label = item.label ? fillPlaceholders(item.label, ctx).text : '';
+
       if (item.link) {
         const link = replaceLinkPlaceholders(item.link, links);
-        return item.label ? `${item.label}: ${link}` : link;
+        return label ? `${label}: ${link}` : link;
       }
 
       if (item.text) {
-        return item.label ? `${item.label}: ${item.text}` : item.text;
+        const text = fillPlaceholders(item.text, ctx).text;
+        return label ? `${label}: ${text}` : text;
       }
 
       return '';
@@ -100,6 +108,7 @@ export function renderCustomBlock(block, projectConfig, formData, tagLine, songO
   if (songOverride && typeof songOverride === 'object' && Array.isArray(songOverride.items)) {
     return renderStructuredBlock(
       { ...block, items: songOverride.items },
+      { formData, projectConfig, tagLine },
       projectConfig.description.links,
     ).text;
   }
@@ -115,7 +124,7 @@ export function renderCustomBlock(block, projectConfig, formData, tagLine, songO
   if (typeof block !== 'object' || !block) return '';
 
   if (Array.isArray(block.items)) {
-    return renderStructuredBlock(block, projectConfig.description.links).text;
+    return renderStructuredBlock(block, { formData, projectConfig, tagLine }, projectConfig.description.links).text;
   }
 
   if (typeof block.text === 'string') {
@@ -169,6 +178,7 @@ export function generateCustomBlocks(formData, projectConfig, tagLine) {
 
   const supportBlock = renderStructuredBlock(
     supportBlockConfig,
+    { formData, projectConfig, tagLine },
     projectConfig.description.links,
   ).text;
 

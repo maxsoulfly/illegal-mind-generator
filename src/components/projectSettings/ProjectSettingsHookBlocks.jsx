@@ -1,6 +1,7 @@
 import HookTemplateEditor from '../ui/HookTemplateEditor';
 import BlockEditorCard from './blocks/BlockEditorCard';
 import AddBlockForm from './blocks/AddBlockForm';
+import { buildHookPlaceholders } from '../../utils/hookPlaceholders';
 
 // Hook block definitions live in projects.json → description.hookBlocks.
 // Each entry: { key, label, path, templateKey, scope?, countMax?, countDefault?, descriptionLayoutKey? }
@@ -33,6 +34,7 @@ function HookBlockEditor({
   onCountChange,
   open,
   highlightText,
+  placeholders,
 }) {
   const pct =
     maxLines > 1 ? `${((countValue - 1) / (maxLines - 1)) * 100}%` : '0%';
@@ -105,6 +107,7 @@ function HookBlockEditor({
         templates={templates}
         onUpdateTemplates={onUpdateTemplates}
         highlightText={highlightText}
+        placeholders={placeholders}
         noWrapper
       />
     </BlockEditorCard>
@@ -362,6 +365,7 @@ export default function ProjectSettingsHookBlocks({
 
   const hookBlocks = projectConfig.description?.hookBlocks || [];
   const customBlocks = projectConfig.description?.templates?.long?.customBlocks || {};
+  const placeholders = buildHookPlaceholders(projectConfig);
   const dynamicHookBlockKeys = new Set(
     (overriddenDesc.customHookBlocks || []).map((b) => b.key),
   );
@@ -479,6 +483,7 @@ export default function ProjectSettingsHookBlocks({
             onCountChange={(val) => updateCount(key, val)}
             open={openBlockKey === key}
             highlightText={openBlockKey === key ? highlightText : null}
+            placeholders={placeholders}
           />
         );
       })}

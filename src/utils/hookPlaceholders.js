@@ -34,3 +34,14 @@ export const HOOK_PLACEHOLDERS = [
 // Matches the {tag} substitution generateThumbnails.js's buildGenericTagThumbnailPhrases
 // applies. Thumbnail words/fallbacks support no placeholders at all (literal text only).
 export const THUMBNAIL_TAG_PLACEHOLDER = ['{tag}'];
+
+// HOOK_PLACEHOLDERS plus any project-defined Custom Placeholders
+// (description.placeholders — see ProjectSettingsPlaceholders.jsx /
+// placeholders.js's resolveCustomPlaceholder), so their {custom.<key>}
+// tokens show up in the same autocomplete. Call sites that don't have a
+// projectConfig handy (or don't need per-project awareness) can keep using
+// the static HOOK_PLACEHOLDERS unchanged.
+export function buildHookPlaceholders(projectConfig) {
+  const customTokens = (projectConfig?.description?.placeholders || []).map((p) => `{custom.${p.key}}`);
+  return [...HOOK_PLACEHOLDERS, ...customTokens];
+}

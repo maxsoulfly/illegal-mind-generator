@@ -4,7 +4,7 @@ import FormField from '../ui/FormField';
 import IconButton from '../ui/IconButton';
 import PlaceholderField from '../ui/PlaceholderField';
 import { isTextBlock, isListBlock, getBlockLabel, detectItemType } from '../../utils/customBlocks';
-import { HOOK_PLACEHOLDERS } from '../../utils/hookPlaceholders';
+import { buildHookPlaceholders } from '../../utils/hookPlaceholders';
 
 
 function SongListBlockEditor({ items: initialItems, itemType, onChange, placeholders = [] }) {
@@ -82,7 +82,7 @@ function SongBlockOverrideFields({ formData, setFormData, projectConfig, songOve
   const songScopeHookBlocks = (projectConfig?.description?.hookBlocks || [])
     .filter((b) => (phraseBlockScopes[b.key] ?? b.defaultScope ?? 'project') === 'song');
 
-  const textPlaceholders = [...HOOK_PLACEHOLDERS, ...linkKeys.map((key) => `{links.${key}}`)];
+  const textPlaceholders = [...buildHookPlaceholders(projectConfig), ...linkKeys.map((key) => `{links.${key}}`)];
 
   // Auto-open + scroll to the targeted field. Runs after the fields below have
   // rendered their `id`s, so a plain DOM lookup is simpler than juggling a ref

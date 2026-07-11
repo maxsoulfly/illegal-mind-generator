@@ -57,7 +57,7 @@ export function generateShortDescriptions(
     }
 
     if (isListBlock(customBlocks[blockName])) {
-      const { text: rendered, pickedItem } = renderStructuredBlock(customBlocks[blockName], projectConfig.description.links);
+      const { text: rendered, pickedItem } = renderStructuredBlock(customBlocks[blockName], ctx, projectConfig.description.links);
       // Pad list blocks with blank lines so they stand apart from the
       // single-newline-joined surrounding lines.
       return {
