@@ -23,6 +23,8 @@ function HookBlockEditor({
   onUpdateTemplates,
   onReset,
   onDelete,
+  isCore,
+  onToggleCore,
   onRename,
   onScopeChange,
   onTargetChange,
@@ -46,6 +48,8 @@ function HookBlockEditor({
       hasOverride={hasOverride}
       onReset={onReset}
       onDelete={onDelete}
+      isCore={isCore}
+      onToggleCore={onToggleCore}
       onRename={onRename}
       open={open}
     >
@@ -362,6 +366,21 @@ export default function ProjectSettingsHookBlocks({
     (overriddenDesc.customHookBlocks || []).map((b) => b.key),
   );
 
+  function getHookBlockCore(key) {
+    return (overriddenDesc.customHookBlocks || []).find((b) => b.key === key)?.isCore || false;
+  }
+
+  function toggleHookBlockCore(key) {
+    updateProjectOverride({
+      description: {
+        ...overriddenDesc,
+        customHookBlocks: (overriddenDesc.customHookBlocks || []).map((b) =>
+          b.key === key ? { ...b, isCore: !b.isCore } : b,
+        ),
+      },
+    });
+  }
+
   function addHookBlock(key, name, scope, target) {
     const templates_ = projectSettingsOverrides.description?.templates || {};
     updateProjectOverride({
@@ -369,7 +388,7 @@ export default function ProjectSettingsHookBlocks({
         ...overriddenDesc,
         customHookBlocks: [
           ...(overriddenDesc.customHookBlocks || []),
-          { key, label: name },
+          { key, label: name, isCore: false },
         ],
         hookBlockTargets: { ...(overriddenDesc.hookBlockTargets || {}), [key]: target },
         templates: {
@@ -387,6 +406,7 @@ export default function ProjectSettingsHookBlocks({
   }
 
   function deleteHookBlock(key) {
+    if (getHookBlockCore(key)) return;
     if (!window.confirm(`Delete this hook block? This cannot be undone.`)) return;
     const templates_ = projectSettingsOverrides.description?.templates || {};
     const { [key]: _tpl, ...remainingLongBase } = overriddenLong;
@@ -445,6 +465,8 @@ export default function ProjectSettingsHookBlocks({
             onUpdateTemplates={(t) => updateTemplates(block, t)}
             onReset={!isDynamic ? () => resetBlock(block) : undefined}
             onDelete={isDynamic ? () => deleteHookBlock(key) : undefined}
+            isCore={isDynamic ? getHookBlockCore(key) : undefined}
+            onToggleCore={isDynamic ? () => toggleHookBlockCore(key) : undefined}
             onRename={
               isDynamic
                 ? (newLabel) => renameDynamicBlock(key, newLabel)

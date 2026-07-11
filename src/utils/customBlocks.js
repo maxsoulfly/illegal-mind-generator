@@ -19,6 +19,7 @@ export const BLOCK_TYPE_SUBTABS = {
   text: { subTab: 'text',  label: 'Text Blocks' },
   hook: { subTab: 'hooks', label: 'Hook Blocks' },
   group: { subTab: 'groups', label: 'Groups' },
+  placeholder: { subTab: 'placeholders', label: 'Placeholders' },
 };
 
 // Metadata for built-in customBlocks keys. Anything not listed here is a

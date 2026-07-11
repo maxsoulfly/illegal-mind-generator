@@ -101,12 +101,13 @@ export default function ProjectSettingsBlockGroups({
     updateProjectOverride({ description: { ...overriddenDesc, blockGroupOverrides: remaining } });
   }
 
-  function deleteGroup(key) {
+  function deleteGroup(group) {
+    if (group.isCore) return;
     if (!window.confirm('Delete this block group? Its children become independently placeable again. This cannot be undone.')) return;
     updateProjectOverride({
       description: {
         ...overriddenDesc,
-        customBlockGroups: (overriddenDesc.customBlockGroups || []).filter((g) => g.key !== key),
+        customBlockGroups: (overriddenDesc.customBlockGroups || []).filter((g) => g.key !== group.key),
       },
     });
   }
@@ -117,7 +118,7 @@ export default function ProjectSettingsBlockGroups({
         ...overriddenDesc,
         customBlockGroups: [
           ...(overriddenDesc.customBlockGroups || []),
-          { key, label: name, scope, target, children: [] },
+          { key, label: name, scope, target, children: [], isCore: false },
         ],
       },
     });
@@ -163,7 +164,9 @@ export default function ProjectSettingsBlockGroups({
             onTargetChange={(val) => patchGroup(group, { target: val })}
             hasOverride={!dynamic && !!overriddenDesc.blockGroupOverrides?.[group.key]}
             onReset={!dynamic ? () => resetGroup(group.key) : undefined}
-            onDelete={dynamic ? () => deleteGroup(group.key) : undefined}
+            onDelete={dynamic ? () => deleteGroup(group) : undefined}
+            isCore={dynamic ? group.isCore : undefined}
+            onToggleCore={dynamic ? () => patchGroup(group, { isCore: !group.isCore }) : undefined}
             onRename={(newLabel) => patchGroup(group, { label: newLabel })}
             open={openBlockKey === group.key}
           >

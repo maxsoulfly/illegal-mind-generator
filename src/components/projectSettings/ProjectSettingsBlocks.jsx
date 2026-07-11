@@ -3,6 +3,7 @@ import ProjectSettingsLists from './ProjectSettingsLists';
 import ProjectSettingsTextBlocks from './ProjectSettingsTextBlocks';
 import ProjectSettingsHookBlocks from './ProjectSettingsHookBlocks';
 import ProjectSettingsBlockGroups from './ProjectSettingsBlockGroups';
+import ProjectSettingsPlaceholders from './ProjectSettingsPlaceholders';
 import { BLOCK_TYPE_SUBTABS } from '../../utils/customBlocks';
 
 const BLOCKS_SUBTABS = Object.values(BLOCK_TYPE_SUBTABS).map(({ subTab, label }) => ({
@@ -78,6 +79,15 @@ export default function ProjectSettingsBlocks({
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}
           openBlockKey={blocksTarget?.subTab === 'groups' ? blocksTarget.blockKey : null}
+        />
+      )}
+
+      {activeSubTab === 'placeholders' && (
+        <ProjectSettingsPlaceholders
+          projectConfig={projectConfig}
+          projectSettingsOverrides={projectSettingsOverrides}
+          updateProjectOverride={updateProjectOverride}
+          openBlockKey={blocksTarget?.subTab === 'placeholders' ? blocksTarget.blockKey : null}
         />
       )}
     </>

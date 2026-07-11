@@ -76,16 +76,20 @@ export default function BlockEditorCard({
           {badge && <span className="tag-status">{badge}</span>}
         </div>
         <div className="links-editor-badges">
-          <FormSelect
-            value={scope}
-            onChange={onScopeChange}
-            options={SCOPE_OPTIONS}
-          />
-          <FormSelect
-            value={target}
-            onChange={onTargetChange}
-            options={TARGET_OPTIONS}
-          />
+          {onScopeChange && (
+            <FormSelect
+              value={scope}
+              onChange={onScopeChange}
+              options={SCOPE_OPTIONS}
+            />
+          )}
+          {onTargetChange && (
+            <FormSelect
+              value={target}
+              onChange={onTargetChange}
+              options={TARGET_OPTIONS}
+            />
+          )}
           <BlockActions
             hasOverride={hasOverride}
             onReset={onReset}
