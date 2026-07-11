@@ -1,10 +1,10 @@
 import { generateShortDescriptions } from './generateShortDescriptions';
 import { generateBroadcastBlock } from './generateBroadcastBlock';
 import { generateTechnicalBlock } from './generateTechnicalBlock';
-import { generateLogBlock } from './generateLogBlock';
-import { generateCustomBlocks, generateBlockGroups, getEffectiveSongOverrides, resolveLayoutKey, renderTextTemplate, resolveHookOverride, pickViableTemplate, isSongOverrideActive } from './generateCustomBlocks';
+import { generateCustomBlocks, generateBlockGroups, getEffectiveSongOverrides, resolveLayoutKey, renderTextTemplate, resolveHookOverride, pickViableTemplate, isSongOverrideActive, resolveHookBlockOutput } from './generateCustomBlocks';
 import { buildTagLine, buildTagPhrase } from './descriptionTagHelpers';
 import { buildHookBlockMaps, buildBlockGroupMaps, resolveBlockSource } from '../../utils/descriptionLayout';
+import { fillPlaceholders } from '../placeholders';
 
 export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const tagLine = buildTagLine(formData, projectConfig);
@@ -47,12 +47,21 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const technicalBlock = generateTechnicalBlock(selectedTags, projectConfig, formData);
 
   // --- Log block ---
-  const logBlock = generateLogBlock(
-    selectedTags,
-    projectConfig,
-    formData,
-    tagLine,
-  );
+  // "Log · Format" (the wrapper, e.g. "Production Note:\n {logNote}") and the
+  // per-tag log line are two independently-resolved pieces joined here, not
+  // one merged template — embedding {custom.tagLogLine} directly inside the
+  // wrapper would make the whole wrapper vanish whenever a selected tag has
+  // no log phrases (any placeholder that resolves empty drops its candidate
+  // template, see placeholders.js), and both projects' logBlock pool
+  // currently has only one template with no fallback to fall back to.
+  // logCtx overrides tagLine (not tagPhrase, unlike the shared ctx above) to
+  // exactly match generateLogBlock.js's prior behavior — Illegal Mind's
+  // wrapper references {tagLine} directly.
+  const logCtx = { ...ctx, tagLine };
+  const logBlock = [
+    resolveHookBlockOutput('logFormat', logCtx)?.text,
+    fillPlaceholders('{custom.tagLogLine}', logCtx).text,
+  ].filter(Boolean).join('\n');
 
   // --- Long description ---
   if (!projectConfig?.description.templates?.long?.layout) {

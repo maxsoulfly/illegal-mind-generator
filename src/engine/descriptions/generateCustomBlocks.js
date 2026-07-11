@@ -205,10 +205,13 @@ export function resolveLayoutKey(key, ctx, blocks, songOverrides) {
 
 // Resolves every configured Block Group to its joined text: each 'block'
 // child is resolved through resolveLayoutKey; joined tight with '\n',
-// matching the bespoke merges (generateBroadcastBlock.js, generateLogBlock.js,
-// the old inline closingBlock join) this type replaces. 'generated' children
-// (tag-scoped content) aren't implemented yet — Phase 2. Returns a
-// { [group.key]: text } map ready to spread into the `blocks` map.
+// matching the bespoke merges (generateBroadcastBlock.js, the old inline
+// closingBlock join) this type replaces. A 'generated' child type (tag-scoped
+// content as a visible/orderable Group child) was planned but superseded by
+// Custom Placeholders (src/engine/placeholders.js's resolveCustomPlaceholder)
+// — see the Log block's own resolution in generateDescriptions.js for the
+// pattern that replaced it. Returns a { [group.key]: text } map ready to
+// spread into the `blocks` map.
 export function generateBlockGroups(blockGroups, ctx, blocks, songOverrides) {
   return Object.fromEntries(
     blockGroups.map((group) => {

@@ -630,6 +630,15 @@
         }
       ],
 
+      "placeholders": [
+        {
+          "key": "tagLogLine",
+          "label": "Tag · Log Line",
+          "source": { "tagParentField": "description", "tagField": "log" },
+          "count": 1
+        }
+      ],
+
       "templates": {
         "long": {
           "layout": [
@@ -2111,6 +2120,15 @@
         }
       ],
       "operatorStatuses": [],
+
+      "placeholders": [
+        {
+          "key": "tagLogLine",
+          "label": "Tag · Log Line",
+          "source": { "tagParentField": "description", "tagField": "log" },
+          "count": 1
+        }
+      ],
 
       "templates": {
         "long": {

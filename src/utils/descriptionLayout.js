@@ -17,9 +17,9 @@ export const KNOWN_SHORTS_BLOCK_META = {
 // broadcastHeader/operatorStatuses/statusLines all point at 'broadcastBlock').
 // Plain last-one-wins is fine when every entry in the group genuinely
 // contributes to that block's generation — but logBlock's group also includes
-// tagLineFallbacks/tagLineTemplates, which generateLogBlock.js never reads at
-// all, so last-wins was landing on a config key with zero relation to the
-// actual generated text. Prefer the entry whose own `key` equals the layout
+// tagLineFallbacks/tagLineTemplates, which the log block's own resolution
+// never reads at all, so last-wins was landing on a config key with zero
+// relation to the actual generated text. Prefer the entry whose own `key` equals the layout
 // key (the "self-named" one, e.g. logBlock's own entry) when one exists —
 // groups with no self-named entry (broadcastBlock, closingBlock) keep the
 // existing last-one-wins behavior unchanged.

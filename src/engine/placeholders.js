@@ -44,9 +44,9 @@ function resolveOverrideText(override) {
 // {logNote} fills the log wrapper template's note slot — song override first
 // (formData.songBlockOverrides.logBlock, falling back to the legacy
 // formData.customLogNote field), else a random pick from the logNotes pool.
-// Registered here (rather than generateLogBlock.js hand-injecting it via
-// ctx.overrides) so any caller resolving templates.long.logBlock gets a
-// filled {logNote}, not just that one call site.
+// Registered here (rather than hand-injected via ctx.overrides at one call
+// site) so any caller resolving templates.long.logBlock gets a filled
+// {logNote}, not just the Log block's own resolution in generateDescriptions.js.
 function resolveLogNoteToken(ctx) {
   const overrides = ctx.formData.songBlockOverrides || {};
   const override = resolveOverrideText(overrides.logBlock) ?? resolveOverrideText(ctx.formData.customLogNote);
