@@ -578,15 +578,13 @@
           "key": "closingSignal",
           "label": "Closing · Signal",
           "path": "long",
-          "templateKey": "closingSignal",
-          "descriptionLayoutKey": "closingBlock"
+          "templateKey": "closingSignal"
         },
         {
           "key": "philosophyLine",
           "label": "Closing · Philosophy",
           "path": "long",
-          "templateKey": "philosophyLine",
-          "descriptionLayoutKey": "closingBlock"
+          "templateKey": "philosophyLine"
         },
         {
           "key": "shortsHeader",
@@ -616,6 +614,19 @@
           "templateKey": "transformationBlock",
           "countMax": 1,
           "countDefault": 1
+        }
+      ],
+
+      "blockGroups": [
+        {
+          "key": "closingBlock",
+          "label": "Closing",
+          "scope": "project",
+          "target": "long",
+          "children": [
+            { "type": "block", "key": "closingSignal" },
+            { "type": "block", "key": "philosophyLine" }
+          ]
         }
       ],
 

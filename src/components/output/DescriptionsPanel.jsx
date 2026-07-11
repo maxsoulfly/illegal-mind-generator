@@ -2,7 +2,7 @@ import { Fragment, useMemo } from 'react';
 
 import OutputItem from '../ui/OutputItem';
 import CollapsiblePanel from '../ui/CollapsiblePanel';
-import { makeBlockKeyLabelResolver } from '../../utils/descriptionLayout';
+import { makeBlockKeyLabelResolver, buildBlockGroupMaps } from '../../utils/descriptionLayout';
 import { BLOCK_TYPE_SUBTABS } from '../../utils/customBlocks';
 
 // Mirrors GeneratedTitle/ThumbnailsPanel's inline nav-link pattern: branch on
@@ -118,11 +118,14 @@ function DescriptionsPanel({
   const getBlockKeyLabel = useMemo(() => {
     const overriddenDesc = projectSettingsOverrides?.description || {};
 
+    const blockGroupMaps = buildBlockGroupMaps(projectConfig?.description?.blockGroups || []);
+
     return makeBlockKeyLabelResolver({
       hookBlocks: projectConfig?.description?.hookBlocks || [],
       hookBlockLabelOverrides: overriddenDesc.hookBlockLabelOverrides || {},
       blockLabelOverrides: overriddenDesc.blockLabelOverrides || {},
       customBlocks: projectConfig?.description?.templates?.long?.customBlocks || {},
+      blockGroupLabelMap: blockGroupMaps.labelMap,
     });
   }, [projectConfig, projectSettingsOverrides]);
 

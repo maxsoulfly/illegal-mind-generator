@@ -4,7 +4,7 @@ import SubTabNav from '../../ui/SubTabNav';
 import MoveControls from '../../ui/MoveControls';
 import IconButton from '../../ui/IconButton';
 import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../../utils/customBlocks';
-import { buildHookBlockMaps, makeLayoutLabelResolver, resolveBlockSource } from '../../../utils/descriptionLayout';
+import { buildHookBlockMaps, buildBlockGroupMaps, makeLayoutLabelResolver, resolveBlockSource } from '../../../utils/descriptionLayout';
 
 const MOBILE_COLUMN_TABS = [
   { id: 'layout', label: 'Layout' },
@@ -41,6 +41,8 @@ export default function LongDescriptionSettings({
   const hookBlocks = projectConfig.description?.hookBlocks || [];
 
   const { allLayoutKeys: allHookBlockLayoutKeys, labelMap, layoutKeyToBlockKey } = buildHookBlockMaps(hookBlocks);
+  const blockGroups = projectConfig.description?.blockGroups || [];
+  const blockGroupMaps = buildBlockGroupMaps(blockGroups);
   const hookBlockLabelOverrides = overriddenDesc.hookBlockLabelOverrides || {};
   const blockLabelOverrides     = overriddenDesc.blockLabelOverrides     || {};
   const getLayoutBlockLabel = makeLayoutLabelResolver({
@@ -50,6 +52,7 @@ export default function LongDescriptionSettings({
     blockLabelOverrides,
     knownMeta: KNOWN_BLOCK_META,
     customBlocks,
+    blockGroupLabelMap: blockGroupMaps.labelMap,
   });
 
   const defaultLayout =
@@ -57,8 +60,16 @@ export default function LongDescriptionSettings({
   const activeKeys =
     projectSettingsOverrides.description?.templates?.long?.layout ?? defaultLayout;
 
+  // A block assigned to a Group is exclusive to it — no longer independently
+  // placeable at the top level (still fully editable wherever it normally
+  // lives, e.g. the Hook Blocks tab).
+  const groupChildKeys = new Set(
+    blockGroups.flatMap((g) => g.children.filter((c) => c.type === 'block').map((c) => c.key)),
+  );
+
   const dynamicBlockKeys = Object.keys(customBlocks).filter((key) => {
     if (defaultLayout.includes(key)) return false;
+    if (groupChildKeys.has(key)) return false;
     if (!isListBlock(customBlocks[key]) && !isTextBlock(customBlocks[key])) return false;
     const blockData = customBlocks[key];
     const target = (typeof blockData === 'object' && blockData?.target) || 'long';
@@ -74,12 +85,19 @@ export default function LongDescriptionSettings({
       return target === 'long' || target === 'both';
     })
     .map((b) => b.descriptionLayoutKey ?? b.key)
-    .filter((k) => !defaultLayout.includes(k));
+    .filter((k) => !defaultLayout.includes(k) && !groupChildKeys.has(k));
+
+  // Groups eligible for Long, not already in defaultLayout (user-created ones
+  // — a JSON-default group like closingBlock is already part of defaultLayout).
+  const groupKeys = blockGroups
+    .filter((g) => !defaultLayout.includes(g.key) && (g.target === 'long' || g.target === 'both'))
+    .map((g) => g.key);
 
   const availableKeys = [
     ...defaultLayout,
     ...dynamicBlockKeys,
     ...hookBlockAvailableKeys,
+    ...groupKeys,
   ].filter((k) => !activeKeys.includes(k));
 
   // Infinity so dynamic/user-created blocks (not in defaultLayout) sort to the end on Reset Order.
@@ -140,6 +158,7 @@ export default function LongDescriptionSettings({
       hookBlockMaps: { allLayoutKeys: allHookBlockLayoutKeys, layoutKeyToBlockKey },
       customBlocks,
       supportBlockConfig: longTemplates.supportBlock,
+      blockGroupMaps,
     });
     if (!source) return undefined;
     const subTab = BLOCK_TYPE_SUBTABS[source.blockType]?.subTab;

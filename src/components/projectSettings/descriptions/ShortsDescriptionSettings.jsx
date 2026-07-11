@@ -5,7 +5,7 @@ import SubTabNav from '../../ui/SubTabNav';
 import MoveControls from '../../ui/MoveControls';
 import IconButton from '../../ui/IconButton';
 import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../../utils/customBlocks';
-import { buildHookBlockMaps, makeLayoutLabelResolver, resolveBlockSource, KNOWN_SHORTS_BLOCK_META } from '../../../utils/descriptionLayout';
+import { buildHookBlockMaps, buildBlockGroupMaps, makeLayoutLabelResolver, resolveBlockSource, KNOWN_SHORTS_BLOCK_META } from '../../../utils/descriptionLayout';
 
 const MOBILE_COLUMN_TABS = [
   { id: 'layout', label: 'Layout' },
@@ -30,6 +30,8 @@ export default function ShortsDescriptionSettings({
     projectConfig.description?.templates?.long?.customBlocks || {};
 
   const hookBlocks = projectConfig.description?.hookBlocks || [];
+  const blockGroups = projectConfig.description?.blockGroups || [];
+  const blockGroupMaps = buildBlockGroupMaps(blockGroups);
 
   const { allLayoutKeys: allHookBlockLayoutKeys, labelMap, layoutKeyToBlockKey } = buildHookBlockMaps(hookBlocks);
   const hookBlockLabelOverrides = overriddenDesc.hookBlockLabelOverrides || {};
@@ -41,6 +43,7 @@ export default function ShortsDescriptionSettings({
     blockLabelOverrides,
     knownMeta: KNOWN_SHORTS_BLOCK_META,
     customBlocks,
+    blockGroupLabelMap: blockGroupMaps.labelMap,
   });
 
   const count = overriddenShorts.count ?? shortsConfig.count ?? 3;
@@ -51,8 +54,16 @@ export default function ShortsDescriptionSettings({
 
   const activeKeys = overriddenShorts.layout ?? defaultLayout;
 
+  // A block assigned to a Group is exclusive to it — no longer independently
+  // placeable at the top level. No group currently targets Shorts, but this
+  // keeps the two Description settings pages from drifting apart.
+  const groupChildKeys = new Set(
+    blockGroups.flatMap((g) => g.children.filter((c) => c.type === 'block').map((c) => c.key)),
+  );
+
   const dynamicBlockKeys = Object.keys(customBlocks).filter((key) => {
     if (defaultLayout.includes(key)) return false;
+    if (groupChildKeys.has(key)) return false;
     if (!isListBlock(customBlocks[key]) && !isTextBlock(customBlocks[key])) return false;
     const blockData = customBlocks[key];
     const target = (typeof blockData === 'object' && blockData?.target) || 'long';
@@ -69,12 +80,18 @@ export default function ShortsDescriptionSettings({
       return target === 'shorts' || target === 'both';
     })
     .map((b) => b.descriptionLayoutKey ?? b.key)
-    .filter((k) => !defaultLayout.includes(k));
+    .filter((k) => !defaultLayout.includes(k) && !groupChildKeys.has(k));
+
+  // Groups eligible for Shorts, not already in defaultLayout.
+  const groupKeys = blockGroups
+    .filter((g) => !defaultLayout.includes(g.key) && (g.target === 'shorts' || g.target === 'both'))
+    .map((g) => g.key);
 
   const availableKeys = [
     ...defaultLayout,
     ...dynamicBlockKeys,
     ...hookBlockAvailableKeys,
+    ...groupKeys,
   ].filter((k) => !activeKeys.includes(k));
 
   function layoutIndex(key) {
@@ -136,6 +153,7 @@ export default function ShortsDescriptionSettings({
       hookBlockMaps: { allLayoutKeys: allHookBlockLayoutKeys, layoutKeyToBlockKey },
       customBlocks,
       supportBlockConfig: undefined,
+      blockGroupMaps,
     });
     if (!source) return undefined;
     const subTab = BLOCK_TYPE_SUBTABS[source.blockType]?.subTab;

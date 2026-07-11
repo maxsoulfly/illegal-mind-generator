@@ -42,9 +42,25 @@ export function buildHookBlockMaps(hookBlocks) {
   };
 }
 
+// Derives the Block Group lookup maps, the group-side sibling to
+// buildHookBlockMaps above. groupKeySet lets resolveBlockSource recognize a
+// layout/blockKey as belonging to a group (checked before the hook-block/
+// customBlocks branches, since a group can legitimately reuse an existing
+// hook-block layout key — see closingBlock). labelMap feeds both label
+// resolvers below so a group's own label/rename wins over its children's
+// individual (and, pre-Group, ambiguous last-one-wins) labels.
+export function buildBlockGroupMaps(blockGroups) {
+  return {
+    groupKeySet: new Set(blockGroups.map((g) => g.key)),
+    labelMap: Object.fromEntries(blockGroups.map((g) => [g.key, g.label])),
+  };
+}
+
 // Returns a getLayoutBlockLabel(key) function closed over the resolved maps and overrides.
 // knownMeta is the per-description-type fallback: KNOWN_BLOCK_META (Long) or
-// KNOWN_SHORTS_BLOCK_META (Shorts).
+// KNOWN_SHORTS_BLOCK_META (Shorts). blockGroupLabelMap (buildBlockGroupMaps's
+// labelMap) takes top precedence — a Group's own label must win over
+// whatever its children's labelMap/hookBlockLabelOverrides entries say.
 export function makeLayoutLabelResolver({
   labelMap,
   layoutKeyToBlockKey,
@@ -52,10 +68,12 @@ export function makeLayoutLabelResolver({
   blockLabelOverrides,
   knownMeta,
   customBlocks,
+  blockGroupLabelMap = {},
 }) {
   return (key) => {
     const configKey = layoutKeyToBlockKey[key];
     return (
+      blockGroupLabelMap[key] ||
       (configKey && hookBlockLabelOverrides[configKey]) ||
       labelMap[key] ||
       blockLabelOverrides[key] ||
@@ -74,10 +92,12 @@ export function makeBlockKeyLabelResolver({
   hookBlockLabelOverrides,
   blockLabelOverrides,
   customBlocks,
+  blockGroupLabelMap = {},
 }) {
   const hookBlockLabelByKey = Object.fromEntries(hookBlocks.map((b) => [b.key, b.label]));
 
   return (blockKey) =>
+    blockGroupLabelMap[blockKey] ||
     hookBlockLabelOverrides[blockKey] ||
     hookBlockLabelByKey[blockKey] ||
     blockLabelOverrides[blockKey] ||
@@ -104,7 +124,17 @@ export function makeBlockKeyLabelResolver({
 // 'introBlock'), which can differ from the hook block's own config key (e.g.
 // 'introHook') via descriptionLayoutKey. The non-overridden 'block' case still
 // resolves to the config key, since that's what the Hook Blocks *editor* uses.
-export function resolveBlockSource(blockKey, { hookBlockMaps, customBlocks, supportBlockConfig, overridden = false }) {
+//
+// `blockGroupMaps` (buildBlockGroupMaps's output, optional) is checked first:
+// a Group can reuse an existing hook-block layout key (closingBlock is both
+// the group's own key AND closingSignal/philosophyLine's shared
+// descriptionLayoutKey), and the group must win that ambiguity — it's the
+// thing actually producing the segment now, not any one child in isolation.
+export function resolveBlockSource(blockKey, { hookBlockMaps, customBlocks, supportBlockConfig, blockGroupMaps, overridden = false }) {
+  if (blockGroupMaps?.groupKeySet.has(blockKey)) {
+    return overridden ? { type: 'override', blockKey } : { type: 'block', blockKey, blockType: 'group' };
+  }
+
   const { allLayoutKeys, layoutKeyToBlockKey } = hookBlockMaps;
 
   if (allLayoutKeys.has(blockKey)) {

@@ -120,6 +120,7 @@ function App() {
     const result = resolveCustomBlockCollisions(
       projectSettingsOverrides,
       resolvedProjectConfig.description?.hookBlocks || [],
+      resolvedProjectConfig.description?.blockGroups || [],
     );
     if (!result) return;
 

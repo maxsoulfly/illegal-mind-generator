@@ -88,6 +88,24 @@ export default function buildResolvedProjectConfig(
     ];
   }
 
+  // Block Groups: JSON-default groups (projectConfig.description.blockGroups)
+  // get per-key edits merged in via blockGroupOverrides — one consolidated
+  // patch object per group (label/scope/target/children all edited together
+  // from a single card), unlike hookBlocks' many independently-toggled
+  // *Overrides maps. User-created groups (customBlockGroups) are appended
+  // after, same append-and-dedupe shape as customHookBlocks above — filtered
+  // so stale localStorage data can't shadow a JSON-default key.
+  const baseBlockGroups = projectConfig.description?.blockGroups || [];
+  const blockGroupOverrides = nextConfig.description?.blockGroupOverrides || {};
+  const customBlockGroups = nextConfig.description?.customBlockGroups || [];
+  if (baseBlockGroups.length || customBlockGroups.length) {
+    const baseGroupKeys = new Set(baseBlockGroups.map((g) => g.key));
+    nextConfig.description.blockGroups = [
+      ...baseBlockGroups.map((g) => ({ ...g, ...(blockGroupOverrides[g.key] || {}) })),
+      ...customBlockGroups.filter((g) => !baseGroupKeys.has(g.key)),
+    ];
+  }
+
   Object.entries(tagOverrides || {}).forEach(([tagName, override]) => {
     const baseTag = nextConfig.tags?.[tagName] || {};
 

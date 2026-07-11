@@ -130,13 +130,25 @@ export function renderCustomBlock(block, projectConfig, formData, tagLine, songO
   return '';
 }
 
+// Multiple hookBlocks entries can share one descriptionLayoutKey (e.g.
+// closingSignal/philosophyLine both point at 'closingBlock'). Prefer the
+// entry whose own `key` equals the requested key (the "self-named" one) —
+// this is what lets a Block Group child reference a specific sibling by its
+// own key even though that sibling also has a shared descriptionLayoutKey.
+// Groups with no self-named entry fall back to the first descriptionLayoutKey
+// match, same as before (mirrors buildHookBlockMaps's identical precedent).
+function findHookBlockByKey(hookBlocks, layoutKey) {
+  return (
+    hookBlocks.find((b) => b.key === layoutKey) ??
+    hookBlocks.find((b) => (b.descriptionLayoutKey ?? b.key) === layoutKey)
+  );
+}
+
 // Returns the templates array for a hook block identified by its layout key,
 // or null if the key doesn't match any hook block entry.
 export function resolveHookBlockTemplates(layoutKey, projectConfig) {
   const hookBlocks = projectConfig.description?.hookBlocks || [];
-  const block = hookBlocks.find(
-    (b) => (b.descriptionLayoutKey ?? b.key) === layoutKey,
-  );
+  const block = findHookBlockByKey(hookBlocks, layoutKey);
   if (!block) return null;
 
   const { path, templateKey } = block;
@@ -162,9 +174,7 @@ export function resolveHookBlockTemplates(layoutKey, projectConfig) {
 // no single "the" winner, so it's left undefined for callers to skip).
 export function resolveHookBlockOutput(layoutKey, ctx) {
   const hookBlocks = ctx.projectConfig.description?.hookBlocks || [];
-  const block = hookBlocks.find(
-    (b) => (b.descriptionLayoutKey ?? b.key) === layoutKey,
-  );
+  const block = findHookBlockByKey(hookBlocks, layoutKey);
   if (!block) return null;
 
   const templates = resolveHookBlockTemplates(layoutKey, ctx.projectConfig);
@@ -212,6 +222,39 @@ export function generateCustomBlocks(formData, projectConfig, tagLine) {
     renderedCustomBlocks,
     supportBlock,
   };
+}
+
+// Resolves a single layout-slot key to its rendered text: an explicit
+// pre-computed value in `blocks` (broadcastBlock, introBlock, a sibling
+// Block Group's own output once merged in, etc.), else a song override for
+// that key, else the hook block pool's random pick. Shared by the top-level
+// Long description layout loop (generateDescriptions.js) and
+// generateBlockGroups below so the two resolution paths can't drift apart.
+export function resolveLayoutKey(key, ctx, blocks, songOverrides) {
+  if (key in blocks) return blocks[key];
+  const hookSongOverride = resolveHookOverride(songOverrides[key]);
+  if (hookSongOverride) {
+    return renderTextTemplate(hookSongOverride, ctx.projectConfig, ctx.formData, ctx.tagLine);
+  }
+  return resolveHookBlockOutput(key, ctx)?.text;
+}
+
+// Resolves every configured Block Group to its joined text: each 'block'
+// child is resolved through resolveLayoutKey; joined tight with '\n',
+// matching the bespoke merges (generateBroadcastBlock.js, generateLogBlock.js,
+// the old inline closingBlock join) this type replaces. 'generated' children
+// (tag-scoped content) aren't implemented yet — Phase 2. Returns a
+// { [group.key]: text } map ready to spread into the `blocks` map.
+export function generateBlockGroups(blockGroups, ctx, blocks, songOverrides) {
+  return Object.fromEntries(
+    blockGroups.map((group) => {
+      const parts = group.children
+        .filter((child) => child.type === 'block')
+        .map((child) => resolveLayoutKey(child.key, ctx, blocks, songOverrides))
+        .filter(Boolean);
+      return [group.key, parts.join('\n')];
+    }),
+  );
 }
 
 export { pickViableTemplate };

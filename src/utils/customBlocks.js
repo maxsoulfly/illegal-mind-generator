@@ -9,15 +9,16 @@ export const TARGET_OPTIONS = [
   { value: 'both',   label: 'Long + Shorts' },
 ];
 
-// Single source of truth for the three block types: their Blocks-tab subTab id
+// Single source of truth for the four block types: their Blocks-tab subTab id
 // (matches ProjectSettingsBlocks.jsx's SubTabNav ids) and display label.
-// blockType keys ('list'/'text'/'hook') match generateShortDescriptions.js's
+// blockType keys ('list'/'text'/'hook'/'group') match generateShortDescriptions.js's
 // source.blockType — anything deriving a subTab id or label from a blockType
 // should read this instead of re-declaring its own mapping.
 export const BLOCK_TYPE_SUBTABS = {
   list: { subTab: 'lists', label: 'Lists' },
   text: { subTab: 'text',  label: 'Text Blocks' },
   hook: { subTab: 'hooks', label: 'Hook Blocks' },
+  group: { subTab: 'groups', label: 'Groups' },
 };
 
 // Metadata for built-in customBlocks keys. Anything not listed here is a
@@ -40,6 +41,13 @@ export function isListBlock(value) {
 export function isTextBlock(value) {
   if (typeof value === 'string') return true;
   return Boolean(value) && typeof value === 'object' && typeof value.text === 'string';
+}
+
+// Group blocks are { key, label, scope, target, children: [{type, key}] } —
+// a shell that resolves each child and joins them, rather than holding
+// content itself. See generateBlockGroups in generateCustomBlocks.js (engine side).
+export function isBlockGroup(value) {
+  return Boolean(value) && typeof value === 'object' && Array.isArray(value.children);
 }
 
 // Fallback for blocks created before itemType was an explicit field:
@@ -146,7 +154,7 @@ export function generateBlockKey(name, existingKeys) {
 // { patch, renamed, skipped } — `patch` is a ready-to-use argument for
 // updateProjectOverride (already includes the rest of `description`
 // untouched), `renamed`/`skipped` are { oldKey, newKey? }[] for logging/UI.
-export function resolveCustomBlockCollisions(projectSettingsOverrides, hookBlocks) {
+export function resolveCustomBlockCollisions(projectSettingsOverrides, hookBlocks, blockGroups = []) {
   const desc = projectSettingsOverrides?.description || {};
   const longTemplates = desc.templates?.long || {};
   const customBlocks = longTemplates.customBlocks || {};
@@ -154,6 +162,7 @@ export function resolveCustomBlockCollisions(projectSettingsOverrides, hookBlock
   const layoutKeySet = new Set([
     ...hookBlocks.map((b) => b.key),
     ...hookBlocks.map((b) => b.descriptionLayoutKey ?? b.key),
+    ...blockGroups.map((g) => g.key),
   ]);
 
   const collidingKeys = Object.keys(customBlocks).filter((key) => layoutKeySet.has(key));

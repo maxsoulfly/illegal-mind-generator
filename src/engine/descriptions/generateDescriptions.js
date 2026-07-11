@@ -2,15 +2,24 @@ import { generateShortDescriptions } from './generateShortDescriptions';
 import { generateBroadcastBlock } from './generateBroadcastBlock';
 import { generateTechnicalBlock } from './generateTechnicalBlock';
 import { generateLogBlock } from './generateLogBlock';
-import { generateCustomBlocks, getEffectiveSongOverrides, resolveHookBlockOutput, renderTextTemplate, resolveHookOverride, pickViableTemplate, isSongOverrideActive } from './generateCustomBlocks';
+import { generateCustomBlocks, generateBlockGroups, getEffectiveSongOverrides, resolveLayoutKey, renderTextTemplate, resolveHookOverride, pickViableTemplate, isSongOverrideActive } from './generateCustomBlocks';
 import { buildTagLine, buildTagPhrase } from './descriptionTagHelpers';
-import { buildHookBlockMaps, resolveBlockSource } from '../../utils/descriptionLayout';
+import { buildHookBlockMaps, buildBlockGroupMaps, resolveBlockSource } from '../../utils/descriptionLayout';
 
 export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const tagLine = buildTagLine(formData, projectConfig);
   const tagPhrase = buildTagPhrase(formData, projectConfig);
   const selectedTags = formData.transformationTags || [];
-  const ctx = { formData, projectConfig, tagLine: tagPhrase };
+  // {num} isn't a REGISTRY token (its fallback text differs per caller — see
+  // placeholders.js) but Closing Signal needs it filled wherever it renders,
+  // including standalone as a Block Group child, so it's set once here rather
+  // than hand-replaced after the fact like the old inline closingBlock logic did.
+  const ctx = {
+    formData,
+    projectConfig,
+    tagLine: tagPhrase,
+    overrides: { num: formData.signalNumber || '00' },
+  };
 
   // --- Broadcast block ---
   const { broadcastBlock, fileId } = generateBroadcastBlock(
@@ -34,20 +43,6 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     ? renderTextTemplate(storyOverride, projectConfig, formData, tagPhrase)
     : pickViableTemplate(projectConfig?.description.templates?.long?.storyBlock || [], ctx)?.text ?? '';
 
-  // --- Philosophy block ---
-  const philosophyBlock = pickViableTemplate(projectConfig?.description.templates?.long?.philosophyLine || [], ctx)?.text ?? '';
-
-  // --- Closing block ---
-  const closingPicked = pickViableTemplate(projectConfig?.description.templates?.long?.closingSignal || [], ctx);
-  const closingBlock = (closingPicked?.text ?? '').replace(
-    /\{num\}/g,
-    formData.signalNumber || '00',
-  );
-
-  const closingCombined = [closingBlock, philosophyBlock]
-    .filter(Boolean)
-    .join('\n');
-
   // --- Technical block ---
   const technicalBlock = generateTechnicalBlock(selectedTags, projectConfig, formData);
 
@@ -69,15 +64,24 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     generateCustomBlocks(formData, projectConfig, tagLine);
 
   const layout = projectConfig.description.templates.long.layout;
-  const blocks = {
+  const baseBlocks = {
     broadcastBlock,
     introBlock,
     storyBlock,
     technicalBlock,
     logBlock,
-    closingBlock: closingCombined,
     supportBlock,
     ...renderedCustomBlocks,
+  };
+  // Block Groups (e.g. closingBlock = closingSignal + philosophyLine) resolve
+  // their children through the same resolveLayoutKey the top-level layout
+  // loop below uses, then get merged in as ordinary blocks — a group key
+  // becomes just another `blockName in blocks` hit, no special-casing needed
+  // in the loop itself.
+  const blockGroups = projectConfig.description?.blockGroups || [];
+  const blocks = {
+    ...baseBlocks,
+    ...generateBlockGroups(blockGroups, ctx, baseBlocks, songOverrides),
   };
 
   // Source attribution for click-to-navigate + hover tooltips (DescriptionsPanel).
@@ -85,25 +89,18 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   // arrows already point at, not per-line within a merged block like broadcastBlock.
   const customBlocks = projectConfig.description?.templates?.long?.customBlocks || {};
   const hookBlockMaps = buildHookBlockMaps(projectConfig.description?.hookBlocks || []);
+  const blockGroupMaps = buildBlockGroupMaps(blockGroups);
   const supportBlockConfig = projectConfig.description?.templates?.long?.supportBlock;
 
   const longDescriptionSegments = layout
     .map((blockName) => {
-      let text;
-      if (blockName in blocks) {
-        text = blocks[blockName];
-      } else {
-        const hookSongOverride = resolveHookOverride(songOverrides[blockName]);
-        text = hookSongOverride
-          ? renderTextTemplate(hookSongOverride, projectConfig, formData, tagPhrase)
-          : resolveHookBlockOutput(blockName, ctx)?.text;
-      }
+      const text = resolveLayoutKey(blockName, ctx, blocks, songOverrides);
       if (!text) return null;
       // logBlock's override only fills the {logNote} placeholder inside a
       // still-pool-picked template — it's a partial substitution, not a full
       // replacement, so the Hook Blocks pool stays the accurate source for it.
       const overridden = blockName !== 'logBlock' && isSongOverrideActive(songOverrides, blockName);
-      const source = resolveBlockSource(blockName, { hookBlockMaps, customBlocks, supportBlockConfig, overridden });
+      const source = resolveBlockSource(blockName, { hookBlockMaps, customBlocks, supportBlockConfig, blockGroupMaps, overridden });
       return { text, source };
     })
     .filter(Boolean);
