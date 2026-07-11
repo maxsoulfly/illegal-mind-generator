@@ -1,4 +1,6 @@
 import { resolveTagCategoryValue } from './descriptions/descriptionTagHelpers';
+import { resolveHookBlockTemplates } from './hookBlockLookup';
+import { resolvePooledOutput } from './pooling';
 
 const DEFAULT_YEARS = 'a few';
 
@@ -78,7 +80,7 @@ const REGISTRY = {
 // every editor automatically; nothing else needs to change.
 export const REGISTRY_TOKENS = Object.keys(REGISTRY);
 
-// Dynamic, namespaced tokens: {tags.<category>}, {links.<key>}.
+// Dynamic, namespaced tokens: {tags.<category>}, {links.<key>}, {custom.<key>}.
 const DYNAMIC_PATTERNS = [
   {
     pattern: /^tags\.(.+)$/,
@@ -87,6 +89,10 @@ const DYNAMIC_PATTERNS = [
   {
     pattern: /^links\.(.+)$/,
     resolve: (ctx, key) => ctx.projectConfig?.description?.links?.[key] ?? '',
+  },
+  {
+    pattern: /^custom\.(.+)$/,
+    resolve: (ctx, key) => resolveCustomPlaceholder(key, ctx),
   },
 ];
 
@@ -110,6 +116,50 @@ function resolveTransformationToken(ctx) {
   }
 
   return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+// Gathers candidate lines for a custom placeholder from its configured
+// source(s): `tagField` (optionally scoped under `tagParentField`, e.g.
+// description.log) pools a per-tag array field across every selected tag —
+// same shape TagPhraseEditor's own parentField/field props already use, not
+// a new vocabulary; `hookBlockKey` merges in an existing hook block's own
+// template pool via the already-existing resolveHookBlockTemplates. Both may
+// be set at once (their candidates are simply combined into one pool).
+function buildPlaceholderPool(def, ctx) {
+  const source = def.source || {};
+  const selectedTags = ctx.formData.transformationTags || [];
+  const tagRegistry = ctx.projectConfig?.tags || {};
+
+  const tagLines = source.tagField
+    ? selectedTags.flatMap((tag) => {
+        const tagData = tagRegistry[tag] || {};
+        const parent = source.tagParentField ? tagData[source.tagParentField] : tagData;
+        return parent?.[source.tagField] || [];
+      })
+    : [];
+
+  const hookBlockLines = source.hookBlockKey
+    ? resolveHookBlockTemplates(source.hookBlockKey, ctx.projectConfig) || []
+    : [];
+
+  return [...tagLines, ...hookBlockLines];
+}
+
+// Resolves a user-defined {custom.<key>} placeholder (description.placeholders
+// in the resolved project config — see buildResolvedProjectConfig.js): pools
+// candidate lines from its source(s), fills each candidate's own placeholders,
+// and picks `count` (default 1). An unknown/stale key resolves to '' (not
+// undefined) so it behaves like a legitimately-empty pool — the containing
+// candidate template gets dropped by the standard "no fallback safety net"
+// rule (see fillPlaceholders' hasEmpty), rather than leaking the raw
+// {custom.x} token into generated output.
+export function resolveCustomPlaceholder(key, ctx) {
+  const defs = ctx.projectConfig?.description?.placeholders || [];
+  const def = defs.find((p) => p.key === key);
+  if (!def) return '';
+
+  const pool = buildPlaceholderPool(def, ctx);
+  return resolvePooledOutput(pool, ctx, fillPlaceholders, { count: def.count ?? 1, joinWith: def.joinWith })?.text ?? '';
 }
 
 function resolveToken(token, ctx) {

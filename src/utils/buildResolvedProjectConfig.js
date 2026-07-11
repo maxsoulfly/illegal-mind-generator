@@ -106,6 +106,22 @@ export default function buildResolvedProjectConfig(
     ];
   }
 
+  // Custom Placeholders: same shape as Block Groups above — JSON-default
+  // placeholders (projectConfig.description.placeholders) get per-key edits
+  // merged in via placeholderOverrides, user-created ones (customPlaceholders)
+  // are appended after, filtered so stale localStorage data can't shadow a
+  // JSON-default key.
+  const basePlaceholders = projectConfig.description?.placeholders || [];
+  const placeholderOverrides = nextConfig.description?.placeholderOverrides || {};
+  const customPlaceholders = nextConfig.description?.customPlaceholders || [];
+  if (basePlaceholders.length || customPlaceholders.length) {
+    const basePlaceholderKeys = new Set(basePlaceholders.map((p) => p.key));
+    nextConfig.description.placeholders = [
+      ...basePlaceholders.map((p) => ({ ...p, ...(placeholderOverrides[p.key] || {}) })),
+      ...customPlaceholders.filter((p) => !basePlaceholderKeys.has(p.key)),
+    ];
+  }
+
   Object.entries(tagOverrides || {}).forEach(([tagName, override]) => {
     const baseTag = nextConfig.tags?.[tagName] || {};
 
