@@ -156,6 +156,7 @@ export default function TagLibraryPage({
             resetTagOverride={resetTagOverride}
             onLoadEntry={onLoadEntry}
             sourceTarget={searchTarget}
+            projectConfig={projectConfig}
           />
         ))}
       </div>

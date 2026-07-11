@@ -33,6 +33,7 @@ export default function TagEditor({
   projectOverrides,
   resetTagOverride,
   sourceTarget,
+  projectConfig,
 }) {
   const [activeTab, setActiveTab] = useState(() =>
     getInitialTab(tag, sourceTarget),
@@ -68,6 +69,7 @@ export default function TagEditor({
           tag={tag}
           onUpdateTag={onUpdateTag}
           sourceTarget={sourceTarget}
+          projectConfig={projectConfig}
         />
       )}
 

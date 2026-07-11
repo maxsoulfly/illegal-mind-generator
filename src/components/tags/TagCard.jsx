@@ -13,6 +13,7 @@ export default function TagCard({
   resetTagOverride,
   onLoadEntry,
   sourceTarget,
+  projectConfig,
 }) {
   return (
     <article
@@ -39,6 +40,7 @@ export default function TagCard({
         projectOverrides={projectOverrides}
         resetTagOverride={resetTagOverride}
         sourceTarget={sourceTarget}
+        projectConfig={projectConfig}
       />
     </article>
   );

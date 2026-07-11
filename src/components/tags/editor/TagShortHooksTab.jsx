@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
 import TagPhraseEditor from '../TagPhraseEditor';
-import { HOOK_PLACEHOLDERS } from '../../../utils/hookPlaceholders';
+import { buildHookPlaceholders } from '../../../utils/hookPlaceholders';
 
 const HOOK_TYPES = [
   'nostalgia',
@@ -30,8 +30,9 @@ function getMatchingPhrases(hookType, phrases, search) {
   );
 }
 
-export default function TagShortHooksTab({ tag, onUpdateTag, sourceTarget }) {
+export default function TagShortHooksTab({ tag, onUpdateTag, sourceTarget, projectConfig }) {
   const [search, setSearch] = useState('');
+  const placeholders = buildHookPlaceholders(projectConfig);
 
   const visibleHookTypes = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
@@ -73,7 +74,7 @@ export default function TagShortHooksTab({ tag, onUpdateTag, sourceTarget }) {
           parentValue={tag.maps.shortHooks || {}}
           field={hookType}
           phrases={phrases}
-          placeholders={HOOK_PLACEHOLDERS}
+          placeholders={placeholders}
           onUpdateTag={onUpdateTag}
           autoOpen={sourceTarget?.hookType === hookType}
           highlightText={sourceTarget?.hookType === hookType ? sourceTarget.hookText : null}
