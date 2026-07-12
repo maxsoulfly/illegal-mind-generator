@@ -7,6 +7,7 @@ export default function TransformationTagSelector({
   tagUsage,
   formData,
   onTagToggle,
+  onOpenSourceTag,
   defaultVisibleTagLimit = 6,
 }) {
   const [isOpen, setIsOpen] = useState(true);
@@ -42,15 +43,27 @@ export default function TransformationTagSelector({
 
   const renderTagButton = ([tag, tagData]) => {
     const isActive = selectedTagNames.includes(tag);
+    const label = tagData.label || tag;
+    const tooltip = tagData.category
+      ? `${tagData.category} — Ctrl+Click to open in Tag Library`
+      : 'Ctrl+Click to open in Tag Library';
 
     return (
       <button
         key={tag}
         type="button"
         className={isActive ? 'tag-chip active' : 'tag-chip'}
-        onClick={() => onTagToggle(tag)}
+        title={tooltip}
+        onClick={(e) => {
+          if ((e.ctrlKey || e.metaKey) && onOpenSourceTag) {
+            onOpenSourceTag(tag);
+            return;
+          }
+
+          onTagToggle(tag);
+        }}
       >
-        {tagData.label || tag} ({tagUsage[tag] || 0})
+        {label} ({tagUsage[tag] || 0})
       </button>
     );
   };

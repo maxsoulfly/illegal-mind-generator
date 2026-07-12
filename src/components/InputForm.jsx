@@ -25,6 +25,7 @@ function InputForm({
   projectOverrides,
   songOverrideTarget,
   clearSongOverrideTarget,
+  onOpenSourceTag,
 }) {
   const {
     visibleTags,
@@ -87,6 +88,7 @@ function InputForm({
               tagUsage={tagUsage}
               formData={formData}
               onTagToggle={handleTagToggle}
+              onOpenSourceTag={onOpenSourceTag}
             />
 
             <AdvancedDescriptionFields

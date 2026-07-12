@@ -132,6 +132,7 @@ export default function GeneratorPage({
             projectOverrides={projectOverrides}
             songOverrideTarget={songOverrideTarget}
             clearSongOverrideTarget={clearSongOverrideTarget}
+            onOpenSourceTag={onOpenSourceTag}
           />
         </div>
         <GeneratorResultsPanel
