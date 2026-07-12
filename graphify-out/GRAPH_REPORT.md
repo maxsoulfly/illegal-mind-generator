@@ -1,16 +1,16 @@
 # Graph Report - illegal-mind-generator  (2026-07-12)
 
 ## Corpus Check
-- 183 files · ~122,329 words
+- 182 files · ~124,610 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1244 nodes · 1942 edges · 106 communities (77 shown, 29 thin omitted)
+- 1245 nodes · 1942 edges · 109 communities (79 shown, 30 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 26 edges (avg confidence: 0.81)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `21ad41c5`
+- Built from commit: `93744105`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -116,12 +116,15 @@
 - [[_COMMUNITY_Community 103|Community 103]]
 - [[_COMMUNITY_Community 104|Community 104]]
 - [[_COMMUNITY_Community 105|Community 105]]
+- [[_COMMUNITY_Community 106|Community 106]]
+- [[_COMMUNITY_Community 107|Community 107]]
+- [[_COMMUNITY_Community 108|Community 108]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `UI Primitives Catalog` - 28 edges
 2. `IconButton()` - 25 edges
-3. `fillPlaceholders()` - 19 edges
-4. `Illegal Mind Generator Architecture Document` - 19 edges
+3. `Illegal Mind Generator Architecture Document` - 19 edges
+4. `fillPlaceholders()` - 18 edges
 5. `generateDescriptions()` - 17 edges
 6. `YouTube Content Generator - MVP / V1 Spec` - 17 edges
 7. `Illegal Mind Generator — Data Model` - 16 edges
@@ -136,9 +139,9 @@
   illegal_mind_generator_mvp_spec.md → illegal-mind-generator-project-overview.md
 - `Shorts Queue Stores Id References` --semantically_similar_to--> `handleSaveEntry/handleLoadEntry Field Lists Gotcha`  [INFERRED] [semantically similar]
   docs/current-context.md → CLAUDE.md
-- `Shorts Queue Stores Id References` --conceptually_related_to--> `Storage Unification Cleanup TODO`  [INFERRED]
-  docs/current-context.md → CLAUDE.md
 - `Shorts Title Count Respects Slider` --conceptually_related_to--> `Generator (Major System)`  [INFERRED]
+  docs/current-context.md → CLAUDE.md
+- `Tag Library Card Too Complex (flagged)` --conceptually_related_to--> `Tag Library (Major System)`  [EXTRACTED]
   docs/current-context.md → CLAUDE.md
 
 ## Import Cycles
@@ -149,31 +152,31 @@
 - **Placeholder Autocomplete Component Family** — claude_md_placeholderfield, claude_md_phraserow, claude_md_toggleinputrow, claude_md_bulktextarea, claude_md_hooktemplateeditor [INFERRED 0.85]
 - **Storage Unification Cleanup TODO Items** — claude_md_priority_todo_storage_cleanup, claude_md_illegalmindgeneratordata, claude_md_tagvisibilityoverrides_legacy_gotcha, docs_current_context_storage_cleanup_debt [EXTRACTED 1.00]
 
-## Communities (106 total, 29 thin omitted)
+## Communities (109 total, 30 thin omitted)
 
 ### Community 0 - "Block Editor UI Forms"
-Cohesion: 0.06
-Nodes (55): AddBlockForm(), AddTextBlockForm(), BlockActions(), BlockEditorCard(), TextBlockEditor(), KNOWN_BLOCK_META, LongDescriptionSettings(), MOBILE_COLUMN_TABS (+47 more)
+Cohesion: 0.10
+Nodes (22): AddBlockForm(), AddTextBlockForm(), TextBlockEditor(), REGISTRY_TOKENS, SongBlockOverrideFields(), AddListBlockForm(), StructuredListEditor(), OVERRIDE_TYPE_OPTIONS (+14 more)
 
 ### Community 1 - "Generator Results & Entry Settings"
 Cohesion: 0.11
 Nodes (19): CopyButton(), GeneratorResultsPanel(), GeneratedTitle(), HashtagsPanel(), buildMixedShortHooks(), ShortHooksPanel(), shuffleArray(), formatHookType() (+11 more)
 
 ### Community 2 - "Project Settings Sections"
-Cohesion: 0.06
-Nodes (34): AppBackupControls(), PrimaryTagSection(), LinksRegistryEditor(), TABS, ProjectSettingsBlocks(), ProjectSettingsDescriptions(), ProjectSettingsGeneral(), ProjectSettingsLinks() (+26 more)
+Cohesion: 0.16
+Nodes (12): TABS, TitlePrefixSuffixSection(), TitleTransformationSection(), AddBulkRow(), BulkTextarea(), HookTemplateEditor(), LabelInputRow(), LabelSliderRow() (+4 more)
 
 ### Community 3 - "Tag-Category Placeholder Resolution"
 Cohesion: 0.07
-Nodes (56): buildTagLine(), buildTagPhrase(), pickRandom(), resolveTagCategoryValue(), resolveTagLabel(), TAG_CATEGORY_ALIASES, toTitleCase(), generateBroadcastBlock() (+48 more)
+Nodes (57): buildTagLine(), buildTagPhrase(), pickRandom(), resolveTagCategoryValue(), resolveTagLabel(), TAG_CATEGORY_ALIASES, toTitleCase(), generateBlockGroups() (+49 more)
 
 ### Community 4 - "Graphify Pipeline Steps"
 Cohesion: 0.05
 Nodes (45): Step 5: label communities, Step 9: manifest + cumulative cost tracker, graphify SKILL.md (/graphify pipeline), Semantic extraction cache check (Step B0), Fast path for existing graph.json, Step 4: build graph, cluster, analyze, Honesty rules (never invent an edge), Step 6: Obsidian vault + HTML export (+37 more)
 
 ### Community 5 - "App Shell State & Defaults"
-Cohesion: 0.28
-Nodes (9): buildQueue(), getCoverId(), getRandomEntry(), getValidReplacement(), isTooClose(), saveStoredQueues(), useShortsQueue(), ShortsQueuePage() (+1 more)
+Cohesion: 0.50
+Nodes (6): buildQueue(), getCoverId(), getRandomEntry(), getValidReplacement(), isTooClose(), saveStoredQueues()
 
 ### Community 6 - "Input Form & Saved Entries"
 Cohesion: 0.12
@@ -184,24 +187,24 @@ Cohesion: 0.05
 Nodes (43): Back up and restore, Backup reliability, Backup System, Block collision detection, Block Types, Browse and edit tags, Build and manage a Shorts upload queue, Config is a bootstrap template (+35 more)
 
 ### Community 8 - "Major Systems & Storage Docs"
-Cohesion: 0.15
-Nodes (14): Backup System (Major System), Config-Driven Behavior Decision, handleSaveEntry/handleLoadEntry Field Lists Gotcha, Illegal Mind Covers (Project), Illegal Mind Generator (App), Local-First Architecture Decision, Maxx Dee Covers (Project), Saved Library (Major System) (+6 more)
+Cohesion: 0.13
+Nodes (17): Backup System (Major System), Config-Driven Behavior Decision, handleSaveEntry/handleLoadEntry Field Lists Gotcha, Illegal Mind Covers (Project), Illegal Mind Generator (App), illegalMindGeneratorData (unified storage key), Local-First Architecture Decision, Maxx Dee Covers (Project) (+9 more)
 
 ### Community 9 - "Core Architecture & Custom Blocks Engine"
 Cohesion: 0.05
 Nodes (54): appBackup.js (export/import backup), App.jsx (root state coordinator), Illegal Mind Generator Architecture Document, customBlocks.js (shared block utilities), formData (generator form state), generateCustomBlocks.js (shared block rendering), generateDescriptions.js (Long description engine), generateHashtags.js (hashtag engine) (+46 more)
 
 ### Community 10 - "Tag Library Data & Overrides"
-Cohesion: 0.07
-Nodes (23): TagBasicsTab(), TagDescriptionsTab(), TAG_EDITOR_TABS, TagEditorTabs(), TagHashtagsTab(), HOOK_TYPES, TagShortHooksTab(), TagTitlesTab() (+15 more)
+Cohesion: 0.10
+Nodes (16): TagBasicsTab(), TagDescriptionsTab(), TAG_EDITOR_TABS, TagEditorTabs(), TagHashtagsTab(), HOOK_TYPES, TagShortHooksTab(), TagTitlesTab() (+8 more)
 
 ### Community 11 - "Title Generation Engine"
 Cohesion: 0.39
 Nodes (5): buildGeneratedArtistShort(), buildThumbnailVariations(), dedupeByPhrase(), generateThumbnails(), shuffleArray()
 
 ### Community 12 - "UI Primitives Catalog Docs"
-Cohesion: 0.11
-Nodes (23): AddBulkRow, BulkTextarea, CopyButton, FormSelect, HookTemplateEditor, IconButton, LabelInputRow, LabelSliderRow (+15 more)
+Cohesion: 0.09
+Nodes (26): AddBulkRow, AppHeader, BulkTextarea, CopyButton, FormSelect, HookTemplateEditor, IconButton, LabelInputRow (+18 more)
 
 ### Community 13 - "Package Dependencies"
 Cohesion: 0.09
@@ -232,16 +235,16 @@ Cohesion: 0.29
 Nodes (7): Fallout Terminal CRT Atmosphere Pass, SubTabNav, Tag Category Placeholders ({tags.*}) Gotcha, Tag Library (Major System), CRT Atmosphere Pass Implementation Detail, Tag-Category Placeholders Detail, Tag Editor Sub-Tabs Fix
 
 ### Community 20 - "CLAUDE.md/AGENTS.md Sync Docs"
-Cohesion: 0.11
-Nodes (18): AGENTS.md/CLAUDE.md Manual Sync Mechanism, illegalMindGeneratorData (unified storage key), Storage Unification Cleanup TODO, tagVisibilityOverrides Legacy Gotcha, Title Engine Key Names Gotcha (longPrefix), AI Notes, Architectural Notes, `coverLabel` not editable from UI (+10 more)
+Cohesion: 0.13
+Nodes (14): AGENTS.md/CLAUDE.md Manual Sync Mechanism, AI Notes, `coverLabel` not editable from UI, Current Context, Current Focus, `customHashtags` is hardcoded, Important Files, In Progress (+6 more)
 
 ### Community 21 - "TypeScript/ESLint Template"
 Cohesion: 0.67
 Nodes (4): ESLint, TS template (create-vite template-react-ts), TypeScript, typescript-eslint
 
 ### Community 23 - "AppHeader Sticky Behavior"
-Cohesion: 0.67
-Nodes (3): AppHeader, Sticky AppHeader Implementation, Sticky Header Transparency
+Cohesion: 0.17
+Nodes (21): KNOWN_BLOCK_META, LongDescriptionSettings(), MOBILE_COLUMN_TABS, MOBILE_COLUMN_TABS, ShortsDescriptionSettings(), DescriptionsPanel(), ProjectSettingsBlockGroups(), BLOCKS_SUBTABS (+13 more)
 
 ### Community 24 - "Session Protocol & Graphify Docs"
 Cohesion: 0.09
@@ -252,8 +255,8 @@ Cohesion: 0.05
 Nodes (40): Architectural rules, Backup, Block editor shared shell, Component Architecture, Config Resolution, Cross-page navigation (output → settings), Cross-System Interactions, Data Flow (+32 more)
 
 ### Community 26 - "AppHeader Component"
-Cohesion: 0.18
-Nodes (12): AppHeader(), PAGE_LABELS, defaultFormData, defaultPanelVisibility, useAppShellState(), useGeneratedOutput(), useProjectOverrides(), UIKitPage() (+4 more)
+Cohesion: 0.23
+Nodes (11): AppHeader(), PAGE_LABELS, useAppShellState(), useGeneratedOutput(), useProjectOverrides(), useSavedEntries(), UIKitPage(), App() (+3 more)
 
 ### Community 27 - "Project Overview Docs"
 Cohesion: 0.67
@@ -288,16 +291,16 @@ Cohesion: 0.08
 Nodes (24): Config-Driven Refactor, Current Config Areas, Current Development Style, Current Known Limitations, Current Stack, Current Workflow, Done Features, Foundation (+16 more)
 
 ### Community 61 - "Community 61"
-Cohesion: 0.25
-Nodes (7): getStoredProjectOverrides(), useSavedEntries(), getStoredQueues(), defaultStorage, loadAppStorage(), saveAppStorage(), updateAppStorage()
+Cohesion: 0.17
+Nodes (9): InputForm(), getStoredProjectOverrides(), getStoredQueues(), GeneratorPage(), SavedLibrary(), defaultStorage, loadAppStorage(), saveAppStorage() (+1 more)
 
 ### Community 62 - "Community 62"
-Cohesion: 0.21
-Nodes (6): InputForm(), GeneratorPage(), SavedLibrary(), SavedLibraryItem(), ShortsQueueItem(), SavedEntryRow()
+Cohesion: 0.27
+Nodes (6): useShortsQueue(), ShortsQueuePage(), SavedLibraryItem(), ShortsQueueEmptyState(), ShortsQueueItem(), SavedEntryRow()
 
 ### Community 63 - "Community 63"
-Cohesion: 0.20
-Nodes (12): CollapsiblePanel, originalGenre Stages 1-3, Thumbnails Split Into Own Panel, Generator (Major System), Short Hooks vs Shorts Titles Gotcha, CollapsiblePanel Extraction, originalGenre Stage 1, originalGenre Stage 2 (+4 more)
+Cohesion: 0.16
+Nodes (14): CollapsiblePanel, originalGenre Stages 1-3, Thumbnails Split Into Own Panel, Generator (Major System), Short Hooks vs Shorts Titles Gotcha, Title Engine Key Names Gotcha (longPrefix), Architectural Notes, CollapsiblePanel Extraction (+6 more)
 
 ### Community 64 - "Community 64"
 Cohesion: 0.20
@@ -364,8 +367,8 @@ Cohesion: 0.33
 Nodes (5): For /graphify explain, For /graphify path, graphify reference: query, path, explain, Step 0 — Constrained query expansion (REQUIRED before traversal), Step 1 — Traversal
 
 ### Community 80 - "Community 80"
-Cohesion: 0.47
-Nodes (4): getProjectSettingsSectionSummary(), PROJECT_SETTING_SECTIONS, ProjectSettingsPage(), ProjectSettingsContent()
+Cohesion: 0.09
+Nodes (21): AppBackupControls(), getProjectSettingsSectionSummary(), PROJECT_SETTING_SECTIONS, LinksRegistryEditor(), ProjectSettingsPage(), ProjectSettingsBlocks(), ProjectSettingsContent(), ProjectSettingsDescriptions() (+13 more)
 
 ### Community 81 - "Community 81"
 Cohesion: 0.33
@@ -439,10 +442,18 @@ Nodes (4): Example, Fields, Fields not persisted to saved entries, Generator For
 Cohesion: 0.50
 Nodes (4): Example, Fields, panelVisibility defaults, UI State
 
+### Community 106 - "Community 106"
+Cohesion: 0.16
+Nodes (12): BlockActions(), BlockEditorCard(), TYPE_OPTIONS, ListItemRow, DISPLAY_MODE_OPTIONS, ProjectSettingsPlaceholders(), TAG_FIELD_OPTIONS, FormSelect() (+4 more)
+
+### Community 107 - "Community 107"
+Cohesion: 0.12
+Nodes (12): PrimaryTagSection(), useTagLibraryData(), TagLibraryPage(), ProjectSettingsShortHooks(), TagActions(), TagCard(), TagControls(), TagFilters() (+4 more)
+
 ## Knowledge Gaps
-- **537 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+532 more)
+- **538 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+533 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **29 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **30 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -452,12 +463,12 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `Illegal Mind Generator Architecture Document` connect `Core Architecture & Custom Blocks Engine` to `Community 81`?**
   _High betweenness centrality (0.011) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _554 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _555 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Block Editor UI Forms` be split into smaller, more focused modules?**
-  _Cohesion score 0.06153846153846154 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1028225806451613 - nodes in this community are weakly interconnected._
 - **Should `Generator Results & Entry Settings` be split into smaller, more focused modules?**
-  _Cohesion score 0.10953058321479374 - nodes in this community are weakly interconnected._
-- **Should `Project Settings Sections` be split into smaller, more focused modules?**
-  _Cohesion score 0.06293706293706294 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1126984126984127 - nodes in this community are weakly interconnected._
 - **Should `Tag-Category Placeholder Resolution` be split into smaller, more focused modules?**
-  _Cohesion score 0.07074504442925496 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.0683526999316473 - nodes in this community are weakly interconnected._
+- **Should `Graphify Pipeline Steps` be split into smaller, more focused modules?**
+  _Cohesion score 0.051515151515151514 - nodes in this community are weakly interconnected._

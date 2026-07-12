@@ -105,14 +105,14 @@
     "semantic_hash": "d0ed8aba40c908ce0de954195ad0de4c"
   },
   "src/components/projectSettings/ProjectSettingsBlocks.jsx": {
-    "mtime": 1783804025.7600255,
-    "ast_hash": "9fb40f8616c37e99b5148ab62b7e2af4",
+    "mtime": 1783822304.8921595,
+    "ast_hash": "8f244ed6927d1f41423a243180dba9b2",
     "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsContent.jsx": {
-    "mtime": 1783004717.2025855,
-    "ast_hash": "48e6d2d91fdc960d2557112f2b3bdb8d",
-    "semantic_hash": "48e6d2d91fdc960d2557112f2b3bdb8d"
+    "mtime": 1783822288.2755725,
+    "ast_hash": "58ee69fccac85e25ddc6e0de3a05b044",
+    "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsDescriptions.jsx": {
     "mtime": 1782371591.2962985,
@@ -260,9 +260,9 @@
     "semantic_hash": "2c4018f029a0df846c47f5458c383e69"
   },
   "src/components/tags/TagCard.jsx": {
-    "mtime": 1781922071.6756055,
-    "ast_hash": "f78810e138a0fa023be9ecc9b0d53b12",
-    "semantic_hash": "f78810e138a0fa023be9ecc9b0d53b12"
+    "mtime": 1783812384.2713907,
+    "ast_hash": "079bd3e6ef3da1b3ee13cb8c8a0d97fe",
+    "semantic_hash": ""
   },
   "src/components/tags/TagControls.jsx": {
     "mtime": 1783799163.072984,
@@ -275,9 +275,9 @@
     "semantic_hash": "f8effbdb14b486d6286a9410dfb17d36"
   },
   "src/components/tags/TagEditor.jsx": {
-    "mtime": 1783005887.5142028,
-    "ast_hash": "6d391b9fe693a566cbd29a019135c192",
-    "semantic_hash": "6d391b9fe693a566cbd29a019135c192"
+    "mtime": 1783812394.4224916,
+    "ast_hash": "24d44b184827b5421f7ed8c82d0cc60c",
+    "semantic_hash": ""
   },
   "src/components/tags/TagFilters.jsx": {
     "mtime": 1780627265.468246,
@@ -340,9 +340,9 @@
     "semantic_hash": "aab6aab988580445c4371b5e0fa9a1ee"
   },
   "src/components/tags/editor/TagShortHooksTab.jsx": {
-    "mtime": 1781620174.5676086,
-    "ast_hash": "88dae3e9f8bbeaf2bbabc529c22c10f1",
-    "semantic_hash": "88dae3e9f8bbeaf2bbabc529c22c10f1"
+    "mtime": 1783812420.3525772,
+    "ast_hash": "888f192003bd6308d219d08ec3785339",
+    "semantic_hash": ""
   },
   "src/components/tags/editor/TagTitlesTab.jsx": {
     "mtime": 1783005898.0154607,
@@ -480,8 +480,8 @@
     "semantic_hash": "2d6938802248172fbe3ffc5543946b18"
   },
   "src/config/projects.json": {
-    "mtime": 1783807470.7624254,
-    "ast_hash": "24d8d6e24112c3b8db9ecb979e401be9",
+    "mtime": 1783822942.4460042,
+    "ast_hash": "8b3e5be06455b1f9c6db38ffa7b98b05",
     "semantic_hash": ""
   },
   "src/constants/defaultFormData.js": {
@@ -494,19 +494,14 @@
     "ast_hash": "9d6fe4788450b610995b09bcde1156ab",
     "semantic_hash": "9d6fe4788450b610995b09bcde1156ab"
   },
-  "src/engine/descriptions/generateBroadcastBlock.js": {
-    "mtime": 1783802470.901938,
-    "ast_hash": "e01eabc6998c60518ffecc6dab623857",
-    "semantic_hash": ""
-  },
   "src/engine/descriptions/generateCustomBlocks.js": {
-    "mtime": 1783807662.2884855,
-    "ast_hash": "6da72ca6bcc980b3ee9751147d5dce4c",
+    "mtime": 1783821257.6303926,
+    "ast_hash": "6017baa7b10ceb20d36f304562196fa2",
     "semantic_hash": ""
   },
   "src/engine/descriptions/generateDescriptions.js": {
-    "mtime": 1783807595.8639905,
-    "ast_hash": "75baa51a73df8d14a88e7af13673a1ce",
+    "mtime": 1783821294.1141558,
+    "ast_hash": "cac3c8ca35413dbe906ef4d9ee389507",
     "semantic_hash": ""
   },
   "src/engine/descriptions/generateShortDescriptions.js": {
@@ -610,9 +605,9 @@
     "semantic_hash": "0fbff53ad07c1507f1028d8d6e3d54f4"
   },
   "src/pages/TagLibraryPage.jsx": {
-    "mtime": 1782461303.791786,
-    "ast_hash": "e565361c44cbf79d0d15075ae1bb4307",
-    "semantic_hash": "e565361c44cbf79d0d15075ae1bb4307"
+    "mtime": 1783812367.4586744,
+    "ast_hash": "4055022de096a9de0e60d563fa4bfe13",
+    "semantic_hash": ""
   },
   "src/pages/TodoPage.jsx": {
     "mtime": 1782461340.2576866,
@@ -725,8 +720,8 @@
     "semantic_hash": "2f78598160bfb12ab775831e0787b02a"
   },
   "CLAUDE.md": {
-    "mtime": 1783808088.7757316,
-    "ast_hash": "da93d9af9d50291ea090f22ad75c5a64",
+    "mtime": 1783823556.7545314,
+    "ast_hash": "e5356809eff8eab84605d44b07f81f8a",
     "semantic_hash": ""
   },
   "README.md": {
@@ -745,8 +740,8 @@
     "semantic_hash": "b1af7c6209125b2f64ed33b9e4e21ee7"
   },
   "docs/current-context.md": {
-    "mtime": 1783808051.5507774,
-    "ast_hash": "acab5ac73d888f905e66b7f72d0a7078",
+    "mtime": 1783823646.090863,
+    "ast_hash": "44157f0245af969bd61d9d573605cd49",
     "semantic_hash": ""
   },
   "docs/data-model.md": {
@@ -865,8 +860,8 @@
     "semantic_hash": "2f78598160bfb12ab775831e0787b02a"
   },
   "AGENTS.md": {
-    "mtime": 1783808122.0359428,
-    "ast_hash": "f084aeaf1684feefdc268a64ed3da4ca",
+    "mtime": 1783823579.048129,
+    "ast_hash": "8ede26d3703437821e47acf90133dd21",
     "semantic_hash": ""
   },
   "src/components/AppHeader.jsx": {
@@ -920,13 +915,13 @@
     "semantic_hash": "32657964bb040be8b2a1ab504014c845"
   },
   "src/engine/placeholders.js": {
-    "mtime": 1783807649.1737778,
-    "ast_hash": "3aea38a3954bdaf1646d44b2a2240c89",
+    "mtime": 1783813372.5542214,
+    "ast_hash": "75249df39723c0415ae37ff583fd3885",
     "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsBlockGroups.jsx": {
-    "mtime": 1783804905.5496125,
-    "ast_hash": "6baaf26b589bfd9ca94378cb222b6272",
+    "mtime": 1783822274.9001653,
+    "ast_hash": "42092cc144ead0474a45e8f1a515b370",
     "semantic_hash": ""
   },
   "src/components/projectSettings/ProjectSettingsPlaceholders.jsx": {
