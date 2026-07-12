@@ -786,6 +786,18 @@ input[type="range"]::-moz-range-progress {
   width        : var(--size-select);
 }
 
+.saved-library-paste-box {
+  margin-top   : var(--space-3);
+  padding      : var(--space-3);
+  border       : 1px solid var(--color-border-soft);
+  border-radius: var(--radius-terminal);
+}
+
+.saved-library-paste-box textarea {
+  width  : 100%;
+  resize : vertical;
+}
+
 .saved-library-list {
   max-height   : var(--height-library-max);
   overflow-y   : auto;

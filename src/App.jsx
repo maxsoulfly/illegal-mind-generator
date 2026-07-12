@@ -202,6 +202,7 @@ function App() {
           handleDeleteEntry={handleDeleteEntry}
           handleExportEntries={handleExportEntries}
           handleImportEntries={handleImportEntries}
+          handleUpdateEntry={handleUpdateEntry}
           panelVisibility={panelVisibility}
           setPanelVisibility={setPanelVisibility}
           titleUppercase={titleUppercase}

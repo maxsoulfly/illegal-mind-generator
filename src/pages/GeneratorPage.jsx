@@ -36,6 +36,7 @@ export default function GeneratorPage({
   handleDeleteEntry,
   handleExportEntries,
   handleImportEntries,
+  handleUpdateEntry,
   setPanelVisibility,
   projectOverrides,
   projectSettingsOverrides,
@@ -104,6 +105,7 @@ export default function GeneratorPage({
         onDeleteEntry={handleDeleteEntry}
         onExportEntries={handleExportEntries}
         onImportEntries={handleImportEntries}
+        onUpdateEntry={handleUpdateEntry}
         projectConfig={projectConfig}
         showSavedLibrary={showSavedLibrary}
         setShowSavedLibrary={setShowSavedLibrary}
