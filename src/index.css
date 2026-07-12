@@ -1279,6 +1279,24 @@ input[type="range"]::-moz-range-progress {
   box-shadow  : 0 0 10px var(--color-shadow-accent);
 }
 
+/* Hashtags/YouTube Tags: many short discrete tokens flowing inline in one
+   paragraph, so each gets its own small bordered chip instead of either
+   .description-line-link's text-only glow or .description-block-link's
+   full-width box. Non-interactive tokens (no source) stay unstyled. */
+.hashtag-chip-link {
+  display      : inline-block;
+  padding      : 1px 4px;
+  border       : 1px solid transparent;
+  border-radius: var(--radius-terminal);
+  cursor       : pointer;
+  transition   : var(--transition-fast);
+}
+
+.hashtag-chip-link:hover {
+  border-color: var(--color-border-hover);
+  box-shadow  : 0 0 6px var(--color-shadow-accent);
+}
+
 /* Top-level page navigation */
 /* ===== App menu ===== */
 .app-menu {

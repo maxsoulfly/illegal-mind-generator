@@ -85,6 +85,7 @@ export default function useAppShellState() {
   const [shortHooksTarget, setShortHooksTarget] = useState(null);
   const [titlesTarget, setTitlesTarget] = useState(null);
   const [thumbnailsTarget, setThumbnailsTarget] = useState(null);
+  const [hashtagsTarget, setHashtagsTarget] = useState(null);
   const [blocksTarget, setBlocksTarget] = useState(null);
   const [songOverrideTarget, setSongOverrideTarget] = useState(null);
 
@@ -207,6 +208,16 @@ export default function useAppShellState() {
     setThumbnailsTarget(null);
   }, []);
 
+  const openHashtagsSearch = (target) => {
+    if (!target) return;
+    setHashtagsTarget(target);
+    setActivePage('projectSettings');
+  };
+
+  const clearHashtagsTarget = useCallback(() => {
+    setHashtagsTarget(null);
+  }, []);
+
   const openProjectSettings = useCallback((section) => {
     setActiveProjectSettingsSection(section);
     setActivePage('projectSettings');
@@ -282,6 +293,9 @@ export default function useAppShellState() {
     thumbnailsTarget,
     openThumbnailsSearch,
     clearThumbnailsTarget,
+    hashtagsTarget,
+    openHashtagsSearch,
+    clearHashtagsTarget,
     openProjectSettings,
     blocksTarget,
     openBlocksEditor,

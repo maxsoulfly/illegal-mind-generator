@@ -44,6 +44,7 @@ export default function GeneratorPage({
   onOpenSourceHook,
   onOpenSourceTemplate,
   onOpenSourceThumbnail,
+  onOpenSourceHashtag,
   onOpenBlocksEditor,
   onNavigateToSettings,
   songOverrideTarget,
@@ -146,6 +147,7 @@ export default function GeneratorPage({
           onOpenSourceHook={onOpenSourceHook}
           onOpenSourceTemplate={onOpenSourceTemplate}
           onOpenSourceThumbnail={onOpenSourceThumbnail}
+          onOpenSourceHashtag={onOpenSourceHashtag}
           onOpenBlocksEditor={onOpenBlocksEditor}
           onNavigateToSettings={onNavigateToSettings}
           onOpenSongOverride={openSongOverride}

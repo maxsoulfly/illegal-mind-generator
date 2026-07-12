@@ -19,6 +19,7 @@ export default function ProjectSettingsContent({
   openShortHooksSearch,
   titlesTarget,
   thumbnailsTarget,
+  hashtagsTarget,
   blocksTarget,
   clearBlocksTarget,
   openBlocksEditor,
@@ -118,6 +119,7 @@ export default function ProjectSettingsContent({
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
+        hashtagsTarget={hashtagsTarget}
       />
     );
   }

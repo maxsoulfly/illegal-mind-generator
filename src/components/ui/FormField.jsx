@@ -1,6 +1,6 @@
-export default function FormField({ label, children, className = '' }) {
+export default function FormField({ label, children, className = '', id }) {
   return (
-    <div className={`form-group${className ? ` ${className}` : ''}`}>
+    <div id={id} className={`form-group${className ? ` ${className}` : ''}`}>
       <label className="form-label">{label}</label>
       {children}
     </div>

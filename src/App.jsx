@@ -55,6 +55,9 @@ function App() {
     thumbnailsTarget,
     openThumbnailsSearch,
     clearThumbnailsTarget,
+    hashtagsTarget,
+    openHashtagsSearch,
+    clearHashtagsTarget,
     openProjectSettings,
     blocksTarget,
     openBlocksEditor,
@@ -216,6 +219,7 @@ function App() {
           onOpenSourceHook={openShortHooksSearch}
           onOpenSourceTemplate={openTitlesSearch}
           onOpenSourceThumbnail={openThumbnailsSearch}
+          onOpenSourceHashtag={openHashtagsSearch}
           onOpenBlocksEditor={openBlocksEditor}
           onNavigateToSettings={openProjectSettings}
           songOverrideTarget={songOverrideTarget}
@@ -290,6 +294,8 @@ function App() {
           clearTitlesTarget={clearTitlesTarget}
           thumbnailsTarget={thumbnailsTarget}
           clearThumbnailsTarget={clearThumbnailsTarget}
+          hashtagsTarget={hashtagsTarget}
+          clearHashtagsTarget={clearHashtagsTarget}
           blocksTarget={blocksTarget}
           clearBlocksTarget={clearBlocksTarget}
           openBlocksEditor={openBlocksEditor}

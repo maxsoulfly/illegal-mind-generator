@@ -22,6 +22,21 @@ function cleanYoutubeTag(text) {
     .trim();
 }
 
+// First-occurrence dedup on `text`, capped at `max` — equivalent to the
+// previous [...new Set(arr)].filter(Boolean).slice(0, max) but keeps each
+// entry's `source` for click-to-navigate.
+function dedupEntries(entries, max) {
+  const seen = new Set();
+  const result = [];
+  for (const entry of entries) {
+    if (!entry.text || seen.has(entry.text)) continue;
+    seen.add(entry.text);
+    result.push(entry);
+    if (result.length >= max) break;
+  }
+  return result;
+}
+
 // Generate hashtags
 export function generateHashtags(formData = {}, config = {}) {
   const baseTags = config.hashtags?.base || [];
@@ -29,65 +44,89 @@ export function generateHashtags(formData = {}, config = {}) {
   const MAX_HASHTAGS = config.hashtags?.maxCount ?? 18;
   const MAX_YOUTUBE_TAGS = config.youtubetags?.maxCount ?? 20;
 
-  const customTags = (formData.customHashtags || '')
-    .split(',')
-    .map((tag) => tag.trim())
-    .filter(Boolean)
-    .map(toHashtag);
-
-  const dynamicTags = [
-    formData.artist ? toHashtag(formData.artist) : null,
-    formData.song ? toHashtag(formData.song) : null,
-  ].filter(Boolean);
-
   const selectedTags = formData?.transformationTags || [];
+  const eligibleTags = selectedTags.filter((tag) => !config.tags?.[tag]?.excludeFromHashtags);
 
-  const tagBasedHashtags = selectedTags
-    .filter((tag) => !config.tags?.[tag]?.excludeFromHashtags)
-    .flatMap((tag) => {
-      const configHashtags = config.tags?.[tag]?.hashtags || [];
+  const customHashtagWords = (formData.customHashtags || '')
+    .split(',')
+    .map((t) => t.trim())
+    .filter(Boolean);
 
-      return configHashtags.length > 0 ? configHashtags : [tag];
-    })
-    .map(toHashtag);
+  // --- Hashtags ---
 
-  const allTags = [
-    ...baseTags,
-    ...dynamicTags,
-    ...customTags,
-    ...tagBasedHashtags,
-  ];
+  const baseEntries = baseTags.map((phrase) => ({
+    text: phrase,
+    source: { type: 'base', card: 'hashtagsBase', phrase },
+  }));
 
-  const rawYoutubeTags = [
-    ...baseYTTags,
-    ...new Set([
-      formData.artist,
-      formData.song,
-      `${formData.artist} ${formData.song}`.toLowerCase(),
-      ...selectedTags.filter((tag) => !config.tags?.[tag]?.excludeFromHashtags),
-      ...selectedTags
-        .filter((tag) => !config.tags?.[tag]?.excludeFromHashtags)
-        .flatMap((tag) => config.tags?.[tag]?.hashtags || []),
-      ...(formData.customHashtags || '')
-        .split(',')
-        .map((t) => t.trim())
-        .filter(Boolean),
-    ]),
+  const dynamicEntries = [
+    formData.artist ? { text: toHashtag(formData.artist), source: null } : null,
+    formData.song ? { text: toHashtag(formData.song), source: null } : null,
   ].filter(Boolean);
 
-  const youtubeTags = [
-    ...new Set(
-      rawYoutubeTags.map(cleanYoutubeTag).filter((tag) => tag.length > 2),
-    ),
-  ]
-    .slice(0, MAX_YOUTUBE_TAGS)
-    .join(', ');
+  const customEntries = customHashtagWords.map((word) => ({
+    text: toHashtag(word),
+    source: { type: 'override' },
+  }));
 
-  return {
-    youtubeTags,
-    hashtags: [...new Set(allTags)]
-      .filter(Boolean)
-      .slice(0, MAX_HASHTAGS)
-      .join(' '),
-  };
+  const tagEntries = eligibleTags.flatMap((tag) => {
+    const configHashtags = config.tags?.[tag]?.hashtags || [];
+
+    if (configHashtags.length > 0) {
+      return configHashtags.map((phrase) => ({
+        text: toHashtag(phrase),
+        source: { type: 'tag', tagName: tag, phrase },
+      }));
+    }
+
+    return [{ text: toHashtag(tag), source: { type: 'tag', tagName: tag, phrase: null } }];
+  });
+
+  const hashtags = dedupEntries(
+    [...baseEntries, ...dynamicEntries, ...customEntries, ...tagEntries],
+    MAX_HASHTAGS,
+  );
+
+  // --- YouTube tags ---
+
+  const baseYTEntries = baseYTTags.map((phrase) => ({
+    text: cleanYoutubeTag(phrase),
+    source: { type: 'base', card: 'youtubeTagsBase', phrase },
+  }));
+
+  const dynamicYTEntries = [
+    formData.artist ? { text: cleanYoutubeTag(formData.artist), source: null } : null,
+    formData.song ? { text: cleanYoutubeTag(formData.song), source: null } : null,
+    { text: cleanYoutubeTag(`${formData.artist} ${formData.song}`.toLowerCase()), source: null },
+  ].filter(Boolean);
+
+  const tagNameYTEntries = eligibleTags.map((tag) => ({
+    text: cleanYoutubeTag(tag),
+    source: { type: 'tag', tagName: tag, phrase: null },
+  }));
+
+  const tagHashtagYTEntries = eligibleTags.flatMap((tag) =>
+    (config.tags?.[tag]?.hashtags || []).map((phrase) => ({
+      text: cleanYoutubeTag(phrase),
+      source: { type: 'tag', tagName: tag, phrase },
+    })),
+  );
+
+  const customYTEntries = customHashtagWords.map((word) => ({
+    text: cleanYoutubeTag(word),
+    source: { type: 'override' },
+  }));
+
+  const youtubeTags = dedupEntries(
+    [
+      ...baseYTEntries,
+      ...dynamicYTEntries,
+      ...tagNameYTEntries,
+      ...tagHashtagYTEntries,
+      ...customYTEntries,
+    ].filter((entry) => entry.text.length > 2),
+    MAX_YOUTUBE_TAGS,
+  );
+
+  return { hashtags, youtubeTags };
 }

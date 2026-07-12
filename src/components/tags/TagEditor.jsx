@@ -15,6 +15,10 @@ function getInitialTab(tag, sourceTarget) {
     return 'titles';
   }
 
+  if (sourceTarget.field === 'hashtags') {
+    return 'hashtags';
+  }
+
   return 'basics';
 }
 

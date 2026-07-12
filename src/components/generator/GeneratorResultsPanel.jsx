@@ -15,6 +15,7 @@ function GeneratorResultsPanel({
   onOpenSourceHook,
   onOpenSourceTemplate,
   onOpenSourceThumbnail,
+  onOpenSourceHashtag,
   onOpenBlocksEditor,
   onOpenSongOverride,
   onNavigateToSettings,
@@ -37,7 +38,7 @@ function GeneratorResultsPanel({
 
     return template
       .replace(/\{fileId\}/g, generatedOutput.fileId || '')
-      .replace(/\{hashtags\}/g, generatedOutput.hashtags || '');
+      .replace(/\{hashtags\}/g, (generatedOutput.hashtags || []).map((entry) => entry.text).join(' '));
   };
 
   return (
@@ -93,6 +94,9 @@ function GeneratorResultsPanel({
           panelVisibility={panelVisibility}
           togglePanel={togglePanel}
           onNavigateToSettings={onNavigateToSettings}
+          onOpenSourceTag={onOpenSourceTag}
+          onOpenSourceHashtag={onOpenSourceHashtag}
+          onOpenSongOverride={onOpenSongOverride}
         />
 
         <YouTubeTagsPanel
@@ -100,6 +104,9 @@ function GeneratorResultsPanel({
           panelVisibility={panelVisibility}
           togglePanel={togglePanel}
           onNavigateToSettings={onNavigateToSettings}
+          onOpenSourceTag={onOpenSourceTag}
+          onOpenSourceHashtag={onOpenSourceHashtag}
+          onOpenSongOverride={onOpenSongOverride}
         />
       </div>
     </div>

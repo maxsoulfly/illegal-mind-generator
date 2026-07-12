@@ -12,6 +12,7 @@ export default function ProjectSettingsHashtags({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,
+  hashtagsTarget = null,
 }) {
   const hashtagConfig = projectConfig.hashtags || {};
   const hashtagOverrides = projectSettingsOverrides.hashtags || {};
@@ -84,6 +85,7 @@ export default function ProjectSettingsHashtags({
           onUpdateTemplates={(v) => updateHashtags('base', v)}
           onReset={() => resetHashtags('base')}
           placeholders={[]}
+          highlightText={hashtagsTarget?.card === 'hashtagsBase' ? hashtagsTarget.template : null}
         />
 
         <TemplateGroupCard
@@ -93,6 +95,7 @@ export default function ProjectSettingsHashtags({
           onUpdateTemplates={(v) => updateYoutubeTags('base', v)}
           onReset={() => resetYoutubeTags('base')}
           placeholders={[]}
+          highlightText={hashtagsTarget?.card === 'youtubeTagsBase' ? hashtagsTarget.template : null}
         />
       </div>
     </section>

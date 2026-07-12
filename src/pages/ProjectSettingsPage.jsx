@@ -19,6 +19,8 @@ export default function ProjectSettingsPage({
   clearTitlesTarget,
   thumbnailsTarget,
   clearThumbnailsTarget,
+  hashtagsTarget,
+  clearHashtagsTarget,
   blocksTarget,
   clearBlocksTarget,
   openBlocksEditor,
@@ -35,15 +37,18 @@ export default function ProjectSettingsPage({
       ? 'titles'
       : thumbnailsTarget
         ? 'thumbnails'
-        : blocksTarget
-          ? 'blocks'
-          : activeSection;
+        : hashtagsTarget
+          ? 'hashtags'
+          : blocksTarget
+            ? 'blocks'
+            : activeSection;
 
   function handleSectionChange(sectionId) {
     onSectionChange(sectionId);
     if (shortHooksTarget) clearShortHooksTarget();
     if (titlesTarget) clearTitlesTarget();
     if (thumbnailsTarget) clearThumbnailsTarget();
+    if (hashtagsTarget) clearHashtagsTarget();
     if (blocksTarget) clearBlocksTarget();
   }
 
@@ -76,6 +81,7 @@ export default function ProjectSettingsPage({
           openShortHooksSearch={openShortHooksSearch}
           titlesTarget={titlesTarget}
           thumbnailsTarget={thumbnailsTarget}
+          hashtagsTarget={hashtagsTarget}
           blocksTarget={blocksTarget}
           clearBlocksTarget={clearBlocksTarget}
           openBlocksEditor={openBlocksEditor}
