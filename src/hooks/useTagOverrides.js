@@ -29,7 +29,12 @@ const mergeShortHooks = (target = {}, source = {}) => {
   }, {});
 };
 
-const mergeTagData = (targetTag = {}, sourceTag = {}) => ({
+// Flat scalar fields (label, category, visible, etc.) aren't in this list —
+// they fall through via the two spreads below. sourceTag is spread first so
+// its values fill in for a tag that doesn't exist in the target yet; targetTag
+// is spread second so an existing tag's own scalar settings still win.
+export const mergeTagData = (targetTag = {}, sourceTag = {}) => ({
+  ...sourceTag,
   ...targetTag,
   title: mergeUniqueArray(targetTag.title, sourceTag.title),
   thumbnail: mergeUniqueArray(targetTag.thumbnail, sourceTag.thumbnail),

@@ -1,3 +1,5 @@
+import { resolveTagOverride } from './resolveTagOverride';
+
 export function buildTagExplorerData(
   projectConfig,
   savedEntries = [],
@@ -19,21 +21,12 @@ export function buildTagExplorerData(
     const baseTag = tagRegistry[tag] || {};
     const tagOverride = tagOverrides[tag] || {};
 
-    const registryTag = {
-      ...baseTag,
-      ...tagOverride,
-      description:
-        baseTag.description || tagOverride.description
-          ? {
-              ...(baseTag.description || {}),
-              ...(tagOverride.description || {}),
-            }
-          : undefined,
-      shortHooks: {
-        ...(baseTag.shortHooks || {}),
-        ...(tagOverride.shortHooks || {}),
-      },
-    };
+    const registryTag = resolveTagOverride(baseTag, tagOverride);
+    // resolveTagOverride always produces a description object ({} at minimum);
+    // this tracks whether either side actually had one, matching the previous
+    // undefined-vs-{} distinction used below without baking it into the shared
+    // merge (which also feeds generation, where always-{} is correct).
+    const hasDescriptionSource = Boolean(baseTag.description || tagOverride.description);
 
     const usedBySongs = savedEntries.filter((entry) =>
       entry.transformationTags?.includes(tag),
@@ -44,12 +37,12 @@ export function buildTagExplorerData(
         : registryTag?.visible !== false;
 
     const isRegistryDriven =
-      registryTag?.title && registryTag?.thumbnail && registryTag?.description;
+      registryTag?.title && registryTag?.thumbnail && hasDescriptionSource;
 
     const hasMissingMappings =
       (!registryTag?.title && !titleTagMap[tag]) ||
       (!registryTag?.thumbnail && !thumbnailTagMap[tag]) ||
-      (!registryTag?.description && !descriptionTagMap[tag]);
+      (!hasDescriptionSource && !descriptionTagMap[tag]);
 
     const isUnused = usedBySongs.length === 0;
 
@@ -62,7 +55,7 @@ export function buildTagExplorerData(
       maps: {
         title: registryTag.title || [],
         thumbnail: registryTag.thumbnail || [],
-        description: registryTag.description || null,
+        description: hasDescriptionSource ? registryTag.description : null,
         shortHooks: registryTag.shortHooks || {},
         hashtags: registryTag.hashtags || [],
       },
@@ -70,9 +63,7 @@ export function buildTagExplorerData(
       existsIn: {
         title: Boolean(registryTag?.title || titleTagMap[tag]),
         thumbnail: Boolean(registryTag?.thumbnail || thumbnailTagMap[tag]),
-        description: Boolean(
-          registryTag?.description || descriptionTagMap[tag],
-        ),
+        description: Boolean(hasDescriptionSource || descriptionTagMap[tag]),
       },
 
       label: registryTag?.label || tag,

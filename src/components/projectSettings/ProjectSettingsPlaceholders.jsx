@@ -5,8 +5,9 @@ import FormSelect from '../ui/FormSelect';
 import IconButton from '../ui/IconButton';
 
 // Fixed set of tag-scoped array fields a placeholder can pool from — same
-// fields TagDescriptionsTab.jsx/TagShortHooksTab.jsx already expose for
-// direct editing, just offered here as a source instead. Combined into one
+// fields the Tag Editor's Descriptions/Short Hooks tabs already expose for
+// direct editing (see TAG_FIELD_TABS in src/utils/tagFieldTabs.js), just
+// offered here as a source instead. Combined into one
 // dropdown (rather than two cascading tagParentField/tagField selects) since
 // the parent/field split is a config-shape detail, not something a user
 // needs to reason about in two steps.

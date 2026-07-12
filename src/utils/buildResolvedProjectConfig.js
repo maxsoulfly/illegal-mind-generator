@@ -1,3 +1,5 @@
+import { resolveTagOverride } from './resolveTagOverride';
+
 function mergeProjectOverrides(projectConfig, projectSettingsOverrides = {}) {
   return {
     ...projectConfig,
@@ -124,19 +126,7 @@ export default function buildResolvedProjectConfig(
 
   Object.entries(tagOverrides || {}).forEach(([tagName, override]) => {
     const baseTag = nextConfig.tags?.[tagName] || {};
-
-    nextConfig.tags[tagName] = {
-      ...baseTag,
-      ...override,
-      description: {
-        ...(baseTag.description || {}),
-        ...(override.description || {}),
-      },
-      shortHooks: {
-        ...(baseTag.shortHooks || {}),
-        ...(override.shortHooks || {}),
-      },
-    };
+    nextConfig.tags[tagName] = resolveTagOverride(baseTag, override);
   });
 
   return nextConfig;

@@ -2,10 +2,7 @@ import { useState } from 'react';
 
 import TagEditorTabs from './editor/TagEditorTabs';
 import TagBasicsTab from './editor/TagBasicsTab';
-import TagTitlesTab from './editor/TagTitlesTab';
-import TagDescriptionsTab from './editor/TagDescriptionsTab';
-import TagShortHooksTab from './editor/TagShortHooksTab';
-import TagHashtagsTab from './editor/TagHashtagsTab';
+import TagFieldTab from './editor/TagFieldTab';
 
 function getInitialTab(tag, sourceTarget) {
   if (sourceTarget?.tagName !== tag.name) return 'basics';
@@ -57,24 +54,26 @@ export default function TagEditor({
       )}
 
       {activeTab === 'titles' && (
-        <TagTitlesTab tag={tag} onUpdateTag={onUpdateTag} sourceTarget={sourceTarget} />
+        <TagFieldTab tabId="titles" tag={tag} onUpdateTag={onUpdateTag} sourceTarget={sourceTarget} />
       )}
 
       {activeTab === 'descriptions' && (
-        <TagDescriptionsTab tag={tag} onUpdateTag={onUpdateTag} />
+        <TagFieldTab tabId="descriptions" tag={tag} onUpdateTag={onUpdateTag} sourceTarget={sourceTarget} />
       )}
 
       {activeTab === 'shortHooks' && (
-        <TagShortHooksTab
+        <TagFieldTab
+          tabId="shortHooks"
           tag={tag}
           onUpdateTag={onUpdateTag}
           sourceTarget={sourceTarget}
+          searchable
           projectConfig={projectConfig}
         />
       )}
 
       {activeTab === 'hashtags' && (
-        <TagHashtagsTab tag={tag} onUpdateTag={onUpdateTag} />
+        <TagFieldTab tabId="hashtags" tag={tag} onUpdateTag={onUpdateTag} sourceTarget={sourceTarget} />
       )}
     </details>
   );
