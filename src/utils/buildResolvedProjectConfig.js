@@ -28,6 +28,16 @@ function mergeProjectOverrides(projectConfig, projectSettingsOverrides = {}) {
       },
     },
 
+    hashtags: {
+      ...(projectConfig.hashtags || {}),
+      ...(projectSettingsOverrides.hashtags || {}),
+    },
+
+    youtubetags: {
+      ...(projectConfig.youtubetags || {}),
+      ...(projectSettingsOverrides.youtubetags || {}),
+    },
+
     description: {
       ...(projectConfig.description || {}),
       ...(projectSettingsOverrides.description || {}),

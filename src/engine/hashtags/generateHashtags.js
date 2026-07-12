@@ -24,9 +24,10 @@ function cleanYoutubeTag(text) {
 
 // Generate hashtags
 export function generateHashtags(formData = {}, config = {}) {
-  const baseTags = config.hashtags || [];
-  const baseYTTags = config.youtubetags || [];
-  const MAX_HASHTAGS = 18;
+  const baseTags = config.hashtags?.base || [];
+  const baseYTTags = config.youtubetags?.base || [];
+  const MAX_HASHTAGS = config.hashtags?.maxCount ?? 18;
+  const MAX_YOUTUBE_TAGS = config.youtubetags?.maxCount ?? 20;
 
   const customTags = (formData.customHashtags || '')
     .split(',')
@@ -79,7 +80,7 @@ export function generateHashtags(formData = {}, config = {}) {
       rawYoutubeTags.map(cleanYoutubeTag).filter((tag) => tag.length > 2),
     ),
   ]
-    .slice(0, 20)
+    .slice(0, MAX_YOUTUBE_TAGS)
     .join(', ');
 
   return {

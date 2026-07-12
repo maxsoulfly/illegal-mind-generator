@@ -92,12 +92,14 @@ function GeneratorResultsPanel({
           hashtags={generatedOutput.hashtags}
           panelVisibility={panelVisibility}
           togglePanel={togglePanel}
+          onNavigateToSettings={onNavigateToSettings}
         />
 
         <YouTubeTagsPanel
           youtubeTags={generatedOutput.youtubeTags}
           panelVisibility={panelVisibility}
           togglePanel={togglePanel}
+          onNavigateToSettings={onNavigateToSettings}
         />
       </div>
     </div>

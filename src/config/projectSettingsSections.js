@@ -92,8 +92,8 @@ export function getProjectSettingsSectionSummary(sectionId, projectConfig) {
   }
 
   if (sectionId === 'hashtags') {
-    const hashtagCount = projectConfig.hashtags?.length || 0;
-    const youtubeTagCount = projectConfig.youtubetags?.length || 0;
+    const hashtagCount = projectConfig.hashtags?.base?.length || 0;
+    const youtubeTagCount = projectConfig.youtubetags?.base?.length || 0;
 
     return `${hashtagCount} hashtags, ${youtubeTagCount} YouTube tags`;
   }

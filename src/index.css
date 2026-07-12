@@ -974,6 +974,17 @@ input[type="range"]::-moz-range-progress {
   letter-spacing: var(--letter-spacing-sm);
 }
 
+/* Same shape as .tag-category, but dimmer — for helper/description text
+   (TemplateGroupCard's subtitle) rather than category-label chrome. */
+.tag-card-subtitle {
+  margin-top    : 2px;
+  font-family   : var(--font-mono);
+  font-size     : 0.72rem;
+  color         : var(--color-text-muted-3);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-sm);
+}
+
 .tag-badge.migrated {
   border-color: var(--color-status-success);
   color       : var(--color-status-success);

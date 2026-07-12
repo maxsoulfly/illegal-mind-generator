@@ -61,7 +61,7 @@ export default function TemplateGroupCard({
           {onUpdateTemplates && (
             <span className="tag-status">{templates.length} {countLabel}</span>
           )}
-          {subtitle && <p className="tag-category">{subtitle}</p>}
+          {subtitle && <p className="tag-card-subtitle">{subtitle}</p>}
           {children}
           {onUpdateTemplates && (
             <HookTemplateEditor

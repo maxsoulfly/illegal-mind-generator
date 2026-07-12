@@ -435,13 +435,15 @@
       "Punk Reconstruction",
       "Modern Mix"
     ],
-    "hashtags": ["#IllegalMind", "#IllegalMindRework", "#IllegalMindCovers"],
+    "hashtags": {
+      "base": ["#IllegalMind", "#IllegalMindRework", "#IllegalMindCovers"],
+      "maxCount": 18
+    },
 
-    "youtubetags": [
-      "Illegal Mind",
-      "Illegal Mind Rework",
-      "Illegal Mind Covers"
-    ],
+    "youtubetags": {
+      "base": ["Illegal Mind", "Illegal Mind Rework", "Illegal Mind Covers"],
+      "maxCount": 20
+    },
 
     "availableTags": [
       "slower",
@@ -2048,14 +2050,14 @@
       }
     },
 
-    "hashtags": [
-      "#MaxxDee",
-      "#CoverSong",
-      "#RockCover",
-      "#FullBandCover",
-      "#OneManBand"
-    ],
-    "youtubetags": ["Maxx Dee", "cover song", "rock cover"],
+    "hashtags": {
+      "base": ["#MaxxDee", "#CoverSong", "#RockCover", "#FullBandCover", "#OneManBand"],
+      "maxCount": 18
+    },
+    "youtubetags": {
+      "base": ["Maxx Dee", "cover song", "rock cover"],
+      "maxCount": 20
+    },
 
     "availableTags": [
       "slower",

@@ -5,6 +5,7 @@ import ProjectSettingsShortHooks from './ProjectSettingsShortHooks';
 import ProjectSettingsTitles from './ProjectSettingsTitles';
 import ProjectSettingsDescriptions from './ProjectSettingsDescriptions';
 import ProjectSettingsThumbnails from './ProjectSettingsThumbnails';
+import ProjectSettingsHashtags from './ProjectSettingsHashtags';
 
 export default function ProjectSettingsContent({
   activeSection,
@@ -107,6 +108,16 @@ export default function ProjectSettingsContent({
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
         thumbnailsTarget={thumbnailsTarget}
+      />
+    );
+  }
+
+  if (activeSection === 'hashtags') {
+    return (
+      <ProjectSettingsHashtags
+        projectConfig={projectConfig}
+        projectSettingsOverrides={projectSettingsOverrides}
+        updateProjectOverride={updateProjectOverride}
       />
     );
   }
