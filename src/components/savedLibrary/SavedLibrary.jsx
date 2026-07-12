@@ -40,6 +40,7 @@ function SavedLibrary({
     controlledSetShowSavedLibrary ?? setInternalShowSavedLibrary;
 
   const [sortBySignal, setSortBySignal] = useState(false);
+  const [missingDataOnly, setMissingDataOnly] = useState(false);
   const [hideQueueHidden, setHideQueueHidden] = useState(() => {
     const ui = readRawUnifiedUi();
 
@@ -78,6 +79,11 @@ function SavedLibrary({
 
         return !entry.excludeFromRandomizer;
       })
+      .filter((entry) => {
+        if (!missingDataOnly) return true;
+
+        return !entry.originalYear || !entry.originalGenre;
+      })
       .sort((a, b) => {
         if (sortBySignal) {
           return Number(a.signalNumber || 0) - Number(b.signalNumber || 0);
@@ -88,7 +94,7 @@ function SavedLibrary({
 
         return a.song.localeCompare(b.song);
       });
-  }, [savedEntries, search, sortBySignal, hideQueueHidden]);
+  }, [savedEntries, search, sortBySignal, hideQueueHidden, missingDataOnly]);
   return (
     <div>
       <ToggleButton
@@ -131,6 +137,16 @@ function SavedLibrary({
                     onChange={(e) => setHideQueueHidden(e.target.checked)}
                   />
                   <span className="toggle-label">Hide Queue-Hidden</span>
+                </label>
+
+                <label className="toggle-row library-sort-toggle">
+                  <input
+                    className="toggle-checkbox"
+                    type="checkbox"
+                    checked={missingDataOnly}
+                    onChange={(e) => setMissingDataOnly(e.target.checked)}
+                  />
+                  <span className="toggle-label">Missing Year/Genre</span>
                 </label>
               </div>
             </div>

@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import FormField from '../ui/FormField';
 import ToggleField from '../ui/ToggleField';
+import { buildSearchQuery } from '../../utils/searchQuery';
 
 export default function BasicSongFields({
   formData,
@@ -8,6 +10,17 @@ export default function BasicSongFields({
   artistSuggestions,
   songSuggestions,
 }) {
+  const [copiedField, setCopiedField] = useState(null);
+
+  const copySearchQuery = (kind) => {
+    const query = buildSearchQuery(kind, formData.artist, formData.song);
+    if (!query) return;
+
+    navigator.clipboard.writeText(query);
+    setCopiedField(kind);
+    setTimeout(() => setCopiedField(null), 500);
+  };
+
   return (
     <div className="basic-song-fields">
       <FormField label="Artist" className="basic-song-fields__artist-group">
@@ -82,7 +95,18 @@ export default function BasicSongFields({
             placeholder="e.g. 1983"
             value={formData.originalYear}
             onChange={handleChange}
+            onDoubleClick={() =>
+              !formData.originalYear && copySearchQuery('year')
+            }
+            title={
+              formData.originalYear
+                ? undefined
+                : "Double-click to copy a Google search for this song's release date"
+            }
           />
+          {copiedField === 'year' && (
+            <span className="field-copy-hint">Copied ✔️</span>
+          )}
         </FormField>
       </div>
 
@@ -93,7 +117,18 @@ export default function BasicSongFields({
           placeholder="e.g. Dance Pop, New Wave"
           value={formData.originalGenre}
           onChange={handleChange}
+          onDoubleClick={() =>
+            !formData.originalGenre && copySearchQuery('genre')
+          }
+          title={
+            formData.originalGenre
+              ? undefined
+              : "Double-click to copy a Google search for this song's genre"
+          }
         />
+        {copiedField === 'genre' && (
+          <span className="field-copy-hint">Copied ✔️</span>
+        )}
       </FormField>
 
       <FormField label="Video Type">

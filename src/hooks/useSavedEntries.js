@@ -208,6 +208,10 @@ function useSavedEntries(
             artist: item.artist.trim(),
             song: item.song.trim(),
             signalNumber: String(item.signalNumber || '').trim(),
+            originalYear: String(item.originalYear || '').trim(),
+            originalGenre: String(item.originalGenre || '').trim(),
+            useCustomArtistShort: Boolean(item.useCustomArtistShort),
+            artistShort: String(item.artistShort || '').trim(),
             transformationTags: Array.isArray(item.transformationTags)
               ? item.transformationTags
               : [],

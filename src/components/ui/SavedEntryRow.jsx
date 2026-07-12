@@ -9,6 +9,7 @@ export default function SavedEntryRow({
   tags,
   hidden,
   loading,
+  badges,
   middle,
   actions,
   actionsClassName,
@@ -31,6 +32,8 @@ export default function SavedEntryRow({
         )}
 
         {hidden && <span className="saved-entry-hidden">[hidden]</span>}
+
+        {badges}
       </div>
 
       {middle}

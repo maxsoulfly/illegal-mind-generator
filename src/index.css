@@ -565,6 +565,15 @@ input[type="range"]::-moz-range-progress {
   box-shadow      : 0 0 10px var(--color-accent-gradient-top);
 }
 
+.field-copy-hint {
+  margin-left   : var(--space-2);
+  color         : var(--color-text-accent);
+  font-family   : var(--font-mono);
+  font-size     : var(--font-size-toggle);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-sm);
+}
+
 .output-text {
   margin     : var(--space-0) 0 var(--space-4);
   white-space: pre-wrap;
@@ -875,6 +884,37 @@ input[type="range"]::-moz-range-progress {
 
 .saved-entry-hidden {
   color: var(--color-text-muted-3);
+}
+
+.saved-entry-missing-badge {
+  flex-shrink: 0;
+
+  display    : inline-flex;
+  align-items: center;
+  margin-left: var(--space-2);
+  padding    : 2px var(--space-3);
+
+  background   : transparent;
+  border       : 1px solid var(--color-border-danger);
+  border-radius: var(--radius-terminal);
+  color        : var(--color-text-danger);
+
+  line-height: 1;
+  cursor     : pointer;
+  opacity    : .75;
+  transition : var(--transition-fast);
+
+  font-family    : var(--font-mono);
+  font-size      : var(--font-size-toggle);
+  text-transform : uppercase;
+  letter-spacing : var(--letter-spacing-sm);
+}
+
+.saved-entry-missing-badge:hover {
+  opacity     : 1;
+  background  : var(--color-bg-button-secondary);
+  border-color: var(--color-border-danger-hover);
+  color       : var(--color-text-danger-hover);
 }
 
 
