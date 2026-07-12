@@ -108,7 +108,10 @@ function SavedLibrary({
           <div className="panel">
             <h3 className="panel-title">
               Saved Library —{' '}
-              <span className="text-main">{projectConfig.name}</span>
+              <span className="text-main">{projectConfig.name}</span>{' '}
+              <span className="saved-library-count">
+                ({filteredEntries.length} / {savedEntries.length} shown)
+              </span>
             </h3>
             <div className="library-controls">
               <input

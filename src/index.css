@@ -882,6 +882,13 @@ input[type="range"]::-moz-range-progress {
   color: var(--color-text-muted-2);
 }
 
+.saved-library-count {
+  color        : var(--color-text-muted-2);
+  font-size    : var(--font-size-toggle);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
 .saved-entry-hidden {
   color: var(--color-text-muted-3);
 }

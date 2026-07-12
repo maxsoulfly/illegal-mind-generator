@@ -21,6 +21,96 @@ const normalizeEntryIds = (entries) => {
     });
 };
 
+const isEmptyValue = (value) => {
+  if (Array.isArray(value)) return value.length === 0;
+  if (value && typeof value === 'object') return Object.keys(value).length === 0;
+  return !value;
+};
+
+// Import merges field-by-field: an imported field that's empty/absent never
+// overwrites an existing entry's real data. Without this, importing a
+// library exported from another device (or an older export) would blindly
+// replace a matching local entry wholesale, silently wiping out anything
+// the imported copy didn't have (e.g. a Todo status set locally after that
+// export was taken).
+const preferNonEmpty = (importedValue, existingValue) =>
+  isEmptyValue(importedValue) ? (existingValue ?? importedValue) : importedValue;
+
+const mergeImportedEntry = (item, existing) => {
+  const importedOverrides = (() => {
+    const overrides =
+      item.songBlockOverrides && typeof item.songBlockOverrides === 'object'
+        ? { ...item.songBlockOverrides }
+        : {};
+    if (!overrides.storyBlock && String(item.customStory || '').trim()) {
+      overrides.storyBlock = String(item.customStory).trim();
+    }
+    if (!overrides.logBlock && String(item.customLogNote || '').trim()) {
+      overrides.logBlock = String(item.customLogNote).trim();
+    }
+    return overrides;
+  })();
+
+  return {
+    id: buildEntryId(item.artist, item.song),
+    artist: item.artist.trim(),
+    song: item.song.trim(),
+    signalNumber: preferNonEmpty(
+      String(item.signalNumber || '').trim(),
+      existing?.signalNumber,
+    ),
+    originalYear: preferNonEmpty(
+      String(item.originalYear || '').trim(),
+      existing?.originalYear,
+    ),
+    originalGenre: preferNonEmpty(
+      String(item.originalGenre || '').trim(),
+      existing?.originalGenre,
+    ),
+    useCustomArtistShort:
+      item.useCustomArtistShort !== undefined
+        ? Boolean(item.useCustomArtistShort)
+        : existing?.useCustomArtistShort || false,
+    artistShort: preferNonEmpty(
+      String(item.artistShort || '').trim(),
+      existing?.artistShort,
+    ),
+    transformationTags: preferNonEmpty(
+      Array.isArray(item.transformationTags) ? item.transformationTags : [],
+      existing?.transformationTags,
+    ),
+    customHashtags: preferNonEmpty(
+      String(item.customHashtags || '').trim(),
+      existing?.customHashtags,
+    ),
+    customCta: preferNonEmpty(
+      String(item.customCta || '').trim(),
+      existing?.customCta,
+    ),
+    // Shallow-merged, not swapped: an import that only touches one block
+    // (e.g. storyBlock) shouldn't erase an existing override on another
+    // block (e.g. logBlock) that the import simply doesn't mention.
+    songBlockOverrides: {
+      ...(existing?.songBlockOverrides || {}),
+      ...importedOverrides,
+    },
+    excludeFromRandomizer:
+      item.excludeFromRandomizer !== undefined
+        ? Boolean(item.excludeFromRandomizer)
+        : existing?.excludeFromRandomizer || false,
+    todo: {
+      status: preferNonEmpty(
+        String(item.todo?.status || '').trim(),
+        existing?.todo?.status,
+      ),
+      notes: preferNonEmpty(
+        String(item.todo?.notes || '').trim(),
+        existing?.todo?.notes,
+      ),
+    },
+  };
+};
+
 const toSlug = (str) =>
   str
     .toLowerCase()
@@ -196,49 +286,25 @@ function useSavedEntries(
 
         if (!Array.isArray(parsed)) return;
 
-        const normalized = parsed
-          .filter(
-            (item) =>
-              item &&
-              typeof item.artist === 'string' &&
-              typeof item.song === 'string',
-          )
-          .map((item) => ({
-            id: buildEntryId(item.artist, item.song),
-            artist: item.artist.trim(),
-            song: item.song.trim(),
-            signalNumber: String(item.signalNumber || '').trim(),
-            originalYear: String(item.originalYear || '').trim(),
-            originalGenre: String(item.originalGenre || '').trim(),
-            useCustomArtistShort: Boolean(item.useCustomArtistShort),
-            artistShort: String(item.artistShort || '').trim(),
-            transformationTags: Array.isArray(item.transformationTags)
-              ? item.transformationTags
-              : [],
-            customHashtags: String(item.customHashtags || '').trim(),
-            customCta: String(item.customCta || '').trim(),
-            songBlockOverrides: (() => {
-              const overrides =
-                item.songBlockOverrides && typeof item.songBlockOverrides === 'object'
-                  ? { ...item.songBlockOverrides }
-                  : {};
-              if (!overrides.storyBlock && String(item.customStory || '').trim()) {
-                overrides.storyBlock = String(item.customStory).trim();
-              }
-              if (!overrides.logBlock && String(item.customLogNote || '').trim()) {
-                overrides.logBlock = String(item.customLogNote).trim();
-              }
-              return overrides;
-            })(),
-            excludeFromRandomizer: Boolean(item.excludeFromRandomizer),
-            todo: {
-              status: String(item.todo?.status || '').trim(),
-              notes: String(item.todo?.notes || '').trim(),
-            },
-          }));
+        const validItems = parsed.filter(
+          (item) =>
+            item &&
+            typeof item.artist === 'string' &&
+            typeof item.song === 'string',
+        );
 
         setSavedEntriesByProject((prev) => {
           const currentProjectEntries = prev[selectedProjectId] || [];
+          const existingById = new Map(
+            currentProjectEntries.map((entry) => [entry.id, entry]),
+          );
+
+          const normalized = validItems.map((item) =>
+            mergeImportedEntry(
+              item,
+              existingById.get(buildEntryId(item.artist, item.song)),
+            ),
+          );
 
           return {
             ...prev,

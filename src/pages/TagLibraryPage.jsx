@@ -143,7 +143,7 @@ export default function TagLibraryPage({
         onSyncTags={handleSyncTags}
       />
 
-      <div className="tag-library">
+      <div className="tag-library tag-library--3col">
         {sortedTags.map((tag) => (
           <TagCard
             key={tag.name}
