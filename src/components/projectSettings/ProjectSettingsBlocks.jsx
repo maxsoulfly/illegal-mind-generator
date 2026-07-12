@@ -18,6 +18,7 @@ export default function ProjectSettingsBlocks({
   updateProjectOverride,
   blocksTarget,
   clearBlocksTarget,
+  openBlocksEditor,
 }) {
   const activeSubTab = blocksTarget?.subTab ?? projectSettingsOverrides.blocks?.activeSubTab ?? 'lists';
 
@@ -79,6 +80,7 @@ export default function ProjectSettingsBlocks({
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}
           openBlockKey={blocksTarget?.subTab === 'groups' ? blocksTarget.blockKey : null}
+          onNavigateToBlock={openBlocksEditor}
         />
       )}
 

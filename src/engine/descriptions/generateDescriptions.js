@@ -1,10 +1,9 @@
 import { generateShortDescriptions } from './generateShortDescriptions';
-import { generateBroadcastBlock } from './generateBroadcastBlock';
 import { generateTechnicalBlock } from './generateTechnicalBlock';
-import { generateCustomBlocks, generateBlockGroups, getEffectiveSongOverrides, resolveLayoutKey, renderTextTemplate, resolveHookOverride, pickViableTemplate, isSongOverrideActive, resolveHookBlockOutput } from './generateCustomBlocks';
+import { generateCustomBlocks, generateBlockGroups, getEffectiveSongOverrides, resolveLayoutKey, renderTextTemplate, resolveHookOverride, pickViableTemplate, isSongOverrideActive } from './generateCustomBlocks';
 import { buildTagLine, buildTagPhrase } from './descriptionTagHelpers';
 import { buildHookBlockMaps, buildBlockGroupMaps, resolveBlockSource } from '../../utils/descriptionLayout';
-import { fillPlaceholders } from '../placeholders';
+import { resolveFileId } from '../placeholders';
 
 export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const tagLine = buildTagLine(formData, projectConfig);
@@ -21,14 +20,12 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     overrides: { num: formData.signalNumber || '00' },
   };
 
-  // --- Broadcast block ---
-  const { broadcastBlock, fileId } = generateBroadcastBlock(
-    formData,
-    projectConfig,
-    selectedTags,
-  );
+  // fileId is needed as a standalone value (returned below for callers
+  // outside the description text — the AI-prompt generator, the copy
+  // footer), independent of whether Broadcast Block itself is displayed.
+  const fileId = resolveFileId(ctx);
 
-  // --- Song overrides (needed by intro, story, log, and dynamic hook blocks) ---
+  // --- Song overrides (needed by intro, story, and dynamic hook blocks) ---
   const songOverrides = getEffectiveSongOverrides(formData);
 
   // --- Intro block ---
@@ -46,23 +43,6 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   // --- Technical block ---
   const technicalBlock = generateTechnicalBlock(selectedTags, projectConfig, formData);
 
-  // --- Log block ---
-  // "Log · Format" (the wrapper, e.g. "Production Note:\n {logNote}") and the
-  // per-tag log line are two independently-resolved pieces joined here, not
-  // one merged template — embedding {custom.tagLogLine} directly inside the
-  // wrapper would make the whole wrapper vanish whenever a selected tag has
-  // no log phrases (any placeholder that resolves empty drops its candidate
-  // template, see placeholders.js), and both projects' logBlock pool
-  // currently has only one template with no fallback to fall back to.
-  // logCtx overrides tagLine (not tagPhrase, unlike the shared ctx above) to
-  // exactly match generateLogBlock.js's prior behavior — Illegal Mind's
-  // wrapper references {tagLine} directly.
-  const logCtx = { ...ctx, tagLine };
-  const logBlock = [
-    resolveHookBlockOutput('logFormat', logCtx)?.text,
-    fillPlaceholders('{custom.tagLogLine}', logCtx).text,
-  ].filter(Boolean).join('\n');
-
   // --- Long description ---
   if (!projectConfig?.description.templates?.long?.layout) {
     throw new Error('Missing description layout in project config');
@@ -73,12 +53,15 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
     generateCustomBlocks(formData, projectConfig, tagLine);
 
   const layout = projectConfig.description.templates.long.layout;
+  // broadcastBlock/logBlock are deliberately absent here — both are real
+  // Block Groups now (see projects.json), each combining a wrapper Hook
+  // Block with a trivial single-template Hook Block wrapping a Custom
+  // Placeholder ({custom.tagStatusLine}/{custom.tagLogLine}). They're
+  // produced entirely by generateBlockGroups below, same as closingBlock.
   const baseBlocks = {
-    broadcastBlock,
     introBlock,
     storyBlock,
     technicalBlock,
-    logBlock,
     supportBlock,
     ...renderedCustomBlocks,
   };
@@ -86,11 +69,16 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   // their children through the same resolveLayoutKey the top-level layout
   // loop below uses, then get merged in as ordinary blocks — a group key
   // becomes just another `blockName in blocks` hit, no special-casing needed
-  // in the loop itself.
+  // in the loop itself. logBlock's wrapper references {tagLine}, which must
+  // resolve via buildTagLine's result (the raw `tagLine` var), not
+  // buildTagPhrase's (this ctx's own tagLine field) — a genuinely different
+  // value — so it gets its own ctx via groupCtxOverrides rather than the
+  // shared one every other group uses.
   const blockGroups = projectConfig.description?.blockGroups || [];
+  const logCtx = { ...ctx, tagLine };
   const blocks = {
     ...baseBlocks,
-    ...generateBlockGroups(blockGroups, ctx, baseBlocks, songOverrides),
+    ...generateBlockGroups(blockGroups, ctx, baseBlocks, songOverrides, { logBlock: logCtx }),
   };
 
   // Source attribution for click-to-navigate + hover tooltips (DescriptionsPanel).

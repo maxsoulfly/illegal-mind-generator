@@ -518,24 +518,27 @@
           "key": "broadcastHeader",
           "label": "Broadcast · Header",
           "path": "long",
-          "templateKey": "broadcastHeader",
-          "descriptionLayoutKey": "broadcastBlock"
+          "templateKey": "broadcastHeader"
         },
         {
           "key": "operatorStatuses",
           "label": "Broadcast · Statuses",
           "path": "top",
-          "templateKey": "operatorStatuses",
-          "descriptionLayoutKey": "broadcastBlock"
+          "templateKey": "operatorStatuses"
         },
         {
           "key": "statusLines",
           "label": "Broadcast · Status Lines",
           "path": "long",
           "templateKey": "statusLines",
-          "descriptionLayoutKey": "broadcastBlock",
           "countMax": 4,
           "countDefault": 2
+        },
+        {
+          "key": "tagStatusLineWrapper",
+          "label": "Broadcast · Tag Status",
+          "path": "long",
+          "templateKey": "tagStatusLineWrapper"
         },
         {
           "key": "technicalLines",
@@ -557,8 +560,13 @@
           "key": "logFormat",
           "label": "Log · Format",
           "path": "long",
-          "templateKey": "logBlock",
-          "descriptionLayoutKey": "logBlock"
+          "templateKey": "logBlock"
+        },
+        {
+          "key": "tagLogLineWrapper",
+          "label": "Log Notes · Tag Line",
+          "path": "long",
+          "templateKey": "tagLogLineWrapper"
         },
         {
           "key": "tagLineFallbacks",
@@ -627,6 +635,26 @@
             { "type": "block", "key": "closingSignal" },
             { "type": "block", "key": "philosophyLine" }
           ]
+        },
+        {
+          "key": "broadcastBlock",
+          "label": "Broadcast",
+          "scope": "project",
+          "target": "long",
+          "children": [
+            { "type": "block", "key": "broadcastHeader" },
+            { "type": "block", "key": "tagStatusLineWrapper" }
+          ]
+        },
+        {
+          "key": "logBlock",
+          "label": "Log Notes",
+          "scope": "song",
+          "target": "long",
+          "children": [
+            { "type": "block", "key": "logFormat" },
+            { "type": "block", "key": "tagLogLineWrapper" }
+          ]
         }
       ],
 
@@ -636,6 +664,12 @@
           "label": "Tag · Log Line",
           "source": { "tagParentField": "description", "tagField": "log" },
           "count": 1
+        },
+        {
+          "key": "tagStatusLine",
+          "label": "Tag · Status Line",
+          "source": { "tagParentField": "description", "tagField": "status", "hookBlockKey": "statusLines" },
+          "count": 2
         }
       ],
 
@@ -696,8 +730,12 @@
             "This signal traces back to \"{song}\" by {artist}, but the original form was no longer enough. {tagLine}. The transmission was reshaped to carry more weight through the wasteland."
           ],
           "logBlock": [
-            "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: {logNote}"
+            "[LOG_DATA]\nReconstruction Phase: {tagLine}.\nOperator Note: {logNote}",
+            "[SIGNAL_LOG]\nRebuild Trace: {tagLine}.\nField Note: {logNote}",
+            "[ARCHIVE_ENTRY]\nRecovery Path: {tagLine}.\nTechnician Log: {logNote}"
           ],
+          "tagLogLineWrapper": ["{custom.tagLogLine}"],
+          "tagStatusLineWrapper": ["{custom.tagStatusLine}"],
           "transformationBlock": [
             "{primaryTag} reconstruction",
             "{originalGenre} pulled into {primaryTag} territory",
@@ -2079,8 +2117,13 @@
           "key": "logFormat",
           "label": "Log · Format",
           "path": "long",
-          "templateKey": "logBlock",
-          "descriptionLayoutKey": "logBlock"
+          "templateKey": "logBlock"
+        },
+        {
+          "key": "tagLogLineWrapper",
+          "label": "Log Notes · Tag Line",
+          "path": "long",
+          "templateKey": "tagLogLineWrapper"
         },
         {
           "key": "tagLineTemplates",
@@ -2120,6 +2163,19 @@
         }
       ],
       "operatorStatuses": [],
+
+      "blockGroups": [
+        {
+          "key": "logBlock",
+          "label": "Log Notes",
+          "scope": "song",
+          "target": "long",
+          "children": [
+            { "type": "block", "key": "logFormat" },
+            { "type": "block", "key": "tagLogLineWrapper" }
+          ]
+        }
+      ],
 
       "placeholders": [
         {
@@ -2203,6 +2259,7 @@
             "This cover of \"{song}\" by {artist} was recorded as a full-band home studio version. {tagLine}."
           ],
           "logBlock": ["Production Note:\n {logNote}"],
+          "tagLogLineWrapper": ["{custom.tagLogLine}"],
           "transformationBlock": [
             "{primaryTag} take",
             "modern {primaryTag} version",

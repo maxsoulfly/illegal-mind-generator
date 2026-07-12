@@ -4,8 +4,8 @@ import BlockEditorCard from './blocks/BlockEditorCard';
 import AddBlockForm from './blocks/AddBlockForm';
 import BlockInfoCard from '../ui/BlockInfoCard';
 import MoveControls from '../ui/MoveControls';
-import { isListBlock, isTextBlock } from '../../utils/customBlocks';
-import { makeBlockKeyLabelResolver } from '../../utils/descriptionLayout';
+import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../utils/customBlocks';
+import { makeBlockKeyLabelResolver, resolveBlockSource, buildHookBlockMaps } from '../../utils/descriptionLayout';
 
 // Block Groups are a shell: { key, label, scope, target, children }. A child
 // is { type: 'block', key } — an existing List/Text/Hook Block, joined tight
@@ -44,11 +44,14 @@ export default function ProjectSettingsBlockGroups({
   projectSettingsOverrides = {},
   updateProjectOverride,
   openBlockKey,
+  onNavigateToBlock,
 }) {
   const overriddenDesc = projectSettingsOverrides.description || {};
   const blockGroups = projectConfig.description?.blockGroups || [];
   const hookBlocks = projectConfig.description?.hookBlocks || [];
   const customBlocks = projectConfig.description?.templates?.long?.customBlocks || {};
+  const supportBlockConfig = projectConfig.description?.templates?.long?.supportBlock;
+  const hookBlockMaps = buildHookBlockMaps(hookBlocks);
 
   const getBlockKeyLabel = makeBlockKeyLabelResolver({
     hookBlocks,
@@ -56,6 +59,16 @@ export default function ProjectSettingsBlockGroups({
     blockLabelOverrides: overriddenDesc.blockLabelOverrides || {},
     customBlocks,
   });
+
+  // A group's children are always Hook/List/Text blocks, never another
+  // group — no blockGroupMaps needed to disambiguate their own type.
+  function getChildNavigateHandler(childKey) {
+    if (!onNavigateToBlock) return undefined;
+    const source = resolveBlockSource(childKey, { hookBlockMaps, customBlocks, supportBlockConfig });
+    if (!source) return undefined;
+    const subTab = BLOCK_TYPE_SUBTABS[source.blockType]?.subTab;
+    return () => onNavigateToBlock({ subTab, blockKey: source.blockKey });
+  }
 
   const dynamicGroupKeys = new Set((overriddenDesc.customBlockGroups || []).map((g) => g.key));
   const isDynamic = (key) => dynamicGroupKeys.has(key);
@@ -186,6 +199,7 @@ export default function ProjectSettingsBlockGroups({
                   <BlockInfoCard
                     label={getBlockKeyLabel(child.key)}
                     onRemove={() => removeChild(group, child.key)}
+                    onNavigate={getChildNavigateHandler(child.key)}
                   />
                 </div>
               ))}

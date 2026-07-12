@@ -205,19 +205,29 @@ export function resolveLayoutKey(key, ctx, blocks, songOverrides) {
 
 // Resolves every configured Block Group to its joined text: each 'block'
 // child is resolved through resolveLayoutKey; joined tight with '\n',
-// matching the bespoke merges (generateBroadcastBlock.js, the old inline
-// closingBlock join) this type replaces. A 'generated' child type (tag-scoped
-// content as a visible/orderable Group child) was planned but superseded by
-// Custom Placeholders (src/engine/placeholders.js's resolveCustomPlaceholder)
-// — see the Log block's own resolution in generateDescriptions.js for the
-// pattern that replaced it. Returns a { [group.key]: text } map ready to
-// spread into the `blocks` map.
-export function generateBlockGroups(blockGroups, ctx, blocks, songOverrides) {
+// matching the bespoke merges (the old inline closingBlock join, and the old
+// generateBroadcastBlock.js/generateLogBlock.js) this type replaces. Tag-
+// scoped content (the per-tag "Modification: ..." log line, per-tag status
+// lines) is a Custom Placeholder (src/engine/placeholders.js's
+// resolveCustomPlaceholder) wrapped in its own trivial single-template Hook
+// Block (e.g. a block whose only template is "{custom.tagLogLine}") and
+// added as an ordinary 'block' child — no dedicated 'generated' child type
+// was needed after all; a Group of two Hook Blocks already does this
+// correctly as long as neither child's template also depends on the other
+// (see Log Notes/Broadcast Block in projects.json for the pattern).
+//
+// groupCtxOverrides (optional, keyed by group.key) lets one specific group
+// resolve its children against a different ctx than the shared one every
+// other group uses — Log Notes needs this because its wrapper references
+// {tagLine}, which must resolve via buildTagLine's result, not buildTagPhrase's
+// (the two are genuinely different values — see generateDescriptions.js).
+export function generateBlockGroups(blockGroups, ctx, blocks, songOverrides, groupCtxOverrides = {}) {
   return Object.fromEntries(
     blockGroups.map((group) => {
+      const groupCtx = groupCtxOverrides[group.key] ?? ctx;
       const parts = group.children
         .filter((child) => child.type === 'block')
-        .map((child) => resolveLayoutKey(child.key, ctx, blocks, songOverrides))
+        .map((child) => resolveLayoutKey(child.key, groupCtx, blocks, songOverrides))
         .filter(Boolean);
       return [group.key, parts.join('\n')];
     }),

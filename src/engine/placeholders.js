@@ -62,10 +62,35 @@ function resolveLogNoteToken(ctx) {
   return pickViableTemplate(logNotes, ctx)?.text ?? '';
 }
 
+// {fileId} is deterministic from artist/song + signal number — no randomness,
+// so no recursion or freshness concerns. Exported separately (not just via
+// REGISTRY) because generateDescriptions.js needs the raw value itself, not
+// just its inline substitution — it's returned from generateDescriptions()
+// for callers outside the description text (e.g. the AI-prompt generator,
+// GeneratorResultsPanel's copy footer).
+export function resolveFileId(ctx) {
+  const fileCore = (ctx.formData.song || '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word[0]?.toUpperCase() || '')
+    .join('') || 'SIG';
+  return `${fileCore}-${ctx.formData.signalNumber || '00'}`;
+}
+
+// {operatorStatus} — random pick from the project's operatorStatuses pool,
+// same self-recursion guard as {logNote} since this pool is user-editable
+// via Blocks → Hook Blocks → "Broadcast · Statuses" and could theoretically
+// contain a phrase referencing {operatorStatus} itself.
+function resolveOperatorStatusToken(ctx) {
+  if (ctx._resolvingOperatorStatus) return 'unstable cycle';
+  const operatorStatuses = ctx.projectConfig?.description?.operatorStatuses || [];
+  return pickViableTemplate(operatorStatuses, { ...ctx, _resolvingOperatorStatus: true })?.text || 'unstable cycle';
+}
+
 // The generic placeholder set every engine (hooks, titles, descriptions) fills
-// identically. Tokens NOT listed here (num, coverLabel, fileId, operatorStatus, ...)
-// are domain-specific and stay handled by their own engine file — leave them
-// unresolved here so fillPlaceholders() doesn't shadow that behavior.
+// identically. Tokens NOT listed here (num, coverLabel, ...) are domain-specific
+// and stay handled by their own engine file — leave them unresolved here so
+// fillPlaceholders() doesn't shadow that behavior.
 const REGISTRY = {
   artist: (ctx) => ctx.formData.artist || '',
   song: (ctx) => ctx.formData.song || '',
@@ -78,6 +103,8 @@ const REGISTRY = {
   originalGenre: (ctx) => pickOneGenre(ctx.formData.originalGenre),
   tagLine: (ctx) => ctx.tagLine || '',
   logNote: (ctx) => resolveLogNoteToken(ctx),
+  fileId: (ctx) => resolveFileId(ctx),
+  operatorStatus: (ctx) => resolveOperatorStatusToken(ctx),
 };
 
 // Every general-purpose token this system resolves — the single source of
@@ -154,18 +181,25 @@ function buildPlaceholderPool(def, ctx) {
 // Resolves a user-defined {custom.<key>} placeholder (description.placeholders
 // in the resolved project config — see buildResolvedProjectConfig.js): pools
 // candidate lines from its source(s), fills each candidate's own placeholders,
-// and picks `count` (default 1). An unknown/stale key resolves to '' (not
-// undefined) so it behaves like a legitimately-empty pool — the containing
-// candidate template gets dropped by the standard "no fallback safety net"
-// rule (see fillPlaceholders' hasEmpty), rather than leaking the raw
-// {custom.x} token into generated output.
-export function resolveCustomPlaceholder(key, ctx) {
+// and picks `count` (default 1, or `countOverride` when a caller needs to
+// bypass the stored default — e.g. Broadcast Block reads the *existing*
+// dynamic "Broadcast · Status Lines" hookBlockCounts value at generation
+// time, rather than a static count baked into the placeholder definition,
+// so a user's already-configured Lines-slider value keeps working exactly
+// as before migration; the {custom.<key>} token syntax itself never passes
+// this, only direct callers like generateDescriptions.js do). An unknown/
+// stale key resolves to '' (not undefined) so it behaves like a
+// legitimately-empty pool — the containing candidate template gets dropped
+// by the standard "no fallback safety net" rule (see fillPlaceholders'
+// hasEmpty), rather than leaking the raw {custom.x} token into output.
+export function resolveCustomPlaceholder(key, ctx, countOverride) {
   const defs = ctx.projectConfig?.description?.placeholders || [];
   const def = defs.find((p) => p.key === key);
   if (!def) return '';
 
   const pool = buildPlaceholderPool(def, ctx);
-  return resolvePooledOutput(pool, ctx, fillPlaceholders, { count: def.count ?? 1, joinWith: def.joinWith })?.text ?? '';
+  const count = countOverride ?? def.count ?? 1;
+  return resolvePooledOutput(pool, ctx, fillPlaceholders, { count, joinWith: def.joinWith })?.text ?? '';
 }
 
 function resolveToken(token, ctx) {

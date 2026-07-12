@@ -82,6 +82,7 @@ export default function ProjectSettingsContent({
         updateProjectOverride={updateProjectOverride}
         blocksTarget={blocksTarget}
         clearBlocksTarget={clearBlocksTarget}
+        openBlocksEditor={openBlocksEditor}
       />
     );
   }
