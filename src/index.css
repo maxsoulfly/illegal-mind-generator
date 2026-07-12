@@ -2082,6 +2082,24 @@ input[type="range"]::-moz-range-progress {
   align-items: flex-start;
 }
 
+.desc-block-wrapper.dragging {
+  opacity   : 0.5;
+  box-shadow: 0 4px 12px var(--color-shadow-panel-inset);
+}
+
+.desc-drag-handle {
+  flex-shrink: 0;
+  padding-top: var(--space-1);
+  color      : var(--color-text-muted);
+  cursor     : grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.desc-drag-handle:hover {
+  color: var(--color-text-accent);
+}
+
 .desc-block-move-controls {
   padding-top: var(--space-1);
   flex-shrink: 0;

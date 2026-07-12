@@ -1,9 +1,23 @@
 import { useState } from 'react';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+  sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
 import BlockInfoCard from '../../ui/BlockInfoCard';
 import LabelSliderRow from '../../ui/LabelSliderRow';
 import SubTabNav from '../../ui/SubTabNav';
-import MoveControls from '../../ui/MoveControls';
 import IconButton from '../../ui/IconButton';
+import SortableActiveBlock from './SortableActiveBlock';
 import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../../utils/customBlocks';
 import { buildHookBlockMaps, buildBlockGroupMaps, makeLayoutLabelResolver, resolveBlockSource, KNOWN_SHORTS_BLOCK_META } from '../../../utils/descriptionLayout';
 
@@ -21,6 +35,11 @@ export default function ShortsDescriptionSettings({
   onNavigateToShortHooks,
 }) {
   const [mobileTab, setMobileTab] = useState('layout');
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
 
   const shortsConfig    = projectConfig.description?.templates?.shorts || {};
   const overriddenShorts =
@@ -139,6 +158,15 @@ export default function ShortsDescriptionSettings({
     updateLayout(next);
   }
 
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    updateLayout(
+      arrayMove(activeKeys, activeKeys.indexOf(active.id), activeKeys.indexOf(over.id)),
+    );
+  }
+
   function resetOrder() {
     const sorted = [...activeKeys].sort((a, b) => layoutIndex(a) - layoutIndex(b));
     updateLayout(sorted);
@@ -176,20 +204,17 @@ export default function ShortsDescriptionSettings({
     const isLast  = index === activeKeys.length - 1;
 
     return (
-      <div key={key} className="desc-block-wrapper">
-        <MoveControls
-          className="desc-block-move-controls"
-          disabledUp={isFirst}
-          disabledDown={isLast}
-          onMoveUp={() => moveBlock(key, -1)}
-          onMoveDown={() => moveBlock(key, 1)}
-        />
-        <BlockInfoCard
-          label={getLayoutBlockLabel(key)}
-          onRemove={() => removeFromLayout(key)}
-          onNavigate={getNavigateHandler(key)}
-        />
-      </div>
+      <SortableActiveBlock
+        key={key}
+        id={key}
+        label={getLayoutBlockLabel(key)}
+        onRemove={() => removeFromLayout(key)}
+        onNavigate={getNavigateHandler(key)}
+        disabledUp={isFirst}
+        disabledDown={isLast}
+        onMoveUp={() => moveBlock(key, -1)}
+        onMoveDown={() => moveBlock(key, 1)}
+      />
     );
   }
 
@@ -236,7 +261,15 @@ export default function ShortsDescriptionSettings({
         </aside>
 
         <div className="desc-layout-active">
-          {activeKeys.map((key, i) => renderActiveBlock(key, i))}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext items={activeKeys} strategy={verticalListSortingStrategy}>
+              {activeKeys.map((key, i) => renderActiveBlock(key, i))}
+            </SortableContext>
+          </DndContext>
         </div>
       </div>
     </>

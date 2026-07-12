@@ -1,9 +1,23 @@
 import { useState } from 'react';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+  sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
 
 import BlockEditorCard from './blocks/BlockEditorCard';
 import AddBlockForm from './blocks/AddBlockForm';
 import BlockInfoCard from '../ui/BlockInfoCard';
-import MoveControls from '../ui/MoveControls';
+import SortableActiveBlock from './descriptions/SortableActiveBlock';
 import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../utils/customBlocks';
 import { makeBlockKeyLabelResolver, resolveBlockSource, buildHookBlockMaps } from '../../utils/descriptionLayout';
 
@@ -46,6 +60,11 @@ export default function ProjectSettingsBlockGroups({
   openBlockKey,
   onNavigateToBlock,
 }) {
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
   const overriddenDesc = projectSettingsOverrides.description || {};
   const blockGroups = projectConfig.description?.blockGroups || [];
   const hookBlocks = projectConfig.description?.hookBlocks || [];
@@ -152,6 +171,15 @@ export default function ProjectSettingsBlockGroups({
     patchGroup(group, { children: next });
   }
 
+  function handleChildDragEnd(group, event) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = group.children.findIndex((c) => c.key === active.id);
+    const newIndex = group.children.findIndex((c) => c.key === over.id);
+    patchGroup(group, { children: arrayMove(group.children, oldIndex, newIndex) });
+  }
+
   // Must cover all four namespaces a new group's key could collide with:
   // customBlocks, hook blocks' own keys, hook blocks' descriptionLayoutKeys,
   // and other groups' keys.
@@ -187,22 +215,30 @@ export default function ProjectSettingsBlockGroups({
               {group.children.length === 0 && (
                 <p className="tag-summary">No children yet — add one below.</p>
               )}
-              {group.children.map((child, index) => (
-                <div key={child.key} className="desc-block-wrapper">
-                  <MoveControls
-                    className="desc-block-move-controls"
-                    disabledUp={index === 0}
-                    disabledDown={index === group.children.length - 1}
-                    onMoveUp={() => moveChild(group, index, -1)}
-                    onMoveDown={() => moveChild(group, index, 1)}
-                  />
-                  <BlockInfoCard
-                    label={getBlockKeyLabel(child.key)}
-                    onRemove={() => removeChild(group, child.key)}
-                    onNavigate={getChildNavigateHandler(child.key)}
-                  />
-                </div>
-              ))}
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={(event) => handleChildDragEnd(group, event)}
+              >
+                <SortableContext
+                  items={group.children.map((c) => c.key)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  {group.children.map((child, index) => (
+                    <SortableActiveBlock
+                      key={child.key}
+                      id={child.key}
+                      label={getBlockKeyLabel(child.key)}
+                      onRemove={() => removeChild(group, child.key)}
+                      onNavigate={getChildNavigateHandler(child.key)}
+                      disabledUp={index === 0}
+                      disabledDown={index === group.children.length - 1}
+                      onMoveUp={() => moveChild(group, index, -1)}
+                      onMoveDown={() => moveChild(group, index, 1)}
+                    />
+                  ))}
+                </SortableContext>
+              </DndContext>
             </div>
 
             {candidateKeys.length > 0 && (

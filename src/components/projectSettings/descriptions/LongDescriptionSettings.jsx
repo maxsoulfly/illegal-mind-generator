@@ -1,8 +1,22 @@
 import { useState } from 'react';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+  sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
 import BlockInfoCard from '../../ui/BlockInfoCard';
 import SubTabNav from '../../ui/SubTabNav';
-import MoveControls from '../../ui/MoveControls';
 import IconButton from '../../ui/IconButton';
+import SortableActiveBlock from './SortableActiveBlock';
 import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../../utils/customBlocks';
 import { buildHookBlockMaps, buildBlockGroupMaps, makeLayoutLabelResolver, resolveBlockSource } from '../../../utils/descriptionLayout';
 
@@ -34,6 +48,11 @@ export default function LongDescriptionSettings({
   onNavigateToBlock,
 }) {
   const [mobileTab, setMobileTab] = useState('layout');
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
 
   const longTemplates = projectConfig.description?.templates?.long || {};
   const customBlocks  = longTemplates.customBlocks || {};
@@ -147,6 +166,15 @@ export default function LongDescriptionSettings({
     updateLayout(next);
   }
 
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    updateLayout(
+      arrayMove(activeKeys, activeKeys.indexOf(active.id), activeKeys.indexOf(over.id)),
+    );
+  }
+
   function resetOrder() {
     const sorted = [...activeKeys].sort((a, b) => layoutIndex(a) - layoutIndex(b));
     updateLayout(sorted);
@@ -181,20 +209,17 @@ export default function LongDescriptionSettings({
     const isLast  = index === activeKeys.length - 1;
 
     return (
-      <div key={blockKey} className="desc-block-wrapper">
-        <MoveControls
-          className="desc-block-move-controls"
-          disabledUp={isFirst}
-          disabledDown={isLast}
-          onMoveUp={() => moveBlock(blockKey, -1)}
-          onMoveDown={() => moveBlock(blockKey, 1)}
-        />
-        <BlockInfoCard
-          label={getLayoutBlockLabel(blockKey)}
-          onRemove={() => removeFromLayout(blockKey)}
-          onNavigate={getNavigateHandler(blockKey)}
-        />
-      </div>
+      <SortableActiveBlock
+        key={blockKey}
+        id={blockKey}
+        label={getLayoutBlockLabel(blockKey)}
+        onRemove={() => removeFromLayout(blockKey)}
+        onNavigate={getNavigateHandler(blockKey)}
+        disabledUp={isFirst}
+        disabledDown={isLast}
+        onMoveUp={() => moveBlock(blockKey, -1)}
+        onMoveDown={() => moveBlock(blockKey, 1)}
+      />
     );
   }
 
@@ -231,7 +256,15 @@ export default function LongDescriptionSettings({
         </aside>
 
         <div className="desc-layout-active">
-          {activeKeys.map((key, i) => renderActiveBlock(key, i))}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext items={activeKeys} strategy={verticalListSortingStrategy}>
+              {activeKeys.map((key, i) => renderActiveBlock(key, i))}
+            </SortableContext>
+          </DndContext>
         </div>
       </div>
     </>
