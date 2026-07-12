@@ -409,8 +409,7 @@ Previously: tag-category placeholders (`{tags.*}`), title polish (no `"Title:"` 
 3. Mirror the same edit into `AGENTS.md`. It's a manually-maintained copy of this file for non-Claude tools (Codex, etc.) that read `AGENTS.md` by convention instead of `CLAUDE.md` — there is no symlink or hook keeping them in sync (attempted a symlink, blocked by lack of admin/Developer Mode on this machine; a hard link was tried and confirmed unreliable — editors replace-on-save, which silently breaks it). Whatever changes in this file's Current Focus / Known Gotchas / UI Primitives / PRIORITY TODO sections must be copied into `AGENTS.md` too (only the top `# CLAUDE.md` vs `# AGENTS.md` header line differs between the two files).
 4. Commit source + docs changes together.
 
-**At the end of a work session or feature (not after every individual step):**
-1. Run `graphify update .` to keep the knowledge graph current. Batch this — running it after every small step is unnecessary overhead (each doc-touching update dispatches a subagent), so do it once when a feature/session wraps up, not per-commit.
+**Do NOT run `graphify update .` automatically** — not after a step, not at the end of a session or feature, not as part of the doc-update/commit routine above. Only run it when the user explicitly asks (e.g. "update the graph", "/graphify update"). It used to be batched to end-of-session automatically; the user asked for that to stop — each update dispatches a subagent and the user wants to control when that cost is spent.
 
 ## graphify
 
@@ -420,4 +419,4 @@ Rules:
 - For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
 - If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
 - Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
-- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+- Do NOT run `graphify update .` on your own initiative, including after modifying code. Only run it when the user explicitly asks.
