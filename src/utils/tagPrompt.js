@@ -22,7 +22,7 @@ export function buildTagPrompt(label, category, shortHookTypes = {}) {
     '',
     `Every phrase must be SPECIFIC to "${label}" — reference its actual sonic/genre traits (instrumentation, production choices, vocal style, song structure, scene culture) so the phrase wouldn't make sense reused for a different genre tag. Reject anything generic enough to apply to any style — e.g. "More emotion. Same song.", "Pure ${label} energy.", "Heavier heart", "Sing it loud" are all too vague, since they name no actual trait of ${label}. Every phrase should read as something only a fan of ${label} specifically would say.`,
     '',
-    `Short Hooks (the SHORTHOOKS_* sections) are read aloud as complete short-form video hook sentences about one specific song — at least 4 of the 6 phrases in EACH SHORTHOOKS_* section must include {artist} and/or {song} directly (e.g. "{song} finally gets the ${label} treatment it deserved" — not just "Pure ${label} energy."). TITLE/THUMBNAIL/DESCRIPTION_* phrases don't need placeholders.`,
+    `Short Hooks (the SHORTHOOKS_* sections) are read aloud as complete short-form video hook sentences, and are also mixed directly into video titles — they need real substance, not vague mood words. Each SHORTHOOKS_* section below shows 1-2 real examples already used in this app for that exact angle — match BOTH the theme AND the placeholder pattern of those examples (some angles are about the song, e.g. {artist}/{song}; others are about your own growth as a musician, e.g. {years} — follow whichever the examples show, don't force {artist}/{song} where it doesn't fit). At least 4 of the 6 phrases per section should use a placeholder in that section's own style. TITLE/THUMBNAIL/DESCRIPTION_* phrases don't need placeholders.`,
     '',
     'TITLE:',
     `(short title-suffix phrases naming this specific style, e.g. "${label} Rework")`,
@@ -45,11 +45,11 @@ export function buildTagPrompt(label, category, shortHookTypes = {}) {
   ];
 
   hookTypeEntries.forEach(([key, hookType]) => {
-    const example = hookType?.templates?.[0];
+    const examples = (hookType?.templates || []).slice(0, 2);
     lines.push(`SHORTHOOKS_${key.toUpperCase()}:`);
     lines.push(
-      example
-        ? `(short-form video hook angle: ${hookType?.label || key} — placeholder pattern to follow, e.g. "${example}")`
+      examples.length > 0
+        ? `(angle: ${hookType?.label || key} — match this theme and placeholder pattern: ${examples.map((e) => `"${e}"`).join(' / ')})`
         : `(short-form video hook angle: ${hookType?.label || key})`,
     );
     lines.push('');

@@ -440,6 +440,14 @@ input[type="range"]::-moz-range-progress {
   margin-top: var(--space-6);
 }
 
+/* button-row has no margin-bottom by default (the next element's own
+   margin-top/margin-bottom normally provides it) — the Copy Prompt button
+   sits directly above a FormField with no top margin of its own, so it
+   needs an explicit bottom margin to avoid crowding the label below it. */
+.add-tag-copy-row {
+  margin-bottom: var(--space-6);
+}
+
 .button-primary,
 .button-secondary {
   display        : inline-flex;

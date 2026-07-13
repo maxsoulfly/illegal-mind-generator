@@ -71,33 +71,35 @@ export default function AddTagPanel({ projectConfig, onCreate, onClose }) {
     <div className="panel">
       <h3 className="panel-title">Add Tag</h3>
 
-      <FormField label="Name">
-        <input
-          className="form-input"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Melodic Hardcore"
-        />
-      </FormField>
+      <div className="form-row">
+        <FormField label="Name">
+          <input
+            className="form-input"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Melodic Hardcore"
+          />
+        </FormField>
 
-      <FormField label="Category">
-        <input
-          className="form-input"
-          type="text"
-          list="add-tag-category-options"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          placeholder="genre"
-        />
-        <datalist id="add-tag-category-options">
-          {categories.map((c) => (
-            <option key={c} value={c} />
-          ))}
-        </datalist>
-      </FormField>
+        <FormField label="Category">
+          <input
+            className="form-input"
+            type="text"
+            list="add-tag-category-options"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            placeholder="genre"
+          />
+          <datalist id="add-tag-category-options">
+            {categories.map((c) => (
+              <option key={c} value={c} />
+            ))}
+          </datalist>
+        </FormField>
+      </div>
 
-      <div className="button-row">
+      <div className="button-row add-tag-copy-row">
         <button
           type="button"
           className="button-secondary"
