@@ -22,6 +22,7 @@ export default function TodoPage({
     <section className="page-panel">
       <TodoBulkAdd
         savedEntries={savedEntries}
+        todoStatuses={todoStatuses}
         onAddEntries={onAddEntries}
         isOpen={panelVisibility.todoBulkAdd}
         onToggle={() => togglePanel('todoBulkAdd')}

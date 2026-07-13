@@ -38,6 +38,11 @@ function mergeProjectOverrides(projectConfig, projectSettingsOverrides = {}) {
       ...(projectSettingsOverrides.youtubetags || {}),
     },
 
+    shortsQueue: {
+      ...(projectConfig.shortsQueue || {}),
+      ...(projectSettingsOverrides.shortsQueue || {}),
+    },
+
     description: {
       ...(projectConfig.description || {}),
       ...(projectSettingsOverrides.description || {}),

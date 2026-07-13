@@ -7,6 +7,10 @@
       "Needs Remaster",
       "Needs Video"
     ],
+    "shortsQueue": {
+      "length": 20,
+      "duplicateSpacing": 2
+    },
     "title": {
       "count": 5,
       "longPrefix": "[SIGNAL {num}] // ",
@@ -859,6 +863,10 @@
       "Needs Remaster",
       "Needs Video"
     ],
+    "shortsQueue": {
+      "length": 20,
+      "duplicateSpacing": 2
+    },
     "title": {
       "count": 5,
       "prefix": "",

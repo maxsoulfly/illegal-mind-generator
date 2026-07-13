@@ -6,6 +6,8 @@ import ProjectSettingsTitles from './ProjectSettingsTitles';
 import ProjectSettingsDescriptions from './ProjectSettingsDescriptions';
 import ProjectSettingsThumbnails from './ProjectSettingsThumbnails';
 import ProjectSettingsHashtags from './ProjectSettingsHashtags';
+import ProjectSettingsTodo from './ProjectSettingsTodo';
+import ProjectSettingsShortsQueue from './ProjectSettingsShortsQueue';
 
 export default function ProjectSettingsContent({
   activeSection,
@@ -120,6 +122,26 @@ export default function ProjectSettingsContent({
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
         hashtagsTarget={hashtagsTarget}
+      />
+    );
+  }
+
+  if (activeSection === 'todo') {
+    return (
+      <ProjectSettingsTodo
+        projectConfig={projectConfig}
+        updateProjectOverride={updateProjectOverride}
+        resetProjectOverride={resetProjectOverride}
+      />
+    );
+  }
+
+  if (activeSection === 'shortsQueue') {
+    return (
+      <ProjectSettingsShortsQueue
+        projectConfig={projectConfig}
+        projectSettingsOverrides={projectSettingsOverrides}
+        updateProjectOverride={updateProjectOverride}
       />
     );
   }

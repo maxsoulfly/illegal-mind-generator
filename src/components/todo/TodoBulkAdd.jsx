@@ -2,10 +2,13 @@ import BulkSongEntry from '../shared/BulkSongEntry';
 
 export default function TodoBulkAdd({
   savedEntries = [],
+  todoStatuses = [],
   onAddEntries,
   isOpen,
   onToggle,
 }) {
+  const defaultStatus = todoStatuses[0] || 'Wishlist';
+
   function handleBulkAddWishlistSongs(songs) {
     const newEntries = songs
       .filter(({ artist, song }) => {
@@ -23,7 +26,7 @@ export default function TodoBulkAdd({
         transformationTags: [],
         excludeFromRandomizer: true,
         todo: {
-          status: 'Wishlist',
+          status: defaultStatus,
           notes: '',
         },
       }));
@@ -35,8 +38,8 @@ export default function TodoBulkAdd({
 
   return (
     <BulkSongEntry
-      title="Bulk Add Wishlist Covers"
-      buttonLabel="Add to Wishlist"
+      title={`Bulk Add ${defaultStatus} Covers`}
+      buttonLabel={`Add to ${defaultStatus}`}
       placeholder={`Thrice – The Artist in the Ambulance
 The Offspring – Gotta Get Away
 Papa Roach – Blood Brothers`}

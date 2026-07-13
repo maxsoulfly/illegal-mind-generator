@@ -9,9 +9,10 @@ function ShortsQueuePage({
   onLoadEntry,
   projectConfig,
 }) {
-  const { queue, randomizeQueue, markUploaded } = useShortsQueue(
+  const { queue, queueLength, randomizeQueue, markUploaded } = useShortsQueue(
     projectId,
     savedEntries,
+    projectConfig.shortsQueue,
   );
 
   const hasSavedEntries = savedEntries.length > 0;
@@ -42,7 +43,7 @@ function ShortsQueuePage({
       {hasSavedEntries && !hasQueue && (
         <ShortsQueueEmptyState
           title="No queue yet."
-          message="Click Randomize to create a 20-cover Shorts queue."
+          message={`Click Randomize to create a ${queueLength}-cover Shorts queue.`}
         />
       )}
 

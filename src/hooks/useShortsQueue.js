@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { loadAppStorage, updateAppStorage } from '../utils/storage';
 
 const LEGACY_STORAGE_KEY = 'shortsQueueByProject';
-const QUEUE_LENGTH = 20;
+const DEFAULT_QUEUE_LENGTH = 20;
+const DEFAULT_DUPLICATE_SPACING = 2;
 
 function normalizeQueueEntry(projectQueue) {
   if (!projectQueue) return { queue: [] };
@@ -61,25 +62,25 @@ function getRandomEntry(entries) {
   return entries[Math.floor(Math.random() * entries.length)];
 }
 
-function isTooClose(queueIds, entry) {
+function isTooClose(queueIds, entry, spacing) {
   const entryId = getCoverId(entry);
-  const previousTwo = queueIds.slice(-2);
+  const recent = queueIds.slice(-spacing);
 
-  return previousTwo.includes(entryId);
+  return recent.includes(entryId);
 }
 
-function buildQueue(savedEntries) {
+function buildQueue(savedEntries, queueLength, spacing) {
   if (!savedEntries.length) return [];
 
   const queueIds = [];
-  const maxAttempts = QUEUE_LENGTH * 50;
+  const maxAttempts = queueLength * 50;
 
   let attempts = 0;
 
-  while (queueIds.length < QUEUE_LENGTH && attempts < maxAttempts) {
+  while (queueIds.length < queueLength && attempts < maxAttempts) {
     const candidate = getRandomEntry(savedEntries);
 
-    if (!isTooClose(queueIds, candidate)) {
+    if (!isTooClose(queueIds, candidate, spacing)) {
       queueIds.push(getCoverId(candidate));
     }
 
@@ -89,13 +90,13 @@ function buildQueue(savedEntries) {
   return queueIds;
 }
 
-function getValidReplacement(savedEntries, queueIds) {
+function getValidReplacement(savedEntries, queueIds, spacing) {
   const maxAttempts = savedEntries.length * 20;
 
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     const candidate = getRandomEntry(savedEntries);
 
-    if (!isTooClose(queueIds, candidate)) {
+    if (!isTooClose(queueIds, candidate, spacing)) {
       return getCoverId(candidate);
     }
   }
@@ -103,7 +104,10 @@ function getValidReplacement(savedEntries, queueIds) {
   return null;
 }
 
-export function useShortsQueue(projectId, savedEntries = []) {
+export function useShortsQueue(projectId, savedEntries = [], queueConfig = {}) {
+  const queueLength = queueConfig.length ?? DEFAULT_QUEUE_LENGTH;
+  const duplicateSpacing = queueConfig.duplicateSpacing ?? DEFAULT_DUPLICATE_SPACING;
+
   const [queueIds, setQueueIds] = useState(() => {
     return getStoredQueues()[projectId]?.queue || [];
   });
@@ -127,7 +131,7 @@ export function useShortsQueue(projectId, savedEntries = []) {
   }
 
   function randomizeQueue() {
-    const nextQueueIds = buildQueue(getQueueCandidates(savedEntries));
+    const nextQueueIds = buildQueue(getQueueCandidates(savedEntries), queueLength, duplicateSpacing);
     updateProjectQueue(nextQueueIds);
   }
 
@@ -136,6 +140,7 @@ export function useShortsQueue(projectId, savedEntries = []) {
     const replacement = getValidReplacement(
       getQueueCandidates(savedEntries),
       nextQueueIds,
+      duplicateSpacing,
     );
 
     if (replacement) {
@@ -153,6 +158,7 @@ export function useShortsQueue(projectId, savedEntries = []) {
 
   return {
     queue,
+    queueLength,
     randomizeQueue,
     markUploaded,
   };

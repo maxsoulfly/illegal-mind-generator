@@ -44,6 +44,11 @@ export const PROJECT_SETTING_SECTIONS = [
     label: 'Todo Settings',
     description: 'Todo statuses and workflow settings',
   },
+  {
+    id: 'shortsQueue',
+    label: 'Shorts Queue',
+    description: 'Queue length and duplicate spacing',
+  },
 ];
 
 export function getProjectSettingsSectionSummary(sectionId, projectConfig) {
@@ -100,6 +105,13 @@ export function getProjectSettingsSectionSummary(sectionId, projectConfig) {
 
   if (sectionId === 'todo') {
     return `${projectConfig.todoStatuses?.length || 0} statuses`;
+  }
+
+  if (sectionId === 'shortsQueue') {
+    const length = projectConfig.shortsQueue?.length ?? 20;
+    const spacing = projectConfig.shortsQueue?.duplicateSpacing ?? 2;
+
+    return `${length} covers, spacing ${spacing}`;
   }
 
   return '';
