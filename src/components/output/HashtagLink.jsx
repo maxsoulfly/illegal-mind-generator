@@ -51,5 +51,19 @@ export default function HashtagLink({
     );
   }
 
+  if (source?.type === 'field') {
+    const label = source.field === 'song' ? 'Song' : 'Artist';
+
+    return (
+      <span
+        className={className}
+        title={`${label} field (this song)`}
+        onClick={() => onOpenSongOverride?.({ blockKey: source.field })}
+      >
+        {text}
+      </span>
+    );
+  }
+
   return <span>{text}</span>;
 }

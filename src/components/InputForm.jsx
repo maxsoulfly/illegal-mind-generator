@@ -51,6 +51,8 @@ function InputForm({
         handleChange={handleChange}
         artistSuggestions={artistSuggestions}
         songSuggestions={songSuggestions}
+        songOverrideTarget={songOverrideTarget}
+        clearSongOverrideTarget={clearSongOverrideTarget}
       />
 
       <EntrySettings

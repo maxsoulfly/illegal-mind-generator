@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FormField from '../ui/FormField';
 import ToggleField from '../ui/ToggleField';
 import { buildSearchQuery } from '../../utils/searchQuery';
@@ -53,6 +53,8 @@ export default function BasicSongFields({
   handleChange,
   artistSuggestions,
   songSuggestions,
+  songOverrideTarget,
+  clearSongOverrideTarget,
 }) {
   const [copiedField, setCopiedField] = useState(null);
 
@@ -72,15 +74,37 @@ export default function BasicSongFields({
     }
   };
 
+  // Reached by clicking an Artist/Song-derived hashtag chip in the output
+  // (generateHashtags.js's {type:'field'} source) — same openSongOverride
+  // mechanism the Additional Hashtags field uses, blockKey 'artist'/'song'.
+  const isFieldTargeted = (field) => songOverrideTarget?.blockKey === field;
+
+  useEffect(() => {
+    const field = songOverrideTarget?.blockKey;
+    if (field !== 'artist' && field !== 'song') return;
+    const el = document.getElementById(`song-override-${field}`);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [songOverrideTarget]);
+
+  const handleFieldChange = (field) => (e) => {
+    handleChange(e);
+    if (isFieldTargeted(field)) clearSongOverrideTarget?.();
+  };
+
   return (
     <div className="basic-song-fields">
-      <FormField label="Artist" className="basic-song-fields__artist-group">
+      <FormField
+        label="Artist"
+        id="song-override-artist"
+        className={`basic-song-fields__artist-group${isFieldTargeted('artist') ? ' tag-section--highlight' : ''}`}
+      >
         <input
           className="form-input"
           name="artist"
           placeholder="Artist"
           value={formData.artist}
-          onChange={handleChange}
+          onChange={handleFieldChange('artist')}
           list="artist-suggestions"
         />
         <datalist id="artist-suggestions">
@@ -112,13 +136,17 @@ export default function BasicSongFields({
         )}
       </FormField>
 
-      <FormField label="Song">
+      <FormField
+        label="Song"
+        id="song-override-song"
+        className={isFieldTargeted('song') ? 'tag-section--highlight' : ''}
+      >
         <input
           className="form-input"
           name="song"
           placeholder="Song"
           value={formData.song}
-          onChange={handleChange}
+          onChange={handleFieldChange('song')}
           list="song-suggestions"
         />
         <datalist id="song-suggestions">

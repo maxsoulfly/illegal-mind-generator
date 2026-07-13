@@ -60,8 +60,12 @@ export function generateHashtags(formData = {}, config = {}) {
   }));
 
   const dynamicEntries = [
-    formData.artist ? { text: toHashtag(formData.artist), source: null } : null,
-    formData.song ? { text: toHashtag(formData.song), source: null } : null,
+    formData.artist
+      ? { text: toHashtag(formData.artist), source: { type: 'field', field: 'artist' } }
+      : null,
+    formData.song
+      ? { text: toHashtag(formData.song), source: { type: 'field', field: 'song' } }
+      : null,
   ].filter(Boolean);
 
   const customEntries = customHashtagWords.map((word) => ({
@@ -95,8 +99,13 @@ export function generateHashtags(formData = {}, config = {}) {
   }));
 
   const dynamicYTEntries = [
-    formData.artist ? { text: cleanYoutubeTag(formData.artist), source: null } : null,
-    formData.song ? { text: cleanYoutubeTag(formData.song), source: null } : null,
+    formData.artist
+      ? { text: cleanYoutubeTag(formData.artist), source: { type: 'field', field: 'artist' } }
+      : null,
+    formData.song
+      ? { text: cleanYoutubeTag(formData.song), source: { type: 'field', field: 'song' } }
+      : null,
+    // Combined "artist song" string doesn't cleanly map to one field — stays non-interactive.
     { text: cleanYoutubeTag(`${formData.artist} ${formData.song}`.toLowerCase()), source: null },
   ].filter(Boolean);
 
