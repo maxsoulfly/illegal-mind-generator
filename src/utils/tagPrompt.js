@@ -20,19 +20,21 @@ export function buildTagPrompt(label, category, shortHookTypes = {}) {
   const lines = [
     `I'm adding a new content tag called "${label}"${category ? ` (category: ${category})` : ''} to a YouTube cover-song generator. For each section below, reply with that exact section header on its own line, followed by one phrase per line (4-6 phrases per section). Skip a section entirely (omit the header) if it genuinely doesn't apply — don't invent filler.`,
     '',
-    'Phrases may use {artist} and {song} as placeholders where natural (e.g. "{song} didn\'t need changing").',
+    `Every phrase must be SPECIFIC to "${label}" — reference its actual sonic/genre traits (instrumentation, production choices, vocal style, song structure, scene culture) so the phrase wouldn't make sense reused for a different genre tag. Reject anything generic enough to apply to any style — e.g. "More emotion. Same song.", "Pure ${label} energy.", "Heavier heart", "Sing it loud" are all too vague, since they name no actual trait of ${label}. Every phrase should read as something only a fan of ${label} specifically would say.`,
+    '',
+    `Short Hooks (the SHORTHOOKS_* sections) are read aloud as complete short-form video hook sentences about one specific song — at least 4 of the 6 phrases in EACH SHORTHOOKS_* section must include {artist} and/or {song} directly (e.g. "{song} finally gets the ${label} treatment it deserved" — not just "Pure ${label} energy."). TITLE/THUMBNAIL/DESCRIPTION_* phrases don't need placeholders.`,
     '',
     'TITLE:',
-    '(short title-suffix phrases describing this style, e.g. "Melodic Hardcore Rework")',
+    `(short title-suffix phrases naming this specific style, e.g. "${label} Rework")`,
     '',
     'THUMBNAIL:',
-    '(short punchy thumbnail text, all caps works well)',
+    `(short punchy thumbnail text naming this specific style, all caps works well, e.g. "${label.toUpperCase()}")`,
     '',
     'DESCRIPTION_TECHNICAL:',
-    '(short technical-sounding description lines, e.g. "Structure: reworked.")',
+    `(short technical-sounding lines naming what actually changes musically for ${label}, e.g. "Arrangement: rebuilt around breakdowns and gang vocals.")`,
     '',
     'DESCRIPTION_LOG:',
-    '(short "log entry" style lines describing what was done)',
+    `(short "log entry" style lines describing what was done, specific to ${label})`,
     '',
     'DESCRIPTION_STATUS:',
     '(short status-report style lines, e.g. "Deviation: Significant.")',
@@ -43,8 +45,13 @@ export function buildTagPrompt(label, category, shortHookTypes = {}) {
   ];
 
   hookTypeEntries.forEach(([key, hookType]) => {
+    const example = hookType?.templates?.[0];
     lines.push(`SHORTHOOKS_${key.toUpperCase()}:`);
-    lines.push(`(short-form video hook angle: ${hookType?.label || key})`);
+    lines.push(
+      example
+        ? `(short-form video hook angle: ${hookType?.label || key} — placeholder pattern to follow, e.g. "${example}")`
+        : `(short-form video hook angle: ${hookType?.label || key})`,
+    );
     lines.push('');
   });
 
