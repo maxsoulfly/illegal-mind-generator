@@ -4,6 +4,7 @@ import useTagLibraryData from '../hooks/useTagLibraryData';
 
 import TagCard from '../components/tags/TagCard';
 import TagControls from '../components/tags/TagControls';
+import AddTagPanel from '../components/tags/AddTagPanel';
 
 export default function TagLibraryPage({
   projectId,
@@ -22,6 +23,7 @@ export default function TagLibraryPage({
   const [filterMode, setFilterMode] = useState('all');
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [showAddTagPanel, setShowAddTagPanel] = useState(false);
   const destinationProjects = Object.entries(projects || {}).filter(
     ([destinationProjectId]) => destinationProjectId !== projectId,
   );
@@ -75,28 +77,8 @@ export default function TagLibraryPage({
     });
   };
 
-  const handleCreateTag = () => {
-    const rawName = window.prompt('New tag name');
-
-    if (!rawName) return;
-
-    const tagName = rawName.trim().toLowerCase();
-
-    if (!tagName) return;
-
-    updateTagOverride(tagName, {
-      label: rawName.trim(),
-      category: 'custom',
-      visible: true,
-      title: [],
-      thumbnail: [],
-      description: {
-        technical: [],
-        log: [],
-        status: [],
-      },
-      isCustom: true,
-    });
+  const handleCreateTag = (tagName, overrideObject) => {
+    updateTagOverride(tagName, overrideObject);
   };
 
   // Build filtered and sorted tag data for the current project.
@@ -136,12 +118,20 @@ export default function TagLibraryPage({
         categoryFilter={activeCategoryFilter}
         setCategoryFilter={handleSetCategoryFilter}
         categories={categories}
-        onCreateTag={handleCreateTag}
+        onCreateTag={() => setShowAddTagPanel(true)}
         projects={destinationProjects}
         syncTargetProjectId={syncTargetProjectId}
         setSyncTargetProjectId={setSyncTargetProjectId}
         onSyncTags={handleSyncTags}
       />
+
+      {showAddTagPanel && (
+        <AddTagPanel
+          projectConfig={projectConfig}
+          onCreate={handleCreateTag}
+          onClose={() => setShowAddTagPanel(false)}
+        />
+      )}
 
       <div className="tag-library tag-library--3col">
         {sortedTags.map((tag) => (
