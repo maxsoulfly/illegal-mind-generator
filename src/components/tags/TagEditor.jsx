@@ -35,6 +35,8 @@ export default function TagEditor({
   resetTagOverride,
   sourceTarget,
   projectConfig,
+  otherProjects,
+  onCopyTagFromProject,
 }) {
   const [activeTab, setActiveTab] = useState(() =>
     getInitialTab(tag, sourceTarget),
@@ -54,6 +56,8 @@ export default function TagEditor({
           onDuplicateTag={onDuplicateTag}
           projectOverrides={projectOverrides}
           resetTagOverride={resetTagOverride}
+          otherProjects={otherProjects}
+          onCopyTagFromProject={onCopyTagFromProject}
         />
       )}
 

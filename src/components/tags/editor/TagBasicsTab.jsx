@@ -1,7 +1,10 @@
 // src/components/tags/editor/TagBasicsTab.jsx
 
+import { useState } from 'react';
+
 import FormField from '../../ui/FormField';
 import ToggleField from '../../ui/ToggleField';
+import FormSelect from '../../ui/FormSelect';
 
 export default function TagBasicsTab({
   tag,
@@ -11,7 +14,10 @@ export default function TagBasicsTab({
   onDuplicateTag,
   projectOverrides,
   resetTagOverride,
+  otherProjects = [],
+  onCopyTagFromProject,
 }) {
+  const [copySourceId, setCopySourceId] = useState(otherProjects[0]?.[0] || '');
   return (
     <>
       <div className="tag-edit-fields">
@@ -83,6 +89,27 @@ export default function TagBasicsTab({
       >
         Duplicate tag
       </button>
+
+      {otherProjects.length > 0 && (
+        <div className="tag-actions tag-visibility-toggle">
+          <FormSelect
+            value={copySourceId}
+            onChange={setCopySourceId}
+            options={otherProjects.map(([id, project]) => ({
+              value: id,
+              label: project.name,
+            }))}
+          />
+          <button
+            type="button"
+            className="button-secondary"
+            onClick={() => onCopyTagFromProject(tag.name, copySourceId)}
+            disabled={!copySourceId}
+          >
+            Sync
+          </button>
+        </div>
+      )}
 
       {projectOverrides?.[tag.name]?.isCustom && (
         <button

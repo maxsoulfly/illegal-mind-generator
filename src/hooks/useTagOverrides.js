@@ -167,11 +167,58 @@ export default function useTagOverrides(projectId) {
     });
   };
 
+  const copyTagFromProject = ({
+    tagName,
+    sourceProjectId,
+    targetProjectId,
+    sourceBaseTags,
+    targetBaseTags,
+  }) => {
+    if (
+      !tagName ||
+      !sourceProjectId ||
+      !targetProjectId ||
+      sourceProjectId === targetProjectId
+    ) {
+      return;
+    }
+
+    setOverrides((prev) => {
+      const sourceOverrides = prev[sourceProjectId] || {};
+      const targetOverrides = prev[targetProjectId] || {};
+
+      const buildEffective = (baseTag = {}, override = {}) => ({
+        ...baseTag,
+        ...override,
+        description: mergeDescription(baseTag.description, override.description),
+        shortHooks: mergeShortHooks(baseTag.shortHooks, override.shortHooks),
+      });
+
+      const sourceEffective = buildEffective(
+        sourceBaseTags?.[tagName],
+        sourceOverrides[tagName],
+      );
+      const targetEffective = buildEffective(
+        targetBaseTags?.[tagName],
+        targetOverrides[tagName],
+      );
+
+      return {
+        ...prev,
+        [targetProjectId]: {
+          ...targetOverrides,
+          [tagName]: mergeTagData(targetEffective, sourceEffective),
+        },
+      };
+    });
+  };
+
   return {
     projectOverrides,
     getTagOverride,
     updateTagOverride,
     resetTagOverride,
     syncProjectTags,
+    copyTagFromProject,
   };
 }

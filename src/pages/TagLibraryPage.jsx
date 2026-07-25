@@ -15,6 +15,7 @@ export default function TagLibraryPage({
   updateTagOverride,
   resetTagOverride,
   syncProjectTags,
+  copyTagFromProject,
   onLoadEntry,
   searchTarget,
   clearSearchTarget,
@@ -105,6 +106,18 @@ export default function TagLibraryPage({
     window.alert(`Tags synced to ${projects[syncTargetProjectId]?.name}.`);
   };
 
+  const handleCopyTagFromProject = (tagName, sourceProjectId) => {
+    copyTagFromProject({
+      tagName,
+      sourceProjectId,
+      targetProjectId: projectId,
+      sourceBaseTags: projects[sourceProjectId]?.tags || {},
+      targetBaseTags: projects[projectId]?.tags || {},
+    });
+
+    window.alert(`Copied "${tagName}" from ${projects[sourceProjectId]?.name}.`);
+  };
+
   return (
     <main>
       <TagControls
@@ -147,6 +160,8 @@ export default function TagLibraryPage({
             onLoadEntry={onLoadEntry}
             sourceTarget={searchTarget}
             projectConfig={projectConfig}
+            otherProjects={destinationProjects}
+            onCopyTagFromProject={handleCopyTagFromProject}
           />
         ))}
       </div>

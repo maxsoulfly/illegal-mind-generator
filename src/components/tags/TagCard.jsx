@@ -14,6 +14,8 @@ export default function TagCard({
   onLoadEntry,
   sourceTarget,
   projectConfig,
+  otherProjects,
+  onCopyTagFromProject,
 }) {
   return (
     <article
@@ -41,6 +43,8 @@ export default function TagCard({
         resetTagOverride={resetTagOverride}
         sourceTarget={sourceTarget}
         projectConfig={projectConfig}
+        otherProjects={otherProjects}
+        onCopyTagFromProject={onCopyTagFromProject}
       />
     </article>
   );

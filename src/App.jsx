@@ -127,6 +127,7 @@ function App() {
     updateTagOverride,
     resetTagOverride,
     syncProjectTags,
+    copyTagFromProject,
   } = useTagOverrides(projectId);
 
   const {
@@ -273,6 +274,7 @@ function App() {
           updateTagOverride={updateTagOverride}
           resetTagOverride={resetTagOverride}
           syncProjectTags={syncProjectTags}
+          copyTagFromProject={copyTagFromProject}
           onLoadEntry={(entry) => {
             handleLoadEntry(entry);
             setActivePage('generator');
