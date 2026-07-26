@@ -32,7 +32,6 @@ export default function ShortsDescriptionSettings({
   projectSettingsOverrides = {},
   updateProjectOverride,
   onNavigateToBlock,
-  onNavigateToShortHooks,
 }) {
   const [mobileTab, setMobileTab] = useState('layout');
 
@@ -173,9 +172,6 @@ export default function ShortsDescriptionSettings({
   }
 
   function getNavigateHandler(key) {
-    if (key === 'hook' && onNavigateToShortHooks) {
-      return () => onNavigateToShortHooks({});
-    }
     if (!onNavigateToBlock) return undefined;
     const source = resolveBlockSource(key, {
       hookBlockMaps: { allLayoutKeys: allHookBlockLayoutKeys, layoutKeyToBlockKey },

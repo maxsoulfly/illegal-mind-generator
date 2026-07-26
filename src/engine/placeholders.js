@@ -1,6 +1,7 @@
 import { resolveTagCategoryValue } from './descriptions/descriptionTagHelpers';
 import { resolveHookBlockTemplates } from './hookBlockLookup';
 import { resolvePooledOutput } from './pooling';
+import { getEligibleShortHookTypeEntries } from './hooks/shortHookEligibility';
 
 const DEFAULT_YEARS = 'a few';
 
@@ -156,8 +157,12 @@ function resolveTransformationToken(ctx) {
 // description.log) pools a per-tag array field across every selected tag —
 // same shape TagPhraseEditor's own parentField/field props already use, not
 // a new vocabulary; `hookBlockKey` merges in an existing hook block's own
-// template pool via the already-existing resolveHookBlockTemplates. Both may
-// be set at once (their candidates are simply combined into one pool).
+// template pool via the already-existing resolveHookBlockTemplates;
+// `shortHookPool` merges in the entire eligible shortHookTypes pool (base +
+// selected-tag templates, isFaithful/requiresGenre-filtered — the same set
+// generateShortHooks.js draws Shorts Titles/the Shorts Hooks panel from) via
+// the shared, dependency-free getEligibleShortHookTypeEntries. Any/all may be
+// set at once — their candidates are simply combined into one pool.
 function buildPlaceholderPool(def, ctx) {
   const source = def.source || {};
   const selectedTags = ctx.formData.transformationTags || [];
@@ -175,7 +180,14 @@ function buildPlaceholderPool(def, ctx) {
     ? resolveHookBlockTemplates(source.hookBlockKey, ctx.projectConfig) || []
     : [];
 
-  return [...tagLines, ...hookBlockLines];
+  const shortHookPoolLines = source.shortHookPool
+    ? getEligibleShortHookTypeEntries(ctx.formData, ctx.projectConfig).flatMap(([type, hookConfig]) => [
+        ...(hookConfig.templates || []),
+        ...selectedTags.flatMap((tag) => ctx.projectConfig.tags?.[tag]?.shortHooks?.[type] || []),
+      ])
+    : [];
+
+  return [...tagLines, ...hookBlockLines, ...shortHookPoolLines];
 }
 
 // Resolves a user-defined {custom.<key>} placeholder (description.placeholders

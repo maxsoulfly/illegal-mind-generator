@@ -3,6 +3,7 @@ import BlockEditorCard from './blocks/BlockEditorCard';
 import FormField from '../ui/FormField';
 import FormSelect from '../ui/FormSelect';
 import IconButton from '../ui/IconButton';
+import ToggleField from '../ui/ToggleField';
 
 // Fixed set of tag-scoped array fields a placeholder can pool from — same
 // fields the Tag Editor's Descriptions/Short Hooks tabs already expose for
@@ -30,10 +31,11 @@ function sourceToFieldValue(source = {}) {
 }
 
 function fieldValueToSource(value, existingSource = {}) {
-  const { hookBlockKey } = existingSource;
-  if (!value) return { ...(hookBlockKey ? { hookBlockKey } : {}) };
+  const { hookBlockKey, shortHookPool } = existingSource;
+  const carried = { ...(hookBlockKey ? { hookBlockKey } : {}), ...(shortHookPool ? { shortHookPool } : {}) };
+  if (!value) return carried;
   const [tagParentField, tagField] = value.split('.');
-  return { tagParentField, tagField, ...(hookBlockKey ? { hookBlockKey } : {}) };
+  return { tagParentField, tagField, ...carried };
 }
 
 // Placeholder keys are a separate namespace from hookBlocks/customBlocks/
@@ -181,6 +183,17 @@ export default function ProjectSettingsPlaceholders({
                   })
                 }
                 options={hookBlockOptions}
+              />
+            </FormField>
+            <FormField label="Short Hooks pool">
+              <ToggleField
+                label="Include every eligible Short Hooks phrase (base + selected tags)"
+                checked={!!placeholder.source?.shortHookPool}
+                onChange={(checked) =>
+                  patchPlaceholder(placeholder, {
+                    source: { ...placeholder.source, shortHookPool: checked || undefined },
+                  })
+                }
               />
             </FormField>
             <FormField label="Count">

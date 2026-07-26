@@ -1,5 +1,6 @@
 import { fillPlaceholders, resolveTransformation } from '../placeholders';
 import { pickRandomLines } from '../pooling';
+import { getEligibleShortHookTypeEntries } from './shortHookEligibility';
 
 function createBaseHook(template, type, ctx) {
   const { text, hasEmpty } = fillPlaceholders(template, ctx);
@@ -36,15 +37,11 @@ function getTagShortHooksForType(type, formData, projectConfig, ctx) {
 }
 
 export function generateShortHooks(formData, projectConfig) {
-  const hookTypes = projectConfig.shortHookTypes || {};
   // shortsPrefix/shortsSuffix are the editable UI keys; fall back to legacy shortHookSuffix.
   const prefix = projectConfig.title?.shortsPrefix || '';
   const suffix = projectConfig.title?.shortsSuffix ?? projectConfig.title?.shortHookSuffix ?? '';
   const prefixEnabled = projectConfig.title?.shortsPrefixEnabled !== false;
   const suffixEnabled = projectConfig.title?.shortsSuffixEnabled !== false;
-
-  const isFaithful = (formData.transformationTags || []).includes('faithful');
-  const hasGenre = !!(formData.originalGenre?.trim());
 
   // Resolved once per generation call — stable values for all hook templates.
   const transformation = resolveTransformation({ formData, projectConfig });
@@ -63,12 +60,7 @@ export function generateShortHooks(formData, projectConfig) {
     },
   };
 
-  return Object.entries(hookTypes)
-    .filter(([, hookConfig]) => {
-      if (isFaithful && hookConfig.excludeForFaithful) return false;
-      if (hookConfig.requiresGenre && !hasGenre) return false;
-      return true;
-    })
+  return getEligibleShortHookTypeEntries(formData, projectConfig)
     .map(([type, hookConfig]) => {
       const baseHooks = (hookConfig.templates || []).map((template) =>
         createBaseHook(template, type, ctx),

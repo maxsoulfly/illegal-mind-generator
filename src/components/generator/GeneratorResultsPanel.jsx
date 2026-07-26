@@ -81,8 +81,6 @@ function GeneratorResultsPanel({
           longDescriptionSegments={generatedOutput.longDescriptionSegments}
           renderCopyFooter={renderCopyFooter}
           onNavigateToSettings={onNavigateToSettings}
-          onOpenSourceTag={onOpenSourceTag}
-          onOpenSourceHook={onOpenSourceHook}
           onOpenBlocksEditor={onOpenBlocksEditor}
           onOpenSongOverride={onOpenSongOverride}
           projectConfig={projectConfig}

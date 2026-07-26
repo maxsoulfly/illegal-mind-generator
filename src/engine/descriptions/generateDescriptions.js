@@ -5,7 +5,7 @@ import { buildTagLine, buildTagPhrase } from './descriptionTagHelpers';
 import { buildHookBlockMaps, buildBlockGroupMaps, resolveBlockSource } from '../../utils/descriptionLayout';
 import { resolveFileId } from '../placeholders';
 
-export function generateDescriptions(formData, projectConfig, shortHooks = []) {
+export function generateDescriptions(formData, projectConfig) {
   const tagLine = buildTagLine(formData, projectConfig);
   const tagPhrase = buildTagPhrase(formData, projectConfig);
   const selectedTags = formData.transformationTags || [];
@@ -105,7 +105,6 @@ export function generateDescriptions(formData, projectConfig, shortHooks = []) {
   const { shortDescriptions, shortDescriptionSegments } = generateShortDescriptions(
     formData,
     projectConfig,
-    shortHooks,
     tagPhrase,
   );
 

@@ -7,7 +7,6 @@ export const KNOWN_SHORTS_BLOCK_META = {
   header:    { label: 'Header' },
   primary:   { label: 'Primary' },
   secondary: { label: 'Secondary' },
-  hook:      { label: 'Hook' },
 };
 
 // Derives the three lookup maps shared by both description layout builders.

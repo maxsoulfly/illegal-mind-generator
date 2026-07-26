@@ -10,8 +10,6 @@ import { BLOCK_TYPE_SUBTABS } from '../../utils/customBlocks';
 // there's nothing to navigate to.
 function DescriptionLineLink({
   segment,
-  onOpenSourceTag,
-  onOpenSourceHook,
   onOpenBlocksEditor,
   onOpenSongOverride,
   getBlockKeyLabel,
@@ -65,36 +63,6 @@ function DescriptionLineLink({
     );
   }
 
-  if (source?.sourceType === 'tag') {
-    return (
-      <span
-        className={className}
-        title={`${source.sourceTag} (${source.hookType}): "${source.sourceText}"`}
-        onClick={() =>
-          onOpenSourceTag?.({
-            tagName: source.sourceTag,
-            hookType: source.hookType,
-            hookText: source.sourceText,
-          })
-        }
-      >
-        {text}
-      </span>
-    );
-  }
-
-  if (source?.sourceType === 'base') {
-    return (
-      <span
-        className={className}
-        title={`Project preset (${source.hookType}): "${source.sourceText}"`}
-        onClick={() => onOpenSourceHook?.({ hookType: source.hookType, sourceText: source.sourceText })}
-      >
-        {text}
-      </span>
-    );
-  }
-
   return <span>{text}</span>;
 }
 
@@ -108,8 +76,6 @@ function DescriptionsPanel({
   longDescriptionSegments,
   renderCopyFooter,
   onNavigateToSettings,
-  onOpenSourceTag,
-  onOpenSourceHook,
   onOpenBlocksEditor,
   onOpenSongOverride,
   projectConfig,
@@ -149,8 +115,6 @@ function DescriptionsPanel({
                   <DescriptionLineLink
                     key={index}
                     segment={segment}
-                    onOpenSourceTag={onOpenSourceTag}
-                    onOpenSourceHook={onOpenSourceHook}
                     onOpenBlocksEditor={onOpenBlocksEditor}
                     onOpenSongOverride={onOpenSongOverride}
                     getBlockKeyLabel={getBlockKeyLabel}
@@ -179,8 +143,6 @@ function DescriptionsPanel({
                         {segIndex > 0 && '\n'}
                         <DescriptionLineLink
                           segment={segment}
-                          onOpenSourceTag={onOpenSourceTag}
-                          onOpenSourceHook={onOpenSourceHook}
                           onOpenBlocksEditor={onOpenBlocksEditor}
                           onOpenSongOverride={onOpenSongOverride}
                           getBlockKeyLabel={getBlockKeyLabel}

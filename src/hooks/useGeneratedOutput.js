@@ -29,7 +29,6 @@ export default function useGeneratedOutput(formData, resolvedProjectConfig) {
     const { longDescription, longDescriptionSegments, shortDescriptions, shortDescriptionSegments, fileId } = generateDescriptions(
       formData,
       resolvedProjectConfig,
-      shortHooks,
     );
 
     const hashtagOutput = generateHashtags(formData, resolvedProjectConfig);

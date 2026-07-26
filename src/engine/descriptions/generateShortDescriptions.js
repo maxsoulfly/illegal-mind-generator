@@ -2,14 +2,9 @@ import { renderStructuredBlock, renderCustomBlock, getEffectiveSongOverrides, re
 import { isListBlock } from '../../utils/customBlocks';
 import { buildHookBlockMaps } from '../../utils/descriptionLayout';
 
-function pickRandom(arr = []) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
 export function generateShortDescriptions(
   formData,
   projectConfig,
-  shortHooks = [],
   tagPhrase = '',
 ) {
   const shortsConfig = projectConfig.description.templates.shorts;
@@ -29,11 +24,6 @@ export function generateShortDescriptions(
   const songOverrides = getEffectiveSongOverrides(formData);
   const { layoutKeyToBlockKey } = buildHookBlockMaps(projectConfig.description?.hookBlocks || []);
 
-  // shortHooks is an array of groups, each with a `hooks` array of hook objects
-  // ({ text, sourceType, sourceTag, hookType, sourceText }) — kept whole (not
-  // reduced to .text) so a picked hook's source can drive click-to-navigate.
-  const hookPool = shortHooks.flatMap((hookGroup) => hookGroup.hooks || []);
-
   function renderShortLine(blockName) {
     if (blockName === 'coverLine') {
       const headerTemplates = shortsConfig.header || [];
@@ -49,11 +39,6 @@ export function generateShortDescriptions(
           ? { type: 'block', blockKey, blockType: 'hook', template: picked.template }
           : undefined,
       };
-    }
-
-    if (blockName === 'hook') {
-      const hook = pickRandom(hookPool);
-      return { text: hook?.text || '', source: hook };
     }
 
     if (isListBlock(customBlocks[blockName])) {

@@ -622,6 +622,15 @@
           "descriptionLayoutKey": "secondary"
         },
         {
+          "key": "shortsHookLine",
+          "label": "Shorts · Hook Line",
+          "path": "shorts",
+          "templateKey": "hookLine",
+          "descriptionLayoutKey": "hook",
+          "countMax": 3,
+          "countDefault": 1
+        },
+        {
           "key": "transformation",
           "label": "Transformation",
           "path": "long",
@@ -676,6 +685,12 @@
           "label": "Tag · Status Line",
           "source": { "tagParentField": "description", "tagField": "status", "hookBlockKey": "statusLines" },
           "count": 2
+        },
+        {
+          "key": "shortHooksPool",
+          "label": "Short Hooks Pool",
+          "source": { "shortHookPool": true },
+          "count": 1
         }
       ],
 
@@ -837,6 +852,9 @@
             "███ Pulse detected. Full frequency unlocked in main feed.██████",
             "⚠️ This is only the echo. Source signal lives in the main channel.",
             "☣️ Corrupted fragment. Access full reconstruction via central broadcast.█████"
+          ],
+          "hookLine": [
+            "{custom.shortHooksPool}"
           ]
         }
       },
@@ -2164,6 +2182,15 @@
           "descriptionLayoutKey": "secondary"
         },
         {
+          "key": "shortsHookLine",
+          "label": "Shorts · Hook Line",
+          "path": "shorts",
+          "templateKey": "hookLine",
+          "descriptionLayoutKey": "hook",
+          "countMax": 3,
+          "countDefault": 1
+        },
+        {
           "key": "transformation",
           "label": "Transformation",
           "path": "long",
@@ -2192,6 +2219,12 @@
           "key": "tagLogLine",
           "label": "Tag · Log Line",
           "source": { "tagParentField": "description", "tagField": "log" },
+          "count": 1
+        },
+        {
+          "key": "shortHooksPool",
+          "label": "Short Hooks Pool",
+          "source": { "shortHookPool": true },
           "count": 1
         }
       ],
@@ -2321,6 +2354,9 @@
             "Full version on the channel.",
             "Should I redo this one now? Or should I focus a different {artist}'s song?",
             "More covers on the channel."
+          ],
+          "hookLine": [
+            "{custom.shortHooksPool}"
           ]
         }
       },
