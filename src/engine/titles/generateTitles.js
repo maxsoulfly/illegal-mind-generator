@@ -125,136 +125,11 @@ function capitalizeFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Runs the pick-a-template-and-fill loop, skipping any template whose
-// placeholders would render with an empty value (e.g. {originalGenre} with
-// none set) — such a template is dropped rather than shown half-filled, even
-// if that means fewer than titleCount results.
-function attemptTransformationTitles({
-  formData, config, isShorts, artistFull, artistShortFinal,
-  longPrefix, longSuffix, shortsPrefix, shortsSuffix,
-  transformations, weightedTemplates, maxPhrases, connector, listSeparator,
-  titleCount, useShort,
-}) {
-  const results = [];
-  const usedTexts = new Set();
-  let attempts = 0;
-
-  while (results.length < titleCount && attempts < titleCount * 10) {
-    const transformation = pickTransformation(transformations, maxPhrases, connector, listSeparator);
-    const { template, groupName } = shuffleArray(weightedTemplates)[0];
-
-    const ctx = {
-      formData,
-      projectConfig: config,
-      overrides: {
-        artist: useShort ? artistShortFinal : artistFull,
-        song: formData.song || '[Song Name]',
-        num: formData.signalNumber || 'XX',
-        transformation,
-      },
-    };
-
-    const { text: filled, hasEmpty } = fillPlaceholders(template, ctx);
-    attempts += 1;
-    if (hasEmpty) continue;
-
-    const baseTitle = capitalizeFirst(filled);
-    const text = isShorts
-      ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
-      : `${longPrefix}${baseTitle}${longSuffix}`;
-
-    if (!usedTexts.has(text)) {
-      usedTexts.add(text);
-      // sourceTemplate tracks which template and group produced this title
-      // so the UI can navigate back to Project Settings → Titles.
-      results.push({ text, sourceHook: null, sourceTemplate: { template, groupName } });
-    }
-  }
-
-  return results;
-}
-
-// Builds the pool of transformation-based titles (same logic as before).
-// Each entry is { text, sourceHook: null } — sourceHook is null because
-// these come from tag phrases, not short hook templates.
-function buildTransformationTitles(formData, config, isShorts, artistFull, artistShortFinal, longPrefix, longSuffix, shortsPrefix, shortsSuffix) {
-  const transformations = buildTransformationVariations(formData, config);
-  const weightedTemplates = getWeightedTemplates(formData, config);
-
-  if (weightedTemplates.length === 0) return [];
-
-  const maxPhrases = config.title?.maxTransformationPhrases || 1;
-  const connector = config.title?.connector || '&';
-  const listSeparator = config.title?.listSeparator ?? ', ';
-  const titleCount = config.title?.count ?? 5;
-  const useShort = isShorts || (formData.useCustomArtistShort && formData.artistShort);
-
-  return attemptTransformationTitles({
-    formData, config, isShorts, artistFull, artistShortFinal,
-    longPrefix, longSuffix, shortsPrefix, shortsSuffix,
-    transformations, weightedTemplates, maxPhrases, connector, listSeparator,
-    titleCount, useShort,
-  });
-}
-
-function buildGenericTitles(formData, config, isShorts, artistFull, artistShortFinal, longPrefix, longSuffix, shortsPrefix, shortsSuffix) {
-  const genericTemplates = config.title?.templates?.generic || [];
-  if (genericTemplates.length === 0) return [];
-
-  const useShort = isShorts || (formData.useCustomArtistShort && formData.artistShort);
-  const ctx = {
-    formData,
-    projectConfig: config,
-    overrides: {
-      artist: useShort ? artistShortFinal : artistFull,
-      song: formData.song || '[Song Name]',
-      num: formData.signalNumber || 'XX',
-    },
-  };
-
-  const resolved = genericTemplates.map((template) => ({ template, ...fillPlaceholders(template, ctx) }));
-  const viable = resolved.filter((r) => !r.hasEmpty);
-
-  return shuffleArray(viable).map(({ template, text }) => {
-    const baseTitle = capitalizeFirst(text);
-    const finalText = isShorts
-      ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
-      : `${longPrefix}${baseTitle}${longSuffix}`;
-
-    return { text: finalText, sourceHook: null, sourceTemplate: { template, groupName: 'generic' } };
-  });
-}
-
-// Builds hook-based titles by pulling from the short hook pool and applying
-// the long title prefix/suffix. Each entry carries sourceHook metadata so
-// the UI can show a navigation link back to where the hook came from.
-function buildHookTitles(shortHooks, longPrefix, longSuffix) {
-  const hookPool = shortHooks.flatMap((group) => group.hooks || []);
-
-  if (hookPool.length === 0) return [];
-
-  return shuffleArray(hookPool)
-    .slice(0, 5)
-    .map((hook) => ({
-      text: `${longPrefix}${capitalizeFirst(hook.rawText)}${longSuffix}`,
-      sourceHook: {
-        sourceType: hook.sourceType,
-        sourceTag: hook.sourceTag,
-        hookType: hook.hookType,
-        sourceText: hook.sourceText,
-      },
-      sourceTemplate: null,
-    }));
-}
-
-export function generateTitles(formData = {}, config = {}, shortHooks = []) {
-  const artistFull = formData.artist || '[Artist Name]';
-  const generatedArtistShort = buildGeneratedArtistShort(artistFull);
-  const artistShortFinal =
-    formData.useCustomArtistShort && formData.artistShort
-      ? formData.artistShort
-      : generatedArtistShort;
-
+// Resolves the Long/Shorts prefix+suffix strings against live formData (only
+// {num} is substituted here — see resolveRecordText). Split out so it can be
+// called fresh at render time, reflecting a live Signal Number edit without
+// re-picking anything.
+function resolveWrapping(formData, config) {
   const isShorts = formData.videoType === 'Shorts';
   const num = formData.signalNumber || 'XX';
 
@@ -269,44 +144,162 @@ export function generateTitles(formData = {}, config = {}, shortHooks = []) {
   const shortsPrefixRaw = config.title?.shortsPrefix || '';
   const shortsSuffixRaw = config.title?.shortsSuffix || '';
 
-  const longPrefix = prefixEnabled ? longPrefixRaw.replace('{num}', num) : '';
-  const longSuffix = longSuffixEnabled ? longSuffixRaw.replace('{num}', num) : '';
-  const shortsPrefix = shortsPrefixEnabled ? shortsPrefixRaw.replace('{num}', num) : '';
-  const shortsSuffix = shortsSuffixEnabled ? shortsSuffixRaw.replace('{num}', num) : '';
+  return {
+    isShorts,
+    longPrefix: prefixEnabled ? longPrefixRaw.replace('{num}', num) : '',
+    longSuffix: longSuffixEnabled ? longSuffixRaw.replace('{num}', num) : '',
+    shortsPrefix: shortsPrefixEnabled ? shortsPrefixRaw.replace('{num}', num) : '',
+    shortsSuffix: shortsSuffixEnabled ? shortsSuffixRaw.replace('{num}', num) : '',
+  };
+}
 
-  const transformationTitles = buildTransformationTitles(
-    formData, config, isShorts,
-    artistFull, artistShortFinal,
-    longPrefix, longSuffix, shortsPrefix, shortsSuffix,
-  );
+function resolveArtistSong(formData, isShorts) {
+  const artistFull = formData.artist || '[Artist Name]';
+  const generatedArtistShort = buildGeneratedArtistShort(artistFull);
+  const artistShortFinal =
+    formData.useCustomArtistShort && formData.artistShort
+      ? formData.artistShort
+      : generatedArtistShort;
+  const useShort = isShorts || (formData.useCustomArtistShort && formData.artistShort);
+
+  return {
+    artist: useShort ? artistShortFinal : artistFull,
+    song: formData.song || '[Song Name]',
+  };
+}
+
+// Renders one picked record (see pickTitles) against live formData/config —
+// pure substitution, no randomness. `record.transformation`/`record.template`
+// are frozen picks; artist/song/num always come from the formData passed in
+// here, so calling this with live formData is what makes Titles reflect a
+// fresh Artist/Song/Artist Short/Signal Number edit without re-picking.
+function resolveRecordText(record, formData, config) {
+  const { isShorts, longPrefix, longSuffix, shortsPrefix, shortsSuffix } = resolveWrapping(formData, config);
+
+  if (record.kind === 'hook') {
+    const baseTitle = capitalizeFirst(record.hook.rawText);
+    const text = isShorts
+      ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
+      : `${longPrefix}${baseTitle}${longSuffix}`;
+
+    return {
+      text,
+      sourceHook: {
+        sourceType: record.hook.sourceType,
+        sourceTag: record.hook.sourceTag,
+        hookType: record.hook.hookType,
+        sourceText: record.hook.sourceText,
+      },
+      sourceTemplate: null,
+    };
+  }
+
+  const { artist, song } = resolveArtistSong(formData, isShorts);
+  const ctx = {
+    formData,
+    projectConfig: config,
+    overrides: {
+      artist,
+      song,
+      num: formData.signalNumber || 'XX',
+      ...(record.kind === 'transformation' ? { transformation: record.transformation } : {}),
+    },
+  };
+
+  const { text: filled } = fillPlaceholders(record.template, ctx);
+  const baseTitle = capitalizeFirst(filled);
+  const text = isShorts
+    ? `${shortsPrefix}${baseTitle}${shortsSuffix}`
+    : `${longPrefix}${baseTitle}${longSuffix}`;
+
+  return { text, sourceHook: null, sourceTemplate: { template: record.template, groupName: record.groupName } };
+}
+
+// PICK phase: every random selection lives here — which transformation
+// template+phrase wins per slot, which generic templates are viable, which
+// hooks get mixed in, and the final shuffled/deduped/sliced order shown.
+// Frozen except via Transformation Tags / Regenerate / entry load-clear (see
+// useGeneratedOutput.js's narrow-deps memo) — call renderTitles (below)
+// against live formData for display.
+export function pickTitles(formData = {}, config = {}, shortHooksForTitles = []) {
+  const isShorts = formData.videoType === 'Shorts';
+  const titleCount = config.title?.count ?? 5;
+
+  const transformations = buildTransformationVariations(formData, config);
+  const weightedTemplates = getWeightedTemplates(formData, config);
+  const maxPhrases = config.title?.maxTransformationPhrases || 1;
+  const connector = config.title?.connector || '&';
+  const listSeparator = config.title?.listSeparator ?? ', ';
+
+  const transformationRecords = [];
+  if (weightedTemplates.length > 0) {
+    const usedTexts = new Set();
+    let attempts = 0;
+
+    while (transformationRecords.length < titleCount && attempts < titleCount * 10) {
+      const transformation = pickTransformation(transformations, maxPhrases, connector, listSeparator);
+      const { template, groupName } = shuffleArray(weightedTemplates)[0];
+      const record = { kind: 'transformation', template, groupName, transformation };
+      attempts += 1;
+
+      const { text, hasEmpty } = resolveRecordText(record, formData, config);
+      if (hasEmpty) continue;
+      if (usedTexts.has(text)) continue;
+      usedTexts.add(text);
+      transformationRecords.push(record);
+    }
+  }
+
+  const genericTemplates = config.title?.templates?.generic || [];
+  const genericRecords = genericTemplates
+    .map((template) => {
+      const record = { kind: 'generic', template, groupName: 'generic' };
+      return { record, ...resolveRecordText(record, formData, config) };
+    })
+    .filter((r) => !r.hasEmpty)
+    .map(({ record }) => record);
 
   // Hooks only mix into long video titles, not Shorts (Shorts already use
-  // hooks directly via the Short Hooks panel).
-  // formData.useHooksForLongTitles acts as a per-session override of the
-  // project config default.
+  // hooks directly via the Short Hooks panel). formData.useHooksForLongTitles
+  // acts as a per-session override of the project config default. This
+  // mixing isn't on the live-refresh path yet — it reuses whatever
+  // shortHooksForTitles snapshot the caller passed in.
   const useHooksForLongTitles =
     formData.useHooksForLongTitles ?? config.title?.useHooksForLongTitles ?? false;
 
-  const titleCount = config.title?.count ?? 5;
-
-  const genericTitles = buildGenericTitles(
-    formData, config, isShorts,
-    artistFull, artistShortFinal,
-    longPrefix, longSuffix, shortsPrefix, shortsSuffix,
-  );
-
-  const hookTitles =
+  const hookPool = shortHooksForTitles.flatMap((group) => group.hooks || []);
+  const hookRecords =
     !useHooksForLongTitles || isShorts
       ? []
-      : buildHookTitles(shortHooks, longPrefix, longSuffix);
+      : shuffleArray(hookPool).slice(0, 5).map((hook) => ({ kind: 'hook', hook }));
 
-  // Pool all sources, shuffle, deduplicate by text, then slice to titleCount.
-  const pool = shuffleArray([...transformationTitles, ...hookTitles, ...genericTitles]);
+  // Pool all sources, shuffle, deduplicate by text, then freeze the final
+  // order — this is itself a random selection (which titleCount records win
+  // and in what order), so it must not re-run on every render.
+  const allRecords = [...transformationRecords, ...hookRecords, ...genericRecords];
+  const withText = allRecords.map((record) => ({ record, text: resolveRecordText(record, formData, config).text }));
   const seen = new Set();
-  const deduped = pool.filter(({ text }) => {
+  const deduped = shuffleArray(withText).filter(({ text }) => {
     if (seen.has(text)) return false;
     seen.add(text);
     return true;
   });
-  return deduped.slice(0, titleCount);
+
+  return { order: deduped.slice(0, titleCount).map(({ record }) => record) };
+}
+
+// RENDER phase: pure placeholder substitution against live formData/config —
+// no randomness, safe (and intended) to re-run on every field that feeds a
+// placeholder (artist, song, artist-short, signal number).
+export function renderTitles(picked, formData = {}, config = {}) {
+  return picked.order.map((record) => {
+    const { text, sourceHook, sourceTemplate } = resolveRecordText(record, formData, config);
+    return { text, sourceHook, sourceTemplate };
+  });
+}
+
+// Back-compat convenience: pick + render in one call, matching the previous
+// single-call signature/shape exactly.
+export function generateTitles(formData = {}, config = {}, shortHooksForTitles = []) {
+  return renderTitles(pickTitles(formData, config, shortHooksForTitles), formData, config);
 }

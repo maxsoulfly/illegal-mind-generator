@@ -1,23 +1,8 @@
-import { useMemo } from 'react';
-
 import ShortHookTitles from './ShortHookTitles';
 import GeneratedTitle from './GeneratedTitle';
 import CollapsiblePanel from '../ui/CollapsiblePanel';
 import ToggleField from '../ui/ToggleField';
-function shuffleArray(array) {
-  return [...array].sort(() => Math.random() - 0.5);
-}
 
-function buildMixedShortTitles(shortHooks = [], limit = 5) {
-  return shuffleArray(
-    shortHooks.flatMap((group) =>
-      group.hooks.map((hook) => ({
-        ...hook,
-        hookTypeLabel: group.label,
-      })),
-    ),
-  ).slice(0, limit);
-}
 function TitlesPanel({
   titles,
   panelVisibility,
@@ -34,14 +19,11 @@ function TitlesPanel({
   titleUppercase,
   onToggleTitleUppercase,
 }) {
-  // Only reshuffle when the underlying hook pool (or requested count) actually
-  // changes — reading it directly in render would reshuffle on every
-  // unrelated re-render (e.g. typing in Artist), since Math.random() runs
-  // fresh every time regardless of whether shortHooks itself changed.
-  const mixedShortTitles = useMemo(
-    () => buildMixedShortTitles(shortHooks, titleCount ?? 5),
-    [shortHooks, titleCount],
-  );
+  // shortHooks.mixed is already a frozen, shuffled-across-types order (see
+  // generateShortHooks.js's pickShortHooks) — slicing it here is a plain,
+  // non-random truncation, so which 5 titles show can't change just because
+  // a live form edit produced a new shortHooks object with fresh text.
+  const mixedShortTitles = shortHooks?.mixed?.slice(0, titleCount ?? 5) ?? [];
   const isShorts = videoType === 'Shorts';
 
   return (

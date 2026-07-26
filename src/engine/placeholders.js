@@ -23,10 +23,31 @@ function resolvePrimaryTagValue(transformationTags = [], ptConfig = {}) {
   return pool.slice(0, count).join(separator) || '';
 }
 
+function splitGenreParts(str) {
+  if (!str) return [];
+  return str.split(',').map((s) => s.trim()).filter(Boolean);
+}
+
 function pickOneGenre(str) {
-  if (!str) return '';
-  const parts = str.split(',').map((s) => s.trim()).filter(Boolean);
+  const parts = splitGenreParts(str);
   return parts[Math.floor(Math.random() * parts.length)] || '';
+}
+
+// For callers whose selection is frozen and re-rendered later against live
+// formData (see generateShortHooks.js's pick/render split): freeze which
+// comma-separated genre substring won as an index, not a value, so a later
+// render against a possibly-edited originalGenre string reproduces the same
+// *choice* (e.g. "still the 1st listed genre") instead of re-rolling a fresh
+// random pick on every unrelated re-render.
+export function pickGenrePartIndex(str) {
+  const parts = splitGenreParts(str);
+  return parts.length ? Math.floor(Math.random() * parts.length) : 0;
+}
+
+export function resolveGenrePartAtIndex(str, index) {
+  const parts = splitGenreParts(str);
+  if (!parts.length) return '';
+  return parts[Math.min(index, parts.length - 1)];
 }
 
 // String-or-array song override resolution, matching generateCustomBlocks.js's

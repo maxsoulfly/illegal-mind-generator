@@ -1,24 +1,7 @@
-import { useMemo } from 'react';
-
 import ShortHookTitles from './ShortHookTitles';
 import CollapsiblePanel from '../ui/CollapsiblePanel';
 
 const SHORT_HOOK_TITLE_LIMIT = 5;
-
-function shuffleArray(array) {
-  return [...array].sort(() => Math.random() - 0.5);
-}
-
-function buildMixedShortHooks(shortHooks) {
-  return shuffleArray(
-    shortHooks.flatMap((group) =>
-      group.hooks.map((hook) => ({
-        ...hook,
-        hookTypeLabel: group.label,
-      })),
-    ),
-  ).slice(0, SHORT_HOOK_TITLE_LIMIT);
-}
 
 function ShortHooksPanel({
   shortHooks,
@@ -26,14 +9,11 @@ function ShortHooksPanel({
   togglePanel,
   onOpenSourceTag,
 }) {
-  // See TitlesPanel.jsx for why this must be memoized on shortHooks — without
-  // it, Math.random() reshuffles on every unrelated re-render.
-  const mixedShortHooks = useMemo(
-    () => (shortHooks?.length ? buildMixedShortHooks(shortHooks) : []),
-    [shortHooks],
-  );
+  // See TitlesPanel.jsx — shortHooks.mixed is already a frozen order, so a
+  // plain slice here can't reshuffle on an unrelated live re-render.
+  const mixedShortHooks = shortHooks?.mixed?.slice(0, SHORT_HOOK_TITLE_LIMIT) ?? [];
 
-  if (!shortHooks?.length) return null;
+  if (!mixedShortHooks.length) return null;
 
   return (
     <CollapsiblePanel

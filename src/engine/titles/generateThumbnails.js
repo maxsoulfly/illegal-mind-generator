@@ -108,9 +108,35 @@ function getRandomItem(items) {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-export function generateThumbnails(formData = {}, config = {}, count = 5) {
+// PICK phase: which `count` phrases win (from the tag/fallback/words pools)
+// and which prefix pattern (artistFull/artistShort/song) each slot uses.
+// This is the only randomness in thumbnail generation — frozen except via
+// Transformation Tags / Regenerate / entry load-clear (see
+// useGeneratedOutput.js's narrow-deps memo).
+export function pickThumbnails(formData = {}, config = {}, count = 5) {
   const phraseEntries = buildThumbnailVariations(formData, config);
 
+  if (phraseEntries.length === 0) return { phraseEntries: [], patterns: [] };
+
+  const isShorts = formData.videoType === 'Shorts';
+  const patternPool = isShorts
+    ? config.thumbnail?.patterns?.shorts
+    : config.thumbnail?.patterns?.long;
+
+  if (!patternPool || patternPool.length === 0) {
+    throw new Error('Missing thumbnail patterns in config');
+  }
+
+  const patterns = Array.from({ length: count }, () => getRandomItem(patternPool));
+
+  return { phraseEntries, patterns };
+}
+
+// RENDER phase: pure substitution against live formData — no randomness, so
+// it's safe (and the point) to re-run on every Artist/Song/Artist Short edit
+// without re-picking which phrases/patterns won.
+export function renderThumbnails(picked, formData = {}) {
+  const { phraseEntries, patterns } = picked;
   if (phraseEntries.length === 0) return [];
 
   const artistFull = (formData.artist || 'ARTIST').toUpperCase();
@@ -124,21 +150,11 @@ export function generateThumbnails(formData = {}, config = {}, count = 5) {
       : generatedArtistShort;
 
   const song = (formData.song || 'SONG').toUpperCase();
-  const isShorts = formData.videoType === 'Shorts';
-
-  const patternPool = isShorts
-    ? config.thumbnail?.patterns?.shorts
-    : config.thumbnail?.patterns?.long;
-
-  if (!patternPool || patternPool.length === 0) {
-    throw new Error('Missing thumbnail patterns in config');
-  }
 
   // Cycle through the phrase pool if more thumbnails are needed than phrases available.
-  return Array.from({ length: count }, (_, i) => {
+  return patterns.map((pattern, i) => {
     const { phrase, source } = phraseEntries[i % phraseEntries.length];
     const text = phrase.toUpperCase();
-    const pattern = getRandomItem(patternPool);
 
     let prefix = song;
     if (pattern === 'artistFull') prefix = artistFull;
@@ -146,4 +162,10 @@ export function generateThumbnails(formData = {}, config = {}, count = 5) {
 
     return { text: `${prefix} // ${text}`, source };
   });
+}
+
+// Back-compat convenience: pick + render in one call, matching the previous
+// single-call signature/shape exactly.
+export function generateThumbnails(formData = {}, config = {}, count = 5) {
+  return renderThumbnails(pickThumbnails(formData, config, count), formData);
 }
