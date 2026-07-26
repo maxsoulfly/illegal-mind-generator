@@ -1,5 +1,5 @@
-import { fillPlaceholders, pickViableTemplate } from '../placeholders';
-import { resolvePooledOutput } from '../pooling';
+import { fillPlaceholders, freezeTemplate, renderFrozenTemplate, fillPlaceholdersAndFreeze, fillFrozenPlaceholders, pickViableTemplate, pickViableTemplateFrozen, renderViableTemplateFrozen } from '../placeholders';
+import { pickPooledTemplates, renderPooledTemplates } from '../pooling';
 import { findHookBlockByKey, resolveHookBlockTemplates } from '../hookBlockLookup';
 
 function replaceLinkPlaceholders(template, links = {}) {
@@ -8,37 +8,51 @@ function replaceLinkPlaceholders(template, links = {}) {
   });
 }
 
-function pickRandomItem(items) {
-  return [items[Math.floor(Math.random() * items.length)]];
+function pickRandomIndex(length) {
+  return Math.floor(Math.random() * length);
 }
 
-// Returns { text, pickedItem }. pickedItem is only set when displayMode is
-// 'random' and an item was actually chosen — 'all' mode has no single winner
-// to point a source-navigation feature at, so callers should treat a missing
-// pickedItem as "nothing specific to highlight."
-// `ctx` ({ formData, projectConfig, tagLine }) fills every item's own
-// placeholders via fillPlaceholders — item.link keeps its separate
-// replaceLinkPlaceholders pass first (link-specific {links.*} substitution),
-// item.text/item.label go through the general resolver like every other
-// piece of template text in this file.
-export function renderStructuredBlock(block, ctx, links = {}) {
-  if (!block || !block.items) return { text: '', pickedItem: undefined };
+// PICK phase for a structured (List) block: decides which item(s) are shown
+// — every item in 'all' mode (deterministic, nothing to freeze there), or
+// one randomly-picked item in 'random' mode (frozen — which one won) — and
+// freezes each shown item's own placeholder resolution (title/label/text can
+// all reference random tokens like {tags.*}). `ctx` is the pick-time ctx.
+export function pickStructuredBlock(block, ctx) {
+  if (!block || !block.items) return null;
 
-  const title = block.title ? fillPlaceholders(block.title, ctx).text : '';
   const isRandom = block.displayMode === 'random' && block.items.length > 0;
-  const sourceItems = isRandom ? pickRandomItem(block.items) : block.items;
+  const pickedIndex = isRandom ? pickRandomIndex(block.items.length) : undefined;
+  const sourceItems = isRandom ? [block.items[pickedIndex]] : block.items;
 
-  const items = sourceItems
-    .map((item) => {
-      const label = item.label ? fillPlaceholders(item.label, ctx).text : '';
+  return {
+    titleFrozen: block.title ? freezeTemplate(block.title, ctx) : null,
+    items: sourceItems.map((item) => ({
+      item,
+      labelFrozen: item.label ? freezeTemplate(item.label, ctx) : null,
+      textFrozen: item.text ? freezeTemplate(item.text, ctx) : null,
+    })),
+    pickedItem: isRandom ? sourceItems[0] : undefined,
+  };
+}
+
+// RENDER phase: pure substitution of a pickStructuredBlock result against
+// live ctx — no randomness, safe to re-run on every relevant form edit.
+export function renderStructuredBlockFromPicked(picked, ctx, links = {}) {
+  if (!picked) return { text: '', pickedItem: undefined };
+
+  const title = picked.titleFrozen ? renderFrozenTemplate(picked.titleFrozen, ctx).text : '';
+
+  const itemLines = picked.items
+    .map(({ item, labelFrozen, textFrozen }) => {
+      const label = labelFrozen ? renderFrozenTemplate(labelFrozen, ctx).text : '';
 
       if (item.link) {
         const link = replaceLinkPlaceholders(item.link, links);
         return label ? `${label}: ${link}` : link;
       }
 
-      if (item.text) {
-        const text = fillPlaceholders(item.text, ctx).text;
+      if (textFrozen) {
+        const text = renderFrozenTemplate(textFrozen, ctx).text;
         return label ? `${label}: ${text}` : text;
       }
 
@@ -47,13 +61,27 @@ export function renderStructuredBlock(block, ctx, links = {}) {
     .filter(Boolean)
     .join('\n');
 
-  const text = [title, items].filter(Boolean).join('\n');
+  const text = [title, itemLines].filter(Boolean).join('\n');
 
-  return { text, pickedItem: isRandom ? sourceItems[0] : undefined };
+  return { text, pickedItem: picked.pickedItem };
+}
+
+// Back-compat, fully live (pick + render in one call, no freezing) — used
+// directly for song-override-shaped lists, where there's no prior frozen
+// pick to replay (the override is itself live, user-edited data — see
+// renderCustomBlock below) and for any caller that doesn't need the split.
+// Known, accepted limitation: if the *project* block's displayMode is
+// 'random' and a List-shaped song override is active, this re-picks one
+// random override item on every render, since a live override has nothing
+// to freeze against — a narrow combination, not part of the common case.
+export function renderStructuredBlock(block, ctx, links = {}) {
+  return renderStructuredBlockFromPicked(pickStructuredBlock(block, ctx), ctx, links);
 }
 
 // Resolves a song override that may be a string (textarea) or string[] (list).
 // Returns the resolved string, or null if no usable override is present.
+// Live by design — reads whatever songOverrides holds *right now*, so an
+// edit or a cleared field reflects immediately (see renderCustomBlock).
 export function resolveHookOverride(override) {
   if (Array.isArray(override)) {
     const options = override.filter((s) => typeof s === 'string' && s.trim());
@@ -79,6 +107,41 @@ export function renderTextTemplate(text, projectConfig, formData, tagLine) {
   return fillPlaceholders(text, { formData, projectConfig, tagLine }).text;
 }
 
+// PICK phase for a customBlocks entry (Text or List): freezes the block's
+// own project-default content. Deliberately ignores any song override —
+// overrides are resolved live at render time (renderCustomBlock), which is
+// what lets typing/clearing one reflect immediately without a re-pick.
+export function pickCustomBlockDefault(block, ctx) {
+  if (typeof block === 'string') return { kind: 'text', frozen: freezeTemplate(block, ctx) };
+  if (typeof block !== 'object' || !block) return { kind: 'empty' };
+  if (Array.isArray(block.items)) return { kind: 'list', picked: pickStructuredBlock(block, ctx), block };
+  if (typeof block.text === 'string') return { kind: 'text', frozen: freezeTemplate(block.text, ctx) };
+  return { kind: 'empty' };
+}
+
+function renderCustomBlockDefault(picked, ctx, links) {
+  if (picked.kind === 'list') return renderStructuredBlockFromPicked(picked.picked, ctx, links).text;
+  if (picked.kind === 'text') return renderFrozenTemplate(picked.frozen, ctx).text;
+  return '';
+}
+
+// RENDER phase: live-checks for a song override on every call (string,
+// string[], or { items: [...] }) before falling back to the frozen
+// project-default pick — this is the mechanism that makes editing or
+// clearing a Story/Log/CTA/custom-block override reflect immediately.
+export function renderCustomBlock(picked, ctx, links, songOverride) {
+  if (songOverride && typeof songOverride === 'object' && Array.isArray(songOverride.items)) {
+    const overrideBlock = { ...(picked.block || {}), items: songOverride.items };
+    return renderStructuredBlock(overrideBlock, ctx, links).text;
+  }
+
+  if (songOverride && typeof songOverride === 'string' && songOverride.trim()) {
+    return fillPlaceholders(songOverride, ctx).text;
+  }
+
+  return renderCustomBlockDefault(picked, ctx, links);
+}
+
 // Merges the generic per-song block overrides with the legacy customCta
 // field (which predates songBlockOverrides but targets customCtaBlock).
 // songBlockOverrides wins when both are set: customCtaBlock now has a real
@@ -100,51 +163,14 @@ export function getEffectiveSongOverrides(formData) {
   return overrides;
 }
 
-// songOverride, when present, takes precedence over the block's project-level
-// content. String overrides (Text blocks) render as plain text; object
-// overrides with an items array (List blocks) render as a structured block
-// using the project-level block's title and displayMode.
-export function renderCustomBlock(block, projectConfig, formData, tagLine, songOverride) {
-  if (songOverride && typeof songOverride === 'object' && Array.isArray(songOverride.items)) {
-    return renderStructuredBlock(
-      { ...block, items: songOverride.items },
-      { formData, projectConfig, tagLine },
-      projectConfig.description.links,
-    ).text;
-  }
-
-  if (songOverride && typeof songOverride === 'string' && songOverride.trim()) {
-    return renderTextTemplate(songOverride, projectConfig, formData, tagLine);
-  }
-
-  if (typeof block === 'string') {
-    return renderTextTemplate(block, projectConfig, formData, tagLine);
-  }
-
-  if (typeof block !== 'object' || !block) return '';
-
-  if (Array.isArray(block.items)) {
-    return renderStructuredBlock(block, { formData, projectConfig, tagLine }, projectConfig.description.links).text;
-  }
-
-  if (typeof block.text === 'string') {
-    return renderTextTemplate(block.text, projectConfig, formData, tagLine);
-  }
-
-  return '';
-}
-
-// Resolves a hook block identified by its layout key to its final rendered
-// output: 1+ randomly-picked lines (count comes from hookBlockCounts, capped
-// by hookBlockMaxLines/countMax), fully placeholder-filled and joined with
-// newlines. Candidates whose placeholders would render empty (e.g. {tags.genre}
-// with no genre-category tag selected) are excluded before picking. Returns
-// null if the key doesn't match any hook block entry, or if every candidate
-// would be empty — either way, callers treat null as "nothing to show".
-// `template` on the returned object is the winning template's raw text (only
-// meaningful when exactly one line was picked — with multiple lines there's
-// no single "the" winner, so it's left undefined for callers to skip).
-export function resolveHookBlockOutput(layoutKey, ctx) {
+// PICK phase: freezes which templates win for a hook block identified by its
+// layout key — 1+ randomly-picked lines (count comes from hookBlockCounts,
+// capped by hookBlockMaxLines/countMax), each with its own frozen token map.
+// Candidates whose placeholders would render empty (e.g. {tags.genre} with no
+// genre-category tag selected) are excluded before picking. Returns null if
+// the key doesn't match any hook block entry, or if every candidate would be
+// empty — either way, callers treat null as "nothing to show".
+export function pickHookBlockOutput(layoutKey, ctx) {
   const hookBlocks = ctx.projectConfig.description?.hookBlocks || [];
   const block = findHookBlockByKey(hookBlocks, layoutKey);
   if (!block) return null;
@@ -158,42 +184,90 @@ export function resolveHookBlockOutput(layoutKey, ctx) {
     ctx.projectConfig.description?.hookBlockCounts?.[block.key] ?? block.countDefault ?? 1;
   const count = Math.max(1, Math.min(configuredCount, maxLines, templates.length));
 
-  return resolvePooledOutput(templates, ctx, fillPlaceholders, { count });
+  const picked = pickPooledTemplates(templates, ctx, fillPlaceholdersAndFreeze, { count });
+
+  return picked.length ? picked : null;
 }
 
-export function generateCustomBlocks(formData, projectConfig, tagLine) {
-  const customBlocks =
-    projectConfig.description.templates.long.customBlocks || {};
-  const songOverrides = getEffectiveSongOverrides(formData);
+// RENDER phase: pure substitution against live ctx — no randomness. `template`
+// on the result is the winning template's raw text (only meaningful when
+// exactly one line was picked, matching resolvePooledOutput's precedent).
+export function renderHookBlockOutput(picked, ctx) {
+  if (!picked) return null;
+  return renderPooledTemplates(picked, ctx, fillFrozenPlaceholders);
+}
+
+// Back-compat convenience: pick + render a hook block output in one call.
+export function resolveHookBlockOutput(layoutKey, ctx) {
+  return renderHookBlockOutput(pickHookBlockOutput(layoutKey, ctx), ctx);
+}
+
+// PICK phase for every customBlocks entry + the support block, in one call.
+export function pickCustomBlocks(formData, projectConfig, ctx) {
+  const customBlocks = projectConfig.description.templates.long.customBlocks || {};
+
+  const customBlocksPicked = Object.fromEntries(
+    Object.entries(customBlocks).map(([key, block]) => [key, pickCustomBlockDefault(block, ctx)]),
+  );
+
+  const supportBlockConfig = projectConfig.description.templates.long.supportBlock;
+  const supportBlockPicked = pickStructuredBlock(supportBlockConfig, ctx);
+
+  return { customBlocksPicked, supportBlockPicked };
+}
+
+// RENDER phase: live-checks every customBlocks entry's song override, falls
+// back to each one's frozen project-default pick otherwise.
+export function renderCustomBlocks(picked, ctx, songOverrides) {
+  const links = ctx.projectConfig.description.links;
 
   const renderedCustomBlocks = Object.fromEntries(
-    Object.entries(customBlocks).map(([key, block]) => [
+    Object.entries(picked.customBlocksPicked).map(([key, blockPicked]) => [
       key,
-      renderCustomBlock(block, projectConfig, formData, tagLine, songOverrides[key]),
+      renderCustomBlock(blockPicked, ctx, links, songOverrides[key]),
     ]),
   );
 
-  const supportBlockConfig =
-    projectConfig.description.templates.long.supportBlock;
+  const supportBlock = renderStructuredBlockFromPicked(picked.supportBlockPicked, ctx, links).text;
 
-  const supportBlock = renderStructuredBlock(
-    supportBlockConfig,
-    { formData, projectConfig, tagLine },
-    projectConfig.description.links,
-  ).text;
+  return { renderedCustomBlocks, supportBlock };
+}
 
-  return {
-    renderedCustomBlocks,
-    supportBlock,
-  };
+// Back-compat convenience: pick + render customBlocks/supportBlock together.
+export function generateCustomBlocks(formData, projectConfig, tagLine) {
+  const ctx = { formData, projectConfig, tagLine };
+  return renderCustomBlocks(pickCustomBlocks(formData, projectConfig, ctx), ctx, getEffectiveSongOverrides(formData));
+}
+
+// Every key that might be a "pure hook block" layout slot needs its pool pick
+// frozen up front — the top-level layout array plus every Block Group child
+// key. (Keys that turn out to already be in `blocks` — introBlock, custom
+// blocks, group outputs, etc. — are simply never looked up; computing a
+// pick for them too is harmless, just unused.) See generateDescriptions.js.
+export function pickLayoutHookBlocks(keys, ctx) {
+  return Object.fromEntries([...new Set(keys)].map((key) => [key, pickHookBlockOutput(key, ctx)]));
 }
 
 // Resolves a single layout-slot key to its rendered text: an explicit
-// pre-computed value in `blocks` (broadcastBlock, introBlock, a sibling
-// Block Group's own output once merged in, etc.), else a song override for
-// that key, else the hook block pool's random pick. Shared by the top-level
-// Long description layout loop (generateDescriptions.js) and
-// generateBlockGroups below so the two resolution paths can't drift apart.
+// already-live-rendered value in `blocks` (broadcastBlock, introBlock, a
+// sibling Block Group's own output once merged in, etc. — each of those
+// already resolved its own song override live, see renderCustomBlocks/
+// generateDescriptions.js), else a live song override for this key, else the
+// frozen hook-block pool pick from pickLayoutHookBlocks. Shared by the
+// top-level Long description layout loop (generateDescriptions.js) and
+// renderBlockGroups below so the two resolution paths can't drift apart.
+export function renderLayoutKey(key, ctx, blocks, songOverrides, pickedHookBlocks) {
+  if (key in blocks) return blocks[key];
+  const hookSongOverride = resolveHookOverride(songOverrides[key]);
+  if (hookSongOverride) {
+    return renderTextTemplate(hookSongOverride, ctx.projectConfig, ctx.formData, ctx.tagLine);
+  }
+  return renderHookBlockOutput(pickedHookBlocks[key], ctx)?.text;
+}
+
+// Back-compat convenience matching the pre-split signature/behavior exactly
+// (pick + render in one call — no freezing carried across calls). Used by
+// any caller that hasn't been migrated to the frozen pick/render split.
 export function resolveLayoutKey(key, ctx, blocks, songOverrides) {
   if (key in blocks) return blocks[key];
   const hookSongOverride = resolveHookOverride(songOverrides[key]);
@@ -204,7 +278,7 @@ export function resolveLayoutKey(key, ctx, blocks, songOverrides) {
 }
 
 // Resolves every configured Block Group to its joined text: each 'block'
-// child is resolved through resolveLayoutKey; joined tight with '\n',
+// child is resolved through renderLayoutKey; joined tight with '\n',
 // matching the bespoke merges (the old inline closingBlock join, and the old
 // generateBroadcastBlock.js/generateLogBlock.js) this type replaces. Tag-
 // scoped content (the per-tag "Modification: ..." log line, per-tag status
@@ -221,6 +295,20 @@ export function resolveLayoutKey(key, ctx, blocks, songOverrides) {
 // other group uses — Log Notes needs this because its wrapper references
 // {tagLine}, which must resolve via buildTagLine's result, not buildTagPhrase's
 // (the two are genuinely different values — see generateDescriptions.js).
+export function renderBlockGroups(blockGroups, ctx, blocks, songOverrides, pickedHookBlocks, groupCtxOverrides = {}) {
+  return Object.fromEntries(
+    blockGroups.map((group) => {
+      const groupCtx = groupCtxOverrides[group.key] ?? ctx;
+      const parts = group.children
+        .filter((child) => child.type === 'block')
+        .map((child) => renderLayoutKey(child.key, groupCtx, blocks, songOverrides, pickedHookBlocks))
+        .filter(Boolean);
+      return [group.key, parts.join('\n')];
+    }),
+  );
+}
+
+// Back-compat convenience matching the pre-split signature/behavior exactly.
 export function generateBlockGroups(blockGroups, ctx, blocks, songOverrides, groupCtxOverrides = {}) {
   return Object.fromEntries(
     blockGroups.map((group) => {
@@ -234,4 +322,4 @@ export function generateBlockGroups(blockGroups, ctx, blocks, songOverrides, gro
   );
 }
 
-export { pickViableTemplate };
+export { pickViableTemplate, pickViableTemplateFrozen, renderViableTemplateFrozen };

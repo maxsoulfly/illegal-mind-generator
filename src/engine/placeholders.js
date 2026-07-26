@@ -255,6 +255,15 @@ function findTokens(template) {
   return [...new Set(matches.map((m) => m[1]))];
 }
 
+function augmentCtx(rawCtx) {
+  return {
+    ...rawCtx,
+    primaryTag:
+      rawCtx.primaryTag ??
+      resolvePrimaryTagValue(rawCtx.formData.transformationTags, rawCtx.projectConfig?.title?.primaryTag || {}),
+  };
+}
+
 // Resolves every known placeholder in `template` against `ctx`:
 // { formData, projectConfig, tagLine?, primaryTag?, overrides? }.
 // `overrides` lets a caller supply a precomputed value for any token (e.g. hooks
@@ -263,12 +272,7 @@ function findTokens(template) {
 // Unknown tokens (num, coverLabel, ...) are left untouched in the output.
 // Returns { text, hasEmpty } — hasEmpty is true if any resolved value was ''.
 export function fillPlaceholders(template, rawCtx) {
-  const ctx = {
-    ...rawCtx,
-    primaryTag:
-      rawCtx.primaryTag ??
-      resolvePrimaryTagValue(rawCtx.formData.transformationTags, rawCtx.projectConfig?.title?.primaryTag || {}),
-  };
+  const ctx = augmentCtx(rawCtx);
 
   let text = template;
   let hasEmpty = false;
@@ -281,6 +285,63 @@ export function fillPlaceholders(template, rawCtx) {
   }
 
   return { text, hasEmpty };
+}
+
+// Tokens that read live formData directly with no randomness of their own —
+// always resolved fresh, never frozen. `originalGenre` is deliberately NOT
+// here: it has its own internal random pick among comma-separated values
+// (pickOneGenre) — Titles/Short Hooks freeze that specific case via
+// pickGenrePartIndex/resolveGenrePartAtIndex instead (see generateShortHooks.js);
+// description templates use {originalGenre} only in one deeply-nested spot
+// (transformationBlock), where freezing the resolved value like any other
+// random token is an accepted, documented simplification rather than
+// threading index-freezing through every description ctx builder.
+const ALWAYS_LIVE_TOKENS = new Set(['artist', 'song', 'signalNumber', 'year', 'years', 'currentYear', 'decade', 'fileId']);
+
+// PICK phase: resolves `template` once against `ctx`, same as fillPlaceholders,
+// but also captures a frozen snapshot of every *non-live, not-already-overridden*
+// token's resolved value. This is what lets a later render pass reproduce the
+// exact same random selection (transformation, tags.*, primaryTag, logNote,
+// operatorStatus, custom.* — anything pooled/randomized) instead of re-rolling
+// it, while ALWAYS_LIVE_TOKENS and anything the caller already supplied via
+// ctx.overrides stay live. Nested random resolution (e.g. a {custom.x} token
+// that internally pools+picks a line) is captured as one opaque frozen string
+// — the *outer* token's resolved value — so nothing inside placeholders.js
+// itself needs its own pick/render split for this to work correctly.
+export function fillPlaceholdersAndFreeze(template, rawCtx) {
+  const ctx = augmentCtx(rawCtx);
+  const frozen = {};
+
+  for (const token of findTokens(template)) {
+    if (ALWAYS_LIVE_TOKENS.has(token)) continue;
+    if (ctx.overrides && ctx.overrides[token] !== undefined) continue;
+    const value = resolveToken(token, ctx);
+    if (value !== undefined) frozen[token] = value;
+  }
+
+  const { text, hasEmpty } = fillPlaceholders(template, rawCtx);
+  return { text, hasEmpty, frozen };
+}
+
+// RENDER phase: re-fills `template` against live `ctx` — ALWAYS_LIVE_TOKENS
+// and anything in ctx.overrides resolve fresh as normal, while every token
+// captured in `frozen` (see fillPlaceholdersAndFreeze) replays its frozen
+// value instead of re-resolving (and possibly re-rolling) it.
+export function fillFrozenPlaceholders(template, ctx, frozen = {}) {
+  return fillPlaceholders(template, { ...ctx, overrides: { ...frozen, ...ctx.overrides } });
+}
+
+// Convenience pair for the common "one template, freeze it, render it later"
+// case — bundles the raw template string alongside its frozen token map so
+// callers can pass a single { template, frozen } record around.
+export function freezeTemplate(template, ctx) {
+  const { frozen } = fillPlaceholdersAndFreeze(template, ctx);
+  return { template, frozen };
+}
+
+export function renderFrozenTemplate({ template, frozen } = {}, ctx) {
+  if (!template) return { text: '', hasEmpty: true };
+  return fillFrozenPlaceholders(template, ctx, frozen);
 }
 
 // Resolves every candidate template against ctx, filters out any whose
@@ -296,6 +357,28 @@ export function pickViableTemplate(templates, ctx) {
   if (viable.length === 0) return null;
 
   return viable[Math.floor(Math.random() * viable.length)];
+}
+
+// Freeze-aware counterpart to pickViableTemplate: picks one random viable
+// template exactly the same way, but freezes both which template won and
+// its own non-live token resolutions, returning a { template, frozen }
+// record instead of { template, text }. Pair with renderViableTemplateFrozen
+// to re-fill against live formData without re-picking.
+export function pickViableTemplateFrozen(templates, ctx) {
+  if (!templates?.length) return null;
+
+  const resolved = templates.map((template) => ({ template, ...fillPlaceholdersAndFreeze(template, ctx) }));
+  const viable = resolved.filter((r) => !r.hasEmpty);
+
+  if (viable.length === 0) return null;
+
+  const winner = viable[Math.floor(Math.random() * viable.length)];
+  return { template: winner.template, frozen: winner.frozen };
+}
+
+export function renderViableTemplateFrozen(picked, ctx) {
+  if (!picked) return null;
+  return { text: renderFrozenTemplate(picked, ctx).text, template: picked.template };
 }
 
 // Standalone entry point for callers (generateShortHooks.js) that need to
