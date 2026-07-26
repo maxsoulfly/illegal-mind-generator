@@ -10,6 +10,11 @@ export const defaultFormData = {
   originalGenre: '',
   signalNumber: '',
   videoType: 'Long',
+  // Ephemeral, session-only counter — bumped whenever the form's entire
+  // context is swapped (load a different entry, clear the form), so
+  // useGeneratedOutput knows to regenerate even if nothing else it watches
+  // (transformationTags) happens to differ from the previous song.
+  entryLoadToken: 0,
   changesMade: '',
   extraVibeNote: '',
   transformationTags: [],

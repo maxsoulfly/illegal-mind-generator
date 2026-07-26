@@ -240,6 +240,7 @@ function useSavedEntries(
         status: entry.todo?.status || '',
         notes: entry.todo?.notes || '',
       },
+      entryLoadToken: (prev.entryLoadToken || 0) + 1,
     }));
   };
 

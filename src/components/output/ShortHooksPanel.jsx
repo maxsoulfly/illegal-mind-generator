@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import ShortHookTitles from './ShortHookTitles';
 import CollapsiblePanel from '../ui/CollapsiblePanel';
 
@@ -24,9 +26,14 @@ function ShortHooksPanel({
   togglePanel,
   onOpenSourceTag,
 }) {
-  if (!shortHooks?.length) return null;
+  // See TitlesPanel.jsx for why this must be memoized on shortHooks — without
+  // it, Math.random() reshuffles on every unrelated re-render.
+  const mixedShortHooks = useMemo(
+    () => (shortHooks?.length ? buildMixedShortHooks(shortHooks) : []),
+    [shortHooks],
+  );
 
-  const mixedShortHooks = buildMixedShortHooks(shortHooks);
+  if (!shortHooks?.length) return null;
 
   return (
     <CollapsiblePanel

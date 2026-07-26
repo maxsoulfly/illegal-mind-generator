@@ -8,11 +8,17 @@ function getStoredProjectOverrides() {
   return appStorage.projectOverrides || {};
 }
 
+// Stable fallback so a project with no stored settings overrides yet still
+// returns the same object reference on every render — a fresh `{}` literal
+// here would break resolvedProjectConfig's memoization (App.jsx) and force
+// a generation recompute on every unrelated re-render.
+const EMPTY_OBJECT = {};
+
 export default function useProjectOverrides(projectId) {
   const [allProjectSettingsOverrides, setAllProjectSettingsOverrides] =
     useState(getStoredProjectOverrides);
 
-  const projectSettingsOverrides = allProjectSettingsOverrides[projectId] || {};
+  const projectSettingsOverrides = allProjectSettingsOverrides[projectId] || EMPTY_OBJECT;
 
   const updateProjectOverride = useCallback(
     (updates) => {

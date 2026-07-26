@@ -4,6 +4,12 @@ import { loadAppStorage, updateAppStorage } from '../utils/storage';
 
 const LEGACY_STORAGE_KEY = 'tagOverrides';
 
+// Stable fallback so a project with no stored overrides yet still returns
+// the same object reference on every render — a fresh `{}` literal here
+// would break resolvedProjectConfig's memoization (App.jsx) and force a
+// generation recompute on every unrelated re-render.
+const EMPTY_OBJECT = {};
+
 const mergeUniqueArray = (target = [], source = []) => {
   return Array.from(new Set([...(target || []), ...(source || [])]));
 };
@@ -65,7 +71,7 @@ export default function useTagOverrides(projectId) {
     updateAppStorage((storage) => ({ ...storage, tagOverrides: overrides }));
   }, [overrides]);
 
-  const projectOverrides = overrides[projectId] || {};
+  const projectOverrides = overrides[projectId] || EMPTY_OBJECT;
 
   const getTagOverride = (tagName) => {
     return projectOverrides[tagName] || {};

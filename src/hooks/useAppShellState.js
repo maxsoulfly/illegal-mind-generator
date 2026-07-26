@@ -265,7 +265,10 @@ export default function useAppShellState() {
 
   // Reset generator form to defaults.
   const handleClearForm = () => {
-    setFormData({ ...defaultFormData });
+    setFormData((prev) => ({
+      ...defaultFormData,
+      entryLoadToken: (prev.entryLoadToken || 0) + 1,
+    }));
   };
 
   return {

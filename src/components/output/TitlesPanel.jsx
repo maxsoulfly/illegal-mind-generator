@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import ShortHookTitles from './ShortHookTitles';
 import GeneratedTitle from './GeneratedTitle';
 import CollapsiblePanel from '../ui/CollapsiblePanel';
@@ -32,7 +34,14 @@ function TitlesPanel({
   titleUppercase,
   onToggleTitleUppercase,
 }) {
-  const mixedShortTitles = buildMixedShortTitles(shortHooks, titleCount ?? 5);
+  // Only reshuffle when the underlying hook pool (or requested count) actually
+  // changes — reading it directly in render would reshuffle on every
+  // unrelated re-render (e.g. typing in Artist), since Math.random() runs
+  // fresh every time regardless of whether shortHooks itself changed.
+  const mixedShortTitles = useMemo(
+    () => buildMixedShortTitles(shortHooks, titleCount ?? 5),
+    [shortHooks, titleCount],
+  );
   const isShorts = videoType === 'Shorts';
 
   return (
