@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import TagSyncControls from '../tags/TagSyncControls';
-import ShortHookCard from '../ui/ShortHookCard';
-import IconButton from '../ui/IconButton';
-import PrimaryTagSection from './hooks/PrimaryTagSection';
+import TagSyncControls from '../../tags/TagSyncControls';
+import ShortHookCard from '../../ui/ShortHookCard';
+import IconButton from '../../ui/IconButton';
+import PrimaryTagSection from './PrimaryTagSection';
 
 function slugify(str) {
   return str.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
 }
 
-export default function ProjectSettingsShortHooks({
+export default function ShortHooks({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,

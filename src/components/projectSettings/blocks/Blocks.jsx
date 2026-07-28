@@ -1,17 +1,17 @@
-import SubTabNav from '../ui/SubTabNav';
-import ProjectSettingsLists from './ProjectSettingsLists';
-import ProjectSettingsTextBlocks from './ProjectSettingsTextBlocks';
-import ProjectSettingsHookBlocks from './ProjectSettingsHookBlocks';
-import ProjectSettingsBlockGroups from './ProjectSettingsBlockGroups';
-import ProjectSettingsPlaceholders from './ProjectSettingsPlaceholders';
-import { BLOCK_TYPE_SUBTABS } from '../../utils/customBlocks';
+import SubTabNav from '../../ui/SubTabNav';
+import Lists from '../lists/Lists';
+import TextBlocks from './TextBlocks';
+import HookBlocks from './HookBlocks';
+import BlockGroups from './BlockGroups';
+import Placeholders from './Placeholders';
+import { BLOCK_TYPE_SUBTABS } from '../../../utils/customBlocks';
 
 const BLOCKS_SUBTABS = Object.values(BLOCK_TYPE_SUBTABS).map(({ subTab, label }) => ({
   id: subTab,
   label,
 }));
 
-export default function ProjectSettingsBlocks({
+export default function Blocks({
   baseProjectConfig,
   projectConfig,
   projectSettingsOverrides = {},
@@ -43,7 +43,7 @@ export default function ProjectSettingsBlocks({
       />
 
       {activeSubTab === 'lists' && (
-        <ProjectSettingsLists
+        <Lists
           baseProjectConfig={baseProjectConfig}
           projectConfig={projectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
@@ -54,7 +54,7 @@ export default function ProjectSettingsBlocks({
       )}
 
       {activeSubTab === 'text' && (
-        <ProjectSettingsTextBlocks
+        <TextBlocks
           baseProjectConfig={baseProjectConfig}
           projectConfig={projectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
@@ -64,7 +64,7 @@ export default function ProjectSettingsBlocks({
       )}
 
       {activeSubTab === 'hooks' && (
-        <ProjectSettingsHookBlocks
+        <HookBlocks
           baseProjectConfig={baseProjectConfig}
           projectConfig={projectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
@@ -75,7 +75,7 @@ export default function ProjectSettingsBlocks({
       )}
 
       {activeSubTab === 'groups' && (
-        <ProjectSettingsBlockGroups
+        <BlockGroups
           projectConfig={projectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}
@@ -85,7 +85,7 @@ export default function ProjectSettingsBlocks({
       )}
 
       {activeSubTab === 'placeholders' && (
-        <ProjectSettingsPlaceholders
+        <Placeholders
           projectConfig={projectConfig}
           projectSettingsOverrides={projectSettingsOverrides}
           updateProjectOverride={updateProjectOverride}

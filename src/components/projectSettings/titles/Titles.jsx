@@ -1,5 +1,5 @@
-import HookTemplateEditor from '../ui/HookTemplateEditor';
-import TitleGenerationCard from './titles/TitleGenerationCard';
+import HookTemplateEditor from '../../ui/HookTemplateEditor';
+import TitleGenerationCard from './TitleGenerationCard';
 
 const GROUP_LABELS = {
   standard: 'Standard',
@@ -16,7 +16,7 @@ const GENERATION_SETTINGS_KEYS = [
 
 // Stores template overrides at projectSettingsOverrides.title.templates[groupName],
 // which mergeProjectOverrides already knows how to shallow-merge per group.
-export default function ProjectSettingsTitles({
+export default function Titles({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,

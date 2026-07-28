@@ -14,12 +14,12 @@ import {
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
 
-import BlockEditorCard from './blocks/BlockEditorCard';
-import AddBlockForm from './blocks/AddBlockForm';
-import BlockInfoCard from '../ui/BlockInfoCard';
-import SortableActiveBlock from './descriptions/SortableActiveBlock';
-import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../utils/customBlocks';
-import { makeBlockKeyLabelResolver, resolveBlockSource, buildHookBlockMaps } from '../../utils/descriptionLayout';
+import BlockEditorCard from './BlockEditorCard';
+import AddBlockForm from './AddBlockForm';
+import BlockInfoCard from '../../ui/BlockInfoCard';
+import SortableActiveBlock from '../descriptions/SortableActiveBlock';
+import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../../utils/customBlocks';
+import { makeBlockKeyLabelResolver, resolveBlockSource, buildHookBlockMaps } from '../../../utils/descriptionLayout';
 
 // Block Groups are a shell: { key, label, scope, target, children }. A child
 // is { type: 'block', key } — an existing List/Text/Hook Block, joined tight
@@ -53,7 +53,7 @@ function AddChildList({ candidateKeys, getBlockKeyLabel, onAdd }) {
   );
 }
 
-export default function ProjectSettingsBlockGroups({
+export default function BlockGroups({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,

@@ -1,7 +1,7 @@
-import HookTemplateEditor from '../ui/HookTemplateEditor';
-import BlockEditorCard from './blocks/BlockEditorCard';
-import AddBlockForm from './blocks/AddBlockForm';
-import { buildHookPlaceholders } from '../../utils/hookPlaceholders';
+import HookTemplateEditor from '../../ui/HookTemplateEditor';
+import BlockEditorCard from './BlockEditorCard';
+import AddBlockForm from './AddBlockForm';
+import { buildHookPlaceholders } from '../../../utils/hookPlaceholders';
 
 // Hook block definitions live in projects.json → description.hookBlocks.
 // Each entry: { key, label, path, templateKey, scope?, countMax?, countDefault?, descriptionLayoutKey? }
@@ -114,7 +114,7 @@ function HookBlockEditor({
   );
 }
 
-export default function ProjectSettingsHookBlocks({
+export default function HookBlocks({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,
@@ -438,7 +438,7 @@ export default function ProjectSettingsHookBlocks({
   }
 
   // Must include the layout-key namespace (descriptionLayoutKey) too, not
-  // just hook blocks' own storage keys — see ProjectSettingsTextBlocks.jsx.
+  // just hook blocks' own storage keys — see TextBlocks.jsx.
   const existingKeys = [
     ...hookBlocks.map((b) => b.key),
     ...hookBlocks.map((b) => b.descriptionLayoutKey ?? b.key),

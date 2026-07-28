@@ -1,13 +1,13 @@
-import SubTabNav from '../ui/SubTabNav';
-import LongDescriptionSettings from './descriptions/LongDescriptionSettings';
-import ShortsDescriptionSettings from './descriptions/ShortsDescriptionSettings';
+import SubTabNav from '../../ui/SubTabNav';
+import LongDescriptionSettings from './LongDescriptionSettings';
+import ShortsDescriptionSettings from './ShortsDescriptionSettings';
 
 const DESCRIPTION_SUBTABS = [
   { id: 'long', label: 'Long Description' },
   { id: 'shorts', label: 'Shorts Description' },
 ];
 
-export default function ProjectSettingsDescriptions({
+export default function Descriptions({
   baseProjectConfig,
   projectConfig,
   projectSettingsOverrides = {},

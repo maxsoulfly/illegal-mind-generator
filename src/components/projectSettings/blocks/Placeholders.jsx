@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import BlockEditorCard from './blocks/BlockEditorCard';
-import TemplateGroupCard from '../ui/TemplateGroupCard';
-import FormField from '../ui/FormField';
-import FormSelect from '../ui/FormSelect';
-import IconButton from '../ui/IconButton';
-import ToggleField from '../ui/ToggleField';
-import { buildPlaceholderReference, buildPlaceholderPrompt } from '../../utils/placeholderReference';
+import BlockEditorCard from './BlockEditorCard';
+import TemplateGroupCard from '../../ui/TemplateGroupCard';
+import FormField from '../../ui/FormField';
+import FormSelect from '../../ui/FormSelect';
+import IconButton from '../../ui/IconButton';
+import ToggleField from '../../ui/ToggleField';
+import { buildPlaceholderReference, buildPlaceholderPrompt } from '../../../utils/placeholderReference';
 
 // Groups rendered by PlaceholderReference, in display order — keys match
 // buildPlaceholderReference's return shape (placeholderReference.js).
@@ -134,7 +134,7 @@ function AddPlaceholderRow({ existingKeys, onAdd }) {
   );
 }
 
-export default function ProjectSettingsPlaceholders({
+export default function Placeholders({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,

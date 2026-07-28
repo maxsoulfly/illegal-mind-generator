@@ -1,9 +1,9 @@
 import ProjectSettingsGeneral from './ProjectSettingsGeneral';
 import ProjectSettingsLinks from './ProjectSettingsLinks';
-import ProjectSettingsBlocks from './ProjectSettingsBlocks';
-import ProjectSettingsShortHooks from './ProjectSettingsShortHooks';
-import ProjectSettingsTitles from './ProjectSettingsTitles';
-import ProjectSettingsDescriptions from './ProjectSettingsDescriptions';
+import Blocks from './blocks/Blocks';
+import ShortHooks from './shortHooks/ShortHooks';
+import Titles from './titles/Titles';
+import Descriptions from './descriptions/Descriptions';
 import ProjectSettingsThumbnails from './ProjectSettingsThumbnails';
 import ProjectSettingsHashtags from './ProjectSettingsHashtags';
 import ProjectSettingsTodo from './ProjectSettingsTodo';
@@ -43,7 +43,7 @@ export default function ProjectSettingsContent({
 
   if (activeSection === 'shortHooks') {
     return (
-      <ProjectSettingsShortHooks
+      <ShortHooks
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
@@ -56,7 +56,7 @@ export default function ProjectSettingsContent({
   }
   if (activeSection === 'titles') {
     return (
-      <ProjectSettingsTitles
+      <Titles
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
@@ -78,7 +78,7 @@ export default function ProjectSettingsContent({
 
   if (activeSection === 'blocks') {
     return (
-      <ProjectSettingsBlocks
+      <Blocks
         baseProjectConfig={baseProjectConfig}
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
@@ -92,7 +92,7 @@ export default function ProjectSettingsContent({
 
   if (activeSection === 'descriptions') {
     return (
-      <ProjectSettingsDescriptions
+      <Descriptions
         baseProjectConfig={baseProjectConfig}
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}

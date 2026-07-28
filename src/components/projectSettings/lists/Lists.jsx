@@ -1,45 +1,42 @@
 import { useState } from 'react';
-import TextBlockEditor from './blocks/TextBlockEditor';
-import AddTextBlockForm from './blocks/AddTextBlockForm';
+import StructuredListEditor from './StructuredListEditor';
+import AddListBlockForm from './AddListBlockForm';
 import {
   KNOWN_CUSTOM_BLOCKS,
-  isTextBlock,
+  isListBlock,
   getBlockLabel,
   prettifyBlockKey,
   updateLongKey,
-} from '../../utils/customBlocks';
-import { buildHookPlaceholders } from '../../utils/hookPlaceholders';
+  removeLongKey,
+} from '../../../utils/customBlocks';
 
-export default function ProjectSettingsTextBlocks({
+export default function Lists({
   baseProjectConfig,
   projectConfig,
   projectSettingsOverrides,
   updateProjectOverride,
   openBlockKey,
+  highlightItem,
 }) {
   const longTemplates = projectConfig.description?.templates?.long || {};
   const customBlocks = longTemplates.customBlocks || {};
+  const baseCustomBlocks =
+    baseProjectConfig?.description?.templates?.long?.customBlocks || {};
+  const linkKeys = Object.keys(projectConfig.description?.links || {});
   const hookBlocks = projectConfig.description?.hookBlocks || [];
-  // A new block's key must avoid every existing block's storage key AND every
-  // hook block's layout key (descriptionLayoutKey) — a List/Text block whose
-  // key happens to match a hook block's layout key gets silently orphaned
-  // from the Descriptions layout builder (resolveBlockSource/label resolvers
-  // check the hook-layout-key namespace first). See descriptionLayout.js.
+  // See ../blocks/TextBlocks.jsx for why the hook-block layout-key
+  // namespace must be included here too.
   const existingBlockKeys = [
     ...Object.keys(customBlocks),
     ...hookBlocks.map((b) => b.key),
     ...hookBlocks.map((b) => b.descriptionLayoutKey ?? b.key),
   ];
-  const baseCustomBlocks =
-    baseProjectConfig?.description?.templates?.long?.customBlocks || {};
-  const linkKeys = Object.keys(projectConfig.description?.links || {});
-  const placeholders = buildHookPlaceholders(projectConfig);
 
   const overriddenDesc = projectSettingsOverrides?.description || {};
-  const overriddenLong =
-    projectSettingsOverrides?.description?.templates?.long || {};
   const overriddenCustomBlocks =
     projectSettingsOverrides?.description?.templates?.long?.customBlocks || {};
+  const overriddenLong =
+    projectSettingsOverrides?.description?.templates?.long || {};
   const blockLabelOverrides = overriddenDesc.blockLabelOverrides || {};
 
   function saveCustomBlock(blockKey, value) {
@@ -80,44 +77,57 @@ export default function ProjectSettingsTextBlocks({
     }
   }
 
-  const textBlockKeys = Object.keys(customBlocks).filter((key) =>
-    isTextBlock(customBlocks[key]),
+  function saveLongBlock(blockKey, value) {
+    updateProjectOverride(updateLongKey(projectSettingsOverrides, blockKey, value));
+  }
+
+  function resetLongBlock(blockKey) {
+    updateProjectOverride(removeLongKey(projectSettingsOverrides, blockKey));
+  }
+
+  const supportBlockData = longTemplates.supportBlock;
+  const hasSupportOverride = !!overriddenLong.supportBlock;
+
+  const customBlockKeys = Object.keys(customBlocks).filter((key) =>
+    isListBlock(customBlocks[key]),
   );
 
   const [search, setSearch] = useState('');
   const needle = search.trim().toLowerCase();
 
-  const visibleBlockKeys = textBlockKeys.filter(
-    (key) =>
-      !needle || getBlockLabel(key, customBlocks[key]).toLowerCase().includes(needle),
+  const visibleBlockKeys = customBlockKeys.filter((key) =>
+    !needle || getBlockLabel(key, customBlocks[key]).toLowerCase().includes(needle),
   );
+  const supportMatchesSearch = !needle || 'support block'.includes(needle);
 
   const [resetKeys, setResetKeys] = useState({});
+  const [supportResetKey, setSupportResetKey] = useState(0);
 
   function bumpResetKey(blockKey) {
     setResetKeys((prev) => ({ ...prev, [blockKey]: (prev[blockKey] || 0) + 1 }));
   }
 
-  const noBlocks = textBlockKeys.length === 0;
-  const noMatches = !noBlocks && visibleBlockKeys.length === 0;
+  const noBlocks = customBlockKeys.length === 0 && !supportBlockData;
+  const noMatches =
+    !noBlocks && visibleBlockKeys.length === 0 && !(supportBlockData && supportMatchesSearch);
 
   return (
     <>
-      {textBlockKeys.length > 5 && (
+      {customBlockKeys.length + (supportBlockData ? 1 : 0) > 5 && (
         <input
           className="form-input links-registry-search"
           type="search"
-          placeholder="Search text blocks…"
+          placeholder="Search lists…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
       )}
 
       {noBlocks && (
-        <p className="tag-summary">No text blocks configured for this project.</p>
+        <p className="tag-summary">No list blocks configured for this project.</p>
       )}
 
-      {noMatches && <p className="tag-summary">No text blocks match your search.</p>}
+      {noMatches && <p className="tag-summary">No lists match your search.</p>}
 
       {visibleBlockKeys.map((blockKey) => {
         const known = KNOWN_CUSTOM_BLOCKS[blockKey];
@@ -126,18 +136,17 @@ export default function ProjectSettingsTextBlocks({
         const label =
           blockLabelOverrides[blockKey] ||
           known?.label ||
-          (typeof blockData === 'object' && blockData?.name) ||
+          blockData?.name ||
           prettifyBlockKey(blockKey);
 
         return (
-          <TextBlockEditor
+          <StructuredListEditor
             key={`${blockKey}-${resetKeys[blockKey] || 0}`}
             label={label}
             blockData={blockData}
             defaultScope={known?.defaultScope || 'project'}
             defaultTarget={known?.defaultTarget || 'long'}
             linkKeys={linkKeys}
-            placeholders={placeholders}
             hasOverride={
               hasBaseDefault &&
               (!!overriddenCustomBlocks[blockKey] || !!blockLabelOverrides[blockKey])
@@ -156,11 +165,27 @@ export default function ProjectSettingsTextBlocks({
             }
             onRename={(newLabel) => renameBlock(blockKey, newLabel, blockData, hasBaseDefault)}
             open={openBlockKey === blockKey}
+            highlightItem={openBlockKey === blockKey ? highlightItem : null}
           />
         );
       })}
 
-      <AddTextBlockForm
+      {supportBlockData && supportMatchesSearch && (
+        <StructuredListEditor
+          key={`support-${supportResetKey}`}
+          label="Support Block"
+          blockData={supportBlockData}
+          defaultScope="project"
+          defaultTarget="both"
+          linkKeys={linkKeys}
+          hasOverride={hasSupportOverride}
+          onSave={(value) => saveLongBlock('supportBlock', value)}
+          onReset={() => { resetLongBlock('supportBlock'); setSupportResetKey((k) => k + 1); }}
+          open={openBlockKey === 'supportBlock'}
+        />
+      )}
+
+      <AddListBlockForm
         existingKeys={existingBlockKeys}
         onAdd={saveCustomBlock}
       />
