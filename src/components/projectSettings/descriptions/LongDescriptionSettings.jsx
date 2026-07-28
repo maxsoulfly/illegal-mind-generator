@@ -1,29 +1,7 @@
-import { useState } from 'react';
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-  arrayMove,
-  sortableKeyboardCoordinates,
-} from '@dnd-kit/sortable';
-import BlockInfoCard from '../../ui/BlockInfoCard';
-import SubTabNav from '../../ui/SubTabNav';
-import IconButton from '../../ui/IconButton';
-import SortableActiveBlock from './SortableActiveBlock';
-import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../../utils/customBlocks';
-import { buildHookBlockMaps, buildBlockGroupMaps, makeLayoutLabelResolver, resolveBlockSource } from '../../../utils/descriptionLayout';
-
-const MOBILE_COLUMN_TABS = [
-  { id: 'layout', label: 'Layout' },
-  { id: 'available', label: 'Available' },
-];
+import DescriptionLayoutBoard from './DescriptionLayoutBoard';
+import useDescriptionLayoutActions from './useDescriptionLayoutActions';
+import { isListBlock, isTextBlock } from '../../../utils/customBlocks';
+import { buildHookBlockMaps, buildBlockGroupMaps, makeLayoutLabelResolver, makeNavigateHandler } from '../../../utils/descriptionLayout';
 
 const KNOWN_BLOCK_META = {
   broadcastBlock:    { label: 'Broadcast Block' },
@@ -47,13 +25,6 @@ export default function LongDescriptionSettings({
   updateProjectOverride,
   onNavigateToBlock,
 }) {
-  const [mobileTab, setMobileTab] = useState('layout');
-
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
-  );
-
   const longTemplates = projectConfig.description?.templates?.long || {};
   const customBlocks  = longTemplates.customBlocks || {};
   const overriddenDesc = projectSettingsOverrides.description || {};
@@ -72,6 +43,13 @@ export default function LongDescriptionSettings({
     knownMeta: KNOWN_BLOCK_META,
     customBlocks,
     blockGroupLabelMap: blockGroupMaps.labelMap,
+  });
+  const getNavigateHandler = makeNavigateHandler({
+    hookBlockMaps: { allLayoutKeys: allHookBlockLayoutKeys, layoutKeyToBlockKey },
+    customBlocks,
+    supportBlockConfig: longTemplates.supportBlock,
+    blockGroupMaps,
+    onNavigateToBlock,
   });
 
   const defaultLayout =
@@ -119,12 +97,6 @@ export default function LongDescriptionSettings({
     ...groupKeys,
   ].filter((k) => !activeKeys.includes(k));
 
-  // Infinity so dynamic/user-created blocks (not in defaultLayout) sort to the end on Reset Order.
-  function layoutIndex(key) {
-    const idx = defaultLayout.indexOf(key);
-    return idx === -1 ? Infinity : idx;
-  }
-
   function updateLayout(newKeys) {
     updateProjectOverride({
       description: {
@@ -140,133 +112,21 @@ export default function LongDescriptionSettings({
     });
   }
 
-  function addToLayout(key) {
-    if (!defaultLayout.includes(key)) {
-      updateLayout([...activeKeys, key]);
-      return;
-    }
-    const targetIndex = defaultLayout.indexOf(key);
-    const next = [...activeKeys];
-    // Insert after the last active block whose defaultLayout position is before this one,
-    // so re-adding a block preserves the original ordering rather than always appending.
-    const insertAt = next.findLastIndex((k) => layoutIndex(k) < targetIndex) + 1;
-    next.splice(insertAt, 0, key);
-    updateLayout(next);
-  }
-
-  function removeFromLayout(key) {
-    updateLayout(activeKeys.filter((k) => k !== key));
-  }
-
-  function moveBlock(key, direction) {
-    const idx = activeKeys.indexOf(key);
-    const next = [...activeKeys];
-    next.splice(idx, 1);
-    next.splice(idx + direction, 0, key);
-    updateLayout(next);
-  }
-
-  function handleDragEnd(event) {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-
-    updateLayout(
-      arrayMove(activeKeys, activeKeys.indexOf(active.id), activeKeys.indexOf(over.id)),
-    );
-  }
-
-  function resetOrder() {
-    const sorted = [...activeKeys].sort((a, b) => layoutIndex(a) - layoutIndex(b));
-    updateLayout(sorted);
-  }
-
-  function getNavigateHandler(blockKey) {
-    if (!onNavigateToBlock) return undefined;
-    const source = resolveBlockSource(blockKey, {
-      hookBlockMaps: { allLayoutKeys: allHookBlockLayoutKeys, layoutKeyToBlockKey },
-      customBlocks,
-      supportBlockConfig: longTemplates.supportBlock,
-      blockGroupMaps,
-    });
-    if (!source) return undefined;
-    const subTab = BLOCK_TYPE_SUBTABS[source.blockType]?.subTab;
-    return () => onNavigateToBlock({ subTab, blockKey: source.blockKey });
-  }
-
-  function renderAvailableBlock(blockKey) {
-    return (
-      <BlockInfoCard
-        key={blockKey}
-        label={getLayoutBlockLabel(blockKey)}
-        onAdd={() => addToLayout(blockKey)}
-        onNavigate={getNavigateHandler(blockKey)}
-      />
-    );
-  }
-
-  function renderActiveBlock(blockKey, index) {
-    const isFirst = index === 0;
-    const isLast  = index === activeKeys.length - 1;
-
-    return (
-      <SortableActiveBlock
-        key={blockKey}
-        id={blockKey}
-        label={getLayoutBlockLabel(blockKey)}
-        onRemove={() => removeFromLayout(blockKey)}
-        onNavigate={getNavigateHandler(blockKey)}
-        disabledUp={isFirst}
-        disabledDown={isLast}
-        onMoveUp={() => moveBlock(blockKey, -1)}
-        onMoveDown={() => moveBlock(blockKey, 1)}
-      />
-    );
-  }
+  const { sensors, addToLayout, removeFromLayout, moveBlock, handleDragEnd, resetOrder } =
+    useDescriptionLayoutActions({ activeKeys, defaultLayout, updateLayout });
 
   return (
-    <>
-      <SubTabNav
-        tabs={MOBILE_COLUMN_TABS}
-        activeTab={mobileTab}
-        onTabChange={setMobileTab}
-        className="desc-mobile-tabs"
-      />
-
-      <div className="desc-layout-header">
-        <span className="desc-col-label">Available</span>
-        <div className="desc-active-header">
-          <span>Active Layout</span>
-          <IconButton
-            icon="↺ Reset Order"
-            title="Reset to default order"
-            onClick={resetOrder}
-          />
-        </div>
-      </div>
-
-      <div className="desc-layout" data-mobile-tab={mobileTab}>
-        <aside className="desc-layout-available">
-          {availableKeys.length === 0 ? (
-            <p className="tag-summary">All blocks are in the layout.</p>
-          ) : (
-            <div className="desc-available-list">
-              {availableKeys.map((key) => renderAvailableBlock(key))}
-            </div>
-          )}
-        </aside>
-
-        <div className="desc-layout-active">
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext items={activeKeys} strategy={verticalListSortingStrategy}>
-              {activeKeys.map((key, i) => renderActiveBlock(key, i))}
-            </SortableContext>
-          </DndContext>
-        </div>
-      </div>
-    </>
+    <DescriptionLayoutBoard
+      availableKeys={availableKeys}
+      activeKeys={activeKeys}
+      sensors={sensors}
+      onDragEnd={handleDragEnd}
+      onResetOrder={resetOrder}
+      getLayoutBlockLabel={getLayoutBlockLabel}
+      getNavigateHandler={getNavigateHandler}
+      addToLayout={addToLayout}
+      removeFromLayout={removeFromLayout}
+      moveBlock={moveBlock}
+    />
   );
 }

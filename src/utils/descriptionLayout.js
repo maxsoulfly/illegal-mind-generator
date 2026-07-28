@@ -1,4 +1,4 @@
-import { getBlockLabel, isListBlock, isTextBlock } from './customBlocks';
+import { getBlockLabel, isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from './customBlocks';
 
 // Shared Shorts layout-slot fallback labels, used by ShortsDescriptionSettings's
 // layout editor (keyed by layout slot, e.g. 'coverLine' — see makeLayoutLabelResolver).
@@ -129,6 +129,22 @@ export function makeBlockKeyLabelResolver({
 // the group's own key AND closingSignal/philosophyLine's shared
 // descriptionLayoutKey), and the group must win that ambiguity — it's the
 // thing actually producing the segment now, not any one child in isolation.
+// Builds the getNavigateHandler(blockKey) function shared by both Description
+// settings pages' Available/Active columns — wraps resolveBlockSource with the
+// BLOCK_TYPE_SUBTABS → subTab lookup and the onNavigateToBlock callback each
+// page already has. Returns undefined per-key when onNavigateToBlock isn't
+// provided or the block has no resolvable source (matching BlockInfoCard/
+// SortableActiveBlock's onNavigate prop, which is optional).
+export function makeNavigateHandler({ hookBlockMaps, customBlocks, supportBlockConfig, blockGroupMaps, onNavigateToBlock }) {
+  return (blockKey) => {
+    if (!onNavigateToBlock) return undefined;
+    const source = resolveBlockSource(blockKey, { hookBlockMaps, customBlocks, supportBlockConfig, blockGroupMaps });
+    if (!source) return undefined;
+    const subTab = BLOCK_TYPE_SUBTABS[source.blockType]?.subTab;
+    return () => onNavigateToBlock({ subTab, blockKey: source.blockKey });
+  };
+}
+
 export function resolveBlockSource(blockKey, { hookBlockMaps, customBlocks, supportBlockConfig, blockGroupMaps, overridden = false }) {
   if (blockGroupMaps?.groupKeySet.has(blockKey)) {
     return overridden ? { type: 'override', blockKey } : { type: 'block', blockKey, blockType: 'group' };

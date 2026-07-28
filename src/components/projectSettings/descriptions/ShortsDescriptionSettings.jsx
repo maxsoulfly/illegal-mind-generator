@@ -1,30 +1,8 @@
-import { useState } from 'react';
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-  arrayMove,
-  sortableKeyboardCoordinates,
-} from '@dnd-kit/sortable';
-import BlockInfoCard from '../../ui/BlockInfoCard';
+import DescriptionLayoutBoard from './DescriptionLayoutBoard';
+import useDescriptionLayoutActions from './useDescriptionLayoutActions';
 import LabelSliderRow from '../../ui/LabelSliderRow';
-import SubTabNav from '../../ui/SubTabNav';
-import IconButton from '../../ui/IconButton';
-import SortableActiveBlock from './SortableActiveBlock';
-import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../../utils/customBlocks';
-import { buildHookBlockMaps, buildBlockGroupMaps, makeLayoutLabelResolver, resolveBlockSource, KNOWN_SHORTS_BLOCK_META } from '../../../utils/descriptionLayout';
-
-const MOBILE_COLUMN_TABS = [
-  { id: 'layout', label: 'Layout' },
-  { id: 'available', label: 'Available' },
-];
+import { isListBlock, isTextBlock } from '../../../utils/customBlocks';
+import { buildHookBlockMaps, buildBlockGroupMaps, makeLayoutLabelResolver, makeNavigateHandler, KNOWN_SHORTS_BLOCK_META } from '../../../utils/descriptionLayout';
 
 export default function ShortsDescriptionSettings({
   baseProjectConfig,
@@ -33,13 +11,6 @@ export default function ShortsDescriptionSettings({
   updateProjectOverride,
   onNavigateToBlock,
 }) {
-  const [mobileTab, setMobileTab] = useState('layout');
-
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
-  );
-
   const shortsConfig    = projectConfig.description?.templates?.shorts || {};
   const overriddenShorts =
     projectSettingsOverrides.description?.templates?.shorts || {};
@@ -62,6 +33,13 @@ export default function ShortsDescriptionSettings({
     knownMeta: KNOWN_SHORTS_BLOCK_META,
     customBlocks,
     blockGroupLabelMap: blockGroupMaps.labelMap,
+  });
+  const getNavigateHandler = makeNavigateHandler({
+    hookBlockMaps: { allLayoutKeys: allHookBlockLayoutKeys, layoutKeyToBlockKey },
+    customBlocks,
+    supportBlockConfig: undefined,
+    blockGroupMaps,
+    onNavigateToBlock,
   });
 
   const count = overriddenShorts.count ?? shortsConfig.count ?? 3;
@@ -112,11 +90,6 @@ export default function ShortsDescriptionSettings({
     ...groupKeys,
   ].filter((k) => !activeKeys.includes(k));
 
-  function layoutIndex(key) {
-    const idx = defaultLayout.indexOf(key);
-    return idx === -1 ? Infinity : idx;
-  }
-
   function updateShortsField(field, value) {
     updateProjectOverride({
       description: {
@@ -133,86 +106,8 @@ export default function ShortsDescriptionSettings({
     updateShortsField('layout', newKeys);
   }
 
-  function addToLayout(key) {
-    if (!defaultLayout.includes(key)) {
-      updateLayout([...activeKeys, key]);
-      return;
-    }
-    const targetIndex = defaultLayout.indexOf(key);
-    const next = [...activeKeys];
-    const insertAt = next.findLastIndex((k) => layoutIndex(k) < targetIndex) + 1;
-    next.splice(insertAt, 0, key);
-    updateLayout(next);
-  }
-
-  function removeFromLayout(key) {
-    updateLayout(activeKeys.filter((k) => k !== key));
-  }
-
-  function moveBlock(key, direction) {
-    const idx = activeKeys.indexOf(key);
-    const next = [...activeKeys];
-    next.splice(idx, 1);
-    next.splice(idx + direction, 0, key);
-    updateLayout(next);
-  }
-
-  function handleDragEnd(event) {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-
-    updateLayout(
-      arrayMove(activeKeys, activeKeys.indexOf(active.id), activeKeys.indexOf(over.id)),
-    );
-  }
-
-  function resetOrder() {
-    const sorted = [...activeKeys].sort((a, b) => layoutIndex(a) - layoutIndex(b));
-    updateLayout(sorted);
-  }
-
-  function getNavigateHandler(key) {
-    if (!onNavigateToBlock) return undefined;
-    const source = resolveBlockSource(key, {
-      hookBlockMaps: { allLayoutKeys: allHookBlockLayoutKeys, layoutKeyToBlockKey },
-      customBlocks,
-      supportBlockConfig: undefined,
-      blockGroupMaps,
-    });
-    if (!source) return undefined;
-    const subTab = BLOCK_TYPE_SUBTABS[source.blockType]?.subTab;
-    return () => onNavigateToBlock({ subTab, blockKey: source.blockKey });
-  }
-
-  function renderAvailableBlock(key) {
-    return (
-      <BlockInfoCard
-        key={key}
-        label={getLayoutBlockLabel(key)}
-        onAdd={() => addToLayout(key)}
-        onNavigate={getNavigateHandler(key)}
-      />
-    );
-  }
-
-  function renderActiveBlock(key, index) {
-    const isFirst = index === 0;
-    const isLast  = index === activeKeys.length - 1;
-
-    return (
-      <SortableActiveBlock
-        key={key}
-        id={key}
-        label={getLayoutBlockLabel(key)}
-        onRemove={() => removeFromLayout(key)}
-        onNavigate={getNavigateHandler(key)}
-        disabledUp={isFirst}
-        disabledDown={isLast}
-        onMoveUp={() => moveBlock(key, -1)}
-        onMoveDown={() => moveBlock(key, 1)}
-      />
-    );
-  }
+  const { sensors, addToLayout, removeFromLayout, moveBlock, handleDragEnd, resetOrder } =
+    useDescriptionLayoutActions({ activeKeys, defaultLayout, updateLayout });
 
   return (
     <>
@@ -226,48 +121,18 @@ export default function ShortsDescriptionSettings({
         />
       </div>
 
-      <SubTabNav
-        tabs={MOBILE_COLUMN_TABS}
-        activeTab={mobileTab}
-        onTabChange={setMobileTab}
-        className="desc-mobile-tabs"
+      <DescriptionLayoutBoard
+        availableKeys={availableKeys}
+        activeKeys={activeKeys}
+        sensors={sensors}
+        onDragEnd={handleDragEnd}
+        onResetOrder={resetOrder}
+        getLayoutBlockLabel={getLayoutBlockLabel}
+        getNavigateHandler={getNavigateHandler}
+        addToLayout={addToLayout}
+        removeFromLayout={removeFromLayout}
+        moveBlock={moveBlock}
       />
-
-      <div className="desc-layout-header">
-        <span className="desc-col-label">Available</span>
-        <div className="desc-active-header">
-          <span>Active Layout</span>
-          <IconButton
-            icon="↺ Reset Order"
-            title="Reset to default order"
-            onClick={resetOrder}
-          />
-        </div>
-      </div>
-
-      <div className="desc-layout" data-mobile-tab={mobileTab}>
-        <aside className="desc-layout-available">
-          {availableKeys.length === 0 ? (
-            <p className="tag-summary">All blocks are in the layout.</p>
-          ) : (
-            <div className="desc-available-list">
-              {availableKeys.map((key) => renderAvailableBlock(key))}
-            </div>
-          )}
-        </aside>
-
-        <div className="desc-layout-active">
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext items={activeKeys} strategy={verticalListSortingStrategy}>
-              {activeKeys.map((key, i) => renderActiveBlock(key, i))}
-            </SortableContext>
-          </DndContext>
-        </div>
-      </div>
     </>
   );
 }
