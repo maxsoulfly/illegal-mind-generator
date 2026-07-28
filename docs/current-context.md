@@ -249,6 +249,23 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 2. **Storage cleanup** (low urgency, after a few stable sessions):
    - Remove legacy key capture/restore from `appBackup.js`
    - Remove `storageMigration.js` and its `window.*` exposure in `App.jsx`
+3. **Large-file refactor pass, started 2026-07-28** — user asked to start splitting files over 250 lines. `HookBlocks.jsx` done (497 → 125 lines; see Recently Completed). `src/utils/hookBlockOverrides.js` (331 lines, born from that split) was deliberately left alone — it's a flat list of ~20 small independent pure functions, long but not tangled, so splitting it further wouldn't add clarity. Remaining candidates, re-run `find src -type f \( -name "*.jsx" -o -name "*.js" \) -not -path "*/node_modules/*" -exec wc -l {} \; | sort -rn | awk '$1 > 250'` to refresh this list before picking the next one (line counts will drift as other work touches these files):
+
+   | File | Lines | Notes |
+   |---|---|---|
+   | `pages/UIKitPage.jsx` | 748 | Component catalog/demo page — likely leave alone, length is inherent to cataloging many components |
+   | `hooks/useSavedEntries.js` | 400 | Stateful hook; save/load/import-merge logic — CLAUDE.md's Known Gotchas already document distinct concerns here (`handleSaveEntry`/`handleLoadEntry` field lists vs. `handleImportEntries`'s independent `mergeImportedEntry`), a likely real seam. Higher risk — touches saved-entry storage. |
+   | `engine/placeholders.js` | 389 | Core engine, recently heavily reworked (pick/render split) — go carefully if touched |
+   | `App.jsx` | 351 | Root component — high risk |
+   | `savedLibrary/SavedLibrary.jsx` | 337 | Feature component |
+   | `engine/descriptions/generateCustomBlocks.js` | 325 | Engine, recently heavily reworked |
+   | `hooks/useAppShellState.js` | 312 | Stateful hook — central app state, high risk |
+   | `engine/titles/generateTitles.js` | 305 | Engine logic |
+   | `projectSettings/blocks/Placeholders.jsx` | 274 | Settings tab |
+   | `projectSettings/descriptions/ShortsDescriptionSettings.jsx` | 273 | Settings tab — likely same splittable shape as `HookBlocks.jsx` was |
+   | `projectSettings/descriptions/LongDescriptionSettings.jsx` | 272 | Settings tab — same as above |
+   | `components/input/AdvancedDescriptionFields.jsx` | 265 | Form component |
+   | `projectSettings/blocks/BlockGroups.jsx` | 261 | Settings tab |
 
 ---
 
