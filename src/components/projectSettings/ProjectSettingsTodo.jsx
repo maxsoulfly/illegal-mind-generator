@@ -25,6 +25,8 @@ export default function ProjectSettingsTodo({
           onUpdateTemplates={(v) => updateProjectOverride({ todoStatuses: v })}
           onReset={() => resetProjectOverride('todoStatuses')}
           placeholders={[]}
+          countLabel="statuses"
+          editLabel="Edit statuses"
         />
       </div>
     </section>

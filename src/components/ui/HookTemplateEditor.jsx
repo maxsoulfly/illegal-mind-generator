@@ -8,7 +8,7 @@ import { HOOK_PLACEHOLDERS } from '../../utils/hookPlaceholders';
 // Collapsible editor for a single hook type's templates array.
 // All mutations call onUpdateTemplates with the full replacement array —
 // the parent (ShortHookCard) is responsible for persisting it.
-export default function HookTemplateEditor({ templates = [], onUpdateTemplates, highlightText, noWrapper = false, placeholders = HOOK_PLACEHOLDERS }) {
+export default function HookTemplateEditor({ templates = [], onUpdateTemplates, highlightText, noWrapper = false, placeholders = HOOK_PLACEHOLDERS, editLabel = 'Edit hooks' }) {
   // null = bulk textarea closed; any string (including '') = open
   const [bulkValue, setBulkValue] = useState(null);
   const [searchText, setSearchText] = useState('');
@@ -95,7 +95,7 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
 
   return (
     <details className="tag-section" ref={detailsRef}>
-      <summary>Edit hooks</summary>
+      <summary>{editLabel}</summary>
       {inner}
     </details>
   );

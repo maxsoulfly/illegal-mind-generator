@@ -17,6 +17,7 @@ export default function TemplateGroupCard({
   children,
   headerActions,
   placeholders,
+  editLabel,
 }) {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
 
@@ -69,6 +70,7 @@ export default function TemplateGroupCard({
               onUpdateTemplates={onUpdateTemplates}
               highlightText={highlightText}
               placeholders={placeholders}
+              editLabel={editLabel}
             />
           )}
         </>
