@@ -1,66 +1,20 @@
 import { useState } from 'react';
 import BlockEditorCard from './BlockEditorCard';
-import TemplateGroupCard from '../../ui/TemplateGroupCard';
+import PlaceholderReference from './PlaceholderReference';
 import FormField from '../../ui/FormField';
 import FormSelect from '../../ui/FormSelect';
 import IconButton from '../../ui/IconButton';
 import ToggleField from '../../ui/ToggleField';
-import { buildPlaceholderReference, buildPlaceholderPrompt } from '../../../utils/placeholderReference';
-
-// Groups rendered by PlaceholderReference, in display order — keys match
-// buildPlaceholderReference's return shape (placeholderReference.js).
-const REFERENCE_GROUPS = [
-  { key: 'builtIn', title: 'Built-in' },
-  { key: 'tagCategories', title: 'Tag Categories' },
-  { key: 'links', title: 'Project Links' },
-  { key: 'custom', title: 'Custom' },
-];
-
-// Read-only reference of every placeholder usable in this project right now
-// (built-in engine tokens, {tags.*} categories, this project's {links.*},
-// and this project's {custom.*} definitions) — the editable custom-placeholder
-// cards below only ever showed the last group, leaving everything else
-// discoverable only by opening a {-autocomplete dropdown somewhere else.
-function PlaceholderReference({ projectConfig }) {
-  const [copied, setCopied] = useState(false);
-  const reference = buildPlaceholderReference(projectConfig);
-
-  function handleCopyPrompt() {
-    navigator.clipboard.writeText(buildPlaceholderPrompt());
-    setCopied(true);
-    setTimeout(() => setCopied(false), 500);
-  }
-
-  return (
-    <TemplateGroupCard
-      label="All Placeholders"
-      subtitle="Every placeholder usable in this project — built-in, tag categories, links, and custom. Custom ones are edited below. Copy AI Prompt sends only Built-in + Tag Categories."
-      initialCollapsed
-      headerActions={
-        <button type="button" className="button-secondary" onClick={handleCopyPrompt}>
-          {copied ? 'Copied ✔️' : 'Copy AI Prompt'}
-        </button>
-      }
-    >
-      {REFERENCE_GROUPS.map(({ key, title }) => {
-        const entries = reference[key];
-        if (entries.length === 0) return null;
-        return (
-          <div key={key} className="placeholder-reference-group">
-            <h4 className="tag-category">{title}</h4>
-            <ul className="placeholder-reference-list">
-              {entries.map((entry) => (
-                <li key={entry.token}>
-                  <code className="placeholder-reference-token">{entry.token}</code> — {entry.description}
-                </li>
-              ))}
-            </ul>
-          </div>
-        );
-      })}
-    </TemplateGroupCard>
-  );
-}
+import {
+  isDynamicPlaceholder,
+  sourceToFieldValue,
+  fieldValueToSource,
+  generatePlaceholderKey,
+  patchPlaceholderPatch,
+  resetPlaceholderPatch,
+  deletePlaceholderPatch,
+  addPlaceholderPatch,
+} from '../../../utils/placeholderOverrides';
 
 // Fixed set of tag-scoped array fields a placeholder can pool from — same
 // fields the Tag Editor's Descriptions/Short Hooks tabs already expose for
@@ -81,35 +35,6 @@ const TAG_FIELD_OPTIONS = [
   { value: 'shortHooks.musician', label: 'Short Hooks · Musician' },
   { value: 'shortHooks.progress', label: 'Short Hooks · Progress' },
 ];
-
-function sourceToFieldValue(source = {}) {
-  if (!source.tagField) return '';
-  return source.tagParentField ? `${source.tagParentField}.${source.tagField}` : source.tagField;
-}
-
-function fieldValueToSource(value, existingSource = {}) {
-  const { hookBlockKey, shortHookPool } = existingSource;
-  const carried = { ...(hookBlockKey ? { hookBlockKey } : {}), ...(shortHookPool ? { shortHookPool } : {}) };
-  if (!value) return carried;
-  const [tagParentField, tagField] = value.split('.');
-  return { tagParentField, tagField, ...carried };
-}
-
-// Placeholder keys are a separate namespace from hookBlocks/customBlocks/
-// blockGroups (addressed as {custom.<key>} tokens, never bare layout/editor
-// keys — see placeholders.js) — no "Block" suffix, no cross-namespace
-// collision check needed, so this doesn't reuse generateBlockKey.
-function generatePlaceholderKey(name, existingKeys) {
-  const words = name.trim().toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(Boolean);
-  const base = words.map((w, i) => (i === 0 ? w : w[0].toUpperCase() + w.slice(1))).join('') || 'placeholder';
-  let key = base;
-  let suffix = 2;
-  while (existingKeys.includes(key)) {
-    key = `${base}${suffix}`;
-    suffix += 1;
-  }
-  return key;
-}
 
 function AddPlaceholderRow({ existingKeys, onAdd }) {
   const [name, setName] = useState('');
@@ -144,63 +69,28 @@ export default function Placeholders({
   const placeholders = projectConfig.description?.placeholders || [];
   const hookBlocks = projectConfig.description?.hookBlocks || [];
 
-  const dynamicKeys = new Set((overriddenDesc.customPlaceholders || []).map((p) => p.key));
-  const isDynamic = (key) => dynamicKeys.has(key);
-
   const hookBlockOptions = [
     { value: '', label: 'None' },
     ...hookBlocks.map((b) => ({ value: b.key, label: b.label })),
   ];
 
   function patchPlaceholder(placeholder, patch) {
-    if (isDynamic(placeholder.key)) {
-      updateProjectOverride({
-        description: {
-          ...overriddenDesc,
-          customPlaceholders: (overriddenDesc.customPlaceholders || []).map((p) =>
-            p.key === placeholder.key ? { ...p, ...patch } : p,
-          ),
-        },
-      });
-    } else {
-      updateProjectOverride({
-        description: {
-          ...overriddenDesc,
-          placeholderOverrides: {
-            ...(overriddenDesc.placeholderOverrides || {}),
-            [placeholder.key]: { ...(overriddenDesc.placeholderOverrides?.[placeholder.key] || {}), ...patch },
-          },
-        },
-      });
-    }
+    const dynamic = isDynamicPlaceholder(overriddenDesc, placeholder.key);
+    updateProjectOverride(patchPlaceholderPatch(overriddenDesc, placeholder, patch, dynamic));
   }
 
   function resetPlaceholder(key) {
-    const { [key]: _removed, ...remaining } = overriddenDesc.placeholderOverrides || {};
-    updateProjectOverride({ description: { ...overriddenDesc, placeholderOverrides: remaining } });
+    updateProjectOverride(resetPlaceholderPatch(overriddenDesc, key));
   }
 
   function deletePlaceholder(placeholder) {
     if (placeholder.isCore) return;
     if (!window.confirm(`Delete this placeholder? Any template still referencing {custom.${placeholder.key}} will resolve it as empty. This cannot be undone.`)) return;
-    updateProjectOverride({
-      description: {
-        ...overriddenDesc,
-        customPlaceholders: (overriddenDesc.customPlaceholders || []).filter((p) => p.key !== placeholder.key),
-      },
-    });
+    updateProjectOverride(deletePlaceholderPatch(overriddenDesc, placeholder));
   }
 
   function addPlaceholder(key, name) {
-    updateProjectOverride({
-      description: {
-        ...overriddenDesc,
-        customPlaceholders: [
-          ...(overriddenDesc.customPlaceholders || []),
-          { key, label: name, source: {}, count: 1, isCore: false },
-        ],
-      },
-    });
+    updateProjectOverride(addPlaceholderPatch(overriddenDesc, key, name));
   }
 
   const existingKeys = placeholders.map((p) => p.key);
@@ -209,7 +99,7 @@ export default function Placeholders({
     <>
       <PlaceholderReference projectConfig={projectConfig} />
       {placeholders.map((placeholder) => {
-        const dynamic = isDynamic(placeholder.key);
+        const dynamic = isDynamicPlaceholder(overriddenDesc, placeholder.key);
         return (
           <BlockEditorCard
             key={placeholder.key}
