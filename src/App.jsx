@@ -6,10 +6,11 @@ import useGeneratedOutput from './hooks/useGeneratedOutput';
 import useProjectOverrides from './hooks/useProjectOverrides';
 
 import buildResolvedProjectConfig from './utils/buildResolvedProjectConfig';
-import { resolveCustomBlockCollisions } from './utils/customBlocks';
 
 import useTagOverrides from './hooks/useTagOverrides';
 import useSavedEntries from './hooks/useSavedEntries';
+import useStaleTargetClearing from './hooks/useStaleTargetClearing';
+import useBlockCollisionRepair from './hooks/useBlockCollisionRepair';
 
 import AppHeader from './components/AppHeader';
 
@@ -69,30 +70,7 @@ function App() {
     setActiveProjectSettingsSection,
   } = useAppShellState();
 
-  // Every open*Search/openBlocksEditor/openTagLibrarySearch function sets its
-  // own *Target state AND navigates to that target's home page in the same
-  // handler, so by the time this effect runs after a target-driven nav,
-  // activePage already matches and the group below is correctly skipped.
-  // Clears only fire when the user has genuinely left a target's page (via
-  // the main AppHeader nav, or by loading a saved entry) — without this, a
-  // clicked link's highlight/expanded state stays stuck until a refresh,
-  // since ProjectSettingsPage's handleSectionChange only covers switching
-  // tabs *within* Project Settings, not leaving the page entirely.
-  useEffect(() => {
-    if (activePage !== 'projectSettings') {
-      if (shortHooksTarget) clearShortHooksTarget();
-      if (titlesTarget) clearTitlesTarget();
-      if (thumbnailsTarget) clearThumbnailsTarget();
-      if (hashtagsTarget) clearHashtagsTarget();
-      if (blocksTarget) clearBlocksTarget();
-    }
-    if (activePage !== 'tags' && tagLibrarySearchTarget) {
-      clearTagLibrarySearchTarget();
-    }
-    if (activePage !== 'generator' && songOverrideTarget) {
-      clearSongOverrideTarget();
-    }
-  }, [
+  useStaleTargetClearing({
     activePage,
     shortHooksTarget, clearShortHooksTarget,
     titlesTarget, clearTitlesTarget,
@@ -101,7 +79,7 @@ function App() {
     blocksTarget, clearBlocksTarget,
     tagLibrarySearchTarget, clearTagLibrarySearchTarget,
     songOverrideTarget, clearSongOverrideTarget,
-  ]);
+  });
 
   // Development-only storage migration helpers.
   useEffect(() => {
@@ -150,33 +128,7 @@ function App() {
     );
   }, [projectConfig, tagOverrides, projectSettingsOverrides]);
 
-  // Self-healing repair for customBlocks keys that collide with a hook
-  // block's key/layout-key (see resolveCustomBlockCollisions) — silently
-  // breaks generation for the colliding hook block otherwise. Runs whenever
-  // the resolved hookBlocks set or overrides change; naturally stabilizes
-  // after one fix since the next run finds no more collisions to repair.
-  useEffect(() => {
-    const result = resolveCustomBlockCollisions(
-      projectSettingsOverrides,
-      resolvedProjectConfig.description?.hookBlocks || [],
-      resolvedProjectConfig.description?.blockGroups || [],
-    );
-    if (!result) return;
-
-    if (result.skipped.length) {
-      console.warn(
-        'Song-scoped custom block(s) collide with a Hook Block key and were not auto-renamed (per-song override data can\'t be safely migrated automatically):',
-        result.skipped.map((s) => s.oldKey),
-      );
-    }
-    if (result.patch) {
-      console.warn(
-        'Renamed colliding custom block key(s) to fix generation:',
-        result.renamed,
-      );
-      updateProjectOverride(result.patch);
-    }
-  }, [projectSettingsOverrides, resolvedProjectConfig, updateProjectOverride]);
+  useBlockCollisionRepair(projectSettingsOverrides, resolvedProjectConfig, updateProjectOverride);
 
   // Saved entries CRUD and import/export.
   const {
@@ -196,6 +148,12 @@ function App() {
     formData,
     resolvedProjectConfig,
   );
+
+  // Loading an entry from a non-Generator page always returns to Generator.
+  const loadEntryAndReturnToGenerator = (entry) => {
+    handleLoadEntry(entry);
+    setActivePage('generator');
+  };
 
   // Usage statistics used by Tag Library.
   const tagUsage = useMemo(() => {
@@ -275,10 +233,7 @@ function App() {
           resetTagOverride={resetTagOverride}
           syncProjectTags={syncProjectTags}
           copyTagFromProject={copyTagFromProject}
-          onLoadEntry={(entry) => {
-            handleLoadEntry(entry);
-            setActivePage('generator');
-          }}
+          onLoadEntry={loadEntryAndReturnToGenerator}
           searchTarget={tagLibrarySearchTarget}
           clearSearchTarget={clearTagLibrarySearchTarget}
         />
@@ -289,10 +244,7 @@ function App() {
           key={projectId}
           projectId={projectId}
           savedEntries={savedEntries}
-          onLoadEntry={(entry) => {
-            handleLoadEntry(entry);
-            setActivePage('generator');
-          }}
+          onLoadEntry={loadEntryAndReturnToGenerator}
           projectConfig={resolvedProjectConfig}
         />
       )}
@@ -303,10 +255,7 @@ function App() {
           todoStatuses={resolvedProjectConfig.todoStatuses || []}
           projectConfig={resolvedProjectConfig}
           onUpdateEntryTodo={handleUpdateEntryTodo}
-          onLoadEntry={(entry) => {
-            handleLoadEntry(entry);
-            setActivePage('generator');
-          }}
+          onLoadEntry={loadEntryAndReturnToGenerator}
           onAddEntries={handleAddEntries}
           panelVisibility={panelVisibility}
           togglePanel={togglePanel}
