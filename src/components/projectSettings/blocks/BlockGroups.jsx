@@ -20,6 +20,13 @@ import BlockInfoCard from '../../ui/BlockInfoCard';
 import SortableActiveBlock from '../descriptions/SortableActiveBlock';
 import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../../utils/customBlocks';
 import { makeBlockKeyLabelResolver, resolveBlockSource, buildHookBlockMaps } from '../../../utils/descriptionLayout';
+import {
+  isDynamicGroup,
+  patchGroupPatch,
+  resetGroupPatch,
+  deleteGroupPatch,
+  addGroupPatch,
+} from '../../../utils/blockGroupOverrides';
 
 // Block Groups are a shell: { key, label, scope, target, children }. A child
 // is { type: 'block', key } — an existing List/Text/Hook Block, joined tight
@@ -89,8 +96,7 @@ export default function BlockGroups({
     return () => onNavigateToBlock({ subTab, blockKey: source.blockKey });
   }
 
-  const dynamicGroupKeys = new Set((overriddenDesc.customBlockGroups || []).map((g) => g.key));
-  const isDynamic = (key) => dynamicGroupKeys.has(key);
+  const isDynamic = (key) => isDynamicGroup(overriddenDesc, key);
 
   // A block can only belong to one group at a time — the "+ add child"
   // picker for every group is scoped against this same set, computed once
@@ -106,54 +112,21 @@ export default function BlockGroups({
   ];
 
   function patchGroup(group, patch) {
-    if (isDynamic(group.key)) {
-      updateProjectOverride({
-        description: {
-          ...overriddenDesc,
-          customBlockGroups: (overriddenDesc.customBlockGroups || []).map((g) =>
-            g.key === group.key ? { ...g, ...patch } : g,
-          ),
-        },
-      });
-    } else {
-      updateProjectOverride({
-        description: {
-          ...overriddenDesc,
-          blockGroupOverrides: {
-            ...(overriddenDesc.blockGroupOverrides || {}),
-            [group.key]: { ...(overriddenDesc.blockGroupOverrides?.[group.key] || {}), ...patch },
-          },
-        },
-      });
-    }
+    updateProjectOverride(patchGroupPatch(overriddenDesc, group, patch, isDynamic(group.key)));
   }
 
   function resetGroup(key) {
-    const { [key]: _removed, ...remaining } = overriddenDesc.blockGroupOverrides || {};
-    updateProjectOverride({ description: { ...overriddenDesc, blockGroupOverrides: remaining } });
+    updateProjectOverride(resetGroupPatch(overriddenDesc, key));
   }
 
   function deleteGroup(group) {
     if (group.isCore) return;
     if (!window.confirm('Delete this block group? Its children become independently placeable again. This cannot be undone.')) return;
-    updateProjectOverride({
-      description: {
-        ...overriddenDesc,
-        customBlockGroups: (overriddenDesc.customBlockGroups || []).filter((g) => g.key !== group.key),
-      },
-    });
+    updateProjectOverride(deleteGroupPatch(overriddenDesc, group));
   }
 
   function addGroup(key, name, scope, target) {
-    updateProjectOverride({
-      description: {
-        ...overriddenDesc,
-        customBlockGroups: [
-          ...(overriddenDesc.customBlockGroups || []),
-          { key, label: name, scope, target, children: [], isCore: false },
-        ],
-      },
-    });
+    updateProjectOverride(addGroupPatch(overriddenDesc, key, name, scope, target));
   }
 
   function addChild(group, childKey) {
