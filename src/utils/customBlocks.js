@@ -46,7 +46,7 @@ export function isTextBlock(value) {
 
 // Group blocks are { key, label, scope, target, children: [{type, key}] } —
 // a shell that resolves each child and joins them, rather than holding
-// content itself. See generateBlockGroups in generateCustomBlocks.js (engine side).
+// content itself. See generateBlockGroups in resolveLayoutBlocks.js (engine side).
 export function isBlockGroup(value) {
   return Boolean(value) && typeof value === 'object' && Array.isArray(value.children);
 }

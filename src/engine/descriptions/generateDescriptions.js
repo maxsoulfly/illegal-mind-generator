@@ -2,11 +2,11 @@ import { generateShortDescriptions } from './generateShortDescriptions';
 import { pickTechnicalBlock, renderTechnicalBlock } from './generateTechnicalBlock';
 import {
   pickCustomBlocks, renderCustomBlocks,
-  pickLayoutHookBlocks, renderLayoutKey, renderBlockGroups,
   getEffectiveSongOverrides, renderTextTemplate, resolveHookOverride,
   pickViableTemplateFrozen, renderViableTemplateFrozen,
   isSongOverrideActive,
 } from './generateCustomBlocks';
+import { pickLayoutHookBlocks, renderLayoutKey, renderBlockGroups } from './resolveLayoutBlocks';
 import { buildTagLine, buildTagPhrase } from './descriptionTagHelpers';
 import { buildHookBlockMaps, buildBlockGroupMaps, resolveBlockSource } from '../../utils/descriptionLayout';
 import { resolveFileId } from '../placeholders';

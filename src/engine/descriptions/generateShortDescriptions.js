@@ -2,11 +2,11 @@ import {
   renderStructuredBlockFromPicked, pickStructuredBlock,
   renderCustomBlock, pickCustomBlockDefault,
   getEffectiveSongOverrides,
-  pickHookBlockOutput, renderHookBlockOutput,
   renderTextTemplate, resolveHookOverride,
   pickViableTemplateFrozen, renderViableTemplateFrozen,
   isSongOverrideActive,
 } from './generateCustomBlocks';
+import { pickHookBlockOutput, renderHookBlockOutput } from './resolveLayoutBlocks';
 import { buildTagPhrase } from './descriptionTagHelpers';
 import { isListBlock } from '../../utils/customBlocks';
 import { buildHookBlockMaps } from '../../utils/descriptionLayout';

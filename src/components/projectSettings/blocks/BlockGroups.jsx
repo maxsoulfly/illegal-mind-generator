@@ -31,7 +31,7 @@ import {
 // Block Groups are a shell: { key, label, scope, target, children }. A child
 // is { type: 'block', key } — an existing List/Text/Hook Block, joined tight
 // with the rest of the group's children (see generateBlockGroups in
-// generateCustomBlocks.js). A block assigned to a group is exclusive to it —
+// resolveLayoutBlocks.js). A block assigned to a group is exclusive to it —
 // it stops appearing independently in the Descriptions layout builder (see
 // LongDescriptionSettings.jsx/ShortsDescriptionSettings.jsx's groupChildKeys
 // filter) but stays fully editable wherever it normally lives.
