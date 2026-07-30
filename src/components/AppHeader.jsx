@@ -48,7 +48,10 @@ export default function AppHeader({
               key={id}
               type="button"
               className={activePage === id ? 'active' : ''}
-              onClick={() => setActivePage(id)}
+              onClick={() => {
+                setActivePage(id);
+                window.scrollTo(0, 0);
+              }}
             >
               {label}
             </button>

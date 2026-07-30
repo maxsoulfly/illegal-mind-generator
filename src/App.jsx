@@ -153,6 +153,7 @@ function App() {
   const loadEntryAndReturnToGenerator = (entry) => {
     handleLoadEntry(entry);
     setActivePage('generator');
+    window.scrollTo(0, 0);
   };
 
   // Usage statistics used by Tag Library.
@@ -288,7 +289,10 @@ function App() {
           onSectionChange={setActiveProjectSettingsSection}
           otherProjects={otherProjects}
           syncHookTypesToProject={syncHookTypesToProject}
-          onOpenUIKit={() => setActivePage('uikit')}
+          onOpenUIKit={() => {
+            setActivePage('uikit');
+            window.scrollTo(0, 0);
+          }}
         />
       )}
 
