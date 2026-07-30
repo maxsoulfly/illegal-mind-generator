@@ -2163,7 +2163,8 @@ input[type="range"]::-moz-range-progress {
 }
 
 .desc-block-wrapper>.tag-card,
-.desc-block-wrapper>.desc-block-group {
+.desc-block-wrapper>.desc-block-group,
+.desc-block-wrapper>.tag-phrase-row {
   flex     : 1;
   min-width: 0;
 }
