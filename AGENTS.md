@@ -1,16 +1,5 @@
 # AGENTS.md
 
-# PRIORITY TODO (cleanup, not urgent)
-
-**Storage unification is functionally done — cleanup pass still needed.** Saved entries, shorts queue, tag overrides, tag visibility overrides, form data, panel visibility, active page, selected project, saved-library visibility, and hide-queue-hidden all now read/write `illegalMindGeneratorData` exclusively. What's left:
-- `appBackup.js` still captures/restores the old standalone legacy keys via a `legacy` field — no longer needed since the unified key has everything live. Safe to remove.
-- `storageMigration.js` and its `window.previewUnifiedStorageMigration` / `writeUnifiedStorageMigration` exposure in `App.jsx` are obsolete — each hook now does its own one-time fallback-and-migrate instead.
-- The old standalone localStorage keys (`savedEntries`, `shortsQueueByProject`, `tagOverrides`, `tagVisibilityOverrides`, `formData`, `panelVisibility`, `activePage`, `selectedProject`, `showSavedLibrary`, `hideQueueHidden`) are now inert — nothing reads or writes them anymore. Safe to delete from localStorage once confident nothing regressed.
-
-Do this cleanup only after a few real sessions confirm nothing else was silently relying on stale legacy data (a stale unified `savedEntries` snapshot once shadowed live Todo statuses — recovered, but be alert for similar surprises in shorts queue / tag overrides / tag visibility).
-
----
-
 # Illegal Mind Generator
 
 Local-first React app for generating and managing YouTube content packaging for two music channels. Generates titles, hooks, thumbnails, descriptions, hashtags, and tags. Also manages saved entries, tag library, upload queues, todo tracking, and project settings.
@@ -87,7 +76,7 @@ src/
 ```
 
 **Rules — these matter:**
-- All live app state now reads/writes `illegalMindGeneratorData` exclusively (unification completed — see PRIORITY TODO for remaining cleanup). The standalone legacy localStorage keys are inert leftovers, not active data sources — don't assume code still reads them.
+- All live app state now reads/writes `illegalMindGeneratorData` exclusively (unification complete, cleanup pass done 2026-08-04 — see Current Focus). The standalone legacy localStorage keys no longer exist; each hook does its own one-time fallback-and-migrate read for any user still on old data, but writes go only to the unified key.
 - `tagVisibilityOverrides` as a *field inside* the unified object must stay — that's a data-shape compatibility concern, separate from the now-dead standalone legacy key of the same name.
 - No automatic migration — migration is intentionally paused
 - Storage changes are high risk: backup → verify shape → add safe fallbacks → test export/import → test refresh persistence
@@ -254,6 +243,8 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 ---
 
 # Current Focus
+
+**Storage cleanup pass closed out, shipped 2026-08-04.** The three-item PRIORITY TODO (storage-unification cleanup) is done. `appBackup.js` no longer captures/restores the old standalone legacy keys — `LEGACY_KEYS`/`readLegacyData`/the `legacy` field on `buildAppBackup()`/the legacy write-back loop in `restoreAppBackup()` all removed (63 → 37 lines); backup/restore now only touch the unified `illegalMindGeneratorData` key. `storageMigration.js` deleted entirely, along with its DEV-only `window.previewUnifiedStorageMigration`/`writeUnifiedStorageMigration` exposure in `App.jsx` (and the now-unused `useEffect` import there). Confirmed via grep first that each hook already does its own one-time fallback-and-migrate instead of relying on that utility — `useAppShellState.js`/`savedEntries.js`/`useSavedLibraryFilters.js`/`GeneratorPage.jsx`/`SavedLibrary.jsx` each check the unified key first and only fall back to *reading* (never writing) a legacy key when the unified value is empty; that per-hook fallback code is untouched, it's the real replacement mechanism, not part of this cleanup. The third item (deleting the stale standalone keys from localStorage) needed no code change — user confirmed via DevTools none of the old keys (`savedEntries`, `shortsQueueByProject`, `tagOverrides`, `tagVisibilityOverrides`, `formData`, `panelVisibility`, `activePage`, `selectedProject`, `showSavedLibrary`, `hideQueueHidden`) exist anymore. `eslint`/`vite build` clean.
 
 **Todo Statuses: reorderable, shipped 2026-07-30.** User asked for a way to reorder Todo statuses, since `TodoPage.jsx` already builds its sections by mapping `todoStatuses` in array order (no separate wiring needed — reordering the array alone reorders the page). `ProjectSettingsTodo.jsx`'s Statuses editor previously used `TemplateGroupCard`'s built-in `templates`/`onUpdateTemplates` path (`HookTemplateEditor`, search box, no reorder) — swapped for a hand-rolled row list (`TemplateGroupCard` used as a plain content shell) since order is meaningful here, unlike every other array `HookTemplateEditor` normally edits (random-pick phrase pools). Two-step delivery: first shipped ↑/↓ buttons — `PhraseRow.jsx` gained optional `onMoveUp`/`onMoveDown`/`disabledMoveUp`/`disabledMoveDown` props (rendering a `MoveControls` pair in front of the field only when passed, so existing callers like Hook Blocks/Tag phrase editors are unaffected). User then pointed out buttons alone don't scale ("clicking 15 times to move the bottom one to the top?") — added `@dnd-kit` drag-and-drop on top, reusing the exact pattern `SortableActiveBlock.jsx` already established for Active Layout/Block Group reordering: a `SortableStatusRow` wrapper (drag handle + the same `PhraseRow`, buttons kept as the precise/keyboard-accessible fallback, not replaced). `id` is `` `${status}::${index}` `` (value+index combined) rather than the bare status string, specifically to stay unique even when two blank rows exist mid-add (e.g. clicking "+ Add" twice before typing either label) — safe despite not being a stable per-item identity across renders, since dnd-kit only needs the id to hold for the duration of one drag gesture (state doesn't change until drop). One small CSS addition: `.tag-phrase-row` added to the existing `.desc-block-wrapper > .tag-card, .desc-block-group` flex-fill rule. Verified live via Playwright: buttons — moved "Needs Re-record" above "Wishlist" via a single ↓ click, confirmed the Todo page's section order changed to match, restored; drag — dragged "Needs Video" from the bottom straight to the top in one gesture (real mouse move/down/up events, not a single programmatic jump, since dnd-kit's `PointerSensor` requires actual pointer movement to activate), confirmed Todo page order updated to match, restored; 0 console errors throughout both passes.
 

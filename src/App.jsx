@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import projects from './config/projects.json';
 
@@ -23,10 +23,6 @@ import UIKitPage from './pages/UIKitPage';
 
 import { DEFAULT_PROJECT_KEY } from './constants/defaultFormData';
 
-import {
-  previewUnifiedStorageMigration,
-  writeUnifiedStorageMigration,
-} from './utils/storageMigration';
 import useAppShellState from './hooks/useAppShellState';
 
 function App() {
@@ -80,19 +76,6 @@ function App() {
     tagLibrarySearchTarget, clearTagLibrarySearchTarget,
     songOverrideTarget, clearSongOverrideTarget,
   });
-
-  // Development-only storage migration helpers.
-  useEffect(() => {
-    if (!import.meta.env.DEV) return;
-
-    window.previewUnifiedStorageMigration = previewUnifiedStorageMigration;
-    window.writeUnifiedStorageMigration = writeUnifiedStorageMigration;
-
-    return () => {
-      delete window.previewUnifiedStorageMigration;
-      delete window.writeUnifiedStorageMigration;
-    };
-  }, []);
 
   // Base project config from projects.json.
   const projectConfig = useMemo(() => {
