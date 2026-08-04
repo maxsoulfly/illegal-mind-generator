@@ -17,6 +17,7 @@ import AppHeader from './components/AppHeader';
 import TagLibraryPage from './pages/TagLibraryPage';
 import GeneratorPage from './pages/GeneratorPage';
 import ShortsQueuePage from './pages/ShortsQueuePage';
+import CalendarPage from './pages/CalendarPage';
 import TodoPage from './pages/TodoPage';
 import ProjectSettingsPage from './pages/ProjectSettingsPage';
 import UIKitPage from './pages/UIKitPage';
@@ -225,6 +226,16 @@ function App() {
       {/* Shorts planning queue */}
       {activePage === 'shortsQueue' && (
         <ShortsQueuePage
+          key={projectId}
+          projectId={projectId}
+          savedEntries={savedEntries}
+          onLoadEntry={loadEntryAndReturnToGenerator}
+          projectConfig={resolvedProjectConfig}
+        />
+      )}
+      {/* Upload calendar */}
+      {activePage === 'calendar' && (
+        <CalendarPage
           key={projectId}
           projectId={projectId}
           savedEntries={savedEntries}

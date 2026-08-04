@@ -11,6 +11,14 @@
       "length": 20,
       "duplicateSpacing": 2
     },
+    "uploadSchedule": {
+      "slots": [
+        { "weekday": 1, "videoType": "short", "time": "18:00" },
+        { "weekday": 3, "videoType": "short", "time": "18:00" },
+        { "weekday": 5, "videoType": "short", "time": "18:00" },
+        { "weekday": 0, "videoType": "long", "time": "18:00" }
+      ]
+    },
     "title": {
       "count": 5,
       "longPrefix": "[SIGNAL {num}] // ",
@@ -884,6 +892,14 @@
     "shortsQueue": {
       "length": 20,
       "duplicateSpacing": 2
+    },
+    "uploadSchedule": {
+      "slots": [
+        { "weekday": 0, "videoType": "short", "time": "18:00" },
+        { "weekday": 2, "videoType": "short", "time": "18:00" },
+        { "weekday": 4, "videoType": "short", "time": "18:00" },
+        { "weekday": 6, "videoType": "long", "time": "18:00" }
+      ]
     },
     "title": {
       "count": 5,

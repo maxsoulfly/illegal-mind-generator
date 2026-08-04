@@ -49,6 +49,11 @@ export const PROJECT_SETTING_SECTIONS = [
     label: 'Shorts Queue',
     description: 'Queue length and duplicate spacing',
   },
+  {
+    id: 'uploadSchedule',
+    label: 'Upload Schedule',
+    description: 'Weekly upload days, video type, and time',
+  },
 ];
 
 export function getProjectSettingsSectionSummary(sectionId, projectConfig) {
@@ -112,6 +117,12 @@ export function getProjectSettingsSectionSummary(sectionId, projectConfig) {
     const spacing = projectConfig.shortsQueue?.duplicateSpacing ?? 2;
 
     return `${length} covers, spacing ${spacing}`;
+  }
+
+  if (sectionId === 'uploadSchedule') {
+    const slots = projectConfig.uploadSchedule?.slots || [];
+
+    return `${slots.length} slot${slots.length === 1 ? '' : 's'} configured`;
   }
 
   return '';

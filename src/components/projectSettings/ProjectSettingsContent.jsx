@@ -8,6 +8,7 @@ import ProjectSettingsThumbnails from './ProjectSettingsThumbnails';
 import ProjectSettingsHashtags from './ProjectSettingsHashtags';
 import ProjectSettingsTodo from './ProjectSettingsTodo';
 import ProjectSettingsShortsQueue from './ProjectSettingsShortsQueue';
+import ProjectSettingsUploadSchedule from './ProjectSettingsUploadSchedule';
 
 export default function ProjectSettingsContent({
   activeSection,
@@ -140,6 +141,16 @@ export default function ProjectSettingsContent({
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
+      />
+    );
+  }
+
+  if (activeSection === 'uploadSchedule') {
+    return (
+      <ProjectSettingsUploadSchedule
+        projectConfig={projectConfig}
+        updateProjectOverride={updateProjectOverride}
+        resetProjectOverride={resetProjectOverride}
       />
     );
   }

@@ -4,6 +4,7 @@ const PAGE_LABELS = {
   generator:       'Generator',
   tags:            'Tag Library',
   shortsQueue:     'Shorts Queue',
+  calendar:        'Calendar',
   todo:            'Todo',
   projectSettings: 'Project Settings',
 };

@@ -6,6 +6,7 @@ const defaultStorage = {
   tagOverrides: {},
   tagVisibilityOverrides: {},
   shortsQueues: {},
+  uploadCalendar: {},
   projectOverrides: {},
   ui: {
     selectedProject: '',
