@@ -2,7 +2,7 @@ import CalendarDayCell from './CalendarDayCell';
 
 const WEEKDAY_HEADERS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-export default function CalendarMonthGrid({ days, onLoadEntry, onSlotClick }) {
+export default function CalendarMonthGrid({ days, onLoadEntry, onSlotClick, calendar }) {
   return (
     <div className="calendar-month-grid">
       {WEEKDAY_HEADERS.map((label) => (
@@ -15,6 +15,7 @@ export default function CalendarMonthGrid({ days, onLoadEntry, onSlotClick }) {
           day={day}
           onLoadEntry={onLoadEntry}
           onSlotClick={onSlotClick}
+          calendar={calendar}
         />
       ))}
     </div>

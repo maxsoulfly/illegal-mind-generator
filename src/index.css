@@ -2774,23 +2774,26 @@ input[type="range"]::-moz-range-progress {
   color: var(--color-text-accent);
 }
 
-.calendar-slot-entry-meta {
-  display        : flex;
-  align-items    : center;
-  justify-content: space-between;
-  gap            : var(--space-2);
-  min-width      : 0;
-}
-
 .calendar-slot-entry-status {
+  display       : block;
+  width         : 100%;
   min-width     : 0;
+  padding       : 0;
   overflow      : hidden;
   text-overflow : ellipsis;
   white-space   : nowrap;
+  background    : transparent;
+  border        : none;
+  text-align    : left;
+  cursor        : pointer;
   font-family   : var(--font-mono);
   font-size     : var(--font-size-toggle);
   text-transform: uppercase;
   letter-spacing: var(--letter-spacing-sm);
+}
+
+.calendar-slot-entry-status:hover {
+  text-decoration: underline;
 }
 
 .calendar-slot-row--planned {
@@ -2838,6 +2841,13 @@ input[type="range"]::-moz-range-progress {
 .calendar-picker-header-actions {
   display: flex;
   gap    : var(--space-2);
+}
+
+.calendar-picker-confirm {
+  display      : block;
+  width        : 100%;
+  margin-bottom: var(--space-3);
+  text-align   : center;
 }
 
 .calendar-picker-results {

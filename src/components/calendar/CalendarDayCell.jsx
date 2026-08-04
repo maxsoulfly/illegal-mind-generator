@@ -1,4 +1,3 @@
-import IconButton from '../ui/IconButton';
 import { isToday } from '../../utils/calendarDates';
 
 const STATUS_LABELS = {
@@ -21,18 +20,50 @@ const STATUS_MODIFIER_CLASS = {
 };
 
 // A calendar day cell is far narrower than every other place SavedEntryRow
-// is used (Saved Library/Shorts Queue/Todo are full-width lists) — its
-// horizontal signal+title+badge+action layout doesn't fit ~150-190px, so
-// this uses a compact 2-line card instead: title on its own row (full width
-// to truncate against), type/status/edit on a second row.
-function CalendarSlotEntry({ videoType, status, entry, onLoadEntry, onEdit }) {
+// is used (Saved Library/Shorts Queue/Todo are full-width lists), so this
+// is a compact card instead. No visible action buttons at all — following
+// this app's existing Ctrl+Click convention (Transformation Tags → Tag
+// Library), plain vs. modifier click on the title/status does the work:
+//   - title click: load into Generator · Ctrl+Click: change the plan
+//   - status click: confirm/toggle upload directly · Ctrl+Click: pick a
+//     specific different upload (the drift case)
+function CalendarSlotEntry({
+  videoType,
+  status,
+  entry,
+  onLoadEntry,
+  onEditPlan,
+  onEditUpload,
+  onQuickToggle,
+}) {
+  function handleTitleClick(e) {
+    if (e.ctrlKey || e.metaKey) {
+      onEditPlan();
+      return;
+    }
+    if (entry) onLoadEntry(entry);
+  }
+
+  function handleStatusClick(e) {
+    if (e.ctrlKey || e.metaKey) {
+      onEditUpload();
+      return;
+    }
+    onQuickToggle();
+  }
+
+  const statusTitle =
+    status === 'uploaded' || status === 'uploaded-drift'
+      ? 'Click to clear this upload · Ctrl+Click to set a different one'
+      : 'Click to confirm as uploaded · Ctrl+Click to set a different upload';
+
   return (
     <div className={`calendar-slot-entry ${STATUS_MODIFIER_CLASS[status]}`}>
       <button
         type="button"
         className="calendar-slot-entry-title"
-        onClick={() => entry && onLoadEntry(entry)}
-        title={entry ? `${entry.artist} — ${entry.song}` : ''}
+        onClick={handleTitleClick}
+        title={entry ? `${entry.artist} — ${entry.song} · Ctrl+Click to change plan` : ''}
       >
         {entry ? (
           <>
@@ -43,19 +74,20 @@ function CalendarSlotEntry({ videoType, status, entry, onLoadEntry, onEdit }) {
           '—'
         )}
       </button>
-      <div className="calendar-slot-entry-meta" title={`${videoType} — ${STATUS_LABELS[status]}`}>
-        <span className="calendar-slot-entry-status">
-          {VIDEO_TYPE_ABBR[videoType] || videoType.toUpperCase()} · {STATUS_LABELS[status]}
-        </span>
-        {onEdit && (
-          <IconButton icon="✎" title="Change planned song" onClick={onEdit} stopPropagation />
-        )}
-      </div>
+
+      <button
+        type="button"
+        className="calendar-slot-entry-status"
+        onClick={handleStatusClick}
+        title={statusTitle}
+      >
+        {VIDEO_TYPE_ABBR[videoType] || videoType.toUpperCase()} · {STATUS_LABELS[status]}
+      </button>
     </div>
   );
 }
 
-export default function CalendarDayCell({ day, onLoadEntry, onSlotClick }) {
+export default function CalendarDayCell({ day, onLoadEntry, onSlotClick, calendar }) {
   const { isoDate, inCurrentMonth, calendarSlots } = day;
   const dayNumber = Number(isoDate.slice(-2));
   const today = isToday(isoDate);
@@ -76,8 +108,14 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick }) {
                 type="button"
                 className="calendar-slot-placeholder"
                 data-video-type={slot.videoType}
-                onClick={() => onSlotClick(isoDate, slot.videoType)}
-                title={`Plan a ${slot.videoType} for this day`}
+                onClick={(e) => {
+                  if (e.ctrlKey || e.metaKey) {
+                    onSlotClick(isoDate, slot.videoType, 'upload');
+                  } else {
+                    onSlotClick(isoDate, slot.videoType, 'plan');
+                  }
+                }}
+                title={`Click to plan a ${slot.videoType} · Ctrl+Click to log an upload`}
               >
                 {slot.videoType.toUpperCase()}
               </button>
@@ -92,19 +130,28 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick }) {
                   status="planned"
                   entry={slot.plannedEntry}
                   onLoadEntry={onLoadEntry}
+                  onEditPlan={() => onSlotClick(isoDate, slot.videoType, 'plan')}
+                  onEditUpload={() => onSlotClick(isoDate, slot.videoType, 'upload')}
+                  onQuickToggle={() => calendar.confirmUploadedAsPlanned(isoDate, slot.videoType)}
                 />
                 <CalendarSlotEntry
                   videoType={slot.videoType}
                   status="uploaded-drift"
                   entry={slot.uploadedEntry}
                   onLoadEntry={onLoadEntry}
+                  onEditPlan={() => onSlotClick(isoDate, slot.videoType, 'plan')}
+                  onEditUpload={() => onSlotClick(isoDate, slot.videoType, 'upload')}
+                  onQuickToggle={() => calendar.clearUploadedEntry(isoDate, slot.videoType)}
                 />
               </div>
             );
           }
 
           const entry = slot.status === 'uploaded' ? slot.uploadedEntry : slot.plannedEntry;
-          const isEditable = slot.status === 'planned' || slot.status === 'missed';
+          const quickToggle =
+            slot.status === 'uploaded'
+              ? () => calendar.clearUploadedEntry(isoDate, slot.videoType)
+              : () => calendar.confirmUploadedAsPlanned(isoDate, slot.videoType);
 
           return (
             <CalendarSlotEntry
@@ -113,7 +160,9 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick }) {
               status={slot.status}
               entry={entry}
               onLoadEntry={onLoadEntry}
-              onEdit={isEditable ? () => onSlotClick(isoDate, slot.videoType) : null}
+              onEditPlan={() => onSlotClick(isoDate, slot.videoType, 'plan')}
+              onEditUpload={() => onSlotClick(isoDate, slot.videoType, 'upload')}
+              onQuickToggle={quickToggle}
             />
           );
         })}

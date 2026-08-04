@@ -47,7 +47,8 @@ export default function CalendarPage({
       <CalendarMonthGrid
         days={monthGrid}
         onLoadEntry={onLoadEntry}
-        onSlotClick={(isoDate, videoType) => setPickerTarget({ isoDate, videoType })}
+        onSlotClick={(isoDate, videoType, mode) => setPickerTarget({ isoDate, videoType, mode })}
+        calendar={calendar}
       />
       {pickerTarget && (
         <CalendarEntryPicker

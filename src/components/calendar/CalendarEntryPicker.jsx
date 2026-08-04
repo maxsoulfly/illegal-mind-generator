@@ -12,6 +12,12 @@ import { formatDayLabel } from '../../utils/calendarDates';
 // Short slots pick exclusively from the current Shorts Queue, not the full
 // library — Shorts are meant to come from whatever's already queued up;
 // Long slots (no queue concept exists for them) search the full library.
+//
+// Two modes, sharing this one component: 'plan' (default) sets/clears
+// plannedEntryId; 'upload' sets/clears uploadedEntryId and additionally
+// offers a one-click "confirm as planned" shortcut for the common
+// non-drift case — picking a *different* song here is what produces the
+// uploaded-drift status.
 export default function CalendarEntryPicker({
   target,
   savedEntries,
@@ -26,8 +32,16 @@ export default function CalendarEntryPicker({
     ref.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, []);
 
+  const isUploadMode = target.mode === 'upload';
   const existingSlot = calendar.getSlot(target.isoDate, target.videoType);
-  const hasExistingPlan = Boolean(existingSlot?.plannedEntryId);
+  const hasExistingValue = isUploadMode
+    ? Boolean(existingSlot?.uploadedEntryId)
+    : Boolean(existingSlot?.plannedEntryId);
+
+  const plannedEntry = existingSlot?.plannedEntryId
+    ? savedEntries.find((entry) => entry.id === existingSlot.plannedEntryId)
+    : null;
+
   const isShort = target.videoType === 'short';
   const pool = isShort ? shortsQueueEntries : savedEntries;
 
@@ -41,12 +55,25 @@ export default function CalendarEntryPicker({
   });
 
   function handlePick(entry) {
-    calendar.setPlannedEntry(target.isoDate, target.videoType, entry.id);
+    if (isUploadMode) {
+      calendar.setUploadedEntry(target.isoDate, target.videoType, entry.id);
+    } else {
+      calendar.setPlannedEntry(target.isoDate, target.videoType, entry.id);
+    }
     onClose();
   }
 
   function handleClear() {
-    calendar.clearPlannedEntry(target.isoDate, target.videoType);
+    if (isUploadMode) {
+      calendar.clearUploadedEntry(target.isoDate, target.videoType);
+    } else {
+      calendar.clearPlannedEntry(target.isoDate, target.videoType);
+    }
+    onClose();
+  }
+
+  function handleConfirmAsPlanned() {
+    calendar.confirmUploadedAsPlanned(target.isoDate, target.videoType);
     onClose();
   }
 
@@ -54,10 +81,11 @@ export default function CalendarEntryPicker({
     <div ref={ref} className="calendar-picker terminal-block">
       <div className="calendar-picker-header">
         <h3 className="panel-title">
-          Plan {target.videoType.toUpperCase()} — {formatDayLabel(target.isoDate)}
+          {isUploadMode ? 'Confirm Upload' : 'Plan'} {target.videoType.toUpperCase()} —{' '}
+          {formatDayLabel(target.isoDate)}
         </h3>
         <div className="calendar-picker-header-actions">
-          {hasExistingPlan && (
+          {hasExistingValue && (
             <button type="button" className="button-secondary" onClick={handleClear}>
               Clear
             </button>
@@ -68,7 +96,21 @@ export default function CalendarEntryPicker({
         </div>
       </div>
 
-      {isShort && <p className="tag-card-subtitle">Showing your Shorts Queue.</p>}
+      {isUploadMode && plannedEntry && (
+        <button type="button" className="button-primary calendar-picker-confirm" onClick={handleConfirmAsPlanned}>
+          ✓ Confirm "{plannedEntry.artist} — {plannedEntry.song}" as uploaded
+        </button>
+      )}
+
+      {isUploadMode && (
+        <p className="tag-card-subtitle">
+          {plannedEntry
+            ? 'Or pick a different song below if what actually went out differs from the plan.'
+            : 'Pick which song actually went out.'}
+        </p>
+      )}
+
+      {!isUploadMode && isShort && <p className="tag-card-subtitle">Showing your Shorts Queue.</p>}
 
       <input
         type="search"
