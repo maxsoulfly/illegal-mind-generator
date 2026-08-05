@@ -33,7 +33,7 @@ export function buildMissingDataPrompt(entries) {
 // tolerates case, whitespace, and curly-vs-straight-quote differences
 // (an AI reply commonly uses typographic apostrophes like "Won’t" even
 // when the stored song title uses a plain one, or vice versa).
-const normalizeForMatch = (value) =>
+export const normalizeForMatch = (value) =>
   (value || '')
     .toLowerCase()
     .trim()

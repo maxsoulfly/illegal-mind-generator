@@ -12,7 +12,9 @@
       "Bash(npm install *)",
       "Bash(npx playwright *)",
       "Bash(echo \"EXIT:$?\")",
-      "Bash(node -e \"console.log\\(require.resolve\\('playwright'\\)\\)\")"
+      "Bash(node -e \"console.log\\(require.resolve\\('playwright'\\)\\)\")",
+      "Bash(npx eslint *)",
+      "Bash(npx vite *)"
     ]
   },
   "hooks": {

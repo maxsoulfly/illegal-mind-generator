@@ -2812,6 +2812,15 @@ input[type="range"]::-moz-range-progress {
   color: var(--color-text-accent);
 }
 
+/* An 'uploaded' slot dated after today — imported from a still-Scheduled
+   YouTube video, not yet actually live. Same border-color as its status
+   modifier, only the style changes (matches .calendar-slot-placeholder's
+   dashed-border precedent above), so it still reads as "uploaded" but
+   visually flagged as not-yet-confirmed-live. */
+.calendar-slot-entry--scheduled {
+  border-style: dashed;
+}
+
 .calendar-slot-row--missed,
 .calendar-slot-row--drift {
   border-color: var(--color-border-danger);

@@ -120,24 +120,36 @@ export function getMonthGrid(slots, scheduleConfig, savedEntries, year, month) {
 export function useUploadCalendar(projectId, savedEntries = [], scheduleConfig = {}) {
   const [slots, setSlots] = useState(() => getStoredSlots(projectId));
 
-  function updateSlots(nextSlots) {
-    saveStoredSlots(projectId, nextSlots);
-    setSlots(nextSlots);
+  // Functional-updater form — required because callers (e.g. a bulk-import
+  // apply handler) can invoke multiple slot-mutating calls synchronously in
+  // one loop. A plain `setSlots(nextSlots)` computed from the render-time
+  // `slots` closure would have every call in the loop compute its patch from
+  // the same stale snapshot, so only the last call's write would survive —
+  // in both React state AND localStorage, since saveStoredSlots is handed
+  // that same stale-derived nextSlots. Chaining through prevSlots fixes both.
+  function updateSlots(updater) {
+    setSlots((prevSlots) => {
+      const nextSlots = typeof updater === 'function' ? updater(prevSlots) : updater;
+      saveStoredSlots(projectId, nextSlots);
+      return nextSlots;
+    });
   }
 
   function patchSlot(isoDate, videoType, patch) {
-    const key = buildSlotKey(isoDate, videoType);
-    const current = slots[key] || { plannedEntryId: null, uploadedEntryId: null };
-    const next = { ...current, ...patch };
+    updateSlots((prevSlots) => {
+      const key = buildSlotKey(isoDate, videoType);
+      const current = prevSlots[key] || { plannedEntryId: null, uploadedEntryId: null };
+      const next = { ...current, ...patch };
 
-    const nextSlots = { ...slots };
-    if (!next.plannedEntryId && !next.uploadedEntryId) {
-      delete nextSlots[key];
-    } else {
-      nextSlots[key] = next;
-    }
+      const nextSlots = { ...prevSlots };
+      if (!next.plannedEntryId && !next.uploadedEntryId) {
+        delete nextSlots[key];
+      } else {
+        nextSlots[key] = next;
+      }
 
-    updateSlots(nextSlots);
+      return nextSlots;
+    });
   }
 
   function getSlot(isoDate, videoType) {
@@ -167,12 +179,14 @@ export function useUploadCalendar(projectId, savedEntries = [], scheduleConfig =
   }
 
   function removeSlot(isoDate, videoType) {
-    const key = buildSlotKey(isoDate, videoType);
-    if (!(key in slots)) return;
+    updateSlots((prevSlots) => {
+      const key = buildSlotKey(isoDate, videoType);
+      if (!(key in prevSlots)) return prevSlots;
 
-    const nextSlots = { ...slots };
-    delete nextSlots[key];
-    updateSlots(nextSlots);
+      const nextSlots = { ...prevSlots };
+      delete nextSlots[key];
+      return nextSlots;
+    });
   }
 
   function addToNextOpenSlot(entryId, videoType) {

@@ -7,6 +7,8 @@ import { addMonths } from '../utils/calendarDates';
 import CalendarMonthNav from '../components/calendar/CalendarMonthNav';
 import CalendarMonthGrid from '../components/calendar/CalendarMonthGrid';
 import CalendarEntryPicker from '../components/calendar/CalendarEntryPicker';
+import CalendarImportPanel from '../components/calendar/CalendarImportPanel';
+import CollapsiblePanel from '../components/ui/CollapsiblePanel';
 
 export default function CalendarPage({
   projectId,
@@ -18,6 +20,7 @@ export default function CalendarPage({
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
   const [pickerTarget, setPickerTarget] = useState(null);
+  const [showImportPanel, setShowImportPanel] = useState(false);
 
   const calendar = useUploadCalendar(projectId, savedEntries, projectConfig.uploadSchedule);
   const monthGrid = calendar.getMonthGrid(year, month);
@@ -44,6 +47,13 @@ export default function CalendarPage({
         onPrev={() => goToMonth(-1)}
         onNext={() => goToMonth(1)}
       />
+      <CollapsiblePanel
+        label="Import from YouTube"
+        visible={showImportPanel}
+        onToggle={() => setShowImportPanel((prev) => !prev)}
+      >
+        <CalendarImportPanel savedEntries={savedEntries} calendar={calendar} />
+      </CollapsiblePanel>
       <CalendarMonthGrid
         days={monthGrid}
         onLoadEntry={onLoadEntry}

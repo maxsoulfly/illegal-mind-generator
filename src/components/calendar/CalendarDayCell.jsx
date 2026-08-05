@@ -1,4 +1,4 @@
-import { isToday } from '../../utils/calendarDates';
+import { isToday, isBeforeToday } from '../../utils/calendarDates';
 
 const STATUS_LABELS = {
   planned: 'Planned',
@@ -19,6 +19,16 @@ const STATUS_MODIFIER_CLASS = {
   'uploaded-drift': 'calendar-slot-row--drift',
 };
 
+// An 'uploaded'/'uploaded-drift' slot dated after today means the upload was
+// imported from a YouTube video that's still "Scheduled" rather than
+// actually live — data-wise it's logged the same as a real upload (the user
+// confirmed date/status distinction should only ever be visual, never a
+// different write target), so this is purely a render-time flag, never
+// stored, matching deriveSlotStatus's own "always derived" principle.
+function isFutureUpload(isoDate, status) {
+  return (status === 'uploaded' || status === 'uploaded-drift') && !isToday(isoDate) && !isBeforeToday(isoDate);
+}
+
 // A calendar day cell is far narrower than every other place SavedEntryRow
 // is used (Saved Library/Shorts Queue/Todo are full-width lists), so this
 // is a compact card instead. No visible action buttons at all — following
@@ -35,6 +45,7 @@ function CalendarSlotEntry({
   onEditPlan,
   onEditUpload,
   onQuickToggle,
+  extraClassName,
 }) {
   function handleTitleClick(e) {
     if (e.ctrlKey || e.metaKey) {
@@ -58,7 +69,7 @@ function CalendarSlotEntry({
       : 'Click to confirm as uploaded · Ctrl+Click to set a different upload';
 
   return (
-    <div className={`calendar-slot-entry ${STATUS_MODIFIER_CLASS[status]}`}>
+    <div className={`calendar-slot-entry ${STATUS_MODIFIER_CLASS[status]}${extraClassName ? ` ${extraClassName}` : ''}`}>
       <button
         type="button"
         className="calendar-slot-entry-title"
@@ -142,6 +153,7 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick, calenda
                   onEditPlan={() => onSlotClick(isoDate, slot.videoType, 'plan')}
                   onEditUpload={() => onSlotClick(isoDate, slot.videoType, 'upload')}
                   onQuickToggle={() => calendar.clearUploadedEntry(isoDate, slot.videoType)}
+                  extraClassName={isFutureUpload(isoDate, 'uploaded-drift') ? 'calendar-slot-entry--scheduled' : undefined}
                 />
               </div>
             );
@@ -163,6 +175,7 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick, calenda
               onEditPlan={() => onSlotClick(isoDate, slot.videoType, 'plan')}
               onEditUpload={() => onSlotClick(isoDate, slot.videoType, 'upload')}
               onQuickToggle={quickToggle}
+              extraClassName={isFutureUpload(isoDate, slot.status) ? 'calendar-slot-entry--scheduled' : undefined}
             />
           );
         })}
