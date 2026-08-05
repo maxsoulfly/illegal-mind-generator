@@ -4,6 +4,9 @@ import SavedLibrary from '../components/savedLibrary/SavedLibrary';
 import InputForm from '../components/InputForm';
 import GeneratorResultsPanel from '../components/generator/GeneratorResultsPanel';
 import { updateAppStorage } from '../utils/storage';
+import { useUploadCalendar } from '../hooks/useUploadCalendar';
+import { buildEntryId } from '../utils/savedEntries';
+import { formatDayLabel } from '../utils/calendarDates';
 
 // Unified storage applies a default for ui.showSavedLibrary, so a plain
 // loadAppStorage() read can't tell "never set" apart from "explicitly false".
@@ -52,6 +55,22 @@ export default function GeneratorPage({
   clearSongOverrideTarget,
 }) {
   const [inputFlash, setInputFlash] = useState(false);
+
+  const calendar = useUploadCalendar(projectId, savedEntries, projectConfig.uploadSchedule);
+  const currentEntryId = buildEntryId(formData.artist || '', formData.song || '');
+  const isCurrentEntrySaved = savedEntries.some((entry) => entry.id === currentEntryId);
+
+  const handleAddToCalendar = () => {
+    const videoType = formData.videoType === 'Shorts' ? 'short' : 'long';
+    const target = calendar.addToNextOpenSlot(currentEntryId, videoType);
+
+    if (!target) {
+      window.alert(`No open ${videoType === 'short' ? 'Short' : 'Long'} slot found in the next 90 days.`);
+      return;
+    }
+
+    window.alert(`Added to calendar: ${formatDayLabel(target.isoDate)}`);
+  };
 
   // Resolve whether to mix shorts hooks into long title candidates.
   // formData.useHooksForLongTitles acts as a per-session override of the
@@ -134,6 +153,8 @@ export default function GeneratorPage({
             songOverrideTarget={songOverrideTarget}
             clearSongOverrideTarget={clearSongOverrideTarget}
             onOpenSourceTag={onOpenSourceTag}
+            onAddToCalendar={handleAddToCalendar}
+            canAddToCalendar={isCurrentEntrySaved}
           />
         </div>
         <GeneratorResultsPanel

@@ -5,6 +5,8 @@ export default function InputFormActions({
   onClear,
   projectId,
   projects,
+  onAddToCalendar,
+  canAddToCalendar,
 }) {
   const [targetProjectId, setTargetProjectId] = useState(projectId);
 
@@ -27,6 +29,16 @@ export default function InputFormActions({
 
         <button className="button-secondary" onClick={onClear}>
           Clear Form
+        </button>
+
+        <button
+          className="button-secondary"
+          type="button"
+          onClick={onAddToCalendar}
+          disabled={!canAddToCalendar}
+          title={canAddToCalendar ? undefined : 'Save this entry first'}
+        >
+          Add to Calendar
         </button>
       </div>
     </div>

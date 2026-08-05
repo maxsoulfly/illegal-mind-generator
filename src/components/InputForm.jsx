@@ -26,6 +26,8 @@ function InputForm({
   songOverrideTarget,
   clearSongOverrideTarget,
   onOpenSourceTag,
+  onAddToCalendar,
+  canAddToCalendar,
 }) {
   const {
     visibleTags,
@@ -110,6 +112,8 @@ function InputForm({
         onClear={onClear}
         projectId={projectId}
         projects={projects}
+        onAddToCalendar={onAddToCalendar}
+        canAddToCalendar={canAddToCalendar}
       />
     </div>
   );
