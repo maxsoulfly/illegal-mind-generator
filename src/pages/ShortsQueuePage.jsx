@@ -1,4 +1,6 @@
 import { useShortsQueue } from '../hooks/useShortsQueue';
+import { useUploadCalendar } from '../hooks/useUploadCalendar';
+import { formatDayLabel } from '../utils/calendarDates';
 
 import ShortsQueueItem from '../components/shortsQueue/ShortsQueueItem';
 import ShortsQueueEmptyState from '../components/shortsQueue/ShortsQueueEmptyState';
@@ -14,6 +16,16 @@ function ShortsQueuePage({
     savedEntries,
     projectConfig.shortsQueue,
   );
+  const calendar = useUploadCalendar(projectId, savedEntries, projectConfig.uploadSchedule);
+
+  function handleAddToCalendar(entry) {
+    const target = calendar.addToNextOpenSlot(entry.id, 'short');
+    if (!target) {
+      window.alert('No open Short slot found in the next 90 days.');
+      return;
+    }
+    window.alert(`Added to calendar: ${formatDayLabel(target.isoDate)}`);
+  }
 
   const hasSavedEntries = savedEntries.length > 0;
   const hasQueue = queue.length > 0;
@@ -58,6 +70,7 @@ function ShortsQueuePage({
                   index={index}
                   onLoadEntry={onLoadEntry}
                   onUploaded={() => markUploaded(index)}
+                  onAddToCalendar={() => handleAddToCalendar(entry)}
                 />
               ),
           )}

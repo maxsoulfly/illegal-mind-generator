@@ -1,7 +1,7 @@
 import IconButton from '../ui/IconButton';
 import SavedEntryRow from '../ui/SavedEntryRow';
 
-function ShortsQueueItem({ entry, index, onLoadEntry, onUploaded }) {
+function ShortsQueueItem({ entry, index, onLoadEntry, onUploaded, onAddToCalendar }) {
   return (
     <SavedEntryRow
       signal={(index + 1).toString().padStart(2, '0')}
@@ -10,11 +10,19 @@ function ShortsQueueItem({ entry, index, onLoadEntry, onUploaded }) {
       onTitleClick={() => onLoadEntry(entry)}
       tags={entry.transformationTags?.slice(0, 2)}
       actions={
-        <IconButton
-          icon="×"
-          className="button-secondary"
-          onClick={onUploaded}
-        />
+        <>
+          <IconButton
+            icon="📅"
+            title="Add to Calendar"
+            className="button-secondary"
+            onClick={onAddToCalendar}
+          />
+          <IconButton
+            icon="×"
+            className="button-secondary"
+            onClick={onUploaded}
+          />
+        </>
       }
     />
   );
