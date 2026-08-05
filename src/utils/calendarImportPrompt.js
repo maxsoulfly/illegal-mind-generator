@@ -74,11 +74,30 @@ function parseCalendarImportLine(line) {
   return { type: 'match', isoDate, artist, song };
 }
 
+// Below this length a song-title fallback match is too likely to be a false
+// positive (e.g. a one-word title matching many unrelated songs) to be
+// worth surfacing at all.
+const MIN_FUZZY_SONG_LENGTH = 3;
+
+function songTitleMatches(normalizedA, normalizedB) {
+  if (!normalizedA || !normalizedB) return false;
+  if (normalizedA === normalizedB) return true;
+  return normalizedA.includes(normalizedB) || normalizedB.includes(normalizedA);
+}
+
 // Parses a pasted AI response and matches each line to a saved entry by
 // artist+song. Deliberately does NOT decide what to write to the calendar —
 // same separation of concerns as parseMissingDataResponse/parseTagResponse:
 // this just reports what it found, CalendarImportPanel owns the "always
 // overwrite" policy for the actual calendar writes.
+//
+// A line whose artist+song don't match exactly falls back to a song-title-
+// only search (exact or partial, e.g. a translated/transliterated artist
+// name like "t.A.T.u." vs "ТАТУ" — same song, different artist spelling).
+// Any candidates found this way go to needsConfirmation rather than being
+// auto-applied like an exact match, since a song-only match is inherently
+// uncertain — CalendarImportPanel surfaces these for the user to pick from
+// (or reject), same non-silent-guessing principle as every other bucket.
 export function parseCalendarImportResponse(text, savedEntries) {
   const lines = text
     .split('\n')
@@ -86,6 +105,7 @@ export function parseCalendarImportResponse(text, savedEntries) {
     .filter(Boolean);
 
   const matches = [];
+  const needsConfirmation = [];
   const unmatched = [];
   const skipped = [];
   const unrecognized = [];
@@ -103,19 +123,36 @@ export function parseCalendarImportResponse(text, savedEntries) {
       return;
     }
 
-    const entry = savedEntries.find(
+    const exactEntry = savedEntries.find(
       (e) =>
         normalizeForMatch(e.artist) === normalizeForMatch(parsed.artist) &&
         normalizeForMatch(e.song) === normalizeForMatch(parsed.song),
     );
 
-    if (!entry) {
-      unmatched.push(line);
+    if (exactEntry) {
+      matches.push({ isoDate: parsed.isoDate, entry: exactEntry, raw: line });
       return;
     }
 
-    matches.push({ isoDate: parsed.isoDate, entry, raw: line });
+    const normalizedParsedSong = normalizeForMatch(parsed.song);
+    const candidates =
+      normalizedParsedSong.length >= MIN_FUZZY_SONG_LENGTH
+        ? savedEntries.filter((e) => songTitleMatches(normalizeForMatch(e.song), normalizedParsedSong))
+        : [];
+
+    if (candidates.length > 0) {
+      needsConfirmation.push({
+        isoDate: parsed.isoDate,
+        artist: parsed.artist,
+        song: parsed.song,
+        raw: line,
+        candidates,
+      });
+      return;
+    }
+
+    unmatched.push(line);
   });
 
-  return { matches, unmatched, skipped, unrecognized };
+  return { matches, needsConfirmation, unmatched, skipped, unrecognized };
 }
