@@ -14,7 +14,12 @@ const VIDEO_TYPE_OPTIONS = [
 // with the copied prompt, pastes the reply back here. One videoType per
 // batch (matches which tab was screenshotted), always written via
 // calendar.setUploadedEntry — YouTube data is treated as source of truth,
-// so an existing slot's upload is overwritten, never skipped.
+// so an existing slot's upload is overwritten, never skipped. Also aligns
+// plannedEntryId to match whenever it differs, so an imported row always
+// lands as a clean "uploaded," never "uploaded-drift" — a stale pre-import
+// plan guess shouldn't survive as a diff flag on real historical data.
+// Drift from the manual picker (a human deliberately picking a different
+// upload than planned) is untouched — this only applies to imported rows.
 function CalendarImportPanel({ savedEntries, calendar }) {
   const [videoType, setVideoType] = useState('short');
   const [promptCopied, setPromptCopied] = useState(false);
@@ -48,6 +53,9 @@ function CalendarImportPanel({ savedEntries, calendar }) {
       else unchangedCount += 1;
 
       calendar.setUploadedEntry(isoDate, videoType, entry.id);
+      if (existingSlot?.plannedEntryId && existingSlot.plannedEntryId !== entry.id) {
+        calendar.setPlannedEntry(isoDate, videoType, entry.id);
+      }
     });
 
     setApplyResult({ newCount, updatedCount, unchangedCount, collisionCount, skipped, unmatched, unrecognized });
