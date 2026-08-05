@@ -22,6 +22,7 @@ import CopyButton from '../components/CopyButton';
 import FormField from '../components/ui/FormField';
 import OutputItem from '../components/ui/OutputItem';
 import CollapsiblePanel from '../components/ui/CollapsiblePanel';
+import Modal from '../components/ui/Modal';
 
 // ─── Section wrapper ──────────────────────────────────────────────────────────
 
@@ -77,6 +78,7 @@ export default function UIKitPage() {
   const [phrases, setPhrases] = useState(['Phrase one', 'Phrase two']);
   const [templateExpanded, setTemplateExpanded] = useState(false);
   const [panelDemoVisible, setPanelDemoVisible] = useState(true);
+  const [modalDemoOpen, setModalDemoOpen] = useState(false);
 
   return (
     <div className="app-shell uikit-page">
@@ -155,6 +157,26 @@ export default function UIKitPage() {
               >
                 <p style={{ color: 'var(--color-text-soft)', margin: 0 }}>Panel body — only rendered while visible.</p>
               </CollapsiblePanel>
+            </Example>
+          </Section>
+
+          <Section
+            title="Modal"
+            description="Overlay modal — backdrop click and Escape both close, body scroll locks while open. This app's first modal; every other 'reveal on demand' case (AddTagPanel, CalendarEntryPicker, MissingDataTools) deliberately uses an inline expandable block instead. Only reach for this when the trigger genuinely needs to stay compact with zero permanent page footprint — CalendarImportPanel (Calendar page's 'Import from YouTube' button) is the one real usage so far."
+          >
+            <Example
+              name="Modal"
+              props="title onClose children"
+              usage="Mount conditionally ({show && <Modal>...}), same as every other panel in this app — Modal itself has no visibility state of its own."
+            >
+              <button type="button" className="button-secondary" onClick={() => setModalDemoOpen(true)}>
+                Open Modal
+              </button>
+              {modalDemoOpen && (
+                <Modal title="Sample Modal" onClose={() => setModalDemoOpen(false)}>
+                  <p style={{ color: 'var(--color-text-soft)', margin: 0 }}>Modal body — children render here.</p>
+                </Modal>
+              )}
             </Example>
           </Section>
 
