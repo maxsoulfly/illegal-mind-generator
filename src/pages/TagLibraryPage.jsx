@@ -19,6 +19,7 @@ export default function TagLibraryPage({
   onLoadEntry,
   searchTarget,
   clearSearchTarget,
+  showToast,
 }) {
   const [sortMode, setSortMode] = useState('usage-desc');
   const [filterMode, setFilterMode] = useState('all');
@@ -103,7 +104,7 @@ export default function TagLibraryPage({
       targetBaseTags: projects[syncTargetProjectId]?.tags || {},
     });
 
-    window.alert(`Tags synced to ${projects[syncTargetProjectId]?.name}.`);
+    showToast(`Tags synced to ${projects[syncTargetProjectId]?.name}.`);
   };
 
   const handleCopyTagFromProject = (tagName, sourceProjectId) => {
@@ -115,7 +116,7 @@ export default function TagLibraryPage({
       targetBaseTags: projects[projectId]?.tags || {},
     });
 
-    window.alert(`Copied "${tagName}" from ${projects[sourceProjectId]?.name}.`);
+    showToast(`Copied "${tagName}" from ${projects[sourceProjectId]?.name}.`);
   };
 
   return (

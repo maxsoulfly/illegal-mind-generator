@@ -23,6 +23,8 @@ import FormField from '../components/ui/FormField';
 import OutputItem from '../components/ui/OutputItem';
 import CollapsiblePanel from '../components/ui/CollapsiblePanel';
 import Modal from '../components/ui/Modal';
+import Toast from '../components/ui/Toast';
+import useToast from '../hooks/useToast';
 
 // ─── Section wrapper ──────────────────────────────────────────────────────────
 
@@ -79,6 +81,7 @@ export default function UIKitPage() {
   const [templateExpanded, setTemplateExpanded] = useState(false);
   const [panelDemoVisible, setPanelDemoVisible] = useState(true);
   const [modalDemoOpen, setModalDemoOpen] = useState(false);
+  const { toast: toastDemo, showToast: showToastDemo } = useToast();
 
   return (
     <div className="app-shell uikit-page">
@@ -177,6 +180,22 @@ export default function UIKitPage() {
                   <p style={{ color: 'var(--color-text-soft)', margin: 0 }}>Modal body — children render here.</p>
                 </Modal>
               )}
+            </Example>
+          </Section>
+
+          <Section
+            title="Toast"
+            description="Replaces window.alert() for fire-and-forget success/info messages — appears near the bottom of the screen and auto-dismisses after 3 seconds. Always mounted (unlike Modal), driven by useToast()'s showToast(message). Not for confirmations that need a yes/no answer — those stay as window.confirm()."
+          >
+            <Example
+              name="Toast"
+              props="toast"
+              usage="const { toast, showToast } = useToast(); mount <Toast toast={toast} /> once (App.jsx does this at the root); call showToast('message') from anywhere with access to it."
+            >
+              <button type="button" className="button-secondary" onClick={() => showToastDemo('Sample toast message')}>
+                Show Toast
+              </button>
+              <Toast toast={toastDemo} />
             </Example>
           </Section>
 

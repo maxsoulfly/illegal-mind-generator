@@ -10,6 +10,7 @@ export default function ProjectSettingsGeneral({
   updateProjectOverride,
   resetProjectOverride,
   onOpenUIKit,
+  showToast,
 }) {
   const projectName =
     projectSettingsOverrides?.name ?? projectConfig.name ?? '';
@@ -62,7 +63,7 @@ export default function ProjectSettingsGeneral({
         </TemplateGroupCard>
 
         <TemplateGroupCard label="Backup">
-          <AppBackupControls />
+          <AppBackupControls showToast={showToast} />
         </TemplateGroupCard>
       </div>
     </section>

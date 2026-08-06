@@ -53,6 +53,7 @@ export default function GeneratorPage({
   songOverrideTarget,
   openSongOverride,
   clearSongOverrideTarget,
+  showToast,
 }) {
   const [inputFlash, setInputFlash] = useState(false);
 
@@ -65,11 +66,11 @@ export default function GeneratorPage({
     const target = calendar.addToNextOpenSlot(currentEntryId, videoType);
 
     if (!target) {
-      window.alert(`No open ${videoType === 'short' ? 'Short' : 'Long'} slot found in the next 90 days.`);
+      showToast(`No open ${videoType === 'short' ? 'Short' : 'Long'} slot found in the next 90 days.`);
       return;
     }
 
-    window.alert(`Added to calendar: ${formatDayLabel(target.isoDate)}`);
+    showToast(`Added to calendar: ${formatDayLabel(target.isoDate)}`);
   };
 
   // Resolve whether to mix shorts hooks into long title candidates.

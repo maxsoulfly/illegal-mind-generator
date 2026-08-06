@@ -1,6 +1,6 @@
 import { downloadAppBackup, restoreAppBackup } from '../utils/appBackup';
 
-export default function AppBackupControls() {
+export default function AppBackupControls({ showToast }) {
   const handleImportBackup = (event) => {
     const file = event.target.files?.[0];
 
@@ -14,13 +14,16 @@ export default function AppBackupControls() {
 
         restoreAppBackup(backup);
 
-        alert('Backup imported. Reloading...');
+        showToast('Backup imported. Reloading...');
 
+        // Toast is non-blocking (unlike the alert() it replaced, which used
+        // to pause the reload until the user clicked OK) — give it enough
+        // time to actually be seen before the reload wipes it.
         setTimeout(() => {
           window.location.reload();
-        }, 300);
+        }, 1500);
       } catch {
-        alert('Invalid backup file.');
+        showToast('Invalid backup file.');
       }
     };
 

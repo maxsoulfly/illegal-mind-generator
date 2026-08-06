@@ -10,6 +10,7 @@ function ShortsQueuePage({
   savedEntries,
   onLoadEntry,
   projectConfig,
+  showToast,
 }) {
   const { queue, queueLength, randomizeQueue, markUploaded } = useShortsQueue(
     projectId,
@@ -21,10 +22,10 @@ function ShortsQueuePage({
   function handleAddToCalendar(entry) {
     const target = calendar.addToNextOpenSlot(entry.id, 'short');
     if (!target) {
-      window.alert('No open Short slot found in the next 90 days.');
+      showToast('No open Short slot found in the next 90 days.');
       return;
     }
-    window.alert(`Added to calendar: ${formatDayLabel(target.isoDate)}`);
+    showToast(`Added to calendar: ${formatDayLabel(target.isoDate)}`);
   }
 
   const hasSavedEntries = savedEntries.length > 0;

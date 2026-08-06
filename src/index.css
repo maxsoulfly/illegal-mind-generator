@@ -567,6 +567,35 @@ input[type="range"]::-moz-range-progress {
   min-width    : 0;
 }
 
+/* ===== Toast ===== */
+/* Replaces window.alert() for fire-and-forget success/info messages — see
+   useToast.js/Toast.jsx. Composed with .terminal-block (defined just above,
+   for the shared background/border/radius look) — this rule must stay
+   AFTER .terminal-block in the cascade, since .terminal-block's `border`
+   shorthand would otherwise reset the border-color override below (equal
+   specificity, so source order decides). z-index 700 sits above
+   .modal-overlay (500) but below the CRT scanline/vignette overlays
+   (9998/9999) so those still render on top. Animation duration matches
+   useToast's TOAST_DURATION_MS. */
+.toast {
+  position      : fixed;
+  bottom        : var(--space-8);
+  left          : 50%;
+  transform     : translateX(-50%);
+  z-index       : 700;
+  max-width     : min(90vw, 420px);
+  text-align    : center;
+  border-color  : var(--color-border-hover);
+  box-shadow    : 0 0 16px var(--color-shadow-accent);
+  pointer-events: none;
+  animation     : toast-in-out 3s ease forwards;
+}
+
+@keyframes toast-in-out {
+  0%, 100%  { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  8%, 88%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
 .saved-entry-row {
   position: relative;
   overflow: hidden;

@@ -28,6 +28,7 @@ export default function ProjectSettingsContent({
   otherProjects,
   syncHookTypesToProject,
   onOpenUIKit,
+  showToast,
 }) {
   if (activeSection === 'general') {
     return (
@@ -38,6 +39,7 @@ export default function ProjectSettingsContent({
         updateProjectOverride={updateProjectOverride}
         resetProjectOverride={resetProjectOverride}
         onOpenUIKit={onOpenUIKit}
+        showToast={showToast}
       />
     );
   }

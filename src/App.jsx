@@ -11,8 +11,10 @@ import useTagOverrides from './hooks/useTagOverrides';
 import useSavedEntries from './hooks/useSavedEntries';
 import useStaleTargetClearing from './hooks/useStaleTargetClearing';
 import useBlockCollisionRepair from './hooks/useBlockCollisionRepair';
+import useToast from './hooks/useToast';
 
 import AppHeader from './components/AppHeader';
+import Toast from './components/ui/Toast';
 
 import TagLibraryPage from './pages/TagLibraryPage';
 import GeneratorPage from './pages/GeneratorPage';
@@ -66,6 +68,8 @@ function App() {
     activeProjectSettingsSection,
     setActiveProjectSettingsSection,
   } = useAppShellState();
+
+  const { toast, showToast } = useToast();
 
   useStaleTargetClearing({
     activePage,
@@ -204,6 +208,7 @@ function App() {
           songOverrideTarget={songOverrideTarget}
           openSongOverride={openSongOverride}
           clearSongOverrideTarget={clearSongOverrideTarget}
+          showToast={showToast}
         />
       )}
       {/* Tag management and phrase editing */}
@@ -221,6 +226,7 @@ function App() {
           onLoadEntry={loadEntryAndReturnToGenerator}
           searchTarget={tagLibrarySearchTarget}
           clearSearchTarget={clearTagLibrarySearchTarget}
+          showToast={showToast}
         />
       )}
       {/* Shorts planning queue */}
@@ -231,6 +237,7 @@ function App() {
           savedEntries={savedEntries}
           onLoadEntry={loadEntryAndReturnToGenerator}
           projectConfig={resolvedProjectConfig}
+          showToast={showToast}
         />
       )}
       {/* Upload calendar */}
@@ -287,10 +294,13 @@ function App() {
             setActivePage('uikit');
             window.scrollTo(0, 0);
           }}
+          showToast={showToast}
         />
       )}
 
       {activePage === 'uikit' && <UIKitPage />}
+
+      <Toast toast={toast} />
     </div>
   );
 }
