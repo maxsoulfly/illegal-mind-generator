@@ -62,7 +62,9 @@ export default function useInputFormLogic({
     let short = formData.artist || 'ARTIST';
 
     if (words.length >= 3) {
-      short = words.map((w) => w[0]).join('');
+      // Keep a purely-numeric word whole (e.g. "88 Fingers Louie" → "88FL",
+      // not "8FL") — only take the first letter of actual name words.
+      short = words.map((w) => (/^\d+$/.test(w) ? w : w[0])).join('');
     }
 
     setFormData((prev) => ({
