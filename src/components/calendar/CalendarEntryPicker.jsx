@@ -9,9 +9,13 @@ import { formatDayLabel } from '../../utils/calendarDates';
 // that hook persists hideQueueHidden/sortBySignal to shared ui storage,
 // which would be a surprising side effect for a throwaway picker search box.
 //
-// Short slots pick exclusively from the current Shorts Queue, not the full
-// library — Shorts are meant to come from whatever's already queued up;
-// Long slots (no queue concept exists for them) search the full library.
+// Short slots default to the current Shorts Queue as a suggestion list (an
+// empty search box shows queue entries only) — but once the user types,
+// search widens to the full saved library, same as Long slots (which have
+// no queue concept and always search the full library regardless of the
+// search box). This split was added 2026-08-06 after live feedback that
+// "exclusively queue" made it impossible to plan a Short for a song that
+// wasn't already queued.
 //
 // Two modes, sharing this one component: 'plan' (default) sets/clears
 // plannedEntryId; 'upload' sets/clears uploadedEntryId and additionally
@@ -43,9 +47,9 @@ export default function CalendarEntryPicker({
     : null;
 
   const isShort = target.videoType === 'short';
-  const pool = isShort ? shortsQueueEntries : savedEntries;
-
   const needle = search.toLowerCase().trim();
+  const pool = isShort && !needle ? shortsQueueEntries : savedEntries;
+
   const results = pool.filter((entry) => {
     if (!needle) return true;
     return (
@@ -110,12 +114,17 @@ export default function CalendarEntryPicker({
         </p>
       )}
 
-      {!isUploadMode && isShort && <p className="tag-card-subtitle">Showing your Shorts Queue.</p>}
+      {!isUploadMode && isShort && !needle && (
+        <p className="tag-card-subtitle">Showing your Shorts Queue.</p>
+      )}
+      {!isUploadMode && isShort && needle && (
+        <p className="tag-card-subtitle">Searching your full saved library.</p>
+      )}
 
       <input
         type="search"
         className="form-input"
-        placeholder={isShort ? 'Search Shorts Queue…' : 'Search saved songs…'}
+        placeholder={isShort ? 'Search Shorts Queue — or type to search everything…' : 'Search saved songs…'}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         autoFocus
@@ -132,12 +141,12 @@ export default function CalendarEntryPicker({
             onTitleClick={() => handlePick(entry)}
           />
         ))}
-        {!results.length && isShort && !pool.length && (
+        {!results.length && isShort && !needle && !shortsQueueEntries.length && (
           <p className="tag-summary">
             Your Shorts Queue is empty — randomize it on the Shorts Queue page first.
           </p>
         )}
-        {!results.length && (!isShort || pool.length > 0) && (
+        {!results.length && !(isShort && !needle && !shortsQueueEntries.length) && (
           <p className="tag-summary">No matching songs.</p>
         )}
       </div>

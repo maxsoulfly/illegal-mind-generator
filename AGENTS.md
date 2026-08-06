@@ -285,7 +285,7 @@ Dynamic blocks (no JSON default, created from the Blocks tab) have no position i
 
 **Three ways to add a song, one shared by two of them:** manual add-from-calendar (`CalendarEntryPicker.jsx`, an inline search-and-pick panel — no modal exists anywhere in this codebase) is built; add-from-Shorts-Queue and add-from-Generator (steps 6-7, "auto-assign to next open slot" via `addToNextOpenSlot`) are not yet wired.
 
-**Shorts Queue sourcing** (added after live user feedback on step 4): Short slots pick *exclusively* from the current Shorts Queue (deduped, empty-queue state points to the Shorts Queue page); Long slots still search the full saved library, since there's no queue concept for longs.
+**Shorts Queue sourcing** (added after live user feedback on step 4, loosened 2026-08-06): Short slots default to the current Shorts Queue as a suggestion list (deduped, empty-queue state points to the Shorts Queue page) when the picker's search box is empty — but typing a search widens to the full saved library, since restricting search itself made it impossible to plan a Short for a song not already queued. Long slots always search the full saved library regardless of the search box, since there's no queue concept for longs.
 
 **Interaction model went through two live-feedback iterations before landing on the final minimal design** — worth reading in full if touching `CalendarDayCell.jsx` again, since the reasoning isn't obvious from the code alone:
 1. First pass: two `IconButton`s per entry (✎ change plan, ✓ confirm/set upload) sharing a line with the status text — crowded, and the "✓ stays ✓ or becomes ✗" question had no clean answer.
