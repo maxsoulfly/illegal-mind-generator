@@ -28,10 +28,18 @@ export default function CalendarPage({
   // Shorts slots pick exclusively from the current Shorts Queue, not a full
   // library search — dedupe by id since the same song can appear more than
   // once in a queue (duplicate-spacing only prevents near-neighbors).
-  const { queue: shortsQueue } = useShortsQueue(projectId, savedEntries, projectConfig.shortsQueue);
+  const { queue: shortsQueue, markUploaded } = useShortsQueue(projectId, savedEntries, projectConfig.shortsQueue);
   const shortsQueueEntries = Array.from(
     new Map(shortsQueue.filter(Boolean).map((entry) => [entry.id, entry])).values(),
   );
+
+  // Same remove-and-auto-refill behavior as ShortsQueueItem's × button
+  // (markUploaded, by raw queue index) — the picker only shows the deduped
+  // view, so resolve back to the first raw index holding this entry's id.
+  function handleRemoveFromQueue(entryId) {
+    const index = shortsQueue.findIndex((entry) => entry?.id === entryId);
+    if (index !== -1) markUploaded(index);
+  }
 
   function goToMonth(delta) {
     const next = addMonths(year, month, delta);
@@ -64,6 +72,7 @@ export default function CalendarPage({
           target={pickerTarget}
           savedEntries={savedEntries}
           shortsQueueEntries={shortsQueueEntries}
+          onRemoveFromQueue={handleRemoveFromQueue}
           calendar={calendar}
           onClose={() => setPickerTarget(null)}
         />

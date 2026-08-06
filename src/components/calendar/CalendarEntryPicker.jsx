@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import SavedEntryRow from '../ui/SavedEntryRow';
+import IconButton from '../ui/IconButton';
 import { formatDayLabel } from '../../utils/calendarDates';
 
 // Inline expandable block, not a modal — no modal component exists anywhere
@@ -26,6 +27,7 @@ export default function CalendarEntryPicker({
   target,
   savedEntries,
   shortsQueueEntries,
+  onRemoveFromQueue,
   calendar,
   onClose,
 }) {
@@ -139,6 +141,20 @@ export default function CalendarEntryPicker({
             song={entry.song}
             tags={entry.transformationTags?.slice(0, 2)}
             onTitleClick={() => handlePick(entry)}
+            actions={
+              // Only meaningful while actually showing the queue-suggestion
+              // list — once search widens to the full library, a result may
+              // not be in the queue at all, and per the earlier design
+              // decision results are shown identically either way.
+              isShort && !needle ? (
+                <IconButton
+                  icon="×"
+                  className="button-secondary"
+                  title="Remove from Shorts Queue"
+                  onClick={() => onRemoveFromQueue(entry.id)}
+                />
+              ) : undefined
+            }
           />
         ))}
         {!results.length && isShort && !needle && !shortsQueueEntries.length && (
