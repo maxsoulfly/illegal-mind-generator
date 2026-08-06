@@ -50,6 +50,7 @@ function isFutureUpload(isoDate, status) {
 function CalendarSlotEntry({
   isoDate,
   videoType,
+  slotTitle,
   status,
   entry,
   onLoadEntry,
@@ -86,9 +87,10 @@ function CalendarSlotEntry({
   }
 
   const statusTitle =
-    status === 'uploaded' || status === 'uploaded-drift'
+    (slotTitle ? `${slotTitle} — ` : '') +
+    (status === 'uploaded' || status === 'uploaded-drift'
       ? 'Click to clear this upload · Ctrl+Click to set a different one'
-      : 'Click to confirm as uploaded · Ctrl+Click to set a different upload';
+      : 'Click to confirm as uploaded · Ctrl+Click to set a different upload');
 
   return (
     <div
@@ -100,7 +102,8 @@ function CalendarSlotEntry({
         <button
           type="button"
           className="calendar-slot-entry-drag-handle"
-          title="Drag to move to another day"
+          data-tooltip="Drag to move to another day"
+          aria-label="Drag to move to another day"
           {...listeners}
           {...attributes}
         >
@@ -120,7 +123,7 @@ function CalendarSlotEntry({
         type="button"
         className="calendar-slot-entry-title"
         onClick={handleTitleClick}
-        title={entry ? `${entry.artist} — ${entry.song} · Ctrl+Click to change plan` : ''}
+        data-tooltip={entry ? `${entry.artist} — ${entry.song} · Ctrl+Click to change plan` : undefined}
       >
         {entry ? (
           <>
@@ -136,7 +139,7 @@ function CalendarSlotEntry({
         type="button"
         className="calendar-slot-entry-status"
         onClick={handleStatusClick}
-        title={statusTitle}
+        data-tooltip={statusTitle}
       >
         {VIDEO_TYPE_ABBR[videoType] || videoType.toUpperCase()} · {STATUS_LABELS[status]}
       </button>
@@ -172,9 +175,9 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick, calenda
                       onSlotClick(isoDate, slot.videoType, 'plan');
                     }
                   }}
-                  title={`Click to plan a ${slot.videoType} · Ctrl+Click to log an upload`}
+                  data-tooltip={`Click to plan a ${slot.title || slot.videoType} · Ctrl+Click to log an upload`}
                 >
-                  {slot.videoType.toUpperCase()}
+                  {(slot.title || slot.videoType).toUpperCase()}
                 </button>
               </CalendarSlotDropZone>
             );
@@ -187,6 +190,7 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick, calenda
                   <CalendarSlotEntry
                     isoDate={isoDate}
                     videoType={slot.videoType}
+                    slotTitle={slot.title}
                     status="planned"
                     entry={slot.plannedEntry}
                     onLoadEntry={onLoadEntry}
@@ -198,6 +202,7 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick, calenda
                   <CalendarSlotEntry
                     isoDate={isoDate}
                     videoType={slot.videoType}
+                    slotTitle={slot.title}
                     status="uploaded-drift"
                     entry={slot.uploadedEntry}
                     onLoadEntry={onLoadEntry}
@@ -227,6 +232,7 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick, calenda
               <CalendarSlotEntry
                 isoDate={isoDate}
                 videoType={slot.videoType}
+                slotTitle={slot.title}
                 status={slot.status}
                 entry={entry}
                 onLoadEntry={onLoadEntry}

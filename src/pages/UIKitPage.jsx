@@ -200,6 +200,21 @@ export default function UIKitPage() {
           </Section>
 
           <Section
+            title="Tooltip (data-tooltip)"
+            description="Replaces native title= (unstyleable OS tooltip) app-wide — a themed CSS-only reveal on hover/focus, no wrapper component needed. IconButton/NavLinkButton/ToggleField already forward their title prop as data-tooltip internally, so most callers need no changes at all. For a raw native element, use data-tooltip instead of title directly; add aria-label too if the element has no other visible text (icon-only buttons, drag handles)."
+          >
+            <Example
+              name="[data-tooltip]"
+              props="data-tooltip"
+              usage='<button data-tooltip="Some hint" aria-label="Some hint">×</button> — supports multi-line text via \n (white-space: pre-line), e.g. a notes preview.'
+            >
+              <button type="button" className="button-secondary" data-tooltip="Themed tooltip — hover or tab to me">
+                Hover me
+              </button>
+            </Example>
+          </Section>
+
+          <Section
             title="terminal-block"
             description="Dark inset block for output rows, queue items, and saved entry rows."
           >

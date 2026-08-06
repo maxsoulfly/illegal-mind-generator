@@ -59,7 +59,7 @@ function ShortHookTitles({ title, hooks, onOpenSourceTag, onOpenSourceHook, uppe
                 {hookText}
               </NavLinkButton>
             ) : (
-              <p className="generated-pair-text" title={getHookTooltip(hook)}>
+              <p className="generated-pair-text" data-tooltip={getHookTooltip(hook)}>
                 {hookText}
               </p>
             )}

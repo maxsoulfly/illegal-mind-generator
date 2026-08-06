@@ -177,7 +177,7 @@ export default function BasicSongFields({
             onDoubleClick={() =>
               !formData.originalYear && copySearchQuery('year')
             }
-            title={
+            data-tooltip={
               formData.originalYear
                 ? undefined
                 : "Double-click to copy a Google search for this song's release date"
@@ -200,7 +200,7 @@ export default function BasicSongFields({
           onDoubleClick={() =>
             !formData.originalGenre && copySearchQuery('genre')
           }
-          title={
+          data-tooltip={
             formData.originalGenre
               ? undefined
               : "Double-click to copy a Google search for this song's genre"

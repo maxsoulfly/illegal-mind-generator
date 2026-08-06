@@ -22,7 +22,7 @@ function SortableStatusRow({ id, ...rowProps }) {
 
   return (
     <div ref={setNodeRef} style={style} className={`desc-block-wrapper${isDragging ? ' dragging' : ''}`}>
-      <span className="desc-drag-handle" title="Drag to reorder" {...attributes} {...listeners}>⠿</span>
+      <span className="desc-drag-handle" data-tooltip="Drag to reorder" aria-label="Drag to reorder" {...attributes} {...listeners}>⠿</span>
       <PhraseRow {...rowProps} />
     </div>
   );

@@ -50,7 +50,7 @@ export default function ProjectSettingsUploadSchedule({
     <section>
       <h2 className="panel-title">Upload Schedule</h2>
 
-      <div className="tag-library tag-library--3col">
+      <div className="tag-library tag-library--half">
         <TemplateGroupCard
           label="Weekly Slots"
           subtitle="The days and times you usually upload. Drives the Calendar page's 'usual upload day' markers and where a song lands when auto-added to the next open slot."
@@ -58,9 +58,16 @@ export default function ProjectSettingsUploadSchedule({
         >
           <span className="tag-status">{slots.length} slot{slots.length === 1 ? '' : 's'}</span>
 
-          <div className="links-registry">
+          <div className="links-registry upload-schedule-list">
             {slots.map((slot, index) => (
               <div key={index} className="upload-schedule-row">
+                <input
+                  type="text"
+                  className="form-input upload-schedule-title"
+                  placeholder="e.g. Covers, Vlog, Behind the Scenes"
+                  value={slot.title || ''}
+                  onChange={(e) => updateSlot(index, { title: e.target.value })}
+                />
                 <FormSelect
                   value={String(slot.weekday)}
                   onChange={(v) => updateSlot(index, { weekday: Number(v) })}

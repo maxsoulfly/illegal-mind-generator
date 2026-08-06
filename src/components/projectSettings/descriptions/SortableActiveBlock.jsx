@@ -35,7 +35,8 @@ export default function SortableActiveBlock({
     >
       <span
         className="desc-drag-handle"
-        title="Drag to reorder"
+        data-tooltip="Drag to reorder"
+        aria-label="Drag to reorder"
         {...attributes}
         {...listeners}
       >

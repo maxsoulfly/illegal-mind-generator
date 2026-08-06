@@ -32,6 +32,7 @@ function SavedLibraryItem({ entry, onLoadEntry, onDeleteEntry }) {
           title="Copy a Google search for this song's release date"
           className="saved-entry-missing-badge"
           stopPropagation
+          nativeTooltip
           onClick={() => copyMissingBadge('year')}
         />
       )}
@@ -41,6 +42,7 @@ function SavedLibraryItem({ entry, onLoadEntry, onDeleteEntry }) {
           title="Copy a Google search for this song's genre"
           className="saved-entry-missing-badge"
           stopPropagation
+          nativeTooltip
           onClick={() => copyMissingBadge('genre')}
         />
       )}

@@ -5,7 +5,7 @@ export default function NavLinkButton({ children, title, onClick, muted }) {
     <button
       type="button"
       className={`queue-entry-link generated-pair-text generated-pair-link${muted ? ' generated-pair-link--muted' : ''}`}
-      title={title}
+      data-tooltip={title}
       onClick={onClick}
     >
       {children}

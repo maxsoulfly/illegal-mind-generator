@@ -36,7 +36,7 @@ export default function InputFormActions({
           type="button"
           onClick={onAddToCalendar}
           disabled={!canAddToCalendar}
-          title={canAddToCalendar ? undefined : 'Save this entry first'}
+          data-tooltip={canAddToCalendar ? undefined : 'Save this entry first'}
         >
           Add to Calendar
         </button>

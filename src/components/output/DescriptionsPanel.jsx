@@ -31,7 +31,7 @@ function DescriptionLineLink({
     return (
       <span
         className={className}
-        title={`Blocks → ${subTabInfo?.label || 'Blocks'} → ${label}${detail}`}
+        data-tooltip={`Blocks → ${subTabInfo?.label || 'Blocks'} → ${label}${detail}`}
         onClick={() =>
           onOpenBlocksEditor?.({
             subTab: subTabInfo?.subTab,
@@ -55,7 +55,7 @@ function DescriptionLineLink({
     return (
       <span
         className={className}
-        title={`Song override for ${label}`}
+        data-tooltip={`Song override for ${label}`}
         onClick={() => onOpenSongOverride?.({ blockKey: source.blockKey })}
       >
         {text}

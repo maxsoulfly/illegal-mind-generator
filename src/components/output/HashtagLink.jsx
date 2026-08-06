@@ -17,7 +17,7 @@ export default function HashtagLink({
     return (
       <span
         className={className}
-        title={`${source.tagName} (hashtags)${detail}`}
+        data-tooltip={`${source.tagName} (hashtags)${detail}`}
         onClick={() => onOpenSourceTag?.({ tagName: source.tagName, field: 'hashtags', phraseText: source.phrase })}
       >
         {text}
@@ -31,7 +31,7 @@ export default function HashtagLink({
     return (
       <span
         className={className}
-        title={`Hashtags & YouTube Tags → ${cardLabel}: "${source.phrase}"`}
+        data-tooltip={`Hashtags & YouTube Tags → ${cardLabel}: "${source.phrase}"`}
         onClick={() => onOpenSourceHashtag?.({ card: source.card, template: source.phrase })}
       >
         {text}
@@ -43,7 +43,7 @@ export default function HashtagLink({
     return (
       <span
         className={className}
-        title="Additional Hashtags (this song)"
+        data-tooltip="Additional Hashtags (this song)"
         onClick={() => onOpenSongOverride?.({ blockKey: 'customHashtags' })}
       >
         {text}
@@ -57,7 +57,7 @@ export default function HashtagLink({
     return (
       <span
         className={className}
-        title={`${label} field (this song)`}
+        data-tooltip={`${label} field (this song)`}
         onClick={() => onOpenSongOverride?.({ blockKey: source.field })}
       >
         {text}

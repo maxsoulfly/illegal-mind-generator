@@ -85,7 +85,8 @@ export default function Titles({
                 <button
                   type="button"
                   className="tag-reset-button"
-                  title="Reset to defaults"
+                  data-tooltip="Reset to defaults"
+                  aria-label="Reset to defaults"
                   onClick={() => resetGroup(groupName)}
                 >
                   ↺

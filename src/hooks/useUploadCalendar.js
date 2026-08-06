@@ -98,10 +98,12 @@ export function getMonthGrid(slots, scheduleConfig, savedEntries, year, month) {
         plannedEntryId: null,
         uploadedEntryId: null,
       };
+      const scheduledSlot = scheduledSlots.find((s) => s.videoType === videoType);
 
       return {
         slotKey: buildSlotKey(isoDate, videoType),
         videoType,
+        title: scheduledSlot?.title || null,
         plannedEntry: resolveEntry(savedEntries, slot.plannedEntryId),
         uploadedEntry: resolveEntry(savedEntries, slot.uploadedEntryId),
         status: deriveSlotStatus({ ...slot, isoDate }),

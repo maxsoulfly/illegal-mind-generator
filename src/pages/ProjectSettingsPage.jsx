@@ -61,7 +61,7 @@ export default function ProjectSettingsPage({
             type="button"
             className={resolvedSection === section.id ? 'active' : ''}
             onClick={() => handleSectionChange(section.id)}
-            title={getProjectSettingsSectionSummary(section.id, projectConfig)}
+            data-tooltip={getProjectSettingsSectionSummary(section.id, projectConfig)}
           >
             {section.label}
           </button>

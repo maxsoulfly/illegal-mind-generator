@@ -567,6 +567,57 @@ input[type="range"]::-moz-range-progress {
   min-width    : 0;
 }
 
+/* ===== Tooltip ===== */
+/* Replaces native title= (unstyleable OS tooltip) app-wide — see CLAUDE.md
+   UI Primitives. Any element with data-tooltip="..." gets this themed
+   reveal on hover/focus; no wrapper component needed. */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::after {
+  content       : attr(data-tooltip);
+  position      : absolute;
+  bottom        : 100%;
+  left          : 0;
+  margin-bottom : var(--space-1);
+  z-index       : 800;
+  max-width     : 260px;
+  padding       : var(--space-1) var(--space-2);
+  background    : var(--color-bg-page-deep);
+  border        : 1px solid var(--color-border-hover);
+  box-shadow    : 0 0 8px var(--color-shadow-accent);
+  border-radius : var(--radius-terminal);
+  color         : var(--color-text-muted);
+  font-family   : var(--font-ui);
+  font-size     : var(--font-size-toggle);
+  font-weight   : normal;
+  text-transform: none;
+  letter-spacing: normal;
+  white-space   : pre-line;
+  opacity       : 0;
+  pointer-events: none;
+  transition    : opacity 0.1s ease;
+}
+
+[data-tooltip]:hover::after,
+[data-tooltip]:focus-visible::after {
+  opacity         : 1;
+  transition-delay: 0.4s;
+}
+
+/* Some tooltip-bearing elements have their own overflow:hidden for
+   ellipsis text-truncation (e.g. .calendar-slot-entry-status,
+   .calendar-slot-placeholder, .todo-note-preview) — that also clips the
+   tooltip's own ::after popup, since it's a child of the same box. Lifting
+   overflow on hover/focus fixes this; the truncated text may also briefly
+   show its full (previously-clipped) content while hovering, which is an
+   acceptable side effect, not a bug. */
+[data-tooltip]:hover,
+[data-tooltip]:focus-visible {
+  overflow: visible;
+}
+
 /* ===== Toast ===== */
 /* Replaces window.alert() for fire-and-forget success/info messages — see
    useToast.js/Toast.jsx. Composed with .terminal-block (defined just above,
@@ -599,6 +650,17 @@ input[type="range"]::-moz-range-progress {
 .saved-entry-row {
   position: relative;
   overflow: hidden;
+}
+
+/* overflow:hidden above exists only to clip the ::before load-sweep
+   animation below — it also clips any tooltip popup from an action button
+   nested inside (SavedLibraryItem/ShortsQueueItem/TodoItem's IconButtons),
+   since the tooltip pops up above the row's own top edge. Lift it while a
+   tooltip inside is actually showing; harmless for the sweep, which only
+   plays briefly on load, not on hover. */
+.saved-entry-row:has([data-tooltip]:hover),
+.saved-entry-row:has([data-tooltip]:focus-visible) {
+  overflow: visible;
 }
 
 .saved-entry-row::before {
@@ -1482,6 +1544,14 @@ input[type="range"]::-moz-range-progress {
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
 }
 
+/* For tabs with exactly one card — auto-fit/auto-fill reserve column
+   tracks sized for a repeating multi-card layout, which isn't a reliable
+   way to get a single card to a specific proportion of its container.
+   This pins it directly instead. */
+.tag-library--half {
+  grid-template-columns: minmax(320px, 50%);
+}
+
 .tag-library-actions {
   display        : flex;
   justify-content: space-between;
@@ -2115,9 +2185,13 @@ input[type="range"]::-moz-range-progress {
   background    : var(--color-bg-panel);
 }
 
+.upload-schedule-list {
+  margin-top: var(--space-5);
+}
+
 .upload-schedule-row {
   display              : grid;
-  grid-template-columns: 1fr 1fr 1fr auto;
+  grid-template-columns: 1.3fr 1fr 1fr 1fr auto;
   gap                  : var(--space-2);
   align-items          : center;
 }
@@ -2765,6 +2839,9 @@ input[type="range"]::-moz-range-progress {
   opacity       : 0.6;
   cursor        : pointer;
   transition    : var(--transition-fast);
+  overflow      : hidden;
+  text-overflow : ellipsis;
+  white-space   : nowrap;
 }
 
 .calendar-slot-placeholder:hover {

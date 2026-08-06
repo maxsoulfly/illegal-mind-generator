@@ -53,7 +53,7 @@ export default function TransformationTagSelector({
         key={tag}
         type="button"
         className={isActive ? 'tag-chip active' : 'tag-chip'}
-        title={tooltip}
+        data-tooltip={tooltip}
         onClick={(e) => {
           if ((e.ctrlKey || e.metaKey) && onOpenSourceTag) {
             onOpenSourceTag(tag);

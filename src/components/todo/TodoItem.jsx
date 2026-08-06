@@ -26,7 +26,7 @@ export default function TodoItem({
           entry.todo?.notes && (
             <div
               className="todo-note-preview"
-              title={entry.todo.notes}
+              data-tooltip={entry.todo.notes}
               onClick={() => setShowNotes((prev) => !prev)}
             >
               📝 {entry.todo.notes.slice(0, 40)}
