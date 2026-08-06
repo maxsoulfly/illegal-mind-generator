@@ -62,7 +62,7 @@ export function findNextOpenSlot(slots, scheduleConfig, videoType, fromIsoDate) 
   for (let i = 0; i < MAX_SCAN_DAYS; i += 1) {
     if (matchingWeekdays.includes(getWeekday(cursor))) {
       const slot = slots[buildSlotKey(cursor, videoType)];
-      if (!slot?.plannedEntryId) {
+      if (!slot?.plannedEntryId && !slot?.uploadedEntryId) {
         return { isoDate: cursor, videoType };
       }
     }

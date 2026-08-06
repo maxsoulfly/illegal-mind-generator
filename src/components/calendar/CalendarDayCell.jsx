@@ -1,4 +1,8 @@
+import { useDraggable } from '@dnd-kit/core';
+
 import { isToday, isBeforeToday } from '../../utils/calendarDates';
+import IconButton from '../ui/IconButton';
+import CalendarSlotDropZone from './CalendarSlotDropZone';
 
 const STATUS_LABELS = {
   planned: 'Planned',
@@ -37,7 +41,14 @@ function isFutureUpload(isoDate, status) {
 //   - title click: load into Generator · Ctrl+Click: change the plan
 //   - status click: confirm/toggle upload directly · Ctrl+Click: pick a
 //     specific different upload (the drift case)
+// Only a still-planned (unconfirmed) entry can be cleared/dragged with a
+// single action — an uploaded/uploaded-drift entry represents real upload
+// history, so it deliberately has neither a × nor a drag handle; moving one
+// requires first reverting it to planned via the existing status-click
+// quick-toggle. Dragging is a move, not a copy — the origin's plan is
+// cleared in the same onDragEnd that sets the target (see CalendarMonthGrid).
 function CalendarSlotEntry({
+  isoDate,
   videoType,
   status,
   entry,
@@ -45,8 +56,19 @@ function CalendarSlotEntry({
   onEditPlan,
   onEditUpload,
   onQuickToggle,
+  onClear,
   extraClassName,
 }) {
+  const canClear = status === 'planned' || status === 'missed';
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+    id: `plan-${isoDate}-${videoType}`,
+    data: { isoDate, videoType, entryId: entry?.id },
+    disabled: !canClear,
+  });
+  const dragStyle = transform
+    ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
+    : undefined;
+
   function handleTitleClick(e) {
     if (e.ctrlKey || e.metaKey) {
       onEditPlan();
@@ -69,7 +91,31 @@ function CalendarSlotEntry({
       : 'Click to confirm as uploaded · Ctrl+Click to set a different upload';
 
   return (
-    <div className={`calendar-slot-entry ${STATUS_MODIFIER_CLASS[status]}${extraClassName ? ` ${extraClassName}` : ''}`}>
+    <div
+      ref={setNodeRef}
+      style={dragStyle}
+      className={`calendar-slot-entry ${STATUS_MODIFIER_CLASS[status]}${canClear ? ' calendar-slot-entry--clearable' : ''}${isDragging ? ' calendar-slot-entry--dragging' : ''}${extraClassName ? ` ${extraClassName}` : ''}`}
+    >
+      {canClear && (
+        <button
+          type="button"
+          className="calendar-slot-entry-drag-handle"
+          title="Drag to move to another day"
+          {...listeners}
+          {...attributes}
+        >
+          ⠿
+        </button>
+      )}
+      {canClear && (
+        <IconButton
+          icon="×"
+          title="Clear planned song"
+          onClick={onClear}
+          stopPropagation
+          className="tag-reset-button calendar-slot-entry-clear"
+        />
+      )}
       <button
         type="button"
         className="calendar-slot-entry-title"
@@ -114,48 +160,54 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick, calenda
         {calendarSlots.map((slot) => {
           if (slot.status === 'empty') {
             return (
-              <button
-                key={slot.slotKey}
-                type="button"
-                className="calendar-slot-placeholder"
-                data-video-type={slot.videoType}
-                onClick={(e) => {
-                  if (e.ctrlKey || e.metaKey) {
-                    onSlotClick(isoDate, slot.videoType, 'upload');
-                  } else {
-                    onSlotClick(isoDate, slot.videoType, 'plan');
-                  }
-                }}
-                title={`Click to plan a ${slot.videoType} · Ctrl+Click to log an upload`}
-              >
-                {slot.videoType.toUpperCase()}
-              </button>
+              <CalendarSlotDropZone key={slot.slotKey} isoDate={isoDate} videoType={slot.videoType} occupied={false}>
+                <button
+                  type="button"
+                  className="calendar-slot-placeholder"
+                  data-video-type={slot.videoType}
+                  onClick={(e) => {
+                    if (e.ctrlKey || e.metaKey) {
+                      onSlotClick(isoDate, slot.videoType, 'upload');
+                    } else {
+                      onSlotClick(isoDate, slot.videoType, 'plan');
+                    }
+                  }}
+                  title={`Click to plan a ${slot.videoType} · Ctrl+Click to log an upload`}
+                >
+                  {slot.videoType.toUpperCase()}
+                </button>
+              </CalendarSlotDropZone>
             );
           }
 
           if (slot.status === 'uploaded-drift') {
             return (
-              <div key={slot.slotKey} className="calendar-slot-group">
-                <CalendarSlotEntry
-                  videoType={slot.videoType}
-                  status="planned"
-                  entry={slot.plannedEntry}
-                  onLoadEntry={onLoadEntry}
-                  onEditPlan={() => onSlotClick(isoDate, slot.videoType, 'plan')}
-                  onEditUpload={() => onSlotClick(isoDate, slot.videoType, 'upload')}
-                  onQuickToggle={() => calendar.confirmUploadedAsPlanned(isoDate, slot.videoType)}
-                />
-                <CalendarSlotEntry
-                  videoType={slot.videoType}
-                  status="uploaded-drift"
-                  entry={slot.uploadedEntry}
-                  onLoadEntry={onLoadEntry}
-                  onEditPlan={() => onSlotClick(isoDate, slot.videoType, 'plan')}
-                  onEditUpload={() => onSlotClick(isoDate, slot.videoType, 'upload')}
-                  onQuickToggle={() => calendar.clearUploadedEntry(isoDate, slot.videoType)}
-                  extraClassName={isFutureUpload(isoDate, 'uploaded-drift') ? 'calendar-slot-entry--scheduled' : undefined}
-                />
-              </div>
+              <CalendarSlotDropZone key={slot.slotKey} isoDate={isoDate} videoType={slot.videoType} occupied>
+                <div className="calendar-slot-group">
+                  <CalendarSlotEntry
+                    isoDate={isoDate}
+                    videoType={slot.videoType}
+                    status="planned"
+                    entry={slot.plannedEntry}
+                    onLoadEntry={onLoadEntry}
+                    onEditPlan={() => onSlotClick(isoDate, slot.videoType, 'plan')}
+                    onEditUpload={() => onSlotClick(isoDate, slot.videoType, 'upload')}
+                    onQuickToggle={() => calendar.confirmUploadedAsPlanned(isoDate, slot.videoType)}
+                    onClear={() => calendar.clearPlannedEntry(isoDate, slot.videoType)}
+                  />
+                  <CalendarSlotEntry
+                    isoDate={isoDate}
+                    videoType={slot.videoType}
+                    status="uploaded-drift"
+                    entry={slot.uploadedEntry}
+                    onLoadEntry={onLoadEntry}
+                    onEditPlan={() => onSlotClick(isoDate, slot.videoType, 'plan')}
+                    onEditUpload={() => onSlotClick(isoDate, slot.videoType, 'upload')}
+                    onQuickToggle={() => calendar.clearUploadedEntry(isoDate, slot.videoType)}
+                    extraClassName={isFutureUpload(isoDate, 'uploaded-drift') ? 'calendar-slot-entry--scheduled' : undefined}
+                  />
+                </div>
+              </CalendarSlotDropZone>
             );
           }
 
@@ -166,17 +218,25 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick, calenda
               : () => calendar.confirmUploadedAsPlanned(isoDate, slot.videoType);
 
           return (
-            <CalendarSlotEntry
+            <CalendarSlotDropZone
               key={slot.slotKey}
+              isoDate={isoDate}
               videoType={slot.videoType}
-              status={slot.status}
-              entry={entry}
-              onLoadEntry={onLoadEntry}
-              onEditPlan={() => onSlotClick(isoDate, slot.videoType, 'plan')}
-              onEditUpload={() => onSlotClick(isoDate, slot.videoType, 'upload')}
-              onQuickToggle={quickToggle}
-              extraClassName={isFutureUpload(isoDate, slot.status) ? 'calendar-slot-entry--scheduled' : undefined}
-            />
+              occupied={Boolean(slot.plannedEntry)}
+            >
+              <CalendarSlotEntry
+                isoDate={isoDate}
+                videoType={slot.videoType}
+                status={slot.status}
+                entry={entry}
+                onLoadEntry={onLoadEntry}
+                onEditPlan={() => onSlotClick(isoDate, slot.videoType, 'plan')}
+                onEditUpload={() => onSlotClick(isoDate, slot.videoType, 'upload')}
+                onQuickToggle={quickToggle}
+                onClear={() => calendar.clearPlannedEntry(isoDate, slot.videoType)}
+                extraClassName={isFutureUpload(isoDate, slot.status) ? 'calendar-slot-entry--scheduled' : undefined}
+              />
+            </CalendarSlotDropZone>
           );
         })}
       </div>
