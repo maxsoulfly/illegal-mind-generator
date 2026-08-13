@@ -19,12 +19,34 @@ export default function CalendarMonthGrid({ days, onLoadEntry, onSlotClick, cale
 
     const from = active.data.current;
     const to = over.data.current;
-    if (!from || !to || to.occupied) return;
+    if (!from || !to) return;
     if (from.videoType !== to.videoType) return;
     if (from.isoDate === to.isoDate) return;
 
-    calendar.setPlannedEntry(to.isoDate, to.videoType, from.entryId);
-    calendar.clearPlannedEntry(from.isoDate, from.videoType);
+    if (from.kind === 'uploaded') {
+      if (to.uploadedOccupied) return;
+      // mirrorsPlan means the origin's plannedEntryId equals its
+      // uploadedEntryId (the normal "confirmed from a plan" shape) — that
+      // plannedEntryId isn't an unrelated fact left over from an old guess,
+      // it's the same virtual entry, so it has to move too or it's left
+      // behind as a ghost "planned" row at the origin, and the moved copy
+      // (now upload-only) loses its ability to revert to "planned" via the
+      // status quick-toggle. Also gate the target's plannedOccupied in this
+      // case specifically, so a mirrored move can't silently clobber a
+      // different, unrelated plan already sitting at the target.
+      if (from.mirrorsPlan && to.plannedOccupied) return;
+
+      calendar.setUploadedEntry(to.isoDate, to.videoType, from.entryId);
+      calendar.clearUploadedEntry(from.isoDate, from.videoType);
+      if (from.mirrorsPlan) {
+        calendar.setPlannedEntry(to.isoDate, to.videoType, from.entryId);
+        calendar.clearPlannedEntry(from.isoDate, from.videoType);
+      }
+    } else {
+      if (to.plannedOccupied) return;
+      calendar.setPlannedEntry(to.isoDate, to.videoType, from.entryId);
+      calendar.clearPlannedEntry(from.isoDate, from.videoType);
+    }
   }
 
   return (

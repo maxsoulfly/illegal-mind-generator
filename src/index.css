@@ -2873,8 +2873,11 @@ input[type="range"]::-moz-range-progress {
 }
 
 .calendar-slot-entry--clearable {
-  padding-left : 20px;
   padding-right: 20px;
+}
+
+.calendar-slot-entry--draggable {
+  padding-left: 20px;
 }
 
 .calendar-slot-entry-clear {

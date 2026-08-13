@@ -41,18 +41,34 @@ function isFutureUpload(isoDate, status) {
 //   - title click: load into Generator · Ctrl+Click: change the plan
 //   - status click: confirm/toggle upload directly · Ctrl+Click: pick a
 //     specific different upload (the drift case)
-// Only a still-planned (unconfirmed) entry can be cleared/dragged with a
-// single action — an uploaded/uploaded-drift entry represents real upload
-// history, so it deliberately has neither a × nor a drag handle; moving one
-// requires first reverting it to planned via the existing status-click
-// quick-toggle. Dragging is a move, not a copy — the origin's plan is
-// cleared in the same onDragEnd that sets the target (see CalendarMonthGrid).
+// Clearing (×) stays restricted to a still-planned (unconfirmed) entry —
+// clearing real upload history goes through the existing status-click
+// quick-toggle instead, deliberately not a one-click ×. Dragging is wider:
+// a planned/missed entry is always draggable, and so is an uploaded/
+// uploaded-drift entry dated in the future (isFutureUpload) — those
+// represent a YouTube video that's still "Scheduled," not live yet, so the
+// user can still reschedule it here. A past/today upload is real, confirmed
+// history and stays non-draggable. `kind` ('planned' vs 'uploaded') tags
+// which field the drag moves, since a slot's plannedEntryId/uploadedEntryId
+// are independent — CalendarMonthGrid's onDragEnd branches on it, and
+// CalendarSlotDropZone reads it (via useDndContext) to decide whether the
+// hovered target slot is already occupied for that specific kind. Dragging
+// is a move, not a copy — the origin's field is cleared in the same
+// onDragEnd that sets the target's. `mirrorsPlan` (only meaningful for
+// kind 'uploaded') flags the normal "confirmed from a plan" shape, where
+// plannedEntryId and uploadedEntryId are the same id — those two fields
+// represent one virtual entry, not an independent plan plus an unrelated
+// upload, so a mirrored drag has to move both together (see
+// CalendarMonthGrid) or it leaves a ghost "planned" row behind at the
+// origin and strands the moved copy unable to revert via the status
+// quick-toggle.
 function CalendarSlotEntry({
   isoDate,
   videoType,
   slotTitle,
   status,
   entry,
+  mirrorsPlan,
   onLoadEntry,
   onEditPlan,
   onEditUpload,
@@ -60,11 +76,13 @@ function CalendarSlotEntry({
   onClear,
   extraClassName,
 }) {
-  const canClear = status === 'planned' || status === 'missed';
+  const kind = status === 'planned' || status === 'missed' ? 'planned' : 'uploaded';
+  const canClear = kind === 'planned';
+  const canDrag = canClear || (kind === 'uploaded' && isFutureUpload(isoDate, status));
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
-    id: `plan-${isoDate}-${videoType}`,
-    data: { isoDate, videoType, entryId: entry?.id },
-    disabled: !canClear,
+    id: `plan-${isoDate}-${videoType}-${kind}`,
+    data: { isoDate, videoType, entryId: entry?.id, kind, mirrorsPlan: kind === 'uploaded' && Boolean(mirrorsPlan) },
+    disabled: !canDrag,
   });
   const dragStyle = transform
     ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
@@ -96,14 +114,14 @@ function CalendarSlotEntry({
     <div
       ref={setNodeRef}
       style={dragStyle}
-      className={`calendar-slot-entry ${STATUS_MODIFIER_CLASS[status]}${canClear ? ' calendar-slot-entry--clearable' : ''}${isDragging ? ' calendar-slot-entry--dragging' : ''}${extraClassName ? ` ${extraClassName}` : ''}`}
+      className={`calendar-slot-entry ${STATUS_MODIFIER_CLASS[status]}${canClear ? ' calendar-slot-entry--clearable' : ''}${canDrag ? ' calendar-slot-entry--draggable' : ''}${isDragging ? ' calendar-slot-entry--dragging' : ''}${extraClassName ? ` ${extraClassName}` : ''}`}
     >
-      {canClear && (
+      {canDrag && (
         <button
           type="button"
           className="calendar-slot-entry-drag-handle"
-          data-tooltip="Drag to move to another day"
-          aria-label="Drag to move to another day"
+          data-tooltip={canClear ? 'Drag to move to another day' : 'Drag to reschedule this upload'}
+          aria-label={canClear ? 'Drag to move to another day' : 'Drag to reschedule this upload'}
           {...listeners}
           {...attributes}
         >
@@ -163,7 +181,7 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick, calenda
         {calendarSlots.map((slot) => {
           if (slot.status === 'empty') {
             return (
-              <CalendarSlotDropZone key={slot.slotKey} isoDate={isoDate} videoType={slot.videoType} occupied={false}>
+              <CalendarSlotDropZone key={slot.slotKey} isoDate={isoDate} videoType={slot.videoType} plannedOccupied={false} uploadedOccupied={false}>
                 <button
                   type="button"
                   className="calendar-slot-placeholder"
@@ -185,7 +203,13 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick, calenda
 
           if (slot.status === 'uploaded-drift') {
             return (
-              <CalendarSlotDropZone key={slot.slotKey} isoDate={isoDate} videoType={slot.videoType} occupied>
+              <CalendarSlotDropZone
+                key={slot.slotKey}
+                isoDate={isoDate}
+                videoType={slot.videoType}
+                plannedOccupied={Boolean(slot.plannedEntry)}
+                uploadedOccupied={Boolean(slot.uploadedEntry)}
+              >
                 <div className="calendar-slot-group">
                   <CalendarSlotEntry
                     isoDate={isoDate}
@@ -217,6 +241,8 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick, calenda
           }
 
           const entry = slot.status === 'uploaded' ? slot.uploadedEntry : slot.plannedEntry;
+          const mirrorsPlan =
+            slot.status === 'uploaded' && Boolean(slot.plannedEntry) && slot.plannedEntry.id === slot.uploadedEntry.id;
           const quickToggle =
             slot.status === 'uploaded'
               ? () => calendar.clearUploadedEntry(isoDate, slot.videoType)
@@ -227,7 +253,8 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick, calenda
               key={slot.slotKey}
               isoDate={isoDate}
               videoType={slot.videoType}
-              occupied={Boolean(slot.plannedEntry)}
+              plannedOccupied={Boolean(slot.plannedEntry)}
+              uploadedOccupied={Boolean(slot.uploadedEntry)}
             >
               <CalendarSlotEntry
                 isoDate={isoDate}
@@ -235,6 +262,7 @@ export default function CalendarDayCell({ day, onLoadEntry, onSlotClick, calenda
                 slotTitle={slot.title}
                 status={slot.status}
                 entry={entry}
+                mirrorsPlan={mirrorsPlan}
                 onLoadEntry={onLoadEntry}
                 onEditPlan={() => onSlotClick(isoDate, slot.videoType, 'plan')}
                 onEditUpload={() => onSlotClick(isoDate, slot.videoType, 'upload')}
