@@ -1,4 +1,4 @@
-// Field-list config for Tag Editor's 4 phrase-based tabs (Titles/
+// Field-list config for Tag Editor's 5 phrase-based tabs (Titles/Thumbnails/
 // Descriptions/Short Hooks/Hashtags — Basics is structurally different and
 // stays hand-written, see TagBasicsTab.jsx). Consumed by TagFieldTab.jsx,
 // which renders one <TagPhraseEditor> per entry. `field`/`parentField`
@@ -7,6 +7,8 @@
 export const TAG_FIELD_TABS = {
   titles: [
     { field: 'title', title: 'Long title phrases' },
+  ],
+  thumbnails: [
     { field: 'thumbnail', title: 'Thumbnail phrases' },
   ],
   descriptions: [

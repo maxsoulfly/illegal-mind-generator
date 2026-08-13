@@ -296,7 +296,7 @@ export function fillPlaceholders(template, rawCtx) {
 // (transformationBlock), where freezing the resolved value like any other
 // random token is an accepted, documented simplification rather than
 // threading index-freezing through every description ctx builder.
-const ALWAYS_LIVE_TOKENS = new Set(['artist', 'song', 'signalNumber', 'year', 'years', 'currentYear', 'decade', 'fileId']);
+export const ALWAYS_LIVE_TOKENS = new Set(['artist', 'song', 'signalNumber', 'year', 'years', 'currentYear', 'decade', 'fileId']);
 
 // PICK phase: resolves `template` once against `ctx`, same as fillPlaceholders,
 // but also captures a frozen snapshot of every *non-live, not-already-overridden*

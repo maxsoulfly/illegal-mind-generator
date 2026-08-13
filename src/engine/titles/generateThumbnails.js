@@ -1,3 +1,5 @@
+import { fillPlaceholders } from '../placeholders';
+
 // Generate thumbnails
 function buildGenericTagThumbnailPhrases(tag, config = {}) {
   const normalizedTag = (tag || '').trim().toUpperCase();
@@ -150,11 +152,18 @@ export function renderThumbnails(picked, formData = {}) {
       : generatedArtistShort;
 
   const song = (formData.song || 'SONG').toUpperCase();
+  const ctx = { formData, overrides: {} };
 
   // Cycle through the phrase pool if more thumbnails are needed than phrases available.
   return patterns.map((pattern, i) => {
     const { phrase, source } = phraseEntries[i % phraseEntries.length];
-    const text = phrase.toUpperCase();
+    // Every thumbnail phrase source -- Tag Library's tag-specific phrases and
+    // the project-level Words/Fallbacks/Generic Tag Templates pools alike --
+    // can carry {artist}/{song}/etc placeholders, resolved fresh here so a
+    // live Artist/Song edit updates the thumbnail without re-picking which
+    // phrase won. (Generic Tag Templates' own {tag} token is a separate,
+    // unrelated literal substitution that already happened at pick time.)
+    const text = fillPlaceholders(phrase, ctx).text.toUpperCase();
 
     let prefix = song;
     if (pattern === 'artistFull') prefix = artistFull;

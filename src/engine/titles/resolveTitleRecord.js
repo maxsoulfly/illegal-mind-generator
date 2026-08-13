@@ -89,16 +89,31 @@ export function resolveRecordText(record, formData, config) {
   }
 
   const { artist, song } = resolveArtistSong(formData, isShorts);
-  const ctx = {
+  const baseCtx = {
     formData,
     projectConfig: config,
     overrides: {
       artist,
       song,
       num: formData.signalNumber || 'XX',
-      ...(record.kind === 'transformation' ? { transformation: record.transformation } : {}),
     },
   };
+
+  // A tag's own title phrase (record.transformation, e.g. "{artist} finally
+  // goes dark") can carry its own placeholders -- resolve those against
+  // baseCtx first. fillPlaceholders only scans a template string once, so
+  // without this, an embedded {artist} would leak through as literal text
+  // once record.transformation is substituted in as {transformation} below.
+  const ctx =
+    record.kind === 'transformation'
+      ? {
+          ...baseCtx,
+          overrides: {
+            ...baseCtx.overrides,
+            transformation: fillPlaceholders(record.transformation, baseCtx).text,
+          },
+        }
+      : baseCtx;
 
   const { text: filled } = fillPlaceholders(record.template, ctx);
   const baseTitle = capitalizeFirst(filled);

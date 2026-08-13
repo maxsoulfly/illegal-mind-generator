@@ -2,17 +2,17 @@ import { useMemo, useState } from 'react';
 
 import TagPhraseEditor from '../TagPhraseEditor';
 import { TAG_FIELD_TABS, isSourceMatch } from '../../../utils/tagFieldTabs';
-import { buildHookPlaceholders } from '../../../utils/hookPlaceholders';
+import { buildHookPlaceholders, LIVE_PLACEHOLDERS } from '../../../utils/hookPlaceholders';
 
 function getEntryPhrases(tag, entry) {
   if (!entry.parentField) return tag.maps[entry.field] || [];
   return tag.maps[entry.parentField]?.[entry.field] || [];
 }
 
-// Generic body for the 4 phrase-based Tag Editor tabs (Titles/Descriptions/
-// Short Hooks/Hashtags) — renders one TagPhraseEditor per TAG_FIELD_TABS
-// entry. Basics stays hand-written (TagBasicsTab.jsx) since it's discrete
-// fixed fields, not a phrase list.
+// Generic body for the 5 phrase-based Tag Editor tabs (Titles/Thumbnails/
+// Descriptions/Short Hooks/Hashtags) — renders one TagPhraseEditor per
+// TAG_FIELD_TABS entry. Basics stays hand-written (TagBasicsTab.jsx) since
+// it's discrete fixed fields, not a phrase list.
 export default function TagFieldTab({
   tag,
   tabId,
@@ -27,7 +27,17 @@ export default function TagFieldTab({
   // .tag-editor-nested-section (a real left-border + indent, src/index.css)
   // — deriving this from whether any entry is nested preserves that split.
   const nested = entries.some((entry) => entry.parentField);
-  const placeholders = searchable ? buildHookPlaceholders(projectConfig) : undefined;
+  // Titles/Thumbnails only support the live-safe token subset (see
+  // LIVE_PLACEHOLDERS) -- their phrases resolve at plain render time with no
+  // pick-phase freezing, so a random token like {originalGenre}/{tags.*}
+  // would re-roll on every keystroke instead of staying frozen. Short Hooks
+  // already has real freeze support end-to-end, so it keeps the full set.
+  const placeholders =
+    tabId === 'titles' || tabId === 'thumbnails'
+      ? LIVE_PLACEHOLDERS
+      : searchable
+        ? buildHookPlaceholders(projectConfig)
+        : undefined;
 
   const visibleEntries = useMemo(() => {
     const normalizedSearch = searchable ? search.trim().toLowerCase() : '';

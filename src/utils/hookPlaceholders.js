@@ -1,4 +1,4 @@
-import { REGISTRY_TOKENS } from '../engine/placeholders';
+import { REGISTRY_TOKENS, ALWAYS_LIVE_TOKENS } from '../engine/placeholders';
 
 // Matches the {tags.<category>} substitution resolveTagCategoryValue
 // (descriptionTagHelpers.js) applies — shared by hooks, titles, and text
@@ -32,8 +32,24 @@ export const HOOK_PLACEHOLDERS = [
 ];
 
 // Matches the {tag} substitution generateThumbnails.js's buildGenericTagThumbnailPhrases
-// applies. Thumbnail words/fallbacks support no placeholders at all (literal text only).
+// applies at pick time -- a separate, literal token unrelated to the REGISTRY
+// placeholder system. Combine with LIVE_PLACEHOLDERS for Generic Tag
+// Templates, which supports both.
 export const THUMBNAIL_TAG_PLACEHOLDER = ['{tag}'];
+
+// Placeholders safe to resolve at plain render time with zero pick/render
+// freeze risk -- every token here is a pure function of live formData (no
+// pooled/random resolution, see placeholders.js's ALWAYS_LIVE_TOKENS), so
+// filling it fresh on every keystroke can never re-roll a different value
+// the way {originalGenre}/{tags.*} would. Used for per-tag Title/Thumbnail
+// phrases (TagFieldTab.jsx) and the project-level thumbnail Words/Fallbacks/
+// Generic Tag Templates pools (ProjectSettingsThumbnails.jsx), none of which
+// have pick-phase freezing of their own (see resolveTitleRecord.js/
+// generateThumbnails.js) -- a broader set would need that freezing added
+// first to avoid re-rolling on every render.
+export const LIVE_PLACEHOLDERS = REGISTRY_TOKENS
+  .filter((token) => ALWAYS_LIVE_TOKENS.has(token))
+  .map((token) => `{${token}}`);
 
 // HOOK_PLACEHOLDERS plus any project-defined Custom Placeholders
 // (description.placeholders — see ProjectSettingsPlaceholders.jsx /

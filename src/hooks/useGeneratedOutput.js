@@ -93,6 +93,10 @@ export default function useGeneratedOutput(formData, resolvedProjectConfig) {
       formData.artistShort,
       formData.useCustomArtistShort,
       formData.signalNumber,
+      // {year} is now resolvable inside a tag's own title phrase (see
+      // resolveTitleRecord.js) -- live-refresh on it like every other token
+      // Titles already tracks.
+      formData.originalYear,
     ],
   );
 
@@ -105,6 +109,10 @@ export default function useGeneratedOutput(formData, resolvedProjectConfig) {
       formData.song,
       formData.artistShort,
       formData.useCustomArtistShort,
+      // {signalNumber}/{year} are now resolvable inside a tag's own thumbnail
+      // phrase (see generateThumbnails.js) -- live-refresh on them too.
+      formData.signalNumber,
+      formData.originalYear,
     ],
   );
 

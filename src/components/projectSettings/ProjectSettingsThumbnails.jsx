@@ -2,7 +2,9 @@ import TemplateGroupCard from '../ui/TemplateGroupCard';
 import HookTemplateEditor from '../ui/HookTemplateEditor';
 import IconButton from '../ui/IconButton';
 import LabelSliderRow from '../ui/LabelSliderRow';
-import { THUMBNAIL_TAG_PLACEHOLDER } from '../../utils/hookPlaceholders';
+import { THUMBNAIL_TAG_PLACEHOLDER, LIVE_PLACEHOLDERS } from '../../utils/hookPlaceholders';
+
+const GENERIC_TAG_TEMPLATE_PLACEHOLDERS = [...THUMBNAIL_TAG_PLACEHOLDER, ...LIVE_PLACEHOLDERS];
 
 // Stores overrides at projectSettingsOverrides.thumbnail.{words,fallbacks,genericTagTemplates,patterns.{long,shorts}},
 // which buildResolvedProjectConfig.js already merges correctly (including a nested merge for patterns).
@@ -75,7 +77,7 @@ export default function ProjectSettingsThumbnails({
           templates={thumbnailConfig.words || []}
           onUpdateTemplates={(v) => updateArray('words', v)}
           onReset={() => resetArray('words')}
-          placeholders={[]}
+          placeholders={LIVE_PLACEHOLDERS}
           highlightText={thumbnailsTarget?.card === 'words' ? thumbnailsTarget.template : null}
         />
 
@@ -85,7 +87,7 @@ export default function ProjectSettingsThumbnails({
           templates={thumbnailConfig.fallbacks || []}
           onUpdateTemplates={(v) => updateArray('fallbacks', v)}
           onReset={() => resetArray('fallbacks')}
-          placeholders={[]}
+          placeholders={LIVE_PLACEHOLDERS}
           highlightText={thumbnailsTarget?.card === 'fallbacks' ? thumbnailsTarget.template : null}
         />
 
@@ -95,7 +97,7 @@ export default function ProjectSettingsThumbnails({
           templates={thumbnailConfig.genericTagTemplates || []}
           onUpdateTemplates={(v) => updateArray('genericTagTemplates', v)}
           onReset={() => resetArray('genericTagTemplates')}
-          placeholders={THUMBNAIL_TAG_PLACEHOLDER}
+          placeholders={GENERIC_TAG_TEMPLATE_PLACEHOLDERS}
           highlightText={thumbnailsTarget?.card === 'genericTagTemplates' ? thumbnailsTarget.template : null}
         />
 
