@@ -9,6 +9,7 @@ import { loadAppStorage, updateAppStorage } from '../utils/storage';
 import useNavigationTargets from './useNavigationTargets';
 
 const defaultPanelVisibility = {
+  input: true,
   titles: true,
   thumbnails: true,
   descriptions: true,

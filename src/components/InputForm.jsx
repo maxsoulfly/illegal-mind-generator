@@ -46,75 +46,93 @@ function InputForm({
 
   return (
     <div>
-      <h2>Input</h2>
-      <BasicSongFields
-        formData={formData}
-        setFormData={setFormData}
-        handleChange={handleChange}
-        artistSuggestions={artistSuggestions}
-        songSuggestions={songSuggestions}
-        songOverrideTarget={songOverrideTarget}
-        clearSongOverrideTarget={clearSongOverrideTarget}
-      />
+      <div className="panel-header">
+        <h2>Input</h2>
+        <ToggleButton
+          isOpen={panelVisibility.input}
+          onClick={() => togglePanel('input')}
+          label="Input"
+          compact
+        />
+      </div>
 
-      <EntrySettings
-        entry={formData}
-        onUpdateEntry={(_, updates) =>
-          setFormData((prev) => ({
-            ...prev,
-            ...updates,
-          }))
-        }
-      />
+      {panelVisibility.input ? (
+        <>
+          <BasicSongFields
+            formData={formData}
+            setFormData={setFormData}
+            handleChange={handleChange}
+            artistSuggestions={artistSuggestions}
+            songSuggestions={songSuggestions}
+            songOverrideTarget={songOverrideTarget}
+            clearSongOverrideTarget={clearSongOverrideTarget}
+          />
 
-      <TodoFields
-        todo={formData.todo}
-        statuses={projectConfig.todoStatuses || []}
-        onChange={(todo) =>
-          setFormData((prev) => ({
-            ...prev,
-            todo,
-          }))
-        }
-      />
+          <EntrySettings
+            entry={formData}
+            onUpdateEntry={(_, updates) =>
+              setFormData((prev) => ({
+                ...prev,
+                ...updates,
+              }))
+            }
+          />
 
-      <ToggleButton
-        isOpen={panelVisibility.advanced}
-        onClick={() => togglePanel('advanced')}
-        label="Advanced Options"
-      />
-      {panelVisibility.advanced && (
-        <div className="advanced-panel-content">
-          <div className="advanced-options">
-            {/* TRANSFORMATION TAGS */}
-            <TransformationTagSelector
-              visibleTags={visibleTags}
-              tagUsage={tagUsage}
-              formData={formData}
-              onTagToggle={handleTagToggle}
-              onOpenSourceTag={onOpenSourceTag}
-            />
+          <TodoFields
+            todo={formData.todo}
+            statuses={projectConfig.todoStatuses || []}
+            onChange={(todo) =>
+              setFormData((prev) => ({
+                ...prev,
+                todo,
+              }))
+            }
+          />
 
-            <AdvancedDescriptionFields
-              formData={formData}
-              setFormData={setFormData}
-              projectConfig={projectConfig}
-              songOverrideTarget={songOverrideTarget}
-              clearSongOverrideTarget={clearSongOverrideTarget}
-            />
-          </div>
+          <ToggleButton
+            isOpen={panelVisibility.advanced}
+            onClick={() => togglePanel('advanced')}
+            label="Advanced Options"
+          />
+          {panelVisibility.advanced && (
+            <div className="advanced-panel-content">
+              <div className="advanced-options">
+                {/* TRANSFORMATION TAGS */}
+                <TransformationTagSelector
+                  visibleTags={visibleTags}
+                  tagUsage={tagUsage}
+                  formData={formData}
+                  onTagToggle={handleTagToggle}
+                  onOpenSourceTag={onOpenSourceTag}
+                />
+
+                <AdvancedDescriptionFields
+                  formData={formData}
+                  setFormData={setFormData}
+                  projectConfig={projectConfig}
+                  songOverrideTarget={songOverrideTarget}
+                  clearSongOverrideTarget={clearSongOverrideTarget}
+                />
+              </div>
+            </div>
+          )}
+
+          <InputFormActions
+            key={projectId}
+            onSaveEntry={onSaveEntry}
+            onClear={onClear}
+            projectId={projectId}
+            projects={projects}
+            onAddToCalendar={onAddToCalendar}
+            canAddToCalendar={canAddToCalendar}
+          />
+        </>
+      ) : (
+        <div className="input-collapsed-summary text-main">
+          <strong>{formData.artist || 'Untitled Artist'}</strong> —{' '}
+          {formData.song || 'Untitled Song'}
         </div>
       )}
-
-      <InputFormActions
-        key={projectId}
-        onSaveEntry={onSaveEntry}
-        onClear={onClear}
-        projectId={projectId}
-        projects={projects}
-        onAddToCalendar={onAddToCalendar}
-        canAddToCalendar={canAddToCalendar}
-      />
     </div>
   );
 }

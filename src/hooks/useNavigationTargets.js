@@ -89,11 +89,16 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
 
   // Same-page target (Generator's own Advanced Options panel, not Project
   // Settings) — clicking a song-overridden description block scrolls to and
-  // highlights the field you'd actually edit to change it.
+  // highlights the field you'd actually edit to change it. Every override
+  // field lives inside the Input section's body, so a collapsed Input panel
+  // must also force back open — not just Advanced Options — or the target
+  // field never mounts to be scrolled to.
   const openSongOverride = useCallback(({ blockKey }) => {
     if (!blockKey) return;
     setSongOverrideTarget({ blockKey });
-    setPanelVisibility((prev) => (prev.advanced ? prev : { ...prev, advanced: true }));
+    setPanelVisibility((prev) =>
+      prev.advanced && prev.input ? prev : { ...prev, advanced: true, input: true },
+    );
   }, [setPanelVisibility]);
 
   const clearSongOverrideTarget = useCallback(() => {

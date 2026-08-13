@@ -1267,6 +1267,10 @@ input[type="range"]::-moz-range-progress {
   margin-top: var(--space-4);
 }
 
+.input-collapsed-summary {
+  margin-top: var(--space-4);
+}
+
 .text-accent-soft {
   color: var(--color-text-accent-soft);
 }
