@@ -101,10 +101,11 @@ export default function useGeneratedOutput(formData, resolvedProjectConfig) {
   );
 
   const thumbnails = useMemo(
-    () => renderThumbnails(pickedOutput.pickedThumbnails, formDataRef.current),
+    () => renderThumbnails(pickedOutput.pickedThumbnails, formDataRef.current, resolvedProjectConfig),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- formDataRef.current is read intentionally instead of formData; these deps just decide *when* to re-render, not what's read
     [
       pickedOutput.pickedThumbnails,
+      resolvedProjectConfig,
       formData.artist,
       formData.song,
       formData.artistShort,

@@ -70,7 +70,13 @@ export default function TagEditor({
       )}
 
       {activeTab === 'thumbnails' && (
-        <TagFieldTab tabId="thumbnails" tag={tag} onUpdateTag={onUpdateTag} sourceTarget={sourceTarget} />
+        <TagFieldTab
+          tabId="thumbnails"
+          tag={tag}
+          onUpdateTag={onUpdateTag}
+          sourceTarget={sourceTarget}
+          projectConfig={projectConfig}
+        />
       )}
 
       {activeTab === 'descriptions' && (

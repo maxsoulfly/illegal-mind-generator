@@ -2,9 +2,7 @@ import TemplateGroupCard from '../ui/TemplateGroupCard';
 import HookTemplateEditor from '../ui/HookTemplateEditor';
 import IconButton from '../ui/IconButton';
 import LabelSliderRow from '../ui/LabelSliderRow';
-import { THUMBNAIL_TAG_PLACEHOLDER, LIVE_PLACEHOLDERS } from '../../utils/hookPlaceholders';
-
-const GENERIC_TAG_TEMPLATE_PLACEHOLDERS = [...THUMBNAIL_TAG_PLACEHOLDER, ...LIVE_PLACEHOLDERS];
+import { THUMBNAIL_TAG_PLACEHOLDER, buildHookPlaceholders } from '../../utils/hookPlaceholders';
 
 // Stores overrides at projectSettingsOverrides.thumbnail.{words,fallbacks,genericTagTemplates,patterns.{long,shorts}},
 // which buildResolvedProjectConfig.js already merges correctly (including a nested merge for patterns).
@@ -16,6 +14,12 @@ export default function ProjectSettingsThumbnails({
 }) {
   const thumbnailConfig = projectConfig.thumbnail || {};
   const thumbnailOverrides = projectSettingsOverrides.thumbnail || {};
+  // Every thumbnail phrase pool now has pick-time placeholder freezing (see
+  // generateThumbnails.js's pickThumbnails), so random tokens like
+  // {originalGenre}/{tags.*} are as safe here as {artist}/{song} -- offer the
+  // full set, same as Short Hooks.
+  const placeholders = buildHookPlaceholders(projectConfig);
+  const genericTagTemplatePlaceholders = [...THUMBNAIL_TAG_PLACEHOLDER, ...placeholders];
 
   function updateArray(key, newArray) {
     updateProjectOverride({
@@ -77,7 +81,7 @@ export default function ProjectSettingsThumbnails({
           templates={thumbnailConfig.words || []}
           onUpdateTemplates={(v) => updateArray('words', v)}
           onReset={() => resetArray('words')}
-          placeholders={LIVE_PLACEHOLDERS}
+          placeholders={placeholders}
           highlightText={thumbnailsTarget?.card === 'words' ? thumbnailsTarget.template : null}
         />
 
@@ -87,7 +91,7 @@ export default function ProjectSettingsThumbnails({
           templates={thumbnailConfig.fallbacks || []}
           onUpdateTemplates={(v) => updateArray('fallbacks', v)}
           onReset={() => resetArray('fallbacks')}
-          placeholders={LIVE_PLACEHOLDERS}
+          placeholders={placeholders}
           highlightText={thumbnailsTarget?.card === 'fallbacks' ? thumbnailsTarget.template : null}
         />
 
@@ -97,7 +101,7 @@ export default function ProjectSettingsThumbnails({
           templates={thumbnailConfig.genericTagTemplates || []}
           onUpdateTemplates={(v) => updateArray('genericTagTemplates', v)}
           onReset={() => resetArray('genericTagTemplates')}
-          placeholders={GENERIC_TAG_TEMPLATE_PLACEHOLDERS}
+          placeholders={genericTagTemplatePlaceholders}
           highlightText={thumbnailsTarget?.card === 'genericTagTemplates' ? thumbnailsTarget.template : null}
         />
 

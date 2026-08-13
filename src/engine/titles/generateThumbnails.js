@@ -1,4 +1,4 @@
-import { fillPlaceholders } from '../placeholders';
+import { fillPlaceholdersAndFreeze, fillFrozenPlaceholders } from '../placeholders';
 
 // Generate thumbnails
 function buildGenericTagThumbnailPhrases(tag, config = {}) {
@@ -131,13 +131,30 @@ export function pickThumbnails(formData = {}, config = {}, count = 5) {
 
   const patterns = Array.from({ length: count }, () => getRandomItem(patternPool));
 
-  return { phraseEntries, patterns };
+  // Freeze each candidate phrase's random-token resolution now (which
+  // {originalGenre} substring, which {tags.*}-category tag, etc.) so a later
+  // render against live formData replays the same pick instead of re-rolling
+  // it on every unrelated re-render -- same mechanism the rest of the app
+  // uses for random placeholders (see placeholders.js's
+  // fillPlaceholdersAndFreeze/ALWAYS_LIVE_TOKENS). This is what makes it safe
+  // for these phrases (Tag Library's tag-specific phrases, and the
+  // project-level Words/Fallbacks/Generic Tag Templates pools) to use the
+  // full placeholder set, not just the deterministic {artist}/{song}/etc
+  // subset.
+  const freezeCtx = { formData, projectConfig: config, overrides: {} };
+  const frozenPhraseEntries = phraseEntries.map((entry) => ({
+    ...entry,
+    frozen: fillPlaceholdersAndFreeze(entry.phrase, freezeCtx).frozen,
+  }));
+
+  return { phraseEntries: frozenPhraseEntries, patterns };
 }
 
-// RENDER phase: pure substitution against live formData — no randomness, so
-// it's safe (and the point) to re-run on every Artist/Song/Artist Short edit
-// without re-picking which phrases/patterns won.
-export function renderThumbnails(picked, formData = {}) {
+// RENDER phase: pure substitution against live formData — no re-picking, so
+// it's safe (and the point) to re-run on every Artist/Song/Artist Short edit.
+// Random tokens replay their pick-time frozen value (see pickThumbnails);
+// {artist}/{song}/etc resolve fresh so a live edit updates the thumbnail.
+export function renderThumbnails(picked, formData = {}, config = {}) {
   const { phraseEntries, patterns } = picked;
   if (phraseEntries.length === 0) return [];
 
@@ -152,18 +169,12 @@ export function renderThumbnails(picked, formData = {}) {
       : generatedArtistShort;
 
   const song = (formData.song || 'SONG').toUpperCase();
-  const ctx = { formData, overrides: {} };
+  const ctx = { formData, projectConfig: config, overrides: {} };
 
   // Cycle through the phrase pool if more thumbnails are needed than phrases available.
   return patterns.map((pattern, i) => {
-    const { phrase, source } = phraseEntries[i % phraseEntries.length];
-    // Every thumbnail phrase source -- Tag Library's tag-specific phrases and
-    // the project-level Words/Fallbacks/Generic Tag Templates pools alike --
-    // can carry {artist}/{song}/etc placeholders, resolved fresh here so a
-    // live Artist/Song edit updates the thumbnail without re-picking which
-    // phrase won. (Generic Tag Templates' own {tag} token is a separate,
-    // unrelated literal substitution that already happened at pick time.)
-    const text = fillPlaceholders(phrase, ctx).text.toUpperCase();
+    const { phrase, source, frozen } = phraseEntries[i % phraseEntries.length];
+    const text = fillFrozenPlaceholders(phrase, ctx, frozen).text.toUpperCase();
 
     let prefix = song;
     if (pattern === 'artistFull') prefix = artistFull;
@@ -176,5 +187,5 @@ export function renderThumbnails(picked, formData = {}) {
 // Back-compat convenience: pick + render in one call, matching the previous
 // single-call signature/shape exactly.
 export function generateThumbnails(formData = {}, config = {}, count = 5) {
-  return renderThumbnails(pickThumbnails(formData, config, count), formData);
+  return renderThumbnails(pickThumbnails(formData, config, count), formData, config);
 }

@@ -27,15 +27,17 @@ export default function TagFieldTab({
   // .tag-editor-nested-section (a real left-border + indent, src/index.css)
   // — deriving this from whether any entry is nested preserves that split.
   const nested = entries.some((entry) => entry.parentField);
-  // Titles/Thumbnails only support the live-safe token subset (see
-  // LIVE_PLACEHOLDERS) -- their phrases resolve at plain render time with no
-  // pick-phase freezing, so a random token like {originalGenre}/{tags.*}
-  // would re-roll on every keystroke instead of staying frozen. Short Hooks
-  // already has real freeze support end-to-end, so it keeps the full set.
+  // Titles only supports the live-safe token subset (see LIVE_PLACEHOLDERS)
+  // -- tag title phrases resolve at plain render time with no pick-phase
+  // freezing of their own (resolveTitleRecord.js), so a random token like
+  // {originalGenre}/{tags.*} would re-roll on every keystroke instead of
+  // staying frozen. Thumbnails and Short Hooks both have real freeze support
+  // end-to-end (generateThumbnails.js/generateShortHooks.js), so they get
+  // the full set.
   const placeholders =
-    tabId === 'titles' || tabId === 'thumbnails'
+    tabId === 'titles'
       ? LIVE_PLACEHOLDERS
-      : searchable
+      : tabId === 'thumbnails' || searchable
         ? buildHookPlaceholders(projectConfig)
         : undefined;
 
