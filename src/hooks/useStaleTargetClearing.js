@@ -18,6 +18,7 @@ export default function useStaleTargetClearing({
   blocksTarget, clearBlocksTarget,
   tagLibrarySearchTarget, clearTagLibrarySearchTarget,
   songOverrideTarget, clearSongOverrideTarget,
+  todoTarget, clearTodoTarget,
 }) {
   useEffect(() => {
     if (activePage !== 'projectSettings') {
@@ -33,6 +34,9 @@ export default function useStaleTargetClearing({
     if (activePage !== 'generator' && songOverrideTarget) {
       clearSongOverrideTarget();
     }
+    if (activePage !== 'todo' && todoTarget) {
+      clearTodoTarget();
+    }
   }, [
     activePage,
     shortHooksTarget, clearShortHooksTarget,
@@ -42,5 +46,6 @@ export default function useStaleTargetClearing({
     blocksTarget, clearBlocksTarget,
     tagLibrarySearchTarget, clearTagLibrarySearchTarget,
     songOverrideTarget, clearSongOverrideTarget,
+    todoTarget, clearTodoTarget,
   ]);
 }

@@ -53,6 +53,7 @@ export default function GeneratorPage({
   songOverrideTarget,
   openSongOverride,
   clearSongOverrideTarget,
+  onOpenTodoSearch,
   showToast,
 }) {
   const [inputFlash, setInputFlash] = useState(false);
@@ -130,6 +131,7 @@ export default function GeneratorPage({
         projectConfig={projectConfig}
         showSavedLibrary={showSavedLibrary}
         setShowSavedLibrary={setShowSavedLibrary}
+        onOpenTodoSearch={onOpenTodoSearch}
       />
 
       <div className="layout-grid">

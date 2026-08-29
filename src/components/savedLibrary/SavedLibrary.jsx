@@ -15,6 +15,7 @@ function SavedLibrary({
   projectConfig,
   showSavedLibrary: controlledShowSavedLibrary,
   setShowSavedLibrary: controlledSetShowSavedLibrary,
+  onOpenTodoSearch,
 }) {
   const [internalShowSavedLibrary, setInternalShowSavedLibrary] = useState(
     () => {
@@ -123,6 +124,7 @@ function SavedLibrary({
                   entry={entry}
                   onLoadEntry={onLoadEntry}
                   onDeleteEntry={onDeleteEntry}
+                  onOpenTodoSearch={onOpenTodoSearch}
                 />
               ))}
             </div>

@@ -1,5 +1,9 @@
+import { useEffect } from 'react';
+
 import TodoBulkAdd from '../components/todo/TodoBulkAdd';
 import TodoStatusSection from '../components/todo/TodoStatusSection';
+import { buildTodoStatusPanelKey } from '../utils/todoPanelKey';
+
 export default function TodoPage({
   savedEntries = [],
   todoStatuses = [],
@@ -8,10 +12,23 @@ export default function TodoPage({
   projectConfig,
   onAddEntries,
   panelVisibility,
+  setPanelVisibility,
   togglePanel,
   onUpdateEntry,
+  todoTarget,
 }) {
   const todoEntries = savedEntries.filter((entry) => entry.todo?.status);
+
+  // Force-open the targeted entry's status section — a manually-collapsed
+  // section would otherwise hide the row the badge just navigated to.
+  useEffect(() => {
+    if (!todoTarget?.entryId) return;
+    const targetEntry = savedEntries.find((entry) => entry.id === todoTarget.entryId);
+    if (!targetEntry?.todo?.status) return;
+
+    const panelKey = buildTodoStatusPanelKey(targetEntry.todo.status);
+    setPanelVisibility((prev) => (prev[panelKey] ? prev : { ...prev, [panelKey]: true }));
+  }, [todoTarget, savedEntries, setPanelVisibility]);
 
   const entriesByStatus = todoStatuses.map((status) => ({
     status,
@@ -39,6 +56,7 @@ export default function TodoPage({
           onLoadEntry={onLoadEntry}
           onUpdateEntryTodo={onUpdateEntryTodo}
           onUpdateEntry={onUpdateEntry}
+          todoTarget={todoTarget}
         />
       ))}
     </section>

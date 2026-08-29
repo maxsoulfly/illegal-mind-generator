@@ -1080,6 +1080,33 @@ input[type="range"]::-moz-range-progress {
   color       : var(--color-text-danger-hover);
 }
 
+/* Styled as metadata, matching .saved-entry-hidden's [queue excluded] text,
+   not as an action button like the missing-data badges above — the only
+   difference is it's clickable, signaled by a hover glow only (same
+   restraint as .description-line-link). */
+.saved-entry-todo-badge {
+  flex-shrink: 0;
+
+  margin-left: var(--space-2);
+  padding    : 0;
+
+  background: none;
+  border    : none;
+  color     : var(--color-text-muted-3);
+
+  cursor     : pointer;
+  font-style : italic;
+  font-family: inherit;
+  font-size  : inherit;
+  line-height: inherit;
+  transition : var(--transition-fast);
+}
+
+.saved-entry-todo-badge:hover {
+  color      : var(--color-text-main);
+  text-shadow: 0 0 6px var(--color-shadow-accent);
+}
+
 
 .saved-entry-actions {
   display    : flex;

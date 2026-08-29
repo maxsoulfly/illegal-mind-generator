@@ -3,7 +3,7 @@ import IconButton from '../ui/IconButton';
 import SavedEntryRow from '../ui/SavedEntryRow';
 import { buildSearchQuery } from '../../utils/searchQuery';
 
-function SavedLibraryItem({ entry, onLoadEntry, onDeleteEntry }) {
+function SavedLibraryItem({ entry, onLoadEntry, onDeleteEntry, onOpenTodoSearch }) {
   const [isLoading, setIsLoading] = useState(false);
   const [copiedBadge, setCopiedBadge] = useState(null);
 
@@ -44,6 +44,16 @@ function SavedLibraryItem({ entry, onLoadEntry, onDeleteEntry }) {
           stopPropagation
           nativeTooltip
           onClick={() => copyMissingBadge('genre')}
+        />
+      )}
+      {entry.todo?.status && (
+        <IconButton
+          icon={`[${entry.todo.status}]`}
+          title="Jump to this song in Todo"
+          className="saved-entry-todo-badge"
+          stopPropagation
+          nativeTooltip
+          onClick={() => onOpenTodoSearch?.({ entryId: entry.id })}
         />
       )}
     </>

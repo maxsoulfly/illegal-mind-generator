@@ -65,6 +65,9 @@ function App() {
     songOverrideTarget,
     openSongOverride,
     clearSongOverrideTarget,
+    todoTarget,
+    openTodoSearch,
+    clearTodoTarget,
     activeProjectSettingsSection,
     setActiveProjectSettingsSection,
   } = useAppShellState();
@@ -80,6 +83,7 @@ function App() {
     blocksTarget, clearBlocksTarget,
     tagLibrarySearchTarget, clearTagLibrarySearchTarget,
     songOverrideTarget, clearSongOverrideTarget,
+    todoTarget, clearTodoTarget,
   });
 
   // Base project config from projects.json.
@@ -208,6 +212,7 @@ function App() {
           songOverrideTarget={songOverrideTarget}
           openSongOverride={openSongOverride}
           clearSongOverrideTarget={clearSongOverrideTarget}
+          onOpenTodoSearch={openTodoSearch}
           showToast={showToast}
         />
       )}
@@ -260,10 +265,12 @@ function App() {
           onLoadEntry={loadEntryAndReturnToGenerator}
           onAddEntries={handleAddEntries}
           panelVisibility={panelVisibility}
+          setPanelVisibility={setPanelVisibility}
           togglePanel={togglePanel}
           formData={formData}
           setFormData={setFormData}
           onUpdateEntry={handleUpdateEntry}
+          todoTarget={todoTarget}
         />
       )}
 

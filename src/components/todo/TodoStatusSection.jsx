@@ -1,12 +1,6 @@
 import ToggleButton from '../ui/ToggleButton';
 import TodoItem from './TodoItem';
-
-function buildTodoStatusPanelKey(status) {
-  return `todoStatus_${status
-    .toLowerCase()
-    .replace(/\s+/g, '_')
-    .replace(/[^a-z0-9_]/g, '')}`;
-}
+import { buildTodoStatusPanelKey } from '../../utils/todoPanelKey';
 
 export default function TodoStatusSection({
   status,
@@ -17,6 +11,7 @@ export default function TodoStatusSection({
   onLoadEntry,
   onUpdateEntryTodo,
   onUpdateEntry,
+  todoTarget,
 }) {
   const panelKey = buildTodoStatusPanelKey(status);
   const isOpen = panelVisibility[panelKey] ?? entries.length > 0;
@@ -49,6 +44,7 @@ export default function TodoStatusSection({
               onLoadEntry={onLoadEntry}
               onUpdateEntryTodo={onUpdateEntryTodo}
               onUpdateEntry={onUpdateEntry}
+              highlighted={todoTarget?.entryId === entry.id}
             />
           ))}
         </div>

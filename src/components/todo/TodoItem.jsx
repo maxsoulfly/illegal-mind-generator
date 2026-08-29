@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TodoStatusSelect from './TodoStatusSelect';
 import QueueSettings from '../input/QueueSettings';
 import ToggleButton from '../ui/ToggleButton';
@@ -11,11 +11,22 @@ export default function TodoItem({
   onLoadEntry,
   onUpdateEntryTodo,
   onUpdateEntry,
+  highlighted = false,
 }) {
   const [showNotes, setShowNotes] = useState(false);
 
+  // Scroll to this row when it's the target of a Saved Library "jump to
+  // Todo" click — same convention as SongBlockOverrideFields' scroll effect.
+  useEffect(() => {
+    if (!highlighted) return;
+    document.getElementById(`todo-entry-${entry.id}`)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  }, [highlighted, entry.id]);
+
   return (
-    <>
+    <div id={`todo-entry-${entry.id}`} className={highlighted ? 'tag-section--highlight' : undefined}>
       <SavedEntryRow
         signal={(entry.signalNumber || '00').toString().padStart(2, '0')}
         artist={entry.artist}
@@ -75,6 +86,6 @@ export default function TodoItem({
           />
         </div>
       )}
-    </>
+    </div>
   );
 }

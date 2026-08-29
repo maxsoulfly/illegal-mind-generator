@@ -16,6 +16,7 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
   const [hashtagsTarget, setHashtagsTarget] = useState(null);
   const [blocksTarget, setBlocksTarget] = useState(null);
   const [songOverrideTarget, setSongOverrideTarget] = useState(null);
+  const [todoTarget, setTodoTarget] = useState(null);
 
   const [activeProjectSettingsSection, setActiveProjectSettingsSection] = useState(() => {
     const storage = loadAppStorage();
@@ -123,6 +124,20 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
     setTagLibrarySearchTarget(null);
   };
 
+  // Same {entryId} shape regardless of caller — Saved Library's Todo-status
+  // badge is the only caller today. TodoPage looks up the entry's current
+  // status itself (from savedEntries) rather than the target carrying a
+  // stale copy of it.
+  const openTodoSearch = (target) => {
+    if (!target) return;
+    setTodoTarget(target);
+    setActivePage('todo');
+  };
+
+  const clearTodoTarget = useCallback(() => {
+    setTodoTarget(null);
+  }, []);
+
   return {
     tagLibrarySearchTarget,
     openTagLibrarySearch,
@@ -146,6 +161,9 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
     songOverrideTarget,
     openSongOverride,
     clearSongOverrideTarget,
+    todoTarget,
+    openTodoSearch,
+    clearTodoTarget,
     activeProjectSettingsSection,
     setActiveProjectSettingsSection,
   };
