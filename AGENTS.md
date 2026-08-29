@@ -18,6 +18,8 @@ Local-first React app for generating and managing YouTube content packaging for 
 
 React · JavaScript · Vite · localStorage · JSON config. No backend, no database, no API.
 
+**This line is under active reconsideration as of 2026-08-29 — do not treat it as settled.** A migration to Neon/PostgreSQL + a thin hand-built API layer is being evaluated, driven by a real product problem (the user works across multiple PCs; the only sync mechanism today is manual Backup export → Telegram → import) — not primarily for AI convenience, though that's a side benefit. Nothing has been implemented yet. Full assessment, decided/open questions, and status: `C:\Users\Max\.claude\plans\one-signal-many-terminals.md` (see also `docs/current-context.md`'s In Progress section). Read that file before assuming this app is still purely local-first, and before dismissing DB-related work as against project principles.
+
 ---
 
 # Development Environment
