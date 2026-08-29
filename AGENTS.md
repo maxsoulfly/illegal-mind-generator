@@ -509,7 +509,6 @@ Previously: tag-category placeholders (`{tags.*}`), title polish (no `"Title:"` 
 
 ## Other Active Goals
 
-- Queue-hidden indicator in Todo rows
 - Todo status badges in Saved Library
 - Saved Library Todo filtering
 - CSS refactor (consolidate index.css, clean up class naming)

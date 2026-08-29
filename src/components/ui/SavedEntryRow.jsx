@@ -31,7 +31,7 @@ export default function SavedEntryRow({
           <span className="saved-entry-tags">[{tags.join(', ')}]</span>
         )}
 
-        {hidden && <span className="saved-entry-hidden">[hidden]</span>}
+        {hidden && <span className="saved-entry-hidden">[queue excluded]</span>}
 
         {badges}
       </div>

@@ -20,7 +20,6 @@ Active work. These are in progress or blocking the next session.
 Logical next steps after current focus is done.
 
 - **Generic / no-tags title mode** — bypass transformation tags, generate plain titles
-- **Queue-hidden indicator in Todo rows** — show `[hidden]` badge on entries with `excludeFromRandomizer: true`
 - **Todo status badges in Saved Library** — show `todo.status` inline on each saved library entry
 - **Saved Library Todo filtering** — filter library by todo status
 - **`coverLabel` settings UI** — Shorts Description cover label is currently only editable by hand-editing `projects.json`
