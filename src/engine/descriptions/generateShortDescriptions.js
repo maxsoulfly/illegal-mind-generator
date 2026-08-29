@@ -1,5 +1,5 @@
 import {
-  renderStructuredBlockFromPicked, pickStructuredBlock,
+  pickStructuredBlock,
   renderCustomBlock, pickCustomBlockDefault,
   getEffectiveSongOverrides,
   renderTextTemplate, resolveHookOverride,
@@ -22,7 +22,12 @@ function pickShortLine(blockName, ctx, shortsConfig, customBlocks) {
   }
 
   if (isListBlock(customBlocks[blockName])) {
-    return { blockName, kind: 'list', picked: pickStructuredBlock(customBlocks[blockName], ctx) };
+    return {
+      blockName,
+      kind: 'list',
+      picked: pickStructuredBlock(customBlocks[blockName], ctx),
+      block: customBlocks[blockName],
+    };
   }
 
   if (blockName in customBlocks) {
@@ -57,14 +62,25 @@ function renderShortLine(picked, ctx, shortsConfig, coverLabel, formData, songOv
   }
 
   if (picked.kind === 'list') {
-    const { text: rendered, pickedItem } = renderStructuredBlockFromPicked(picked.picked, ctx, links);
+    // Routed through the same renderCustomBlock helper Long descriptions use,
+    // so a song-scoped List override (formData.songBlockOverrides[blockName])
+    // is applied here too instead of always rendering the project default.
+    const rendered = renderCustomBlock(
+      { kind: 'list', picked: picked.picked, block: picked.block },
+      ctx,
+      links,
+      songOverrides[blockName],
+    );
+    const overridden = isSongOverrideActive(songOverrides, blockName);
     // Pad list blocks with blank lines so they stand apart from the
     // single-newline-joined surrounding lines.
     return {
       text: rendered ? `\n${rendered}\n` : '',
-      source: rendered
-        ? { type: 'block', blockKey: blockName, blockType: 'list', pickedItem }
-        : undefined,
+      source: !rendered
+        ? undefined
+        : overridden
+          ? { type: 'override', blockKey: blockName }
+          : { type: 'block', blockKey: blockName, blockType: 'list', pickedItem: picked.picked?.pickedItem },
     };
   }
 
