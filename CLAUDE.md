@@ -514,7 +514,6 @@ Previously: tag-category placeholders (`{tags.*}`), title polish (no `"Title:"` 
 - Saved Library Todo filtering
 - CSS refactor (consolidate index.css, clean up class naming)
 - `coverLabel` (Shorts Description) has no settings UI — only editable by hand-editing `projects.json`
-- Block Group — Phase 1 shipped (Closing Block); Phase 2 (Generated child type, migrate Log Notes) and Phase 3 (Broadcast Block) still pending — see Current Focus / Block Types above
 - **`customHashtags`** — last remaining hardcoded per-song field in `AdvancedDescriptionFields.jsx`. It's not a description block at all, so it won't fit the block system — investigate separately.
 
 ---
