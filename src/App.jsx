@@ -104,8 +104,13 @@ function App() {
     copyTagFromProject,
   } = useTagOverrides(projectId);
 
+  // Project settings overrides — now sourced from Postgres via the local API
+  // (persistence migration Step 8).
   const {
     projectSettingsOverrides,
+    loading: projectOverridesLoading,
+    error: projectOverridesError,
+    reload: reloadProjectOverrides,
     updateProjectOverride,
     resetProjectOverride,
     syncHookTypesToProject,
@@ -163,18 +168,24 @@ function App() {
     }, {});
   }, [savedEntries]);
 
-  // The whole resolved config depends on tag overrides, so hold the first
-  // render (and every project switch) until they've loaded — otherwise
-  // generation and the Tag Library would flash base-only tags for a frame.
-  if (tagOverridesLoading) {
+  // The whole resolved config depends on tag + project-settings overrides, so
+  // hold the first render (and every project switch) until both have loaded —
+  // otherwise generation, the Tag Library and Project Settings would flash
+  // base-only config for a frame.
+  if (tagOverridesLoading || projectOverridesLoading) {
     return <div className="app-shell app-loading">Loading…</div>;
   }
 
-  if (tagOverridesError) {
+  if (tagOverridesError || projectOverridesError) {
+    const retry = () => {
+      if (tagOverridesError) reloadTagOverrides();
+      if (projectOverridesError) reloadProjectOverrides();
+    };
+
     return (
       <div className="app-shell app-loading">
         <p>Couldn’t reach the data server.</p>
-        <button type="button" className="button-primary" onClick={reloadTagOverrides}>
+        <button type="button" className="button-primary" onClick={retry}>
           Retry
         </button>
       </div>

@@ -62,5 +62,6 @@ export function apiGet(pathname) {
 }
 
 export const apiPut = (pathname, body) => request('PUT', pathname, body);
+export const apiPatch = (pathname, body) => request('PATCH', pathname, body);
 export const apiPost = (pathname, body) => request('POST', pathname, body);
 export const apiDelete = (pathname) => request('DELETE', pathname);

@@ -1,99 +1,128 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import { loadAppStorage, updateAppStorage } from '../utils/storage';
+import { apiDelete, apiGet, apiPatch, apiPut } from '../utils/apiClient';
 
-function getStoredProjectOverrides() {
-  const appStorage = loadAppStorage();
+// Persistence migration Step 8: project settings overrides now live in
+// Postgres, reached through the local API (Vite proxies /api/* and attaches
+// auth — see vite.config.js). Second hook to become async, same shape as
+// useTagOverrides. localStorage is no longer read or written here; the old
+// `projectOverrides` blob stays untouched as a fallback/reference until the
+// migration's final cleanup step.
+// See C:\Users\Max\.claude\plans\one-signal-many-terminals.md.
 
-  return appStorage.projectOverrides || {};
-}
-
-// Stable fallback so a project with no stored settings overrides yet still
-// returns the same object reference on every render — a fresh `{}` literal
-// here would break resolvedProjectConfig's memoization (App.jsx) and force
-// a generation recompute on every unrelated re-render.
 const EMPTY_OBJECT = {};
 
+const settingsPath = (projectId) =>
+  `/project-overrides?project=${encodeURIComponent(projectId)}`;
+
 export default function useProjectOverrides(projectId) {
-  const [allProjectSettingsOverrides, setAllProjectSettingsOverrides] =
-    useState(getStoredProjectOverrides);
+  // `result.projectId` is the project the loaded settings belong to. Deriving
+  // `loading` from a mismatch (rather than a `loading` state set inside the
+  // effect) keeps the effect free of synchronous setState. A reload() for the
+  // same project keeps the id matching → silent background resync; a project
+  // switch flips the mismatch → the App load gate shows.
+  const [result, setResult] = useState({
+    projectId: null,
+    settings: EMPTY_OBJECT,
+    error: null,
+  });
 
-  const projectSettingsOverrides = allProjectSettingsOverrides[projectId] || EMPTY_OBJECT;
+  const [reloadToken, setReloadToken] = useState(0);
+  const reload = useCallback(() => setReloadToken((n) => n + 1), []);
 
-  const updateProjectOverride = useCallback(
-    (updates) => {
-      const nextStorage = updateAppStorage((currentStorage) => {
-        const currentProjectOverrides =
-          currentStorage.projectOverrides?.[projectId] || {};
+  useEffect(() => {
+    let cancelled = false;
 
-        return {
-          ...currentStorage,
-          projectOverrides: {
-            ...(currentStorage.projectOverrides || {}),
-            [projectId]: {
-              ...currentProjectOverrides,
-              ...updates,
-            },
-          },
-        };
+    apiGet(settingsPath(projectId))
+      .then((data) => {
+        if (!cancelled) {
+          setResult({ projectId, settings: data || EMPTY_OBJECT, error: null });
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setResult({ projectId, settings: EMPTY_OBJECT, error: err });
+        }
       });
 
-      setAllProjectSettingsOverrides(nextStorage.projectOverrides || {});
+    return () => {
+      cancelled = true;
+    };
+  }, [projectId, reloadToken]);
+
+  const isCurrent = result.projectId === projectId;
+  const projectSettingsOverrides = isCurrent ? result.settings : EMPTY_OBJECT;
+  const error = isCurrent ? result.error : null;
+  const loading = !isCurrent;
+
+  const updateProjectOverride = useCallback(
+    async (updates) => {
+      // Optimistic top-level shallow merge — mirrors the server PATCH's jsonb
+      // `||` (a top-level key is replaced wholesale, not deep-merged), so the
+      // happy path feels identical to the old synchronous localStorage write.
+      setResult((prev) => ({
+        ...prev,
+        settings: { ...prev.settings, ...updates },
+      }));
+
+      try {
+        const { settings } = await apiPatch('/project-overrides', {
+          projectId,
+          updates,
+        });
+        setResult((prev) => ({ ...prev, settings }));
+      } catch {
+        // Silent resync — drops the optimistic change back to server truth.
+        reload();
+      }
     },
-    [projectId],
+    [projectId, reload],
   );
 
   const resetProjectOverride = useCallback(
-    (fieldName) => {
-      const nextStorage = updateAppStorage((currentStorage) => {
-        const currentProjectOverrides =
-          currentStorage.projectOverrides?.[projectId] || {};
-
-        const nextProjectOverrides = {
-          ...currentProjectOverrides,
-        };
-
-        delete nextProjectOverrides[fieldName];
-
-        return {
-          ...currentStorage,
-          projectOverrides: {
-            ...(currentStorage.projectOverrides || {}),
-            [projectId]: nextProjectOverrides,
-          },
-        };
+    async (fieldName) => {
+      setResult((prev) => {
+        const settings = { ...prev.settings };
+        delete settings[fieldName];
+        return { ...prev, settings };
       });
 
-      setAllProjectSettingsOverrides(nextStorage.projectOverrides || {});
+      try {
+        await apiDelete(
+          `/project-overrides/${encodeURIComponent(fieldName)}?project=${encodeURIComponent(projectId)}`,
+        );
+      } catch {
+        reload();
+      }
     },
-    [projectId],
+    [projectId, reload],
   );
 
   const syncHookTypesToProject = useCallback(
-    (targetProjectId, hookTypes) => {
-      const nextStorage = updateAppStorage((currentStorage) => {
-        const targetOverrides =
-          currentStorage.projectOverrides?.[targetProjectId] || {};
+    async (targetProjectId, hookTypes) => {
+      if (!targetProjectId) return;
 
-        return {
-          ...currentStorage,
-          projectOverrides: {
-            ...(currentStorage.projectOverrides || {}),
-            [targetProjectId]: {
-              ...targetOverrides,
-              shortHookTypes: { ...hookTypes },
-            },
-          },
-        };
+      const { settings } = await apiPut('/project-overrides/short-hook-types', {
+        targetProjectId,
+        hookTypes,
       });
 
-      setAllProjectSettingsOverrides(nextStorage.projectOverrides || {});
+      // The write lands on targetProjectId — normally a different project than
+      // this hook instance holds (the Short Hooks tab's "sync to" dropdown),
+      // so there's nothing to update locally. Reflect it only in the edge case
+      // where it targets the current project.
+      if (targetProjectId === projectId) {
+        setResult((prev) => ({ ...prev, settings }));
+      }
     },
-    [],
+    [projectId],
   );
 
   return {
     projectSettingsOverrides,
+    loading,
+    error,
+    reload,
     updateProjectOverride,
     resetProjectOverride,
     syncHookTypesToProject,
