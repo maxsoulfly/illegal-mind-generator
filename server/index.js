@@ -12,6 +12,7 @@ import tagOverridesRouter from './routes/tagOverrides.js';
 import projectOverridesRouter from './routes/projectOverrides.js';
 import savedEntriesRouter from './routes/savedEntries.js';
 import shortsQueueRouter from './routes/shortsQueue.js';
+import uploadCalendarRouter from './routes/uploadCalendar.js';
 
 // Loads server/.env explicitly (not the repo-root .env Vite reads), so
 // server secrets never depend on which directory the process was started
@@ -51,6 +52,7 @@ app.use('/tag-overrides', requireApiKey, tagOverridesRouter);
 app.use('/project-overrides', requireApiKey, projectOverridesRouter);
 app.use('/saved-entries', requireApiKey, savedEntriesRouter);
 app.use('/shorts-queue', requireApiKey, shortsQueueRouter);
+app.use('/upload-calendar', requireApiKey, uploadCalendarRouter);
 
 app.listen(PORT, () => {
   console.log(`API server listening on http://localhost:${PORT}`);

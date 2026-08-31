@@ -1,6 +1,14 @@
 import pg from 'pg';
 
-const { Pool } = pg;
+const { Pool, types } = pg;
+
+// node-postgres returns DATE columns as JS Date objects by default, which
+// invites timezone bugs — a stored calendar date can shift by a day when
+// converted back to a string depending on the process's local timezone.
+// Every date this app stores (upload_calendar_slots.iso_date) is a plain
+// YYYY-MM-DD calendar date, never a timestamp, so return it as the exact
+// string Postgres sends and skip Date conversion entirely. OID 1082 = date.
+types.setTypeParser(1082, (value) => value);
 
 let pool = null;
 
