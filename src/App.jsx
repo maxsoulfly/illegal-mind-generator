@@ -131,9 +131,13 @@ function App() {
 
   useBlockCollisionRepair(projectSettingsOverrides, resolvedProjectConfig, updateProjectOverride);
 
-  // Saved entries CRUD and import/export.
+  // Saved entries CRUD and import/export — now sourced from Postgres via the
+  // local API (persistence migration Step 9).
   const {
     savedEntries,
+    loading: savedEntriesLoading,
+    error: savedEntriesError,
+    reload: reloadSavedEntries,
     handleSaveEntry,
     handleLoadEntry,
     handleDeleteEntry,
@@ -168,18 +172,19 @@ function App() {
     }, {});
   }, [savedEntries]);
 
-  // The whole resolved config depends on tag + project-settings overrides, so
-  // hold the first render (and every project switch) until both have loaded —
-  // otherwise generation, the Tag Library and Project Settings would flash
-  // base-only config for a frame.
-  if (tagOverridesLoading || projectOverridesLoading) {
+  // The whole app depends on tag overrides, project-settings overrides and
+  // saved entries, so hold the first render (and every project switch) until
+  // all three have loaded — otherwise generation, the Tag Library, Project
+  // Settings and the Saved Library would flash empty/base-only for a frame.
+  if (tagOverridesLoading || projectOverridesLoading || savedEntriesLoading) {
     return <div className="app-shell app-loading">Loading…</div>;
   }
 
-  if (tagOverridesError || projectOverridesError) {
+  if (tagOverridesError || projectOverridesError || savedEntriesError) {
     const retry = () => {
       if (tagOverridesError) reloadTagOverrides();
       if (projectOverridesError) reloadProjectOverrides();
+      if (savedEntriesError) reloadSavedEntries();
     };
 
     return (

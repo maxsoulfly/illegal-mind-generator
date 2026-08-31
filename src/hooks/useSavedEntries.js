@@ -1,72 +1,119 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import { updateAppStorage } from '../utils/storage';
+import { apiDelete, apiGet, apiPatch, apiPost, apiPut } from '../utils/apiClient';
 import {
-  buildEntryId,
-  normalizeEntryIds,
-  mergeImportedEntry,
-  toSlug,
   buildEntryFromFormData,
   buildFormDataPatchFromEntry,
-  loadInitialSavedEntriesByProject,
+  toSlug,
 } from '../utils/savedEntries';
 
-function useSavedEntries(
-  formData,
-  setFormData,
-  selectedProjectId,
-  projectName,
-) {
-  const [savedEntriesByProject, setSavedEntriesByProject] = useState(loadInitialSavedEntriesByProject);
+// Persistence migration Step 9: saved entries now live in Postgres, reached
+// through the local API (Vite proxies /api/* and attaches auth — see
+// vite.config.js). Same async shape as useTagOverrides / useProjectOverrides.
+// localStorage is no longer read or written here; the old `savedEntries` blob
+// stays untouched as a fallback/reference until the migration's final cleanup
+// step. The non-destructive import merge (mergeImportedEntry) and the bulk-add
+// dedup now run server-side — see server/routes/savedEntries.js.
+// See C:\Users\Max\.claude\plans\one-signal-many-terminals.md.
 
-  const savedEntries = savedEntriesByProject[selectedProjectId] || [];
+const EMPTY_ARRAY = [];
+
+const entriesPath = (projectId) =>
+  `/saved-entries?project=${encodeURIComponent(projectId)}`;
+
+function useSavedEntries(formData, setFormData, selectedProjectId, projectName) {
+  // `result.projectId` is the project the loaded entries belong to. Deriving
+  // `loading` from a mismatch (rather than a `loading` state set inside the
+  // effect) keeps the effect free of synchronous setState. A reload() for the
+  // same project keeps the id matching → silent background resync; a project
+  // switch flips the mismatch → the App load gate shows.
+  const [result, setResult] = useState({
+    projectId: null,
+    entries: EMPTY_ARRAY,
+    error: null,
+  });
+
+  const [reloadToken, setReloadToken] = useState(0);
+  const reload = useCallback(() => setReloadToken((n) => n + 1), []);
 
   useEffect(() => {
-    updateAppStorage((storage) => ({
-      ...storage,
-      savedEntries: savedEntriesByProject,
-    }));
-  }, [savedEntriesByProject]);
+    let cancelled = false;
 
-  // Save entry — targetProjectId lets the Generator save into a project other
-  // than the one currently being viewed/edited (defaults to the active one).
-  const handleSaveEntry = (targetProjectId = selectedProjectId) => {
+    apiGet(entriesPath(selectedProjectId))
+      .then((data) => {
+        if (!cancelled) {
+          setResult({
+            projectId: selectedProjectId,
+            entries: Array.isArray(data) ? data : EMPTY_ARRAY,
+            error: null,
+          });
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setResult({ projectId: selectedProjectId, entries: EMPTY_ARRAY, error: err });
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedProjectId, reloadToken]);
+
+  const isCurrent = result.projectId === selectedProjectId;
+  const savedEntries = isCurrent ? result.entries : EMPTY_ARRAY;
+  const error = isCurrent ? result.error : null;
+  const loading = !isCurrent;
+
+  // Optimistic prepend/replace — matches the old `[entry, ...filter(id)]`
+  // shape (newest first, dedup by id).
+  const putEntryLocal = (entry) =>
+    setResult((prev) => ({
+      ...prev,
+      entries: [entry, ...prev.entries.filter((e) => e.id !== entry.id)],
+    }));
+
+  // Save — targetProjectId lets the Generator save into a project other than
+  // the one being viewed (defaults to the active one).
+  const handleSaveEntry = async (targetProjectId = selectedProjectId) => {
     const entry = buildEntryFromFormData(formData);
     if (!entry.artist || !entry.song) return;
 
-    setSavedEntriesByProject((prev) => {
-      const currentProjectEntries = prev[targetProjectId] || [];
+    const savingToCurrent = targetProjectId === selectedProjectId;
+    if (savingToCurrent) putEntryLocal(entry);
 
-      return {
-        ...prev,
-        [targetProjectId]: [
-          entry,
-          ...currentProjectEntries.filter((item) => item.id !== entry.id),
-        ],
-      };
-    });
+    try {
+      const saved = await apiPut(`/saved-entries/${encodeURIComponent(entry.id)}`, {
+        projectId: targetProjectId,
+        entry,
+      });
+      if (savingToCurrent) putEntryLocal(saved);
+    } catch {
+      if (savingToCurrent) reload();
+    }
   };
 
-  // Load entry
+  // Load — pure formData patch, no persistence.
   const handleLoadEntry = (entry) => {
     setFormData((prev) => buildFormDataPatchFromEntry(entry, prev));
   };
 
-  // Delete entry
-  const handleDeleteEntry = (entryId) => {
-    setSavedEntriesByProject((prev) => {
-      const currentProjectEntries = prev[selectedProjectId] || [];
+  const handleDeleteEntry = async (entryId) => {
+    setResult((prev) => ({
+      ...prev,
+      entries: prev.entries.filter((e) => e.id !== entryId),
+    }));
 
-      return {
-        ...prev,
-        [selectedProjectId]: currentProjectEntries.filter(
-          (entry) => entry.id !== entryId,
-        ),
-      };
-    });
+    try {
+      await apiDelete(
+        `/saved-entries/${encodeURIComponent(entryId)}?project=${encodeURIComponent(selectedProjectId)}`,
+      );
+    } catch {
+      reload();
+    }
   };
 
-  // Export entries
+  // Export — reads the local array, builds a download. Unchanged.
   const handleExportEntries = () => {
     const blob = new Blob([JSON.stringify(savedEntries, null, 2)], {
       type: 'application/json',
@@ -75,126 +122,110 @@ function useSavedEntries(
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-
-    const fileName = `${toSlug(projectName)}-library.json`;
-    a.download = fileName;
+    a.download = `${toSlug(projectName)}-library.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
 
-  // Import entries
+  // Import — the non-destructive merge (mergeImportedEntry) runs server-side;
+  // the response carries the full refreshed list.
   const handleImportEntries = (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
 
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
         const parsed = JSON.parse(e.target.result);
-
         if (!Array.isArray(parsed)) return;
 
-        const validItems = parsed.filter(
-          (item) =>
-            item &&
-            typeof item.artist === 'string' &&
-            typeof item.song === 'string',
-        );
-
-        setSavedEntriesByProject((prev) => {
-          const currentProjectEntries = prev[selectedProjectId] || [];
-          const existingById = new Map(
-            currentProjectEntries.map((entry) => [entry.id, entry]),
-          );
-
-          const normalized = validItems.map((item) =>
-            mergeImportedEntry(
-              item,
-              existingById.get(buildEntryId(item.artist, item.song)),
-            ),
-          );
-
-          return {
-            ...prev,
-            [selectedProjectId]: [
-              ...normalized,
-              ...currentProjectEntries.filter(
-                (entry) =>
-                  !normalized.some(
-                    (importedEntry) => importedEntry.id === entry.id,
-                  ),
-              ),
-            ],
-          };
+        const { entries } = await apiPost('/saved-entries/import', {
+          projectId: selectedProjectId,
+          items: parsed,
         });
-      } catch (error) {
-        console.error('Failed to import library:', error);
+
+        setResult((prev) => ({
+          ...prev,
+          entries: Array.isArray(entries) ? entries : prev.entries,
+        }));
+      } catch (importError) {
+        console.error('Failed to import library:', importError);
       }
     };
 
     reader.readAsText(file);
-
     event.target.value = '';
   };
 
-  const handleUpdateEntryTodo = (entryId, todo) => {
-    setSavedEntriesByProject((prev) => {
-      const currentProjectEntries = prev[selectedProjectId] || [];
+  const handleUpdateEntryTodo = async (entryId, todo) => {
+    const nextTodo = { status: todo.status || '', notes: todo.notes || '' };
 
-      return {
-        ...prev,
-        [selectedProjectId]: currentProjectEntries.map((entry) =>
-          entry.id === entryId
-            ? {
-                ...entry,
-                todo: {
-                  status: todo.status || '',
-                  notes: todo.notes || '',
-                },
-              }
-            : entry,
-        ),
-      };
-    });
+    setResult((prev) => ({
+      ...prev,
+      entries: prev.entries.map((e) =>
+        e.id === entryId ? { ...e, todo: nextTodo } : e,
+      ),
+    }));
+
+    try {
+      const updated = await apiPatch(
+        `/saved-entries/${encodeURIComponent(entryId)}/todo`,
+        { projectId: selectedProjectId, ...nextTodo },
+      );
+      if (updated) {
+        setResult((prev) => ({
+          ...prev,
+          entries: prev.entries.map((e) => (e.id === entryId ? updated : e)),
+        }));
+      }
+    } catch {
+      reload();
+    }
   };
 
-  const handleAddEntries = (entries) => {
-    setSavedEntriesByProject((prev) => {
-      const currentProjectEntries = prev[selectedProjectId] || [];
-      const normalizedEntries = normalizeEntryIds(entries);
-
-      return {
+  const handleAddEntries = async (entries) => {
+    try {
+      const { entries: fullList } = await apiPost('/saved-entries/bulk', {
+        projectId: selectedProjectId,
+        entries,
+      });
+      setResult((prev) => ({
         ...prev,
-        [selectedProjectId]: [
-          ...normalizedEntries,
-          ...currentProjectEntries.filter(
-            (entry) =>
-              !normalizedEntries.some((newEntry) => newEntry.id === entry.id),
-          ),
-        ],
-      };
-    });
+        entries: Array.isArray(fullList) ? fullList : prev.entries,
+      }));
+    } catch {
+      reload();
+    }
   };
-  const handleUpdateEntry = (entryId, updates) => {
-    setSavedEntriesByProject((prev) => {
-      const currentProjectEntries = prev[selectedProjectId] || [];
 
-      return {
+  const handleUpdateEntry = async (entryId, updates) => {
+    setResult((prev) => ({
+      ...prev,
+      entries: prev.entries.map((e) =>
+        e.id === entryId ? { ...e, ...updates } : e,
+      ),
+    }));
+
+    try {
+      const updated = await apiPatch(`/saved-entries/${encodeURIComponent(entryId)}`, {
+        projectId: selectedProjectId,
+        updates,
+      });
+      setResult((prev) => ({
         ...prev,
-        [selectedProjectId]: currentProjectEntries.map((entry) =>
-          entry.id === entryId
-            ? {
-                ...entry,
-                ...updates,
-              }
-            : entry,
-        ),
-      };
-    });
+        entries: prev.entries.map((e) => (e.id === entryId ? updated : e)),
+      }));
+    } catch {
+      reload();
+    }
   };
+
   return {
     savedEntries,
+    loading,
+    error,
+    reload,
     handleSaveEntry,
     handleLoadEntry,
     handleDeleteEntry,
@@ -205,4 +236,5 @@ function useSavedEntries(
     handleUpdateEntry,
   };
 }
+
 export default useSavedEntries;
