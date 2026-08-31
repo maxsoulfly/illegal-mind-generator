@@ -7,6 +7,7 @@ import cors from 'cors';
 
 import { requireApiKey } from './authMiddleware.js';
 import { getPool } from './db.js';
+import tagVisibilityOverridesRouter from './routes/tagVisibilityOverrides.js';
 
 // Loads server/.env explicitly (not the repo-root .env Vite reads), so
 // server secrets never depend on which directory the process was started
@@ -40,6 +41,8 @@ app.get('/health', requireApiKey, async (req, res) => {
     res.status(500).json({ status: 'error', db: 'unreachable', message: error.message });
   }
 });
+
+app.use('/tag-visibility-overrides', requireApiKey, tagVisibilityOverridesRouter);
 
 app.listen(PORT, () => {
   console.log(`API server listening on http://localhost:${PORT}`);
