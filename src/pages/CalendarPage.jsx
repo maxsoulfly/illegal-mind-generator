@@ -61,12 +61,25 @@ export default function CalendarPage({
         onNext={() => goToMonth(1)}
       />
 
-      <CalendarMonthGrid
-        days={monthGrid}
-        onLoadEntry={onLoadEntry}
-        onSlotClick={(isoDate, videoType, mode) => setPickerTarget({ isoDate, videoType, mode })}
-        calendar={calendar}
-      />
+      {calendar.loading && <p className="app-loading">Loading calendar…</p>}
+
+      {calendar.error && !calendar.loading && (
+        <p className="app-loading">
+          Couldn’t load the calendar.{' '}
+          <button type="button" className="button-secondary" onClick={calendar.reload}>
+            Retry
+          </button>
+        </p>
+      )}
+
+      {!calendar.loading && !calendar.error && (
+        <CalendarMonthGrid
+          days={monthGrid}
+          onLoadEntry={onLoadEntry}
+          onSlotClick={(isoDate, videoType, mode) => setPickerTarget({ isoDate, videoType, mode })}
+          calendar={calendar}
+        />
+      )}
       {pickerTarget && (
         <CalendarEntryPicker
           target={pickerTarget}

@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import { loadAppStorage, updateAppStorage } from '../utils/storage';
+import { apiDelete, apiGet, apiPut } from '../utils/apiClient';
 import {
   toIsoDate,
   getWeekday,
@@ -9,24 +9,19 @@ import {
   isBeforeToday,
 } from '../utils/calendarDates';
 
+// Persistence migration Step 10: upload-calendar slots now live in Postgres,
+// reached through the local API (Vite proxies /api/* and attaches auth — see
+// vite.config.js). Same async shape as the other migrated hooks. localStorage
+// is no longer read or written here; the old `uploadCalendar` blob stays
+// untouched as a fallback/reference until the migration's final cleanup step.
+// The pure derivation functions below are unchanged and still run client-side.
+// See C:\Users\Max\.claude\plans\one-signal-many-terminals.md.
+
 const MAX_SCAN_DAYS = 90;
+const EMPTY_OBJECT = {};
 
 export function buildSlotKey(isoDate, videoType) {
   return `${isoDate}|${videoType}`;
-}
-
-function getStoredSlots(projectId) {
-  return loadAppStorage().uploadCalendar[projectId] || {};
-}
-
-function saveStoredSlots(projectId, slots) {
-  updateAppStorage((storage) => ({
-    ...storage,
-    uploadCalendar: {
-      ...storage.uploadCalendar,
-      [projectId]: slots,
-    },
-  }));
 }
 
 // Pure — derives display status from the two independent nullable fields.
@@ -119,43 +114,111 @@ export function getMonthGrid(slots, scheduleConfig, savedEntries, year, month) {
   });
 }
 
+// GET /upload-calendar returns a slot array; the pure functions above want the
+// `{ slotKey: { plannedEntryId, uploadedEntryId } }` map shape.
+function slotsArrayToMap(slotArray) {
+  return Object.fromEntries(
+    (slotArray || []).map((s) => [
+      buildSlotKey(s.isoDate, s.videoType),
+      { plannedEntryId: s.plannedEntryId, uploadedEntryId: s.uploadedEntryId },
+    ]),
+  );
+}
+
+const calendarPath = (projectId) =>
+  `/upload-calendar?project=${encodeURIComponent(projectId)}`;
+
 export function useUploadCalendar(projectId, savedEntries = [], scheduleConfig = {}) {
-  const [slots, setSlots] = useState(() => getStoredSlots(projectId));
+  // `result.projectId` is the project the loaded slots belong to. Deriving
+  // `loading` from a mismatch (rather than a `loading` state set inside the
+  // effect) keeps the effect free of synchronous setState. A reload() for the
+  // same project keeps the id matching → silent background resync; a project
+  // switch flips the mismatch → the page shows its loading state.
+  const [result, setResult] = useState({
+    projectId: null,
+    slots: EMPTY_OBJECT,
+    error: null,
+  });
 
-  // Functional-updater form — required because callers (e.g. a bulk-import
-  // apply handler) can invoke multiple slot-mutating calls synchronously in
-  // one loop. A plain `setSlots(nextSlots)` computed from the render-time
-  // `slots` closure would have every call in the loop compute its patch from
-  // the same stale snapshot, so only the last call's write would survive —
-  // in both React state AND localStorage, since saveStoredSlots is handed
-  // that same stale-derived nextSlots. Chaining through prevSlots fixes both.
-  function updateSlots(updater) {
-    setSlots((prevSlots) => {
-      const nextSlots = typeof updater === 'function' ? updater(prevSlots) : updater;
-      saveStoredSlots(projectId, nextSlots);
-      return nextSlots;
-    });
-  }
+  const [reloadToken, setReloadToken] = useState(0);
+  const reload = useCallback(() => setReloadToken((n) => n + 1), []);
 
-  function patchSlot(isoDate, videoType, patch) {
-    updateSlots((prevSlots) => {
-      const key = buildSlotKey(isoDate, videoType);
-      const current = prevSlots[key] || { plannedEntryId: null, uploadedEntryId: null };
-      const next = { ...current, ...patch };
+  useEffect(() => {
+    let cancelled = false;
 
-      const nextSlots = { ...prevSlots };
-      if (!next.plannedEntryId && !next.uploadedEntryId) {
-        delete nextSlots[key];
-      } else {
-        nextSlots[key] = next;
-      }
+    apiGet(calendarPath(projectId))
+      .then((data) => {
+        if (!cancelled) {
+          setResult({ projectId, slots: slotsArrayToMap(data?.slots), error: null });
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setResult({ projectId, slots: EMPTY_OBJECT, error: err });
+        }
+      });
 
-      return nextSlots;
-    });
-  }
+    return () => {
+      cancelled = true;
+    };
+  }, [projectId, reloadToken]);
+
+  const isCurrent = result.projectId === projectId;
+  const slots = isCurrent ? result.slots : EMPTY_OBJECT;
+  const error = isCurrent ? result.error : null;
+  const loading = !isCurrent;
 
   function getSlot(isoDate, videoType) {
     return slots[buildSlotKey(isoDate, videoType)] || null;
+  }
+
+  // Applies the same merge/delete-when-empty rule to a slots map that the old
+  // synchronous patchSlot did, so callers see the optimistic result instantly.
+  function applyPatchToMap(map, isoDate, videoType, patch) {
+    const key = buildSlotKey(isoDate, videoType);
+    const current = map[key] || { plannedEntryId: null, uploadedEntryId: null };
+    const next = { ...current, ...patch };
+
+    const nextMap = { ...map };
+    if (!next.plannedEntryId && !next.uploadedEntryId) {
+      delete nextMap[key];
+    } else {
+      nextMap[key] = next;
+    }
+    return nextMap;
+  }
+
+  async function patchSlot(isoDate, videoType, patch) {
+    setResult((prev) => ({
+      ...prev,
+      slots: applyPatchToMap(prev.slots, isoDate, videoType, patch),
+    }));
+
+    try {
+      const { slot } = await apiPut('/upload-calendar/slot', {
+        projectId,
+        isoDate,
+        videoType,
+        patch,
+      });
+
+      setResult((prev) => {
+        const key = buildSlotKey(isoDate, videoType);
+        const nextMap = { ...prev.slots };
+        if (slot) {
+          nextMap[key] = {
+            plannedEntryId: slot.plannedEntryId,
+            uploadedEntryId: slot.uploadedEntryId,
+          };
+        } else {
+          delete nextMap[key];
+        }
+        return { ...prev, slots: nextMap };
+      });
+    } catch {
+      // Silent resync — drops the optimistic change back to server truth.
+      reload();
+    }
   }
 
   function setPlannedEntry(isoDate, videoType, entryId) {
@@ -180,18 +243,30 @@ export function useUploadCalendar(projectId, savedEntries = [], scheduleConfig =
     patchSlot(isoDate, videoType, { uploadedEntryId: null });
   }
 
-  function removeSlot(isoDate, videoType) {
-    updateSlots((prevSlots) => {
+  async function removeSlot(isoDate, videoType) {
+    setResult((prev) => {
       const key = buildSlotKey(isoDate, videoType);
-      if (!(key in prevSlots)) return prevSlots;
-
-      const nextSlots = { ...prevSlots };
-      delete nextSlots[key];
-      return nextSlots;
+      if (!(key in prev.slots)) return prev;
+      const nextMap = { ...prev.slots };
+      delete nextMap[key];
+      return { ...prev, slots: nextMap };
     });
+
+    try {
+      await apiDelete(
+        `/upload-calendar/slot?project=${encodeURIComponent(projectId)}` +
+          `&isoDate=${encodeURIComponent(isoDate)}&videoType=${encodeURIComponent(videoType)}`,
+      );
+    } catch {
+      reload();
+    }
   }
 
   function addToNextOpenSlot(entryId, videoType) {
+    // Guard: don't compute a target against a slot map that hasn't loaded yet
+    // — it could place a plan into a slot that's actually occupied in the DB.
+    if (loading) return null;
+
     const target = findNextOpenSlot(slots, scheduleConfig, videoType, toIsoDate(new Date()));
     if (!target) return null;
 
@@ -200,6 +275,9 @@ export function useUploadCalendar(projectId, savedEntries = [], scheduleConfig =
   }
 
   return {
+    loading,
+    error,
+    reload,
     getMonthGrid: (year, month) => getMonthGrid(slots, scheduleConfig, savedEntries, year, month),
     getSlot,
     findNextOpenSlot: (videoType, fromIsoDate = toIsoDate(new Date())) =>
