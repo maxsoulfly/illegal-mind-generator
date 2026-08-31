@@ -94,29 +94,34 @@ export default function TagLibraryPage({
     sortMode,
   });
 
-  const handleSyncTags = () => {
+  // Sync/Copy now run their Set-union merge server-side (base tags read from
+  // projects.json there), so no *BaseTags args are passed. Both are async —
+  // await before the success toast, and surface failures rather than lying.
+  const handleSyncTags = async () => {
     if (!syncTargetProjectId) return;
 
-    syncProjectTags({
-      sourceProjectId: projectId,
-      targetProjectId: syncTargetProjectId,
-      sourceBaseTags: projects[projectId]?.tags || {},
-      targetBaseTags: projects[syncTargetProjectId]?.tags || {},
-    });
-
-    showToast(`Tags synced to ${projects[syncTargetProjectId]?.name}.`);
+    try {
+      await syncProjectTags({
+        sourceProjectId: projectId,
+        targetProjectId: syncTargetProjectId,
+      });
+      showToast(`Tags synced to ${projects[syncTargetProjectId]?.name}.`);
+    } catch {
+      showToast('Sync failed — check the connection and try again.');
+    }
   };
 
-  const handleCopyTagFromProject = (tagName, sourceProjectId) => {
-    copyTagFromProject({
-      tagName,
-      sourceProjectId,
-      targetProjectId: projectId,
-      sourceBaseTags: projects[sourceProjectId]?.tags || {},
-      targetBaseTags: projects[projectId]?.tags || {},
-    });
-
-    showToast(`Copied "${tagName}" from ${projects[sourceProjectId]?.name}.`);
+  const handleCopyTagFromProject = async (tagName, sourceProjectId) => {
+    try {
+      await copyTagFromProject({
+        tagName,
+        sourceProjectId,
+        targetProjectId: projectId,
+      });
+      showToast(`Copied "${tagName}" from ${projects[sourceProjectId]?.name}.`);
+    } catch {
+      showToast(`Copy failed — check the connection and try again.`);
+    }
   };
 
   return (

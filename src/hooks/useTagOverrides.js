@@ -1,226 +1,168 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import { loadAppStorage, updateAppStorage } from '../utils/storage';
+import { apiDelete, apiGet, apiPost, apiPut } from '../utils/apiClient';
 
-const LEGACY_STORAGE_KEY = 'tagOverrides';
+// Persistence migration Step 7: tag overrides now live in Postgres, reached
+// through the local API (Vite proxies /api/* and attaches auth — see
+// vite.config.js). First hook in the app to become async. localStorage is no
+// longer read or written here; the old `tagOverrides` blob stays untouched as
+// a fallback/reference until the migration's final cleanup step.
+// See C:\Users\Max\.claude\plans\one-signal-many-terminals.md.
 
-// Stable fallback so a project with no stored overrides yet still returns
-// the same object reference on every render — a fresh `{}` literal here
-// would break resolvedProjectConfig's memoization (App.jsx) and force a
-// generation recompute on every unrelated re-render.
 const EMPTY_OBJECT = {};
 
-const mergeUniqueArray = (target = [], source = []) => {
-  return Array.from(new Set([...(target || []), ...(source || [])]));
-};
-
-const mergeDescription = (target = {}, source = {}) => ({
-  ...target,
-  technical: mergeUniqueArray(target.technical, source.technical),
-  log: mergeUniqueArray(target.log, source.log),
-  status: mergeUniqueArray(target.status, source.status),
-});
-
-const mergeShortHooks = (target = {}, source = {}) => {
-  const hookTypes = new Set([
-    ...Object.keys(target || {}),
-    ...Object.keys(source || {}),
-  ]);
-
-  return Array.from(hookTypes).reduce((nextHooks, hookType) => {
-    return {
-      ...nextHooks,
-      [hookType]: mergeUniqueArray(target?.[hookType], source?.[hookType]),
-    };
-  }, {});
-};
-
-// Flat scalar fields (label, category, visible, etc.) aren't in this list —
-// they fall through via the two spreads below. sourceTag is spread first so
-// its values fill in for a tag that doesn't exist in the target yet; targetTag
-// is spread second so an existing tag's own scalar settings still win.
-export const mergeTagData = (targetTag = {}, sourceTag = {}) => ({
-  ...sourceTag,
-  ...targetTag,
-  title: mergeUniqueArray(targetTag.title, sourceTag.title),
-  thumbnail: mergeUniqueArray(targetTag.thumbnail, sourceTag.thumbnail),
-  hashtags: mergeUniqueArray(targetTag.hashtags, sourceTag.hashtags),
-  description: mergeDescription(targetTag.description, sourceTag.description),
-  shortHooks: mergeShortHooks(targetTag.shortHooks, sourceTag.shortHooks),
-});
+const overridesPath = (projectId) =>
+  `/tag-overrides?project=${encodeURIComponent(projectId)}`;
 
 export default function useTagOverrides(projectId) {
-  const [overrides, setOverrides] = useState(() => {
-    const unified = loadAppStorage().tagOverrides;
-
-    if (unified && Object.keys(unified).length > 0) {
-      return unified;
-    }
-
-    const saved = localStorage.getItem(LEGACY_STORAGE_KEY);
-    const legacy = saved ? JSON.parse(saved) : {};
-
-    if (Object.keys(legacy).length > 0) {
-      updateAppStorage((storage) => ({ ...storage, tagOverrides: legacy }));
-    }
-
-    return legacy;
+  // `result.projectId` is the project the loaded data belongs to. Deriving
+  // `loading`/`projectOverrides` from a mismatch (instead of a separate
+  // `loading` state set inside the effect) keeps the effect free of
+  // synchronous setState — the project's react-hooks/set-state-in-effect rule
+  // is an error, not a warning. A reload() for the *same* project keeps
+  // `result.projectId` matching, so it's a silent background resync that never
+  // blanks the UI; a project switch flips the mismatch and shows the gate.
+  const [result, setResult] = useState({
+    projectId: null,
+    overrides: EMPTY_OBJECT,
+    error: null,
   });
 
+  const [reloadToken, setReloadToken] = useState(0);
+  const reload = useCallback(() => setReloadToken((n) => n + 1), []);
+
   useEffect(() => {
-    updateAppStorage((storage) => ({ ...storage, tagOverrides: overrides }));
-  }, [overrides]);
+    let cancelled = false;
 
-  const projectOverrides = overrides[projectId] || EMPTY_OBJECT;
+    apiGet(overridesPath(projectId))
+      .then((data) => {
+        if (!cancelled) {
+          setResult({ projectId, overrides: data || EMPTY_OBJECT, error: null });
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setResult({ projectId, overrides: EMPTY_OBJECT, error: err });
+        }
+      });
 
-  const getTagOverride = (tagName) => {
-    return projectOverrides[tagName] || {};
-  };
+    return () => {
+      cancelled = true;
+    };
+  }, [projectId, reloadToken]);
 
-  const updateTagOverride = (tagName, updates) => {
-    setOverrides((prev) => ({
-      ...prev,
-      [projectId]: {
-        ...(prev[projectId] || {}),
-        [tagName]: {
-          ...(prev[projectId]?.[tagName] || {}),
-          ...updates,
+  const isCurrent = result.projectId === projectId;
+  const projectOverrides = isCurrent ? result.overrides : EMPTY_OBJECT;
+  const error = isCurrent ? result.error : null;
+  const loading = !isCurrent;
+
+  const getTagOverride = (tagName) => projectOverrides[tagName] || EMPTY_OBJECT;
+
+  const updateTagOverride = useCallback(
+    async (tagName, updates) => {
+      // Optimistic shallow merge — mirrors the server PUT's semantics (scalar
+      // COALESCE + jsonb `||`), so the happy path feels identical to the old
+      // synchronous localStorage write.
+      setResult((prev) => ({
+        ...prev,
+        overrides: {
+          ...prev.overrides,
+          [tagName]: { ...(prev.overrides[tagName] || {}), ...updates },
         },
-      },
-    }));
-  };
+      }));
 
-  const resetTagOverride = (tagName) => {
-    setOverrides((prev) => {
-      const projectData = { ...(prev[projectId] || {}) };
-      delete projectData[tagName];
+      try {
+        const { override } = await apiPut('/tag-overrides', {
+          projectId,
+          tagName,
+          updates,
+        });
+        setResult((prev) => ({
+          ...prev,
+          overrides: { ...prev.overrides, [tagName]: override },
+        }));
+      } catch {
+        // Silent resync — drops the optimistic change back to server truth.
+        // If the server is genuinely down, the resync GET's own failure sets
+        // `error` and App.jsx shows the retry screen.
+        reload();
+      }
+    },
+    [projectId, reload],
+  );
 
-      return {
-        ...prev,
-        [projectId]: projectData,
-      };
-    });
-  };
-
-  const syncProjectTags = ({
-    sourceProjectId,
-    targetProjectId,
-    sourceBaseTags,
-    targetBaseTags,
-  }) => {
-    if (
-      !sourceProjectId ||
-      !targetProjectId ||
-      sourceProjectId === targetProjectId
-    ) {
-      return;
-    }
-
-    setOverrides((prev) => {
-      // Read raw overrides directly from prev — guaranteed to be latest state.
-      const sourceOverrides = prev[sourceProjectId] || {};
-      const targetOverrides = prev[targetProjectId] || {};
-      const nextTargetOverrides = { ...targetOverrides };
-
-      const buildEffective = (baseTag = {}, override = {}) => ({
-        ...baseTag,
-        ...override,
-        description: mergeDescription(baseTag.description, override.description),
-        shortHooks: mergeShortHooks(baseTag.shortHooks, override.shortHooks),
+  const resetTagOverride = useCallback(
+    async (tagName) => {
+      setResult((prev) => {
+        const overrides = { ...prev.overrides };
+        delete overrides[tagName];
+        return { ...prev, overrides };
       });
 
-      const processedTags = new Set();
-
-      // Step 1: process source overrides (custom tags + base tags with user edits).
-      // These have the highest fidelity since they include actual user additions.
-      Object.entries(sourceOverrides).forEach(([tagName, sourceOverride]) => {
-        processedTags.add(tagName);
-
-        const sourceEffective = buildEffective(
-          sourceBaseTags?.[tagName],
-          sourceOverride,
+      try {
+        await apiDelete(
+          `/tag-overrides/${encodeURIComponent(tagName)}?project=${encodeURIComponent(projectId)}`,
         );
-        const targetEffective = buildEffective(
-          targetBaseTags?.[tagName],
-          targetOverrides[tagName],
-        );
+      } catch {
+        reload();
+      }
+    },
+    [projectId, reload],
+  );
 
-        const tagExistsInTarget =
-          Boolean(targetBaseTags?.[tagName]) || Boolean(targetOverrides[tagName]);
+  const syncProjectTags = useCallback(
+    async ({ sourceProjectId, targetProjectId }) => {
+      if (
+        !sourceProjectId ||
+        !targetProjectId ||
+        sourceProjectId === targetProjectId
+      ) {
+        return;
+      }
 
-        nextTargetOverrides[tagName] = tagExistsInTarget
-          ? mergeTagData(targetEffective, sourceEffective)
-          : { ...sourceOverride, isCustom: true };
+      // The server-side merge reads base tags from projects.json itself, so no
+      // sourceBaseTags/targetBaseTags need passing. The write lands on
+      // targetProjectId, a different project than this hook instance holds —
+      // nothing to update locally; the target reads fresh on its next mount.
+      await apiPost('/tag-overrides/sync', { sourceProjectId, targetProjectId });
+    },
+    [],
+  );
+
+  const copyTagFromProject = useCallback(
+    async ({ tagName, sourceProjectId, targetProjectId }) => {
+      if (
+        !tagName ||
+        !sourceProjectId ||
+        !targetProjectId ||
+        sourceProjectId === targetProjectId
+      ) {
+        return;
+      }
+
+      const { override } = await apiPost('/tag-overrides/copy-tag', {
+        tagName,
+        sourceProjectId,
+        targetProjectId,
       });
 
-      // Step 2: merge base-only source tags that had no overrides.
-      // Copies project-specific base templates into target's overrides.
-      Object.entries(sourceBaseTags || {}).forEach(([tagName, sourceBaseTag]) => {
-        if (processedTags.has(tagName)) return;
-
-        const targetEffective = buildEffective(
-          targetBaseTags?.[tagName],
-          targetOverrides[tagName],
-        );
-
-        nextTargetOverrides[tagName] = mergeTagData(targetEffective, sourceBaseTag);
-      });
-
-      return {
-        ...prev,
-        [targetProjectId]: nextTargetOverrides,
-      };
-    });
-  };
-
-  const copyTagFromProject = ({
-    tagName,
-    sourceProjectId,
-    targetProjectId,
-    sourceBaseTags,
-    targetBaseTags,
-  }) => {
-    if (
-      !tagName ||
-      !sourceProjectId ||
-      !targetProjectId ||
-      sourceProjectId === targetProjectId
-    ) {
-      return;
-    }
-
-    setOverrides((prev) => {
-      const sourceOverrides = prev[sourceProjectId] || {};
-      const targetOverrides = prev[targetProjectId] || {};
-
-      const buildEffective = (baseTag = {}, override = {}) => ({
-        ...baseTag,
-        ...override,
-        description: mergeDescription(baseTag.description, override.description),
-        shortHooks: mergeShortHooks(baseTag.shortHooks, override.shortHooks),
-      });
-
-      const sourceEffective = buildEffective(
-        sourceBaseTags?.[tagName],
-        sourceOverrides[tagName],
-      );
-      const targetEffective = buildEffective(
-        targetBaseTags?.[tagName],
-        targetOverrides[tagName],
-      );
-
-      return {
-        ...prev,
-        [targetProjectId]: {
-          ...targetOverrides,
-          [tagName]: mergeTagData(targetEffective, sourceEffective),
-        },
-      };
-    });
-  };
+      // copy-tag's target is the current project (see TagLibraryPage's
+      // handleCopyTagFromProject), so reflect the merged result locally.
+      if (targetProjectId === projectId) {
+        setResult((prev) => ({
+          ...prev,
+          overrides: { ...prev.overrides, [tagName]: override },
+        }));
+      }
+    },
+    [projectId],
+  );
 
   return {
     projectOverrides,
+    loading,
+    error,
+    reload,
     getTagOverride,
     updateTagOverride,
     resetTagOverride,

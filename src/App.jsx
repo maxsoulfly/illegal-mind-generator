@@ -91,9 +91,13 @@ function App() {
     return projects[projectId] || projects[DEFAULT_PROJECT_KEY] || {};
   }, [projectId]);
 
-  // User tag overrides stored in localStorage.
+  // User tag overrides — now sourced from Postgres via the local API
+  // (persistence migration Step 7). First async data dependency in the app.
   const {
     projectOverrides: tagOverrides,
+    loading: tagOverridesLoading,
+    error: tagOverridesError,
+    reload: reloadTagOverrides,
     updateTagOverride,
     resetTagOverride,
     syncProjectTags,
@@ -158,6 +162,24 @@ function App() {
       return acc;
     }, {});
   }, [savedEntries]);
+
+  // The whole resolved config depends on tag overrides, so hold the first
+  // render (and every project switch) until they've loaded — otherwise
+  // generation and the Tag Library would flash base-only tags for a frame.
+  if (tagOverridesLoading) {
+    return <div className="app-shell app-loading">Loading…</div>;
+  }
+
+  if (tagOverridesError) {
+    return (
+      <div className="app-shell app-loading">
+        <p>Couldn’t reach the data server.</p>
+        <button type="button" className="button-primary" onClick={reloadTagOverrides}>
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="app-shell">
