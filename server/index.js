@@ -10,6 +10,7 @@ import { getPool } from './db.js';
 import tagVisibilityOverridesRouter from './routes/tagVisibilityOverrides.js';
 import tagOverridesRouter from './routes/tagOverrides.js';
 import projectOverridesRouter from './routes/projectOverrides.js';
+import savedEntriesRouter from './routes/savedEntries.js';
 
 // Loads server/.env explicitly (not the repo-root .env Vite reads), so
 // server secrets never depend on which directory the process was started
@@ -47,6 +48,7 @@ app.get('/health', requireApiKey, async (req, res) => {
 app.use('/tag-visibility-overrides', requireApiKey, tagVisibilityOverridesRouter);
 app.use('/tag-overrides', requireApiKey, tagOverridesRouter);
 app.use('/project-overrides', requireApiKey, projectOverridesRouter);
+app.use('/saved-entries', requireApiKey, savedEntriesRouter);
 
 app.listen(PORT, () => {
   console.log(`API server listening on http://localhost:${PORT}`);
