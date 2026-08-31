@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Server secrets (Neon connection string, API key) — one server/.env per
+# machine, never committed. server/.env.example documents the required keys.
+server/.env
+
 # Graphify knowledge graph (regeneratable outputs)
 graphify-out/graph.html
 graphify-out/cache/

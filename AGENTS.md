@@ -18,13 +18,15 @@ Local-first React app for generating and managing YouTube content packaging for 
 
 React · JavaScript · Vite · localStorage · JSON config. No backend, no database, no API.
 
-**This line is under active reconsideration as of 2026-08-29 — do not treat it as settled.** A migration to Neon/PostgreSQL + a thin hand-built API layer is being evaluated, driven by a real product problem (the user works across multiple PCs; the only sync mechanism today is manual Backup export → Telegram → import) — not primarily for AI convenience, though that's a side benefit. Nothing has been implemented yet. Full assessment, decided/open questions, and status: `C:\Users\Max\.claude\plans\one-signal-many-terminals.md` (see also `docs/current-context.md`'s In Progress section). Read that file before assuming this app is still purely local-first, and before dismissing DB-related work as against project principles.
+**This line is being actively migrated away from as of 2026-08-31 — do not treat it as settled.** A migration to Neon/PostgreSQL + a thin hand-built API layer is underway (all architecture decisions resolved, a 14-step dependency-audited migration sequence in progress), driven by a real product problem (the user works across multiple PCs; the only sync mechanism today is manual Backup export → Telegram → import) — not primarily for AI convenience, though that's a side benefit. **Step 0 (DB + API foundation) is done**: a local Express server lives in `server/` (started alongside the frontend via `npm run dev`), talking to a real Neon Postgres **dev branch** (never production) over a static-API-key-authenticated `/health` endpoint — verified working end to end. No app data has moved yet — `src/` is untouched, the app still reads/writes only localStorage. Full assessment, all decisions, the verified step-by-step sequence, and exactly which step is next: `C:\Users\Max\.claude\plans\one-signal-many-terminals.md` (see also `docs/current-context.md`'s In Progress section). Read that file before assuming this app is still purely local-first, and before dismissing DB-related work as against project principles.
 
 ---
 
 # Development Environment
 
 `npm run dev` is always running. Vite live reload is the workflow. Do not suggest restarting unless there is a real reason.
+
+**As of 2026-08-31, `npm run dev` runs two processes together** (via `concurrently`, labeled `client`/`server`): the Vite frontend (`dev:client`) and a local Express API server (`dev:server`, `server/index.js`) — part of the Postgres migration in progress, see the Tech Stack pointer above. `server/.env` (git-ignored, one per machine — not synced via git) must exist with `DATABASE_URL`/`API_KEY`/`PORT` before `npm run dev` will start cleanly; copy `server/.env.example` and fill in real values (see the persistence plan for where those values come from). If an already-running `npm run dev` predates this change, it's still on the old Vite-only script — restarting it is a real reason, not a casual one.
 
 Workflow: Discuss → Review architecture impact → Small grouped steps → Test → Commit → Continue.
 
