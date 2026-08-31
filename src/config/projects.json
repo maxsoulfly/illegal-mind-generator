@@ -429,7 +429,7 @@
         "shortHooks": {
           "nostalgia": [
             "This chorus still hits in {year}",
-            "You hear this chorus and suddenly it's {releaseyear} again"
+            "You hear this chorus and suddenly it's {year} again"
           ],
           "emotion": [
             "This chorus still hits",
@@ -945,7 +945,6 @@
       "emotion": {
         "label": "Emotion",
         "templates": [
-          "This chorus still hits",
           "Some songs never lose energy",
           "{song} hits differently now"
         ]
@@ -2065,7 +2064,7 @@
         "shortHooks": {
           "nostalgia": [
             "This chorus still hits in {year}",
-            "You hear this chorus and suddenly it's {releaseyear} again"
+            "You hear this chorus and suddenly it's {year} again"
           ],
           "emotion": [
             "This chorus still hits",
