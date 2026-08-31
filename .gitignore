@@ -39,3 +39,7 @@ graphify-out/20*/
 
 # Local to-do / checklist
 _checklist.md
+
+# Backup exports (real user data) — used as one-time import sources during the
+# localStorage -> Postgres migration; never committed.
+illegal-mind-generator-backup-*.json
