@@ -15,6 +15,7 @@
 
 import { buildTagPhrase } from '../engine/descriptions/descriptionTagHelpers';
 import { buildHookPlaceholders } from './hookPlaceholders';
+import { buildAuthorPrompt, placeholderNote, RULE } from './authorPrompt';
 
 function firstNonEmpty(...values) {
   for (const value of values) {
@@ -118,4 +119,77 @@ export function coverShortHooksContext(projectConfig = {}, formData = {}) {
     ['TASK', ...COVER_TASK_BULLETS.map((bullet) => `- ${bullet}`)].join('\n'),
     [COVER_EXAMPLES_HEADING, ...COVER_EXAMPLES.map((example) => `- ${example}`)].join('\n'),
   ];
+}
+
+// ─── Tag Short Hooks ─────────────────────────────────────────────────────────
+// One transformation tag, one hook category (angle). The tag's promptContext
+// (Tag Basics → "What this tag means") is the authoritative definition — NOT
+// the tag's existing phrases, which may be exactly what the user is trying to
+// improve. Existing phrases are sent only for de-duping and as a "don't
+// imitate the weak ones" reference.
+
+const TAG_SHORT_HOOK_INTRO =
+  'I need more Short Hooks for ONE transformation tag, in ONE specific hook category (angle). A Short Hook is a single line read aloud as a short-form-video hook and also mixed into video titles, so each one has to work on its own.';
+
+export function tagShortHooksContext(projectConfig = {}, opts = {}) {
+  const { tag = {}, hookCategoryKey = '', hookCategoryLabel = '', phrases = [] } = opts;
+
+  const label = String(tag.label || tag.name || '').trim();
+  const category = String(tag.category || '').trim();
+  const meaning = String(tag.promptContext || '').trim();
+
+  const angleConfig = projectConfig?.shortHookTypes?.[hookCategoryKey] || {};
+  const angleLabel = String(hookCategoryLabel || angleConfig.label || hookCategoryKey || '').trim();
+  const angleExamples = (angleConfig.templates || [])
+    .filter((t) => typeof t === 'string' && t.trim())
+    .slice(0, 2);
+
+  const context = [
+    projectConfig?.promptContext ? `Channel: ${projectConfig.promptContext}` : '',
+    label ? `Tag: ${label}${category ? ` (category: ${category})` : ''}` : '',
+    meaning
+      ? `What this tag means (authoritative): ${meaning}`
+      : 'What this tag means (authoritative): (not set — infer ONLY from the tag name and category above, and do not assume it changes tempo, heaviness, instrumentation, or anything else it does not state).',
+    angleLabel ? `Hook category / angle: ${angleLabel}` : '',
+    angleExamples.length
+      ? `This angle's general shape (project-wide examples, any tag — for pattern only, not tag-specific): ${angleExamples
+          .map((example) => `"${example}"`)
+          .join(' / ')}`
+      : '',
+  ].filter(Boolean);
+
+  const existingSection =
+    phrases.length > 0
+      ? [
+          'EXISTING HOOKS for this tag + this angle (do not repeat or lightly reword them; "What this tag means" above is the source of truth — if one of these is vague, generic, or implies something the tag meaning does not, do NOT imitate it):',
+          ...phrases.map((phrase) => `- ${phrase}`),
+        ].join('\n')
+      : '';
+
+  const rules = [
+    RULE.PLAIN_LINES,
+    'Give me 8-12 new hooks.',
+    `Every hook must fit BOTH this exact tag (${label || 'the tag above'}) and this exact angle (${
+      angleLabel || 'the angle above'
+    }) — if a line would also work for a different tag or a different angle, cut it.`,
+    'Stay strictly within "What this tag means". Do not assume the tag implies a tempo change, more heaviness, particular instruments, or a production/technique change unless the meaning explicitly says so.',
+    RULE.SHORT_HOOK_LENGTH,
+    "Use placeholders where the angle naturally calls for them, matching the pattern of this angle's examples: {artist}/{song} for song-focused angles, {years}/{currentYear} for growth-focused angles (e.g. Progress, Musician). Don't force a placeholder where it doesn't read naturally.",
+    RULE.NO_GENERIC_FILLER,
+    RULE.NO_CHANNEL_METADATA,
+    RULE.SHORT_HOOK_NO_PERIOD,
+    RULE.SHORT_HOOK_NATURAL,
+  ];
+
+  return [
+    TAG_SHORT_HOOK_INTRO,
+    ['CONTEXT', ...context].join('\n'),
+    existingSection,
+    placeholderNote(buildHookPlaceholders(projectConfig)),
+    ['TASK', ...rules.map((rule) => `- ${rule}`)].join('\n'),
+  ];
+}
+
+export function buildTagShortHooksPrompt(projectConfig, opts) {
+  return buildAuthorPrompt(tagShortHooksContext(projectConfig, opts));
 }

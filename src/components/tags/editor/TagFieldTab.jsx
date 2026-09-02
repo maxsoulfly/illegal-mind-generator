@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react';
 
 import TagPhraseEditor from '../TagPhraseEditor';
+import CopyPromptButton from '../../ui/CopyPromptButton';
 import { TAG_FIELD_TABS, isSourceMatch } from '../../../utils/tagFieldTabs';
 import { buildHookPlaceholders, LIVE_PLACEHOLDERS } from '../../../utils/hookPlaceholders';
+import { buildTagShortHooksPrompt } from '../../../utils/authorPromptContexts';
 
 function getEntryPhrases(tag, entry) {
   if (!entry.parentField) return tag.maps[entry.field] || [];
@@ -85,6 +87,21 @@ export default function TagFieldTab({
             onUpdateTag={onUpdateTag}
             autoOpen={matched}
             highlightText={matched ? sourceTarget.phraseText ?? sourceTarget.hookText : null}
+            actionsSlot={
+              tabId === 'shortHooks' ? (
+                <CopyPromptButton
+                  getPrompt={() =>
+                    buildTagShortHooksPrompt(projectConfig, {
+                      tag,
+                      hookCategoryKey: entry.field,
+                      hookCategoryLabel: entry.title,
+                      // full list for this category, not the search-filtered subset
+                      phrases: getEntryPhrases(tag, entry),
+                    })
+                  }
+                />
+              ) : undefined
+            }
           />
         );
       })}
