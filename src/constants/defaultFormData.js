@@ -23,6 +23,10 @@ export const defaultFormData = {
 
   customHashtags: '',
   customCta: '',
+  // Flat, uncategorized list of hooks unique to one specific cover — joins
+  // the normal Short Hook candidate pool for the loaded cover (see
+  // generateShortHooks.js). NOT the shelved Generation V2 composition engine.
+  coverShortHooks: [],
   songBlockOverrides: {},
   excludeFromRandomizer: false,
   todo: {

@@ -69,6 +69,10 @@ export const mergeImportedEntry = (item, existing) => {
       existing?.customHashtags,
     ),
     customCta: preferNonEmpty(String(item.customCta || '').trim(), existing?.customCta),
+    coverShortHooks: preferNonEmpty(
+      Array.isArray(item.coverShortHooks) ? item.coverShortHooks : [],
+      existing?.coverShortHooks,
+    ),
     songBlockOverrides: {
       ...(existing?.songBlockOverrides || {}),
       ...importedOverrides,
