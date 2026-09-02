@@ -68,6 +68,10 @@ export function buildTagExplorerData(
 
       label: registryTag?.label || tag,
       category: registryTag?.category || 'uncategorized',
+      // Human-authored "what this tag means" note — semantic context for the
+      // Copy AI Prompt helper on the Short Hooks tab (see authorPromptContexts.js).
+      // Not used in generation. Rides in the tag override's payload jsonb.
+      promptContext: registryTag?.promptContext || '',
       hashtags: registryTag.hashtags || [],
       excludeFromHashtags: Boolean(registryTag.excludeFromHashtags),
       excludeFromButIts: Boolean(registryTag.excludeFromButIts),
