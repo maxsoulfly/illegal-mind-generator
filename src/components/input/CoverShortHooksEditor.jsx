@@ -45,8 +45,17 @@ export default function CoverShortHooksEditor({
   };
 
   return (
-    <>
-      <div className="button-row">
+    <TagPhraseEditor
+      noWrapper
+      searchable
+      title="Cover-Specific Hooks"
+      tagName="__cover__"
+      field="coverShortHooks"
+      phrases={formData.coverShortHooks || []}
+      placeholders={buildHookPlaceholders(projectConfig)}
+      onUpdateTag={handleUpdate}
+      highlightText={coverHookTarget?.hookText ?? null}
+      actionsSlot={
         <button
           type="button"
           className="button-secondary"
@@ -56,18 +65,7 @@ export default function CoverShortHooksEditor({
         >
           {promptCopied ? 'Copied ✔️' : 'Copy AI Prompt'}
         </button>
-      </div>
-
-      <TagPhraseEditor
-        noWrapper
-        title="Cover-Specific Hooks"
-        tagName="__cover__"
-        field="coverShortHooks"
-        phrases={formData.coverShortHooks || []}
-        placeholders={buildHookPlaceholders(projectConfig)}
-        onUpdateTag={handleUpdate}
-        highlightText={coverHookTarget?.hookText ?? null}
-      />
-    </>
+      }
+    />
   );
 }

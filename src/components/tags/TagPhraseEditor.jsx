@@ -21,9 +21,17 @@ export default function TagPhraseEditor({
   // ToggleButton owns the open/close + count). Same escape hatch
   // HookTemplateEditor's `noWrapper` gives for the Hook Blocks tab.
   noWrapper = false,
+  // Show a search box above the list that filters which rows render (by
+  // real index, so edit/remove still target the right entry). Same
+  // behaviour as TagFieldTab's `searchable` — used by CoverShortHooksEditor.
+  searchable = false,
+  // Extra control rendered in the + Add / + Bulk row (CoverShortHooksEditor
+  // puts its "Copy AI Prompt" button here).
+  actionsSlot = null,
 }) {
   // null = bulk textarea closed; any string (including '') = open
   const [bulkValue, setBulkValue] = useState(null);
+  const [search, setSearch] = useState('');
   const detailsRef = useRef(null);
   const highlightRowRef = useRef(null);
 
@@ -74,10 +82,23 @@ export default function TagPhraseEditor({
     onUpdateTag(tagName, buildUpdate(phrases.filter((_, i) => i !== index)));
   };
 
+  const normalizedSearch = searchable ? search.trim().toLowerCase() : '';
+
   const body = (
     <div className="tag-phrase-editor">
+      {searchable && (
+        <input
+          className="form-input"
+          type="search"
+          placeholder="Search hooks..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      )}
+
       <FormField>
         {phrases.map((phrase, index) => {
+          if (normalizedSearch && !phrase.toLowerCase().includes(normalizedSearch)) return null;
           const isHighlighted = phrase === highlightText;
           return (
             <PhraseRow
@@ -102,7 +123,7 @@ export default function TagPhraseEditor({
           />
         )}
 
-        <AddBulkRow onAdd={addPhrase} onBulk={() => setBulkValue('')} />
+        <AddBulkRow onAdd={addPhrase} onBulk={() => setBulkValue('')} extra={actionsSlot} />
       </FormField>
     </div>
   );
