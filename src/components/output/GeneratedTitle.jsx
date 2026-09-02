@@ -8,8 +8,20 @@ function TitleNavLink({
   onOpenSourceTag,
   onOpenSourceHook,
   onOpenSourceTemplate,
+  onOpenCoverHook,
 }) {
   const label = titleText;
+
+  if (sourceHook?.sourceType === 'cover') {
+    return (
+      <NavLinkButton
+        title={`Cover-specific hook: "${sourceHook.sourceText}"`}
+        onClick={() => onOpenCoverHook?.({ hookText: sourceHook.sourceText })}
+      >
+        {label}
+      </NavLinkButton>
+    );
+  }
 
   if (sourceHook?.sourceType === 'tag') {
     return (
@@ -69,6 +81,7 @@ function GeneratedTitle({
   onOpenSourceTag,
   onOpenSourceHook,
   onOpenSourceTemplate,
+  onOpenCoverHook,
   uppercase,
 }) {
   const titleText = uppercase ? title.text.toUpperCase() : title.text;
@@ -85,6 +98,7 @@ function GeneratedTitle({
           onOpenSourceTag={onOpenSourceTag}
           onOpenSourceHook={onOpenSourceHook}
           onOpenSourceTemplate={onOpenSourceTemplate}
+          onOpenCoverHook={onOpenCoverHook}
         />
         <CopyButton text={titleText} />
       </div>

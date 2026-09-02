@@ -65,6 +65,9 @@ function App() {
     songOverrideTarget,
     openSongOverride,
     clearSongOverrideTarget,
+    coverHookTarget,
+    openCoverHook,
+    clearCoverHookTarget,
     todoTarget,
     openTodoSearch,
     clearTodoTarget,
@@ -83,6 +86,7 @@ function App() {
     blocksTarget, clearBlocksTarget,
     tagLibrarySearchTarget, clearTagLibrarySearchTarget,
     songOverrideTarget, clearSongOverrideTarget,
+    coverHookTarget, clearCoverHookTarget,
     todoTarget, clearTodoTarget,
   });
 
@@ -250,6 +254,9 @@ function App() {
           songOverrideTarget={songOverrideTarget}
           openSongOverride={openSongOverride}
           clearSongOverrideTarget={clearSongOverrideTarget}
+          coverHookTarget={coverHookTarget}
+          openCoverHook={openCoverHook}
+          clearCoverHookTarget={clearCoverHookTarget}
           onOpenTodoSearch={openTodoSearch}
           showToast={showToast}
         />

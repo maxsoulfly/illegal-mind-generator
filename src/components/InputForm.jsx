@@ -26,6 +26,8 @@ function InputForm({
   projectOverrides,
   songOverrideTarget,
   clearSongOverrideTarget,
+  coverHookTarget,
+  clearCoverHookTarget,
   onOpenSourceTag,
   onAddToCalendar,
   canAddToCalendar,
@@ -130,6 +132,8 @@ function InputForm({
                   formData={formData}
                   setFormData={setFormData}
                   projectConfig={projectConfig}
+                  coverHookTarget={coverHookTarget}
+                  clearCoverHookTarget={clearCoverHookTarget}
                 />
               </div>
             )}

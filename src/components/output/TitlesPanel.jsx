@@ -13,6 +13,7 @@ function TitlesPanel({
   onOpenSourceTag,
   onOpenSourceHook,
   onOpenSourceTemplate,
+  onOpenCoverHook,
   onNavigateToSettings,
   useHooksForLongTitles,
   onToggleHooksForLongTitles,
@@ -57,6 +58,7 @@ function TitlesPanel({
             hooks={mixedShortTitles}
             onOpenSourceTag={onOpenSourceTag}
             onOpenSourceHook={onOpenSourceHook}
+            onOpenCoverHook={onOpenCoverHook}
             uppercase={titleUppercase}
           />
         ) : (
@@ -67,6 +69,7 @@ function TitlesPanel({
               onOpenSourceTag={onOpenSourceTag}
               onOpenSourceHook={onOpenSourceHook}
               onOpenSourceTemplate={onOpenSourceTemplate}
+              onOpenCoverHook={onOpenCoverHook}
               uppercase={titleUppercase}
             />
           ))

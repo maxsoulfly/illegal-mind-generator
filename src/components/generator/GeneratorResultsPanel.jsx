@@ -18,6 +18,7 @@ function GeneratorResultsPanel({
   onOpenSourceHashtag,
   onOpenBlocksEditor,
   onOpenSongOverride,
+  onOpenCoverHook,
   onNavigateToSettings,
   useHooksForLongTitles,
   onToggleHooksForLongTitles,
@@ -55,6 +56,7 @@ function GeneratorResultsPanel({
           onOpenSourceTag={onOpenSourceTag}
           onOpenSourceHook={onOpenSourceHook}
           onOpenSourceTemplate={onOpenSourceTemplate}
+          onOpenCoverHook={onOpenCoverHook}
           onNavigateToSettings={onNavigateToSettings}
           useHooksForLongTitles={useHooksForLongTitles}
           onToggleHooksForLongTitles={onToggleHooksForLongTitles}

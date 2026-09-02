@@ -16,6 +16,7 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
   const [hashtagsTarget, setHashtagsTarget] = useState(null);
   const [blocksTarget, setBlocksTarget] = useState(null);
   const [songOverrideTarget, setSongOverrideTarget] = useState(null);
+  const [coverHookTarget, setCoverHookTarget] = useState(null);
   const [todoTarget, setTodoTarget] = useState(null);
 
   const [activeProjectSettingsSection, setActiveProjectSettingsSection] = useState(() => {
@@ -106,6 +107,26 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
     setSongOverrideTarget(null);
   }, []);
 
+  // Same-page target (Generator's own Cover-Specific Hooks section — a
+  // sibling of Advanced Options inside the Input panel body). Clicking a
+  // cover-specific hook in the Titles / Short Hooks output scrolls to and
+  // highlights the row you'd edit to change it. `hookText` is the raw
+  // unfilled template, which is exactly what's stored in
+  // formData.coverShortHooks, so TagPhraseEditor's `phrase === highlightText`
+  // match works directly. Force the coverHooks section AND the Input panel
+  // open, same reasoning as openSongOverride.
+  const openCoverHook = useCallback(({ hookText }) => {
+    if (!hookText) return;
+    setCoverHookTarget({ hookText });
+    setPanelVisibility((prev) =>
+      prev.coverHooks && prev.input ? prev : { ...prev, coverHooks: true, input: true },
+    );
+  }, [setPanelVisibility]);
+
+  const clearCoverHookTarget = useCallback(() => {
+    setCoverHookTarget(null);
+  }, []);
+
   const openTagLibrarySearch = (target) => {
     if (!target) return;
 
@@ -161,6 +182,9 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
     songOverrideTarget,
     openSongOverride,
     clearSongOverrideTarget,
+    coverHookTarget,
+    openCoverHook,
+    clearCoverHookTarget,
     todoTarget,
     openTodoSearch,
     clearTodoTarget,

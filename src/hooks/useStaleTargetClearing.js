@@ -18,6 +18,7 @@ export default function useStaleTargetClearing({
   blocksTarget, clearBlocksTarget,
   tagLibrarySearchTarget, clearTagLibrarySearchTarget,
   songOverrideTarget, clearSongOverrideTarget,
+  coverHookTarget, clearCoverHookTarget,
   todoTarget, clearTodoTarget,
 }) {
   useEffect(() => {
@@ -31,8 +32,9 @@ export default function useStaleTargetClearing({
     if (activePage !== 'tags' && tagLibrarySearchTarget) {
       clearTagLibrarySearchTarget();
     }
-    if (activePage !== 'generator' && songOverrideTarget) {
-      clearSongOverrideTarget();
+    if (activePage !== 'generator') {
+      if (songOverrideTarget) clearSongOverrideTarget();
+      if (coverHookTarget) clearCoverHookTarget();
     }
     if (activePage !== 'todo' && todoTarget) {
       clearTodoTarget();
@@ -46,6 +48,7 @@ export default function useStaleTargetClearing({
     blocksTarget, clearBlocksTarget,
     tagLibrarySearchTarget, clearTagLibrarySearchTarget,
     songOverrideTarget, clearSongOverrideTarget,
+    coverHookTarget, clearCoverHookTarget,
     todoTarget, clearTodoTarget,
   ]);
 }

@@ -16,7 +16,20 @@ import { buildCoverHookPrompt } from '../../utils/coverPrompt';
 // `parentField` undefined, its buildUpdate returns { coverShortHooks: [...] },
 // which the onUpdateTag adapter spreads straight into formData (the first
 // arg — a tag name in the Tag Editor — is unused here).
-export default function CoverShortHooksEditor({ formData, setFormData, projectConfig }) {
+//
+// coverHookTarget/clearCoverHookTarget (from useNavigationTargets'
+// openCoverHook): clicking a cover-specific hook in the Titles / Short Hooks
+// output force-opens this section (handled by openCoverHook) and passes the
+// raw hook text here as `highlightText` — TagPhraseEditor already scrolls to
+// and highlights the matching PhraseRow (`phrase === highlightText`). The
+// highlight is "consumed" once the user actually edits the list.
+export default function CoverShortHooksEditor({
+  formData,
+  setFormData,
+  projectConfig,
+  coverHookTarget,
+  clearCoverHookTarget,
+}) {
   const [promptCopied, setPromptCopied] = useState(false);
   const canCopyPrompt = !!((formData.artist || '').trim() && (formData.song || '').trim());
 
@@ -24,6 +37,11 @@ export default function CoverShortHooksEditor({ formData, setFormData, projectCo
     navigator.clipboard.writeText(buildCoverHookPrompt(formData, projectConfig));
     setPromptCopied(true);
     setTimeout(() => setPromptCopied(false), 500);
+  };
+
+  const handleUpdate = (_, update) => {
+    setFormData((prev) => ({ ...prev, ...update }));
+    if (coverHookTarget) clearCoverHookTarget?.();
   };
 
   return (
@@ -47,7 +65,8 @@ export default function CoverShortHooksEditor({ formData, setFormData, projectCo
         field="coverShortHooks"
         phrases={formData.coverShortHooks || []}
         placeholders={buildHookPlaceholders(projectConfig)}
-        onUpdateTag={(_, update) => setFormData((prev) => ({ ...prev, ...update }))}
+        onUpdateTag={handleUpdate}
+        highlightText={coverHookTarget?.hookText ?? null}
       />
     </>
   );

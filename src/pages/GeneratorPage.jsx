@@ -53,6 +53,9 @@ export default function GeneratorPage({
   songOverrideTarget,
   openSongOverride,
   clearSongOverrideTarget,
+  coverHookTarget,
+  openCoverHook,
+  clearCoverHookTarget,
   onOpenTodoSearch,
   showToast,
 }) {
@@ -155,6 +158,8 @@ export default function GeneratorPage({
             projectOverrides={projectOverrides}
             songOverrideTarget={songOverrideTarget}
             clearSongOverrideTarget={clearSongOverrideTarget}
+            coverHookTarget={coverHookTarget}
+            clearCoverHookTarget={clearCoverHookTarget}
             onOpenSourceTag={onOpenSourceTag}
             onAddToCalendar={handleAddToCalendar}
             canAddToCalendar={isCurrentEntrySaved}
@@ -175,6 +180,7 @@ export default function GeneratorPage({
           onOpenBlocksEditor={onOpenBlocksEditor}
           onNavigateToSettings={onNavigateToSettings}
           onOpenSongOverride={openSongOverride}
+          onOpenCoverHook={openCoverHook}
           useHooksForLongTitles={useHooksForLongTitles}
           onToggleHooksForLongTitles={handleToggleHooksForLongTitles}
           titleUppercase={titleUppercase}

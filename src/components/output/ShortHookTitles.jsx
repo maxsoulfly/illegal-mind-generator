@@ -19,6 +19,10 @@ function getHookTooltip(hook) {
     return `${hook.sourceTag} (${hookType})${sourceText}`;
   }
 
+  if (hook.sourceType === 'cover') {
+    return `Cover-specific hook${sourceText}`;
+  }
+
   return `Project preset (${hookType})${sourceText}`;
 }
 
@@ -30,7 +34,11 @@ function isBaseHook(hook) {
   return typeof hook !== 'string' && hook.sourceType === 'base';
 }
 
-function ShortHookTitles({ title, hooks, onOpenSourceTag, onOpenSourceHook, uppercase }) {
+function isCoverHook(hook) {
+  return typeof hook !== 'string' && hook.sourceType === 'cover';
+}
+
+function ShortHookTitles({ title, hooks, onOpenSourceTag, onOpenSourceHook, onOpenCoverHook, uppercase }) {
   return (
     <div className="generated-pair terminal-block">
       <h3 className="saved-entry-signal">{title}</h3>
@@ -40,10 +48,18 @@ function ShortHookTitles({ title, hooks, onOpenSourceTag, onOpenSourceHook, uppe
         const hookText = uppercase ? rawHookText.toUpperCase() : rawHookText;
         const tagHook = isTagHook(hook);
         const baseHook = isBaseHook(hook);
+        const coverHook = isCoverHook(hook);
 
         return (
           <div key={index} className="generated-pair-row">
-            {tagHook ? (
+            {coverHook ? (
+              <NavLinkButton
+                title={getHookTooltip(hook)}
+                onClick={() => onOpenCoverHook?.({ hookText: hook.sourceText || rawHookText })}
+              >
+                {hookText}
+              </NavLinkButton>
+            ) : tagHook ? (
               <NavLinkButton
                 title={getHookTooltip(hook)}
                 onClick={() => onOpenSourceTag?.({ tagName: hook.sourceTag, hookType: hook.hookType, hookText: hook.sourceText || rawHookText })}
