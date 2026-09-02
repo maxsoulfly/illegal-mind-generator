@@ -51,6 +51,23 @@ export default function TagBasicsTab({
           </select>
         </FormField>
 
+        <FormField
+          label="What this tag means (for AI prompts)"
+          className="tag-edit-fields__full"
+        >
+          <textarea
+            className="form-input"
+            rows={3}
+            defaultValue={tag.promptContext}
+            placeholder="e.g. 'Darker' = bleaker mood and minor-key reharmonization, subtracted brightness — not just 'sad'. Only used to give the Copy AI Prompt button semantic context; never shown in generated output."
+            onBlur={(e) =>
+              onUpdateTag(tag.name, {
+                promptContext: e.target.value,
+              })
+            }
+          />
+        </FormField>
+
         <div className="tag-options">
           <ToggleField
             label="Exclude from hashtags"

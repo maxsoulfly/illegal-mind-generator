@@ -1949,6 +1949,13 @@ input[type="range"]::-moz-range-progress {
   align-items          : end;
 }
 
+/* Rows that should break out of the 2-column grid and run full width:
+   the "what this tag means" note and the checkbox cluster below it. */
+.tag-edit-fields__full,
+.tag-edit-fields .tag-options {
+  grid-column: 1 / -1;
+}
+
 .tag-edit-fields label {
   color         : var(--color-text-muted);
   font-size     : var(--font-size-label);
