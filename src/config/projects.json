@@ -1,6 +1,7 @@
 {
   "illegalMindCovers": {
     "name": "Illegal Mind Covers",
+    "promptContext": "Illegal Mind Covers is a YouTube channel that reworks existing songs into new versions - transformation-based (Darker, Heavier, Hardcore, etc.), framed as a post-apocalyptic 'SIGNAL' broadcast series with its own lore and worldbuilding. Covers are one-person productions, every part rebuilt from scratch.",
     "todoStatuses": [
       "Wishlist",
       "Needs Re-record",
@@ -883,6 +884,7 @@
   },
   "maxxDeeCovers": {
     "name": "Maxx Dee Covers",
+    "promptContext": "Maxx Dee Covers is a YouTube channel doing traditional, faithful full-band cover songs - modernized recordings, performance-focused, minimal lore. Every part (guitars, bass, programmed drums, vocals) is played and mixed as a one-person home-studio production.",
     "todoStatuses": [
       "Wishlist",
       "Needs Re-record",
