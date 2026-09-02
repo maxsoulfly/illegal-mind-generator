@@ -19,6 +19,7 @@ import TagStatusChip from '../components/tags/TagStatusChip';
 import ToggleButton from '../components/ui/ToggleButton';
 import SavedEntryRow from '../components/ui/SavedEntryRow';
 import CopyButton from '../components/CopyButton';
+import CopyPromptButton from '../components/ui/CopyPromptButton';
 import FormField from '../components/ui/FormField';
 import OutputItem from '../components/ui/OutputItem';
 import CollapsiblePanel from '../components/ui/CollapsiblePanel';
@@ -525,6 +526,23 @@ export default function UIKitPage() {
               usage="Output panels: copy title, copy description, copy hashtags, copy tags."
             >
               <CopyButton text="Sample text to copy" />
+            </Example>
+          </Section>
+
+          <Section title="CopyPromptButton" description="Shared 'Copy AI Prompt' button for phrase-pool editors. Builds the prompt lazily on click (getPrompt) from src/utils/authorPromptContexts.js, copies it, shows 'Copied ✔️' for 500ms. Pass disabled + disabledTooltip when the editor's inputs aren't ready.">
+            <Example
+              name="CopyPromptButton"
+              props="getPrompt disabled? disabledTooltip? label?"
+              usage="Cover-Specific Hooks editor, Tag Short Hooks tab, global Short Hook cards, Title template groups — one adapter per pool supplies the getPrompt callback."
+            >
+              <div style={{ display: 'flex', gap: 8 }}>
+                <CopyPromptButton getPrompt={() => 'Sample generated prompt text'} />
+                <CopyPromptButton
+                  getPrompt={() => ''}
+                  disabled
+                  disabledTooltip="Enter an artist and song first"
+                />
+              </div>
             </Example>
           </Section>
 

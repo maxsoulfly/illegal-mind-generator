@@ -1,6 +1,5 @@
-import { useState } from 'react';
-
 import TagPhraseEditor from '../tags/TagPhraseEditor';
+import CopyPromptButton from '../ui/CopyPromptButton';
 import { buildHookPlaceholders } from '../../utils/hookPlaceholders';
 import { buildCoverHookPrompt } from '../../utils/coverPrompt';
 
@@ -30,14 +29,7 @@ export default function CoverShortHooksEditor({
   coverHookTarget,
   clearCoverHookTarget,
 }) {
-  const [promptCopied, setPromptCopied] = useState(false);
   const canCopyPrompt = !!((formData.artist || '').trim() && (formData.song || '').trim());
-
-  const handleCopyPrompt = () => {
-    navigator.clipboard.writeText(buildCoverHookPrompt(formData, projectConfig));
-    setPromptCopied(true);
-    setTimeout(() => setPromptCopied(false), 500);
-  };
 
   const handleUpdate = (_, update) => {
     setFormData((prev) => ({ ...prev, ...update }));
@@ -56,15 +48,11 @@ export default function CoverShortHooksEditor({
       onUpdateTag={handleUpdate}
       highlightText={coverHookTarget?.hookText ?? null}
       actionsSlot={
-        <button
-          type="button"
-          className="button-secondary"
-          onClick={handleCopyPrompt}
+        <CopyPromptButton
+          getPrompt={() => buildCoverHookPrompt(formData, projectConfig)}
           disabled={!canCopyPrompt}
-          data-tooltip={canCopyPrompt ? undefined : 'Enter an artist and song first'}
-        >
-          {promptCopied ? 'Copied ✔️' : 'Copy AI Prompt'}
-        </button>
+          disabledTooltip="Enter an artist and song first"
+        />
       }
     />
   );
