@@ -522,6 +522,7 @@ Previously: tag-category placeholders (`{tags.*}`), title polish (no `"Title:"` 
 - CSS refactor (consolidate index.css, clean up class naming)
 - `coverLabel` (Shorts Description) has no settings UI — only editable by hand-editing `projects.json`
 - **`customHashtags`** — last remaining hardcoded per-song field in `AdvancedDescriptionFields.jsx`. It's not a description block at all, so it won't fit the block system — investigate separately.
+- **Reusable "Copy AI Prompt" authoring helper** (next step, recorded 2026-09-02) — after the Cover-Specific Short Hooks feature added a 4th one-off `buildXPrompt` + inline button, generalize into ONE shared prompt-building/copy mechanism with per-editor context, covering Tag Short Hooks (`TagPhraseEditor`/`TagFieldTab`), global/base Short Hook categories (Project Settings → Short Hooks / Blocks → Hook Blocks), and Title pools (`titles/*` — Standard/But It's/Generic). Always feed existing entries (dedupe + style), explain the assignment, discourage generic filler / unsupported assumptions. **Inspect editor architecture and propose the smallest reusable design first — do not implement.** Full spec: `docs/current-context.md` → Next Recommended Tasks §5.
 
 ---
 
