@@ -100,11 +100,12 @@ export function buildCoverHookPrompt(formData = {}, projectConfig = {}) {
     '- Do NOT invent facts. Only reference a specific song section, instrument, recording/arrangement decision, anecdote, or personal reason if it is explicitly supported by the CONTEXT above.',
     '- Never mention signal numbers, hashtags, or other administrative/channel metadata in a hook — that data is context for you, not material for the hooks.',
     '- Keep them natural and clickable — the kind of thing a person actually says in a short-form video, not marketing filler.',
+    '- Do NOT end a hook with a period. Internal punctuation is fine — "Every road is a question. This was my answer" is good, just no final ".".',
     '',
     'Tone and length to aim for (illustrative only — write fresh hooks for the cover above, do not reuse these):',
-    '- Мельница gave it mythology. I gave it scars.',
-    '- Дороги, somewhere after the Collapse.',
-    '- Same journey. Rougher roads.',
+    '- Мельница gave it mythology. I gave it scars',
+    '- Дороги, somewhere after the Collapse',
+    '- Same journey. Rougher roads',
   );
 
   return lines.join('\n').trimEnd();
