@@ -93,11 +93,18 @@ export function buildCoverHookPrompt(formData = {}, projectConfig = {}) {
 
   lines.push(
     'TASK',
-    '- Reply with a flat list of 8-12 Short Hooks, one per line. No numbering, no category labels, no headers.',
-    '- Every line must contain a fact or angle unique to THIS cover (see the context above). If a line would still make sense for a different song, cut it.',
-    "- Do NOT produce generic transformation hooks like \"X but heavier\", \"What if X was punk\", \"X rebuilt as Y\" — the app already generates those from the tags and placeholders. This pool is only for the cover-specific stuff a reusable system can't know.",
+    '- Reply with a flat list of 8-12 Short Hooks, one per line. No numbering, no category labels, no headers. I paste this straight into a bulk-add box, so plain lines only.',
+    '- Keep each hook SHORT — usually 5-12 words. Prefer one punchy thought over a full explanatory sentence. Compress a Story or Log idea down into a hook; do not summarize it.',
+    '- Every line must be specific to THIS exact cover (see CONTEXT). If a line would still make sense for a different song, cut it.',
+    "- Do NOT produce generic transformation hooks like \"X but heavier\", \"What if X was punk\", \"X rebuilt as Y\" — the tag/global system already generates those. This pool is only for the cover-specific stuff a reusable system can't know.",
+    '- Do NOT invent facts. Only reference a specific song section, instrument, recording/arrangement decision, anecdote, or personal reason if it is explicitly supported by the CONTEXT above.',
+    '- Never mention signal numbers, hashtags, or other administrative/channel metadata in a hook — that data is context for you, not material for the hooks.',
     '- Keep them natural and clickable — the kind of thing a person actually says in a short-form video, not marketing filler.',
-    '- I will paste your list straight into a bulk-add box, so plain lines only.',
+    '',
+    'Tone and length to aim for (illustrative only — write fresh hooks for the cover above, do not reuse these):',
+    '- Мельница gave it mythology. I gave it scars.',
+    '- Дороги, somewhere after the Collapse.',
+    '- Same journey. Rougher roads.',
   );
 
   return lines.join('\n').trimEnd();
