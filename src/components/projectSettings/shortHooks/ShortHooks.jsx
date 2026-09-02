@@ -2,7 +2,9 @@ import { useState } from 'react';
 import TagSyncControls from '../../tags/TagSyncControls';
 import ShortHookCard from '../../ui/ShortHookCard';
 import IconButton from '../../ui/IconButton';
+import CopyPromptButton from '../../ui/CopyPromptButton';
 import PrimaryTagSection from './PrimaryTagSection';
+import { buildGlobalShortHookPrompt } from '../../../utils/authorPromptContexts';
 
 function slugify(str) {
   return str.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
@@ -138,6 +140,13 @@ export default function ShortHooks({
                 updateHookTypeFlags(hookType, hookConfig, flagUpdates)
               }
               highlightText={hookTarget?.hookType === hookType ? hookTarget.sourceText : null}
+              headerActions={
+                <CopyPromptButton
+                  getPrompt={() =>
+                    buildGlobalShortHookPrompt(projectConfig, { hookTypeKey: hookType, hookConfig })
+                  }
+                />
+              }
             />
           );
         })}

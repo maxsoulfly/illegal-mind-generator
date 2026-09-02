@@ -193,3 +193,101 @@ export function tagShortHooksContext(projectConfig = {}, opts = {}) {
 export function buildTagShortHooksPrompt(projectConfig, opts) {
   return buildAuthorPrompt(tagShortHooksContext(projectConfig, opts));
 }
+
+// ─── Global (base) Short Hook types ──────────────────────────────────────────
+// A project-level Short Hook pool for one angle (Nostalgia, Emotion,
+// Transformation, ...). Unlike tag hooks, these lines are mixed into MANY
+// different covers' shorts titles/hooks, so a line must read naturally for
+// any cover where the angle applies — and the existing templates ARE the
+// house voice, so imitating their tone is correct here (the opposite of the
+// tag adapter). Config: description.shortHookTypes / Project Settings →
+// Short Hooks.
+
+const GLOBAL_SHORT_HOOK_INTRO =
+  'I need more project-wide Short Hooks for ONE angle. These lines are mixed into the shorts titles and hooks of many different cover videos, so each one has to read naturally for ANY cover where this angle applies — not one specific song, artist, or style.';
+
+// Because base lines are reused across every cover, placeholder VALUES vary
+// wildly at generation time. {primaryTag} in particular has no fixed
+// semantic type — it can resolve to a genre, a tempo word, an adjective, a
+// mood, a language, an era — so the AI must be told not to drop it into a
+// slot that assumes one type ("went {primaryTag}", "a {primaryTag} version").
+// Category tokens ({tags.genre}, {tags.tempo}, ...) are typed and safe for
+// typed slots. Authoring-prompt guidance only; the engine is unchanged.
+const GLOBAL_PLACEHOLDER_TYPES = [
+  'PLACEHOLDER TYPES',
+  'Placeholders resolve to real values at generation time and each has a semantic type — put each one only where its type fits the sentence grammar.',
+  '- {primaryTag} is NOT type-safe: it becomes whichever transformation tag is first for a given cover, which may be a genre (punk, metal), a tempo word (faster, slower), an energy word (heavier), a mood (darker), a language (russian), or an era (90s). Never use it in a slot that assumes a type — "went {primaryTag}", "became {primaryTag}", "a {primaryTag} version" all break on values like "faster", "russian", or "90s".',
+  '- When a slot genuinely needs one type, use a category token whose type is fixed: {tags.genre} (punk / metal / hardcore ...), {tags.tempo} (faster / slower), {tags.energy} (heavier ...), {tags.mood} (darker ...), {tags.era} (90s / 00s), {tags.production}, {tags.lang}. Any of these resolves to nothing when no tag of that category is selected — and the app then drops the whole line — so only use one where the line is worthless without that value.',
+  '- {transformation} is a ready-made phrase (e.g. "darker and heavier") and is the safe choice for "{song}, but {transformation}" style lines.',
+].join('\n');
+
+export function globalShortHookContext(projectConfig = {}, opts = {}) {
+  const { hookTypeKey = '', hookConfig = {} } = opts;
+
+  const label = String(hookConfig.label || hookTypeKey || '').trim();
+  const templates = (hookConfig.templates || []).filter(
+    (t) => typeof t === 'string' && t.trim(),
+  );
+
+  const flagLines = [];
+  if (hookConfig.excludeForFaithful) {
+    flagLines.push(
+      'This angle only runs when the cover is a rework/transformation — it is skipped for faithful covers and original songs, so a line may assume the song was changed in some way.',
+    );
+  }
+  if (hookConfig.requiresGenre) {
+    flagLines.push(
+      "This angle only runs when the song's original genre is known — a line may use {originalGenre}.",
+    );
+  }
+
+  const context = [
+    projectConfig?.promptContext ? `Channel: ${projectConfig.promptContext}` : '',
+    label
+      ? `Short Hook angle: ${label}${
+          hookTypeKey && hookTypeKey !== label ? ` (key: ${hookTypeKey})` : ''
+        }`
+      : '',
+    ...flagLines,
+    templates.length === 0
+      ? "This angle currently has no lines — you're establishing its voice from scratch."
+      : '',
+  ].filter(Boolean);
+
+  const existingSection =
+    templates.length > 0
+      ? [
+          'CURRENT LINES for this angle (this is the established house voice — match its tone and phrasing, and do not repeat or lightly reword any of them):',
+          ...templates.map((template) => `- ${template}`),
+        ].join('\n')
+      : '';
+
+  const rules = [
+    RULE.PLAIN_LINES,
+    'Give me 8-12 new lines.',
+    `Every line must work for ANY cover where the "${
+      label || 'this'
+    }" angle applies — never tied to one specific song, artist, genre, or transformation tag.`,
+    'Lean on placeholders so a line stays reusable: {artist}, {song}, {transformation}, {originalGenre}, {years}, {decade}. A line with no placeholder still has to be fully generic.',
+    'Follow the PLACEHOLDER TYPES notes above — in particular, never put {primaryTag} in a slot that assumes a genre, tempo, mood, or adjective.',
+    templates.length > 0 ? 'Match the tone and phrasing of the current lines above.' : '',
+    RULE.SHORT_HOOK_LENGTH,
+    'No empty mood-words — "Pure energy", "Feel it", "This one hits" say nothing on their own. Even a generic line needs a real hook, question, or claim.',
+    RULE.NO_CHANNEL_METADATA,
+    RULE.SHORT_HOOK_NO_PERIOD,
+    RULE.SHORT_HOOK_NATURAL,
+  ].filter(Boolean);
+
+  return [
+    GLOBAL_SHORT_HOOK_INTRO,
+    ['CONTEXT', ...context].join('\n'),
+    existingSection,
+    placeholderNote(buildHookPlaceholders(projectConfig)),
+    GLOBAL_PLACEHOLDER_TYPES,
+    ['TASK', ...rules.map((rule) => `- ${rule}`)].join('\n'),
+  ];
+}
+
+export function buildGlobalShortHookPrompt(projectConfig, opts) {
+  return buildAuthorPrompt(globalShortHookContext(projectConfig, opts));
+}
