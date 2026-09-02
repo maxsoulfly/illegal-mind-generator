@@ -7,11 +7,11 @@
 // One-way only, matching the buildXPrompt convention across this codebase:
 // no parse-back, the editor's Bulk Add box is the return path.
 //
-// NOTE ON THE COVER ADAPTER: its output is frozen byte-for-byte against the
-// pre-refactor buildCoverHookPrompt by coverPrompt.test.js (an A/B against a
-// verbatim copy of the old implementation). It was tuned against real covers
-// and works well — do not "tidy" its wording. If cover's prompt genuinely
-// needs to change, update the legacy copy in that test in the same commit.
+// NOTE ON THE COVER ADAPTER: coverPrompt.test.js keeps a full copy of this
+// adapter's expected output as an A/B guard — the wrapper (buildCoverHookPrompt)
+// must equal that inline reference. It was tuned against real covers, so do
+// not "tidy" its wording casually; any deliberate change to the cover prompt
+// must be mirrored into that test's copy in the same commit.
 
 import { buildTagPhrase } from '../engine/descriptions/descriptionTagHelpers';
 import { buildHookPlaceholders } from './hookPlaceholders';
@@ -45,6 +45,7 @@ const COVER_TASK_BULLETS = [
   'Keep each hook SHORT — usually 5-12 words. Prefer one punchy thought over a full explanatory sentence. Compress a Story or Log idea down into a hook; do not summarize it.',
   'Every line must be specific to THIS exact cover (see CONTEXT). If a line would still make sense for a different song, cut it.',
   'Do NOT produce generic transformation hooks like "X but heavier", "What if X was punk", "X rebuilt as Y" — the tag/global system already generates those. This pool is only for the cover-specific stuff a reusable system can\'t know.',
+  'Do NOT use the {transformation} placeholder in a hook — these hooks are about this specific cover, not its transformation style (the tag/global system covers that).',
   'Do NOT invent facts. Only reference a specific song section, instrument, recording/arrangement decision, anecdote, or personal reason if it is explicitly supported by the CONTEXT above.',
   'Never mention signal numbers, hashtags, or other administrative/channel metadata in a hook — that data is context for you, not material for the hooks.',
   'Keep them natural and clickable — the kind of thing a person actually says in a short-form video, not marketing filler.',
@@ -60,8 +61,8 @@ const COVER_EXAMPLES = [
   'Same journey. Rougher roads',
 ];
 
-// Builds the section array for buildCoverHookPrompt. Behaviour is frozen —
-// see the note at the top of this file.
+// Builds the section array for buildCoverHookPrompt. Mirrored by an A/B guard
+// in coverPrompt.test.js — see the note at the top of this file.
 export function coverShortHooksContext(projectConfig = {}, formData = {}) {
   const artist = (formData.artist || '').trim();
   const song = (formData.song || '').trim();
@@ -175,6 +176,7 @@ export function tagShortHooksContext(projectConfig = {}, opts = {}) {
     'Stay strictly within "What this tag means". Do not assume the tag implies a tempo change, more heaviness, particular instruments, or a production/technique change unless the meaning explicitly says so.',
     RULE.SHORT_HOOK_LENGTH,
     "Use placeholders where the angle naturally calls for them, matching the pattern of this angle's examples: {artist}/{song} for song-focused angles, {years}/{currentYear} for growth-focused angles (e.g. Progress, Musician). Don't force a placeholder where it doesn't read naturally.",
+    'Do NOT use the {transformation} placeholder — this pool is already scoped to one tag, so write the idea in plain words (or a typed token like {tags.genre}/{tags.energy} only where it genuinely fits). If an example above uses {transformation}, ignore that part of it.',
     RULE.NO_GENERIC_FILLER,
     RULE.NO_CHANNEL_METADATA,
     RULE.SHORT_HOOK_NO_PERIOD,
@@ -217,8 +219,8 @@ const GLOBAL_PLACEHOLDER_TYPES = [
   'PLACEHOLDER TYPES',
   'Placeholders resolve to real values at generation time and each has a semantic type — put each one only where its type fits the sentence grammar.',
   '- {primaryTag} is NOT type-safe: it becomes whichever transformation tag is first for a given cover, which may be a genre (punk, metal), a tempo word (faster, slower), an energy word (heavier), a mood (darker), a language (russian), or an era (90s). Never use it in a slot that assumes a type — "went {primaryTag}", "became {primaryTag}", "a {primaryTag} version" all break on values like "faster", "russian", or "90s".',
-  '- When a slot genuinely needs one type, use a category token whose type is fixed: {tags.genre} (punk / metal / hardcore ...), {tags.tempo} (faster / slower), {tags.energy} (heavier ...), {tags.mood} (darker ...), {tags.era} (90s / 00s), {tags.production}, {tags.lang}. Any of these resolves to nothing when no tag of that category is selected — and the app then drops the whole line — so only use one where the line is worthless without that value.',
-  '- {transformation} is a ready-made phrase (e.g. "darker and heavier") and is the safe choice for "{song}, but {transformation}" style lines.',
+  '- When a slot genuinely needs one type, use a category token whose type is fixed: {tags.genre} (punk / metal / hardcore ...), {tags.tempo} (faster / slower), {tags.energy} (heavier ...), {tags.mood} (darker ...), {tags.production} (modernized ...), {tags.era} (90s / 00s), {tags.lang}. Any of these resolves to nothing when no tag of that category is selected — and the app then drops the whole line — so only use one where the line is worthless without that value.',
+  '- {transformation} appears in some existing lines but must NOT be used in a new one (see TASK) — it only produces more "{song} + connector + {transformation}" phrasings.',
 ].join('\n');
 
 export function globalShortHookContext(projectConfig = {}, opts = {}) {
@@ -257,7 +259,7 @@ export function globalShortHookContext(projectConfig = {}, opts = {}) {
   const existingSection =
     templates.length > 0
       ? [
-          'CURRENT LINES for this angle (this is the established house voice — match its tone and phrasing, and do not repeat or lightly reword any of them):',
+          'CURRENT LINES for this angle (this is the established house voice — match its tone and phrasing, and do not repeat or lightly reword any of them; but do not use {transformation}, even if some of these do):',
           ...templates.map((template) => `- ${template}`),
         ].join('\n')
       : '';
@@ -268,7 +270,8 @@ export function globalShortHookContext(projectConfig = {}, opts = {}) {
     `Every line must work for ANY cover where the "${
       label || 'this'
     }" angle applies — never tied to one specific song, artist, genre, or transformation tag.`,
-    'Lean on placeholders so a line stays reusable: {artist}, {song}, {transformation}, {originalGenre}, {years}, {decade}. A line with no placeholder still has to be fully generic.',
+    'Lean on placeholders so a line stays reusable: {artist}, {song}, {originalGenre}, {years}, {decade}. A line with no placeholder still has to be fully generic.',
+    'Do NOT use {transformation} in any new line — it just yields near-duplicate "{song} + connector + {transformation}" sentences, and I want genuinely authored hooks with varied structure. If a line needs to name the change, use a typed category token where its type fits ({tags.genre}, {tags.energy}, {tags.tempo}, {tags.mood}, {tags.production}) or state it plainly.',
     'Follow the PLACEHOLDER TYPES notes above — in particular, never put {primaryTag} in a slot that assumes a genre, tempo, mood, or adjective.',
     templates.length > 0 ? 'Match the tone and phrasing of the current lines above.' : '',
     RULE.SHORT_HOOK_LENGTH,
@@ -290,4 +293,88 @@ export function globalShortHookContext(projectConfig = {}, opts = {}) {
 
 export function buildGlobalShortHookPrompt(projectConfig, opts) {
   return buildAuthorPrompt(globalShortHookContext(projectConfig, opts));
+}
+
+// ─── Title template pools ───────────────────────────────────────────────────
+// One title template group (Standard / But It's / Generic — Project Settings
+// → Titles). A template is filled and reused as the video title for many
+// covers, so it is placeholder-driven and must read for any cover. Prefix /
+// suffix pools are single-value config fields, not candidate pools — they are
+// out of scope for the Copy AI Prompt helper.
+
+const TITLE_POOL_INTRO =
+  'I need more title templates for ONE title pool. A template here is filled in with placeholder values and reused as the video title for many different cover songs, so each one has to read well for ANY cover it could apply to.';
+
+// Role of each JSON-default pool. A user-added pool key falls through to no
+// role line (its existing templates + the pool label carry the intent).
+// NOTE: new suggestions must NOT use {transformation} (see the TASK rules) —
+// the existing templates already over-use it and it only yields more
+// "{song} + connector + {transformation}" variations. Roles describe the
+// pool's intent without instructing the AI to reach for that token.
+const TITLE_POOL_ROLES = {
+  standard:
+    'The main title format: it names the song (artist and/or song title) and signals that this is a rework. The existing templates build that around {transformation}; for NEW suggestions I want structures that do NOT use {transformation} (see TASK).',
+  butIts:
+    'The "but it\'s ___" reframe. It is skipped automatically for faithful covers and original songs, so it may assume a real change was made. The existing templates put {transformation} in the "it\'s ___" slot; for NEW suggestions fill that slot another way (a typed category placeholder, {originalGenre}, or a concrete word) and vary the framing — I already have plenty of plain "{song} but it\'s ___".',
+  generic:
+    'Standalone / branded titles that do not depend on the selected tags. Room to be creative or channel-flavoured, but each one still has to work for any cover.',
+};
+
+const TITLE_PLACEHOLDER_TYPES = [
+  'PLACEHOLDER TYPES',
+  'Each placeholder resolves to a real value when the title is generated, and each has a semantic type — only use one where its type fits the grammar of the template.',
+  '- {transformation} appears in the EXISTING templates but must NOT be used in any new suggestion (see TASK) — it only produces more "{song} + connector + {transformation}" phrasings.',
+  '- {primaryTag} is NOT type-safe: it resolves to whichever transformation tag is first for a cover, which may be a genre (punk, metal), a tempo word (faster, slower), an energy word (heavier), a mood (darker), a language (russian), or an era (90s). Never put it in a slot that assumes a type — "{artist} goes {primaryTag}", "a {primaryTag} version of {song}" break on values like "faster", "russian", or "90s".',
+  '- For a slot that needs a specific kind of word, use a typed category token: {tags.genre} (punk / metal / hardcore ...), {tags.energy} (heavier ...), {tags.tempo} (faster / slower), {tags.mood} (darker ...), {tags.production} (modernized ...), {tags.era} (90s / 00s). Each resolves to nothing when no tag of that category is selected — the app then drops that title candidate — so only use one where the title is pointless without it.',
+].join('\n');
+
+export function titlePoolContext(projectConfig = {}, opts = {}) {
+  const { groupName = '', groupLabel = '', templates = [] } = opts;
+
+  const label = String(groupLabel || groupName || '').trim();
+  const cleanTemplates = (templates || []).filter(
+    (t) => typeof t === 'string' && t.trim(),
+  );
+  const role = TITLE_POOL_ROLES[groupName] || '';
+
+  const context = [
+    projectConfig?.promptContext ? `Channel: ${projectConfig.promptContext}` : '',
+    label
+      ? `Title pool: ${label}${groupName && groupName !== label ? ` (key: ${groupName})` : ''}`
+      : '',
+    role ? `What this pool is for: ${role}` : '',
+  ].filter(Boolean);
+
+  const existingSection =
+    cleanTemplates.length > 0
+      ? [
+          'CURRENT TEMPLATES in this pool (tone reference only — do not reword these, and do not use {transformation} the way they do):',
+          ...cleanTemplates.map((template) => `- ${template}`),
+        ].join('\n')
+      : "This pool currently has no templates — you're establishing its shape and voice from scratch.";
+
+  const rules = [
+    RULE.PLAIN_LINES,
+    'Give me 8-12 new templates.',
+    'Write TEMPLATES, not finished titles — use placeholders for anything cover-specific ({artist}, {song}, {originalGenre}, {year}, {years}, {decade}). A template with a hard-coded band or song name is wrong.',
+    'Do NOT use {transformation} in any new template. The existing templates already lean on it and it keeps producing near-duplicate "{song} + connector + {transformation}" phrasings — I want genuinely different title structures.',
+    'When a template needs a word for the rework itself, use a typed category placeholder ({tags.genre}, {tags.energy}, {tags.tempo}, {tags.mood}, {tags.production}, {tags.era}), or {originalGenre}, or a concrete literal word — and vary the sentence shape (a question, "from X to Y", "the {tags.genre} rebuild", a flat statement, ...). Not every template needs a rework word at all.',
+    'Introduce structures this pool does not already have — treat the existing templates as tone reference, not a pattern to copy.',
+    'Do not put the signal number, channel name, or hashtags in a template — the prefix/suffix system adds those automatically.',
+    'Keep them tight — a title, not a sentence, and no clickbait padding ("You won\'t believe...").',
+    'Do not end a template with a period unless it is genuinely part of the phrasing.',
+  ];
+
+  return [
+    TITLE_POOL_INTRO,
+    ['CONTEXT', ...context].join('\n'),
+    existingSection,
+    placeholderNote(buildHookPlaceholders(projectConfig)),
+    TITLE_PLACEHOLDER_TYPES,
+    ['TASK', ...rules.map((rule) => `- ${rule}`)].join('\n'),
+  ];
+}
+
+export function buildTitlePoolPrompt(projectConfig, opts) {
+  return buildAuthorPrompt(titlePoolContext(projectConfig, opts));
 }

@@ -1,5 +1,7 @@
 import HookTemplateEditor from '../../ui/HookTemplateEditor';
+import CopyPromptButton from '../../ui/CopyPromptButton';
 import TitleGenerationCard from './TitleGenerationCard';
+import { buildTitlePoolPrompt } from '../../../utils/authorPromptContexts';
 
 const GROUP_LABELS = {
   standard: 'Standard',
@@ -81,16 +83,27 @@ export default function Titles({
           return (
             <article key={groupName} className="tag-card">
               <header className="tag-card-header">
-                <h3>{label}</h3>
-                <button
-                  type="button"
-                  className="tag-reset-button"
-                  data-tooltip="Reset to defaults"
-                  aria-label="Reset to defaults"
-                  onClick={() => resetGroup(groupName)}
-                >
-                  ↺
-                </button>
+                <div className="tag-card-label-row">
+                  <h3>{label}</h3>
+                  <button
+                    type="button"
+                    className="tag-reset-button"
+                    data-tooltip="Reset to defaults"
+                    aria-label="Reset to defaults"
+                    onClick={() => resetGroup(groupName)}
+                  >
+                    ↺
+                  </button>
+                  <CopyPromptButton
+                    getPrompt={() =>
+                      buildTitlePoolPrompt(projectConfig, {
+                        groupName,
+                        groupLabel: label,
+                        templates,
+                      })
+                    }
+                  />
+                </div>
                 <span className="tag-status">{templates.length} templates</span>
               </header>
 

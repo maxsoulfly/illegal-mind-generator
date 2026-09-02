@@ -1,26 +1,28 @@
-// A/B freeze test for the cover-specific Short Hooks prompt refactor.
+// A/B guard for the cover-specific Short Hooks prompt.
 //
-// buildCoverHookPrompt was reimplemented on top of the shared "Copy AI
-// Prompt" infrastructure (authorPrompt.js + authorPromptContexts.js). Its
-// output was tuned against real covers and must not change. This test holds a
-// verbatim copy of the PRE-REFACTOR implementation (legacyBuildCoverHookPrompt
-// below) and asserts the new one produces byte-identical output across a
-// spread of fixtures that exercise every branch.
+// buildCoverHookPrompt runs on the shared "Copy AI Prompt" infrastructure
+// (authorPrompt.js + authorPromptContexts.js). This test holds a standalone
+// inline copy of the expected implementation (referenceBuildCoverHookPrompt
+// below) and asserts the real one produces byte-identical output across a
+// spread of fixtures that exercise every branch. It started as a
+// pre-refactor freeze; the reference is now updated in lock-step whenever the
+// cover prompt is deliberately changed, so it stays a structural-equivalence
+// guard (wrapper == inline reference), not a historical snapshot.
 //
 // No test runner in this project — run with rolldown + node:
 //   npx rolldown src/utils/coverPrompt.test.js -f esm -p node -o /tmp/cp.test.mjs \
 //     && node /tmp/cp.test.mjs
 //
-// If cover's prompt is ever deliberately changed, update the legacy copy here
-// in the same commit so this stays a true A/B.
+// Any deliberate change to the cover prompt must be mirrored into the
+// reference copy below in the same commit.
 
 import { buildCoverHookPrompt } from './coverPrompt';
 import { buildTagPhrase } from '../engine/descriptions/descriptionTagHelpers';
 import { buildHookPlaceholders } from './hookPlaceholders';
 
 // ---------------------------------------------------------------------------
-// Verbatim copy of coverPrompt.js as of commit d37f973 (before the shared-
-// infrastructure refactor). Do not "clean up" — it is the reference.
+// Inline reference implementation. Kept byte-for-byte in step with
+// authorPromptContexts.js's coverShortHooksContext — do not "clean up".
 // ---------------------------------------------------------------------------
 function firstNonEmpty(...values) {
   for (const value of values) {
@@ -40,7 +42,7 @@ function titleCaseKey(key) {
 
 const HANDLED_OVERRIDE_KEYS = new Set(['storyBlock', 'renovationBlock', 'logBlock']);
 
-function legacyBuildCoverHookPrompt(formData = {}, projectConfig = {}) {
+function referenceBuildCoverHookPrompt(formData = {}, projectConfig = {}) {
   const artist = (formData.artist || '').trim();
   const song = (formData.song || '').trim();
   const overrides = formData.songBlockOverrides || {};
@@ -107,6 +109,7 @@ function legacyBuildCoverHookPrompt(formData = {}, projectConfig = {}) {
     '- Keep each hook SHORT — usually 5-12 words. Prefer one punchy thought over a full explanatory sentence. Compress a Story or Log idea down into a hook; do not summarize it.',
     '- Every line must be specific to THIS exact cover (see CONTEXT). If a line would still make sense for a different song, cut it.',
     "- Do NOT produce generic transformation hooks like \"X but heavier\", \"What if X was punk\", \"X rebuilt as Y\" — the tag/global system already generates those. This pool is only for the cover-specific stuff a reusable system can't know.",
+    '- Do NOT use the {transformation} placeholder in a hook — these hooks are about this specific cover, not its transformation style (the tag/global system covers that).',
     '- Do NOT invent facts. Only reference a specific song section, instrument, recording/arrangement decision, anecdote, or personal reason if it is explicitly supported by the CONTEXT above.',
     '- Never mention signal numbers, hashtags, or other administrative/channel metadata in a hook — that data is context for you, not material for the hooks.',
     '- Keep them natural and clickable — the kind of thing a person actually says in a short-form video, not marketing filler.',
@@ -202,7 +205,7 @@ const fixtures = {
 };
 
 for (const [name, { projectConfig: pc, formData }] of Object.entries(fixtures)) {
-  const expected = legacyBuildCoverHookPrompt(formData, pc);
+  const expected = referenceBuildCoverHookPrompt(formData, pc);
   const actual = buildCoverHookPrompt(formData, pc);
   if (actual !== expected) {
     // Show the first divergence to make a failure debuggable.
@@ -213,7 +216,7 @@ for (const [name, { projectConfig: pc, formData }] of Object.entries(fixtures)) 
     console.error(`    new: ${JSON.stringify(a[i])}`);
     console.error(`    old: ${JSON.stringify(b[i])}`);
   }
-  assert(actual === expected, `byte-identical to pre-refactor output — ${name}`);
+  assert(actual === expected, `matches the inline reference — ${name}`);
 }
 
 // Sanity: the fixtures actually exercised the interesting branches.
@@ -224,6 +227,10 @@ for (const [name, { projectConfig: pc, formData }] of Object.entries(fixtures)) 
   assert(full.includes('Story about this cover: First heard it'), 'sanity: block override wins over legacy customStory');
   assert(full.includes('Original release year: 2005') && !full.includes(' 2005 '), 'sanity: values are trimmed');
   assert(full.includes('Selected tags (with category): Heavier (energy), Darker (mood)'), 'sanity: tag lines carry category');
+  assert(
+    full.includes('Do NOT use the {transformation} placeholder in a hook'),
+    'sanity: cover TASK forbids the {transformation} placeholder in new hooks',
+  );
 }
 
 if (failures > 0) {

@@ -12,6 +12,8 @@ import {
   buildTagShortHooksPrompt,
   globalShortHookContext,
   buildGlobalShortHookPrompt,
+  titlePoolContext,
+  buildTitlePoolPrompt,
 } from './authorPromptContexts';
 
 let failures = 0;
@@ -84,6 +86,10 @@ const tag = {
   assert(
     out.includes('Stay strictly within "What this tag means"'),
     'full: TASK rule pins hooks to the stated meaning (no assumed tempo/heaviness/etc.)',
+  );
+  assert(
+    out.includes('Do NOT use the {transformation} placeholder'),
+    'full: TASK forbids the {transformation} placeholder in new tag hooks',
   );
   assert(out.includes('{artist}') && out.includes('{song}'), 'full: placeholder list carries real tokens');
   assert(!out.includes('\n\n\n'), 'full: no triple blank line');
@@ -203,20 +209,38 @@ const tag = {
     'global: points at typed category tokens for typed slots',
   );
   assert(
-    out.includes(
-      'reusable: {artist}, {song}, {transformation}, {originalGenre}, {years}, {decade}.',
-    ),
-    'global: the "lean on placeholders" list no longer pushes {primaryTag}',
+    out.includes('reusable: {artist}, {song}, {originalGenre}, {years}, {decade}.'),
+    'global: the "lean on placeholders" list pushes neither {primaryTag} nor {transformation}',
   );
   assert(
-    !out.includes('{transformation}, {primaryTag}, {originalGenre}'),
-    'global: old {primaryTag}-in-the-list wording is gone',
+    !out.includes('{song}, {transformation}, {originalGenre}'),
+    'global: {transformation} is no longer in the "lean on" list',
   );
   assert(
     out.includes(
       'never put {primaryTag} in a slot that assumes a genre, tempo, mood, or adjective',
     ),
     'global: TASK cross-references the PLACEHOLDER TYPES notes',
+  );
+
+  // --- no {transformation} in new lines ---
+  assert(
+    out.includes('Do NOT use {transformation} in any new line'),
+    'global: TASK explicitly forbids {transformation} in new lines',
+  );
+  assert(
+    out.includes(
+      '{transformation} appears in some existing lines but must NOT be used in a new one',
+    ),
+    'global: PLACEHOLDER TYPES marks {transformation} as existing-only',
+  );
+  assert(
+    !out.includes('safe choice for "{song}, but {transformation}"'),
+    'global: the old "{transformation} is the safe choice" wording is gone',
+  );
+  assert(
+    out.includes('do not use {transformation}, even if some of these do'),
+    'global: CURRENT LINES framing warns off {transformation} despite house-voice matching',
   );
 }
 
@@ -265,6 +289,125 @@ const tag = {
     buildGlobalShortHookPrompt(projectConfig, opts) ===
       buildAuthorPrompt(globalShortHookContext(projectConfig, opts)),
     'wrapper: buildGlobalShortHookPrompt == buildAuthorPrompt(globalShortHookContext(...))',
+  );
+}
+
+// ===========================================================================
+// titlePoolContext / buildTitlePoolPrompt
+// ===========================================================================
+
+const titleProjectConfig = {
+  promptContext: 'Test Channel reworks existing songs.',
+  title: { connector: '&' },
+};
+
+const NO_TRANSFORMATION_RULE = 'Do NOT use {transformation} in any new template.';
+
+// --- standard pool: no {transformation}, push typed placeholders + new shapes ---
+{
+  const out = buildTitlePoolPrompt(titleProjectConfig, {
+    groupName: 'standard',
+    groupLabel: 'Standard',
+    templates: ['{artist} - {song} // {transformation}', '{song} // {transformation}'],
+  });
+  assert(out.includes('Title pool: Standard (key: standard)'), 'title/standard: pool line');
+  assert(out.includes('What this pool is for: The main title format'), 'title/standard: role line');
+  assert(
+    out.includes('CURRENT TEMPLATES in this pool') && out.includes('- {song} // {transformation}'),
+    'title/standard: existing templates still shown (as tone reference)',
+  );
+  assert(out.includes(NO_TRANSFORMATION_RULE), 'title/standard: TASK forbids {transformation} in new templates');
+  assert(
+    !out.includes('MUST contain {transformation}'),
+    'title/standard: no leftover must-contain-{transformation} rule',
+  );
+  assert(
+    out.includes('use a typed category placeholder ({tags.genre}, {tags.energy}, {tags.tempo}'),
+    'title/standard: TASK points at typed category placeholders for the rework slot',
+  );
+  assert(
+    out.includes('Introduce structures this pool does not already have'),
+    'title/standard: TASK asks for genuinely new structures, not reworded copies',
+  );
+  assert(
+    !out.includes('Keep the structural shape of the existing'),
+    'title/standard: old "keep the shape" rule is gone',
+  );
+  assert(out.includes('Write TEMPLATES, not finished titles'), 'title/standard: templates-not-titles rule');
+  assert(
+    out.includes('prefix/suffix system adds those automatically'),
+    'title/standard: signal-number/channel goes to the wrapper, not the template',
+  );
+  assert(!out.includes('joined with "&"'), 'title/standard: connector note removed (no {transformation})');
+  assert(out.includes('\nPLACEHOLDER TYPES\n'), 'title/standard: PLACEHOLDER TYPES section present');
+  assert(
+    out.includes('{transformation} appears in the EXISTING templates but must NOT be used in any new suggestion'),
+    'title/standard: PLACEHOLDER TYPES marks {transformation} as existing-only',
+  );
+  assert(out.includes('{primaryTag} is NOT type-safe'), 'title/standard: primaryTag type warning carried into titles');
+  assert(
+    !out.includes('Use {transformation} instead'),
+    'title/standard: PLACEHOLDER TYPES no longer redirects {primaryTag} -> {transformation}',
+  );
+  assert(!out.includes('\n\n\n'), 'title/standard: no triple blank line');
+  assert(out.trimEnd() === out, 'title/standard: no trailing whitespace');
+}
+
+// --- butIts pool: also no {transformation}; keeps the faithful-skip note ---
+{
+  const out = buildTitlePoolPrompt(titleProjectConfig, {
+    groupName: 'butIts',
+    groupLabel: "But It's",
+    templates: ["{song} but it's {transformation}"],
+  });
+  assert(out.includes(NO_TRANSFORMATION_RULE), 'title/butIts: TASK forbids {transformation} in new templates');
+  assert(
+    out.includes('skipped automatically for faithful covers and original songs'),
+    'title/butIts: role keeps the automatic faithful/original skip note',
+  );
+  assert(
+    out.includes('fill that slot another way') && out.includes('vary the framing'),
+    'title/butIts: role tells the AI to fill the "it\'s ___" slot without {transformation} and vary the framing',
+  );
+}
+
+// --- generic pool ---
+{
+  const out = buildTitlePoolPrompt(titleProjectConfig, {
+    groupName: 'generic',
+    groupLabel: 'Generic',
+    templates: ['{song} // Test Rework'],
+  });
+  assert(out.includes(NO_TRANSFORMATION_RULE), 'title/generic: TASK forbids {transformation}');
+  assert(
+    out.includes('do not depend on the selected tags'),
+    'title/generic: role unchanged in intent',
+  );
+  assert(!out.includes('joined with "&"'), 'title/generic: no connector note');
+}
+
+// --- empty pool + unknown key ---
+{
+  const out = buildTitlePoolPrompt(titleProjectConfig, {
+    groupName: 'promo',
+    groupLabel: 'Promo',
+    templates: [],
+  });
+  assert(
+    out.includes("establishing its shape and voice from scratch"),
+    'title/empty: from-scratch note replaces CURRENT TEMPLATES',
+  );
+  assert(!out.includes('What this pool is for:'), 'title/unknown-key: no role line for a non-default pool');
+  assert(out.includes(NO_TRANSFORMATION_RULE), 'title/unknown-key: {transformation} still forbidden');
+}
+
+// --- wrapper identity ---
+{
+  const opts = { groupName: 'standard', groupLabel: 'Standard', templates: ['{song} // {transformation}'] };
+  assert(
+    buildTitlePoolPrompt(titleProjectConfig, opts) ===
+      buildAuthorPrompt(titlePoolContext(titleProjectConfig, opts)),
+    'wrapper: buildTitlePoolPrompt == buildAuthorPrompt(titlePoolContext(...))',
   );
 }
 
