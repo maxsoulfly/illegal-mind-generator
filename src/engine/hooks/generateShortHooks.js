@@ -61,6 +61,25 @@ export function pickShortHooks(formData, projectConfig) {
     return { type, label: hookConfig.label || type, hooks: pickRandomLines(viable, 2) };
   });
 
+  // Cover-specific hooks (formData.coverShortHooks): a flat, uncategorized
+  // per-cover list, joined as its own internal group with NO eligibility
+  // filters (they're hand-written specifics — always in play for the loaded
+  // cover). Same fillPlaceholders viability check + pick-2 as every other
+  // group, so these flow into the shuffled mix below (and buildHookTitles)
+  // exactly like base/tag hooks. `'cover'` is plumbing, not a user-facing
+  // hook category — the editor and the AI prompt stay flat.
+  const coverViable = (formData.coverShortHooks || [])
+    .map((template) =>
+      createRecord(template, 'cover', 'cover', '', pickGenrePartIndex(formData.originalGenre)),
+    )
+    .filter((record) => {
+      const ctx = buildCtx(formData, projectConfig, transformation, record.genrePartIndex);
+      return !fillPlaceholders(record.sourceText, ctx).hasEmpty;
+    });
+  if (coverViable.length) {
+    groups.push({ type: 'cover', label: 'Cover-Specific', hooks: pickRandomLines(coverViable, 2) });
+  }
+
   // TitlesPanel/ShortHooksPanel show a shuffled mix pulled from across every
   // type (not grouped by type) — that shuffle+pick is itself a random
   // selection, so it must be frozen here too. Freezing the *order* once and
