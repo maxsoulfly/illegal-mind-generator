@@ -16,6 +16,7 @@ const defaultPanelVisibility = {
   hashtags: true,
   hybridPrompt: true,
   advanced: false,
+  coverHooks: false,
 };
 
 // Safely parse legacy localStorage values.

@@ -1309,6 +1309,14 @@ input[type="range"]::-moz-range-progress {
   margin-top: var(--space-4);
 }
 
+/* Separates the Cover-Specific Hooks toggle from the Advanced Options toggle
+   above it (both are full-width .toggle-button with margin:0, so their
+   borders would otherwise touch). Matches the local --space-4 rhythm used by
+   .advanced-options / .input-collapsed-summary. */
+.cover-hooks-section {
+  margin-top: var(--space-4);
+}
+
 .text-accent-soft {
   color: var(--color-text-accent-soft);
 }

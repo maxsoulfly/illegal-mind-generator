@@ -16,6 +16,11 @@ export default function TagPhraseEditor({
   autoOpen = false,
   highlightText = null,
   placeholders,
+  // Skip the <details>/<summary> collapse wrapper — the caller already
+  // provides its own collapsible shell (e.g. CoverShortHooksEditor, whose
+  // ToggleButton owns the open/close + count). Same escape hatch
+  // HookTemplateEditor's `noWrapper` gives for the Hook Blocks tab.
+  noWrapper = false,
 }) {
   // null = bulk textarea closed; any string (including '') = open
   const [bulkValue, setBulkValue] = useState(null);
@@ -69,42 +74,48 @@ export default function TagPhraseEditor({
     onUpdateTag(tagName, buildUpdate(phrases.filter((_, i) => i !== index)));
   };
 
+  const body = (
+    <div className="tag-phrase-editor">
+      <FormField>
+        {phrases.map((phrase, index) => {
+          const isHighlighted = phrase === highlightText;
+          return (
+            <PhraseRow
+              key={index}
+              ref={isHighlighted ? highlightRowRef : null}
+              highlighted={isHighlighted}
+              value={phrase}
+              placeholders={placeholders}
+              onCommit={(newValue) => updatePhrase(index, newValue)}
+              onRemove={() => removePhrase(index)}
+            />
+          );
+        })}
+
+        {bulkValue != null && (
+          <BulkTextarea
+            value={bulkValue}
+            onChange={setBulkValue}
+            onApply={applyBulk}
+            onCancel={() => setBulkValue(null)}
+            placeholders={placeholders}
+          />
+        )}
+
+        <AddBulkRow onAdd={addPhrase} onBulk={() => setBulkValue('')} />
+      </FormField>
+    </div>
+  );
+
+  if (noWrapper) return body;
+
   return (
     <details className="tag-editor-section" ref={detailsRef} open={autoOpen}>
       <summary>
         {title} ({phrases.length})
       </summary>
 
-      <div className="tag-phrase-editor">
-        <FormField>
-          {phrases.map((phrase, index) => {
-            const isHighlighted = phrase === highlightText;
-            return (
-              <PhraseRow
-                key={index}
-                ref={isHighlighted ? highlightRowRef : null}
-                highlighted={isHighlighted}
-                value={phrase}
-                placeholders={placeholders}
-                onCommit={(newValue) => updatePhrase(index, newValue)}
-                onRemove={() => removePhrase(index)}
-              />
-            );
-          })}
-
-          {bulkValue != null && (
-            <BulkTextarea
-              value={bulkValue}
-              onChange={setBulkValue}
-              onApply={applyBulk}
-              onCancel={() => setBulkValue(null)}
-              placeholders={placeholders}
-            />
-          )}
-
-          <AddBulkRow onAdd={addPhrase} onBulk={() => setBulkValue('')} />
-        </FormField>
-      </div>
+      {body}
     </details>
   );
 }

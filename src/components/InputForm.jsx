@@ -3,6 +3,7 @@ import useInputFormLogic from '../hooks/useInputFormLogic';
 import BasicSongFields from './input/BasicSongFields';
 import TransformationTagSelector from './input/TransformationTagSelector';
 import AdvancedDescriptionFields from './input/AdvancedDescriptionFields';
+import CoverShortHooksEditor from './input/CoverShortHooksEditor';
 import InputFormActions from './input/InputFormActions';
 import ToggleButton from './ui/ToggleButton';
 import FormField from './ui/FormField';
@@ -116,6 +117,23 @@ function InputForm({
               </div>
             </div>
           )}
+
+          <div className="cover-hooks-section">
+            <ToggleButton
+              isOpen={panelVisibility.coverHooks}
+              onClick={() => togglePanel('coverHooks')}
+              label={`Cover-Specific Hooks (${(formData.coverShortHooks || []).length})`}
+            />
+            {panelVisibility.coverHooks && (
+              <div className="advanced-panel-content">
+                <CoverShortHooksEditor
+                  formData={formData}
+                  setFormData={setFormData}
+                  projectConfig={projectConfig}
+                />
+              </div>
+            )}
+          </div>
 
           <InputFormActions
             key={projectId}
