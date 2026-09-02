@@ -40,6 +40,7 @@ export default function AddTagPanel({ projectConfig, onCreate, onClose }) {
       isCustom: true,
       excludeFromHashtags: false,
       excludeFromButIts: false,
+      promptContext: parsed?.promptContext || '',
       title: parsed?.title || [],
       thumbnail: parsed?.thumbnail || [],
       description: parsed?.description || { technical: [], log: [], status: [] },
@@ -57,7 +58,11 @@ export default function AddTagPanel({ projectConfig, onCreate, onClose }) {
         parsed.hashtags.length +
         Object.values(parsed.shortHooks).reduce((sum, arr) => sum + arr.length, 0);
 
-      setResult({ phraseCount, unrecognized: parsed.unrecognized });
+      setResult({
+        phraseCount,
+        unrecognized: parsed.unrecognized,
+        meaningCaptured: Boolean(parsed.promptContext),
+      });
     } else {
       setResult(null);
     }
@@ -137,6 +142,7 @@ export default function AddTagPanel({ projectConfig, onCreate, onClose }) {
       {result && (
         <p className="output-text">
           Added {result.phraseCount} phrase{result.phraseCount === 1 ? '' : 's'}.
+          {result.meaningCaptured && ' Meaning captured.'}
           {result.unrecognized.length > 0 &&
             ` Unrecognized: ${result.unrecognized.join(' | ')}`}
         </p>
