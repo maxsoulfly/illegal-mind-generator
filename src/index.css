@@ -817,6 +817,21 @@ input[type="range"]::-moz-range-progress {
   box-shadow  : 0 0 8px var(--color-shadow-accent);
 }
 
+/* Selected transformation-tag chips are drag-reorderable (whole chip).
+   touch-action:none lets the TouchSensor claim a press-hold drag; scoped to
+   these few chips so page scrolling elsewhere is unaffected. */
+.tag-chip--sortable {
+  cursor      : grab;
+  touch-action: none;
+}
+
+.tag-chip--sortable.dragging {
+  cursor    : grabbing;
+  opacity   : 0.85;
+  z-index   : 1;
+  box-shadow: 0 0 12px var(--color-shadow-accent);
+}
+
 
 
 .tag-option-row input {

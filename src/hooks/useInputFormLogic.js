@@ -109,12 +109,23 @@ export default function useInputFormLogic({
     });
   };
 
+  // Drag-reorder of the selected transformation tags. The array order is
+  // intentional priority (first = most important — e.g. drives {primaryTag}),
+  // and it already round-trips through Neon / JSON import unchanged.
+  const handleTagReorder = (nextOrder) => {
+    setFormData((prev) => ({
+      ...prev,
+      transformationTags: nextOrder,
+    }));
+  };
+
   return {
     visibleTags,
     artistSuggestions,
     songSuggestions,
     handleChange,
     handleTagToggle,
+    handleTagReorder,
     projectOverrides,
   };
 }

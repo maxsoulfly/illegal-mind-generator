@@ -38,6 +38,7 @@ function InputForm({
     songSuggestions,
     handleChange,
     handleTagToggle,
+    handleTagReorder,
   } = useInputFormLogic({
     projectId,
     formData,
@@ -106,6 +107,7 @@ function InputForm({
                   tagUsage={tagUsage}
                   formData={formData}
                   onTagToggle={handleTagToggle}
+                  onReorderTags={handleTagReorder}
                   onOpenSourceTag={onOpenSourceTag}
                 />
 
