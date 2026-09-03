@@ -4,9 +4,7 @@ import Titles from './titles/Titles';
 import DescriptionsWorkspace from './descriptions/DescriptionsWorkspace';
 import ProjectSettingsThumbnails from './ProjectSettingsThumbnails';
 import ProjectSettingsHashtags from './ProjectSettingsHashtags';
-import ProjectSettingsTodo from './ProjectSettingsTodo';
-import ProjectSettingsShortsQueue from './ProjectSettingsShortsQueue';
-import ProjectSettingsUploadSchedule from './ProjectSettingsUploadSchedule';
+import WorkflowWorkspace from './workflow/WorkflowWorkspace';
 
 export default function ProjectSettingsContent({
   activeSection,
@@ -102,30 +100,11 @@ export default function ProjectSettingsContent({
     );
   }
 
-  if (activeSection === 'todo') {
+  if (activeSection === 'workflow') {
     return (
-      <ProjectSettingsTodo
-        projectConfig={projectConfig}
-        updateProjectOverride={updateProjectOverride}
-        resetProjectOverride={resetProjectOverride}
-      />
-    );
-  }
-
-  if (activeSection === 'shortsQueue') {
-    return (
-      <ProjectSettingsShortsQueue
+      <WorkflowWorkspace
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
-        updateProjectOverride={updateProjectOverride}
-      />
-    );
-  }
-
-  if (activeSection === 'uploadSchedule') {
-    return (
-      <ProjectSettingsUploadSchedule
-        projectConfig={projectConfig}
         updateProjectOverride={updateProjectOverride}
         resetProjectOverride={resetProjectOverride}
       />

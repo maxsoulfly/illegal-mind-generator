@@ -1,6 +1,7 @@
 import SubTabNav from '../components/ui/SubTabNav';
 import {
   CONTENT_SETUP_SECTIONS,
+  getSection,
   getSectionLeaves,
   resolveContentSetupTarget,
 } from '../config/contentSetupNav';
@@ -11,13 +12,12 @@ import GenerationOverview from '../components/projectSettings/generation/Generat
 //  - 4 section buttons (Generation / Descriptions / Workflow / Project)
 //  - Generation (kind: 'drill') opens to an overview, then drills to one
 //    editor with a "<- Generation" back path (Stage 4).
-//  - Descriptions / Workflow (kind: 'subnav') show a contextual leaf strip.
-//  - Project (single leaf) shows just its editor.
-// Every rendered leaf maps 1:1 to an existing ProjectSettingsContent
-// dispatch id; that component + all editors are unchanged — this is
-// navigation only. `descriptionsLeaf` is forwarded so DescriptionsWorkspace
-// can pick the right editor (Stage 3). `backup` (Project) is a Stage 5 leaf,
-// not rendered yet.
+//  - Descriptions (kind: 'subnav') shows a contextual leaf strip.
+//  - Workflow / Project (kind: 'page') show one page, no strip — Workflow
+//    stacks its three planning configs (Stage 5), Project is the General
+//    editor (Project Info + app-wide Backup).
+// Every rendered leaf maps to an existing ProjectSettingsContent dispatch
+// id; that component + all editors are unchanged — this is navigation only.
 const LEAF_TO_DISPATCH = {
   titles: 'titles',
   shortHooks: 'shortHooks',
@@ -30,9 +30,9 @@ const LEAF_TO_DISPATCH = {
   groups: 'descriptions',
   placeholders: 'descriptions',
   links: 'descriptions',
-  shortsQueue: 'shortsQueue',
-  todo: 'todo',
-  uploadSchedule: 'uploadSchedule',
+  shortsQueue: 'workflow',
+  todo: 'workflow',
+  uploadSchedule: 'workflow',
   projectInfo: 'general',
 };
 const LEAF_IDS = new Set(Object.keys(LEAF_TO_DISPATCH));
@@ -122,7 +122,10 @@ export default function ProjectSettingsPage({
   const isDrill = DRILL_SECTIONS.has(view.section);
   const showOverview = isDrill && view.leaf == null;
   const dispatchSection = LEAF_TO_DISPATCH[view.leaf] ?? 'general';
-  const leaves = isDrill ? [] : dispatchableLeaves(view.section);
+  // Only a 'subnav' section (Descriptions) gets a leaf strip; 'drill' and
+  // 'page' sections don't.
+  const leaves =
+    getSection(view.section)?.kind === 'subnav' ? dispatchableLeaves(view.section) : [];
 
   function clearTargets() {
     if (shortHooksTarget) clearShortHooksTarget();
@@ -139,9 +142,9 @@ export default function ProjectSettingsPage({
 
   function selectSection(sectionId) {
     onSectionChange(
-      DRILL_SECTIONS.has(sectionId)
-        ? sectionId // drill section -> overview
-        : (dispatchableLeaves(sectionId)[0]?.id ?? 'titles'),
+      getSection(sectionId)?.kind === 'subnav'
+        ? (dispatchableLeaves(sectionId)[0]?.id ?? 'titles') // land on the first leaf
+        : sectionId, // drill -> overview; page -> the page
     );
     clearTargets();
   }

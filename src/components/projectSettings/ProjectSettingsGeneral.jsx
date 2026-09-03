@@ -17,7 +17,7 @@ export default function ProjectSettingsGeneral({
 
   return (
     <section>
-      <h2 className="panel-title">General</h2>
+      <h2 className="panel-title">Project</h2>
 
       <div className="tag-library tag-library--3col">
         <TemplateGroupCard label="Project Info">
@@ -45,24 +45,18 @@ export default function ProjectSettingsGeneral({
 
         <TemplateGroupCard label="Actions">
           <div className="button-row">
-            <IconButton icon="Duplicate Project" className="button-secondary" />
-            <IconButton
-              icon="Export Project Config"
-              className="button-secondary"
-            />
             <IconButton
               icon="Open UIKit →"
               className="button-secondary"
               onClick={onOpenUIKit}
             />
           </div>
-          <p className="tag-summary">
-            Project editing, duplication, and project-level import/export will
-            be added here later.
-          </p>
         </TemplateGroupCard>
 
-        <TemplateGroupCard label="Backup">
+        <TemplateGroupCard
+          label="Backup"
+          subtitle="App-wide — every project, plus all saved entries, tags, and queues. Not scoped to this project."
+        >
           <AppBackupControls showToast={showToast} />
         </TemplateGroupCard>
       </div>
