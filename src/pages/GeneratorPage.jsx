@@ -65,6 +65,21 @@ export default function GeneratorPage({
   const currentEntryId = buildEntryId(formData.artist || '', formData.song || '');
   const isCurrentEntrySaved = savedEntries.some((entry) => entry.id === currentEntryId);
 
+  // Cover-Specific Hooks auto-persist. Unlike the rest of the Input form
+  // (explicit SAVE only), a hook add / bulk / delete / edit-blur writes
+  // straight through — but ONLY for an already-saved entry, as a
+  // column-scoped PATCH (`handleUpdateEntry`) that leaves every other,
+  // possibly-dirty, form field untouched. For an unsaved song this is a
+  // no-op: the hooks stay in formData and ride along on the next explicit
+  // SAVE (which is when the record is first created). `CoverShortHooksEditor`
+  // still calls setFormData on every change, so formData.coverShortHooks
+  // stays authoritative and a later SAVE can't revert it.
+  const persistCoverHooks = (nextHooks) => {
+    if (isCurrentEntrySaved) {
+      handleUpdateEntry(currentEntryId, { coverShortHooks: nextHooks });
+    }
+  };
+
   const handleAddToCalendar = () => {
     const videoType = formData.videoType === 'Shorts' ? 'short' : 'long';
     const target = calendar.addToNextOpenSlot(currentEntryId, videoType);
@@ -160,6 +175,7 @@ export default function GeneratorPage({
             clearSongOverrideTarget={clearSongOverrideTarget}
             coverHookTarget={coverHookTarget}
             clearCoverHookTarget={clearCoverHookTarget}
+            onPersistCoverHooks={persistCoverHooks}
             onOpenSourceTag={onOpenSourceTag}
             onAddToCalendar={handleAddToCalendar}
             canAddToCalendar={isCurrentEntrySaved}

@@ -28,11 +28,20 @@ export default function CoverShortHooksEditor({
   projectConfig,
   coverHookTarget,
   clearCoverHookTarget,
+  // Auto-persist a hook change straight to the saved entry (add / bulk /
+  // delete / edit-blur) — a no-op for an unsaved song. See
+  // GeneratorPage.jsx's `persistCoverHooks`. The setFormData below still
+  // runs unconditionally, so formData.coverShortHooks stays authoritative
+  // and an explicit SAVE later can't revert it.
+  onPersistCoverHooks,
 }) {
   const canCopyPrompt = !!((formData.artist || '').trim() && (formData.song || '').trim());
 
   const handleUpdate = (_, update) => {
     setFormData((prev) => ({ ...prev, ...update }));
+    if (Array.isArray(update.coverShortHooks)) {
+      onPersistCoverHooks?.(update.coverShortHooks);
+    }
     if (coverHookTarget) clearCoverHookTarget?.();
   };
 

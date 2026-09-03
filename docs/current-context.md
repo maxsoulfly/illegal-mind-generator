@@ -6,6 +6,15 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 
 ## Current Focus
 
+**Cover-Specific Hooks auto-persist, shipped 2026-09-03.** The Generator Input form stays explicit-SAVE-only, with one exception: the Cover-Specific Hooks editor now persists immediately — add / bulk-add / delete on the spot, edit on blur.
+
+- `CoverShortHooksEditor.handleUpdate` still calls `setFormData` unconditionally (formData stays authoritative; a later full SAVE reads it, so it can't revert the hooks), then calls a new `onPersistCoverHooks(nextArray)` prop.
+- `GeneratorPage.persistCoverHooks` → `handleUpdateEntry(currentEntryId, { coverShortHooks: nextArray })` (the existing column-scoped `PATCH /saved-entries/:id` — server reads the row, replaces only `cover_short_hooks`), **guarded by `isCurrentEntrySaved`**.
+- **Unsaved song:** no PATCH, no implicit insert — hooks stay in `formData` and are written by the next explicit SAVE (which creates the row).
+- 3 files: `GeneratorPage.jsx`, `InputForm.jsx` (thread `onPersistCoverHooks`), `CoverShortHooksEditor.jsx`. No backend/schema/`TagPhraseEditor` change.
+- **Paired fix — `useInputFormLogic.js`:** the `signalNumber` auto-fill effect now bails when `formData.signalNumber` is non-empty (deps include `formData.signalNumber`), mirroring the adjacent `artistShort` "only when empty" guard. Without it, the `savedEntries` array-identity churn from `handleUpdateEntry` would revert an unsaved `signalNumber` edit on every hook change.
+- Verified live (Playwright, 20 checks, 0 console errors, throwaway `ZZZQA` entry created + deleted): unsaved-song creates nothing → SAVE persists the form incl. hooks; bulk-add / `+ Add`+blur / edit-blur / delete each reach the DB with no SAVE click; dirty `originalYear` + dirty `signalNumber` neither persisted by a hook change nor reverted in the form; later full SAVE keeps the latest hooks array and writes the now-intentional dirty fields. `eslint` (1 pre-existing unrelated) / `vite build` clean.
+
 **Content Setup › Descriptions — Long/Shorts promoted to first-class leaves, shipped 2026-09-03.** Follow-up to the IA rework below, closing an unfinished part of it. The `descriptions` `subnav` leaf strip had a stub `Layout` leaf whose only job was to nest a `<Descriptions>` wrapper (`<h2>Descriptions</h2>` + an inner Long/Shorts `SubTabNav`). That nesting is removed: `Long` and `Shorts` are now leaves on the strip itself — `Long · Shorts · Lists · Text Blocks · Hook Blocks · Groups · Placeholders · Links` (8). Clicking `Long`/`Shorts` renders `LongDescriptionSettings`/`ShortsDescriptionSettings` directly, wrapped by `DescriptionsWorkspace`'s existing `withHeading` → `<h2>Long Description</h2>` / `<h2>Shorts Description</h2>` (nav chips stay bare `Long`/`Shorts`).
 
 - `src/components/projectSettings/descriptions/Descriptions.jsx` **deleted** — only `DescriptionsWorkspace` imported it; its two render branches moved in.

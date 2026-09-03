@@ -35,6 +35,13 @@ export default function useInputFormLogic({
   ];
 
   useEffect(() => {
+    // Auto-fill the signal number from a matching saved entry — but only
+    // while the field is empty, so a manual (unsaved) edit isn't clobbered
+    // when `savedEntries` changes for an unrelated reason (e.g. a
+    // Cover-Specific Hooks auto-persist replacing the array reference).
+    // Mirrors the artistShort auto-fill's "only when empty" guard below.
+    if (formData.signalNumber.trim()) return;
+
     const artistValue = formData.artist.trim().toLowerCase();
     const songValue = formData.song.trim().toLowerCase();
 
@@ -44,13 +51,13 @@ export default function useInputFormLogic({
         entry.song.trim().toLowerCase() === songValue,
     );
 
-    if (!match) return;
+    if (!match || !match.signalNumber) return;
 
     setFormData((prev) => ({
       ...prev,
-      signalNumber: match.signalNumber || prev.signalNumber,
+      signalNumber: match.signalNumber,
     }));
-  }, [formData.artist, formData.song, savedEntries, setFormData]);
+  }, [formData.artist, formData.song, formData.signalNumber, savedEntries, setFormData]);
 
   useEffect(() => {
     if (!formData.useCustomArtistShort) return;

@@ -28,6 +28,7 @@ function InputForm({
   clearSongOverrideTarget,
   coverHookTarget,
   clearCoverHookTarget,
+  onPersistCoverHooks,
   onOpenSourceTag,
   onAddToCalendar,
   canAddToCalendar,
@@ -136,6 +137,7 @@ function InputForm({
                   projectConfig={projectConfig}
                   coverHookTarget={coverHookTarget}
                   clearCoverHookTarget={clearCoverHookTarget}
+                  onPersistCoverHooks={onPersistCoverHooks}
                 />
               </div>
             )}
