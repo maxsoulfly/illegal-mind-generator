@@ -12,17 +12,23 @@ import ProjectSettingsContent from '../components/projectSettings/ProjectSetting
 // dispatch id, and that component + all editors are untouched — this stage
 // is navigation only.
 //
-// The `placeholders` (Descriptions) and `backup` (Project) leaves from
-// contentSetupNav.js are Stage 3 / Stage 5 targets: not rendered yet, and
-// their deep-links fall back to the Blocks / Project Info leaves here.
+// The `backup` (Project) leaf from contentSetupNav.js is a Stage 5 target:
+// not rendered yet, its deep-links fall back to Project Info here.
+// Every Descriptions leaf dispatches to 'descriptions' — ProjectSettingsContent
+// forwards `descriptionsLeaf` on to DescriptionsWorkspace, which picks the
+// editor (Stage 3 merged Blocks / Links / Placeholders into that one section).
 const LEAF_TO_DISPATCH = {
   titles: 'titles',
   shortHooks: 'shortHooks',
   thumbnails: 'thumbnails',
   hashtags: 'hashtags',
   layout: 'descriptions',
-  blocks: 'blocks',
-  links: 'links',
+  lists: 'descriptions',
+  text: 'descriptions',
+  hooks: 'descriptions',
+  groups: 'descriptions',
+  placeholders: 'descriptions',
+  links: 'descriptions',
   shortsQueue: 'shortsQueue',
   todo: 'todo',
   uploadSchedule: 'uploadSchedule',
@@ -97,9 +103,7 @@ export default function ProjectSettingsPage({
     );
     const leaf = LEAF_IDS.has(resolved.leaf)
       ? resolved.leaf
-      : resolved.leaf === 'placeholders'
-        ? 'blocks'
-        : (stage2Leaves(resolved.section)[0]?.id ?? activeLeaf);
+      : (stage2Leaves(resolved.section)[0]?.id ?? activeLeaf);
     view = { section: resolved.section, leaf };
   } else {
     view = { section: sectionOfLeaf(activeLeaf), leaf: activeLeaf };
@@ -143,6 +147,7 @@ export default function ProjectSettingsPage({
       <div className="panel">
         <ProjectSettingsContent
           activeSection={dispatchSection}
+          descriptionsLeaf={view.leaf}
           projectId={projectId}
           baseProjectConfig={baseProjectConfig}
           projectConfig={projectConfig}
@@ -154,7 +159,6 @@ export default function ProjectSettingsPage({
           thumbnailsTarget={thumbnailsTarget}
           hashtagsTarget={hashtagsTarget}
           blocksTarget={blocksTarget}
-          clearBlocksTarget={clearBlocksTarget}
           openBlocksEditor={openBlocksEditor}
           otherProjects={otherProjects}
           syncHookTypesToProject={syncHookTypesToProject}

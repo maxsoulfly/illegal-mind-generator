@@ -1,9 +1,7 @@
 import ProjectSettingsGeneral from './ProjectSettingsGeneral';
-import ProjectSettingsLinks from './ProjectSettingsLinks';
-import Blocks from './blocks/Blocks';
 import ShortHooks from './shortHooks/ShortHooks';
 import Titles from './titles/Titles';
-import Descriptions from './descriptions/Descriptions';
+import DescriptionsWorkspace from './descriptions/DescriptionsWorkspace';
 import ProjectSettingsThumbnails from './ProjectSettingsThumbnails';
 import ProjectSettingsHashtags from './ProjectSettingsHashtags';
 import ProjectSettingsTodo from './ProjectSettingsTodo';
@@ -23,8 +21,8 @@ export default function ProjectSettingsContent({
   thumbnailsTarget,
   hashtagsTarget,
   blocksTarget,
-  clearBlocksTarget,
   openBlocksEditor,
+  descriptionsLeaf,
   otherProjects,
   syncHookTypesToProject,
   onOpenUIKit,
@@ -68,38 +66,15 @@ export default function ProjectSettingsContent({
     );
   }
 
-  if (activeSection === 'links') {
+  if (activeSection === 'descriptions') {
     return (
-      <ProjectSettingsLinks
-        baseProjectConfig={baseProjectConfig}
-        projectConfig={projectConfig}
-        projectSettingsOverrides={projectSettingsOverrides}
-        updateProjectOverride={updateProjectOverride}
-      />
-    );
-  }
-
-  if (activeSection === 'blocks') {
-    return (
-      <Blocks
+      <DescriptionsWorkspace
+        activeLeaf={descriptionsLeaf}
         baseProjectConfig={baseProjectConfig}
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}
         updateProjectOverride={updateProjectOverride}
         blocksTarget={blocksTarget}
-        clearBlocksTarget={clearBlocksTarget}
-        openBlocksEditor={openBlocksEditor}
-      />
-    );
-  }
-
-  if (activeSection === 'descriptions') {
-    return (
-      <Descriptions
-        baseProjectConfig={baseProjectConfig}
-        projectConfig={projectConfig}
-        projectSettingsOverrides={projectSettingsOverrides}
-        updateProjectOverride={updateProjectOverride}
         openBlocksEditor={openBlocksEditor}
       />
     );

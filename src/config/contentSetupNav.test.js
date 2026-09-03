@@ -53,8 +53,8 @@ eq(
 );
 eq(
   getSectionLeaves('descriptions').map((l) => l.id),
-  ['layout', 'blocks', 'placeholders', 'links'],
-  'registry: descriptions leaves',
+  ['layout', 'lists', 'text', 'hooks', 'groups', 'placeholders', 'links'],
+  'registry: descriptions leaves (flat — Stage 3 merged Blocks/Links/Placeholders in)',
 );
 eq(
   getSectionLeaves('workflow').map((l) => l.id),
@@ -73,7 +73,7 @@ eq(resolveContentSetupTarget('shortHooks'), { section: 'generation', leaf: 'shor
 eq(resolveContentSetupTarget('titles'), { section: 'generation', leaf: 'titles' }, 'legacy: titles -> generation/titles');
 eq(resolveContentSetupTarget('descriptions'), { section: 'descriptions', leaf: 'layout' }, 'legacy: descriptions -> descriptions/layout (NOT the bare-section passthrough)');
 eq(resolveContentSetupTarget('links'), { section: 'descriptions', leaf: 'links' }, 'legacy: links -> descriptions/links');
-eq(resolveContentSetupTarget('blocks'), { section: 'descriptions', leaf: 'blocks' }, 'legacy: blocks (no subTab) -> descriptions/blocks');
+eq(resolveContentSetupTarget('blocks'), { section: 'descriptions', leaf: 'lists' }, 'legacy: blocks (no subTab) -> descriptions/lists (first block leaf)');
 eq(resolveContentSetupTarget('thumbnails'), { section: 'generation', leaf: 'thumbnails' }, 'legacy: thumbnails -> generation/thumbnails');
 eq(resolveContentSetupTarget('hashtags'), { section: 'generation', leaf: 'hashtags' }, 'legacy: hashtags -> generation/hashtags');
 eq(resolveContentSetupTarget('todo'), { section: 'workflow', leaf: 'todo' }, 'legacy: todo -> workflow/todo');
@@ -87,34 +87,14 @@ eq(resolveContentSetupTarget('hashtags'), { section: 'generation', leaf: 'hashta
 eq(resolveContentSetupTarget('descriptions'), { section: 'descriptions', leaf: 'layout' }, 'nav string: descriptions');
 
 // ---------------------------------------------------------------------------
-// resolveContentSetupTarget — blocksTarget.subTab
+// resolveContentSetupTarget — blocksTarget.subTab (Stage 3: subTab IS the leaf)
 // ---------------------------------------------------------------------------
 
-eq(
-  resolveContentSetupTarget('blocks', 'lists'),
-  { section: 'descriptions', leaf: 'blocks', blocksSubTab: 'lists' },
-  'blocks/lists -> descriptions/blocks, subTab passed through',
-);
-eq(
-  resolveContentSetupTarget('blocks', 'text'),
-  { section: 'descriptions', leaf: 'blocks', blocksSubTab: 'text' },
-  'blocks/text -> descriptions/blocks + subTab',
-);
-eq(
-  resolveContentSetupTarget('blocks', 'hooks'),
-  { section: 'descriptions', leaf: 'blocks', blocksSubTab: 'hooks' },
-  'blocks/hooks -> descriptions/blocks + subTab',
-);
-eq(
-  resolveContentSetupTarget('blocks', 'groups'),
-  { section: 'descriptions', leaf: 'blocks', blocksSubTab: 'groups' },
-  'blocks/groups -> descriptions/blocks + subTab',
-);
-eq(
-  resolveContentSetupTarget('blocks', 'placeholders'),
-  { section: 'descriptions', leaf: 'placeholders' },
-  'blocks/placeholders -> its own descriptions/placeholders leaf (no blocksSubTab)',
-);
+eq(resolveContentSetupTarget('blocks', 'lists'), { section: 'descriptions', leaf: 'lists' }, 'blocks/lists -> descriptions/lists');
+eq(resolveContentSetupTarget('blocks', 'text'), { section: 'descriptions', leaf: 'text' }, 'blocks/text -> descriptions/text');
+eq(resolveContentSetupTarget('blocks', 'hooks'), { section: 'descriptions', leaf: 'hooks' }, 'blocks/hooks -> descriptions/hooks');
+eq(resolveContentSetupTarget('blocks', 'groups'), { section: 'descriptions', leaf: 'groups' }, 'blocks/groups -> descriptions/groups');
+eq(resolveContentSetupTarget('blocks', 'placeholders'), { section: 'descriptions', leaf: 'placeholders' }, 'blocks/placeholders -> descriptions/placeholders');
 
 // ---------------------------------------------------------------------------
 // resolveContentSetupTarget — new section ids (idempotent) + unknown

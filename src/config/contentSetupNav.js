@@ -22,11 +22,19 @@ export const CONTENT_SETUP_SECTIONS = [
   {
     id: 'descriptions',
     label: 'Descriptions',
-    // Sub-nav; the Blocks leaf keeps its own inner tab strip (BLOCK_TYPE_SUBTABS).
+    // One workspace: layout + every block type + placeholders + links, on a
+    // single flat leaf strip (Stage 3 flattened the old stacked
+    // Descriptions[Long/Shorts] + Blocks[5-tab] SubTabNavs). The block-editor
+    // leaf ids are the BLOCK_TYPE_SUBTABS subtab ids verbatim
+    // (lists/text/hooks/groups/placeholders) so blocksTarget.subTab and every
+    // openBlocksEditor deep-link keep working unchanged.
     kind: 'subnav',
     leaves: [
       { id: 'layout', label: 'Layout' },
-      { id: 'blocks', label: 'Blocks' },
+      { id: 'lists', label: 'Lists' },
+      { id: 'text', label: 'Text Blocks' },
+      { id: 'hooks', label: 'Hook Blocks' },
+      { id: 'groups', label: 'Groups' },
       { id: 'placeholders', label: 'Placeholders' },
       { id: 'links', label: 'Links' },
     ],
@@ -62,7 +70,7 @@ const LEGACY_SECTION_MAP = {
   titles:         { section: 'generation',   leaf: 'titles' },
   descriptions:   { section: 'descriptions', leaf: 'layout' },
   links:          { section: 'descriptions', leaf: 'links' },
-  blocks:         { section: 'descriptions', leaf: 'blocks' },
+  blocks:         { section: 'descriptions', leaf: 'lists' }, // no-subTab fallback (first block leaf)
   thumbnails:     { section: 'generation',   leaf: 'thumbnails' },
   hashtags:       { section: 'generation',   leaf: 'hashtags' },
   todo:           { section: 'workflow',     leaf: 'todo' },
@@ -76,20 +84,16 @@ const SECTION_IDS = new Set(CONTENT_SETUP_SECTIONS.map((s) => s.id));
 //  - legacySection: an old PROJECT_SETTING_SECTIONS id, an
 //    onNavigateToSettings string, or (idempotent) a new section id.
 //  - blocksSubTab: only meaningful when legacySection === 'blocks' — carried
-//    from blocksTarget.subTab. 'placeholders' routes to its own Descriptions
-//    leaf; every other subTab lands on the Blocks leaf (which then shows that
-//    inner tab via its existing BLOCK_TYPE_SUBTABS strip, so the value is
-//    passed through as `blocksSubTab`).
+//    from blocksTarget.subTab. Since Stage 3 the block subtab ids
+//    (lists|text|hooks|groups|placeholders) ARE Descriptions leaf ids, so the
+//    subTab is the leaf directly.
 // Legacy map is checked before the passthrough because 'descriptions' is both
 // a legacy id (-> layout leaf) and a new section id.
 export function resolveContentSetupTarget(legacySection, blocksSubTab) {
   const base = LEGACY_SECTION_MAP[legacySection];
   if (base) {
-    if (legacySection === 'blocks' && blocksSubTab === 'placeholders') {
-      return { section: 'descriptions', leaf: 'placeholders' };
-    }
     if (legacySection === 'blocks' && blocksSubTab) {
-      return { ...base, blocksSubTab };
+      return { section: 'descriptions', leaf: blocksSubTab };
     }
     return base;
   }
