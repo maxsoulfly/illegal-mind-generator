@@ -22,13 +22,12 @@ const VIDEO_TYPE_OPTIONS = [
 // todoStatuses' whole-array-replace discipline, not shortsQueue's
 // independently-patchable-fields shape) — so no dedicated nested-merge
 // block is needed in buildResolvedProjectConfig.js.
-// `embedded` (rendered inside WorkflowWorkspace) drops the standalone
-// <section>/<h2>/grid wrapper; `heading` becomes the card label.
+// Rendered only inside WorkflowWorkspace, which owns the page hierarchy;
+// `heading` becomes the card label.
 export default function ProjectSettingsUploadSchedule({
   projectConfig,
   updateProjectOverride,
   resetProjectOverride,
-  embedded = false,
   heading,
 }) {
   const slots = projectConfig.uploadSchedule?.slots || [];
@@ -50,7 +49,7 @@ export default function ProjectSettingsUploadSchedule({
     setSlots([...slots, { weekday: 0, videoType: 'short', time: '18:00' }]);
   }
 
-  const card = (
+  return (
     <TemplateGroupCard
       label={heading ?? 'Weekly Slots'}
       subtitle="The days and times you usually upload. Drives the Calendar page's 'usual upload day' markers and where a song lands when auto-added to the next open slot."
@@ -95,14 +94,5 @@ export default function ProjectSettingsUploadSchedule({
             </div>
           </div>
     </TemplateGroupCard>
-  );
-
-  if (embedded) return card;
-
-  return (
-    <section>
-      <h2 className="panel-title">Upload Schedule</h2>
-      <div className="tag-library tag-library--half">{card}</div>
-    </section>
   );
 }

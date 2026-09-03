@@ -5,14 +5,12 @@ import IconButton from '../ui/IconButton';
 // Stores overrides at projectSettingsOverrides.shortsQueue.{length,duplicateSpacing},
 // which buildResolvedProjectConfig.js merges via a dedicated nested-merge
 // block (same shallow shape as hashtags/youtubetags). Read by useShortsQueue.js.
-// `embedded` (rendered inside WorkflowWorkspace) drops the standalone
-// <section>/<h2>/grid wrapper — the parent owns the page hierarchy — and
+// Rendered only inside WorkflowWorkspace, which owns the page hierarchy;
 // `heading` becomes the card label.
 export default function ProjectSettingsShortsQueue({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,
-  embedded = false,
   heading,
 }) {
   const queueConfig = projectConfig.shortsQueue || {};
@@ -32,7 +30,7 @@ export default function ProjectSettingsShortsQueue({
     updateProjectOverride({ shortsQueue: remaining });
   }
 
-  const card = (
+  return (
     <TemplateGroupCard label={heading ?? 'Generation'}>
       <div className="tag-card-label-row">
         <h4>Queue Length</h4>
@@ -58,14 +56,5 @@ export default function ProjectSettingsShortsQueue({
         onChange={(v) => updateQueue('duplicateSpacing', v)}
       />
     </TemplateGroupCard>
-  );
-
-  if (embedded) return card;
-
-  return (
-    <section>
-      <h2 className="panel-title">Shorts Queue</h2>
-      <div className="tag-library tag-library--3col">{card}</div>
-    </section>
   );
 }

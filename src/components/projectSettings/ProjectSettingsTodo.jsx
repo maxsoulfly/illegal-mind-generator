@@ -41,13 +41,12 @@ function SortableStatusRow({ id, ...rowProps }) {
 // So this renders its own PhraseRow list (drag-and-drop + move buttons, no
 // search box) instead of using TemplateGroupCard's built-in
 // templates/onUpdateTemplates.
-// `embedded` (rendered inside WorkflowWorkspace) drops the standalone
-// <section>/<h2>/grid wrapper; `heading` becomes the card label.
+// Rendered only inside WorkflowWorkspace, which owns the page hierarchy;
+// `heading` becomes the card label.
 export default function ProjectSettingsTodo({
   projectConfig,
   updateProjectOverride,
   resetProjectOverride,
-  embedded = false,
   heading,
 }) {
   const statuses = projectConfig.todoStatuses || [];
@@ -103,7 +102,7 @@ export default function ProjectSettingsTodo({
     setBulkValue(null);
   }
 
-  const card = (
+  return (
     <TemplateGroupCard
       label={heading ?? 'Statuses'}
       subtitle="Cover planning workflow stages, shown as sections on the Todo page in this order. The first status is used for Bulk Add."
@@ -142,14 +141,5 @@ export default function ProjectSettingsTodo({
 
           <AddBulkRow onAdd={handleAdd} onBulk={() => setBulkValue('')} />
     </TemplateGroupCard>
-  );
-
-  if (embedded) return card;
-
-  return (
-    <section>
-      <h2 className="panel-title">Todo Settings</h2>
-      <div className="tag-library tag-library--3col">{card}</div>
-    </section>
   );
 }
