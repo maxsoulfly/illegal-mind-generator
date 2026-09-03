@@ -4,24 +4,24 @@ import {
   getSection,
   getSectionLeaves,
   resolveContentSetupTarget,
+  DESCRIPTION_GROUPS,
+  groupOfDescriptionLeaf,
 } from '../config/contentSetupNav';
 import ProjectSettingsContent from '../components/projectSettings/ProjectSettingsContent';
-import GenerationOverview from '../components/projectSettings/generation/GenerationOverview';
-import DescriptionsOverview from '../components/projectSettings/descriptions/DescriptionsOverview';
 
-// Content Setup IA rework. The flat 11-chip strip is a two-level nav:
-//  - 4 section buttons (Generation / Descriptions / Workflow / Project)
-//  - Generation (kind: 'drill') opens to an overview, then drills to one
-//    editor with a "<- Generation" back path (Stage 4).
-//  - Descriptions (kind: 'drill') opens to a grouped overview (Layouts /
-//    Blocks / Variables), then drills to one of the 8 editors with a
-//    "<- Descriptions" back path. Deep-links (blocksTarget, the Generator
-//    DESCRIPTIONS panel via 'long') skip the overview and open the leaf.
-//  - Workflow / Project (kind: 'page') show one page, no strip — Workflow
-//    stacks its three planning configs (Stage 5), Project is the
-//    ProjectSettingsProject editor (Project Info + app-wide Backup).
+// Content Setup: 4 section chips + a persistent second level.
+//  - Generation / Descriptions (kind: 'workspace') — a persistent leaf
+//    switcher (a SubTabNav) with the editor directly below. Descriptions
+//    also has a persistent category row (Layouts / Blocks / Variables) above
+//    its leaf switcher; the active category is derived from the current leaf
+//    (groupOfDescriptionLeaf), never stored. No overview, no back step.
+//  - Workflow / Project (kind: 'page') — one page, no leaf nav.
 // Every rendered leaf maps to an existing ProjectSettingsContent dispatch
 // id; that component + all editors are unchanged — this is navigation only.
+// `leafMemory` (ui.contentSetupLeafMemory, persisted) remembers the last
+// leaf per section (`generation`/`descriptions` — for a section-chip click)
+// and per Descriptions category (`layouts`/`blocks`/`variables` — for a
+// category click); it falls back to the first leaf when absent.
 const LEAF_TO_DISPATCH = {
   titles: 'titles',
   shortHooks: 'shortHooks',
@@ -42,10 +42,6 @@ const LEAF_TO_DISPATCH = {
 };
 const LEAF_IDS = new Set(Object.keys(LEAF_TO_DISPATCH));
 
-const DRILL_SECTIONS = new Set(
-  CONTENT_SETUP_SECTIONS.filter((s) => s.kind === 'drill').map((s) => s.id),
-);
-
 const dispatchableLeaves = (sectionId) =>
   getSectionLeaves(sectionId).filter((leaf) => LEAF_IDS.has(leaf.id));
 
@@ -53,21 +49,22 @@ const sectionOfLeaf = (leafId) =>
   CONTENT_SETUP_SECTIONS.find((s) => s.leaves.some((l) => l.id === leafId))?.id ??
   'generation';
 
-const sectionLabel = (sectionId) =>
-  CONTENT_SETUP_SECTIONS.find((s) => s.id === sectionId)?.label ?? sectionId;
+const descriptionLeafById = Object.fromEntries(
+  getSectionLeaves('descriptions').map((l) => [l.id, l]),
+);
+const groupLeafIds = (categoryId) =>
+  DESCRIPTION_GROUPS.find((g) => g.id === categoryId)?.leafIds ?? [];
 
-// The persisted `activeSection` value can be a leaf id, a bare section id
-// (drill-section overview, or a legacy id from openProjectSettings), or one
-// of the pre-rework flat Project-Settings section ids still in some users'
-// stored state. Normalise to { section, leaf } — leaf is null only for a
-// drill section's overview.
+// The persisted `activeSection` value can be a leaf id, a bare section id, or
+// one of the pre-rework flat Project-Settings section ids still in some
+// users' stored state. Normalise to { section, leaf } — leaf is always a
+// real editor leaf for a 'workspace' section (never null).
 function resolveStoredView(stored) {
   if (LEAF_IDS.has(stored)) {
     return { section: sectionOfLeaf(stored), leaf: stored };
   }
   const { section, leaf } = resolveContentSetupTarget(stored);
   if (leaf && LEAF_IDS.has(leaf)) return { section, leaf };
-  if (DRILL_SECTIONS.has(section)) return { section, leaf: null };
   return { section, leaf: dispatchableLeaves(section)[0]?.id ?? 'titles' };
 }
 
@@ -91,6 +88,8 @@ export default function ProjectSettingsPage({
   openBlocksEditor,
   activeSection,
   onSectionChange,
+  leafMemory = {},
+  setLeafMemory,
   otherProjects,
   syncHookTypesToProject,
   onOpenUIKit,
@@ -99,9 +98,8 @@ export default function ProjectSettingsPage({
   const storedView = resolveStoredView(activeSection);
 
   // A click-to-navigate target overrides the stored view (same precedence the
-  // old flat `resolvedSection` ternary used) and always drills straight to a
-  // leaf — skipping the Generation overview — routed through the resolver so
-  // deep-links keep landing on the right leaf.
+  // old flat `resolvedSection` ternary used) and lands straight on a leaf,
+  // routed through the resolver so deep-links keep hitting the right editor.
   const legacyTargetSection = shortHooksTarget
     ? 'shortHooks'
     : titlesTarget
@@ -125,13 +123,18 @@ export default function ProjectSettingsPage({
     view = storedView;
   }
 
-  const isDrill = DRILL_SECTIONS.has(view.section);
-  const showOverview = isDrill && view.leaf == null;
   const dispatchSection = LEAF_TO_DISPATCH[view.leaf] ?? 'project';
-  // Only a 'subnav' section (Descriptions) gets a leaf strip; 'drill' and
-  // 'page' sections don't.
-  const leaves =
-    getSection(view.section)?.kind === 'subnav' ? dispatchableLeaves(view.section) : [];
+  const isWorkspace = getSection(view.section)?.kind === 'workspace';
+  const activeCategory =
+    view.section === 'descriptions'
+      ? (groupOfDescriptionLeaf(view.leaf) ?? DESCRIPTION_GROUPS[0].id)
+      : null;
+  const leafTabs =
+    view.section === 'generation'
+      ? getSectionLeaves('generation')
+      : view.section === 'descriptions'
+        ? groupLeafIds(activeCategory).map((id) => descriptionLeafById[id])
+        : [];
 
   function clearTargets() {
     if (shortHooksTarget) clearShortHooksTarget();
@@ -141,23 +144,46 @@ export default function ProjectSettingsPage({
     if (blocksTarget) clearBlocksTarget();
   }
 
+  // Remember this leaf under its section key and (for a Descriptions leaf)
+  // its category key, so a later section-chip / category click can restore it.
+  function rememberLeaf(leafId) {
+    if (!setLeafMemory || !LEAF_IDS.has(leafId)) return;
+    const section = sectionOfLeaf(leafId);
+    const category = groupOfDescriptionLeaf(leafId); // null unless Descriptions
+    setLeafMemory((prev) => {
+      const next = { ...prev, [section]: leafId };
+      if (category) next[category] = leafId;
+      return next;
+    });
+  }
+
   function selectLeaf(leafId) {
+    rememberLeaf(leafId);
     onSectionChange(leafId);
     clearTargets();
   }
 
-  function selectSection(sectionId) {
-    onSectionChange(
-      getSection(sectionId)?.kind === 'subnav'
-        ? (dispatchableLeaves(sectionId)[0]?.id ?? 'titles') // land on the first leaf
-        : sectionId, // drill -> overview; page -> the page
-    );
-    clearTargets();
+  // Descriptions category click: open the remembered leaf for that category
+  // (if still valid), else its first leaf.
+  function selectCategory(categoryId) {
+    const ids = groupLeafIds(categoryId);
+    const remembered = leafMemory[categoryId];
+    selectLeaf(ids.includes(remembered) ? remembered : ids[0]);
   }
 
-  function goToOverview() {
-    onSectionChange(view.section);
-    clearTargets();
+  function selectSection(sectionId) {
+    if (getSection(sectionId)?.kind === 'page') {
+      onSectionChange(sectionId);
+      clearTargets();
+      return;
+    }
+    // workspace: open the remembered leaf for that section, else its first.
+    const remembered = leafMemory[sectionId];
+    const target =
+      remembered && LEAF_IDS.has(remembered) && sectionOfLeaf(remembered) === sectionId
+        ? remembered
+        : (dispatchableLeaves(sectionId)[0]?.id ?? 'titles');
+    selectLeaf(target);
   }
 
   return (
@@ -175,47 +201,51 @@ export default function ProjectSettingsPage({
         ))}
       </div>
 
-      {leaves.length > 1 && (
-        <SubTabNav tabs={leaves} activeTab={view.leaf} onTabChange={selectLeaf} />
-      )}
-
-      {isDrill && !showOverview && (
-        <div className="tag-drill-header">
-          <button type="button" className="tag-drill-back" onClick={goToOverview}>
-            ← {sectionLabel(view.section)}
-          </button>
+      {view.section === 'descriptions' && (
+        <div className="tag-filters content-setup-subnav">
+          {DESCRIPTION_GROUPS.map((group) => (
+            <button
+              key={group.id}
+              type="button"
+              className={activeCategory === group.id ? 'active' : ''}
+              onClick={() => selectCategory(group.id)}
+            >
+              {group.label}
+            </button>
+          ))}
         </div>
       )}
 
+      {isWorkspace && leafTabs.length > 0 && (
+        <SubTabNav
+          className="content-setup-subnav"
+          tabs={leafTabs}
+          activeTab={view.leaf}
+          onTabChange={selectLeaf}
+        />
+      )}
+
       <div className="panel">
-        {showOverview ? (
-          view.section === 'descriptions' ? (
-            <DescriptionsOverview onOpen={selectLeaf} />
-          ) : (
-            <GenerationOverview projectConfig={projectConfig} onOpen={selectLeaf} />
-          )
-        ) : (
-          <ProjectSettingsContent
-            activeSection={dispatchSection}
-            descriptionsLeaf={view.leaf}
-            projectId={projectId}
-            baseProjectConfig={baseProjectConfig}
-            projectConfig={projectConfig}
-            projectSettingsOverrides={projectSettingsOverrides}
-            updateProjectOverride={updateProjectOverride}
-            resetProjectOverride={resetProjectOverride}
-            hookTarget={shortHooksTarget}
-            titlesTarget={titlesTarget}
-            thumbnailsTarget={thumbnailsTarget}
-            hashtagsTarget={hashtagsTarget}
-            blocksTarget={blocksTarget}
-            openBlocksEditor={openBlocksEditor}
-            otherProjects={otherProjects}
-            syncHookTypesToProject={syncHookTypesToProject}
-            onOpenUIKit={onOpenUIKit}
-            showToast={showToast}
-          />
-        )}
+        <ProjectSettingsContent
+          activeSection={dispatchSection}
+          descriptionsLeaf={view.leaf}
+          projectId={projectId}
+          baseProjectConfig={baseProjectConfig}
+          projectConfig={projectConfig}
+          projectSettingsOverrides={projectSettingsOverrides}
+          updateProjectOverride={updateProjectOverride}
+          resetProjectOverride={resetProjectOverride}
+          hookTarget={shortHooksTarget}
+          titlesTarget={titlesTarget}
+          thumbnailsTarget={thumbnailsTarget}
+          hashtagsTarget={hashtagsTarget}
+          blocksTarget={blocksTarget}
+          openBlocksEditor={openBlocksEditor}
+          otherProjects={otherProjects}
+          syncHookTypesToProject={syncHookTypesToProject}
+          onOpenUIKit={onOpenUIKit}
+          showToast={showToast}
+        />
       </div>
     </section>
   );

@@ -2229,6 +2229,12 @@ input[type="range"]::-moz-range-progress {
   color              : var(--color-text-accent);
 }
 
+/* Content Setup workspace nav: gap below each section / category chip row so
+   the row beneath it (category chips, or the leaf SubTabNav) isn't flush. */
+.content-setup-subnav {
+  margin-top: var(--space-3);
+}
+
 .desc-layout {
   display              : grid;
   grid-template-columns: 1fr 1fr;

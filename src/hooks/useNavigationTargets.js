@@ -35,6 +35,29 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
     }));
   }, [activeProjectSettingsSection]);
 
+  // Content Setup > Generation / Descriptions are persistent leaf-switcher
+  // workspaces (no overview/drill). This remembers the last leaf visited per
+  // "nav group" — keys `generation` / `descriptions` (last leaf of that
+  // section, for a section-chip click) and `layouts` / `blocks` / `variables`
+  // (last leaf of that Descriptions category, for a category click). Purely
+  // navigation state; `{}` on first run -> everything defaults to the first
+  // leaf. ProjectSettingsPage owns the key logic; this just holds + persists.
+  const [contentSetupLeafMemory, setContentSetupLeafMemory] = useState(() => {
+    const storage = loadAppStorage();
+    const stored = storage.ui.contentSetupLeafMemory;
+    return stored && typeof stored === 'object' ? stored : {};
+  });
+
+  useEffect(() => {
+    updateAppStorage((storage) => ({
+      ...storage,
+      ui: {
+        ...storage.ui,
+        contentSetupLeafMemory,
+      },
+    }));
+  }, [contentSetupLeafMemory]);
+
   const openShortHooksSearch = (target) => {
     if (!target) return;
     setShortHooksTarget(target);
@@ -190,5 +213,7 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
     clearTodoTarget,
     activeProjectSettingsSection,
     setActiveProjectSettingsSection,
+    contentSetupLeafMemory,
+    setContentSetupLeafMemory,
   };
 }

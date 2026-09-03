@@ -73,6 +73,8 @@ function App() {
     clearTodoTarget,
     activeProjectSettingsSection,
     setActiveProjectSettingsSection,
+    contentSetupLeafMemory,
+    setContentSetupLeafMemory,
   } = useAppShellState();
 
   const { toast, showToast } = useToast();
@@ -340,6 +342,8 @@ function App() {
           openBlocksEditor={openBlocksEditor}
           activeSection={activeProjectSettingsSection}
           onSectionChange={setActiveProjectSettingsSection}
+          leafMemory={contentSetupLeafMemory}
+          setLeafMemory={setContentSetupLeafMemory}
           otherProjects={otherProjects}
           syncHookTypesToProject={syncHookTypesToProject}
           onOpenUIKit={() => {

@@ -35,8 +35,8 @@ eq(
 );
 eq(
   CONTENT_SETUP_SECTIONS.map((s) => s.kind),
-  ['drill', 'drill', 'page', 'page'],
-  'registry: generation + descriptions = drill, workflow/project = page',
+  ['workspace', 'workspace', 'page', 'page'],
+  'registry: generation + descriptions = workspace, workflow/project = page',
 );
 ok(
   CONTENT_SETUP_SECTIONS.every((s) => s.label && Array.isArray(s.leaves) && s.leaves.length > 0),
@@ -98,7 +98,7 @@ ok(getSection('nope') === null && getSectionLeaves('nope').length === 0, 'regist
 eq(resolveContentSetupTarget('general'), { section: 'project', leaf: 'projectInfo' }, 'legacy: general -> project/projectInfo');
 eq(resolveContentSetupTarget('shortHooks'), { section: 'generation', leaf: 'shortHooks' }, 'legacy: shortHooks -> generation/shortHooks');
 eq(resolveContentSetupTarget('titles'), { section: 'generation', leaf: 'titles' }, 'legacy: titles -> generation/titles');
-eq(resolveContentSetupTarget('descriptions'), { section: 'descriptions', leaf: null }, 'legacy: bare descriptions -> descriptions overview (leaf: null)');
+eq(resolveContentSetupTarget('descriptions'), { section: 'descriptions', leaf: 'long' }, 'legacy: bare descriptions -> descriptions/long (default leaf, no overview)');
 eq(resolveContentSetupTarget('layout'), { section: 'descriptions', leaf: 'long' }, 'legacy: retired `layout` leaf id -> descriptions/long');
 eq(resolveContentSetupTarget('links'), { section: 'descriptions', leaf: 'links' }, 'legacy: links -> descriptions/links');
 eq(resolveContentSetupTarget('blocks'), { section: 'descriptions', leaf: 'lists' }, 'legacy: blocks (no subTab) -> descriptions/lists (first block leaf)');
@@ -133,7 +133,9 @@ eq(resolveContentSetupTarget('blocks', 'placeholders'), { section: 'descriptions
 // resolveContentSetupTarget — new section ids (idempotent) + unknown
 // ---------------------------------------------------------------------------
 
-eq(resolveContentSetupTarget('generation'), { section: 'generation', leaf: null }, 'new id: generation -> overview');
+// bare section ids pass through as { section, leaf: null }; ProjectSettingsPage's
+// resolveStoredView then fills a leaf for a 'workspace' section (first leaf).
+eq(resolveContentSetupTarget('generation'), { section: 'generation', leaf: null }, 'new id: generation -> {generation, null} (resolveStoredView adds the first leaf)');
 eq(resolveContentSetupTarget('workflow'), { section: 'workflow', leaf: null }, 'new id: workflow -> page');
 eq(resolveContentSetupTarget('project'), { section: 'project', leaf: null }, 'new id: project -> page');
 eq(resolveContentSetupTarget('totally-unknown'), { section: 'project', leaf: 'projectInfo' }, 'unknown -> safe default');
