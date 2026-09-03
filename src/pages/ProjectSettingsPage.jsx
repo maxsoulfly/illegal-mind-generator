@@ -5,18 +5,19 @@ import {
   resolveContentSetupTarget,
 } from '../config/contentSetupNav';
 import ProjectSettingsContent from '../components/projectSettings/ProjectSettingsContent';
+import GenerationOverview from '../components/projectSettings/generation/GenerationOverview';
 
-// Stage 2 of the Content Setup IA rework: the flat 11-chip strip becomes a
-// two-level nav (4 section buttons + a contextual leaf sub-strip). Every
-// rendered leaf still maps 1:1 to an existing ProjectSettingsContent
-// dispatch id, and that component + all editors are untouched — this stage
-// is navigation only.
-//
-// The `backup` (Project) leaf from contentSetupNav.js is a Stage 5 target:
-// not rendered yet, its deep-links fall back to Project Info here.
-// Every Descriptions leaf dispatches to 'descriptions' — ProjectSettingsContent
-// forwards `descriptionsLeaf` on to DescriptionsWorkspace, which picks the
-// editor (Stage 3 merged Blocks / Links / Placeholders into that one section).
+// Content Setup IA rework. The flat 11-chip strip is a two-level nav:
+//  - 4 section buttons (Generation / Descriptions / Workflow / Project)
+//  - Generation (kind: 'drill') opens to an overview, then drills to one
+//    editor with a "<- Generation" back path (Stage 4).
+//  - Descriptions / Workflow (kind: 'subnav') show a contextual leaf strip.
+//  - Project (single leaf) shows just its editor.
+// Every rendered leaf maps 1:1 to an existing ProjectSettingsContent
+// dispatch id; that component + all editors are unchanged — this is
+// navigation only. `descriptionsLeaf` is forwarded so DescriptionsWorkspace
+// can pick the right editor (Stage 3). `backup` (Project) is a Stage 5 leaf,
+// not rendered yet.
 const LEAF_TO_DISPATCH = {
   titles: 'titles',
   shortHooks: 'shortHooks',
@@ -36,21 +37,32 @@ const LEAF_TO_DISPATCH = {
 };
 const LEAF_IDS = new Set(Object.keys(LEAF_TO_DISPATCH));
 
-const stage2Leaves = (sectionId) =>
+const DRILL_SECTIONS = new Set(
+  CONTENT_SETUP_SECTIONS.filter((s) => s.kind === 'drill').map((s) => s.id),
+);
+
+const dispatchableLeaves = (sectionId) =>
   getSectionLeaves(sectionId).filter((leaf) => LEAF_IDS.has(leaf.id));
 
 const sectionOfLeaf = (leafId) =>
   CONTENT_SETUP_SECTIONS.find((s) => s.leaves.some((l) => l.id === leafId))?.id ??
   'generation';
 
-// The persisted `activeSection` value may still be a legacy section id (from
-// before this stage, or from openProjectSettings('descriptions')) — normalise
-// anything to a Stage-2 leaf id.
-function normalizeToLeaf(stored) {
-  if (LEAF_IDS.has(stored)) return stored;
+const sectionLabel = (sectionId) =>
+  CONTENT_SETUP_SECTIONS.find((s) => s.id === sectionId)?.label ?? sectionId;
+
+// The persisted `activeSection` value can be a leaf id, a bare section id
+// (drill-section overview, or a legacy id from openProjectSettings), or an
+// old PROJECT_SETTING_SECTIONS id. Normalise to { section, leaf } — leaf is
+// null only for a drill section's overview.
+function resolveStoredView(stored) {
+  if (LEAF_IDS.has(stored)) {
+    return { section: sectionOfLeaf(stored), leaf: stored };
+  }
   const { section, leaf } = resolveContentSetupTarget(stored);
-  if (leaf && LEAF_IDS.has(leaf)) return leaf;
-  return stage2Leaves(section)[0]?.id ?? 'titles';
+  if (leaf && LEAF_IDS.has(leaf)) return { section, leaf };
+  if (DRILL_SECTIONS.has(section)) return { section, leaf: null };
+  return { section, leaf: dispatchableLeaves(section)[0]?.id ?? 'titles' };
 }
 
 export default function ProjectSettingsPage({
@@ -78,11 +90,12 @@ export default function ProjectSettingsPage({
   onOpenUIKit,
   showToast,
 }) {
-  const activeLeaf = normalizeToLeaf(activeSection);
+  const storedView = resolveStoredView(activeSection);
 
-  // A click-to-navigate target overrides the active leaf (same precedence the
-  // old flat `resolvedSection` ternary used), routed through the Stage 0
-  // resolver so deep-links keep landing on the right leaf.
+  // A click-to-navigate target overrides the stored view (same precedence the
+  // old flat `resolvedSection` ternary used) and always drills straight to a
+  // leaf — skipping the Generation overview — routed through the resolver so
+  // deep-links keep landing on the right leaf.
   const legacyTargetSection = shortHooksTarget
     ? 'shortHooks'
     : titlesTarget
@@ -97,23 +110,21 @@ export default function ProjectSettingsPage({
 
   let view;
   if (legacyTargetSection) {
-    const resolved = resolveContentSetupTarget(
-      legacyTargetSection,
-      blocksTarget?.subTab,
-    );
+    const resolved = resolveContentSetupTarget(legacyTargetSection, blocksTarget?.subTab);
     const leaf = LEAF_IDS.has(resolved.leaf)
       ? resolved.leaf
-      : (stage2Leaves(resolved.section)[0]?.id ?? activeLeaf);
+      : (dispatchableLeaves(resolved.section)[0]?.id ?? storedView.leaf);
     view = { section: resolved.section, leaf };
   } else {
-    view = { section: sectionOfLeaf(activeLeaf), leaf: activeLeaf };
+    view = storedView;
   }
 
+  const isDrill = DRILL_SECTIONS.has(view.section);
+  const showOverview = isDrill && view.leaf == null;
   const dispatchSection = LEAF_TO_DISPATCH[view.leaf] ?? 'general';
-  const leaves = stage2Leaves(view.section);
+  const leaves = isDrill ? [] : dispatchableLeaves(view.section);
 
-  function selectLeaf(leafId) {
-    onSectionChange(leafId);
+  function clearTargets() {
     if (shortHooksTarget) clearShortHooksTarget();
     if (titlesTarget) clearTitlesTarget();
     if (thumbnailsTarget) clearThumbnailsTarget();
@@ -121,8 +132,23 @@ export default function ProjectSettingsPage({
     if (blocksTarget) clearBlocksTarget();
   }
 
+  function selectLeaf(leafId) {
+    onSectionChange(leafId);
+    clearTargets();
+  }
+
   function selectSection(sectionId) {
-    selectLeaf(stage2Leaves(sectionId)[0]?.id ?? 'titles');
+    onSectionChange(
+      DRILL_SECTIONS.has(sectionId)
+        ? sectionId // drill section -> overview
+        : (dispatchableLeaves(sectionId)[0]?.id ?? 'titles'),
+    );
+    clearTargets();
+  }
+
+  function goToOverview() {
+    onSectionChange(view.section);
+    clearTargets();
   }
 
   return (
@@ -144,27 +170,39 @@ export default function ProjectSettingsPage({
         <SubTabNav tabs={leaves} activeTab={view.leaf} onTabChange={selectLeaf} />
       )}
 
+      {isDrill && !showOverview && (
+        <div className="tag-drill-header">
+          <button type="button" className="tag-drill-back" onClick={goToOverview}>
+            ← {sectionLabel(view.section)}
+          </button>
+        </div>
+      )}
+
       <div className="panel">
-        <ProjectSettingsContent
-          activeSection={dispatchSection}
-          descriptionsLeaf={view.leaf}
-          projectId={projectId}
-          baseProjectConfig={baseProjectConfig}
-          projectConfig={projectConfig}
-          projectSettingsOverrides={projectSettingsOverrides}
-          updateProjectOverride={updateProjectOverride}
-          resetProjectOverride={resetProjectOverride}
-          hookTarget={shortHooksTarget}
-          titlesTarget={titlesTarget}
-          thumbnailsTarget={thumbnailsTarget}
-          hashtagsTarget={hashtagsTarget}
-          blocksTarget={blocksTarget}
-          openBlocksEditor={openBlocksEditor}
-          otherProjects={otherProjects}
-          syncHookTypesToProject={syncHookTypesToProject}
-          onOpenUIKit={onOpenUIKit}
-          showToast={showToast}
-        />
+        {showOverview ? (
+          <GenerationOverview projectConfig={projectConfig} onOpen={selectLeaf} />
+        ) : (
+          <ProjectSettingsContent
+            activeSection={dispatchSection}
+            descriptionsLeaf={view.leaf}
+            projectId={projectId}
+            baseProjectConfig={baseProjectConfig}
+            projectConfig={projectConfig}
+            projectSettingsOverrides={projectSettingsOverrides}
+            updateProjectOverride={updateProjectOverride}
+            resetProjectOverride={resetProjectOverride}
+            hookTarget={shortHooksTarget}
+            titlesTarget={titlesTarget}
+            thumbnailsTarget={thumbnailsTarget}
+            hashtagsTarget={hashtagsTarget}
+            blocksTarget={blocksTarget}
+            openBlocksEditor={openBlocksEditor}
+            otherProjects={otherProjects}
+            syncHookTypesToProject={syncHookTypesToProject}
+            onOpenUIKit={onOpenUIKit}
+            showToast={showToast}
+          />
+        )}
       </div>
     </section>
   );

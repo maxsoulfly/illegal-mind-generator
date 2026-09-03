@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import TagSyncControls from '../../tags/TagSyncControls';
 import ShortHookCard from '../../ui/ShortHookCard';
-import IconButton from '../../ui/IconButton';
 import CopyPromptButton from '../../ui/CopyPromptButton';
-import PrimaryTagSection from './PrimaryTagSection';
 import { buildGlobalShortHookPrompt } from '../../../utils/authorPromptContexts';
 
 function slugify(str) {
@@ -22,27 +20,6 @@ export default function ShortHooks({
   const [newLabel, setNewLabel] = useState('');
   const [copyTargetId, setCopyTargetId] = useState(() => otherProjects[0]?.id || '');
   const hookTypes = Object.entries(projectConfig.shortHookTypes || {});
-
-  const primaryTagConfig = projectConfig.title?.primaryTag || {};
-
-  function updatePrimaryTagConfig(key, value) {
-    updateProjectOverride({
-      title: {
-        ...(projectSettingsOverrides.title || {}),
-        primaryTag: {
-          count: primaryTagConfig.count ?? 1,
-          order: primaryTagConfig.order ?? 'selection',
-          separator: primaryTagConfig.separator ?? ' & ',
-          [key]: value,
-        },
-      },
-    });
-  }
-
-  function resetPrimaryTagConfig() {
-    const { primaryTag: _removed, ...remaining } = projectSettingsOverrides.title || {};
-    updateProjectOverride({ title: remaining });
-  }
 
   function updateHookTypeTemplates(hookType, hookConfig, newTemplates) {
     updateProjectOverride({
@@ -116,14 +93,6 @@ export default function ShortHooks({
       </div>
 
       <div className="tag-library tag-library--3col">
-        <article className="tag-card tag-card--settings">
-          <header className="tag-card-header">
-            <h3>Settings</h3>
-            <IconButton icon="↺" title="Reset to defaults" onClick={resetPrimaryTagConfig} />
-          </header>
-          <PrimaryTagSection config={primaryTagConfig} onUpdate={updatePrimaryTagConfig} />
-        </article>
-
         {hookTypes.map(([hookType, hookConfig]) => {
           const isUserCreated = !(hookType in baseHookTypes);
           return (

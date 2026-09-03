@@ -1,6 +1,8 @@
 import HookTemplateEditor from '../../ui/HookTemplateEditor';
 import CopyPromptButton from '../../ui/CopyPromptButton';
+import IconButton from '../../ui/IconButton';
 import TitleGenerationCard from './TitleGenerationCard';
+import PrimaryTagSection from './PrimaryTagSection';
 import { buildTitlePoolPrompt } from '../../../utils/authorPromptContexts';
 
 const GROUP_LABELS = {
@@ -26,6 +28,29 @@ export default function Titles({
 }) {
   const groups = Object.keys(projectConfig.title?.templates || {});
   const titleConfig = projectConfig.title || {};
+  // {primaryTag} resolution config — moved here from the Short Hooks tab
+  // (it has always been stored under title.primaryTag and drives both title
+  // templates and {primaryTag}-using Short Hook templates).
+  const primaryTagConfig = titleConfig.primaryTag || {};
+
+  function updatePrimaryTagConfig(key, value) {
+    updateProjectOverride({
+      title: {
+        ...(projectSettingsOverrides.title || {}),
+        primaryTag: {
+          count: primaryTagConfig.count ?? 1,
+          order: primaryTagConfig.order ?? 'selection',
+          separator: primaryTagConfig.separator ?? ' & ',
+          [key]: value,
+        },
+      },
+    });
+  }
+
+  function resetPrimaryTagConfig() {
+    const { primaryTag: _removed, ...remaining } = projectSettingsOverrides.title || {};
+    updateProjectOverride({ title: remaining });
+  }
 
   function updateTitleSetting(key, value) {
     updateProjectOverride({
@@ -75,6 +100,18 @@ export default function Titles({
           onUpdate={updateTitleSetting}
           onReset={resetGenerationSettings}
         />
+
+        <article className="tag-card tag-card--settings">
+          <header className="tag-card-header">
+            <h3>Primary Tag</h3>
+            <IconButton
+              icon="↺"
+              title="Reset to defaults"
+              onClick={resetPrimaryTagConfig}
+            />
+          </header>
+          <PrimaryTagSection config={primaryTagConfig} onUpdate={updatePrimaryTagConfig} />
+        </article>
 
         {groups.map((groupName) => {
           const templates = projectConfig.title.templates[groupName] || [];
