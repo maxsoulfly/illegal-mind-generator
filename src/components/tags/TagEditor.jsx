@@ -4,32 +4,37 @@ import TagBasicsTab from './editor/TagBasicsTab';
 import TagFieldTab from './editor/TagFieldTab';
 import TagContentOverview from './editor/TagContentOverview';
 import TagDrillHeader from './editor/TagDrillHeader';
+import TagShortHookCategoryList from './editor/TagShortHookCategoryList';
 import TagPhraseEditor from './TagPhraseEditor';
+import CopyPromptButton from '../ui/CopyPromptButton';
 import {
   TAG_CONTENT_SECTIONS,
   getInitialView,
+  getShortHookCategories,
   parentOf,
   resolvePoolEditorProps,
   pickTagPhrasePlaceholders,
 } from '../../utils/tagContentSections';
 import { isSourceMatch } from '../../utils/tagFieldTabs';
+import { buildHookPlaceholders } from '../../utils/hookPlaceholders';
+import { buildTagShortHooksPrompt } from '../../utils/authorPromptContexts';
 
 const SECTION_LABEL = Object.fromEntries(
   TAG_CONTENT_SECTIONS.map((section) => [section.id, section.label]),
 );
 
-// Stage 1: Descriptions and Short Hooks still render through the old
-// TagFieldTab (multi-pool). Their dedicated drill screens land in Stages
-// 2-3; until then any description-/shortHook-level view routes to the legacy
-// tab and "back" collapses straight to the overview.
+// Stage 2: Descriptions still renders through the old TagFieldTab (multi-pool).
+// Its dedicated drill screens land in Stage 3; until then any
+// description-level view routes to the legacy tab and "back" collapses
+// straight to the overview.
 const isLegacyDescriptionView = (view) =>
   view?.level === 'descriptionGroups' || view?.level === 'descriptionPool';
-const isLegacyShortHookView = (view) =>
-  view?.level === 'shortHookCategories' || view?.level === 'shortHookPool';
 
 function shouldOpenEditor(tag, sourceTarget) {
   return sourceTarget?.tagName === tag.name;
 }
+
+const phraseCountLabel = (n) => `${n} ${n === 1 ? 'phrase' : 'phrases'}`;
 
 export default function TagEditor({
   tag,
@@ -49,8 +54,12 @@ export default function TagEditor({
   const [manualView, setManualView] = useState(null);
   const view = manualView ?? getInitialView(tag, sourceTarget);
 
+  const shortHookLabelOf = (categoryKey) =>
+    getShortHookCategories(projectConfig).find((cat) => cat.id === categoryKey)?.label ||
+    categoryKey;
+
   const goBack = () => {
-    if (isLegacyDescriptionView(view) || isLegacyShortHookView(view)) {
+    if (isLegacyDescriptionView(view)) {
       setManualView({ level: 'overview' });
       return;
     }
@@ -71,7 +80,7 @@ export default function TagEditor({
     if (view.level === 'basics') {
       return (
         <>
-          <TagDrillHeader label={tag.label} title="Basics" onBack={goBack} />
+          <TagDrillHeader backLabel={tag.label} title="Basics" onBack={goBack} />
           <TagBasicsTab
             tag={tag}
             categories={categories}
@@ -94,9 +103,9 @@ export default function TagEditor({
       return (
         <>
           <TagDrillHeader
-            label={tag.label}
+            backLabel={tag.label}
             title={SECTION_LABEL[view.field]}
-            subtitle={`${phrases.length} ${phrases.length === 1 ? 'phrase' : 'phrases'}`}
+            subtitle={phraseCountLabel(phrases.length)}
             onBack={goBack}
           />
           <TagPhraseEditor
@@ -112,31 +121,70 @@ export default function TagEditor({
       );
     }
 
-    if (isLegacyDescriptionView(view)) {
+    if (view.level === 'shortHookCategories') {
       return (
         <>
-          <TagDrillHeader label={tag.label} title="Descriptions" onBack={goBack} />
-          <TagFieldTab
-            tabId="descriptions"
+          <TagDrillHeader backLabel={tag.label} title="Short Hooks" onBack={goBack} />
+          <TagShortHookCategoryList
             tag={tag}
-            onUpdateTag={onUpdateTag}
-            sourceTarget={sourceTarget}
+            projectConfig={projectConfig}
+            onOpenCategory={(cat) =>
+              setManualView({ level: 'shortHookPool', category: cat.id })
+            }
           />
         </>
       );
     }
 
-    if (isLegacyShortHookView(view)) {
+    if (view.level === 'shortHookPool') {
+      const { field, parentField, parentValue, phrases } = resolvePoolEditorProps(tag, view);
+      const label = shortHookLabelOf(view.category);
+      const matched =
+        sourceTarget?.tagName === tag.name && isSourceMatch(sourceTarget, { field });
       return (
         <>
-          <TagDrillHeader label={tag.label} title="Short Hooks" onBack={goBack} />
+          <TagDrillHeader
+            backLabel="Short Hooks"
+            title={label}
+            subtitle={phraseCountLabel(phrases.length)}
+            onBack={goBack}
+          />
+          <TagPhraseEditor
+            noWrapper
+            tagName={tag.name}
+            field={field}
+            parentField={parentField}
+            parentValue={parentValue}
+            phrases={phrases}
+            placeholders={buildHookPlaceholders(projectConfig)}
+            onUpdateTag={onUpdateTag}
+            highlightText={matched ? sourceTarget.phraseText ?? sourceTarget.hookText : null}
+            actionsSlot={
+              <CopyPromptButton
+                getPrompt={() =>
+                  buildTagShortHooksPrompt(projectConfig, {
+                    tag,
+                    hookCategoryKey: view.category,
+                    hookCategoryLabel: label,
+                    phrases,
+                  })
+                }
+              />
+            }
+          />
+        </>
+      );
+    }
+
+    if (isLegacyDescriptionView(view)) {
+      return (
+        <>
+          <TagDrillHeader backLabel={tag.label} title="Descriptions" onBack={goBack} />
           <TagFieldTab
-            tabId="shortHooks"
+            tabId="descriptions"
             tag={tag}
             onUpdateTag={onUpdateTag}
             sourceTarget={sourceTarget}
-            searchable
-            projectConfig={projectConfig}
           />
         </>
       );
