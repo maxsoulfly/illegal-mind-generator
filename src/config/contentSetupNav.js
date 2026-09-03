@@ -5,8 +5,8 @@
 //   generation   (kind: 'drill')  — overview -> Titles / Short Hooks /
 //                                    Thumbnails / Hashtags editor + back
 //   descriptions (kind: 'subnav') — one workspace, flat leaf strip:
-//                                    Layout / Lists / Text / Hook Blocks /
-//                                    Groups / Placeholders / Links
+//                                    Long / Shorts / Lists / Text / Hook
+//                                    Blocks / Groups / Placeholders / Links
 //   workflow     (kind: 'page')   — Shorts Queue + Todo Statuses + Upload
 //                                    Schedule on one page
 //   project      (kind: 'page')   — project name/id + app-wide Backup
@@ -33,15 +33,18 @@ export const CONTENT_SETUP_SECTIONS = [
   {
     id: 'descriptions',
     label: 'Descriptions',
-    // One workspace: layout + every block type + placeholders + links, on a
-    // single flat leaf strip (Stage 3 flattened the old stacked
-    // Descriptions[Long/Shorts] + Blocks[5-tab] SubTabNavs). The block-editor
-    // leaf ids are the BLOCK_TYPE_SUBTABS subtab ids verbatim
+    // One workspace: both description modes + every block type + placeholders
+    // + links, on a single flat leaf strip. Stage 3 flattened the old stacked
+    // Descriptions[Long/Shorts] + Blocks[5-tab] SubTabNavs into a `layout`
+    // leaf that still nested a Long/Shorts SubTabNav; this stage promotes
+    // Long and Shorts to first-class leaves and drops that inner strip. The
+    // block-editor leaf ids are the BLOCK_TYPE_SUBTABS subtab ids verbatim
     // (lists/text/hooks/groups/placeholders) so blocksTarget.subTab and every
     // openBlocksEditor deep-link keep working unchanged.
     kind: 'subnav',
     leaves: [
-      { id: 'layout', label: 'Layout' },
+      { id: 'long', label: 'Long' },
+      { id: 'shorts', label: 'Shorts' },
       { id: 'lists', label: 'Lists' },
       { id: 'text', label: 'Text Blocks' },
       { id: 'hooks', label: 'Hook Blocks' },
@@ -76,7 +79,8 @@ const LEGACY_SECTION_MAP = {
   general:        { section: 'project',      leaf: 'projectInfo' },
   shortHooks:     { section: 'generation',   leaf: 'shortHooks' },
   titles:         { section: 'generation',   leaf: 'titles' },
-  descriptions:   { section: 'descriptions', leaf: 'layout' },
+  descriptions:   { section: 'descriptions', leaf: 'long' }, // default description mode
+  layout:         { section: 'descriptions', leaf: 'long' }, // retired leaf id -> default mode
   links:          { section: 'descriptions', leaf: 'links' },
   blocks:         { section: 'descriptions', leaf: 'lists' }, // no-subTab fallback (first block leaf)
   thumbnails:     { section: 'generation',   leaf: 'thumbnails' },

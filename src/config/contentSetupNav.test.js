@@ -53,8 +53,8 @@ eq(
 );
 eq(
   getSectionLeaves('descriptions').map((l) => l.id),
-  ['layout', 'lists', 'text', 'hooks', 'groups', 'placeholders', 'links'],
-  'registry: descriptions leaves (flat — Stage 3 merged Blocks/Links/Placeholders in)',
+  ['long', 'shorts', 'lists', 'text', 'hooks', 'groups', 'placeholders', 'links'],
+  'registry: descriptions leaves (flat — Long/Shorts promoted to first-class leaves, `layout` retired)',
 );
 eq(
   getSectionLeaves('workflow').map((l) => l.id),
@@ -71,7 +71,8 @@ ok(getSection('nope') === null && getSectionLeaves('nope').length === 0, 'regist
 eq(resolveContentSetupTarget('general'), { section: 'project', leaf: 'projectInfo' }, 'legacy: general -> project/projectInfo');
 eq(resolveContentSetupTarget('shortHooks'), { section: 'generation', leaf: 'shortHooks' }, 'legacy: shortHooks -> generation/shortHooks');
 eq(resolveContentSetupTarget('titles'), { section: 'generation', leaf: 'titles' }, 'legacy: titles -> generation/titles');
-eq(resolveContentSetupTarget('descriptions'), { section: 'descriptions', leaf: 'layout' }, 'legacy: descriptions -> descriptions/layout (NOT the bare-section passthrough)');
+eq(resolveContentSetupTarget('descriptions'), { section: 'descriptions', leaf: 'long' }, 'legacy: descriptions -> descriptions/long (default mode, NOT the bare-section passthrough)');
+eq(resolveContentSetupTarget('layout'), { section: 'descriptions', leaf: 'long' }, 'legacy: retired `layout` leaf id -> descriptions/long');
 eq(resolveContentSetupTarget('links'), { section: 'descriptions', leaf: 'links' }, 'legacy: links -> descriptions/links');
 eq(resolveContentSetupTarget('blocks'), { section: 'descriptions', leaf: 'lists' }, 'legacy: blocks (no subTab) -> descriptions/lists (first block leaf)');
 eq(resolveContentSetupTarget('thumbnails'), { section: 'generation', leaf: 'thumbnails' }, 'legacy: thumbnails -> generation/thumbnails');
@@ -84,7 +85,7 @@ eq(resolveContentSetupTarget('uploadSchedule'), { section: 'workflow', leaf: 'up
 eq(resolveContentSetupTarget('titles'), { section: 'generation', leaf: 'titles' }, 'nav string: titles');
 eq(resolveContentSetupTarget('thumbnails'), { section: 'generation', leaf: 'thumbnails' }, 'nav string: thumbnails');
 eq(resolveContentSetupTarget('hashtags'), { section: 'generation', leaf: 'hashtags' }, 'nav string: hashtags');
-eq(resolveContentSetupTarget('descriptions'), { section: 'descriptions', leaf: 'layout' }, 'nav string: descriptions');
+eq(resolveContentSetupTarget('descriptions'), { section: 'descriptions', leaf: 'long' }, 'nav string: descriptions -> descriptions/long');
 
 // ---------------------------------------------------------------------------
 // resolveContentSetupTarget — blocksTarget.subTab (Stage 3: subTab IS the leaf)
@@ -112,6 +113,9 @@ eq(resolveContentSetupTarget(undefined), { section: 'project', leaf: 'projectInf
 
 ok(isValidLeaf('generation', 'titles'), 'isValidLeaf: generation/titles');
 ok(!isValidLeaf('generation', 'links'), 'isValidLeaf: generation/links is false');
+ok(isValidLeaf('descriptions', 'long'), 'isValidLeaf: descriptions/long');
+ok(isValidLeaf('descriptions', 'shorts'), 'isValidLeaf: descriptions/shorts');
+ok(!isValidLeaf('descriptions', 'layout'), 'isValidLeaf: descriptions/layout is false (retired)');
 ok(isValidLeaf('descriptions', 'placeholders'), 'isValidLeaf: descriptions/placeholders');
 ok(!isValidLeaf('nope', 'titles'), 'isValidLeaf: unknown section -> false');
 
