@@ -77,7 +77,7 @@
   --space-9: 32px;
 
   /* Approx height of one .tag-phrase-row (input + row margin-bottom). Drives
-     the ~10-row scroll cap on .phrase-row-list — tune here if row metrics
+     the ~5-row scroll cap on .phrase-row-list — tune here if row metrics
      change. */
   --phrase-row-h: 3.25rem;
 
@@ -2141,14 +2141,14 @@ input[type="range"]::-moz-range-progress {
   border-color: var(--color-border-hover);
 }
 
-/* Scroll cap shared by HookTemplateEditor + TagPhraseEditor: past ~10 rows
+/* Scroll cap shared by HookTemplateEditor + TagPhraseEditor: past ~5 rows
    the row list scrolls internally instead of making the card arbitrarily
    tall. max-height (not height) so a short list reserves no empty space and
    shows no scrollbar. Search sits above this element, +Add/+Bulk/Copy AI
    Prompt / Bulk textarea below it — none of them scroll. The {placeholder}
    autocomplete escapes this overflow via position:fixed (PlaceholderField). */
 .phrase-row-list {
-  max-height      : calc(var(--phrase-row-h) * 10);
+  max-height      : calc(var(--phrase-row-h) * 5);
   overflow-y      : auto;
   scrollbar-gutter: stable;
 }
