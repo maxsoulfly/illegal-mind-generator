@@ -155,7 +155,9 @@ export default function TagLibraryPage({
       <div className="tag-library tag-library--3col">
         {sortedTags.map((tag) => (
           <TagCard
-            key={tag.name}
+            // project-scoped so a same-named tag in another project remounts
+            // on switch -- clears the card's drill-down view / local state
+            key={`${projectId}:${tag.name}`}
             tag={tag}
             categories={categories}
             onToggleVisibility={handleToggleTagVisibility}

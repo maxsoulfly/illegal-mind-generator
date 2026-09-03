@@ -15,6 +15,7 @@ import {
   shortHookCategoryCount,
   getShortHookCategories,
   getInitialView,
+  isSourceMatch,
   parentOf,
   resolvePoolEditorProps,
   pickTagPhrasePlaceholders,
@@ -208,6 +209,14 @@ eq(
   'leaf props: descriptionPool phrases -> [] when description is null',
 );
 ok(resolvePoolEditorProps(tag, { level: 'overview' }) === null, 'leaf props: non-leaf view -> null');
+
+// --- isSourceMatch (moved here from the deleted tagFieldTabs.js) --------
+
+ok(isSourceMatch({ field: 'title' }, { field: 'title' }), 'isSourceMatch: field == entry.field');
+ok(isSourceMatch({ hookType: 'contrast' }, { field: 'contrast' }), 'isSourceMatch: hookType == entry.field');
+ok(!isSourceMatch({ field: 'title' }, { field: 'thumbnail' }), 'isSourceMatch: non-matching field');
+ok(!isSourceMatch(null, { field: 'title' }), 'isSourceMatch: tolerates a null target');
+ok(!isSourceMatch({ hookType: 'emotion' }, { field: 'nostalgia' }), 'isSourceMatch: non-matching hookType');
 
 // --- pickTagPhrasePlaceholders -------------------------------------------
 

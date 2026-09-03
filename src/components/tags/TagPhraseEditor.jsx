@@ -22,8 +22,8 @@ export default function TagPhraseEditor({
   // HookTemplateEditor's `noWrapper` gives for the Hook Blocks tab.
   noWrapper = false,
   // Show a search box above the list that filters which rows render (by
-  // real index, so edit/remove still target the right entry). Same
-  // behaviour as TagFieldTab's `searchable` — used by CoverShortHooksEditor.
+  // real index, so edit/remove still target the right entry). Used by
+  // CoverShortHooksEditor.
   searchable = false,
   // Extra control rendered in the + Add / + Bulk row (CoverShortHooksEditor
   // puts its "Copy AI Prompt" button here).

@@ -46,8 +46,7 @@ const SECTION_MAP_KEY = {
   hashtags: 'hashtags',
 };
 
-// Heading shown above a flat-pool editor (matches the old TAG_FIELD_TABS
-// `title` strings so nothing reads differently).
+// Heading shown above a flat-pool editor.
 export const POOL_TITLES = {
   titles: 'Long title phrases',
   thumbnails: 'Thumbnail phrases',
@@ -92,9 +91,9 @@ export function shortHookCategoryCount(tag, categoryId) {
 
 // ---------------------------------------------------------------------------
 // Short Hook categories -- config-driven off projectConfig.shortHookTypes
-// (7 in both projects today, incl. `contrast`), replacing the hardcoded 6
-// in tagFieldTabs.js. Order follows the config's key order; label falls
-// back to the key.
+// (7 in both projects today, incl. `contrast`), which is what makes a
+// per-tag Contrast pool editable at all. Order follows the config's key
+// order; label falls back to the key.
 // ---------------------------------------------------------------------------
 
 export function getShortHookCategories(projectConfig) {
@@ -152,10 +151,11 @@ export function parentOf(view) {
 
 // ---------------------------------------------------------------------------
 // Leaf editor props -- everything a <TagPhraseEditor> needs for a given leaf
-// view, resolved from `tag` alone. `parentValue` mirrors TagFieldTab's
-// `tag.maps[parentField] || {}` so buildUpdate's nested spread stays correct.
-// The caller supplies the human `title` (it has it from the section /
-// category list); only `heading` for the static pools is filled here.
+// view, resolved from `tag` alone. `parentValue` is `tag.maps[parentField]
+// || {}` so TagPhraseEditor.buildUpdate's nested spread keeps the sibling
+// sub-pools intact. The caller supplies the human `title` (it has it from
+// the section / category list); only `heading` for the static pools is
+// filled here.
 // ---------------------------------------------------------------------------
 
 export function resolvePoolEditorProps(tag, view) {
@@ -196,11 +196,11 @@ export function resolvePoolEditorProps(tag, view) {
 }
 
 // ---------------------------------------------------------------------------
-// Placeholder autocomplete set for a leaf editor -- lifted verbatim from
-// TagFieldTab's ternary. Titles resolve at plain render time with no
-// pick-phase freezing (resolveTitleRecord.js), so they only get the
-// always-live subset; Thumbnails and Short Hooks have real freeze support
-// end-to-end and get the full set. Descriptions / Hashtags: no autocomplete.
+// Placeholder autocomplete set for a leaf editor. Titles resolve at plain
+// render time with no pick-phase freezing (resolveTitleRecord.js), so they
+// only get the always-live subset; Thumbnails and Short Hooks have real
+// freeze support end-to-end and get the full set. Descriptions / Hashtags:
+// no autocomplete.
 // ---------------------------------------------------------------------------
 
 export function pickTagPhrasePlaceholders(sectionId, projectConfig) {
@@ -209,4 +209,13 @@ export function pickTagPhrasePlaceholders(sectionId, projectConfig) {
     return buildHookPlaceholders(projectConfig);
   }
   return undefined;
+}
+
+// True when a click-to-navigate target points at this field -- Titles-
+// sourced clicks carry {field}, Short-Hooks-sourced clicks carry {hookType}
+// (both matched against the leaf's own field/category key). Safe across
+// every section: no real target ever sets field/hookType to a Descriptions
+// or Hashtags key. (Was tagFieldTabs.js's isSourceMatch, kept verbatim.)
+export function isSourceMatch(sourceTarget, entry) {
+  return sourceTarget?.field === entry.field || sourceTarget?.hookType === entry.field;
 }

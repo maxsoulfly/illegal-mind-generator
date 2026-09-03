@@ -12,11 +12,11 @@ import {
   DESCRIPTION_GROUPS,
   getInitialView,
   getShortHookCategories,
+  isSourceMatch,
   parentOf,
   resolvePoolEditorProps,
   pickTagPhrasePlaceholders,
 } from '../../utils/tagContentSections';
-import { isSourceMatch } from '../../utils/tagFieldTabs';
 import { buildHookPlaceholders } from '../../utils/hookPlaceholders';
 import { buildTagShortHooksPrompt } from '../../utils/authorPromptContexts';
 

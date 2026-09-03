@@ -42,8 +42,9 @@ export const THUMBNAIL_TAG_PLACEHOLDER = ['{tag}'];
 // pooled/random resolution, see placeholders.js's ALWAYS_LIVE_TOKENS), so
 // filling it fresh on every keystroke can never re-roll a different value
 // the way {originalGenre}/{tags.*} would. Used for per-tag Title/Thumbnail
-// phrases (TagFieldTab.jsx) and the project-level thumbnail Words/Fallbacks/
-// Generic Tag Templates pools (ProjectSettingsThumbnails.jsx), none of which
+// phrases (tagContentSections.js's pickTagPhrasePlaceholders) and the
+// project-level thumbnail Words/Fallbacks/Generic Tag Templates pools
+// (ProjectSettingsThumbnails.jsx), none of which
 // have pick-phase freezing of their own (see resolveTitleRecord.js/
 // generateThumbnails.js) -- a broader set would need that freezing added
 // first to avoid re-rolling on every render.

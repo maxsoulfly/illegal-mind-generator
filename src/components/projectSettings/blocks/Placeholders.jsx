@@ -16,10 +16,9 @@ import {
   addPlaceholderPatch,
 } from '../../../utils/placeholderOverrides';
 
-// Fixed set of tag-scoped array fields a placeholder can pool from — same
-// fields the Tag Editor's Descriptions/Short Hooks tabs already expose for
-// direct editing (see TAG_FIELD_TABS in src/utils/tagFieldTabs.js), just
-// offered here as a source instead. Combined into one
+// Fixed set of tag-scoped array fields a placeholder can pool from — the
+// same description/shortHooks sub-fields the Tag Editor exposes for direct
+// editing, just offered here as a source instead. Combined into one
 // dropdown (rather than two cascading tagParentField/tagField selects) since
 // the parent/field split is a config-shape detail, not something a user
 // needs to reason about in two steps.
