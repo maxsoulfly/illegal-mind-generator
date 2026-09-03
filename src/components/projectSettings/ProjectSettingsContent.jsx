@@ -1,4 +1,4 @@
-import ProjectSettingsGeneral from './ProjectSettingsGeneral';
+import ProjectSettingsProject from './ProjectSettingsProject';
 import ShortHooks from './shortHooks/ShortHooks';
 import Titles from './titles/Titles';
 import DescriptionsWorkspace from './descriptions/DescriptionsWorkspace';
@@ -26,9 +26,9 @@ export default function ProjectSettingsContent({
   onOpenUIKit,
   showToast,
 }) {
-  if (activeSection === 'general') {
+  if (activeSection === 'project') {
     return (
-      <ProjectSettingsGeneral
+      <ProjectSettingsProject
         projectId={projectId}
         projectConfig={projectConfig}
         projectSettingsOverrides={projectSettingsOverrides}

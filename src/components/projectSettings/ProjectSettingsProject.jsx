@@ -3,7 +3,7 @@ import IconButton from '../ui/IconButton';
 import TemplateGroupCard from '../ui/TemplateGroupCard';
 import AppBackupControls from '../AppBackupControls';
 
-export default function ProjectSettingsGeneral({
+export default function ProjectSettingsProject({
   projectId,
   projectConfig,
   projectSettingsOverrides,

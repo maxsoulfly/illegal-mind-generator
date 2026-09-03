@@ -14,8 +14,8 @@ import GenerationOverview from '../components/projectSettings/generation/Generat
 //    editor with a "<- Generation" back path (Stage 4).
 //  - Descriptions (kind: 'subnav') shows a contextual leaf strip.
 //  - Workflow / Project (kind: 'page') show one page, no strip — Workflow
-//    stacks its three planning configs (Stage 5), Project is the General
-//    editor (Project Info + app-wide Backup).
+//    stacks its three planning configs (Stage 5), Project is the
+//    ProjectSettingsProject editor (Project Info + app-wide Backup).
 // Every rendered leaf maps to an existing ProjectSettingsContent dispatch
 // id; that component + all editors are unchanged — this is navigation only.
 const LEAF_TO_DISPATCH = {
@@ -34,7 +34,7 @@ const LEAF_TO_DISPATCH = {
   shortsQueue: 'workflow',
   todo: 'workflow',
   uploadSchedule: 'workflow',
-  projectInfo: 'general',
+  projectInfo: 'project',
 };
 const LEAF_IDS = new Set(Object.keys(LEAF_TO_DISPATCH));
 
@@ -123,7 +123,7 @@ export default function ProjectSettingsPage({
 
   const isDrill = DRILL_SECTIONS.has(view.section);
   const showOverview = isDrill && view.leaf == null;
-  const dispatchSection = LEAF_TO_DISPATCH[view.leaf] ?? 'general';
+  const dispatchSection = LEAF_TO_DISPATCH[view.leaf] ?? 'project';
   // Only a 'subnav' section (Descriptions) gets a leaf strip; 'drill' and
   // 'page' sections don't.
   const leaves =
