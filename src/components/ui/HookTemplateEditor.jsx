@@ -55,24 +55,26 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
         onChange={(e) => setSearchText(e.target.value)}
       />
 
-      {visibleTemplates.map(({ template, index }) => {
-        const isHighlighted = template === highlightText;
-        return (
-          <PhraseRow
-            key={index}
-            ref={isHighlighted ? highlightRowRef : null}
-            highlighted={isHighlighted}
-            value={template}
-            placeholders={placeholders}
-            onCommit={(newValue) => {
-              const next = [...templates];
-              next[index] = newValue;
-              onUpdateTemplates(next);
-            }}
-            onRemove={() => onUpdateTemplates(templates.filter((_, idx) => idx !== index))}
-          />
-        );
-      })}
+      <div className="phrase-row-list">
+        {visibleTemplates.map(({ template, index }) => {
+          const isHighlighted = template === highlightText;
+          return (
+            <PhraseRow
+              key={index}
+              ref={isHighlighted ? highlightRowRef : null}
+              highlighted={isHighlighted}
+              value={template}
+              placeholders={placeholders}
+              onCommit={(newValue) => {
+                const next = [...templates];
+                next[index] = newValue;
+                onUpdateTemplates(next);
+              }}
+              onRemove={() => onUpdateTemplates(templates.filter((_, idx) => idx !== index))}
+            />
+          );
+        })}
+      </div>
 
       {bulkValue != null && (
         <BulkTextarea

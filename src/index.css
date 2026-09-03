@@ -76,6 +76,11 @@
   --space-8: 24px;
   --space-9: 32px;
 
+  /* Approx height of one .tag-phrase-row (input + row margin-bottom). Drives
+     the ~10-row scroll cap on .phrase-row-list — tune here if row metrics
+     change. */
+  --phrase-row-h: 3.25rem;
+
   --space--1: -6px;
   --space--2: -8px;
   --space--3: -10px;
@@ -2136,6 +2141,18 @@ input[type="range"]::-moz-range-progress {
   border-color: var(--color-border-hover);
 }
 
+/* Scroll cap shared by HookTemplateEditor + TagPhraseEditor: past ~10 rows
+   the row list scrolls internally instead of making the card arbitrarily
+   tall. max-height (not height) so a short list reserves no empty space and
+   shows no scrollbar. Search sits above this element, +Add/+Bulk/Copy AI
+   Prompt / Bulk textarea below it — none of them scroll. The {placeholder}
+   autocomplete escapes this overflow via position:fixed (PlaceholderField). */
+.phrase-row-list {
+  max-height      : calc(var(--phrase-row-h) * 10);
+  overflow-y      : auto;
+  scrollbar-gutter: stable;
+}
+
 /* Tag filter chips */
 .tag-filters {
   grid-column: 1 / -1;
@@ -2414,11 +2431,11 @@ input[type="range"]::-moz-range-progress {
 }
 
 .placeholder-suggestions {
-  position     : absolute;
-  top          : 100%;
-  left         : 0;
-  right        : 0;
-  z-index      : 20;
+  /* position/left/top/width are set inline by PlaceholderField (portaled to
+     <body>, position:fixed) so the dropdown escapes .phrase-row-list's
+     overflow clip. These are the fallback / non-portaled values. */
+  position     : fixed;
+  z-index      : 60;
   margin-top   : var(--space-1);
   max-height   : 12rem;
   overflow-y   : auto;

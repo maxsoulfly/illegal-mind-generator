@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 // Scan backwards from the cursor for an unclosed '{' with no space/newline/
 // '}' in between — that's an active placeholder query in progress.
@@ -47,11 +48,44 @@ export default function PlaceholderField({
   const [query, setQuery] = useState(null);
   const [triggerStart, setTriggerStart] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  // Viewport rect of the field, captured in event handlers (not read during
+  // render — refs aren't safe there). Drives the portaled fixed-position
+  // dropdown. null = dropdown closed.
+  const [anchorRect, setAnchorRect] = useState(null);
   const fieldRef = useRef(null);
+
+  const closeMenu = () => {
+    setQuery(null);
+    setTriggerStart(null);
+    setAnchorRect(null);
+  };
 
   useEffect(() => {
     setValue(defaultValue);
   }, [defaultValue]);
+
+  // The suggestions list is portaled to <body> and positioned as fixed (see
+  // render), so it escapes the .phrase-row-list scroll container's overflow
+  // clip. Fixed coords go stale on scroll/resize — cheapest correct fix is
+  // to dismiss the dropdown then (a common autocomplete behaviour). Listener
+  // is capture-phase so it catches scrolls in any ancestor, not just window.
+  useEffect(() => {
+    if (query === null) return undefined;
+
+    const dismiss = () => {
+      setQuery(null);
+      setTriggerStart(null);
+      setAnchorRect(null);
+    };
+
+    window.addEventListener('scroll', dismiss, true);
+    window.addEventListener('resize', dismiss);
+
+    return () => {
+      window.removeEventListener('scroll', dismiss, true);
+      window.removeEventListener('resize', dismiss);
+    };
+  }, [query]);
 
   const matches =
     query === null
@@ -61,19 +95,20 @@ export default function PlaceholderField({
         );
 
   function handleChange(e) {
-    const next = e.target.value;
+    const field = e.target;
+    const next = field.value;
     setValue(next);
     onChange?.(next);
 
-    const trigger = detectTrigger(next, e.target.selectionStart);
+    const trigger = detectTrigger(next, field.selectionStart);
 
     if (trigger) {
       setTriggerStart(trigger.start);
       setQuery(trigger.query);
       setActiveIndex(0);
+      setAnchorRect(field.getBoundingClientRect());
     } else {
-      setTriggerStart(null);
-      setQuery(null);
+      closeMenu();
     }
   }
 
@@ -87,8 +122,7 @@ export default function PlaceholderField({
 
     setValue(next);
     onChange?.(next);
-    setQuery(null);
-    setTriggerStart(null);
+    closeMenu();
 
     requestAnimationFrame(() => {
       const pos = before.length + token.length;
@@ -110,19 +144,21 @@ export default function PlaceholderField({
       e.preventDefault();
       insertPlaceholder(matches[activeIndex]);
     } else if (e.key === 'Escape') {
-      setQuery(null);
-      setTriggerStart(null);
+      closeMenu();
     }
   }
 
   function handleBlur() {
-    setQuery(null);
-    setTriggerStart(null);
+    closeMenu();
     onBlur?.(value);
   }
 
   const Field = multiline ? 'textarea' : 'input';
   const resolvedClassName = className ?? (multiline ? 'form-textarea' : 'form-input');
+
+  // Anchor the (portaled, fixed) dropdown to the field rect captured on the
+  // last keystroke — refs can't be read during render.
+  const anchor = query !== null && matches.length > 0 ? anchorRect : null;
 
   return (
     <div className="placeholder-field">
@@ -137,22 +173,34 @@ export default function PlaceholderField({
         onKeyDown={handleKeyDown}
         onBlur={handleBlur}
       />
-      {query !== null && matches.length > 0 && (
-        <ul className="placeholder-suggestions">
-          {matches.map((p, i) => (
-            <li
-              key={p}
-              className={`placeholder-suggestion${i === activeIndex ? ' placeholder-suggestion--active' : ''}`}
-              onMouseDown={(e) => {
-                e.preventDefault();
-                insertPlaceholder(p);
-              }}
-            >
-              {p}
-            </li>
-          ))}
-        </ul>
-      )}
+      {anchor &&
+        createPortal(
+          <ul
+            className="placeholder-suggestions"
+            style={{
+              position: 'fixed',
+              left: anchor.left,
+              top: anchor.bottom + 4,
+              width: anchor.width,
+              right: 'auto',
+              marginTop: 0,
+            }}
+          >
+            {matches.map((p, i) => (
+              <li
+                key={p}
+                className={`placeholder-suggestion${i === activeIndex ? ' placeholder-suggestion--active' : ''}`}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  insertPlaceholder(p);
+                }}
+              >
+                {p}
+              </li>
+            ))}
+          </ul>,
+          document.body,
+        )}
     </div>
   );
 }

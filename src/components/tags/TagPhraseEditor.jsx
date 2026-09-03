@@ -97,21 +97,23 @@ export default function TagPhraseEditor({
       )}
 
       <FormField>
-        {phrases.map((phrase, index) => {
-          if (normalizedSearch && !phrase.toLowerCase().includes(normalizedSearch)) return null;
-          const isHighlighted = phrase === highlightText;
-          return (
-            <PhraseRow
-              key={index}
-              ref={isHighlighted ? highlightRowRef : null}
-              highlighted={isHighlighted}
-              value={phrase}
-              placeholders={placeholders}
-              onCommit={(newValue) => updatePhrase(index, newValue)}
-              onRemove={() => removePhrase(index)}
-            />
-          );
-        })}
+        <div className="phrase-row-list">
+          {phrases.map((phrase, index) => {
+            if (normalizedSearch && !phrase.toLowerCase().includes(normalizedSearch)) return null;
+            const isHighlighted = phrase === highlightText;
+            return (
+              <PhraseRow
+                key={index}
+                ref={isHighlighted ? highlightRowRef : null}
+                highlighted={isHighlighted}
+                value={phrase}
+                placeholders={placeholders}
+                onCommit={(newValue) => updatePhrase(index, newValue)}
+                onRemove={() => removePhrase(index)}
+              />
+            );
+          })}
+        </div>
 
         {bulkValue != null && (
           <BulkTextarea
