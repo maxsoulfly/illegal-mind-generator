@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 
+// Order = display order (Object.entries below). Workflow pages first, then
+// the two authoring workspaces (Tag Library = tag-level, Content Setup =
+// project-level). `projectSettings` keeps its internal id — only the label
+// changed (see contentSetupNav.js / the Content Setup IA rework).
 const PAGE_LABELS = {
   generator:       'Generator',
-  tags:            'Tag Library',
   shortsQueue:     'Shorts Queue',
   calendar:        'Calendar',
   todo:            'Todo',
-  projectSettings: 'Project Settings',
+  tags:            'Tag Library',
+  projectSettings: 'Content Setup',
 };
 
 export default function AppHeader({
