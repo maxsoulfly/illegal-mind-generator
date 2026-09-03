@@ -67,7 +67,7 @@ export default function ShortHooks({
 
   return (
     <section>
-      <h2 className="panel-title">Shorts Hooks</h2>
+      <h2 className="panel-title">Short Hooks</h2>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 'var(--space-3)', marginBottom: 'var(--space-4)' }}>
         <input

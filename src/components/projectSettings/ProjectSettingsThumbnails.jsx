@@ -59,7 +59,7 @@ export default function ProjectSettingsThumbnails({
 
   return (
     <section>
-      <h2 className="panel-title">Thumbnail Templates</h2>
+      <h2 className="panel-title">Thumbnails</h2>
 
       <div className="tag-library tag-library--3col">
         <TemplateGroupCard
