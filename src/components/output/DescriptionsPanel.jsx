@@ -100,7 +100,11 @@ function DescriptionsPanel({
       label="Descriptions"
       visible={panelVisibility.descriptions}
       onToggle={() => togglePanel('descriptions')}
-      onNavigate={onNavigateToSettings ? () => onNavigateToSettings('descriptions') : undefined}
+      onNavigate={
+        onNavigateToSettings
+          ? () => onNavigateToSettings('long') /* the Long layout editor, not the Descriptions overview */
+          : undefined
+      }
     >
       <div>
         {/* LONG */}

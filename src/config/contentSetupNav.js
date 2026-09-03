@@ -4,9 +4,15 @@
 // The 11 chips became 4 functional sections:
 //   generation   (kind: 'drill')  — overview -> Titles / Short Hooks /
 //                                    Thumbnails / Hashtags editor + back
-//   descriptions (kind: 'subnav') — one workspace, flat leaf strip:
-//                                    Long / Shorts / Lists / Text / Hook
-//                                    Blocks / Groups / Placeholders / Links
+//   descriptions (kind: 'drill')  — grouped overview (Layouts / Blocks /
+//                                    Variables, see DESCRIPTION_GROUPS) ->
+//                                    one of the 8 editors + "<- Descriptions"
+//                                    back. The 8 leaf ids are unchanged
+//                                    (long/shorts + the 5 BLOCK_TYPE_SUBTABS
+//                                    ids + links) so every blocksTarget /
+//                                    openBlocksEditor deep-link keeps landing
+//                                    on its editor directly, skipping the
+//                                    overview.
 //   workflow     (kind: 'page')   — Shorts Queue + Todo Statuses + Upload
 //                                    Schedule on one page
 //   project      (kind: 'page')   — project name/id + app-wide Backup
@@ -33,15 +39,16 @@ export const CONTENT_SETUP_SECTIONS = [
   {
     id: 'descriptions',
     label: 'Descriptions',
-    // One workspace: both description modes + every block type + placeholders
-    // + links, on a single flat leaf strip. Stage 3 flattened the old stacked
-    // Descriptions[Long/Shorts] + Blocks[5-tab] SubTabNavs into a `layout`
-    // leaf that still nested a Long/Shorts SubTabNav; this stage promotes
-    // Long and Shorts to first-class leaves and drops that inner strip. The
-    // block-editor leaf ids are the BLOCK_TYPE_SUBTABS subtab ids verbatim
-    // (lists/text/hooks/groups/placeholders) so blocksTarget.subTab and every
-    // openBlocksEditor deep-link keep working unchanged.
-    kind: 'subnav',
+    // Drill-down (same shape as `generation` / the Tag Library card): a
+    // grouped overview -> one editor + a "<- Descriptions" back header. The
+    // 8 leaves stay a flat array here (dispatchableLeaves / sectionOfLeaf /
+    // the blocksTarget deep-link path all read it) — DESCRIPTION_GROUPS
+    // below is the *display* grouping the overview screen uses. Leaf ids are
+    // unchanged: `long`/`shorts` + the BLOCK_TYPE_SUBTABS ids
+    // (lists/text/hooks/groups/placeholders) + `links`, so blocksTarget.subTab
+    // and every openBlocksEditor deep-link keep landing on their editor
+    // directly, skipping the overview.
+    kind: 'drill',
     leaves: [
       { id: 'long', label: 'Long' },
       { id: 'shorts', label: 'Shorts' },
@@ -73,13 +80,26 @@ export const CONTENT_SETUP_SECTIONS = [
   },
 ];
 
+// Display grouping for the Descriptions drill overview. Purely presentational
+// — the leaf ids are the same ones in CONTENT_SETUP_SECTIONS.descriptions.
+// Conceptual flow: Variables -> Blocks -> Layouts -> Descriptions.
+export const DESCRIPTION_GROUPS = [
+  { id: 'layouts',   label: 'Layouts',   leafIds: ['long', 'shorts'] },
+  { id: 'blocks',    label: 'Blocks',    leafIds: ['lists', 'text', 'hooks', 'groups'] },
+  { id: 'variables', label: 'Variables', leafIds: ['placeholders', 'links'] },
+];
+
+export function groupOfDescriptionLeaf(leafId) {
+  return DESCRIPTION_GROUPS.find((g) => g.leafIds.includes(leafId))?.id ?? null;
+}
+
 // Old PROJECT_SETTING_SECTIONS id (and the strings the Generator output
 // panels pass to onNavigateToSettings) -> { section, leaf } in the new IA.
 const LEGACY_SECTION_MAP = {
   general:        { section: 'project',      leaf: 'projectInfo' },
   shortHooks:     { section: 'generation',   leaf: 'shortHooks' },
   titles:         { section: 'generation',   leaf: 'titles' },
-  descriptions:   { section: 'descriptions', leaf: 'long' }, // default description mode
+  descriptions:   { section: 'descriptions', leaf: null }, // bare id -> the grouped overview
   layout:         { section: 'descriptions', leaf: 'long' }, // retired leaf id -> default mode
   links:          { section: 'descriptions', leaf: 'links' },
   blocks:         { section: 'descriptions', leaf: 'lists' }, // no-subTab fallback (first block leaf)
@@ -99,8 +119,11 @@ const SECTION_IDS = new Set(CONTENT_SETUP_SECTIONS.map((s) => s.id));
 //    from blocksTarget.subTab. Since Stage 3 the block subtab ids
 //    (lists|text|hooks|groups|placeholders) ARE Descriptions leaf ids, so the
 //    subTab is the leaf directly.
-// Legacy map is checked before the passthrough because 'descriptions' is both
-// a legacy id (-> layout leaf) and a new section id.
+// Legacy map is checked before the passthrough. 'descriptions' is in both:
+// as a legacy id it now resolves to { section: 'descriptions', leaf: null }
+// (the grouped overview) — same result the SECTION_IDS passthrough would
+// give, so the two agree. The Generator "DESCRIPTIONS" panel deep-links via
+// 'long' (a real leaf id), not 'descriptions', so it lands on an editor.
 export function resolveContentSetupTarget(legacySection, blocksSubTab) {
   const base = LEGACY_SECTION_MAP[legacySection];
   if (base) {

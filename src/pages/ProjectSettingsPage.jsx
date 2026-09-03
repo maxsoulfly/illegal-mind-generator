@@ -7,12 +7,16 @@ import {
 } from '../config/contentSetupNav';
 import ProjectSettingsContent from '../components/projectSettings/ProjectSettingsContent';
 import GenerationOverview from '../components/projectSettings/generation/GenerationOverview';
+import DescriptionsOverview from '../components/projectSettings/descriptions/DescriptionsOverview';
 
 // Content Setup IA rework. The flat 11-chip strip is a two-level nav:
 //  - 4 section buttons (Generation / Descriptions / Workflow / Project)
 //  - Generation (kind: 'drill') opens to an overview, then drills to one
 //    editor with a "<- Generation" back path (Stage 4).
-//  - Descriptions (kind: 'subnav') shows a contextual leaf strip.
+//  - Descriptions (kind: 'drill') opens to a grouped overview (Layouts /
+//    Blocks / Variables), then drills to one of the 8 editors with a
+//    "<- Descriptions" back path. Deep-links (blocksTarget, the Generator
+//    DESCRIPTIONS panel via 'long') skip the overview and open the leaf.
 //  - Workflow / Project (kind: 'page') show one page, no strip — Workflow
 //    stacks its three planning configs (Stage 5), Project is the
 //    ProjectSettingsProject editor (Project Info + app-wide Backup).
@@ -185,7 +189,11 @@ export default function ProjectSettingsPage({
 
       <div className="panel">
         {showOverview ? (
-          <GenerationOverview projectConfig={projectConfig} onOpen={selectLeaf} />
+          view.section === 'descriptions' ? (
+            <DescriptionsOverview onOpen={selectLeaf} />
+          ) : (
+            <GenerationOverview projectConfig={projectConfig} onOpen={selectLeaf} />
+          )
         ) : (
           <ProjectSettingsContent
             activeSection={dispatchSection}

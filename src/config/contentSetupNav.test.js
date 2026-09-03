@@ -12,6 +12,8 @@ import {
   resolveContentSetupTarget,
   getSection,
   getSectionLeaves,
+  DESCRIPTION_GROUPS,
+  groupOfDescriptionLeaf,
 } from './contentSetupNav';
 
 let failures = 0;
@@ -33,8 +35,8 @@ eq(
 );
 eq(
   CONTENT_SETUP_SECTIONS.map((s) => s.kind),
-  ['drill', 'subnav', 'page', 'page'],
-  'registry: generation=drill, descriptions=subnav, workflow/project=page',
+  ['drill', 'drill', 'page', 'page'],
+  'registry: generation + descriptions = drill, workflow/project = page',
 );
 ok(
   CONTENT_SETUP_SECTIONS.every((s) => s.label && Array.isArray(s.leaves) && s.leaves.length > 0),
@@ -52,8 +54,35 @@ eq(
 eq(
   getSectionLeaves('descriptions').map((l) => l.id),
   ['long', 'shorts', 'lists', 'text', 'hooks', 'groups', 'placeholders', 'links'],
-  'registry: descriptions leaves (flat — Long/Shorts promoted to first-class leaves, `layout` retired)',
+  'registry: descriptions leaves (still a flat 8 — DESCRIPTION_GROUPS is display-only)',
 );
+
+// ---------------------------------------------------------------------------
+// DESCRIPTION_GROUPS — the drill overview's display grouping
+// ---------------------------------------------------------------------------
+
+eq(
+  DESCRIPTION_GROUPS.map((g) => g.id),
+  ['layouts', 'blocks', 'variables'],
+  'groups: layouts -> blocks -> variables (Variables feed Blocks feed Layouts)',
+);
+eq(
+  DESCRIPTION_GROUPS.flatMap((g) => g.leafIds),
+  ['long', 'shorts', 'lists', 'text', 'hooks', 'groups', 'placeholders', 'links'],
+  'groups: every descriptions leaf is covered exactly once, in order',
+);
+ok(
+  DESCRIPTION_GROUPS.every((g) => g.id && g.label && Array.isArray(g.leafIds) && g.leafIds.length),
+  'groups: every group has id + label + non-empty leafIds',
+);
+ok(
+  groupOfDescriptionLeaf('long') === 'layouts' &&
+    groupOfDescriptionLeaf('hooks') === 'blocks' &&
+    groupOfDescriptionLeaf('placeholders') === 'variables' &&
+    groupOfDescriptionLeaf('links') === 'variables',
+  'groupOfDescriptionLeaf: long->layouts, hooks->blocks, placeholders/links->variables',
+);
+ok(groupOfDescriptionLeaf('nope') === null, 'groupOfDescriptionLeaf: unknown leaf -> null');
 eq(
   getSectionLeaves('workflow').map((l) => l.id),
   ['shortsQueue', 'todo', 'uploadSchedule'],
@@ -69,7 +98,7 @@ ok(getSection('nope') === null && getSectionLeaves('nope').length === 0, 'regist
 eq(resolveContentSetupTarget('general'), { section: 'project', leaf: 'projectInfo' }, 'legacy: general -> project/projectInfo');
 eq(resolveContentSetupTarget('shortHooks'), { section: 'generation', leaf: 'shortHooks' }, 'legacy: shortHooks -> generation/shortHooks');
 eq(resolveContentSetupTarget('titles'), { section: 'generation', leaf: 'titles' }, 'legacy: titles -> generation/titles');
-eq(resolveContentSetupTarget('descriptions'), { section: 'descriptions', leaf: 'long' }, 'legacy: descriptions -> descriptions/long (default mode, NOT the bare-section passthrough)');
+eq(resolveContentSetupTarget('descriptions'), { section: 'descriptions', leaf: null }, 'legacy: bare descriptions -> descriptions overview (leaf: null)');
 eq(resolveContentSetupTarget('layout'), { section: 'descriptions', leaf: 'long' }, 'legacy: retired `layout` leaf id -> descriptions/long');
 eq(resolveContentSetupTarget('links'), { section: 'descriptions', leaf: 'links' }, 'legacy: links -> descriptions/links');
 eq(resolveContentSetupTarget('blocks'), { section: 'descriptions', leaf: 'lists' }, 'legacy: blocks (no subTab) -> descriptions/lists (first block leaf)');
@@ -83,7 +112,12 @@ eq(resolveContentSetupTarget('uploadSchedule'), { section: 'workflow', leaf: 'up
 eq(resolveContentSetupTarget('titles'), { section: 'generation', leaf: 'titles' }, 'nav string: titles');
 eq(resolveContentSetupTarget('thumbnails'), { section: 'generation', leaf: 'thumbnails' }, 'nav string: thumbnails');
 eq(resolveContentSetupTarget('hashtags'), { section: 'generation', leaf: 'hashtags' }, 'nav string: hashtags');
-eq(resolveContentSetupTarget('descriptions'), { section: 'descriptions', leaf: 'long' }, 'nav string: descriptions -> descriptions/long');
+// The Generator "DESCRIPTIONS" panel now deep-links via the 'long' *leaf id*
+// (resolved in ProjectSettingsPage via LEAF_IDS), not the 'descriptions'
+// section string — so there is no 'descriptions' nav-string case here any more.
+// `resolveContentSetupTarget` doesn't handle leaf ids; a bare leaf id falls
+// through to the safe default, which is fine — it's never passed one.
+eq(resolveContentSetupTarget('long'), { section: 'project', leaf: 'projectInfo' }, 'resolveContentSetupTarget is not passed leaf ids -> safe default');
 
 // ---------------------------------------------------------------------------
 // resolveContentSetupTarget — blocksTarget.subTab (Stage 3: subTab IS the leaf)
