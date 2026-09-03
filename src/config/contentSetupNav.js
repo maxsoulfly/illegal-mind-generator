@@ -1,10 +1,21 @@
-// Stage 0 of the Project Settings -> "Content Setup" IA rework: a pure
-// navigation model + a resolver. NOTHING imports this yet — Stage 2 wires it
-// into ProjectSettingsPage / ProjectSettingsContent. The 11 flat section
-// chips collapse into 4 functional sections; every editor component stays
-// exactly where it is and keeps writing the same
-// projectSettingsOverrides.<domain> key. This file only describes navigation
-// — no data/schema/engine change anywhere.
+// The navigation model for the "Content Setup" section (formerly the flat
+// 11-chip "Project Settings"). Consumed by ProjectSettingsPage.jsx.
+//
+// The 11 chips became 4 functional sections:
+//   generation   (kind: 'drill')  — overview -> Titles / Short Hooks /
+//                                    Thumbnails / Hashtags editor + back
+//   descriptions (kind: 'subnav') — one workspace, flat leaf strip:
+//                                    Layout / Lists / Text / Hook Blocks /
+//                                    Groups / Placeholders / Links
+//   workflow     (kind: 'page')   — Shorts Queue + Todo Statuses + Upload
+//                                    Schedule on one page
+//   project      (kind: 'page')   — project name/id + app-wide Backup
+//
+// Pure navigation — every editor keeps writing the same
+// projectSettingsOverrides.<domain> key; no data/schema/engine change.
+// `resolveContentSetupTarget` keeps the pre-rework section ids + the
+// Generator output panels' onNavigateToSettings strings + blocksTarget.subTab
+// resolving to the right { section, leaf }.
 
 export const CONTENT_SETUP_SECTIONS = [
   {
@@ -53,12 +64,9 @@ export const CONTENT_SETUP_SECTIONS = [
   {
     id: 'project',
     label: 'Project',
-    // Single page (Project Info + Backup).
+    // Single page — the Project editor (project name/id + app-wide Backup).
     kind: 'page',
-    leaves: [
-      { id: 'projectInfo', label: 'Project Info' },
-      { id: 'backup', label: 'Backup' },
-    ],
+    leaves: [{ id: 'projectInfo', label: 'Project' }],
   },
 ];
 

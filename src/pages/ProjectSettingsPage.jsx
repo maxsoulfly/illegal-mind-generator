@@ -52,9 +52,10 @@ const sectionLabel = (sectionId) =>
   CONTENT_SETUP_SECTIONS.find((s) => s.id === sectionId)?.label ?? sectionId;
 
 // The persisted `activeSection` value can be a leaf id, a bare section id
-// (drill-section overview, or a legacy id from openProjectSettings), or an
-// old PROJECT_SETTING_SECTIONS id. Normalise to { section, leaf } — leaf is
-// null only for a drill section's overview.
+// (drill-section overview, or a legacy id from openProjectSettings), or one
+// of the pre-rework flat Project-Settings section ids still in some users'
+// stored state. Normalise to { section, leaf } — leaf is null only for a
+// drill section's overview.
 function resolveStoredView(stored) {
   if (LEAF_IDS.has(stored)) {
     return { section: sectionOfLeaf(stored), leaf: stored };

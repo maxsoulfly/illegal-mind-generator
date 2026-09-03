@@ -61,7 +61,7 @@ eq(
   ['shortsQueue', 'todo', 'uploadSchedule'],
   'registry: workflow leaves',
 );
-eq(getSectionLeaves('project').map((l) => l.id), ['projectInfo', 'backup'], 'registry: project leaves');
+eq(getSectionLeaves('project').map((l) => l.id), ['projectInfo'], 'registry: project leaves (single page)');
 ok(getSection('nope') === null && getSectionLeaves('nope').length === 0, 'registry: unknown section -> null / []');
 
 // ---------------------------------------------------------------------------

@@ -12,10 +12,10 @@ import LinksRegistryEditor from '../lists/LinksRegistryEditor';
 // Blocks[5-tab] SubTabNavs are gone. `layout` still renders <Descriptions>
 // unchanged (its Long/Shorts SubTabNav is a real sub-choice, not redundant).
 //
-// Every editor below receives exactly the props Blocks.jsx /
-// ProjectSettingsLinks.jsx passed it — no editor logic changed. The
-// blockKey / highlight from a blocksTarget deep-link only apply to the leaf
-// that link actually targeted (blocksTarget.subTab === leaf).
+// Every editor below is rendered exactly as it was before the merge — no
+// editor logic changed. The blockKey / highlight from a blocksTarget
+// deep-link only apply to the leaf that link actually targeted
+// (blocksTarget.subTab === leaf).
 const LEAF_HEADINGS = {
   lists: 'Lists',
   text: 'Text Blocks',
