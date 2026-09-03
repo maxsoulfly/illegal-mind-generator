@@ -22,10 +22,14 @@ const VIDEO_TYPE_OPTIONS = [
 // todoStatuses' whole-array-replace discipline, not shortsQueue's
 // independently-patchable-fields shape) — so no dedicated nested-merge
 // block is needed in buildResolvedProjectConfig.js.
+// `embedded` (rendered inside WorkflowWorkspace) drops the standalone
+// <section>/<h2>/grid wrapper; `heading` becomes the card label.
 export default function ProjectSettingsUploadSchedule({
   projectConfig,
   updateProjectOverride,
   resetProjectOverride,
+  embedded = false,
+  heading,
 }) {
   const slots = projectConfig.uploadSchedule?.slots || [];
 
@@ -46,17 +50,13 @@ export default function ProjectSettingsUploadSchedule({
     setSlots([...slots, { weekday: 0, videoType: 'short', time: '18:00' }]);
   }
 
-  return (
-    <section>
-      <h2 className="panel-title">Upload Schedule</h2>
-
-      <div className="tag-library tag-library--half">
-        <TemplateGroupCard
-          label="Weekly Slots"
-          subtitle="The days and times you usually upload. Drives the Calendar page's 'usual upload day' markers and where a song lands when auto-added to the next open slot."
-          onReset={() => resetProjectOverride('uploadSchedule')}
-        >
-          <span className="tag-status">{slots.length} slot{slots.length === 1 ? '' : 's'}</span>
+  const card = (
+    <TemplateGroupCard
+      label={heading ?? 'Weekly Slots'}
+      subtitle="The days and times you usually upload. Drives the Calendar page's 'usual upload day' markers and where a song lands when auto-added to the next open slot."
+      onReset={() => resetProjectOverride('uploadSchedule')}
+    >
+      <span className="tag-status">{slots.length} slot{slots.length === 1 ? '' : 's'}</span>
 
           <div className="links-registry upload-schedule-list">
             {slots.map((slot, index) => (
@@ -94,8 +94,15 @@ export default function ProjectSettingsUploadSchedule({
               </button>
             </div>
           </div>
-        </TemplateGroupCard>
-      </div>
+    </TemplateGroupCard>
+  );
+
+  if (embedded) return card;
+
+  return (
+    <section>
+      <h2 className="panel-title">Upload Schedule</h2>
+      <div className="tag-library tag-library--half">{card}</div>
     </section>
   );
 }

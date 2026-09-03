@@ -2,10 +2,13 @@ import ProjectSettingsShortsQueue from '../ProjectSettingsShortsQueue';
 import ProjectSettingsTodo from '../ProjectSettingsTodo';
 import ProjectSettingsUploadSchedule from '../ProjectSettingsUploadSchedule';
 
-// Stage 5 of the Content Setup IA rework: Workflow is one page — the three
-// planning-page configs (Shorts Queue, Todo Statuses, Upload Schedule)
-// stacked. Each child is its existing <section> component, unchanged; this
-// just drops the redundant leaf sub-strip they used to sit behind.
+// Stage 5 of the Content Setup IA rework: Workflow is one workspace with a
+// single page heading, presenting the three planning configs as coherent
+// sub-section cards. Each child renders in `embedded` mode (no standalone
+// <section>/<h2>/grid wrapper — this component owns the hierarchy). Desktop
+// layout: Shorts Queue + Todo Statuses side by side, Upload Schedule full
+// width below (.workflow-grid); stacks vertically on narrow widths. Editor
+// logic and write paths are unchanged.
 export default function WorkflowWorkspace({
   projectConfig,
   projectSettingsOverrides,
@@ -13,22 +16,32 @@ export default function WorkflowWorkspace({
   resetProjectOverride,
 }) {
   return (
-    <>
-      <ProjectSettingsShortsQueue
-        projectConfig={projectConfig}
-        projectSettingsOverrides={projectSettingsOverrides}
-        updateProjectOverride={updateProjectOverride}
-      />
-      <ProjectSettingsTodo
-        projectConfig={projectConfig}
-        updateProjectOverride={updateProjectOverride}
-        resetProjectOverride={resetProjectOverride}
-      />
-      <ProjectSettingsUploadSchedule
-        projectConfig={projectConfig}
-        updateProjectOverride={updateProjectOverride}
-        resetProjectOverride={resetProjectOverride}
-      />
-    </>
+    <section>
+      <h2 className="panel-title">Workflow</h2>
+
+      <div className="workflow-grid">
+        <ProjectSettingsShortsQueue
+          embedded
+          heading="Shorts Queue"
+          projectConfig={projectConfig}
+          projectSettingsOverrides={projectSettingsOverrides}
+          updateProjectOverride={updateProjectOverride}
+        />
+        <ProjectSettingsTodo
+          embedded
+          heading="Todo Statuses"
+          projectConfig={projectConfig}
+          updateProjectOverride={updateProjectOverride}
+          resetProjectOverride={resetProjectOverride}
+        />
+        <ProjectSettingsUploadSchedule
+          embedded
+          heading="Upload Schedule"
+          projectConfig={projectConfig}
+          updateProjectOverride={updateProjectOverride}
+          resetProjectOverride={resetProjectOverride}
+        />
+      </div>
+    </section>
   );
 }

@@ -5,10 +5,15 @@ import IconButton from '../ui/IconButton';
 // Stores overrides at projectSettingsOverrides.shortsQueue.{length,duplicateSpacing},
 // which buildResolvedProjectConfig.js merges via a dedicated nested-merge
 // block (same shallow shape as hashtags/youtubetags). Read by useShortsQueue.js.
+// `embedded` (rendered inside WorkflowWorkspace) drops the standalone
+// <section>/<h2>/grid wrapper — the parent owns the page hierarchy — and
+// `heading` becomes the card label.
 export default function ProjectSettingsShortsQueue({
   projectConfig,
   projectSettingsOverrides = {},
   updateProjectOverride,
+  embedded = false,
+  heading,
 }) {
   const queueConfig = projectConfig.shortsQueue || {};
   const queueOverrides = projectSettingsOverrides.shortsQueue || {};
@@ -27,37 +32,40 @@ export default function ProjectSettingsShortsQueue({
     updateProjectOverride({ shortsQueue: remaining });
   }
 
+  const card = (
+    <TemplateGroupCard label={heading ?? 'Generation'}>
+      <div className="tag-card-label-row">
+        <h4>Queue Length</h4>
+        <IconButton icon="↺" title="Reset to default" onClick={() => resetQueue('length')} />
+      </div>
+      <LabelSliderRow
+        label="Covers per queue"
+        value={queueConfig.length ?? 20}
+        min={5}
+        max={50}
+        onChange={(v) => updateQueue('length', v)}
+      />
+
+      <div className="tag-card-label-row" style={{ marginTop: 'var(--space-4)' }}>
+        <h4>Duplicate Spacing</h4>
+        <IconButton icon="↺" title="Reset to default" onClick={() => resetQueue('duplicateSpacing')} />
+      </div>
+      <LabelSliderRow
+        label="Slots before a song can repeat"
+        value={queueConfig.duplicateSpacing ?? 2}
+        min={1}
+        max={10}
+        onChange={(v) => updateQueue('duplicateSpacing', v)}
+      />
+    </TemplateGroupCard>
+  );
+
+  if (embedded) return card;
+
   return (
     <section>
       <h2 className="panel-title">Shorts Queue</h2>
-
-      <div className="tag-library tag-library--3col">
-        <TemplateGroupCard label="Generation">
-          <div className="tag-card-label-row">
-            <h4>Queue Length</h4>
-            <IconButton icon="↺" title="Reset to default" onClick={() => resetQueue('length')} />
-          </div>
-          <LabelSliderRow
-            label="Covers per queue"
-            value={queueConfig.length ?? 20}
-            min={5}
-            max={50}
-            onChange={(v) => updateQueue('length', v)}
-          />
-
-          <div className="tag-card-label-row" style={{ marginTop: 'var(--space-4)' }}>
-            <h4>Duplicate Spacing</h4>
-            <IconButton icon="↺" title="Reset to default" onClick={() => resetQueue('duplicateSpacing')} />
-          </div>
-          <LabelSliderRow
-            label="Slots before a song can repeat"
-            value={queueConfig.duplicateSpacing ?? 2}
-            min={1}
-            max={10}
-            onChange={(v) => updateQueue('duplicateSpacing', v)}
-          />
-        </TemplateGroupCard>
-      </div>
+      <div className="tag-library tag-library--3col">{card}</div>
     </section>
   );
 }

@@ -41,10 +41,14 @@ function SortableStatusRow({ id, ...rowProps }) {
 // So this renders its own PhraseRow list (drag-and-drop + move buttons, no
 // search box) instead of using TemplateGroupCard's built-in
 // templates/onUpdateTemplates.
+// `embedded` (rendered inside WorkflowWorkspace) drops the standalone
+// <section>/<h2>/grid wrapper; `heading` becomes the card label.
 export default function ProjectSettingsTodo({
   projectConfig,
   updateProjectOverride,
   resetProjectOverride,
+  embedded = false,
+  heading,
 }) {
   const statuses = projectConfig.todoStatuses || [];
   const [bulkValue, setBulkValue] = useState(null);
@@ -99,17 +103,13 @@ export default function ProjectSettingsTodo({
     setBulkValue(null);
   }
 
-  return (
-    <section>
-      <h2 className="panel-title">Todo Settings</h2>
-
-      <div className="tag-library tag-library--3col">
-        <TemplateGroupCard
-          label="Statuses"
-          subtitle="Cover planning workflow stages, shown as sections on the Todo page in this order. The first status is used for Bulk Add."
-          onReset={() => resetProjectOverride('todoStatuses')}
-        >
-          <span className="tag-status">{statuses.length} statuses</span>
+  const card = (
+    <TemplateGroupCard
+      label={heading ?? 'Statuses'}
+      subtitle="Cover planning workflow stages, shown as sections on the Todo page in this order. The first status is used for Bulk Add."
+      onReset={() => resetProjectOverride('todoStatuses')}
+    >
+      <span className="tag-status">{statuses.length} statuses</span>
 
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <SortableContext items={rowIds} strategy={verticalListSortingStrategy}>
@@ -141,8 +141,15 @@ export default function ProjectSettingsTodo({
           )}
 
           <AddBulkRow onAdd={handleAdd} onBulk={() => setBulkValue('')} />
-        </TemplateGroupCard>
-      </div>
+    </TemplateGroupCard>
+  );
+
+  if (embedded) return card;
+
+  return (
+    <section>
+      <h2 className="panel-title">Todo Settings</h2>
+      <div className="tag-library tag-library--3col">{card}</div>
     </section>
   );
 }
