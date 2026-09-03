@@ -124,14 +124,3 @@ export function getSection(sectionId) {
 export function getSectionLeaves(sectionId) {
   return getSection(sectionId)?.leaves ?? [];
 }
-
-export function isValidLeaf(sectionId, leafId) {
-  return getSectionLeaves(sectionId).some((l) => l.id === leafId);
-}
-
-// One step back for a drill / sub-nav view: a leaf -> its section overview;
-// the section overview -> null (from there the section strip is the parent).
-export function parentOf(view) {
-  if (view?.leaf) return { section: view.section, leaf: null };
-  return null;
-}

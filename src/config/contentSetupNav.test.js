@@ -2,7 +2,7 @@
 // Project Settings -> "Content Setup" IA rework (Stage 0). Guards the
 // section registry, the legacy-id -> {section, leaf} resolver (incl. the
 // 'descriptions' legacy/new-id collision and the blocksTarget.subTab
-// handling), the leaf-list helpers, and parentOf back-nav.
+// handling), and the leaf-list helpers.
 //
 // Run: npx rolldown src/config/contentSetupNav.test.js -f esm -p node \
 //        -o /tmp/csn.test.mjs && node /tmp/csn.test.mjs
@@ -12,8 +12,6 @@ import {
   resolveContentSetupTarget,
   getSection,
   getSectionLeaves,
-  isValidLeaf,
-  parentOf,
 } from './contentSetupNav';
 
 let failures = 0;
@@ -106,30 +104,6 @@ eq(resolveContentSetupTarget('workflow'), { section: 'workflow', leaf: null }, '
 eq(resolveContentSetupTarget('project'), { section: 'project', leaf: null }, 'new id: project -> page');
 eq(resolveContentSetupTarget('totally-unknown'), { section: 'project', leaf: 'projectInfo' }, 'unknown -> safe default');
 eq(resolveContentSetupTarget(undefined), { section: 'project', leaf: 'projectInfo' }, 'undefined -> safe default');
-
-// ---------------------------------------------------------------------------
-// isValidLeaf
-// ---------------------------------------------------------------------------
-
-ok(isValidLeaf('generation', 'titles'), 'isValidLeaf: generation/titles');
-ok(!isValidLeaf('generation', 'links'), 'isValidLeaf: generation/links is false');
-ok(isValidLeaf('descriptions', 'long'), 'isValidLeaf: descriptions/long');
-ok(isValidLeaf('descriptions', 'shorts'), 'isValidLeaf: descriptions/shorts');
-ok(!isValidLeaf('descriptions', 'layout'), 'isValidLeaf: descriptions/layout is false (retired)');
-ok(isValidLeaf('descriptions', 'placeholders'), 'isValidLeaf: descriptions/placeholders');
-ok(!isValidLeaf('nope', 'titles'), 'isValidLeaf: unknown section -> false');
-
-// ---------------------------------------------------------------------------
-// parentOf
-// ---------------------------------------------------------------------------
-
-eq(
-  parentOf({ section: 'generation', leaf: 'titles' }),
-  { section: 'generation', leaf: null },
-  'parentOf: leaf -> section overview',
-);
-ok(parentOf({ section: 'generation', leaf: null }) === null, 'parentOf: section overview -> null');
-ok(parentOf(null) === null, 'parentOf: null -> null');
 
 if (failures > 0) throw new Error(`${failures} check(s) failed.`);
 console.log('\nAll checks passed.');
