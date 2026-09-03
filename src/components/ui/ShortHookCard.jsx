@@ -3,7 +3,7 @@ import TemplateGroupCard from './TemplateGroupCard';
 // Edits persist immediately via onUpdateTemplates, which replaces the full
 // templates array for this hook type in the project override storage.
 // onReset restores JSON defaults; for user-created types pass onRemove instead.
-export default function ShortHookCard({ hookType, hookConfig, onUpdateTemplates, onReset, onRemove, onUpdateFlags, highlightText, headerActions }) {
+export default function ShortHookCard({ hookType, hookConfig, onUpdateTemplates, onReset, onRemove, onUpdateFlags, highlightText, actionsSlot }) {
   return (
     <TemplateGroupCard
       label={hookConfig.label}
@@ -12,7 +12,7 @@ export default function ShortHookCard({ hookType, hookConfig, onUpdateTemplates,
       onReset={onReset}
       onRemove={onRemove}
       highlightText={highlightText}
-      headerActions={headerActions}
+      actionsSlot={actionsSlot}
       subtitle={hookType}
       countLabel="phrases"
     >

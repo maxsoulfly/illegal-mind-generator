@@ -131,15 +131,6 @@ export default function Titles({
                   >
                     ↺
                   </button>
-                  <CopyPromptButton
-                    getPrompt={() =>
-                      buildTitlePoolPrompt(projectConfig, {
-                        groupName,
-                        groupLabel: label,
-                        templates,
-                      })
-                    }
-                  />
                 </div>
                 <span className="tag-status">{templates.length} templates</span>
               </header>
@@ -150,6 +141,17 @@ export default function Titles({
                   updateGroupTemplates(groupName, newTemplates)
                 }
                 highlightText={titlesTarget?.groupName === groupName ? titlesTarget.template : null}
+                actionsSlot={
+                  <CopyPromptButton
+                    getPrompt={() =>
+                      buildTitlePoolPrompt(projectConfig, {
+                        groupName,
+                        groupLabel: label,
+                        templates,
+                      })
+                    }
+                  />
+                }
               />
             </article>
           );

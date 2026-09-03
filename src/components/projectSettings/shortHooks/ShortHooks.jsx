@@ -109,7 +109,7 @@ export default function ShortHooks({
                 updateHookTypeFlags(hookType, hookConfig, flagUpdates)
               }
               highlightText={hookTarget?.hookType === hookType ? hookTarget.sourceText : null}
-              headerActions={
+              actionsSlot={
                 <CopyPromptButton
                   getPrompt={() =>
                     buildGlobalShortHookPrompt(projectConfig, { hookTypeKey: hookType, hookConfig })

@@ -529,11 +529,11 @@ export default function UIKitPage() {
             </Example>
           </Section>
 
-          <Section title="CopyPromptButton" description="Shared 'Copy AI Prompt' button for phrase-pool editors. Builds the prompt lazily on click (getPrompt) from src/utils/authorPromptContexts.js, copies it, shows 'Copied ✔️' for 500ms. Pass disabled + disabledTooltip when the editor's inputs aren't ready.">
+          <Section title="CopyPromptButton" description="Shared 'Copy AI Prompt' button for phrase-pool editors. Always rendered in the editor's action row alongside + Add / + Bulk (via actionsSlot -> AddBulkRow.extra), so it collapses away with the editor rather than sitting in a card header. Builds the prompt lazily on click (getPrompt) from src/utils/authorPromptContexts.js, copies it, shows 'Copied ✔️' for 500ms. Pass disabled + disabledTooltip when the editor's inputs aren't ready.">
             <Example
               name="CopyPromptButton"
               props="getPrompt disabled? disabledTooltip? label?"
-              usage="Cover-Specific Hooks editor, Tag Short Hooks tab, global Short Hook cards, Title template groups — one adapter per pool supplies the getPrompt callback."
+              usage="Cover-Specific Hooks editor, Tag Short Hooks category pool, global Short Hook cards, Title template groups — all via HookTemplateEditor/TagPhraseEditor actionsSlot. One adapter per pool supplies the getPrompt callback."
             >
               <div style={{ display: 'flex', gap: 8 }}>
                 <CopyPromptButton getPrompt={() => 'Sample generated prompt text'} />

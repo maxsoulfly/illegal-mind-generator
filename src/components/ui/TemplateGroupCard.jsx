@@ -16,6 +16,7 @@ export default function TemplateGroupCard({
   sliderConfig,
   children,
   headerActions,
+  actionsSlot,
   placeholders,
   editLabel,
 }) {
@@ -71,6 +72,7 @@ export default function TemplateGroupCard({
               highlightText={highlightText}
               placeholders={placeholders}
               editLabel={editLabel}
+              actionsSlot={actionsSlot}
             />
           )}
         </>
