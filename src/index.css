@@ -1898,6 +1898,105 @@ input[type="range"]::-moz-range-progress {
   border-left : 1px solid var(--color-border-main);
 }
 
+/* --- Tag card drill-down: Level 1 overview + Level 2/3 screen headers --- */
+.tag-overview {
+  display       : flex;
+  flex-direction: column;
+  gap           : var(--space-3);
+  margin-top    : var(--space-3);
+}
+
+.tag-overview-meaning {
+  margin     : 0;
+  font-size  : 0.8rem;
+  color      : var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.tag-overview-meaning--empty {
+  font-style: italic;
+  color     : var(--color-text-muted-3);
+}
+
+.tag-overview-basics {
+  align-self: flex-end;
+  width     : auto;
+}
+
+.tag-overview-list {
+  list-style: none;
+  margin    : 0;
+  padding   : 0;
+  border-top: 1px solid var(--color-border-deep);
+}
+
+.tag-overview-row {
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  width          : 100%;
+  padding        : var(--space-3) var(--space-1);
+  background     : none;
+  border         : none;
+  border-bottom  : 1px solid var(--color-border-deep);
+  color          : var(--color-text-main);
+  font-family    : var(--font-mono);
+  font-size      : 0.8rem;
+  text-transform : uppercase;
+  letter-spacing : 0.04em;
+  cursor         : pointer;
+}
+
+.tag-overview-row:hover,
+.tag-overview-row:hover .tag-overview-row-count {
+  color: var(--color-text-accent);
+}
+
+.tag-overview-row-count {
+  color               : var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.tag-drill-header {
+  display       : flex;
+  align-items   : baseline;
+  gap           : var(--space-3);
+  margin        : var(--space-3) 0;
+  padding-bottom: var(--space-2);
+  border-bottom : 1px solid var(--color-border-deep);
+}
+
+.tag-drill-back {
+  background : none;
+  border     : none;
+  padding    : 0;
+  color      : var(--color-text-accent);
+  font-family: var(--font-mono);
+  font-size  : 0.75rem;
+  cursor     : pointer;
+  white-space: nowrap;
+}
+
+.tag-drill-back:hover {
+  text-decoration: underline;
+}
+
+.tag-drill-title {
+  font-family   : var(--font-mono);
+  font-size     : 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color         : var(--color-text-muted);
+}
+
+.tag-drill-subtitle {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size  : 0.7rem;
+  color      : var(--color-text-muted-3);
+  white-space: nowrap;
+}
+
 .tag-delete-button {
   width     : 100%;
   margin-top: var(--space-3);
