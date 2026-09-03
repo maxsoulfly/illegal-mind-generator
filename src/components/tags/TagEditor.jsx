@@ -1,14 +1,15 @@
 import { useState } from 'react';
 
 import TagBasicsTab from './editor/TagBasicsTab';
-import TagFieldTab from './editor/TagFieldTab';
 import TagContentOverview from './editor/TagContentOverview';
 import TagDrillHeader from './editor/TagDrillHeader';
 import TagShortHookCategoryList from './editor/TagShortHookCategoryList';
+import TagDescriptionGroupList from './editor/TagDescriptionGroupList';
 import TagPhraseEditor from './TagPhraseEditor';
 import CopyPromptButton from '../ui/CopyPromptButton';
 import {
   TAG_CONTENT_SECTIONS,
+  DESCRIPTION_GROUPS,
   getInitialView,
   getShortHookCategories,
   parentOf,
@@ -22,13 +23,6 @@ import { buildTagShortHooksPrompt } from '../../utils/authorPromptContexts';
 const SECTION_LABEL = Object.fromEntries(
   TAG_CONTENT_SECTIONS.map((section) => [section.id, section.label]),
 );
-
-// Stage 2: Descriptions still renders through the old TagFieldTab (multi-pool).
-// Its dedicated drill screens land in Stage 3; until then any
-// description-level view routes to the legacy tab and "back" collapses
-// straight to the overview.
-const isLegacyDescriptionView = (view) =>
-  view?.level === 'descriptionGroups' || view?.level === 'descriptionPool';
 
 function shouldOpenEditor(tag, sourceTarget) {
   return sourceTarget?.tagName === tag.name;
@@ -57,14 +51,10 @@ export default function TagEditor({
   const shortHookLabelOf = (categoryKey) =>
     getShortHookCategories(projectConfig).find((cat) => cat.id === categoryKey)?.label ||
     categoryKey;
+  const descriptionGroupLabelOf = (groupId) =>
+    DESCRIPTION_GROUPS.find((group) => group.id === groupId)?.label || groupId;
 
-  const goBack = () => {
-    if (isLegacyDescriptionView(view)) {
-      setManualView({ level: 'overview' });
-      return;
-    }
-    setManualView(parentOf(view) || { level: 'overview' });
-  };
+  const goBack = () => setManualView(parentOf(view) || { level: 'overview' });
 
   const openSection = (section) => {
     if (section.kind === 'pool') {
@@ -176,15 +166,38 @@ export default function TagEditor({
       );
     }
 
-    if (isLegacyDescriptionView(view)) {
+    if (view.level === 'descriptionGroups') {
       return (
         <>
           <TagDrillHeader backLabel={tag.label} title="Descriptions" onBack={goBack} />
-          <TagFieldTab
-            tabId="descriptions"
+          <TagDescriptionGroupList
             tag={tag}
+            onOpenGroup={(group) =>
+              setManualView({ level: 'descriptionPool', group: group.id })
+            }
+          />
+        </>
+      );
+    }
+
+    if (view.level === 'descriptionPool') {
+      const { field, parentField, parentValue, phrases } = resolvePoolEditorProps(tag, view);
+      return (
+        <>
+          <TagDrillHeader
+            backLabel="Descriptions"
+            title={descriptionGroupLabelOf(view.group)}
+            subtitle={phraseCountLabel(phrases.length)}
+            onBack={goBack}
+          />
+          <TagPhraseEditor
+            noWrapper
+            tagName={tag.name}
+            field={field}
+            parentField={parentField}
+            parentValue={parentValue}
+            phrases={phrases}
             onUpdateTag={onUpdateTag}
-            sourceTarget={sourceTarget}
           />
         </>
       );
