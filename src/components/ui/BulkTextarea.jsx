@@ -1,9 +1,10 @@
 import PlaceholderField from './PlaceholderField';
 import IconButton from './IconButton';
+import { cancelOnEscape } from '../../utils/keyboard';
 
 export default function BulkTextarea({ value, onChange, onApply, onCancel, placeholders }) {
   return (
-    <div className="tag-section">
+    <div className="tag-section" onKeyDown={cancelOnEscape(onCancel)}>
       <PlaceholderField
         multiline
         className="form-input"

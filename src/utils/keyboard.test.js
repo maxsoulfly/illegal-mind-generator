@@ -1,10 +1,11 @@
 // Smoke test for keyboard.js -- the shared Enter/Escape helpers behind the
-// app-wide keyboard UX consistency pass. Stage 1 covers clearOnEscape only.
+// app-wide keyboard UX consistency pass. Stage 1: clearOnEscape.
+// Stage 2: cancelOnEscape.
 //
 // Run: npx rolldown src/utils/keyboard.test.js -f esm -p node \
 //        -o /tmp/kb.test.mjs && node /tmp/kb.test.mjs
 
-import { clearOnEscape } from './keyboard';
+import { clearOnEscape, cancelOnEscape } from './keyboard';
 
 let failures = 0;
 const ok = (cond, msg) => {
@@ -88,6 +89,46 @@ function makeEvent({ key = 'Escape', isComposing = false } = {}) {
   handler(e);
   ok(!cleared, 'Escape mid-composition -> clear() NOT called');
   ok(!e.defaultPrevented, 'Escape mid-composition -> preventDefault NOT called');
+}
+
+// === cancelOnEscape ===================================================
+
+// --- Escape runs onCancel and stops propagation -----------------------
+{
+  let cancelled = 0;
+  const handler = cancelOnEscape(() => {
+    cancelled++;
+  });
+  const e = makeEvent();
+  handler(e);
+  ok(cancelled === 1, 'Escape -> onCancel() called');
+  ok(e.propagationStopped, 'Escape -> stopPropagation (does not bubble further)');
+  ok(!e.defaultPrevented, 'Escape -> no preventDefault (nothing native to suppress in a textarea)');
+}
+
+// --- non-Escape keys are left completely alone (Enter = newline) ------
+{
+  let cancelled = 0;
+  const handler = cancelOnEscape(() => {
+    cancelled++;
+  });
+  for (const key of ['Enter', 'a', ' ', 'ArrowUp', 'Backspace']) {
+    const e = makeEvent({ key });
+    handler(e);
+    ok(!cancelled && !e.propagationStopped, `key "${key}" -> untouched`);
+  }
+}
+
+// --- IME composition in progress: leave Escape alone -----------------
+{
+  let cancelled = 0;
+  const handler = cancelOnEscape(() => {
+    cancelled++;
+  });
+  const e = makeEvent({ isComposing: true });
+  handler(e);
+  ok(!cancelled, 'Escape mid-composition -> onCancel NOT called');
+  ok(!e.propagationStopped, 'Escape mid-composition -> not consumed');
 }
 
 if (failures > 0) throw new Error(`${failures} check(s) failed.`);

@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { buildCalendarImportPrompt, parseCalendarImportResponse } from '../../utils/calendarImportPrompt';
 import FormSelect from '../ui/FormSelect';
+import { cancelOnEscape } from '../../utils/keyboard';
 
 const VIDEO_TYPE_OPTIONS = [
   { value: 'short', label: 'Short' },
@@ -116,6 +117,18 @@ function CalendarImportPanel({ savedEntries, calendar }) {
     setPendingConfirmations([]);
   };
 
+  // Same discard-and-collapse the Cancel button does; also reused for
+  // Escape-in-the-paste-box. (This panel renders inside a Modal, whose own
+  // capture-phase Escape closes the whole modal first — so in practice
+  // Escape here dismisses the modal; this keeps the paste box correct if
+  // it's ever used outside one. Unapplied text is discarded either way.)
+  const handleCancelPaste = () => {
+    setShowPasteBox(false);
+    setPasteText('');
+    setApplyResult(null);
+    setPendingConfirmations([]);
+  };
+
   return (
     <>
       <div className="button-row">
@@ -139,7 +152,7 @@ function CalendarImportPanel({ savedEntries, calendar }) {
       </div>
 
       {showPasteBox && (
-        <div className="saved-library-paste-box">
+        <div className="saved-library-paste-box" onKeyDown={cancelOnEscape(handleCancelPaste)}>
           <textarea
             className="form-input"
             rows={6}
@@ -159,12 +172,7 @@ function CalendarImportPanel({ savedEntries, calendar }) {
             <button
               type="button"
               className="button-secondary"
-              onClick={() => {
-                setShowPasteBox(false);
-                setPasteText('');
-                setApplyResult(null);
-                setPendingConfirmations([]);
-              }}
+              onClick={handleCancelPaste}
             >
               Cancel
             </button>

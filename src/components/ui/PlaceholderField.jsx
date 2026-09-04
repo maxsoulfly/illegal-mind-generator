@@ -132,7 +132,23 @@ export default function PlaceholderField({
   }
 
   function handleKeyDown(e) {
-    if (query === null || matches.length === 0) return;
+    // The dropdown is "open" only when it's actually rendered (see `anchor`
+    // below): a query is being tracked AND there's at least one match.
+    const menuOpen = query !== null && matches.length > 0;
+
+    if (e.key === 'Escape') {
+      // When the dropdown is open, Escape closes just the dropdown and is
+      // consumed — so an outer Escape handler (e.g. a Bulk Add box's
+      // cancel-on-Escape) doesn't also fire on the same keypress. When the
+      // dropdown is closed, Escape is left to bubble to that outer handler.
+      if (menuOpen) {
+        e.stopPropagation();
+        closeMenu();
+      }
+      return;
+    }
+
+    if (!menuOpen) return;
 
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -143,8 +159,6 @@ export default function PlaceholderField({
     } else if (e.key === 'Enter') {
       e.preventDefault();
       insertPlaceholder(matches[activeIndex]);
-    } else if (e.key === 'Escape') {
-      closeMenu();
     }
   }
 

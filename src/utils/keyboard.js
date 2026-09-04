@@ -19,3 +19,19 @@ export function clearOnEscape(value, clear) {
     clear();
   };
 }
+
+// Escape-to-cancel for a transient open editor surface — a Bulk Add box, a
+// paste box. Returns an onKeyDown handler for the surface's wrapper: a
+// bubbled Escape runs onCancel and stops there. Anything nested that wants
+// Escape for itself first (PlaceholderField's {…} autocomplete) must
+// stopPropagation when it consumes the key, so this only ever fires on an
+// otherwise-unhandled Escape — i.e. a second Escape once the dropdown is
+// closed. Ignored mid-IME composition.
+export function cancelOnEscape(onCancel) {
+  return (event) => {
+    if (event.key !== 'Escape') return;
+    if (event.nativeEvent?.isComposing) return;
+    event.stopPropagation();
+    onCancel();
+  };
+}

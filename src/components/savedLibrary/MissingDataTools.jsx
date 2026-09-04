@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { buildMissingDataPrompt, parseMissingDataResponse } from '../../utils/searchQuery';
+import { cancelOnEscape } from '../../utils/keyboard';
 
 // Batch size for the "Copy AI Prompt" action — capped so a single prompt
 // stays a manageable size for an AI to answer accurately in one go.
@@ -49,6 +50,14 @@ function MissingDataTools({ missingEntries, savedEntries, onUpdateEntry }) {
     setPasteText('');
   };
 
+  // Same discard-and-collapse the Cancel button does; also reused for
+  // Escape-in-the-paste-box.
+  const handleCancelPaste = () => {
+    setShowPasteBox(false);
+    setPasteText('');
+    setApplyResult(null);
+  };
+
   return (
     <>
       <div className="button-row">
@@ -75,7 +84,7 @@ function MissingDataTools({ missingEntries, savedEntries, onUpdateEntry }) {
       </div>
 
       {showPasteBox && (
-        <div className="saved-library-paste-box">
+        <div className="saved-library-paste-box" onKeyDown={cancelOnEscape(handleCancelPaste)}>
           <textarea
             className="form-input"
             rows={6}
@@ -95,11 +104,7 @@ function MissingDataTools({ missingEntries, savedEntries, onUpdateEntry }) {
             <button
               type="button"
               className="button-secondary"
-              onClick={() => {
-                setShowPasteBox(false);
-                setPasteText('');
-                setApplyResult(null);
-              }}
+              onClick={handleCancelPaste}
             >
               Cancel
             </button>
