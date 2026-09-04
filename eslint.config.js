@@ -25,6 +25,29 @@ export default defineConfig([
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+
+      // Native browser dialogs were removed app-wide (see CLAUDE.md Known
+      // Gotchas). Use the shared useConfirm() flow for confirmations and
+      // useToast()/showToast() for fire-and-forget messages. These three
+      // rules overlap deliberately so a reintroduction is caught whether it
+      // is written as a bare global (`confirm(...)`), a `window.` property,
+      // or a `globalThis.` property.
+      'no-alert': 'error',
+      'no-restricted-globals': [
+        'error',
+        { name: 'confirm', message: 'Use the shared useConfirm() flow, not window.confirm().' },
+        { name: 'alert', message: 'Use useToast()/showToast(), not window.alert().' },
+        { name: 'prompt', message: 'Use an in-app form/panel, not window.prompt().' },
+      ],
+      'no-restricted-properties': [
+        'error',
+        { object: 'window', property: 'confirm', message: 'Use the shared useConfirm() flow, not window.confirm().' },
+        { object: 'window', property: 'alert', message: 'Use useToast()/showToast(), not window.alert().' },
+        { object: 'window', property: 'prompt', message: 'Use an in-app form/panel, not window.prompt().' },
+        { object: 'globalThis', property: 'confirm', message: 'Use the shared useConfirm() flow, not confirm().' },
+        { object: 'globalThis', property: 'alert', message: 'Use useToast()/showToast(), not alert().' },
+        { object: 'globalThis', property: 'prompt', message: 'Use an in-app form/panel, not prompt().' },
+      ],
     },
   },
   // The local API server (persistence migration, see

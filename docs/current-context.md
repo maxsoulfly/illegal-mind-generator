@@ -6,6 +6,16 @@ Developer handoff file. Updated end of session. Describes what is actually done,
 
 ## Current Focus
 
+**Native browser dialogs removed app-wide — `useConfirm()` / `ConfirmDialog`, shipped 2026-09-04.** All 7 `window.confirm()` sites migrated to a shared promise-based confirmation flow (`window.alert`/`window.prompt` were already gone). Done in 5 user-gated stages:
+
+- **Stage 1** (`0b90884`) — `Modal` a11y hardened (`role="dialog"`/`aria-modal`/`aria-labelledby`, capture-phase Tab focus trap, initial focus via new `initialFocusRef` prop, focus return to trigger on close; StrictMode-safe). New `src/components/ui/ConfirmDialog.jsx` (built on `Modal`) + `ConfirmProvider.jsx` + `confirmContext.js` + `src/hooks/useConfirm.js`. `<ConfirmProvider>` wraps the app tree in `App.jsx` — the app's first React `createContext`. `confirm(opts) → Promise<boolean>`; Cancel/Escape/backdrop/× resolve `false`, only the confirm button resolves `true`; Cancel gets initial focus; `busy` guard blocks double-submit. `/uikit` gained a ConfirmDialog section; Modal/Toast catalog copy updated.
+- **Stage 2** (`086ebfc`) — `HookBlocks.jsx` / `BlockGroups.jsx` / `Placeholders.jsx` deletes (`Delete` / `Delete Group` / `Delete Placeholder`; `isCore` guards kept before the dialog).
+- **Stage 3** (`b8da294`) — `StructuredListEditor.jsx` / `TextBlockEditor.jsx` deletes (`Delete list block` / `Delete text block`; `Delete`; `isCore` guard + `onDelete()` + save/persistence untouched).
+- **Stage 4** (`30ce014`) — `TagBasicsTab.jsx` "Delete custom tag" (`Delete tag` / `Delete Tag`, `danger`) + `TagHeader.jsx` "Reset tag edits" (`Reset tag` / `Reset`, `danger: false` → primary style, softer tone). `resetTagOverride` behavior unchanged. Plus +`var(--space-3)` `margin-top` on `.confirm-dialog-actions`.
+- **Stage 5** (this commit) — `eslint.config.js` guard: `no-alert` + `no-restricted-globals` (`confirm`/`alert`/`prompt`) + `no-restricted-properties` (`window.*` + `globalThis.*`), browser block only. Docs.
+
+Each stage: `eslint` (4 pre-existing unrelated) + `vite build` clean, + live Playwright (0 console errors, 0 native dialogs) covering confirm/Cancel/Escape/backdrop/core-guard/persistence-after-reload, plus a Calendar-Import-modal regression pass in Stage 1. **Nothing outstanding.**
+
 **Content Setup: Generation + Descriptions are persistent leaf-switcher workspaces, shipped 2026-09-03.** Supersedes the same-day grouped-drill entry below — the overview + `← back` step was too much friction for cross-group work in Descriptions.
 
 - `generation` + `descriptions` are `kind: 'workspace'` (was `'drill'`). **Generation** = section chips + one persistent leaf `SubTabNav` (Titles / Short Hooks / Thumbnails / Hashtags) + the editor. **Descriptions** = section chips + a persistent category chip row (`DESCRIPTION_GROUPS`: Layouts / Blocks / Variables, `.tag-filters` markup) + a persistent leaf `SubTabNav` for the active category + the editor. No overview, no back. Move directly Long → (BLOCKS) → Text Blocks → (VARIABLES) → Placeholders → (LAYOUTS) → Shorts.
