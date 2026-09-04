@@ -5,6 +5,7 @@ import { useState } from 'react';
 import FormField from '../../ui/FormField';
 import ToggleField from '../../ui/ToggleField';
 import FormSelect from '../../ui/FormSelect';
+import useConfirm from '../../../hooks/useConfirm';
 
 export default function TagBasicsTab({
   tag,
@@ -18,6 +19,7 @@ export default function TagBasicsTab({
   onCopyTagFromProject,
 }) {
   const [copySourceId, setCopySourceId] = useState(otherProjects[0]?.[0] || '');
+  const confirm = useConfirm();
   return (
     <>
       <div className="tag-edit-fields">
@@ -132,8 +134,12 @@ export default function TagBasicsTab({
         <button
           type="button"
           className="tag-delete-button button-secondary"
-          onClick={() => {
-            const shouldDelete = window.confirm(`Delete "${tag.label}"?`);
+          onClick={async () => {
+            const shouldDelete = await confirm({
+              title: 'Delete tag',
+              message: `Delete "${tag.label}"?`,
+              confirmLabel: 'Delete Tag',
+            });
 
             if (!shouldDelete) return;
 

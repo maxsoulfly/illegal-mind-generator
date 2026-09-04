@@ -586,6 +586,7 @@ input[type="range"]::-moz-range-progress {
   display        : flex;
   justify-content: flex-end;
   gap            : var(--space-3);
+  margin-top     : var(--space-3); /* extra breathing room below the message */
 }
 
 .confirm-dialog-confirm--danger {

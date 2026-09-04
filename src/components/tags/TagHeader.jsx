@@ -1,14 +1,19 @@
 import IconButton from '../ui/IconButton';
+import useConfirm from '../../hooks/useConfirm';
 
 export default function TagHeader({ tag, projectOverrides, resetTagOverride }) {
   const override = projectOverrides?.[tag.name];
   const isCustomTag = !!override?.isCustom;
   const hasResettableOverrides = !!override && !isCustomTag;
+  const confirm = useConfirm();
 
-  const handleResetTag = () => {
-    const shouldReset = window.confirm(
-      `Reset "${tag.label}" to default tag settings?`,
-    );
+  const handleResetTag = async () => {
+    const shouldReset = await confirm({
+      title: 'Reset tag',
+      message: `Reset "${tag.label}" to default tag settings?`,
+      confirmLabel: 'Reset',
+      danger: false,
+    });
 
     if (!shouldReset) return;
 
