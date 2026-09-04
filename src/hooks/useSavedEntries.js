@@ -74,10 +74,14 @@ function useSavedEntries(formData, setFormData, selectedProjectId, projectName) 
     }));
 
   // Save — targetProjectId lets the Generator save into a project other than
-  // the one being viewed (defaults to the active one).
+  // the one being viewed (defaults to the active one). Returns a small
+  // outcome signal for the caller's toast: `true` persisted, `false` the
+  // request failed (already resynced here), `null` nothing was attempted
+  // (no artist/song). Persistence/optimistic/resync behaviour is unchanged —
+  // these are just added return values; the catch still swallows the error.
   const handleSaveEntry = async (targetProjectId = selectedProjectId) => {
     const entry = buildEntryFromFormData(formData);
-    if (!entry.artist || !entry.song) return;
+    if (!entry.artist || !entry.song) return null;
 
     const savingToCurrent = targetProjectId === selectedProjectId;
     if (savingToCurrent) putEntryLocal(entry);
@@ -88,8 +92,10 @@ function useSavedEntries(formData, setFormData, selectedProjectId, projectName) 
         entry,
       });
       if (savingToCurrent) putEntryLocal(saved);
+      return true;
     } catch {
       if (savingToCurrent) reload();
+      return false;
     }
   };
 

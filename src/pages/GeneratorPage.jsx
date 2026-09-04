@@ -80,6 +80,15 @@ export default function GeneratorPage({
     }
   };
 
+  // Toast the outcome of an explicit SAVE — only after persistence settles,
+  // never on click. handleSaveEntry returns true/false/null (see
+  // useSavedEntries.js); null = no artist/song, nothing attempted, no toast.
+  const handleSaveWithFeedback = async (targetProjectId) => {
+    const outcome = await handleSaveEntry(targetProjectId);
+    if (outcome === true) showToast('Song saved');
+    else if (outcome === false) showToast('Save failed');
+  };
+
   const handleAddToCalendar = () => {
     const videoType = formData.videoType === 'Shorts' ? 'short' : 'long';
     const target = calendar.addToNextOpenSlot(currentEntryId, videoType);
@@ -161,7 +170,7 @@ export default function GeneratorPage({
             setFormData={setFormData}
             onClear={handleClearForm}
             projectConfig={projectConfig}
-            onSaveEntry={handleSaveEntry}
+            onSaveEntry={handleSaveWithFeedback}
             savedEntries={savedEntries}
             onLoadEntry={handleLoadEntry}
             onDeleteEntry={handleDeleteEntry}
