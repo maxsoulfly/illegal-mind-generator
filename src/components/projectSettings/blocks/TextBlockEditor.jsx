@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PlaceholderField from '../../ui/PlaceholderField';
 import BlockEditorCard from './BlockEditorCard';
+import useConfirm from '../../../hooks/useConfirm';
 import { HOOK_PLACEHOLDERS } from '../../../utils/hookPlaceholders';
 
 function textOf(blockData) {
@@ -28,6 +29,7 @@ export default function TextBlockEditor({
     isCore: (typeof blockData === 'object' && blockData?.isCore) || false,
   }));
   const { text, scope, target, isCore } = block;
+  const confirm = useConfirm();
 
   function save(next) {
     setBlock(next);
@@ -44,9 +46,13 @@ export default function TextBlockEditor({
     save({ ...block, isCore: !isCore });
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     if (isCore) return;
-    if (window.confirm(`Delete "${label}"? This cannot be undone.`)) {
+    if (await confirm({
+      title: 'Delete text block',
+      message: `Delete "${label}"? This cannot be undone.`,
+      confirmLabel: 'Delete',
+    })) {
       onDelete();
     }
   }

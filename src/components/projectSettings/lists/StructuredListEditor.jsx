@@ -4,6 +4,7 @@ import FormSelect from '../../ui/FormSelect';
 import IconButton from '../../ui/IconButton';
 import ListItemRow from './ListItemRow';
 import BlockEditorCard from '../blocks/BlockEditorCard';
+import useConfirm from '../../../hooks/useConfirm';
 import { detectItemType } from '../../../utils/customBlocks';
 
 // Structural match against the raw item object a random-pick list block
@@ -51,6 +52,7 @@ export default function StructuredListEditor({
     items: (blockData?.items ?? []).map((item, i) => ({ ...item, _id: i })), // _id is a client-only React key, stripped before save
   }));
   const { title, scope, target, isCore, displayMode, items } = block;
+  const confirm = useConfirm();
 
   const itemType = detectItemType(blockData);
   const valueLabel = itemType === 'link' ? 'Link' : 'Text';
@@ -77,9 +79,13 @@ export default function StructuredListEditor({
     save({ ...block, isCore: !isCore });
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     if (isCore) return;
-    if (window.confirm(`Delete "${label}"? This cannot be undone.`)) {
+    if (await confirm({
+      title: 'Delete list block',
+      message: `Delete "${label}"? This cannot be undone.`,
+      confirmLabel: 'Delete',
+    })) {
       onDelete();
     }
   }
