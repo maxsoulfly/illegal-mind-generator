@@ -65,14 +65,19 @@ export default function useAppShellState() {
     return storage.ui.titleUppercase ?? false;
   });
 
-  // Current page shown in the app menu.
-  const [activePage, setActivePage] = useState(() => {
-    const storage = loadAppStorage();
-
-    return (
-      storage.ui.activePage || localStorage.getItem('activePage') || 'generator'
-    );
-  });
+  // Routing refactor (Step 2): the URL is now the single source of truth for
+  // top-level page selection — App.jsx derives activePage from
+  // useLocation() via pageIdFromPath (src/config/routes.js), so this hook no
+  // longer owns page-selection state or its persistence. Old ui.activePage
+  // (and the pre-unification standalone `activePage` key) are simply no
+  // longer read anywhere — not migrated, just inert.
+  // setActivePage is kept as a temporary no-op stub, purely so
+  // useNavigationTargets.js's existing open*Search calls (unchanged until
+  // Step 3) and the one remaining inline caller in App.jsx don't crash; it
+  // does nothing and holds no state, so it cannot become a second source of
+  // truth. Remove this stub once Step 3 replaces every setActivePage(...)
+  // call with navigate(...).
+  const setActivePage = () => {};
 
   // Currently selected project.
   const [projectId, setProjectId] = useState(() => {
@@ -119,17 +124,6 @@ export default function useAppShellState() {
     }));
   }, [titleUppercase]);
 
-  // Persist active page selection.
-  useEffect(() => {
-    updateAppStorage((storage) => ({
-      ...storage,
-      ui: {
-        ...storage.ui,
-        activePage,
-      },
-    }));
-  }, [activePage]);
-
   // Persist selected project.
   useEffect(() => {
     updateAppStorage((storage) => ({
@@ -174,7 +168,6 @@ export default function useAppShellState() {
     setPanelVisibility,
     titleUppercase,
     setTitleUppercase,
-    activePage,
     setActivePage,
     projectId,
     handleProjectChange,

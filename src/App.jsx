@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import projects from './config/projects.json';
+import { pageIdFromPath, pathFromPageId } from './config/routes';
 
 import useGeneratedOutput from './hooks/useGeneratedOutput';
 import useProjectOverrides from './hooks/useProjectOverrides';
@@ -30,6 +32,13 @@ import { DEFAULT_PROJECT_KEY } from './constants/defaultFormData';
 import useAppShellState from './hooks/useAppShellState';
 
 function App() {
+  // The URL is the single source of truth for top-level page selection —
+  // activePage is derived here, not stored (see useAppShellState.js, which
+  // no longer owns this). Must run unconditionally before the loading/error
+  // early-returns below, like every other hook in this component.
+  const location = useLocation();
+  const activePage = pageIdFromPath(location.pathname);
+
   // App-level UI state and persistence.
   const {
     formData,
@@ -38,7 +47,6 @@ function App() {
     setPanelVisibility,
     titleUppercase,
     setTitleUppercase,
-    activePage,
     setActivePage,
     projectId,
     handleProjectChange,
@@ -222,141 +230,169 @@ function App() {
           ) : undefined
         }
       />
-      {/* Main generator workflow */}
-      {activePage === 'generator' && (
-        <GeneratorPage
-          projectId={projectId}
-          projects={projects}
-          formData={formData}
-          setFormData={setFormData}
-          projectConfig={resolvedProjectConfig}
-          generatedOutput={generatedOutput}
-          savedEntries={savedEntries}
-          handleSaveEntry={handleSaveEntry}
-          handleClearForm={handleClearForm}
-          handleLoadEntry={handleLoadEntry}
-          handleDeleteEntry={handleDeleteEntry}
-          handleExportEntries={handleExportEntries}
-          handleImportEntries={handleImportEntries}
-          handleUpdateEntry={handleUpdateEntry}
-          panelVisibility={panelVisibility}
-          setPanelVisibility={setPanelVisibility}
-          titleUppercase={titleUppercase}
-          onToggleTitleUppercase={setTitleUppercase}
-          togglePanel={togglePanel}
-          tagUsage={tagUsage}
-          handleRegenerate={handleRegenerate}
-          projectOverrides={tagOverrides}
-          projectSettingsOverrides={projectSettingsOverrides}
-          onOpenSourceTag={openTagLibrarySearch}
-          onOpenSourceHook={openShortHooksSearch}
-          onOpenSourceTemplate={openTitlesSearch}
-          onOpenSourceThumbnail={openThumbnailsSearch}
-          onOpenSourceHashtag={openHashtagsSearch}
-          onOpenBlocksEditor={openBlocksEditor}
-          onNavigateToSettings={openProjectSettings}
-          songOverrideTarget={songOverrideTarget}
-          openSongOverride={openSongOverride}
-          clearSongOverrideTarget={clearSongOverrideTarget}
-          coverHookTarget={coverHookTarget}
-          openCoverHook={openCoverHook}
-          clearCoverHookTarget={clearCoverHookTarget}
-          onOpenTodoSearch={openTodoSearch}
-          showToast={showToast}
-        />
-      )}
-      {/* Tag management and phrase editing */}
-      {activePage === 'tags' && (
-        <TagLibraryPage
-          projectId={projectId}
-          projects={projects}
-          projectConfig={resolvedProjectConfig}
-          savedEntries={savedEntries}
-          projectOverrides={tagOverrides}
-          updateTagOverride={updateTagOverride}
-          resetTagOverride={resetTagOverride}
-          syncProjectTags={syncProjectTags}
-          copyTagFromProject={copyTagFromProject}
-          onLoadEntry={loadEntryAndReturnToGenerator}
-          searchTarget={tagLibrarySearchTarget}
-          clearSearchTarget={clearTagLibrarySearchTarget}
-          showToast={showToast}
-        />
-      )}
-      {/* Shorts planning queue */}
-      {activePage === 'shortsQueue' && (
-        <ShortsQueuePage
-          key={projectId}
-          projectId={projectId}
-          savedEntries={savedEntries}
-          onLoadEntry={loadEntryAndReturnToGenerator}
-          projectConfig={resolvedProjectConfig}
-          showToast={showToast}
-        />
-      )}
-      {/* Upload calendar */}
-      {activePage === 'calendar' && (
-        <CalendarPage
-          key={projectId}
-          projectId={projectId}
-          savedEntries={savedEntries}
-          onLoadEntry={loadEntryAndReturnToGenerator}
-          projectConfig={resolvedProjectConfig}
-        />
-      )}
-      {/* Cover planning and tracking */}
-      {activePage === 'todo' && (
-        <TodoPage
-          savedEntries={savedEntries}
-          todoStatuses={resolvedProjectConfig.todoStatuses || []}
-          projectConfig={resolvedProjectConfig}
-          onUpdateEntryTodo={handleUpdateEntryTodo}
-          onLoadEntry={loadEntryAndReturnToGenerator}
-          onAddEntries={handleAddEntries}
-          panelVisibility={panelVisibility}
-          setPanelVisibility={setPanelVisibility}
-          togglePanel={togglePanel}
-          formData={formData}
-          setFormData={setFormData}
-          onUpdateEntry={handleUpdateEntry}
-          todoTarget={todoTarget}
-        />
-      )}
+      <Routes>
+        <Route path="/" element={<Navigate to={pathFromPageId('generator')} replace />} />
 
-      {activePage === 'projectSettings' && (
-        <ProjectSettingsPage
-          projectId={projectId}
-          baseProjectConfig={projectConfig}
-          projectConfig={resolvedProjectConfig}
-          projectSettingsOverrides={projectSettingsOverrides}
-          updateProjectOverride={updateProjectOverride}
-          resetProjectOverride={resetProjectOverride}
-          shortHooksTarget={shortHooksTarget}
-          clearShortHooksTarget={clearShortHooksTarget}
-          titlesTarget={titlesTarget}
-          clearTitlesTarget={clearTitlesTarget}
-          thumbnailsTarget={thumbnailsTarget}
-          clearThumbnailsTarget={clearThumbnailsTarget}
-          hashtagsTarget={hashtagsTarget}
-          clearHashtagsTarget={clearHashtagsTarget}
-          blocksTarget={blocksTarget}
-          clearBlocksTarget={clearBlocksTarget}
-          openBlocksEditor={openBlocksEditor}
-          activeSection={activeProjectSettingsSection}
-          onSectionChange={setActiveProjectSettingsSection}
-          leafMemory={contentSetupLeafMemory}
-          setLeafMemory={setContentSetupLeafMemory}
-          otherProjects={otherProjects}
-          syncHookTypesToProject={syncHookTypesToProject}
-          onOpenUIKit={() => {
-            setActivePage('uikit');
-            window.scrollTo(0, 0);
-          }}
-          showToast={showToast}
+        {/* Main generator workflow */}
+        <Route
+          path={pathFromPageId('generator')}
+          element={
+            <GeneratorPage
+              projectId={projectId}
+              projects={projects}
+              formData={formData}
+              setFormData={setFormData}
+              projectConfig={resolvedProjectConfig}
+              generatedOutput={generatedOutput}
+              savedEntries={savedEntries}
+              handleSaveEntry={handleSaveEntry}
+              handleClearForm={handleClearForm}
+              handleLoadEntry={handleLoadEntry}
+              handleDeleteEntry={handleDeleteEntry}
+              handleExportEntries={handleExportEntries}
+              handleImportEntries={handleImportEntries}
+              handleUpdateEntry={handleUpdateEntry}
+              panelVisibility={panelVisibility}
+              setPanelVisibility={setPanelVisibility}
+              titleUppercase={titleUppercase}
+              onToggleTitleUppercase={setTitleUppercase}
+              togglePanel={togglePanel}
+              tagUsage={tagUsage}
+              handleRegenerate={handleRegenerate}
+              projectOverrides={tagOverrides}
+              projectSettingsOverrides={projectSettingsOverrides}
+              onOpenSourceTag={openTagLibrarySearch}
+              onOpenSourceHook={openShortHooksSearch}
+              onOpenSourceTemplate={openTitlesSearch}
+              onOpenSourceThumbnail={openThumbnailsSearch}
+              onOpenSourceHashtag={openHashtagsSearch}
+              onOpenBlocksEditor={openBlocksEditor}
+              onNavigateToSettings={openProjectSettings}
+              songOverrideTarget={songOverrideTarget}
+              openSongOverride={openSongOverride}
+              clearSongOverrideTarget={clearSongOverrideTarget}
+              coverHookTarget={coverHookTarget}
+              openCoverHook={openCoverHook}
+              clearCoverHookTarget={clearCoverHookTarget}
+              onOpenTodoSearch={openTodoSearch}
+              showToast={showToast}
+            />
+          }
         />
-      )}
 
-      {activePage === 'uikit' && <UIKitPage />}
+        {/* Tag management and phrase editing */}
+        <Route
+          path={pathFromPageId('tags')}
+          element={
+            <TagLibraryPage
+              projectId={projectId}
+              projects={projects}
+              projectConfig={resolvedProjectConfig}
+              savedEntries={savedEntries}
+              projectOverrides={tagOverrides}
+              updateTagOverride={updateTagOverride}
+              resetTagOverride={resetTagOverride}
+              syncProjectTags={syncProjectTags}
+              copyTagFromProject={copyTagFromProject}
+              onLoadEntry={loadEntryAndReturnToGenerator}
+              searchTarget={tagLibrarySearchTarget}
+              clearSearchTarget={clearTagLibrarySearchTarget}
+              showToast={showToast}
+            />
+          }
+        />
+
+        {/* Shorts planning queue */}
+        <Route
+          path={pathFromPageId('shortsQueue')}
+          element={
+            <ShortsQueuePage
+              key={projectId}
+              projectId={projectId}
+              savedEntries={savedEntries}
+              onLoadEntry={loadEntryAndReturnToGenerator}
+              projectConfig={resolvedProjectConfig}
+              showToast={showToast}
+            />
+          }
+        />
+
+        {/* Upload calendar */}
+        <Route
+          path={pathFromPageId('calendar')}
+          element={
+            <CalendarPage
+              key={projectId}
+              projectId={projectId}
+              savedEntries={savedEntries}
+              onLoadEntry={loadEntryAndReturnToGenerator}
+              projectConfig={resolvedProjectConfig}
+            />
+          }
+        />
+
+        {/* Cover planning and tracking */}
+        <Route
+          path={pathFromPageId('todo')}
+          element={
+            <TodoPage
+              savedEntries={savedEntries}
+              todoStatuses={resolvedProjectConfig.todoStatuses || []}
+              projectConfig={resolvedProjectConfig}
+              onUpdateEntryTodo={handleUpdateEntryTodo}
+              onLoadEntry={loadEntryAndReturnToGenerator}
+              onAddEntries={handleAddEntries}
+              panelVisibility={panelVisibility}
+              setPanelVisibility={setPanelVisibility}
+              togglePanel={togglePanel}
+              formData={formData}
+              setFormData={setFormData}
+              onUpdateEntry={handleUpdateEntry}
+              todoTarget={todoTarget}
+            />
+          }
+        />
+
+        <Route
+          path={pathFromPageId('projectSettings')}
+          element={
+            <ProjectSettingsPage
+              projectId={projectId}
+              baseProjectConfig={projectConfig}
+              projectConfig={resolvedProjectConfig}
+              projectSettingsOverrides={projectSettingsOverrides}
+              updateProjectOverride={updateProjectOverride}
+              resetProjectOverride={resetProjectOverride}
+              shortHooksTarget={shortHooksTarget}
+              clearShortHooksTarget={clearShortHooksTarget}
+              titlesTarget={titlesTarget}
+              clearTitlesTarget={clearTitlesTarget}
+              thumbnailsTarget={thumbnailsTarget}
+              clearThumbnailsTarget={clearThumbnailsTarget}
+              hashtagsTarget={hashtagsTarget}
+              clearHashtagsTarget={clearHashtagsTarget}
+              blocksTarget={blocksTarget}
+              clearBlocksTarget={clearBlocksTarget}
+              openBlocksEditor={openBlocksEditor}
+              activeSection={activeProjectSettingsSection}
+              onSectionChange={setActiveProjectSettingsSection}
+              leafMemory={contentSetupLeafMemory}
+              setLeafMemory={setContentSetupLeafMemory}
+              otherProjects={otherProjects}
+              syncHookTypesToProject={syncHookTypesToProject}
+              onOpenUIKit={() => {
+                setActivePage('uikit');
+                window.scrollTo(0, 0);
+              }}
+              showToast={showToast}
+            />
+          }
+        />
+
+        <Route path={pathFromPageId('uikit')} element={<UIKitPage />} />
+
+        <Route path="*" element={<Navigate to={pathFromPageId('generator')} replace />} />
+      </Routes>
 
       <Toast toast={toast} />
     </div>
