@@ -11,6 +11,7 @@ import {
   getOverrideType,
   getScope,
   getHookBlockCore,
+  getAiContext,
   updateTemplatesPatch,
   resetBlockPatch,
   renameJsonBlockPatch,
@@ -20,6 +21,7 @@ import {
   updateTargetPatch,
   updateMaxLinesPatch,
   updateCountPatch,
+  updateAiContextPatch,
   toggleHookBlockCorePatch,
   addHookBlockPatch,
   deleteHookBlockPatch,
@@ -88,6 +90,7 @@ export default function HookBlocks({
             }
             maxLines={getMaxLines(projectSettingsOverrides, block)}
             countValue={getCountValue(projectSettingsOverrides, block)}
+            aiContext={getAiContext(projectSettingsOverrides, key, block)}
             onUpdateTemplates={(t) =>
               updateProjectOverride(updateTemplatesPatch(projectSettingsOverrides, block, t))
             }
@@ -113,6 +116,7 @@ export default function HookBlocks({
             onOverrideTypeChange={(val) => updateProjectOverride(updateOverrideTypePatch(projectSettingsOverrides, key, val))}
             onMaxLinesChange={(val) => updateProjectOverride(updateMaxLinesPatch(projectSettingsOverrides, key, val))}
             onCountChange={(val) => updateProjectOverride(updateCountPatch(projectSettingsOverrides, key, val))}
+            onAiContextChange={(val) => updateProjectOverride(updateAiContextPatch(projectSettingsOverrides, key, val))}
             open={openBlockKey === key}
             highlightText={openBlockKey === key ? highlightText : null}
             placeholders={placeholders}

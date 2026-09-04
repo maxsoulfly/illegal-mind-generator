@@ -1,5 +1,6 @@
 import BlockEditorCard from './BlockEditorCard';
 import HookTemplateEditor from '../../ui/HookTemplateEditor';
+import FormField from '../../ui/FormField';
 
 const OVERRIDE_TYPE_OPTIONS = [
   { value: 'textarea', label: 'Textarea' },
@@ -18,6 +19,7 @@ export default function HookBlockEditor({
   hasOverride,
   maxLines,
   countValue,
+  aiContext,
   onUpdateTemplates,
   onReset,
   onDelete,
@@ -29,6 +31,7 @@ export default function HookBlockEditor({
   onOverrideTypeChange,
   onMaxLinesChange,
   onCountChange,
+  onAiContextChange,
   open,
   highlightText,
   placeholders,
@@ -52,6 +55,18 @@ export default function HookBlockEditor({
       onRename={onRename}
       open={open}
     >
+      {onAiContextChange && (
+        <FormField label="AI Context / Purpose">
+          <textarea
+            key={aiContext}
+            className="form-input"
+            rows={2}
+            defaultValue={aiContext}
+            placeholder="What this block is for — e.g. &quot;Opening line for SIGNAL-style log entries. Establishes the recovered-broadcast format.&quot; Optional; only used by Copy AI Prompt."
+            onBlur={(e) => onAiContextChange(e.target.value)}
+          />
+        </FormField>
+      )}
       <div className="tag-phrase-row hook-block-lines-row">
         {scope === 'song' && (
           <>

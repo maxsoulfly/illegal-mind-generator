@@ -1,7 +1,8 @@
 // Pure read/write helpers for the Blocks → Hook Blocks tab's per-block
 // override state: description.hookBlockMaxLines/hookBlockCounts/
-// hookBlockTargets/hookBlockLabelOverrides/hookBlockOverrideTypes,
-// description.templates.long.phraseBlockScopes, description.customHookBlocks.
+// hookBlockTargets/hookBlockLabelOverrides/hookBlockOverrideTypes/
+// hookBlockAiContexts, description.templates.long.phraseBlockScopes,
+// description.customHookBlocks.
 // Getters read from projectConfig/projectSettingsOverrides directly; setters
 // return the patch object for the caller to pass to updateProjectOverride —
 // this module never calls updateProjectOverride itself, matching how every
@@ -63,7 +64,8 @@ export function isOverridden(projectSettingsOverrides, { key, path, templateKey 
     (overriddenDesc.hookBlockMaxLines != null && key in overriddenDesc.hookBlockMaxLines) ||
     (overriddenDesc.hookBlockCounts != null && key in overriddenDesc.hookBlockCounts) ||
     (overriddenDesc.hookBlockTargets != null && key in overriddenDesc.hookBlockTargets) ||
-    (overriddenDesc.hookBlockOverrideTypes != null && key in overriddenDesc.hookBlockOverrideTypes)
+    (overriddenDesc.hookBlockOverrideTypes != null && key in overriddenDesc.hookBlockOverrideTypes) ||
+    (overriddenDesc.hookBlockAiContexts != null && key in overriddenDesc.hookBlockAiContexts)
   );
 }
 
@@ -84,6 +86,15 @@ export function getScope(projectSettingsOverrides, key, defaultScope) {
 export function getHookBlockCore(projectSettingsOverrides, key) {
   const overriddenDesc = getOverriddenDesc(projectSettingsOverrides);
   return (overriddenDesc.customHookBlocks || []).find((b) => b.key === key)?.isCore || false;
+}
+
+// aiContext is optional, user-authored explanation of a block's purpose
+// (Copy AI Prompt feature) — never derived from the block name/templates,
+// never seeded in projects.json. `block.aiContext` is always undefined for
+// every JSON-default block today; the override map is the only real source.
+export function getAiContext(projectSettingsOverrides, key, block) {
+  const overriddenDesc = getOverriddenDesc(projectSettingsOverrides);
+  return overriddenDesc.hookBlockAiContexts?.[key] ?? block?.aiContext ?? '';
 }
 
 export function updateTemplatesPatch(projectSettingsOverrides, { path, templateKey }, newTemplates) {
@@ -123,6 +134,7 @@ export function resetBlockPatch(projectSettingsOverrides, { key, path, templateK
   const { [key]: _tgt, ...remainingTargets } = overriddenDesc.hookBlockTargets || {};
   const { [key]: _lbl, ...remainingLabelOverrides } = overriddenDesc.hookBlockLabelOverrides || {};
   const { [key]: _ot, ...remainingOverrideTypes } = overriddenDesc.hookBlockOverrideTypes || {};
+  const { [key]: _ai, ...remainingAiContexts } = overriddenDesc.hookBlockAiContexts || {};
 
   if (path === 'long') {
     const { [templateKey]: _t, ...remainingLong } = overriddenLong;
@@ -134,6 +146,7 @@ export function resetBlockPatch(projectSettingsOverrides, { key, path, templateK
         hookBlockTargets: remainingTargets,
         hookBlockLabelOverrides: remainingLabelOverrides,
         hookBlockOverrideTypes: remainingOverrideTypes,
+        hookBlockAiContexts: remainingAiContexts,
         templates: { ...templates_, long: remainingLong },
       },
     };
@@ -148,6 +161,7 @@ export function resetBlockPatch(projectSettingsOverrides, { key, path, templateK
         hookBlockTargets: remainingTargets,
         hookBlockLabelOverrides: remainingLabelOverrides,
         hookBlockOverrideTypes: remainingOverrideTypes,
+        hookBlockAiContexts: remainingAiContexts,
       },
     };
   }
@@ -161,6 +175,7 @@ export function resetBlockPatch(projectSettingsOverrides, { key, path, templateK
         hookBlockTargets: remainingTargets,
         hookBlockLabelOverrides: remainingLabelOverrides,
         hookBlockOverrideTypes: remainingOverrideTypes,
+        hookBlockAiContexts: remainingAiContexts,
         templates: { ...templates_, shorts: remainingShorts },
       },
     };
@@ -253,6 +268,22 @@ export function updateMaxLinesPatch(projectSettingsOverrides, key, value) {
   };
 }
 
+// value === '' deletes the key instead of storing an empty string, so
+// isOverridden/the reset icon stay honest about whether anything is actually
+// set (matches "blank the field" reading as "no override" everywhere else
+// in this module).
+export function updateAiContextPatch(projectSettingsOverrides, key, value) {
+  const overriddenDesc = getOverriddenDesc(projectSettingsOverrides);
+  const trimmed = (value || '').trim();
+  const { [key]: _removed, ...remaining } = overriddenDesc.hookBlockAiContexts || {};
+  return {
+    description: {
+      ...overriddenDesc,
+      hookBlockAiContexts: trimmed ? { ...remaining, [key]: value } : remaining,
+    },
+  };
+}
+
 export function updateCountPatch(projectSettingsOverrides, key, value) {
   const overriddenDesc = getOverriddenDesc(projectSettingsOverrides);
   return {
@@ -314,6 +345,7 @@ export function deleteHookBlockPatch(projectSettingsOverrides, key) {
   const { [key]: _cv, ...remainingCounts } = overriddenDesc.hookBlockCounts || {};
   const { [key]: _tgt, ...remainingTargets } = overriddenDesc.hookBlockTargets || {};
   const { [key]: _ot, ...remainingOverrideTypes } = overriddenDesc.hookBlockOverrideTypes || {};
+  const { [key]: _ai, ...remainingAiContexts } = overriddenDesc.hookBlockAiContexts || {};
   return {
     description: {
       ...overriddenDesc,
@@ -322,6 +354,7 @@ export function deleteHookBlockPatch(projectSettingsOverrides, key) {
       hookBlockCounts: remainingCounts,
       hookBlockTargets: remainingTargets,
       hookBlockOverrideTypes: remainingOverrideTypes,
+      hookBlockAiContexts: remainingAiContexts,
       templates: {
         ...templates_,
         long: { ...remainingLongBase, phraseBlockScopes: remainingScopes },
