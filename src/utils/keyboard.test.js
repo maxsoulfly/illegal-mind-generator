@@ -8,7 +8,13 @@
 // Run: npx rolldown src/utils/keyboard.test.js -f esm -p node \
 //        -o /tmp/kb.test.mjs && node /tmp/kb.test.mjs
 
-import { clearOnEscape, cancelOnEscape, submitOnEnter, editableRowKeys } from './keyboard';
+import {
+  clearOnEscape,
+  cancelOnEscape,
+  submitOnEnter,
+  editableRowKeys,
+  confirmOnEnter,
+} from './keyboard';
 
 let failures = 0;
 const ok = (cond, msg) => {
@@ -287,6 +293,83 @@ function rowEvent({ key = 'Enter', isComposing = false, tagName = 'INPUT' } = {}
     h(e);
     ok(e.blurred === 0 && !e.defaultPrevented && cancelled === 0, `key "${key}" -> ignored`);
   }
+}
+
+// === confirmOnEnter ===================================================
+
+function confirmEvent({ key = 'Enter', isComposing = false, tagName = 'BUTTON', isContentEditable = false } = {}) {
+  return {
+    key,
+    nativeEvent: { isComposing },
+    target: { tagName, isContentEditable },
+    defaultPrevented: false,
+    propagationStopped: false,
+    preventDefault() { this.defaultPrevented = true; },
+    stopPropagation() { this.propagationStopped = true; },
+  };
+}
+
+// --- Enter from a focused button -> confirm, native activation suppressed
+{
+  let confirmed = 0;
+  const h = confirmOnEnter(() => { confirmed++; });
+  const e = confirmEvent({ tagName: 'BUTTON' });
+  h(e);
+  ok(confirmed === 1, 'Enter (button focused) -> onConfirm() called');
+  ok(e.defaultPrevented, 'Enter -> preventDefault (focused Cancel cannot also activate)');
+  ok(e.propagationStopped, 'Enter -> stopPropagation');
+}
+
+// --- Enter from the message wrapper (non-interactive) -> confirm ------
+{
+  let confirmed = 0;
+  confirmOnEnter(() => { confirmed++; })(confirmEvent({ tagName: 'DIV' }));
+  ok(confirmed === 1, 'Enter from a non-field element -> confirm');
+}
+
+// --- Space is never touched (native button behaviour retained) -------
+{
+  let confirmed = 0;
+  const e = confirmEvent({ key: ' ' });
+  confirmOnEnter(() => { confirmed++; })(e);
+  ok(confirmed === 0 && !e.defaultPrevented, 'Space -> left entirely to the native button');
+}
+
+// --- Escape is not this helper's job -------------------------------
+{
+  let confirmed = 0;
+  const e = confirmEvent({ key: 'Escape' });
+  confirmOnEnter(() => { confirmed++; })(e);
+  ok(confirmed === 0 && !e.defaultPrevented, 'Escape -> untouched (Modal still cancels)');
+}
+
+// --- IME composition in progress -> no confirm ---------------------
+{
+  let confirmed = 0;
+  const e = confirmEvent({ isComposing: true });
+  confirmOnEnter(() => { confirmed++; })(e);
+  ok(confirmed === 0 && !e.defaultPrevented, 'Enter mid-composition -> no confirm');
+}
+
+// --- Enter from inside a text field -> not hijacked ---------------
+{
+  let confirmed = 0;
+  const inc = () => { confirmed++; };
+  confirmOnEnter(inc)(confirmEvent({ tagName: 'TEXTAREA' }));
+  confirmOnEnter(inc)(confirmEvent({ tagName: 'INPUT' }));
+  confirmOnEnter(inc)(confirmEvent({ tagName: 'DIV', isContentEditable: true }));
+  ok(confirmed === 0, 'Enter from TEXTAREA / INPUT / contentEditable -> normal typing, no confirm');
+}
+
+// --- busy guard is the caller's: a re-entrant confirm is a no-op ---
+{
+  let calls = 0;
+  let busy = false;
+  const guarded = () => { if (busy) return; busy = true; calls++; };
+  const h = confirmOnEnter(guarded);
+  h(confirmEvent());
+  h(confirmEvent());
+  ok(calls === 1, 'two Enters -> guarded onConfirm still runs once (busy guard respected)');
 }
 
 if (failures > 0) throw new Error(`${failures} check(s) failed.`);

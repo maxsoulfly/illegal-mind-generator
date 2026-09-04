@@ -51,6 +51,29 @@ export function submitOnEnter(submit, canSubmit = true) {
   };
 }
 
+// Enter-to-confirm for a confirmation dialog. Returns an onKeyDown handler
+// for the dialog's content wrapper: Enter runs `onConfirm` — the same path
+// the Confirm button's onClick uses, so the caller's busy/disabled guard
+// still blocks a double-submit — regardless of which button currently holds
+// focus, and preventDefault stops the focused button's own native
+// Enter-activation (e.g. the initially-focused Cancel) from also firing.
+// Left untouched: non-Enter keys (Space keeps native button behaviour,
+// Escape stays the dialog's cancel via Modal), Enter mid-IME-composition,
+// and Enter raised from inside a text field (TEXTAREA / INPUT /
+// contentEditable) so a future confirm dialog with an input keeps normal
+// typing.
+export function confirmOnEnter(onConfirm) {
+  return (event) => {
+    if (event.key !== 'Enter') return;
+    if (event.nativeEvent?.isComposing) return;
+    const t = event.target;
+    if (t && (t.tagName === 'TEXTAREA' || t.tagName === 'INPUT' || t.isContentEditable)) return;
+    event.preventDefault();
+    event.stopPropagation();
+    onConfirm();
+  };
+}
+
 // Enter/Escape behaviour for one row of a "+ Add"-style editable list.
 // Returns an onKeyDown handler for the row's wrapper element:
 //
