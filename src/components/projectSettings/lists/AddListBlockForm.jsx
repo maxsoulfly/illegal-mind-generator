@@ -2,6 +2,7 @@ import { useState } from 'react';
 import FormSelect from '../../ui/FormSelect';
 import IconButton from '../../ui/IconButton';
 import { generateBlockKey, SCOPE_OPTIONS, TARGET_OPTIONS } from '../../../utils/customBlocks';
+import { submitOnEnter } from '../../../utils/keyboard';
 
 const TYPE_OPTIONS = [
   { value: 'text', label: 'Text' },
@@ -45,6 +46,7 @@ export default function AddListBlockForm({ existingKeys, onAdd }) {
         placeholder="New list name (e.g. Sponsor Shoutouts)"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        onKeyDown={submitOnEnter(handleAdd, name.trim())}
       />
       <FormSelect value={type} onChange={setType} options={TYPE_OPTIONS} />
       <FormSelect value={scope} onChange={setScope} options={SCOPE_OPTIONS} />

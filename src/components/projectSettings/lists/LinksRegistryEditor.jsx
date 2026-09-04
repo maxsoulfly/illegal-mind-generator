@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import IconButton from '../../ui/IconButton';
-import { clearOnEscape } from '../../../utils/keyboard';
+import { clearOnEscape, submitOnEnter } from '../../../utils/keyboard';
 
 export default function LinksRegistryEditor({
   baseProjectConfig,
@@ -91,12 +91,14 @@ export default function LinksRegistryEditor({
             placeholder="key"
             value={newKey}
             onChange={(e) => setNewKey(e.target.value)}
+            onKeyDown={submitOnEnter(handleAdd, newKey.trim() && newUrl.trim())}
           />
           <input
             className="form-input"
             placeholder="https://..."
             value={newUrl}
             onChange={(e) => setNewUrl(e.target.value)}
+            onKeyDown={submitOnEnter(handleAdd, newKey.trim() && newUrl.trim())}
           />
           <IconButton
             icon="+"

@@ -35,3 +35,18 @@ export function cancelOnEscape(onCancel) {
     onCancel();
   };
 }
+
+// Enter-to-submit for a single-line "add / create" row. Returns an
+// onKeyDown handler: pressing Enter in the row's text input runs `submit`
+// — the exact same handler the row's + / Add button calls — gated by
+// `canSubmit`, which should be the same truthy condition the button's
+// `disabled` uses (e.g. name.trim()). Ignored mid-IME composition. Do NOT
+// use on a multiline field: Enter there must stay a newline.
+export function submitOnEnter(submit, canSubmit = true) {
+  return (event) => {
+    if (event.key !== 'Enter') return;
+    if (event.nativeEvent?.isComposing) return;
+    if (!canSubmit) return;
+    submit();
+  };
+}

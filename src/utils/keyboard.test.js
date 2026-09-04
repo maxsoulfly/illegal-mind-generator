@@ -1,11 +1,11 @@
 // Smoke test for keyboard.js -- the shared Enter/Escape helpers behind the
 // app-wide keyboard UX consistency pass. Stage 1: clearOnEscape.
-// Stage 2: cancelOnEscape.
+// Stage 2: cancelOnEscape. Stage 3: submitOnEnter.
 //
 // Run: npx rolldown src/utils/keyboard.test.js -f esm -p node \
 //        -o /tmp/kb.test.mjs && node /tmp/kb.test.mjs
 
-import { clearOnEscape, cancelOnEscape } from './keyboard';
+import { clearOnEscape, cancelOnEscape, submitOnEnter } from './keyboard';
 
 let failures = 0;
 const ok = (cond, msg) => {
@@ -129,6 +129,70 @@ function makeEvent({ key = 'Escape', isComposing = false } = {}) {
   handler(e);
   ok(!cancelled, 'Escape mid-composition -> onCancel NOT called');
   ok(!e.propagationStopped, 'Escape mid-composition -> not consumed');
+}
+
+// === submitOnEnter ====================================================
+
+// --- Enter with a valid condition submits exactly once ---------------
+{
+  let calls = 0;
+  const handler = submitOnEnter(() => {
+    calls++;
+  }, 'Sponsor Shoutouts');
+  const e = makeEvent({ key: 'Enter' });
+  handler(e);
+  ok(calls === 1, 'Enter + canSubmit truthy -> submit() called once');
+}
+
+// --- Enter with a falsy/empty condition does nothing (matches disabled +)
+{
+  let calls = 0;
+  const submit = () => {
+    calls++;
+  };
+  submitOnEnter(submit, '')(makeEvent({ key: 'Enter' })); // trimmed-empty name
+  submitOnEnter(submit, false)(makeEvent({ key: 'Enter' })); // key && url, one empty
+  submitOnEnter(submit, undefined)(makeEvent({ key: 'Enter' })); // default -> true... see below
+  ok(calls === 1, "Enter + falsy canSubmit -> no submit; explicit undefined falls back to default(true) -> 1 call");
+}
+
+// --- default canSubmit is true when the arg is omitted --------------
+{
+  let calls = 0;
+  submitOnEnter(() => {
+    calls++;
+  })(makeEvent({ key: 'Enter' }));
+  ok(calls === 1, 'canSubmit omitted -> defaults to allowed');
+}
+
+// --- non-Enter keys never submit (Escape/typing/space untouched) ----
+{
+  let calls = 0;
+  const handler = submitOnEnter(() => {
+    calls++;
+  }, 'valid');
+  for (const key of ['Escape', 'a', ' ', 'Tab', 'ArrowDown']) handler(makeEvent({ key }));
+  ok(calls === 0, 'non-Enter keys -> never submit');
+}
+
+// --- IME composition in progress: Enter is left to the composition --
+{
+  let calls = 0;
+  const handler = submitOnEnter(() => {
+    calls++;
+  }, 'valid');
+  handler(makeEvent({ key: 'Enter', isComposing: true }));
+  ok(calls === 0, 'Enter mid-composition -> no submit');
+}
+
+// --- one keypress = one call (no double-submit) ---------------------
+{
+  let calls = 0;
+  const handler = submitOnEnter(() => {
+    calls++;
+  }, 'valid');
+  handler(makeEvent({ key: 'Enter' }));
+  ok(calls === 1, 'single Enter -> exactly one submit');
 }
 
 if (failures > 0) throw new Error(`${failures} check(s) failed.`);

@@ -16,6 +16,7 @@ import {
   deletePlaceholderPatch,
   addPlaceholderPatch,
 } from '../../../utils/placeholderOverrides';
+import { submitOnEnter } from '../../../utils/keyboard';
 
 // Fixed set of tag-scoped array fields a placeholder can pool from — the
 // same description/shortHooks sub-fields the Tag Editor exposes for direct
@@ -53,6 +54,7 @@ function AddPlaceholderRow({ existingKeys, onAdd }) {
         placeholder="New placeholder name (e.g. Tag Log Line)"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        onKeyDown={submitOnEnter(handleAdd, name.trim())}
       />
       <IconButton icon="+" onClick={handleAdd} disabled={!name.trim()} />
     </div>

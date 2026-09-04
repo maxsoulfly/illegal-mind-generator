@@ -2,6 +2,7 @@ import { useState } from 'react';
 import FormSelect from '../../ui/FormSelect';
 import IconButton from '../../ui/IconButton';
 import { generateBlockKey, SCOPE_OPTIONS, TARGET_OPTIONS } from '../../../utils/customBlocks';
+import { submitOnEnter } from '../../../utils/keyboard';
 
 export default function AddBlockForm({ placeholder, existingKeys, onAdd }) {
   const [name, setName] = useState('');
@@ -25,6 +26,7 @@ export default function AddBlockForm({ placeholder, existingKeys, onAdd }) {
         placeholder={placeholder}
         value={name}
         onChange={(e) => setName(e.target.value)}
+        onKeyDown={submitOnEnter(handleAdd, name.trim())}
       />
       <FormSelect value={scope} onChange={setScope} options={SCOPE_OPTIONS} />
       <FormSelect value={target} onChange={setTarget} options={TARGET_OPTIONS} />
