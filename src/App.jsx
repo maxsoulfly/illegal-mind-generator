@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import projects from './config/projects.json';
 import { pageIdFromPath, pathFromPageId } from './config/routes';
@@ -37,6 +37,7 @@ function App() {
   // no longer owns this). Must run unconditionally before the loading/error
   // early-returns below, like every other hook in this component.
   const location = useLocation();
+  const navigate = useNavigate();
   const activePage = pageIdFromPath(location.pathname);
 
   // App-level UI state and persistence.
@@ -47,7 +48,6 @@ function App() {
     setPanelVisibility,
     titleUppercase,
     setTitleUppercase,
-    setActivePage,
     projectId,
     handleProjectChange,
     togglePanel,
@@ -84,7 +84,7 @@ function App() {
     setActiveProjectSettingsSection,
     contentSetupLeafMemory,
     setContentSetupLeafMemory,
-  } = useAppShellState();
+  } = useAppShellState(navigate);
 
   const { toast, showToast } = useToast();
 
@@ -172,7 +172,7 @@ function App() {
   // Loading an entry from a non-Generator page always returns to Generator.
   const loadEntryAndReturnToGenerator = (entry) => {
     handleLoadEntry(entry);
-    setActivePage('generator');
+    navigate(pathFromPageId('generator'));
     window.scrollTo(0, 0);
   };
 
@@ -217,7 +217,6 @@ function App() {
     <div className="app-shell">
       <AppHeader
         activePage={activePage}
-        setActivePage={setActivePage}
         projectId={projectId}
         setProjectId={handleProjectChange}
         projects={projects}
@@ -381,7 +380,7 @@ function App() {
               otherProjects={otherProjects}
               syncHookTypesToProject={syncHookTypesToProject}
               onOpenUIKit={() => {
-                setActivePage('uikit');
+                navigate(pathFromPageId('uikit'));
                 window.scrollTo(0, 0);
               }}
               showToast={showToast}

@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { loadAppStorage, updateAppStorage } from '../utils/storage';
+import { pathFromPageId } from '../config/routes';
 
 // Click-to-navigate target state: each pair tracks "where a click should
 // land" (e.g. a specific Hook Block card, a specific tag) so the receiving
 // page can scroll to and highlight it. Every open*Search/openBlocksEditor
-// function sets its own target AND navigates to that target's home page in
-// the same handler — see useStaleTargetClearing.js for how these get
-// cleared once the user leaves that page.
-export default function useNavigationTargets(setActivePage, setPanelVisibility) {
+// function sets its own target AND navigates (via the router) to that
+// target's home page in the same handler — see useStaleTargetClearing.js
+// for how these get cleared once the user leaves that page.
+export default function useNavigationTargets(navigate, setPanelVisibility) {
   const [tagLibrarySearchTarget, setTagLibrarySearchTarget] = useState(null);
   const [shortHooksTarget, setShortHooksTarget] = useState(null);
   const [titlesTarget, setTitlesTarget] = useState(null);
@@ -61,7 +62,7 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
   const openShortHooksSearch = (target) => {
     if (!target) return;
     setShortHooksTarget(target);
-    setActivePage('projectSettings');
+    navigate(pathFromPageId('projectSettings'));
   };
 
   const clearShortHooksTarget = useCallback(() => {
@@ -71,7 +72,7 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
   const openTitlesSearch = (target) => {
     if (!target) return;
     setTitlesTarget(target);
-    setActivePage('projectSettings');
+    navigate(pathFromPageId('projectSettings'));
   };
 
   const clearTitlesTarget = useCallback(() => {
@@ -81,7 +82,7 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
   const openThumbnailsSearch = (target) => {
     if (!target) return;
     setThumbnailsTarget(target);
-    setActivePage('projectSettings');
+    navigate(pathFromPageId('projectSettings'));
   };
 
   const clearThumbnailsTarget = useCallback(() => {
@@ -91,7 +92,7 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
   const openHashtagsSearch = (target) => {
     if (!target) return;
     setHashtagsTarget(target);
-    setActivePage('projectSettings');
+    navigate(pathFromPageId('projectSettings'));
   };
 
   const clearHashtagsTarget = useCallback(() => {
@@ -100,13 +101,13 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
 
   const openProjectSettings = useCallback((section) => {
     setActiveProjectSettingsSection(section);
-    setActivePage('projectSettings');
-  }, [setActiveProjectSettingsSection, setActivePage]);
+    navigate(pathFromPageId('projectSettings'));
+  }, [setActiveProjectSettingsSection, navigate]);
 
   const openBlocksEditor = useCallback(({ subTab, blockKey, highlightText }) => {
     setBlocksTarget({ subTab, blockKey, highlightText });
-    setActivePage('projectSettings');
-  }, [setActivePage]);
+    navigate(pathFromPageId('projectSettings'));
+  }, [navigate]);
 
   const clearBlocksTarget = useCallback(() => {
     setBlocksTarget(null);
@@ -161,7 +162,7 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
         : target;
 
     setTagLibrarySearchTarget(nextTarget);
-    setActivePage('tags');
+    navigate(pathFromPageId('tags'));
   };
 
   const clearTagLibrarySearchTarget = () => {
@@ -175,7 +176,7 @@ export default function useNavigationTargets(setActivePage, setPanelVisibility) 
   const openTodoSearch = (target) => {
     if (!target) return;
     setTodoTarget(target);
-    setActivePage('todo');
+    navigate(pathFromPageId('todo'));
   };
 
   const clearTodoTarget = useCallback(() => {

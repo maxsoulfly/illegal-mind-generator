@@ -28,7 +28,11 @@ function safeParse(value, fallback) {
   }
 }
 
-export default function useAppShellState() {
+// `navigate` (react-router-dom's useNavigate(), from App.jsx) is threaded
+// straight through to useNavigationTargets — this hook has no page-selection
+// state of its own. The URL is the only source of truth for the top-level
+// page; see App.jsx for how activePage is derived from it.
+export default function useAppShellState(navigate) {
   // Generator form state.
   const [formData, setFormData] = useState(() => {
     const storage = loadAppStorage();
@@ -65,20 +69,6 @@ export default function useAppShellState() {
     return storage.ui.titleUppercase ?? false;
   });
 
-  // Routing refactor (Step 2): the URL is now the single source of truth for
-  // top-level page selection — App.jsx derives activePage from
-  // useLocation() via pageIdFromPath (src/config/routes.js), so this hook no
-  // longer owns page-selection state or its persistence. Old ui.activePage
-  // (and the pre-unification standalone `activePage` key) are simply no
-  // longer read anywhere — not migrated, just inert.
-  // setActivePage is kept as a temporary no-op stub, purely so
-  // useNavigationTargets.js's existing open*Search calls (unchanged until
-  // Step 3) and the one remaining inline caller in App.jsx don't crash; it
-  // does nothing and holds no state, so it cannot become a second source of
-  // truth. Remove this stub once Step 3 replaces every setActivePage(...)
-  // call with navigate(...).
-  const setActivePage = () => {};
-
   // Currently selected project.
   const [projectId, setProjectId] = useState(() => {
     const storage = loadAppStorage();
@@ -89,7 +79,7 @@ export default function useAppShellState() {
       DEFAULT_PROJECT_KEY
     );
   });
-  const navigationTargets = useNavigationTargets(setActivePage, setPanelVisibility);
+  const navigationTargets = useNavigationTargets(navigate, setPanelVisibility);
 
   // Persist generator form state.
   useEffect(() => {
@@ -168,7 +158,6 @@ export default function useAppShellState() {
     setPanelVisibility,
     titleUppercase,
     setTitleUppercase,
-    setActivePage,
     projectId,
     handleProjectChange,
     togglePanel,
