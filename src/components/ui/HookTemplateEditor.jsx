@@ -4,6 +4,7 @@ import AddBulkRow from './AddBulkRow';
 import BulkTextarea from './BulkTextarea';
 import PhraseRow from './PhraseRow';
 import { HOOK_PLACEHOLDERS } from '../../utils/hookPlaceholders';
+import { clearOnEscape } from '../../utils/keyboard';
 
 // Collapsible editor for a single hook type's templates array.
 // All mutations call onUpdateTemplates with the full replacement array —
@@ -53,6 +54,7 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
         placeholder="Search..."
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
+        onKeyDown={clearOnEscape(searchText, () => setSearchText(''))}
       />
 
       <div className="phrase-row-list">

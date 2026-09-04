@@ -1,6 +1,7 @@
 import TagActions from './TagActions';
 import TagSyncControls from './TagSyncControls';
 import TagFilters from './TagFilters';
+import { clearOnEscape } from '../../utils/keyboard';
 
 export default function TagControls({
   filterMode,
@@ -49,6 +50,7 @@ export default function TagControls({
           placeholder="Search tags..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={clearOnEscape(search, () => setSearch(''))}
         />
         <select
           className="form-select"

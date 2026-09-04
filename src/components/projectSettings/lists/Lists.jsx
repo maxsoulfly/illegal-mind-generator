@@ -9,6 +9,7 @@ import {
   updateLongKey,
   removeLongKey,
 } from '../../../utils/customBlocks';
+import { clearOnEscape } from '../../../utils/keyboard';
 
 export default function Lists({
   baseProjectConfig,
@@ -120,6 +121,7 @@ export default function Lists({
           placeholder="Search lists…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={clearOnEscape(search, () => setSearch(''))}
         />
       )}
 

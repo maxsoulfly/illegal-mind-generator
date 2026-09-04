@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import IconButton from '../../ui/IconButton';
+import { clearOnEscape } from '../../../utils/keyboard';
 
 export default function LinksRegistryEditor({
   baseProjectConfig,
@@ -55,6 +56,7 @@ export default function LinksRegistryEditor({
         placeholder="Search keys or URLs…"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        onKeyDown={clearOnEscape(search, () => setSearch(''))}
       />
       <div className="links-registry">
         {filteredLinks.map(([key, url]) => {

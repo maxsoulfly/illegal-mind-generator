@@ -11,6 +11,7 @@ import { SortableContext, arrayMove, rectSortingStrategy } from '@dnd-kit/sortab
 
 import ToggleButton from '../ui/ToggleButton';
 import SortableTagChip from './SortableTagChip';
+import { clearOnEscape } from '../../utils/keyboard';
 
 export default function TransformationTagSelector({
   visibleTags,
@@ -117,6 +118,7 @@ export default function TransformationTagSelector({
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={clearOnEscape(search, () => setSearch(''))}
             placeholder="Search tags..."
           />
 

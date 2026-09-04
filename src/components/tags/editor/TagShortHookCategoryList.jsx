@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { getShortHookCategories } from '../../../utils/tagContentSections';
+import { clearOnEscape } from '../../../utils/keyboard';
 
 // Level 2 of the Short Hooks drill: the one content type with genuinely
 // multiple pools. Categories come from projectConfig.shortHookTypes (all 7,
@@ -33,6 +34,7 @@ export default function TagShortHookCategoryList({ tag, projectConfig, onOpenCat
         placeholder="Search hooks..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        onKeyDown={clearOnEscape(search, () => setSearch(''))}
       />
 
       <ul className="tag-overview-list">

@@ -4,6 +4,7 @@ import AddBulkRow from '../ui/AddBulkRow';
 import BulkTextarea from '../ui/BulkTextarea';
 import FormField from '../ui/FormField';
 import PhraseRow from '../ui/PhraseRow';
+import { clearOnEscape } from '../../utils/keyboard';
 
 export default function TagPhraseEditor({
   title,
@@ -93,6 +94,7 @@ export default function TagPhraseEditor({
           placeholder="Search hooks..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={clearOnEscape(search, () => setSearch(''))}
         />
       )}
 

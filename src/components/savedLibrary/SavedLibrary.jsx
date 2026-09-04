@@ -4,6 +4,7 @@ import ToggleButton from '../ui/ToggleButton';
 import SavedLibraryItem from './SavedLibraryItem';
 import MissingDataTools from './MissingDataTools';
 import useSavedLibraryFilters from '../../hooks/useSavedLibraryFilters';
+import { clearOnEscape } from '../../utils/keyboard';
 
 function SavedLibrary({
   savedEntries,
@@ -68,6 +69,7 @@ function SavedLibrary({
                 type="search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={clearOnEscape(search, () => setSearch(''))}
                 placeholder="Search saved songs..."
               />
               <div className="filter-row">

@@ -20,6 +20,7 @@ import BlockInfoCard from '../../ui/BlockInfoCard';
 import useConfirm from '../../../hooks/useConfirm';
 import SortableActiveBlock from '../descriptions/SortableActiveBlock';
 import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../../utils/customBlocks';
+import { clearOnEscape } from '../../../utils/keyboard';
 import { makeBlockKeyLabelResolver, resolveBlockSource, buildHookBlockMaps } from '../../../utils/descriptionLayout';
 import {
   isDynamicGroup,
@@ -51,6 +52,7 @@ function AddChildList({ candidateKeys, getBlockKeyLabel, onAdd }) {
         placeholder="Search..."
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
+        onKeyDown={clearOnEscape(searchText, () => setSearchText(''))}
       />
       <div className="desc-available-list">
         {visibleKeys.map((key) => (

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import SavedEntryRow from '../ui/SavedEntryRow';
 import IconButton from '../ui/IconButton';
 import { formatDayLabel } from '../../utils/calendarDates';
+import { clearOnEscape } from '../../utils/keyboard';
 
 // Inline expandable block, not a modal — no modal component exists anywhere
 // in this codebase (see SavedLibrary.jsx's Missing-Data-tools precedent).
@@ -129,6 +130,7 @@ export default function CalendarEntryPicker({
         placeholder={isShort ? 'Search Shorts Queue — or type to search everything…' : 'Search saved songs…'}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        onKeyDown={clearOnEscape(search, () => setSearch(''))}
         autoFocus
       />
 

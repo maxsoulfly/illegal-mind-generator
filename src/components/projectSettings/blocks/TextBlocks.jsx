@@ -9,6 +9,7 @@ import {
   updateLongKey,
 } from '../../../utils/customBlocks';
 import { buildHookPlaceholders } from '../../../utils/hookPlaceholders';
+import { clearOnEscape } from '../../../utils/keyboard';
 
 export default function TextBlocks({
   baseProjectConfig,
@@ -110,6 +111,7 @@ export default function TextBlocks({
           placeholder="Search text blocks…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={clearOnEscape(search, () => setSearch(''))}
         />
       )}
 
