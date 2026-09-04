@@ -1,5 +1,6 @@
 import HookBlockEditor from './HookBlockEditor';
 import AddBlockForm from './AddBlockForm';
+import useConfirm from '../../../hooks/useConfirm';
 import { buildHookPlaceholders } from '../../../utils/hookPlaceholders';
 import {
   getTemplates,
@@ -39,10 +40,15 @@ export default function HookBlocks({
   highlightText,
 }) {
   const overriddenDesc = projectSettingsOverrides.description || {};
+  const confirm = useConfirm();
 
-  function deleteHookBlock(key) {
+  async function deleteHookBlock(key) {
     if (getHookBlockCore(projectSettingsOverrides, key)) return;
-    if (!window.confirm(`Delete this hook block? This cannot be undone.`)) return;
+    if (!(await confirm({
+      title: 'Delete hook block',
+      message: `Delete this hook block? This cannot be undone.`,
+      confirmLabel: 'Delete',
+    }))) return;
     updateProjectOverride(deleteHookBlockPatch(projectSettingsOverrides, key));
   }
 

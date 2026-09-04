@@ -5,6 +5,7 @@ import FormField from '../../ui/FormField';
 import FormSelect from '../../ui/FormSelect';
 import IconButton from '../../ui/IconButton';
 import ToggleField from '../../ui/ToggleField';
+import useConfirm from '../../../hooks/useConfirm';
 import {
   isDynamicPlaceholder,
   sourceToFieldValue,
@@ -67,6 +68,7 @@ export default function Placeholders({
   const overriddenDesc = projectSettingsOverrides.description || {};
   const placeholders = projectConfig.description?.placeholders || [];
   const hookBlocks = projectConfig.description?.hookBlocks || [];
+  const confirm = useConfirm();
 
   const hookBlockOptions = [
     { value: '', label: 'None' },
@@ -82,9 +84,13 @@ export default function Placeholders({
     updateProjectOverride(resetPlaceholderPatch(overriddenDesc, key));
   }
 
-  function deletePlaceholder(placeholder) {
+  async function deletePlaceholder(placeholder) {
     if (placeholder.isCore) return;
-    if (!window.confirm(`Delete this placeholder? Any template still referencing {custom.${placeholder.key}} will resolve it as empty. This cannot be undone.`)) return;
+    if (!(await confirm({
+      title: 'Delete placeholder',
+      message: `Delete this placeholder? Any template still referencing {custom.${placeholder.key}} will resolve it as empty. This cannot be undone.`,
+      confirmLabel: 'Delete Placeholder',
+    }))) return;
     updateProjectOverride(deletePlaceholderPatch(overriddenDesc, placeholder));
   }
 

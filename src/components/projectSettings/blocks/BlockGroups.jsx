@@ -17,6 +17,7 @@ import {
 import BlockEditorCard from './BlockEditorCard';
 import AddBlockForm from './AddBlockForm';
 import BlockInfoCard from '../../ui/BlockInfoCard';
+import useConfirm from '../../../hooks/useConfirm';
 import SortableActiveBlock from '../descriptions/SortableActiveBlock';
 import { isListBlock, isTextBlock, BLOCK_TYPE_SUBTABS } from '../../../utils/customBlocks';
 import { makeBlockKeyLabelResolver, resolveBlockSource, buildHookBlockMaps } from '../../../utils/descriptionLayout';
@@ -67,6 +68,7 @@ export default function BlockGroups({
   openBlockKey,
   onNavigateToBlock,
 }) {
+  const confirm = useConfirm();
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
@@ -119,9 +121,13 @@ export default function BlockGroups({
     updateProjectOverride(resetGroupPatch(overriddenDesc, key));
   }
 
-  function deleteGroup(group) {
+  async function deleteGroup(group) {
     if (group.isCore) return;
-    if (!window.confirm('Delete this block group? Its children become independently placeable again. This cannot be undone.')) return;
+    if (!(await confirm({
+      title: 'Delete group',
+      message: 'Delete this block group? Its children become independently placeable again. This cannot be undone.',
+      confirmLabel: 'Delete Group',
+    }))) return;
     updateProjectOverride(deleteGroupPatch(overriddenDesc, group));
   }
 
