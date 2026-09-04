@@ -1,6 +1,8 @@
 // Smoke test for keyboard.js -- the shared Enter/Escape helpers behind the
 // app-wide keyboard UX consistency pass. Stage 1: clearOnEscape.
 // Stage 2: cancelOnEscape. Stage 3: submitOnEnter.
+// Stage 4 reuses cancelOnEscape (as an Escape-to-close for inline transient
+// panels) with no helper change, so it adds no assertions here.
 //
 // Run: npx rolldown src/utils/keyboard.test.js -f esm -p node \
 //        -o /tmp/kb.test.mjs && node /tmp/kb.test.mjs

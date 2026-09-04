@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import SavedEntryRow from '../ui/SavedEntryRow';
 import IconButton from '../ui/IconButton';
 import { formatDayLabel } from '../../utils/calendarDates';
-import { clearOnEscape } from '../../utils/keyboard';
+import { clearOnEscape, cancelOnEscape } from '../../utils/keyboard';
 
 // Inline expandable block, not a modal — no modal component exists anywhere
 // in this codebase (see SavedLibrary.jsx's Missing-Data-tools precedent).
@@ -85,7 +85,12 @@ export default function CalendarEntryPicker({
   }
 
   return (
-    <div ref={ref} className="calendar-picker terminal-block">
+    // Escape closes the picker (same as Cancel — no calendar write, no
+    // selection change). The search input's own clearOnEscape (Stage 1)
+    // consumes Escape while the query is non-empty, so a first Escape there
+    // only clears the search; once it's empty, Escape bubbles here and
+    // closes. Enter is deliberately NOT bound to any confirm action.
+    <div ref={ref} className="calendar-picker terminal-block" onKeyDown={cancelOnEscape(onClose)}>
       <div className="calendar-picker-header">
         <h3 className="panel-title">
           {isUploadMode ? 'Confirm Upload' : 'Plan'} {target.videoType.toUpperCase()} —{' '}

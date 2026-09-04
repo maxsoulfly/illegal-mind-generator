@@ -3,6 +3,7 @@ import { useState } from 'react';
 import FormField from '../ui/FormField';
 import { getTagCategories } from '../../utils/tagRegistry';
 import { buildTagPrompt, parseTagResponse } from '../../utils/tagPrompt';
+import { cancelOnEscape } from '../../utils/keyboard';
 
 // Inline "+ Add tag" panel — lets a new tag be created with all its
 // phrase pools pre-filled via an AI round-trip (Copy Prompt / Paste
@@ -73,7 +74,10 @@ export default function AddTagPanel({ projectConfig, onCreate, onClose }) {
   };
 
   return (
-    <div className="panel">
+    // Escape closes the panel from anywhere inside it, including the paste
+    // textarea — same as clicking Cancel. Nothing is created/persisted;
+    // Enter is deliberately NOT bound to Create Tag.
+    <div className="panel" onKeyDown={cancelOnEscape(onClose)}>
       <h3 className="panel-title">Add Tag</h3>
 
       <div className="form-row">
