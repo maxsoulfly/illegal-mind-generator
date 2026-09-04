@@ -35,6 +35,7 @@ export default function HookBlockEditor({
   open,
   highlightText,
   placeholders,
+  actionsSlot,
 }) {
   const pct =
     maxLines > 1 ? `${((countValue - 1) / (maxLines - 1)) * 100}%` : '0%';
@@ -120,6 +121,7 @@ export default function HookBlockEditor({
         onUpdateTemplates={onUpdateTemplates}
         highlightText={highlightText}
         placeholders={placeholders}
+        actionsSlot={actionsSlot}
         noWrapper
       />
     </BlockEditorCard>

@@ -1,7 +1,9 @@
 import HookBlockEditor from './HookBlockEditor';
 import AddBlockForm from './AddBlockForm';
+import CopyPromptButton from '../../ui/CopyPromptButton';
 import useConfirm from '../../../hooks/useConfirm';
 import { buildHookPlaceholders } from '../../../utils/hookPlaceholders';
+import { buildHookBlockPrompt } from '../../../utils/authorPromptContexts';
 import {
   getTemplates,
   getMaxLines,
@@ -76,13 +78,17 @@ export default function HookBlocks({
         const isDynamic = dynamicHookBlockKeys.has(key);
         const effectiveLabel =
           overriddenDesc.hookBlockLabelOverrides?.[key] ?? block.label;
+        const templates = getTemplates(projectConfig, block);
+        const scope = getScope(projectSettingsOverrides, key, block.defaultScope);
+        const target = getTarget(projectSettingsOverrides, block);
+        const aiContext = getAiContext(projectSettingsOverrides, key, block);
         return (
           <HookBlockEditor
             key={key}
             label={effectiveLabel}
-            templates={getTemplates(projectConfig, block)}
-            scope={getScope(projectSettingsOverrides, key, block.defaultScope)}
-            target={getTarget(projectSettingsOverrides, block)}
+            templates={templates}
+            scope={scope}
+            target={target}
             overrideType={getOverrideType(projectSettingsOverrides, key)}
             hasOverride={
               !isDynamic &&
@@ -90,7 +96,7 @@ export default function HookBlocks({
             }
             maxLines={getMaxLines(projectSettingsOverrides, block)}
             countValue={getCountValue(projectSettingsOverrides, block)}
-            aiContext={getAiContext(projectSettingsOverrides, key, block)}
+            aiContext={aiContext}
             onUpdateTemplates={(t) =>
               updateProjectOverride(updateTemplatesPatch(projectSettingsOverrides, block, t))
             }
@@ -120,6 +126,19 @@ export default function HookBlocks({
             open={openBlockKey === key}
             highlightText={openBlockKey === key ? highlightText : null}
             placeholders={placeholders}
+            actionsSlot={
+              <CopyPromptButton
+                getPrompt={() =>
+                  buildHookBlockPrompt(projectConfig, {
+                    label: effectiveLabel,
+                    aiContext,
+                    scope,
+                    target,
+                    templates,
+                  })
+                }
+              />
+            }
           />
         );
       })}

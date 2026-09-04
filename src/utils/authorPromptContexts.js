@@ -16,6 +16,7 @@
 import { buildTagPhrase } from '../engine/descriptions/descriptionTagHelpers';
 import { buildHookPlaceholders } from './hookPlaceholders';
 import { buildAuthorPrompt, placeholderNote, RULE } from './authorPrompt';
+import { SCOPE_OPTIONS, TARGET_OPTIONS } from './customBlocks';
 
 function firstNonEmpty(...values) {
   for (const value of values) {
@@ -377,4 +378,88 @@ export function titlePoolContext(projectConfig = {}, opts = {}) {
 
 export function buildTitlePoolPrompt(projectConfig, opts) {
   return buildAuthorPrompt(titlePoolContext(projectConfig, opts));
+}
+
+// ─── Hook Blocks (description templates) ────────────────────────────────────
+// One Hook Block (Project Settings → Blocks → Hook Blocks — Intro · Hook,
+// Story Block, Broadcast · Header, Log · Format, ...). Unlike Short Hooks or
+// Title pools, these are NOT hooks or titles — they're the phrase pools that
+// make up a video's Long/Shorts description, and their subject matter varies
+// wildly per block (a broadcast-log opener, a story paragraph, a closing
+// signal, a lore line). A block's own name is often opaque ("Log · Format"),
+// which is exactly what the optional AI Context / Purpose field exists to
+// fix — it is the primary signal here, not a supporting one.
+//
+// Deliberately does NOT reuse the Short Hook / Title rule set: those ban
+// {transformation} and channel metadata ({num}, signal numbers) because that
+// makes sense for hooks/titles — Hook Blocks legitimately use both (an Intro
+// or Broadcast block routinely reads "[SIGNAL {num}]" or resolves
+// {transformation}), so banning them here would be wrong, not just unrelated.
+// This is why Hook Blocks get their own adapter rather than being forced into
+// an existing one (see CLAUDE.md's Copy AI Prompt section).
+
+const HOOK_BLOCK_INTRO =
+  "I need more templates for ONE reusable phrase pool used to build video descriptions in my YouTube cover-song tool. This is a Hook Block: a list of interchangeable lines, and the app picks ONE at random each time a description is generated. These are NOT hooks or titles — they're description copy, and what kind depends entirely on this specific block (it could be an opening line, a log entry, a closing note, anything).";
+
+const SCOPE_LABELS = Object.fromEntries(SCOPE_OPTIONS.map((o) => [o.value, o.label]));
+const TARGET_LABELS = Object.fromEntries(TARGET_OPTIONS.map((o) => [o.value, o.label]));
+
+export function hookBlockContext(projectConfig = {}, opts = {}) {
+  const { label = '', aiContext = '', scope = 'project', target = 'long', templates = [] } = opts;
+
+  const cleanLabel = String(label || '').trim();
+  const cleanAiContext = String(aiContext || '').trim();
+  const cleanTemplates = (templates || []).filter((t) => typeof t === 'string' && t.trim());
+
+  const context = [
+    projectConfig?.promptContext ? `Channel: ${projectConfig.promptContext}` : '',
+    cleanLabel ? `Block name: ${cleanLabel}` : '',
+    cleanAiContext
+      ? `Purpose (authoritative — what this block is for): ${cleanAiContext}`
+      : '',
+    `Scope: ${SCOPE_LABELS[scope] || scope}${
+      scope === 'song' ? ' (can be overridden per song in the generator, in addition to this pool)' : ''
+    }`,
+    `Used in: ${TARGET_LABELS[target] || target} description`,
+  ].filter(Boolean);
+
+  const existingSection =
+    cleanTemplates.length > 0
+      ? [
+          cleanAiContext
+            ? 'CURRENT TEMPLATES in this block (examples/context only — infer the pattern, do not reword these):'
+            : 'CURRENT TEMPLATES in this block (this is your main signal for what this block is for, since no Purpose is set — infer its function from these and match it):',
+          ...cleanTemplates.map((template) => `- ${template}`),
+        ].join('\n')
+      : cleanAiContext
+        ? "This block has no templates yet — establish its voice from the Purpose above."
+        : "This block has no templates yet and no Purpose is set — infer its likely function from the block name above as best you can.";
+
+  const rules = [
+    RULE.PLAIN_LINES,
+    'No bullets, explanations, headings, or markdown formatting either — just the lines, so I can paste this straight into a bulk-add box.',
+    'Give me 8-12 new templates.',
+    `Every line must fit specifically what THIS block is for${
+      cleanLabel ? ` ("${cleanLabel}")` : ''
+    } — not generic description copy that could belong to any block.`,
+    cleanAiContext
+      ? 'Stay within the Purpose above — that is the authoritative definition of this block\'s role. Do not drift into a different kind of line just because it sounds plausible.'
+      : 'Infer this block\'s role from its name and current templates, and stay consistent with that role.',
+    RULE.AVOID_DUPLICATES,
+    'Keep each template reusable across different songs/covers where this block\'s content allows it — avoid baking in one specific song, artist, or fact unless the block is clearly meant to hold something specific (in which case a placeholder should stand in for it instead).',
+    RULE.NO_INVENTED_FACTS,
+    'Use only the placeholders listed above, written exactly as shown (e.g. {song}). Do not invent a placeholder name that is not in that list.',
+  ];
+
+  return [
+    HOOK_BLOCK_INTRO,
+    ['CONTEXT', ...context].join('\n'),
+    existingSection,
+    placeholderNote(buildHookPlaceholders(projectConfig)),
+    ['TASK', ...rules.map((rule) => `- ${rule}`)].join('\n'),
+  ];
+}
+
+export function buildHookBlockPrompt(projectConfig, opts) {
+  return buildAuthorPrompt(hookBlockContext(projectConfig, opts));
 }
