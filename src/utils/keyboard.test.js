@@ -3,11 +3,12 @@
 // Stage 2: cancelOnEscape. Stage 3: submitOnEnter.
 // Stage 4 reuses cancelOnEscape (as an Escape-to-close for inline transient
 // panels) with no helper change, so it adds no assertions here.
+// Stage 5: editableRowKeys.
 //
 // Run: npx rolldown src/utils/keyboard.test.js -f esm -p node \
 //        -o /tmp/kb.test.mjs && node /tmp/kb.test.mjs
 
-import { clearOnEscape, cancelOnEscape, submitOnEnter } from './keyboard';
+import { clearOnEscape, cancelOnEscape, submitOnEnter, editableRowKeys } from './keyboard';
 
 let failures = 0;
 const ok = (cond, msg) => {
@@ -195,6 +196,97 @@ function makeEvent({ key = 'Escape', isComposing = false } = {}) {
   }, 'valid');
   handler(makeEvent({ key: 'Enter' }));
   ok(calls === 1, 'single Enter -> exactly one submit');
+}
+
+// === editableRowKeys ==================================================
+
+// Event stub with a target (tagName + blur spy).
+function rowEvent({ key = 'Enter', isComposing = false, tagName = 'INPUT' } = {}) {
+  let blurred = 0;
+  const e = {
+    key,
+    nativeEvent: { isComposing },
+    defaultPrevented: false,
+    propagationStopped: false,
+    target: { tagName, blur() { blurred++; } },
+    preventDefault() { this.defaultPrevented = true; },
+    stopPropagation() { this.propagationStopped = true; },
+    get blurred() { return blurred; },
+  };
+  return e;
+}
+
+// --- Enter + commitOnEnter on an <input> -> blur (commit), consumed ----
+{
+  const h = editableRowKeys({ blank: false, commitOnEnter: true, cancelBlankOnEscape: true, onCancel: () => {} });
+  const e = rowEvent({ key: 'Enter' });
+  h(e);
+  ok(e.blurred === 1, 'Enter + commitOnEnter -> field blurred once (commits via existing onBlur)');
+  ok(e.defaultPrevented && e.propagationStopped, 'Enter -> preventDefault + stopPropagation (no form submit, no bubble)');
+}
+
+// --- Enter without commitOnEnter -> nothing --------------------------
+{
+  const h = editableRowKeys({ blank: true, commitOnEnter: false, cancelBlankOnEscape: true, onCancel: () => {} });
+  const e = rowEvent({ key: 'Enter' });
+  h(e);
+  ok(e.blurred === 0 && !e.defaultPrevented, 'Enter + !commitOnEnter -> untouched');
+}
+
+// --- Enter from a non-input (move/remove button) -> nothing ---------
+{
+  const h = editableRowKeys({ blank: true, commitOnEnter: true, cancelBlankOnEscape: true, onCancel: () => {} });
+  const e = rowEvent({ key: 'Enter', tagName: 'BUTTON' });
+  h(e);
+  ok(e.blurred === 0 && !e.defaultPrevented, 'Enter on a BUTTON in the row -> ignored (buttons keep native Enter)');
+}
+
+// --- Escape + cancelBlankOnEscape + blank -> onCancel, consumed -----
+{
+  let cancelled = 0;
+  const h = editableRowKeys({ blank: true, commitOnEnter: true, cancelBlankOnEscape: true, onCancel: () => { cancelled++; } });
+  const e = rowEvent({ key: 'Escape' });
+  h(e);
+  ok(cancelled === 1, 'Escape + blank row -> onCancel() called (row removed, = the × button)');
+  ok(e.defaultPrevented && e.propagationStopped, 'Escape (handled) -> preventDefault + stopPropagation');
+}
+
+// --- Escape on a NON-blank row -> never removes (protects content) --
+{
+  let cancelled = 0;
+  const h = editableRowKeys({ blank: false, commitOnEnter: true, cancelBlankOnEscape: true, onCancel: () => { cancelled++; } });
+  const e = rowEvent({ key: 'Escape' });
+  h(e);
+  ok(cancelled === 0 && !e.defaultPrevented, 'Escape + non-blank row -> no removal, event left alone');
+}
+
+// --- Escape without cancelBlankOnEscape -> nothing -----------------
+{
+  let cancelled = 0;
+  const h = editableRowKeys({ blank: true, commitOnEnter: true, cancelBlankOnEscape: false, onCancel: () => { cancelled++; } });
+  h(rowEvent({ key: 'Escape' }));
+  ok(cancelled === 0, 'Escape + !cancelBlankOnEscape -> untouched');
+}
+
+// --- IME composition in progress -> both keys left alone -----------
+{
+  let cancelled = 0;
+  const h = editableRowKeys({ blank: true, commitOnEnter: true, cancelBlankOnEscape: true, onCancel: () => { cancelled++; } });
+  const enter = rowEvent({ key: 'Enter', isComposing: true });
+  const esc = rowEvent({ key: 'Escape', isComposing: true });
+  h(enter); h(esc);
+  ok(enter.blurred === 0 && cancelled === 0, 'mid-IME-composition -> neither Enter nor Escape acts');
+}
+
+// --- other keys -> never act -------------------------------------
+{
+  let cancelled = 0;
+  const h = editableRowKeys({ blank: true, commitOnEnter: true, cancelBlankOnEscape: true, onCancel: () => { cancelled++; } });
+  for (const key of ['a', ' ', 'Tab', 'ArrowDown', 'Backspace']) {
+    const e = rowEvent({ key });
+    h(e);
+    ok(e.blurred === 0 && !e.defaultPrevented && cancelled === 0, `key "${key}" -> ignored`);
+  }
 }
 
 if (failures > 0) throw new Error(`${failures} check(s) failed.`);

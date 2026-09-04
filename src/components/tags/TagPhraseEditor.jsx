@@ -110,6 +110,8 @@ export default function TagPhraseEditor({
                 highlighted={isHighlighted}
                 value={phrase}
                 placeholders={placeholders}
+                commitOnEnter
+                cancelBlankOnEscape
                 onCommit={(newValue) => updatePhrase(index, newValue)}
                 onRemove={() => removePhrase(index)}
               />

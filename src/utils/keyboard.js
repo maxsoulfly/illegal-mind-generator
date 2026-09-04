@@ -50,3 +50,41 @@ export function submitOnEnter(submit, canSubmit = true) {
     submit();
   };
 }
+
+// Enter/Escape behaviour for one row of a "+ Add"-style editable list.
+// Returns an onKeyDown handler for the row's wrapper element:
+//
+//   Enter  (when commitOnEnter)      -> blur the row's <input>, committing
+//                                       its value through the field's
+//                                       existing onBlur — no new save path,
+//                                       and preventDefault so it can never
+//                                       submit a surrounding form.
+//   Escape (when cancelBlankOnEscape -> run onCancel (the row's existing ×
+//           AND `blank` is true)        / remove action). `blank` must be
+//                                       derived from the row's *committed*
+//                                       value(s), so a row holding real
+//                                       (even if only draft-edited) content
+//                                       is never removed by Escape.
+//
+// Only acts when the event originates from an <input> (so move/remove
+// buttons inside the row keep their native Enter/Space). Ignored mid-IME
+// composition. For a PlaceholderField-backed row the {…} autocomplete
+// consumes Enter/Escape first (it stopPropagations while its menu is open),
+// so this only runs with that menu closed.
+export function editableRowKeys({ blank, commitOnEnter, cancelBlankOnEscape, onCancel }) {
+  return (event) => {
+    const el = event.target;
+    if (!el || el.tagName !== 'INPUT') return;
+    if (event.nativeEvent?.isComposing) return;
+
+    if (commitOnEnter && event.key === 'Enter') {
+      event.preventDefault();
+      event.stopPropagation();
+      el.blur();
+    } else if (cancelBlankOnEscape && blank && event.key === 'Escape') {
+      event.preventDefault();
+      event.stopPropagation();
+      onCancel();
+    }
+  };
+}

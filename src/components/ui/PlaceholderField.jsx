@@ -136,28 +136,28 @@ export default function PlaceholderField({
     // below): a query is being tracked AND there's at least one match.
     const menuOpen = query !== null && matches.length > 0;
 
-    if (e.key === 'Escape') {
-      // When the dropdown is open, Escape closes just the dropdown and is
-      // consumed — so an outer Escape handler (e.g. a Bulk Add box's
-      // cancel-on-Escape) doesn't also fire on the same keypress. When the
-      // dropdown is closed, Escape is left to bubble to that outer handler.
-      if (menuOpen) {
-        e.stopPropagation();
-        closeMenu();
-      }
-      return;
-    }
-
+    // Menu closed: don't touch the key — let Enter/Escape/etc. bubble to any
+    // row-level handler (see editableRowKeys) or to native behaviour.
     if (!menuOpen) return;
 
-    if (e.key === 'ArrowDown') {
+    // Menu open: the autocomplete owns these keys. Handle AND consume each
+    // one (stopPropagation) so an outer Enter/Escape handler — a Bulk Add
+    // box's cancel-on-Escape, an editable row's Enter-commit — never fires
+    // on the same keypress.
+    if (e.key === 'Escape') {
+      e.stopPropagation();
+      closeMenu();
+    } else if (e.key === 'ArrowDown') {
       e.preventDefault();
+      e.stopPropagation();
       setActiveIndex((i) => (i + 1) % matches.length);
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
+      e.stopPropagation();
       setActiveIndex((i) => (i - 1 + matches.length) % matches.length);
     } else if (e.key === 'Enter') {
       e.preventDefault();
+      e.stopPropagation();
       insertPlaceholder(matches[activeIndex]);
     }
   }

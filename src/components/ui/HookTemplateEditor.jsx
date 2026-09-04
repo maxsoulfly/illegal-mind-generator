@@ -67,6 +67,8 @@ export default function HookTemplateEditor({ templates = [], onUpdateTemplates, 
               highlighted={isHighlighted}
               value={template}
               placeholders={placeholders}
+              commitOnEnter
+              cancelBlankOnEscape
               onCommit={(newValue) => {
                 const next = [...templates];
                 next[index] = newValue;

@@ -118,6 +118,8 @@ export default function ProjectSettingsTodo({
                   id={rowIds[index]}
                   value={status}
                   placeholders={[]}
+                  commitOnEnter
+                  cancelBlankOnEscape
                   onCommit={(value) => handleCommit(index, value)}
                   onRemove={() => handleRemove(index)}
                   onMoveUp={() => handleMove(index, -1)}

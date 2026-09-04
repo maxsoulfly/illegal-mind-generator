@@ -193,6 +193,8 @@ export default function StructuredListEditor({
               itemType={itemType}
               valueLabel={valueLabel}
               linkSuggestionsId={linkSuggestionsId}
+              commitOnEnter
+              cancelBlankOnEscape
               onMove={handleMove}
               onBlurField={handleItemBlur}
               onRemove={handleRemove}
