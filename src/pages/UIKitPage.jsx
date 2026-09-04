@@ -26,6 +26,7 @@ import CollapsiblePanel from '../components/ui/CollapsiblePanel';
 import Modal from '../components/ui/Modal';
 import Toast from '../components/ui/Toast';
 import useToast from '../hooks/useToast';
+import useConfirm from '../hooks/useConfirm';
 
 // ─── Section wrapper ──────────────────────────────────────────────────────────
 
@@ -83,6 +84,8 @@ export default function UIKitPage() {
   const [panelDemoVisible, setPanelDemoVisible] = useState(true);
   const [modalDemoOpen, setModalDemoOpen] = useState(false);
   const { toast: toastDemo, showToast: showToastDemo } = useToast();
+  const confirmDemo = useConfirm();
+  const [confirmDemoResult, setConfirmDemoResult] = useState(null);
 
   return (
     <div className="app-shell uikit-page">
@@ -166,12 +169,12 @@ export default function UIKitPage() {
 
           <Section
             title="Modal"
-            description="Overlay modal — backdrop click and Escape both close, body scroll locks while open. This app's first modal; every other 'reveal on demand' case (AddTagPanel, CalendarEntryPicker, MissingDataTools) deliberately uses an inline expandable block instead. Only reach for this when the trigger genuinely needs to stay compact with zero permanent page footprint — CalendarImportPanel (Calendar page's 'Import from YouTube' button) is the one real usage so far."
+            description="Overlay modal — backdrop click and Escape both close, body scroll locks while open, focus is trapped inside while open and returned to the trigger on close (role=dialog, aria-modal, aria-labelledby). Every other 'reveal on demand' case (AddTagPanel, CalendarEntryPicker, MissingDataTools) deliberately uses an inline expandable block instead. Reach for this only when the trigger needs zero permanent page footprint (CalendarImportPanel) or for a blocking prompt (ConfirmDialog below)."
           >
             <Example
               name="Modal"
-              props="title onClose children"
-              usage="Mount conditionally ({show && <Modal>...}), same as every other panel in this app — Modal itself has no visibility state of its own."
+              props="title onClose children initialFocusRef?"
+              usage="Mount conditionally ({show && <Modal>...}) — Modal has no visibility state of its own. Pass initialFocusRef to focus a specific element on open (defaults to the dialog container)."
             >
               <button type="button" className="button-secondary" onClick={() => setModalDemoOpen(true)}>
                 Open Modal
@@ -186,7 +189,7 @@ export default function UIKitPage() {
 
           <Section
             title="Toast"
-            description="Replaces window.alert() for fire-and-forget success/info messages — appears near the bottom of the screen and auto-dismisses after 3 seconds. Always mounted (unlike Modal), driven by useToast()'s showToast(message). Not for confirmations that need a yes/no answer — those stay as window.confirm()."
+            description="Replaces window.alert() for fire-and-forget success/info messages — appears near the bottom of the screen and auto-dismisses after 3 seconds. Always mounted (unlike Modal), driven by useToast()'s showToast(message). Not for confirmations that need a yes/no answer — use ConfirmDialog / useConfirm() for those."
           >
             <Example
               name="Toast"
@@ -197,6 +200,37 @@ export default function UIKitPage() {
                 Show Toast
               </button>
               <Toast toast={toastDemo} />
+            </Example>
+          </Section>
+
+          <Section
+            title="ConfirmDialog / useConfirm()"
+            description="The app-wide replacement for window.confirm(). Built on Modal, driven by a single provider mounted at the App root (mirroring Toast). Cancel / Escape / backdrop click never run the action and resolve false; only the confirm button resolves true. Cancel takes initial focus; the confirm button carries destructive styling and a clear label (Delete / Delete Tag / Reset) rather than a generic OK. Double-submit is blocked."
+          >
+            <Example
+              name="useConfirm"
+              props="confirm({ title, message, confirmLabel?, cancelLabel?, danger? }) -> Promise<boolean>"
+              usage="const confirm = useConfirm(); if (!(await confirm({ title: 'Delete block', message: 'Delete Intro? This cannot be undone.', confirmLabel: 'Delete' }))) return; — no per-component state, no prop threading. The provider owns the one dialog instance."
+            >
+              <button
+                type="button"
+                className="button-secondary"
+                onClick={async () => {
+                  const ok = await confirmDemo({
+                    title: 'Delete "Example"',
+                    message: 'Delete "Example"? This cannot be undone.',
+                    confirmLabel: 'Delete',
+                  });
+                  setConfirmDemoResult(ok ? 'confirmed' : 'cancelled');
+                }}
+              >
+                Open ConfirmDialog
+              </button>
+              {confirmDemoResult && (
+                <p style={{ color: 'var(--color-text-muted)', margin: '8px 0 0' }}>
+                  Last result: {confirmDemoResult}
+                </p>
+              )}
             </Example>
           </Section>
 

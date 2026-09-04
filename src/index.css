@@ -571,6 +571,38 @@ input[type="range"]::-moz-range-progress {
   margin: 0;
 }
 
+/* ===== ConfirmDialog ===== */
+/* The one app-wide confirmation dialog (useConfirm / ConfirmProvider),
+   built on Modal. Cancel/Escape/backdrop never run the action; the confirm
+   button carries destructive styling by default. */
+.confirm-dialog-message {
+  margin     : 0 0 var(--space-5);
+  color      : var(--color-text-soft);
+  line-height : var(--line-height-base);
+  white-space : pre-line;
+}
+
+.confirm-dialog-actions {
+  display        : flex;
+  justify-content: flex-end;
+  gap            : var(--space-3);
+}
+
+.confirm-dialog-confirm--danger {
+  border-color: var(--color-border-danger);
+  color       : var(--color-text-danger);
+}
+
+.confirm-dialog-confirm--danger:hover {
+  border-color: var(--color-border-danger-hover);
+  color       : var(--color-text-danger-hover);
+}
+
+.confirm-dialog-actions button:disabled {
+  opacity: 0.5;
+  cursor : default;
+}
+
 /* ===== Generator output ===== */
 .terminal-block {
   margin-bottom: var(--space-4);

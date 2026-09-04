@@ -15,6 +15,7 @@ import useToast from './hooks/useToast';
 
 import AppHeader from './components/AppHeader';
 import Toast from './components/ui/Toast';
+import ConfirmProvider from './components/ui/ConfirmProvider';
 
 import TagLibraryPage from './pages/TagLibraryPage';
 import GeneratorPage from './pages/GeneratorPage';
@@ -204,6 +205,7 @@ function App() {
   }
 
   return (
+    <ConfirmProvider>
     <div className="app-shell">
       <AppHeader
         activePage={activePage}
@@ -358,6 +360,7 @@ function App() {
 
       <Toast toast={toast} />
     </div>
+    </ConfirmProvider>
   );
 }
 
