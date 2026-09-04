@@ -1,5 +1,10 @@
 const STORAGE_KEY = 'illegalMindGeneratorData';
 
+// `ui.activePage` (top-level page selection) is intentionally not in this
+// shape — the routing refactor made the URL the single source of truth for
+// that (src/config/routes.js), and it is no longer read or written anywhere.
+// Any real user's already-persisted `ui.activePage` value is simply carried
+// forward untouched by the `...stored.ui` spread below and never consulted.
 const defaultStorage = {
   version: 1,
   savedEntries: {},
@@ -10,7 +15,6 @@ const defaultStorage = {
   projectOverrides: {},
   ui: {
     selectedProject: '',
-    activePage: '',
     showSavedLibrary: false,
     hideQueueHidden: false,
     advancedOptionsOpen: false,

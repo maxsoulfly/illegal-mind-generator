@@ -1,12 +1,14 @@
 // Single source of truth for the top-level route <-> internal page-id
-// mapping (the "routing refactor" — see CLAUDE.md's Current Focus / plan
-// `C:\Users\Max\.claude\plans\<routing plan>` for the full design). Internal
+// mapping (the routing refactor, shipped 2026-09-04 — see CLAUDE.md's
+// Current Focus and Known Gotchas for the full design/history). Internal
 // page ids (`generator`/`shortsQueue`/`calendar`/`todo`/`tags`/
 // `projectSettings`/`uikit`) are unchanged from the pre-routing `activePage`
 // state — every existing consumer that compares against these strings
 // (`useStaleTargetClearing.js`, `AppHeader`'s title lookup, `App.jsx`'s
-// Regenerate-button check) keeps working unmodified once `activePage`
-// becomes a value *derived* from the URL instead of a `useState` atom.
+// Regenerate-button check) works unmodified with `activePage` now *derived*
+// from the URL (App.jsx: `pageIdFromPath(useLocation().pathname)`) instead
+// of being a `useState` atom. No `activePage` state exists anywhere in the
+// app — this module + `useLocation()` are the only source of truth for it.
 //
 // `nav: true` entries are the ones AppHeader renders as a top-nav link;
 // `uikit` is a real, refresh-safe route but deliberately not a nav item
