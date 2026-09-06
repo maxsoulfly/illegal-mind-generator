@@ -1,4 +1,5 @@
 import ProjectSettingsProject from './ProjectSettingsProject';
+import AiPromptsSettings from './aiPrompts/AiPromptsSettings';
 import ShortHooks from './shortHooks/ShortHooks';
 import Titles from './titles/Titles';
 import DescriptionsWorkspace from './descriptions/DescriptionsWorkspace';
@@ -25,6 +26,7 @@ export default function ProjectSettingsContent({
   syncHookTypesToProject,
   onOpenUIKit,
   showToast,
+  formData,
 }) {
   if (activeSection === 'project') {
     return (
@@ -36,6 +38,18 @@ export default function ProjectSettingsContent({
         resetProjectOverride={resetProjectOverride}
         onOpenUIKit={onOpenUIKit}
         showToast={showToast}
+      />
+    );
+  }
+
+  if (activeSection === 'aiPrompts') {
+    return (
+      <AiPromptsSettings
+        projectId={projectId}
+        projectConfig={projectConfig}
+        projectSettingsOverrides={projectSettingsOverrides}
+        updateProjectOverride={updateProjectOverride}
+        formData={formData}
       />
     );
   }

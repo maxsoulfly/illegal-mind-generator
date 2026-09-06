@@ -36,13 +36,17 @@ function firstNonEmpty(...values) {
   return '';
 }
 
-const INTRO =
+// Exported for the AI Prompts settings editor (src/utils/aiPromptRegistry.js)
+// — these are the "restore defaults" values. The editor's saved override is
+// read via projectConfig.aiPromptOverrides.coverInterview below; see
+// src/utils/aiPromptOverrides.js.
+export const INTRO =
   "I want you to run an adaptive interview with me to help me remember and put into words the real story behind ONE specific cover-song video — why I made it, what it means to me, and any real recording or arrangement details worth keeping. This is separate from writing hooks, titles, or taglines; you will never be asked to produce those here, no matter what comes up in the conversation.";
 
-const FACT_VS_LORE =
+export const FACT_VS_LORE =
   'This channel sometimes wraps a cover in a fictional post-apocalyptic "SIGNAL" storyline as part of its video descriptions, so the provided notes may mix real facts with invented lore. Don\'t assume something is fiction just because it sounds dramatic or emotional — a real experience can be described dramatically too. Ask about a detail only when it is ambiguous, contradictory, or reads as likely in-universe SIGNAL fiction (broadcast/signal/wasteland-style language) rather than something that actually happened. Never invent an emotional interpretation or a dramatic story of your own to fill a gap.';
 
-const INTERVIEW_BEHAVIOR_BULLETS = [
+export const INTERVIEW_BEHAVIOR_BULLETS = [
   "If little is known yet about why I covered this song, start broadly and don't assume a reason. If the context above already explains part of the motivation, don't re-ask it — open instead with a specific question about a real gap.",
   'Ask ONE question at a time, then wait for my answer before asking the next one.',
   "Adapt each question to what I've just said and to everything already known above — never ask me to repeat a fact you already have.",
@@ -57,9 +61,20 @@ const INTERVIEW_BEHAVIOR_BULLETS = [
   'Never generate hooks, titles, or taglines at any point in this conversation — that happens elsewhere in the app.',
 ];
 
-const START_LINE = 'Begin now with your first question.';
+// Editable too, like everything above — it's prompt wording (a closing
+// instruction to the external AI), not application control logic.
+export const START_LINE = 'Begin now with your first question.';
 
 export function buildCoverInterviewPrompt(formData = {}, projectConfig = {}) {
+  // User-editable via the AI Prompts settings editor (Content Setup ->
+  // Project). Falls back to the hardcoded defaults above when no override is
+  // saved for this project, so unoverridden output stays byte-identical.
+  const promptOverride = projectConfig?.aiPromptOverrides?.coverInterview;
+  const intro = promptOverride?.intro ?? INTRO;
+  const factVsLore = promptOverride?.factVsLore ?? FACT_VS_LORE;
+  const behaviorBullets = promptOverride?.behaviorBullets ?? INTERVIEW_BEHAVIOR_BULLETS;
+  const startLine = promptOverride?.closingInstruction ?? START_LINE;
+
   const artist = (formData.artist || '').trim();
   const song = (formData.song || '').trim();
   const overrides = formData.songBlockOverrides || {};
@@ -105,10 +120,10 @@ export function buildCoverInterviewPrompt(formData = {}, projectConfig = {}) {
   ].filter(Boolean);
 
   return buildAuthorPrompt([
-    INTRO,
+    intro,
     ['CONTEXT', ...context].join('\n'),
-    FACT_VS_LORE,
-    ['INTERVIEW BEHAVIOR', ...INTERVIEW_BEHAVIOR_BULLETS.map((bullet) => `- ${bullet}`)].join('\n'),
-    START_LINE,
+    factVsLore,
+    ['INTERVIEW BEHAVIOR', ...behaviorBullets.map((bullet) => `- ${bullet}`)].join('\n'),
+    startLine,
   ]);
 }

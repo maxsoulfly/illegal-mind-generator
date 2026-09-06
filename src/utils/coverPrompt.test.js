@@ -42,10 +42,45 @@ function titleCaseKey(key) {
 
 const HANDLED_OVERRIDE_KEYS = new Set(['storyBlock', 'renovationBlock', 'logBlock']);
 
+// Literal copies of authorPromptContexts.js's defaults — kept independent of
+// the real exports on purpose (see the file header above): this reference
+// must diverge visibly if someone edits the real constants without updating
+// this file, not silently track them via an import.
+const REFERENCE_COVER_INTRO =
+  'I need extra Short Hooks for ONE specific cover-song video. These must be specific to THIS exact cover — a personal reason I covered it, a recording or arrangement detail, something notable about a particular section (e.g. the chorus), a short anecdote, or an in-joke that only makes sense for this version.';
+
+const REFERENCE_COVER_TASK_BULLETS = [
+  'Reply with a flat list of Short Hooks, one per line — as many as are genuinely strong and distinct. A handful of sharp ones beats a padded list; never invent filler to reach a number. No numbering, no category labels, no headers. I paste this straight into a bulk-add box, so plain lines only.',
+  'Keep each hook SHORT — usually 5-12 words. Prefer one punchy thought over a full explanatory sentence.',
+  'Pick the few genuinely worth-saying angles from the context — a true detail is not automatically a good hook.',
+  'A hook earns its place only if it gives a viewer a concrete reason to watch: a specific curiosity the context supports, a recognizable feeling, or a musical detail someone would want to hear.',
+  "Don't turn one feeling into several reworded lines. Adding the song's name does not make a generic statement cover-specific.",
+  'Avoid abstract therapy/lore slogans and overblown drama.',
+  'Recording history, DAW/software upgrades, and personal-progress notes are useful context but rarely good hooks on their own — use one only if it genuinely intrigues.',
+  'Every line must be specific to THIS exact cover (see CONTEXT). Ground every hook in a supplied fact or personal connection about this cover. That fact does not have to be unique to this song across all music. Reject interchangeable filler; adding the song name alone does not establish specificity.',
+  'Do NOT produce generic transformation hooks like "X but heavier", "What if X was punk", "X rebuilt as Y" — the tag/global system already generates those. This pool is only for the cover-specific stuff a reusable system can\'t know.',
+  'Do NOT use the {transformation} placeholder in a hook — these hooks are about this specific cover, not its transformation style (the tag/global system covers that).',
+  'Do NOT invent facts. Only reference a specific song section, instrument, recording/arrangement decision, anecdote, or personal reason if it is explicitly supported by the CONTEXT above. Do not imply a before/after comparison, a reveal, or a payoff unless the CONTEXT explicitly says the video delivers one.',
+  'A faithful cover can still have real, mentionable production or performance changes (re-recorded vocals, new drums, a new mix) — use one as hook material when the CONTEXT states it; being faithful does not forbid naming a real change.',
+  'A hook may be tied to one specific section (e.g. the chorus) only if the CONTEXT supports it — never generalize a section-specific detail into a claim about the whole song.',
+  'Cover context is the primary source of truth. A clearly factual detail from the existing notes may supplement it. Do not treat an ambiguous or in-universe SIGNAL-fiction-sounding line as an established fact, and do not assume a note is fiction just because it sounds dramatic or because this channel sometimes uses lore.',
+  "Rely only on what's actually supported. If Cover context is empty and the existing notes are only ambiguous or lore-flavored, returning fewer hooks — or none — is correct; never invent a detail to reach a number.",
+  'Never mention signal numbers, hashtags, or other administrative/channel metadata in a hook — that data is context for you, not material for the hooks.',
+  'Keep them natural and clickable — the kind of thing a person actually says in a short-form video, not marketing filler.',
+  'Do NOT end a hook with a period. Internal punctuation is fine — "Every road is a question. This was my answer" is good, just no final ".".',
+  'If the CONTEXT above does not support even one worthwhile cover-specific hook, reply with exactly NONE on a single line and nothing else — no explanation, no apology, no placeholder line.',
+];
+
 function referenceBuildCoverHookPrompt(formData = {}, projectConfig = {}) {
   const artist = (formData.artist || '').trim();
   const song = (formData.song || '').trim();
   const overrides = formData.songBlockOverrides || {};
+
+  // AI Prompts settings editor override (src/utils/aiPromptOverrides.js) —
+  // mirrors authorPromptContexts.js's coverShortHooksContext exactly.
+  const promptOverride = projectConfig?.aiPromptOverrides?.coverHooks;
+  const intro = promptOverride?.intro ?? REFERENCE_COVER_INTRO;
+  const taskBullets = promptOverride?.taskBullets ?? REFERENCE_COVER_TASK_BULLETS;
 
   const tagLines = (formData.transformationTags || []).map((tag) => {
     const tagConfig = projectConfig?.tags?.[tag] || {};
@@ -102,7 +137,7 @@ function referenceBuildCoverHookPrompt(formData = {}, projectConfig = {}) {
   ].filter(Boolean);
 
   const lines = [
-    'I need extra Short Hooks for ONE specific cover-song video. These must be specific to THIS exact cover — a personal reason I covered it, a recording or arrangement detail, something notable about a particular section (e.g. the chorus), a short anecdote, or an in-joke that only makes sense for this version.',
+    intro,
     '',
     'CONTEXT',
     ...context,
@@ -116,28 +151,7 @@ function referenceBuildCoverHookPrompt(formData = {}, projectConfig = {}) {
     );
   }
 
-  lines.push(
-    'TASK',
-    '- Reply with a flat list of Short Hooks, one per line — as many as are genuinely strong and distinct. A handful of sharp ones beats a padded list; never invent filler to reach a number. No numbering, no category labels, no headers. I paste this straight into a bulk-add box, so plain lines only.',
-    '- Keep each hook SHORT — usually 5-12 words. Prefer one punchy thought over a full explanatory sentence.',
-    '- Pick the few genuinely worth-saying angles from the context — a true detail is not automatically a good hook.',
-    '- A hook earns its place only if it gives a viewer a concrete reason to watch: a specific curiosity the context supports, a recognizable feeling, or a musical detail someone would want to hear.',
-    "- Don't turn one feeling into several reworded lines. Adding the song's name does not make a generic statement cover-specific.",
-    '- Avoid abstract therapy/lore slogans and overblown drama.',
-    '- Recording history, DAW/software upgrades, and personal-progress notes are useful context but rarely good hooks on their own — use one only if it genuinely intrigues.',
-    '- Every line must be specific to THIS exact cover (see CONTEXT). Ground every hook in a supplied fact or personal connection about this cover. That fact does not have to be unique to this song across all music. Reject interchangeable filler; adding the song name alone does not establish specificity.',
-    "- Do NOT produce generic transformation hooks like \"X but heavier\", \"What if X was punk\", \"X rebuilt as Y\" — the tag/global system already generates those. This pool is only for the cover-specific stuff a reusable system can't know.",
-    '- Do NOT use the {transformation} placeholder in a hook — these hooks are about this specific cover, not its transformation style (the tag/global system covers that).',
-    '- Do NOT invent facts. Only reference a specific song section, instrument, recording/arrangement decision, anecdote, or personal reason if it is explicitly supported by the CONTEXT above. Do not imply a before/after comparison, a reveal, or a payoff unless the CONTEXT explicitly says the video delivers one.',
-    '- A faithful cover can still have real, mentionable production or performance changes (re-recorded vocals, new drums, a new mix) — use one as hook material when the CONTEXT states it; being faithful does not forbid naming a real change.',
-    '- A hook may be tied to one specific section (e.g. the chorus) only if the CONTEXT supports it — never generalize a section-specific detail into a claim about the whole song.',
-    '- Cover context is the primary source of truth. A clearly factual detail from the existing notes may supplement it. Do not treat an ambiguous or in-universe SIGNAL-fiction-sounding line as an established fact, and do not assume a note is fiction just because it sounds dramatic or because this channel sometimes uses lore.',
-    "- Rely only on what's actually supported. If Cover context is empty and the existing notes are only ambiguous or lore-flavored, returning fewer hooks — or none — is correct; never invent a detail to reach a number.",
-    '- Never mention signal numbers, hashtags, or other administrative/channel metadata in a hook — that data is context for you, not material for the hooks.',
-    '- Keep them natural and clickable — the kind of thing a person actually says in a short-form video, not marketing filler.',
-    '- Do NOT end a hook with a period. Internal punctuation is fine — "Every road is a question. This was my answer" is good, just no final ".".',
-    '- If the CONTEXT above does not support even one worthwhile cover-specific hook, reply with exactly NONE on a single line and nothing else — no explanation, no apology, no placeholder line.',
-  );
+  lines.push('TASK', ...taskBullets.map((bullet) => `- ${bullet}`));
 
   return lines.join('\n').trimEnd();
 }
@@ -197,6 +211,22 @@ const fixtures = {
       song: 'b',
       songBlockOverrides: { storyBlock: 'The wasteland signal calls again through the ruins.' },
     },
+  },
+
+  'AI Prompts override — intro only (taskBullets stays default)': {
+    projectConfig: {
+      ...projectConfig,
+      aiPromptOverrides: { coverHooks: { intro: 'CUSTOM INTRO TEXT ONLY.' } },
+    },
+    formData: { artist: 'a', song: 'b' },
+  },
+
+  'AI Prompts override — taskBullets only (intro stays default)': {
+    projectConfig: {
+      ...projectConfig,
+      aiPromptOverrides: { coverHooks: { taskBullets: ['Custom rule one.', 'Custom rule two.'] } },
+    },
+    formData: { artist: 'a', song: 'b' },
   },
 
   'empty formData, no projectConfig': { projectConfig: undefined, formData: {} },
@@ -328,6 +358,42 @@ for (const [name, { projectConfig: pc, formData }] of Object.entries(fixtures)) 
     loreOnly.includes('reply with exactly NONE on a single line and nothing else'),
     'sanity: NONE sentinel rule present even when Cover Context is empty',
   );
+
+  // ---- AI Prompts settings editor override checks ----
+  const introOverridden = buildCoverHookPrompt(
+    fixtures['AI Prompts override — intro only (taskBullets stays default)'].formData,
+    fixtures['AI Prompts override — intro only (taskBullets stays default)'].projectConfig,
+  );
+  assert(introOverridden.includes('CUSTOM INTRO TEXT ONLY.'), 'sanity: overridden intro appears verbatim');
+  assert(
+    !introOverridden.includes('I need extra Short Hooks for ONE specific cover-song video'),
+    'sanity: the real default intro is absent when intro is overridden',
+  );
+  assert(
+    introOverridden.includes('Pick the few genuinely worth-saying angles from the context'),
+    'sanity: overriding only intro leaves the default TASK bullets untouched (field independence)',
+  );
+
+  const bulletsOverridden = buildCoverHookPrompt(
+    fixtures['AI Prompts override — taskBullets only (intro stays default)'].formData,
+    fixtures['AI Prompts override — taskBullets only (intro stays default)'].projectConfig,
+  );
+  assert(
+    bulletsOverridden.includes('- Custom rule one.') && bulletsOverridden.includes('- Custom rule two.'),
+    'sanity: overridden taskBullets appear verbatim',
+  );
+  assert(
+    !bulletsOverridden.includes('Pick the few genuinely worth-saying angles from the context'),
+    'sanity: the real default TASK bullets are absent when taskBullets is overridden',
+  );
+  assert(
+    bulletsOverridden.includes('I need extra Short Hooks for ONE specific cover-song video'),
+    'sanity: overriding only taskBullets leaves the default intro untouched (field independence)',
+  );
+
+  // Every earlier fixture in the A/B loop above sets no aiPromptOverrides at
+  // all, and already asserted byte-identical to the reference — that is the
+  // regression guarantee that unoverridden output is unchanged by this feature.
 }
 
 if (failures > 0) {

@@ -83,6 +83,16 @@ export const CONTENT_SETUP_SECTIONS = [
     kind: 'page',
     leaves: [{ id: 'projectInfo', label: 'Project' }],
   },
+  {
+    id: 'aiPrompts',
+    label: 'AI Prompts',
+    // Single page — the AiPromptsSettings editor (edit/copy/paste/save the
+    // reusable instruction text behind the app's AI-assisted prompts). Its
+    // own Edit/AI Revision/Preview tabs are internal UI state, not part of
+    // this nav model.
+    kind: 'page',
+    leaves: [{ id: 'aiPrompts', label: 'AI Prompts' }],
+  },
 ];
 
 // The category model for the Descriptions workspace's top nav row. The leaf

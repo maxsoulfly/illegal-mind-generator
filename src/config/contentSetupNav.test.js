@@ -30,13 +30,13 @@ const eq = (a, b, msg) =>
 
 eq(
   CONTENT_SETUP_SECTIONS.map((s) => s.id),
-  ['generation', 'descriptions', 'workflow', 'project'],
-  'registry: 4 sections in workflow-first-ish order',
+  ['generation', 'descriptions', 'workflow', 'project', 'aiPrompts'],
+  'registry: 5 sections in workflow-first-ish order (aiPrompts added 2026-09-07)',
 );
 eq(
   CONTENT_SETUP_SECTIONS.map((s) => s.kind),
-  ['workspace', 'workspace', 'page', 'page'],
-  'registry: generation + descriptions = workspace, workflow/project = page',
+  ['workspace', 'workspace', 'page', 'page', 'page'],
+  'registry: generation + descriptions = workspace, workflow/project/aiPrompts = page',
 );
 ok(
   CONTENT_SETUP_SECTIONS.every((s) => s.label && Array.isArray(s.leaves) && s.leaves.length > 0),
@@ -89,6 +89,7 @@ eq(
   'registry: workflow leaves',
 );
 eq(getSectionLeaves('project').map((l) => l.id), ['projectInfo'], 'registry: project leaves (single page)');
+eq(getSectionLeaves('aiPrompts').map((l) => l.id), ['aiPrompts'], 'registry: aiPrompts leaves (single page)');
 ok(getSection('nope') === null && getSectionLeaves('nope').length === 0, 'registry: unknown section -> null / []');
 
 // ---------------------------------------------------------------------------

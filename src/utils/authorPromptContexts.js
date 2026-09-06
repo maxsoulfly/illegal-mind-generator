@@ -38,7 +38,14 @@ function titleCaseKey(key) {
 // everything else non-empty is swept in generically as "- Label: value".
 const COVER_HANDLED_OVERRIDE_KEYS = new Set(['storyBlock', 'renovationBlock', 'logBlock']);
 
-const COVER_INTRO =
+// Exported (added for the AI Prompts settings editor — see
+// src/utils/aiPromptRegistry.js) so these serve as the "restore defaults"
+// values without duplicating the literal text anywhere. The editor's override
+// is read below via projectConfig.aiPromptOverrides.coverHooks — see
+// src/utils/aiPromptOverrides.js for how that map is written/reset, and
+// CLAUDE.md's Known Gotchas for why a top-level projectSettingsOverrides key
+// must always be read-modified-and-written-back-whole (shallow merge).
+export const COVER_INTRO =
   'I need extra Short Hooks for ONE specific cover-song video. These must be specific to THIS exact cover — a personal reason I covered it, a recording or arrangement detail, something notable about a particular section (e.g. the chorus), a short anecdote, or an in-joke that only makes sense for this version.';
 
 // Revised 2026-09-06 (Step 5 of the Cover Context plan): dropped the forced
@@ -48,7 +55,7 @@ const COVER_INTRO =
 // entirely (COVER_EXAMPLES/COVER_EXAMPLES_HEADING deleted, not just emptied).
 // Mirror any further change into coverPrompt.test.js's inline reference in
 // the same commit — see the note at the top of this file.
-const COVER_TASK_BULLETS = [
+export const COVER_TASK_BULLETS = [
   'Reply with a flat list of Short Hooks, one per line — as many as are genuinely strong and distinct. A handful of sharp ones beats a padded list; never invent filler to reach a number. No numbering, no category labels, no headers. I paste this straight into a bulk-add box, so plain lines only.',
   'Keep each hook SHORT — usually 5-12 words. Prefer one punchy thought over a full explanatory sentence.',
   'Pick the few genuinely worth-saying angles from the context — a true detail is not automatically a good hook.',
@@ -100,6 +107,13 @@ export function coverShortHooksContext(projectConfig = {}, formData = {}) {
   const transformationSummary = buildTagPhrase(formData, projectConfig);
   const placeholders = buildHookPlaceholders(projectConfig).join(', ');
 
+  // User-editable via the AI Prompts settings editor (Content Setup ->
+  // Project). Falls back to the hardcoded defaults above when no override is
+  // saved for this project, so unoverridden output stays byte-identical.
+  const promptOverride = projectConfig?.aiPromptOverrides?.coverHooks;
+  const intro = promptOverride?.intro ?? COVER_INTRO;
+  const taskBullets = promptOverride?.taskBullets ?? COVER_TASK_BULLETS;
+
   const notesLines = [
     story ? `Story about this cover: ${story}` : '',
     renovation ? `Renovation / what changed: ${renovation}` : '',
@@ -136,10 +150,10 @@ export function coverShortHooksContext(projectConfig = {}, formData = {}) {
     : null;
 
   return [
-    COVER_INTRO,
+    intro,
     ['CONTEXT', ...context].join('\n'),
     placeholderLine,
-    ['TASK', ...COVER_TASK_BULLETS.map((bullet) => `- ${bullet}`)].join('\n'),
+    ['TASK', ...taskBullets.map((bullet) => `- ${bullet}`)].join('\n'),
   ];
 }
 

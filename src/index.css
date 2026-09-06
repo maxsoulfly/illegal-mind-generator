@@ -2274,6 +2274,45 @@ input[type="range"]::-moz-range-progress {
   margin-top: var(--space-3);
 }
 
+/* AI Prompts settings editor (Content Setup -> AI Prompts). The header row
+   (prompt selector + project label + Default/Modified + Unsaved-changes)
+   wraps on narrow widths -- .form-row deliberately doesn't wrap elsewhere in
+   this app, so this is its own rule rather than reusing that class. */
+.ai-prompts-header {
+  display    : flex;
+  flex-wrap  : wrap;
+  align-items: center;
+  gap        : var(--space-3);
+  margin-top : var(--space-3);
+}
+
+.ai-prompts-unsaved-indicator {
+  font-size     : var(--font-size-toggle);
+  font-family   : var(--font-mono);
+  text-transform: uppercase;
+  color         : var(--color-accent-strong);
+}
+
+.ai-prompts-tab-content {
+  margin-top: var(--space-4);
+}
+
+.ai-prompts-actions {
+  margin-top: var(--space-5);
+}
+
+/* Bounded height on both the field textareas and the Preview panel so a
+   long list/prompt scrolls internally instead of growing the page
+   unboundedly (resize:vertical is still allowed, just capped). */
+.ai-prompt-field-textarea {
+  max-height: 320px;
+}
+
+.ai-prompt-preview-panel {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
 .desc-layout {
   display              : grid;
   grid-template-columns: 1fr 1fr;

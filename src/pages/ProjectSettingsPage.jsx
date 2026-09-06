@@ -39,6 +39,7 @@ const LEAF_TO_DISPATCH = {
   todo: 'workflow',
   uploadSchedule: 'workflow',
   projectInfo: 'project',
+  aiPrompts: 'aiPrompts',
 };
 const LEAF_IDS = new Set(Object.keys(LEAF_TO_DISPATCH));
 
@@ -94,6 +95,7 @@ export default function ProjectSettingsPage({
   syncHookTypesToProject,
   onOpenUIKit,
   showToast,
+  formData,
 }) {
   const storedView = resolveStoredView(activeSection);
 
@@ -245,6 +247,7 @@ export default function ProjectSettingsPage({
           syncHookTypesToProject={syncHookTypesToProject}
           onOpenUIKit={onOpenUIKit}
           showToast={showToast}
+          formData={formData}
         />
       </div>
     </section>
