@@ -61,8 +61,8 @@ const tag = {
   assert(out.includes('Channel: Test Channel reworks'), 'full: project promptContext in CONTEXT');
   assert(out.includes('Tag: Darker (category: mood)'), 'full: tag label + category line');
   assert(
-    out.includes('What this tag means (authoritative): Cover shifts the mood colder'),
-    'full: tag promptContext is the authoritative meaning line',
+    out.includes('TAG MEANING\nDarker: Cover shifts the mood colder'),
+    'full: tag promptContext is the authoritative TAG MEANING section',
   );
   assert(out.includes('Hook category / angle: Nostalgia'), 'full: angle line');
   assert(
@@ -84,8 +84,12 @@ const tag = {
     'full: TASK rule names the concrete tag + angle',
   );
   assert(
-    out.includes('Stay strictly within "What this tag means"'),
+    out.includes('Stay strictly within "TAG MEANING"'),
     'full: TASK rule pins hooks to the stated meaning (no assumed tempo/heaviness/etc.)',
+  );
+  assert(
+    !out.includes('HOOK ANGLE'),
+    'full: no HOOK ANGLE section when the category has no aiContext',
   );
   assert(
     out.includes('Do NOT use the {transformation} placeholder'),
@@ -137,6 +141,138 @@ const tag = {
   assert(
     out.includes('"Re-recording this after {years} years"'),
     'progress: angle examples carry the {years} growth pattern',
+  );
+}
+
+// --- Stage 3: populated hook-angle aiContext -> distinct TAG MEANING / HOOK ANGLE ---
+{
+  const cfg = {
+    promptContext: 'Test Channel reworks existing songs.',
+    shortHookTypes: {
+      discussion: {
+        label: 'Discussion',
+        aiContext:
+          'Conversation starters about the source song, artist, era, genre, scene, sound, or reputation.',
+        templates: ['Most underrated {artist} song?', 'Does {song} still hold up?'],
+      },
+    },
+  };
+  const faithful = {
+    name: 'faithful',
+    label: 'Faithful',
+    category: 'production',
+    promptContext:
+      'The cover stays close to the original arrangement and feel; a modernized recording, not a reinterpretation.',
+  };
+  const out = buildTagShortHooksPrompt(cfg, {
+    tag: faithful,
+    hookCategoryKey: 'discussion',
+    hookCategoryLabel: 'Discussion',
+    phrases: [],
+  });
+
+  assert(
+    out.includes('TAG MEANING\nFaithful: The cover stays close to the original'),
+    'stage3: TAG MEANING carries the tag promptContext under the tag label',
+  );
+  assert(
+    out.includes('HOOK ANGLE\nDiscussion: Conversation starters about the source song'),
+    'stage3: HOOK ANGLE carries the category aiContext under the angle label',
+  );
+  assert(
+    out.indexOf('TAG MEANING') < out.indexOf('HOOK ANGLE') &&
+      out.indexOf('HOOK ANGLE') < out.indexOf('\nTASK\n'),
+    'stage3: TAG MEANING and HOOK ANGLE are distinct, ordered sections before TASK',
+  );
+  assert(
+    out.includes('The HOOK ANGLE decides what kind of line to write — its shape, its subject, what it asks'),
+    'stage3: HOOK ANGLE is stated as authoritative for the shape/subject/type of line',
+  );
+  assert(
+    out.includes('the tag is not automatically the subject') &&
+      out.includes('only needs to be about the tag itself when the HOOK ANGLE calls for that'),
+    'stage3: tag meaning constrains content but need not be the subject of the hook',
+  );
+  assert(
+    out.includes('Follow the HOOK ANGLE above for what kind of line this is') &&
+      out.includes('not to force the tag to become what the hook is about'),
+    'stage3: TASK rule reinforces angle-governs-shape / meaning-governs-accuracy',
+  );
+  assert(
+    out.includes('Stay strictly within "TAG MEANING"'),
+    'stage3: TAG MEANING still constrains content (no assumed tempo/heaviness/etc.)',
+  );
+
+  // no tag-identity branch: swapping the tag changes only the label/meaning
+  // substrings, never the angle-authority framing or the section structure.
+  const warmer = {
+    name: 'warmer',
+    label: 'Warmer',
+    category: 'mood',
+    promptContext: 'The cover brightens the mood — warmer and more open.',
+  };
+  const outWarmer = buildTagShortHooksPrompt(cfg, {
+    tag: warmer,
+    hookCategoryKey: 'discussion',
+    hookCategoryLabel: 'Discussion',
+    phrases: [],
+  });
+  const strip = (s, t) =>
+    s
+      .split(t.label).join('<TAG>')
+      .split(t.promptContext).join('<MEANING>')
+      .split(`category: ${t.category}`).join('category: <CAT>');
+  assert(
+    strip(out, faithful) === strip(outWarmer, warmer),
+    'stage3: no Faithful-specific branch — two different tags differ only by label/meaning substrings',
+  );
+}
+
+// --- Stage 3: blank / whitespace-only hook-angle aiContext -> graceful fallback ---
+{
+  const base = {
+    promptContext: 'Test Channel.',
+    shortHookTypes: {
+      discussion: { label: 'Discussion', templates: ['Does {song} still hold up?'] },
+    },
+  };
+  const withBlank = {
+    ...base,
+    shortHookTypes: {
+      discussion: { ...base.shortHookTypes.discussion, aiContext: '   \n\t ' },
+    },
+  };
+  const t = {
+    name: 'darker',
+    label: 'Darker',
+    category: 'mood',
+    promptContext: 'Colder, bleaker mood only.',
+  };
+  const noKey = buildTagShortHooksPrompt(base, {
+    tag: t,
+    hookCategoryKey: 'discussion',
+    hookCategoryLabel: 'Discussion',
+    phrases: [],
+  });
+  const blank = buildTagShortHooksPrompt(withBlank, {
+    tag: t,
+    hookCategoryKey: 'discussion',
+    hookCategoryLabel: 'Discussion',
+    phrases: [],
+  });
+  assert(noKey === blank, 'stage3: whitespace-only aiContext behaves exactly like no aiContext key');
+  assert(!noKey.includes('HOOK ANGLE'), 'stage3: blank aiContext -> no HOOK ANGLE section');
+  assert(
+    !noKey.includes('The HOOK ANGLE decides'),
+    'stage3: blank aiContext -> no angle-authority language invented',
+  );
+  assert(
+    noKey.includes('TAG MEANING\nDarker: Colder, bleaker mood only.'),
+    'stage3: TAG MEANING still present when the angle context is blank',
+  );
+  assert(
+    noKey.includes('Hook category / angle: Discussion') && noKey.includes("This angle's general shape"),
+    'stage3: angle still identified + exemplified in CONTEXT when its aiContext is blank',
   );
 }
 

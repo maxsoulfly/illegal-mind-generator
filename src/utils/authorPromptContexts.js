@@ -124,10 +124,19 @@ export function coverShortHooksContext(projectConfig = {}, formData = {}) {
 }
 
 // ─── Tag Short Hooks ─────────────────────────────────────────────────────────
-// One transformation tag, one hook category (angle). The tag's promptContext
-// (Tag Basics → "What this tag means") is the authoritative definition — NOT
-// the tag's existing phrases, which may be exactly what the user is trying to
-// improve. Existing phrases are sent only for de-duping and as a "don't
+// One transformation tag, one hook category (angle). Two authoritative
+// concepts, surfaced as two labelled sections:
+//   TAG MEANING — the tag's promptContext (Tag Basics → "What this tag
+//     means"). Constrains the CONTENT so it stays accurate; NOT the tag's
+//     existing phrases, which may be exactly what the user is fixing.
+//   HOOK ANGLE — the category's UI-authored aiContext (Project Settings →
+//     Short Hooks). Decides what KIND of line to write — its shape, subject,
+//     what it asks. Only emitted when aiContext is non-blank; never inferred
+//     from the category name.
+// The angle governs the line's form; the tag meaning governs its accuracy —
+// the tag is not automatically the subject. No branch keys off any specific
+// tag or category name (that is the systemic fix for e.g. Faithful +
+// Discussion). Existing phrases are sent only for de-duping and as a "don't
 // imitate the weak ones" reference.
 
 const TAG_SHORT_HOOK_INTRO =
@@ -142,6 +151,10 @@ export function tagShortHooksContext(projectConfig = {}, opts = {}) {
 
   const angleConfig = projectConfig?.shortHookTypes?.[hookCategoryKey] || {};
   const angleLabel = String(hookCategoryLabel || angleConfig.label || hookCategoryKey || '').trim();
+  // Optional, UI-authored (Project Settings → Short Hooks). Blank -> no HOOK
+  // ANGLE section and no angle-authority language; never inferred from the
+  // category name.
+  const angleAiContext = String(angleConfig.aiContext || '').trim();
   const angleExamples = (angleConfig.templates || [])
     .filter((t) => typeof t === 'string' && t.trim())
     .slice(0, 2);
@@ -149,9 +162,6 @@ export function tagShortHooksContext(projectConfig = {}, opts = {}) {
   const context = [
     projectConfig?.promptContext ? `Channel: ${projectConfig.promptContext}` : '',
     label ? `Tag: ${label}${category ? ` (category: ${category})` : ''}` : '',
-    meaning
-      ? `What this tag means (authoritative): ${meaning}`
-      : 'What this tag means (authoritative): (not set — infer ONLY from the tag name and category above, and do not assume it changes tempo, heaviness, instrumentation, or anything else it does not state).',
     angleLabel ? `Hook category / angle: ${angleLabel}` : '',
     angleExamples.length
       ? `This angle's general shape (project-wide examples, any tag — for pattern only, not tag-specific): ${angleExamples
@@ -160,10 +170,29 @@ export function tagShortHooksContext(projectConfig = {}, opts = {}) {
       : '',
   ].filter(Boolean);
 
+  const meaningBody = meaning
+    ? meaning
+    : '(not set — infer ONLY from the tag name and category above, and do not assume it changes tempo, heaviness, instrumentation, or anything else it does not state).';
+  const tagMeaningSection = [
+    'TAG MEANING',
+    label ? `${label}: ${meaningBody}` : meaningBody,
+  ].join('\n');
+
+  // Only when the category has an authored aiContext. The framing sentence is
+  // deliberately generic — it never names a tag or a category.
+  const angleSection = angleAiContext
+    ? [
+        'HOOK ANGLE',
+        angleLabel ? `${angleLabel}: ${angleAiContext}` : angleAiContext,
+        '',
+        'The HOOK ANGLE decides what kind of line to write — its shape, its subject, what it asks. The TAG MEANING constrains the content so it stays accurate, but the tag is not automatically the subject: a hook only needs to be about the tag itself when the HOOK ANGLE calls for that.',
+      ].join('\n')
+    : '';
+
   const existingSection =
     phrases.length > 0
       ? [
-          'EXISTING HOOKS for this tag + this angle (do not repeat or lightly reword them; "What this tag means" above is the source of truth — if one of these is vague, generic, or implies something the tag meaning does not, do NOT imitate it):',
+          'EXISTING HOOKS for this tag + this angle (do not repeat or lightly reword them; "TAG MEANING" above is the source of truth — if one of these is vague, generic, or implies something the tag meaning does not, do NOT imitate it):',
           ...phrases.map((phrase) => `- ${phrase}`),
         ].join('\n')
       : '';
@@ -174,7 +203,10 @@ export function tagShortHooksContext(projectConfig = {}, opts = {}) {
     `Every hook must fit BOTH this exact tag (${label || 'the tag above'}) and this exact angle (${
       angleLabel || 'the angle above'
     }) — if a line would also work for a different tag or a different angle, cut it.`,
-    'Stay strictly within "What this tag means". Do not assume the tag implies a tempo change, more heaviness, particular instruments, or a production/technique change unless the meaning explicitly says so.',
+    angleAiContext
+      ? 'Follow the HOOK ANGLE above for what kind of line this is; use the TAG MEANING to keep the content accurate, not to force the tag to become what the hook is about.'
+      : '',
+    'Stay strictly within "TAG MEANING". Do not assume the tag implies a tempo change, more heaviness, particular instruments, or a production/technique change unless the meaning explicitly says so.',
     RULE.SHORT_HOOK_LENGTH,
     "Use placeholders where the angle naturally calls for them, matching the pattern of this angle's examples: {artist}/{song} for song-focused angles, {years}/{currentYear} for growth-focused angles (e.g. Progress, Musician). Don't force a placeholder where it doesn't read naturally.",
     'Do NOT use the {transformation} placeholder — this pool is already scoped to one tag, so write the idea in plain words (or a typed token like {tags.genre}/{tags.energy} only where it genuinely fits). If an example above uses {transformation}, ignore that part of it.',
@@ -182,11 +214,13 @@ export function tagShortHooksContext(projectConfig = {}, opts = {}) {
     RULE.NO_CHANNEL_METADATA,
     RULE.SHORT_HOOK_NO_PERIOD,
     RULE.SHORT_HOOK_NATURAL,
-  ];
+  ].filter(Boolean);
 
   return [
     TAG_SHORT_HOOK_INTRO,
     ['CONTEXT', ...context].join('\n'),
+    tagMeaningSection,
+    angleSection,
     existingSection,
     placeholderNote(buildHookPlaceholders(projectConfig)),
     ['TASK', ...rules.map((rule) => `- ${rule}`)].join('\n'),
