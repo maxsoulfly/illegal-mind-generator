@@ -282,6 +282,56 @@ const tag = {
   );
 }
 
+// --- angle with an authored aiContext ---
+{
+  const AI_CONTEXT =
+    'Conversation starters about the source song, artist, era, genre, or scene — not about whether the cover should be transformed.';
+  const out = buildGlobalShortHookPrompt(projectConfig, {
+    hookTypeKey: 'discussion',
+    hookConfig: {
+      label: 'Discussion',
+      aiContext: AI_CONTEXT,
+      templates: ['Most underrated {artist} song?', 'Does {song} still hold up?'],
+    },
+  });
+  assert(
+    out.includes(`Angle purpose (authoritative — what this category is for): ${AI_CONTEXT}`),
+    'global: aiContext present -> authoritative angle-purpose line in CONTEXT',
+  );
+  assert(
+    out.includes('Write lines that serve "Angle purpose" above'),
+    'global: aiContext present -> TASK rule pins lines to the stated purpose',
+  );
+  assert(
+    out.includes('"Angle purpose" above is the source of truth: if a line here reads off-purpose'),
+    'global: aiContext present -> CURRENT LINES header subordinates existing lines to the purpose',
+  );
+  assert(
+    !out.includes('this is the established house voice — match its tone'),
+    'global: aiContext present -> the plain house-voice CURRENT LINES header is not used',
+  );
+}
+
+// --- blank / whitespace-only aiContext preserves current behaviour byte-for-byte ---
+{
+  const base = { hookTypeKey: 'nostalgia', hookConfig: { label: 'Nostalgia', templates: ['{song} still works'] } };
+  const withEmpty = { hookTypeKey: 'nostalgia', hookConfig: { ...base.hookConfig, aiContext: '' } };
+  const withBlank = { hookTypeKey: 'nostalgia', hookConfig: { ...base.hookConfig, aiContext: '   \n  ' } };
+  const baseline = buildGlobalShortHookPrompt(projectConfig, base);
+  assert(
+    buildGlobalShortHookPrompt(projectConfig, withEmpty) === baseline,
+    'global: aiContext: "" -> prompt identical to no aiContext key',
+  );
+  assert(
+    buildGlobalShortHookPrompt(projectConfig, withBlank) === baseline,
+    'global: whitespace-only aiContext -> prompt identical to no aiContext key',
+  );
+  assert(
+    !baseline.includes('Angle purpose'),
+    'global: no aiContext -> no angle-purpose line at all',
+  );
+}
+
 // --- wrapper identity ---
 {
   const opts = { hookTypeKey: 'emotion', hookConfig: { label: 'Emotion', templates: ['x'] } };

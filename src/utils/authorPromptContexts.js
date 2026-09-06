@@ -228,6 +228,10 @@ export function globalShortHookContext(projectConfig = {}, opts = {}) {
   const { hookTypeKey = '', hookConfig = {} } = opts;
 
   const label = String(hookConfig.label || hookTypeKey || '').trim();
+  // Optional, UI-authored (Project Settings → Short Hooks). Never seeded from
+  // config and never inferred from the category name — when blank, the prompt
+  // is byte-identical to before this field existed.
+  const aiContext = String(hookConfig.aiContext || '').trim();
   const templates = (hookConfig.templates || []).filter(
     (t) => typeof t === 'string' && t.trim(),
   );
@@ -251,6 +255,9 @@ export function globalShortHookContext(projectConfig = {}, opts = {}) {
           hookTypeKey && hookTypeKey !== label ? ` (key: ${hookTypeKey})` : ''
         }`
       : '',
+    aiContext
+      ? `Angle purpose (authoritative — what this category is for): ${aiContext}`
+      : '',
     ...flagLines,
     templates.length === 0
       ? "This angle currently has no lines — you're establishing its voice from scratch."
@@ -260,7 +267,9 @@ export function globalShortHookContext(projectConfig = {}, opts = {}) {
   const existingSection =
     templates.length > 0
       ? [
-          'CURRENT LINES for this angle (this is the established house voice — match its tone and phrasing, and do not repeat or lightly reword any of them; but do not use {transformation}, even if some of these do):',
+          aiContext
+            ? 'CURRENT LINES for this angle (match their tone and phrasing and do not repeat or lightly reword any of them — but "Angle purpose" above is the source of truth: if a line here reads off-purpose, do not imitate it; also do not use {transformation}, even if some of these do):'
+            : 'CURRENT LINES for this angle (this is the established house voice — match its tone and phrasing, and do not repeat or lightly reword any of them; but do not use {transformation}, even if some of these do):',
           ...templates.map((template) => `- ${template}`),
         ].join('\n')
       : '';
@@ -268,6 +277,9 @@ export function globalShortHookContext(projectConfig = {}, opts = {}) {
   const rules = [
     RULE.PLAIN_LINES,
     'Give me 8-12 new lines.',
+    aiContext
+      ? 'Write lines that serve "Angle purpose" above — that is the authoritative definition of what this category is for. Do not drift into a different kind of line because it sounds plausible for the category name.'
+      : '',
     `Every line must work for ANY cover where the "${
       label || 'this'
     }" angle applies — never tied to one specific song, artist, genre, or transformation tag.`,
