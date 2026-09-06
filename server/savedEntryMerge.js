@@ -73,6 +73,10 @@ export const mergeImportedEntry = (item, existing) => {
       Array.isArray(item.coverShortHooks) ? item.coverShortHooks : [],
       existing?.coverShortHooks,
     ),
+    coverContext: preferNonEmpty(
+      String(item.coverContext || '').trim(),
+      existing?.coverContext,
+    ),
     songBlockOverrides: {
       ...(existing?.songBlockOverrides || {}),
       ...importedOverrides,

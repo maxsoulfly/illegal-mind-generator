@@ -80,6 +80,18 @@ export default function GeneratorPage({
     }
   };
 
+  // Cover Context auto-persist — same rule as persistCoverHooks above. Writes
+  // straight through (including an explicit clear to '') only for an
+  // already-saved entry, via a column-scoped PATCH that leaves every other
+  // form field untouched. An unsaved song is a no-op: the value stays in
+  // formData and rides the next explicit SAVE, which is when the row is
+  // first created. Called from CoverContextEditor's textarea onBlur.
+  const persistCoverContext = (value) => {
+    if (isCurrentEntrySaved) {
+      handleUpdateEntry(currentEntryId, { coverContext: value });
+    }
+  };
+
   // Toast the outcome of an explicit SAVE — only after persistence settles,
   // never on click. handleSaveEntry returns true/false/null (see
   // useSavedEntries.js); null = no artist/song, nothing attempted, no toast.
@@ -185,6 +197,7 @@ export default function GeneratorPage({
             coverHookTarget={coverHookTarget}
             clearCoverHookTarget={clearCoverHookTarget}
             onPersistCoverHooks={persistCoverHooks}
+            onPersistCoverContext={persistCoverContext}
             onOpenSourceTag={onOpenSourceTag}
             onAddToCalendar={handleAddToCalendar}
             canAddToCalendar={isCurrentEntrySaved}

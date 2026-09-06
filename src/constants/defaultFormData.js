@@ -27,6 +27,10 @@ export const defaultFormData = {
   // the normal Short Hook candidate pool for the loaded cover (see
   // generateShortHooks.js). NOT the shelved Generation V2 composition engine.
   coverShortHooks: [],
+  // Real, factual backstory for one specific cover (reasons, memories,
+  // recording/arrangement decisions) — feeds the Interview and Cover-Specific
+  // Hooks AI prompts only; never enters generation or shown output.
+  coverContext: '',
   songBlockOverrides: {},
   excludeFromRandomizer: false,
   todo: {

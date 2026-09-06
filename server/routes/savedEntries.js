@@ -19,6 +19,7 @@ function rowToEntry(row) {
     customHashtags: row.custom_hashtags,
     customCta: row.custom_cta,
     coverShortHooks: row.cover_short_hooks,
+    coverContext: row.cover_context,
     songBlockOverrides: row.song_block_overrides,
     excludeFromRandomizer: row.exclude_from_randomizer,
     todo: { status: row.todo_status, notes: row.todo_notes },
@@ -52,8 +53,8 @@ async function upsertEntry(queryable, projectId, entry) {
        id, project_id, artist, song, signal_number, original_year, original_genre,
        use_custom_artist_short, artist_short, exclude_from_randomizer,
        custom_hashtags, custom_cta, todo_status, todo_notes,
-       transformation_tags, song_block_overrides, cover_short_hooks
-     ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16::jsonb,$17::jsonb)
+       transformation_tags, song_block_overrides, cover_short_hooks, cover_context
+     ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16::jsonb,$17::jsonb,$18)
      ON CONFLICT (project_id, id) DO UPDATE SET
        artist = EXCLUDED.artist,
        song = EXCLUDED.song,
@@ -69,7 +70,8 @@ async function upsertEntry(queryable, projectId, entry) {
        todo_notes = EXCLUDED.todo_notes,
        transformation_tags = EXCLUDED.transformation_tags,
        song_block_overrides = EXCLUDED.song_block_overrides,
-       cover_short_hooks = EXCLUDED.cover_short_hooks
+       cover_short_hooks = EXCLUDED.cover_short_hooks,
+       cover_context = EXCLUDED.cover_context
      RETURNING *`,
     [
       id,
@@ -89,6 +91,7 @@ async function upsertEntry(queryable, projectId, entry) {
       JSON.stringify(entry.transformationTags || []),
       JSON.stringify(entry.songBlockOverrides || {}),
       JSON.stringify(entry.coverShortHooks || []),
+      entry.coverContext || '',
     ],
   );
 

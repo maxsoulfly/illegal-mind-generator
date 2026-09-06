@@ -3,6 +3,7 @@ import useInputFormLogic from '../hooks/useInputFormLogic';
 import BasicSongFields from './input/BasicSongFields';
 import TransformationTagSelector from './input/TransformationTagSelector';
 import AdvancedDescriptionFields from './input/AdvancedDescriptionFields';
+import CoverContextEditor from './input/CoverContextEditor';
 import CoverShortHooksEditor from './input/CoverShortHooksEditor';
 import InputFormActions from './input/InputFormActions';
 import ToggleButton from './ui/ToggleButton';
@@ -29,6 +30,7 @@ function InputForm({
   coverHookTarget,
   clearCoverHookTarget,
   onPersistCoverHooks,
+  onPersistCoverContext,
   onOpenSourceTag,
   onAddToCalendar,
   canAddToCalendar,
@@ -122,6 +124,24 @@ function InputForm({
               </div>
             </div>
           )}
+
+          <div className="cover-context-section">
+            <ToggleButton
+              isOpen={panelVisibility.coverContext}
+              onClick={() => togglePanel('coverContext')}
+              label="Cover Context"
+            />
+            {panelVisibility.coverContext && (
+              <div className="advanced-panel-content">
+                <CoverContextEditor
+                  formData={formData}
+                  setFormData={setFormData}
+                  projectConfig={projectConfig}
+                  onPersistCoverContext={onPersistCoverContext}
+                />
+              </div>
+            )}
+          </div>
 
           <div className="cover-hooks-section">
             <ToggleButton

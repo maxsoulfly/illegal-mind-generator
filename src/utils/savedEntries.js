@@ -35,6 +35,7 @@ export function buildEntryFromFormData(formData) {
     customHashtags: formData.customHashtags?.trim() || '',
     customCta: formData.customCta,
     coverShortHooks: formData.coverShortHooks || [],
+    coverContext: formData.coverContext?.trim() || '',
     songBlockOverrides: formData.songBlockOverrides || {},
     excludeFromRandomizer: formData.excludeFromRandomizer || false,
     todo: {
@@ -75,6 +76,7 @@ export function buildFormDataPatchFromEntry(entry, prevFormData) {
     customCta: entry.customCta || '',
     customLogNote: entry.customLogNote || '',
     coverShortHooks: entry.coverShortHooks || [],
+    coverContext: entry.coverContext || '',
     songBlockOverrides,
 
     excludeFromRandomizer: entry.excludeFromRandomizer || false,

@@ -37,10 +37,26 @@ export default function CoverShortHooksEditor({
 }) {
   const canCopyPrompt = !!((formData.artist || '').trim() && (formData.song || '').trim());
 
+  // A reply from the Cover-Specific Short Hooks AI prompt may be exactly the
+  // zero-hook sentinel `NONE` (single line, nothing else) when the Cover
+  // Context genuinely supports no worthwhile hook — see
+  // authorPromptContexts.js's coverShortHooksContext. Drop any entry whose
+  // trimmed value is exactly `NONE` (case-insensitive) before it's applied
+  // or persisted, so a lone `NONE` paste adds zero hooks and a stray `NONE`
+  // line mixed into a real bulk-add is dropped while the rest still save.
+  // Scoped to this one editor's adapter — TagPhraseEditor itself (the ~15
+  // Tag Editor call sites) is untouched; a tag phrase literally "NONE"
+  // still saves there.
+  const isNoneSentinel = (hook) => (hook || '').trim().toUpperCase() === 'NONE';
+
   const handleUpdate = (_, update) => {
-    setFormData((prev) => ({ ...prev, ...update }));
-    if (Array.isArray(update.coverShortHooks)) {
-      onPersistCoverHooks?.(update.coverShortHooks);
+    const sanitizedUpdate = Array.isArray(update.coverShortHooks)
+      ? { ...update, coverShortHooks: update.coverShortHooks.filter((hook) => !isNoneSentinel(hook)) }
+      : update;
+
+    setFormData((prev) => ({ ...prev, ...sanitizedUpdate }));
+    if (Array.isArray(sanitizedUpdate.coverShortHooks)) {
+      onPersistCoverHooks?.(sanitizedUpdate.coverShortHooks);
     }
     if (coverHookTarget) clearCoverHookTarget?.();
   };

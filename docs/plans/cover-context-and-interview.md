@@ -1,30 +1,66 @@
 # Cover Context field + Interview prompt + revised Cover-Specific Short Hooks prompt
 
-**STATUS: APPROVED — NOT IMPLEMENTED (2026-09-06).**
-Approval authorized documentation only. No code has been written. Build next session.
+**STATUS: STEPS 1–5 IMPLEMENTED AND COMMITTED (2026-09-06). Steps 6–7 NOT
+DONE — parked, not scheduled.**
 
-This file is the authoritative spec. It lives in the repo (git-tracked) so it is
-available on every machine. All path references are repo-relative.
+Honest outcome, recorded directly rather than inferred from the step list:
 
-Related context: [../current-context.md](../current-context.md) ("In Progress"),
+- **Cover Context field, its persistence (migration `0008`, save/load/PATCH,
+  non-destructive import), and the standalone Interview prompt module are
+  implemented and shipped** (Steps 1–4). See "Recently Completed" in
+  `docs/current-context.md` for the full per-step detail and every
+  verification pass.
+- **The interview successfully captured a real cover's story** (Yellowcard —
+  *Way Away*, the same cover documented in the Simulation reference below) —
+  confirmed by the user. This makes the Cover Context field independently
+  useful as a reference/notes feature even before any hook-quality
+  question is settled, and it may support future description-writing work
+  (no such integration exists or is planned — see "Explicitly not being
+  added," below).
+- **The revised Cover-Specific Short Hooks prompt (Step 5) is implemented**
+  — `coverContext` as primary factual source, no forced count, angle-selection
+  objective, no examples, `NONE` sentinel, all mirrored into
+  `coverPrompt.test.js`'s A/B reference. **Generated hook quality against a
+  real, validated Cover Context (the same Way Away text) was judged
+  unsatisfactory by direct manual test.** Further prompt tuning is
+  **parked, not scheduled** — this is a real, acknowledged limitation of
+  the shipped feature, not a task silently dropped.
+- **Steps 6–7 were never done**: no persisted `coverInterviewPrompt.test.js`
+  exists (only an ad hoc scratch smoke test was run, and discarded); the
+  full verification checklist in Step 7 (the broader persistence-round-trip
+  matrix, a second migration re-confirmation, etc.) was not executed as a
+  checklist — only the specific live checks described per-step in
+  `docs/current-context.md` were run. Do not mark either step complete.
+- **Explicitly not being added**: no automatic integration of Cover Context
+  into generated descriptions or any other output. It stays a manual
+  reference field, exactly as designed.
+
+This file remains the authoritative spec for what was *approved* — read the
+per-step detail in `docs/current-context.md` for what actually shipped,
+including every deviation from this file made live during implementation
+(the interview-prompt wording corrections, the specificity-bullet rewrite).
+
+This file lives in the repo (git-tracked) so it is available on every
+machine. All path references are repo-relative.
+
+Related context: [../current-context.md](../current-context.md) ("Recently
+Completed" and "Known Issues" — this feature moved out of "In Progress"),
 `CLAUDE.md` / `AGENTS.md` Current Focus (compact pointer entries).
 
 ---
 
-## Next-session action (exact)
+## If this is ever resumed
 
-1. Re-read this file.
-2. Check the next free migration number in `server/migrations/` (assumed `0008`
-   at approval time; verify — do not hardcode from memory).
-3. Start with **Step 1 (data layer)**: write the migration SQL + the
-   `server/routes/savedEntries.js` / `server/savedEntryMerge.js` wiring. Present
-   it, stop for review (step-by-step protocol — one step at a time).
-4. Run `npm run migrate` **once** against the shared Neon `dev` branch (see
-   "Migration is per-database, not per-PC" below).
+Steps 6–7 (a persisted interview-prompt test file, and the full Step 7
+verification checklist) are the only structurally unfinished pieces — but
+per the outcome above, resuming this feature productively means addressing
+hook quality first, not just filling in the test/checklist gaps. Re-read the
+per-step detail in `docs/current-context.md` before touching anything.
 
-Grouped step order: **1** data layer → **2** client lifecycle → **3** UI →
-**4** interview prompt module → **5** cover-hooks prompt revision (+ mirror the
-A/B test in the same commit) → **6** tests → **7** verification.
+Grouped step order (historical, for reference): **1** data layer → **2**
+client lifecycle → **3** UI → **4** interview prompt module → **5**
+cover-hooks prompt revision (+ mirror the A/B test in the same commit) →
+**6** tests → **7** verification. Steps 1–5 done; 6–7 not done.
 
 ---
 
@@ -481,6 +517,16 @@ validated — Step 7.9 is the future manual check.
 
 ---
 
-## Open item deferred to implementation
+## Open items
 
-- Confirm the next free `server/migrations/` number (assumed `0008`).
+- ~~Confirm the next free `server/migrations/` number (assumed `0008`).~~
+  **Confirmed and applied** — `0008` was genuinely free; migration ran once
+  against the shared Neon `dev` branch.
+- Hook quality from the revised Cover-Specific Short Hooks prompt (Step 5) —
+  **parked, not scheduled.** Any future attempt should start from a fresh
+  read of what was actually tried (see `docs/current-context.md`), not from
+  this file's original rules 15–25 in isolation, since those already shipped
+  and the quality problem exists *after* implementing them faithfully.
+- Step 6's persisted `coverInterviewPrompt.test.js` and Step 7's full
+  verification checklist — not done, not scheduled alongside the hook-quality
+  work above.

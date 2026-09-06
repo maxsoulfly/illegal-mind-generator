@@ -41,25 +41,33 @@ const COVER_HANDLED_OVERRIDE_KEYS = new Set(['storyBlock', 'renovationBlock', 'l
 const COVER_INTRO =
   'I need extra Short Hooks for ONE specific cover-song video. These must be specific to THIS exact cover — a personal reason I covered it, a recording or arrangement detail, something notable about a particular section (e.g. the chorus), a short anecdote, or an in-joke that only makes sense for this version.';
 
+// Revised 2026-09-06 (Step 5 of the Cover Context plan): dropped the forced
+// 8-12 count, shifted the objective from "compress the story" to "select
+// worthwhile audience-facing angles", added the Cover-Context-is-primary /
+// existing-notes-supplement rules, and removed the illustrative examples
+// entirely (COVER_EXAMPLES/COVER_EXAMPLES_HEADING deleted, not just emptied).
+// Mirror any further change into coverPrompt.test.js's inline reference in
+// the same commit — see the note at the top of this file.
 const COVER_TASK_BULLETS = [
-  'Reply with a flat list of 8-12 Short Hooks, one per line. No numbering, no category labels, no headers. I paste this straight into a bulk-add box, so plain lines only.',
-  'Keep each hook SHORT — usually 5-12 words. Prefer one punchy thought over a full explanatory sentence. Compress a Story or Log idea down into a hook; do not summarize it.',
-  'Every line must be specific to THIS exact cover (see CONTEXT). If a line would still make sense for a different song, cut it.',
+  'Reply with a flat list of Short Hooks, one per line — as many as are genuinely strong and distinct. A handful of sharp ones beats a padded list; never invent filler to reach a number. No numbering, no category labels, no headers. I paste this straight into a bulk-add box, so plain lines only.',
+  'Keep each hook SHORT — usually 5-12 words. Prefer one punchy thought over a full explanatory sentence.',
+  'Pick the few genuinely worth-saying angles from the context — a true detail is not automatically a good hook.',
+  'A hook earns its place only if it gives a viewer a concrete reason to watch: a specific curiosity the context supports, a recognizable feeling, or a musical detail someone would want to hear.',
+  "Don't turn one feeling into several reworded lines. Adding the song's name does not make a generic statement cover-specific.",
+  'Avoid abstract therapy/lore slogans and overblown drama.',
+  'Recording history, DAW/software upgrades, and personal-progress notes are useful context but rarely good hooks on their own — use one only if it genuinely intrigues.',
+  'Every line must be specific to THIS exact cover (see CONTEXT). Ground every hook in a supplied fact or personal connection about this cover. That fact does not have to be unique to this song across all music. Reject interchangeable filler; adding the song name alone does not establish specificity.',
   'Do NOT produce generic transformation hooks like "X but heavier", "What if X was punk", "X rebuilt as Y" — the tag/global system already generates those. This pool is only for the cover-specific stuff a reusable system can\'t know.',
   'Do NOT use the {transformation} placeholder in a hook — these hooks are about this specific cover, not its transformation style (the tag/global system covers that).',
-  'Do NOT invent facts. Only reference a specific song section, instrument, recording/arrangement decision, anecdote, or personal reason if it is explicitly supported by the CONTEXT above.',
+  'Do NOT invent facts. Only reference a specific song section, instrument, recording/arrangement decision, anecdote, or personal reason if it is explicitly supported by the CONTEXT above. Do not imply a before/after comparison, a reveal, or a payoff unless the CONTEXT explicitly says the video delivers one.',
+  'A faithful cover can still have real, mentionable production or performance changes (re-recorded vocals, new drums, a new mix) — use one as hook material when the CONTEXT states it; being faithful does not forbid naming a real change.',
+  'A hook may be tied to one specific section (e.g. the chorus) only if the CONTEXT supports it — never generalize a section-specific detail into a claim about the whole song.',
+  'Cover context is the primary source of truth. A clearly factual detail from the existing notes may supplement it. Do not treat an ambiguous or in-universe SIGNAL-fiction-sounding line as an established fact, and do not assume a note is fiction just because it sounds dramatic or because this channel sometimes uses lore.',
+  "Rely only on what's actually supported. If Cover context is empty and the existing notes are only ambiguous or lore-flavored, returning fewer hooks — or none — is correct; never invent a detail to reach a number.",
   'Never mention signal numbers, hashtags, or other administrative/channel metadata in a hook — that data is context for you, not material for the hooks.',
   'Keep them natural and clickable — the kind of thing a person actually says in a short-form video, not marketing filler.',
   'Do NOT end a hook with a period. Internal punctuation is fine — "Every road is a question. This was my answer" is good, just no final ".".',
-];
-
-const COVER_EXAMPLES_HEADING =
-  'Tone and length to aim for (illustrative only — write fresh hooks for the cover above, do not reuse these):';
-
-const COVER_EXAMPLES = [
-  'Мельница gave it mythology. I gave it scars',
-  'Дороги, somewhere after the Collapse',
-  'Same journey. Rougher roads',
+  'If the CONTEXT above does not support even one worthwhile cover-specific hook, reply with exactly NONE on a single line and nothing else — no explanation, no apology, no placeholder line.',
 ];
 
 // Builds the section array for buildCoverHookPrompt. Mirrored by an A/B guard
@@ -75,6 +83,7 @@ export function coverShortHooksContext(projectConfig = {}, formData = {}) {
     return tagConfig.category ? `${label} (${tagConfig.category})` : label;
   });
 
+  const coverContext = (formData.coverContext || '').trim();
   const story = firstNonEmpty(overrides.storyBlock, formData.customStory);
   const renovation = firstNonEmpty(overrides.renovationBlock);
   const logNote = firstNonEmpty(overrides.logBlock, formData.customLogNote);
@@ -91,6 +100,12 @@ export function coverShortHooksContext(projectConfig = {}, formData = {}) {
   const transformationSummary = buildTagPhrase(formData, projectConfig);
   const placeholders = buildHookPlaceholders(projectConfig).join(', ');
 
+  const notesLines = [
+    story ? `Story about this cover: ${story}` : '',
+    renovation ? `Renovation / what changed: ${renovation}` : '',
+    logNote ? `Log / notes: ${logNote}` : '',
+  ].filter(Boolean);
+
   const context = [
     projectConfig?.promptContext ? `Channel: ${projectConfig.promptContext}` : '',
     artist ? `Artist: ${artist}` : '',
@@ -99,14 +114,20 @@ export function coverShortHooksContext(projectConfig = {}, formData = {}) {
     formData.originalGenre ? `Original genre(s): ${String(formData.originalGenre).trim()}` : '',
     tagLines.length ? `Selected tags (with category): ${tagLines.join(', ')}` : '',
     transformationSummary ? `Transformation summary: ${transformationSummary}` : '',
+    coverContext
+      ? `Cover context (factual — the personal & recording story behind THIS cover; the primary source of truth for anything specific): ${coverContext}`
+      : '',
     formData.signalNumber ? `Signal number: ${String(formData.signalNumber).trim()}` : '',
     formData.useCustomArtistShort && (formData.artistShort || '').trim()
       ? `Artist short name: ${formData.artistShort.trim()}`
       : '',
     (formData.customHashtags || '').trim() ? `Extra hashtags: ${formData.customHashtags.trim()}` : '',
-    story ? `Story about this cover: ${story}` : '',
-    renovation ? `Renovation / what changed: ${renovation}` : '',
-    logNote ? `Log / notes: ${logNote}` : '',
+    notesLines.length
+      ? [
+          'Existing notes (mixed — some factual, some may be in-universe SIGNAL fiction; a clearly factual detail may supplement the Cover context above, but do not treat an ambiguous or lore-flavored line as established fact):',
+          ...notesLines,
+        ].join('\n')
+      : '',
     ...otherOverrides,
   ].filter(Boolean);
 
@@ -119,7 +140,6 @@ export function coverShortHooksContext(projectConfig = {}, formData = {}) {
     ['CONTEXT', ...context].join('\n'),
     placeholderLine,
     ['TASK', ...COVER_TASK_BULLETS.map((bullet) => `- ${bullet}`)].join('\n'),
-    [COVER_EXAMPLES_HEADING, ...COVER_EXAMPLES.map((example) => `- ${example}`)].join('\n'),
   ];
 }
 

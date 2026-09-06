@@ -16,6 +16,7 @@ const defaultPanelVisibility = {
   hashtags: true,
   hybridPrompt: true,
   advanced: false,
+  coverContext: false,
   coverHooks: false,
 };
 
