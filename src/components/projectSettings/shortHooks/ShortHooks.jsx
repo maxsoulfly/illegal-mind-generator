@@ -51,6 +51,20 @@ export default function ShortHooks({
     });
   }
 
+  // aiContext is authored entirely through this field — never seeded from
+  // projects.json. Blank is a valid stored value ("no extra angle
+  // instruction"), not a deleted key: the whole type object is already
+  // re-serialised into the override on any edit, so the ↺ icon reflects the
+  // card as a whole, not this one field.
+  function updateHookTypeAiContext(hookType, hookConfig, value) {
+    updateProjectOverride({
+      shortHookTypes: {
+        ...(projectSettingsOverrides.shortHookTypes || {}),
+        [hookType]: { ...hookConfig, aiContext: value },
+      },
+    });
+  }
+
   function addHookType() {
     const label = newLabel.trim();
     if (!label) return;
@@ -59,7 +73,7 @@ export default function ShortHooks({
     updateProjectOverride({
       shortHookTypes: {
         ...(projectSettingsOverrides.shortHookTypes || {}),
-        [key]: { label, templates: [], excludeForFaithful: false, requiresGenre: false },
+        [key]: { label, templates: [], aiContext: '', excludeForFaithful: false, requiresGenre: false },
       },
     });
     setNewLabel('');
@@ -107,6 +121,10 @@ export default function ShortHooks({
               onRemove={isUserCreated ? () => deleteHookType(hookType) : undefined}
               onUpdateFlags={(flagUpdates) =>
                 updateHookTypeFlags(hookType, hookConfig, flagUpdates)
+              }
+              aiContext={hookConfig.aiContext || ''}
+              onUpdateAiContext={(value) =>
+                updateHookTypeAiContext(hookType, hookConfig, value)
               }
               highlightText={hookTarget?.hookType === hookType ? hookTarget.sourceText : null}
               actionsSlot={
