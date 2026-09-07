@@ -74,25 +74,43 @@ function useSavedEntries(formData, setFormData, selectedProjectId, projectName) 
     }));
 
   // Save — targetProjectId lets the Generator save into a project other than
-  // the one being viewed (defaults to the active one). Returns a small
-  // outcome signal for the caller's toast: `true` persisted, `false` the
-  // request failed (already resynced here), `null` nothing was attempted
-  // (no artist/song). Persistence/optimistic/resync behaviour is unchanged —
-  // these are just added return values; the catch still swallows the error.
-  const handleSaveEntry = async (targetProjectId = selectedProjectId) => {
-    const entry = buildEntryFromFormData(formData);
-    if (!entry.artist || !entry.song) return null;
+  // the one being viewed (defaults to the active one). `adoptId` lets the
+  // caller (GeneratorPage's duplicate-detection ConfirmDialog) redirect a
+  // "new" save onto an existing entry's UUID.
+  //
+  // Identity: an existing entry keeps its UUID (formData.id via
+  // buildEntryFromFormData) — so editing Artist/Song renames the same row.
+  // A brand-new entry gets ONE fresh crypto.randomUUID() here, reused for
+  // both the optimistic local row and the PUT, and written back into
+  // formData.id so a second Save updates the same row (never a fresh UUID
+  // per attempt).
+  //
+  // Returns: the saved entry's UUID (string) on success, `false` on request
+  // failure (already resynced), `null` when nothing was attempted (no
+  // artist/song).
+  const handleSaveEntry = async (targetProjectId = selectedProjectId, { adoptId } = {}) => {
+    const base = buildEntryFromFormData(formData);
+    if (!base.artist || !base.song) return null;
+
+    const id = adoptId || base.id || crypto.randomUUID();
+    const entry = { ...base, id };
 
     const savingToCurrent = targetProjectId === selectedProjectId;
-    if (savingToCurrent) putEntryLocal(entry);
+    if (savingToCurrent) {
+      putEntryLocal(entry);
+      if (formData.id !== id) setFormData((prev) => ({ ...prev, id }));
+    }
 
     try {
-      const saved = await apiPut(`/saved-entries/${encodeURIComponent(entry.id)}`, {
+      const saved = await apiPut(`/saved-entries/${encodeURIComponent(id)}`, {
         projectId: targetProjectId,
         entry,
       });
-      if (savingToCurrent) putEntryLocal(saved);
-      return true;
+      if (savingToCurrent) {
+        putEntryLocal(saved);
+        if (formData.id !== saved.id) setFormData((prev) => ({ ...prev, id: saved.id }));
+      }
+      return saved.id;
     } catch {
       if (savingToCurrent) reload();
       return false;

@@ -14,7 +14,9 @@ function normalizeQueueEntry(projectQueue) {
   const isLegacySnapshotShape = queue.some((item) => typeof item === 'object');
 
   return {
-    queue: isLegacySnapshotShape ? queue.map((item) => getCoverId(item)) : queue,
+    queue: isLegacySnapshotShape
+      ? queue.map((item) => getCoverId(item)).filter(Boolean)
+      : queue,
   };
 }
 
@@ -54,8 +56,24 @@ function saveStoredQueues(queues) {
   updateAppStorage((storage) => ({ ...storage, shortsQueues: queues }));
 }
 
+// Identity for a queued cover is the saved entry's immutable UUID. The old
+// `artist::song` fallback identity scheme is gone (Stage 3 identity refactor).
 function getCoverId(entry) {
-  return entry.id || `${entry.artist?.toLowerCase() || ''}::${entry.song?.toLowerCase() || ''}`;
+  return entry?.id || null;
+}
+
+// Transitional read compatibility: the persisted localStorage queue may still
+// hold OLD derived text ids (normalized Artist+Song) written before the UUID
+// cutover. Resolve such an id to the entry's real UUID via `matchKey`. A
+// value that is already a live UUID, or that matches nothing, is returned
+// unchanged. New queue writes only ever use UUIDs, so old ids disappear as
+// items are removed / replaced / re-randomized normally — no localStorage
+// write-time migration.
+function canonicalCoverId(savedEntries, queueId) {
+  if (!queueId) return queueId;
+  if (savedEntries.some((entry) => entry.id === queueId)) return queueId;
+  const byMatchKey = savedEntries.find((entry) => entry.matchKey === queueId);
+  return byMatchKey ? byMatchKey.id : queueId;
 }
 
 function getRandomEntry(entries) {
@@ -136,7 +154,13 @@ export function useShortsQueue(projectId, savedEntries = [], queueConfig = {}) {
   }
 
   function markUploaded(indexToRemove) {
-    const nextQueueIds = queueIds.filter((_, index) => index !== indexToRemove);
+    // Canonicalize any surviving legacy (Artist+Song) queue ids to real UUIDs
+    // for the spacing check + persisted result, so removing one item can't
+    // leave a mixed id scheme behind. The replacement is always a UUID.
+    const nextQueueIds = queueIds
+      .filter((_, index) => index !== indexToRemove)
+      .map((id) => canonicalCoverId(savedEntries, id));
+
     const replacement = getValidReplacement(
       getQueueCandidates(savedEntries),
       nextQueueIds,
@@ -152,8 +176,13 @@ export function useShortsQueue(projectId, savedEntries = [], queueConfig = {}) {
 
   // Resolve ids to live saved-entry data on every render, so edits made
   // after the queue was randomized (new tags, notes, etc.) always show up.
+  // Try the UUID identity first, then fall back to matching a legacy derived
+  // id against the entry's matchKey (transitional — see canonicalCoverId).
   const queue = queueIds.map(
-    (id) => savedEntries.find((entry) => getCoverId(entry) === id) || null,
+    (id) =>
+      savedEntries.find((entry) => entry.id === id) ||
+      savedEntries.find((entry) => entry.matchKey === id) ||
+      null,
   );
 
   return {

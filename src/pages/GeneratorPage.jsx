@@ -5,8 +5,9 @@ import InputForm from '../components/InputForm';
 import GeneratorResultsPanel from '../components/generator/GeneratorResultsPanel';
 import { updateAppStorage } from '../utils/storage';
 import { useUploadCalendar } from '../hooks/useUploadCalendar';
-import { buildEntryId } from '../utils/savedEntries';
+import { buildEntryMatchKey } from '../utils/savedEntries';
 import { formatDayLabel } from '../utils/calendarDates';
+import useConfirm from '../hooks/useConfirm';
 
 // Unified storage applies a default for ui.showSavedLibrary, so a plain
 // loadAppStorage() read can't tell "never set" apart from "explicitly false".
@@ -60,10 +61,15 @@ export default function GeneratorPage({
   showToast,
 }) {
   const [inputFlash, setInputFlash] = useState(false);
+  const confirm = useConfirm();
 
   const calendar = useUploadCalendar(projectId, savedEntries, projectConfig.uploadSchedule);
-  const currentEntryId = buildEntryId(formData.artist || '', formData.song || '');
-  const isCurrentEntrySaved = savedEntries.some((entry) => entry.id === currentEntryId);
+  // Identity is the immutable UUID carried in formData.id (set on load /
+  // assigned on first Save), NOT a derived Artist+Song string — so a rename
+  // never changes which entry this is.
+  const currentEntryId = formData.id;
+  const isCurrentEntrySaved =
+    Boolean(currentEntryId) && savedEntries.some((entry) => entry.id === currentEntryId);
 
   // Cover-Specific Hooks auto-persist. Unlike the rest of the Input form
   // (explicit SAVE only), a hook add / bulk / delete / edit-blur writes
@@ -93,11 +99,36 @@ export default function GeneratorPage({
   };
 
   // Toast the outcome of an explicit SAVE — only after persistence settles,
-  // never on click. handleSaveEntry returns true/false/null (see
-  // useSavedEntries.js); null = no artist/song, nothing attempted, no toast.
+  // never on click. handleSaveEntry returns the saved UUID (string) on
+  // success, false on failure, null when nothing was attempted.
+  //
+  // Duplicate detection: only for a brand-new form (no formData.id) saving
+  // into the project in view (so `savedEntries` is the set to check). If an
+  // entry with the same normalized Artist+Song already exists, ask via
+  // ConfirmDialog whether to update it — Confirm adopts that entry's UUID
+  // (handleSaveEntry writes it back into formData.id), Cancel saves nothing.
+  // A rename of an already-loaded entry never reaches this branch.
   const handleSaveWithFeedback = async (targetProjectId) => {
-    const outcome = await handleSaveEntry(targetProjectId);
-    if (outcome === true) showToast('Song saved');
+    let adoptId;
+
+    if (!formData.id && targetProjectId === projectId) {
+      const matchKey = buildEntryMatchKey(formData.artist || '', formData.song || '');
+      const dup = matchKey && savedEntries.find((entry) => entry.matchKey === matchKey);
+
+      if (dup) {
+        const ok = await confirm({
+          title: 'Entry already exists',
+          message: `A saved entry for "${formData.artist} - ${formData.song}" already exists. Update that entry instead?`,
+          confirmLabel: 'Update',
+          danger: false,
+        });
+        if (!ok) return;
+        adoptId = dup.id;
+      }
+    }
+
+    const outcome = await handleSaveEntry(targetProjectId, { adoptId });
+    if (typeof outcome === 'string') showToast('Song saved');
     else if (outcome === false) showToast('Save failed');
   };
 

@@ -76,5 +76,33 @@ eq(
   'import: empty imported list falls back to the existing entry order',
 );
 
+// --- identity (Stage 3): id is an immutable UUID carried through, never
+// derived from Artist+Song ---
+eq(
+  buildEntryFromFormData(baseFormData).id,
+  null,
+  'save: a brand-new form (no formData.id) yields id: null (UUID assigned later)',
+);
+eq(
+  buildEntryFromFormData({ ...baseFormData, id: 'UUID-123' }).id,
+  'UUID-123',
+  'save: an existing formData.id is carried through unchanged',
+);
+eq(
+  buildFormDataPatchFromEntry({ ...entry, id: 'UUID-abc' }, {}).id,
+  'UUID-abc',
+  'load: the entry UUID is adopted into formData.id',
+);
+eq(
+  mergeImportedEntry({ artist: 'A', song: 'B' }, { id: 'UUID-existing', artist: 'A', song: 'B' }).id,
+  'UUID-existing',
+  'import: a matched existing row keeps its UUID',
+);
+eq(
+  mergeImportedEntry({ artist: 'A', song: 'B' }, undefined).id,
+  undefined,
+  'import: an unmatched item has no id (server/DB assigns the UUID)',
+);
+
 if (failures > 0) throw new Error(`${failures} check(s) failed.`);
 console.log('\nAll checks passed.');

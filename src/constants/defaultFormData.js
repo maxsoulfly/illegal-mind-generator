@@ -4,6 +4,12 @@ export const DEFAULT_PROJECT_KEY = Object.keys(projects)[0];
 
 export const defaultFormData = {
   project: DEFAULT_PROJECT_KEY,
+  // Immutable UUID of the saved entry currently loaded into the form, or null
+  // for a brand-new unsaved song. Set on load, assigned once on first Save,
+  // reset to null by Clear Form. This — not Artist+Song — is the identity the
+  // Generator uses for "is this saved?", Cover Hooks/Context auto-persist,
+  // Add to Calendar, and Save (a Save with a non-null id renames in place).
+  id: null,
   artist: '',
   song: '',
   originalYear: '',

@@ -42,14 +42,19 @@ export default function useInputFormLogic({
     // Mirrors the artistShort auto-fill's "only when empty" guard below.
     if (formData.signalNumber.trim()) return;
 
+    // When a real saved entry is loaded, match it by its immutable UUID —
+    // identity, not text. Artist+Song matching is only for a brand-new
+    // unsaved form where no id exists yet.
     const artistValue = formData.artist.trim().toLowerCase();
     const songValue = formData.song.trim().toLowerCase();
 
-    const match = savedEntries.find(
-      (entry) =>
-        entry.artist.trim().toLowerCase() === artistValue &&
-        entry.song.trim().toLowerCase() === songValue,
-    );
+    const match = formData.id
+      ? savedEntries.find((entry) => entry.id === formData.id)
+      : savedEntries.find(
+          (entry) =>
+            entry.artist.trim().toLowerCase() === artistValue &&
+            entry.song.trim().toLowerCase() === songValue,
+        );
 
     if (!match || !match.signalNumber) return;
 
@@ -57,7 +62,14 @@ export default function useInputFormLogic({
       ...prev,
       signalNumber: match.signalNumber,
     }));
-  }, [formData.artist, formData.song, formData.signalNumber, savedEntries, setFormData]);
+  }, [
+    formData.id,
+    formData.artist,
+    formData.song,
+    formData.signalNumber,
+    savedEntries,
+    setFormData,
+  ]);
 
   useEffect(() => {
     if (!formData.useCustomArtistShort) return;

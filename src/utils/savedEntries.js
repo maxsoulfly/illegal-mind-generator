@@ -1,12 +1,15 @@
-// Persistence migration Step 9: the non-destructive import merge
-// (mergeImportedEntry + preferNonEmpty/isEmptyValue), the bulk-add id
-// normalization (normalizeEntryIds) and the localStorage lazy initializer
-// (loadInitialSavedEntriesByProject) all moved server-side / became obsolete
-// when useSavedEntries.js switched to the API — see server/savedEntryMerge.js
-// and server/routes/savedEntries.js. What remains here is the client-only
-// pieces: the id derivation and the two formData<->entry field-list mappers.
+// Client-only saved-entry helpers: the normalized Artist+Song MATCH KEY and
+// the two formData<->entry field-list mappers. The non-destructive import
+// merge and bulk dedup live server-side (server/savedEntryMerge.js,
+// server/routes/savedEntries.js).
+//
+// Since the Stage 3 identity refactor, saved-entry identity is
+// `entry.id` — an immutable UUID assigned once at creation. buildEntryMatchKey
+// is ONLY for duplicate detection / import matching / legacy-queue-id
+// resolution; it is never an id. (Kept byte-identical to the server copy in
+// server/savedEntryMerge.js — mirror any change by hand.)
 
-export const buildEntryId = (artist, song) =>
+export const buildEntryMatchKey = (artist, song) =>
   `${artist}-${song}`.trim().toLowerCase().replace(/\s+/g, ' ');
 
 export const toSlug = (str) =>
@@ -22,7 +25,10 @@ export const toSlug = (str) =>
 // mergeImportedEntry (import) together.
 export function buildEntryFromFormData(formData) {
   return {
-    id: buildEntryId(formData.artist, formData.song),
+    // Immutable UUID identity carried through from a loaded/created entry.
+    // null for a brand-new unsaved form — handleSaveEntry assigns the UUID.
+    // NEVER derived from Artist+Song.
+    id: formData.id ?? null,
     artist: formData.artist.trim(),
     song: formData.song.trim(),
     signalNumber: formData.signalNumber.trim(),
@@ -64,6 +70,9 @@ export function buildFormDataPatchFromEntry(entry, prevFormData) {
 
   return {
     ...prevFormData,
+    // Adopt the loaded entry's immutable UUID so subsequent edits + Save
+    // target the same row (a rename updates, never duplicates).
+    id: entry.id ?? null,
     artist: entry.artist || '',
     song: entry.song || '',
     signalNumber: entry.signalNumber || '',
