@@ -174,7 +174,11 @@ export default function GeneratorPage({
       />
 
       <div className="layout-grid">
-        <div className={`panel ${inputFlash ? 'panel-flash-success' : ''}`}>
+        <div
+          className={`panel ${panelVisibility.input ? 'input-panel-fill' : ''} ${
+            inputFlash ? 'panel-flash-success' : ''
+          }`}
+        >
           <InputForm
             projectId={projectId}
             projects={projects}

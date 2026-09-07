@@ -1730,8 +1730,26 @@ input[type="range"]::-moz-range-progress {
   gap        : var(--space-2);
 }
 
+/* Input panel footer (project selector + Save / Clear / Add to Calendar):
+   stays in normal flow at the bottom of the Input panel. When the panel is
+   expanded it stretches to the grid row height and the footer is pushed to
+   the bottom via margin-top:auto; padding-top keeps the original spacing
+   from the preceding content when there is no free space. */
+.input-panel-fill {
+  align-self    : stretch;
+  display       : flex;
+  flex-direction: column;
+}
+
+.input-panel-fill .input-form {
+  display       : flex;
+  flex-direction: column;
+  flex          : 1;
+}
+
 .input-form-actions {
-  margin-top: var(--space-6);
+  margin-top : auto;
+  padding-top: var(--space-6);
 }
 
 .input-form-actions .tag-actions {

@@ -53,7 +53,7 @@ function InputForm({
   });
 
   return (
-    <div>
+    <div className="input-form">
       <div className="panel-header">
         <h2>Input</h2>
         <ToggleButton
