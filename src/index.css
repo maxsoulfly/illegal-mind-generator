@@ -1730,8 +1730,23 @@ input[type="range"]::-moz-range-progress {
   gap        : var(--space-2);
 }
 
+/* The Input panel's action row (project selector + Save / Clear / Add to
+   Calendar) stays visible at the bottom of the viewport while scrolling the
+   expanded form. Plain position: sticky — no height is manufactured on the
+   panel/grid, the row keeps its natural single-row height in flow. Its
+   sticking range is bounded by its own parent (the InputForm root div), so
+   it releases into its natural resting position once the bottom of the
+   Input panel is reached and never escapes the panel. The opaque panel
+   background + soft top shadow keep scrolling content from bleeding
+   through. */
 .input-form-actions {
-  margin-top: var(--space-6);
+  position     : sticky;
+  bottom       : var(--space-4);
+  z-index      : 5;
+  margin-top   : var(--space-6);
+  padding-top  : var(--space-4);
+  background   : var(--color-bg-panel);
+  box-shadow   : 0 -8px 12px -6px var(--color-shadow-panel-drop);
 }
 
 .input-form-actions .tag-actions {
