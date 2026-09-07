@@ -1,13 +1,16 @@
+import { randomUUID } from 'node:crypto';
+
 import { Router } from 'express';
 
 import { getPool } from '../db.js';
-import { buildEntryId, mergeImportedEntry } from '../savedEntryMerge.js';
+import { buildEntryMatchKey, mergeImportedEntry } from '../savedEntryMerge.js';
 
 const router = Router();
 
 function rowToEntry(row) {
   return {
-    id: row.id,
+    id: row.id, // immutable UUID
+    matchKey: row.match_key, // normalized Artist+Song — match/dedup only, never identity
     artist: row.artist,
     song: row.song,
     signalNumber: row.signal_number,
@@ -27,8 +30,11 @@ function rowToEntry(row) {
 }
 
 async function fetchEntries(queryable, projectId) {
+  // Order by match_key (normalized Artist+Song), not the UUID id — keeps the
+  // Saved Library list in the same stable, human-meaningful order it had
+  // before identity became a UUID.
   const { rows } = await queryable.query(
-    'SELECT * FROM saved_entries WHERE project_id = $1 ORDER BY id',
+    'SELECT * FROM saved_entries WHERE project_id = $1 ORDER BY match_key',
     [projectId],
   );
   return rows.map(rowToEntry);
@@ -42,20 +48,41 @@ async function fetchEntry(queryable, projectId, id) {
   return rows[0] ? rowToEntry(rows[0]) : null;
 }
 
+// Find an existing entry in a project by its normalized Artist+Song match
+// key. Used by bulk-add / import to decide "update this existing row" vs
+// "insert a new one" — the match key is advisory, so LIMIT 1 (a project
+// should hold at most one row per match key, but never rely on that here).
+async function fetchEntryByMatchKey(queryable, projectId, matchKey) {
+  const { rows } = await queryable.query(
+    'SELECT * FROM saved_entries WHERE project_id = $1 AND match_key = $2 LIMIT 1',
+    [projectId, matchKey],
+  );
+  return rows[0] ? rowToEntry(rows[0]) : null;
+}
+
 // Wholesale upsert — every column is written from `entry`, matching
 // handleSaveEntry's real behavior (buildEntryFromFormData always produces a
 // complete entry object; saving always replaces, never merges).
+//
+// Identity: `entry.id` is an immutable UUID. It comes from the client (an
+// existing row being updated, or a client-generated UUID for a new one);
+// when absent, a UUID is generated here (and the column also has a
+// gen_random_uuid() default as a final safety net). It is NEVER derived
+// from Artist+Song. `match_key` is always (re)computed from the current
+// Artist+Song so a rename keeps it current.
 async function upsertEntry(queryable, projectId, entry) {
-  const id = entry.id || buildEntryId(entry.artist, entry.song);
+  const id = entry.id || randomUUID();
+  const matchKey = buildEntryMatchKey(entry.artist || '', entry.song || '');
 
   const { rows } = await queryable.query(
     `INSERT INTO saved_entries (
-       id, project_id, artist, song, signal_number, original_year, original_genre,
+       id, project_id, match_key, artist, song, signal_number, original_year, original_genre,
        use_custom_artist_short, artist_short, exclude_from_randomizer,
        custom_hashtags, custom_cta, todo_status, todo_notes,
        transformation_tags, song_block_overrides, cover_short_hooks, cover_context
-     ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16::jsonb,$17::jsonb,$18)
-     ON CONFLICT (project_id, id) DO UPDATE SET
+     ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16::jsonb,$17::jsonb,$18::jsonb,$19)
+     ON CONFLICT (id) DO UPDATE SET
+       match_key = EXCLUDED.match_key,
        artist = EXCLUDED.artist,
        song = EXCLUDED.song,
        signal_number = EXCLUDED.signal_number,
@@ -76,6 +103,7 @@ async function upsertEntry(queryable, projectId, entry) {
     [
       id,
       projectId,
+      matchKey,
       entry.artist || '',
       entry.song || '',
       entry.signalNumber || '',
@@ -116,7 +144,12 @@ router.get('/', async (req, res) => {
   res.json(await fetchEntries(pool, project));
 });
 
-// PUT /saved-entries/:id — wholesale upsert, matches handleSaveEntry.
+// PUT /saved-entries/:id — wholesale upsert, matches handleSaveEntry. `:id`
+// is the entry's immutable UUID (an existing row, or a client-generated
+// UUID for a new one); it is authoritative and preserved, so editing
+// entry.artist / entry.song renames the SAME row rather than creating a
+// second one. No Artist+Song match-key reuse here — the client owns
+// duplicate resolution (ConfirmDialog) before it picks the id.
 // Body: { projectId, entry }
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
@@ -223,9 +256,10 @@ router.delete('/:id', async (req, res) => {
 });
 
 // POST /saved-entries/bulk — matches handleAddEntries: dedupe the incoming
-// batch by computed id (first occurrence wins, same as normalizeEntryIds),
-// then wholesale-upsert each — a new entry fully replaces any existing one
-// sharing its id, exactly like the client's filter-out-then-prepend logic.
+// batch by normalized Artist+Song match key (first occurrence wins), then
+// per item resolve that match key against the project — an existing row is
+// updated in place (its UUID reused), a new match key inserts a fresh UUID
+// row. Batch behavior only — never an interactive confirm here.
 // Body: { projectId, entries }
 router.post('/bulk', async (req, res) => {
   const { projectId, entries } = req.body || {};
@@ -243,9 +277,9 @@ router.post('/bulk', async (req, res) => {
 
   const seen = new Set();
   const deduped = entries.filter((entry) => {
-    const id = buildEntryId(entry.artist || '', entry.song || '');
-    if (seen.has(id)) return false;
-    seen.add(id);
+    const key = buildEntryMatchKey(entry.artist || '', entry.song || '');
+    if (seen.has(key)) return false;
+    seen.add(key);
     return true;
   });
 
@@ -253,7 +287,9 @@ router.post('/bulk', async (req, res) => {
   try {
     await client.query('BEGIN');
     for (const entry of deduped) {
-      await upsertEntry(client, projectId, entry);
+      const key = buildEntryMatchKey(entry.artist || '', entry.song || '');
+      const existing = await fetchEntryByMatchKey(client, projectId, key);
+      await upsertEntry(client, projectId, { ...entry, id: existing?.id });
     }
     await client.query('COMMIT');
   } catch (error) {
@@ -295,8 +331,10 @@ router.post('/import', async (req, res) => {
     await client.query('BEGIN');
 
     for (const item of validItems) {
-      const id = buildEntryId(item.artist, item.song);
-      const existing = await fetchEntry(client, projectId, id);
+      const key = buildEntryMatchKey(item.artist, item.song);
+      const existing = await fetchEntryByMatchKey(client, projectId, key);
+      // mergeImportedEntry carries `existing?.id` through (or undefined for a
+      // new row -> upsertEntry assigns a UUID). Never derived from Artist+Song.
       const merged = mergeImportedEntry(item, existing);
       await upsertEntry(client, projectId, merged);
     }

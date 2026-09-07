@@ -1,15 +1,15 @@
-// Intentional temporary duplicate of the pure functions in
-// src/utils/savedEntries.js (buildEntryId/isEmptyValue/preferNonEmpty/
-// mergeImportedEntry). Phase A steps make zero changes to src/ on purpose
-// (see the persistence plan's migration execution constraint) — this is
-// copied rather than imported so this step doesn't touch app code at all.
-// Consolidate into one shared module when Step 10 touches
-// useSavedEntries.js/savedEntries.js for the real hook swap; until then,
-// any change to this logic on one side must be mirrored to the other by
-// hand. mergeImportedEntry in particular is documented in CLAUDE.md's Known
-// Gotchas as the fix for a real data-loss bug — do not "simplify" it.
+// Intentional duplicate of the pure helpers in src/utils/savedEntries.js
+// (buildEntryMatchKey/isEmptyValue/preferNonEmpty/mergeImportedEntry). Kept
+// as a copy rather than a shared import so the server has no dependency on
+// src/ — any change to this logic on one side MUST be mirrored to the other
+// by hand. mergeImportedEntry in particular is documented in CLAUDE.md's
+// Known Gotchas as the fix for a real data-loss bug — do not "simplify" it.
+//
+// buildEntryMatchKey is the normalized Artist+Song string. Since the
+// Stage 3 identity refactor it is ONLY a duplicate/import match key — never
+// a saved-entry id. Identity is saved_entries.id (an immutable UUID).
 
-export const buildEntryId = (artist, song) =>
+export const buildEntryMatchKey = (artist, song) =>
   `${artist}-${song}`.trim().toLowerCase().replace(/\s+/g, ' ');
 
 const isEmptyValue = (value) => {
@@ -37,7 +37,10 @@ export const mergeImportedEntry = (item, existing) => {
   })();
 
   return {
-    id: buildEntryId(item.artist, item.song),
+    // Identity comes from the matched existing row (a UUID) or, for a brand-
+    // new entry, is left undefined so the caller / DB default assigns a UUID.
+    // NEVER derived from Artist+Song any more.
+    id: existing?.id,
     artist: item.artist.trim(),
     song: item.song.trim(),
     signalNumber: preferNonEmpty(
