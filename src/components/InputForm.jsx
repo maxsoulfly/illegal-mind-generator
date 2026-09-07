@@ -6,6 +6,7 @@ import AdvancedDescriptionFields from './input/AdvancedDescriptionFields';
 import CoverContextEditor from './input/CoverContextEditor';
 import CoverShortHooksEditor from './input/CoverShortHooksEditor';
 import InputFormActions from './input/InputFormActions';
+import CopyButton from './CopyButton';
 import ToggleButton from './ui/ToggleButton';
 import FormField from './ui/FormField';
 import EntrySettings from './entry/EntrySettings';
@@ -175,8 +176,11 @@ function InputForm({
         </>
       ) : (
         <div className="input-collapsed-summary text-main">
-          <strong>{formData.artist || 'Untitled Artist'}</strong> —{' '}
-          {formData.song || 'Untitled Song'}
+          <span>
+            <strong>{formData.artist || 'Untitled Artist'}</strong> —{' '}
+            {formData.song || 'Untitled Song'}
+          </span>
+          <CopyButton text={`${formData.artist} - ${formData.song}`} />
         </div>
       )}
     </div>
