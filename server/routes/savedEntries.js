@@ -232,6 +232,11 @@ router.patch('/:id/todo', async (req, res) => {
 });
 
 // DELETE /saved-entries/:id?project=<projectId> — matches handleDeleteEntry.
+// The upload_calendar_slots FKs are ON DELETE SET NULL (migration 0012), so
+// deleting an entry a Calendar slot references succeeds and simply nulls that
+// slot's reference — the slot row stays, no cascade. Any other DB error is
+// surfaced as a 500 (same convention as /bulk and /import) rather than
+// crashing the request with a false success.
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   const { project } = req.query;
@@ -247,10 +252,15 @@ router.delete('/:id', async (req, res) => {
     return;
   }
 
-  await pool.query('DELETE FROM saved_entries WHERE project_id = $1 AND id = $2', [
-    project,
-    id,
-  ]);
+  try {
+    await pool.query('DELETE FROM saved_entries WHERE project_id = $1 AND id = $2', [
+      project,
+      id,
+    ]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    return;
+  }
 
   res.json({ projectId: project, id, deleted: true });
 });
